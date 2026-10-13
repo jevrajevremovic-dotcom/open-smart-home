@@ -2024,6 +2024,18 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get valueLabel => 'Vrednost';
+
+  @override
+  String get editDevice => 'Izmeni ime i prostoriju';
+
+  @override
+  String get deviceSearchHint => 'Pretraga po imenu, prostoriji ili vrsti';
+
+  @override
+  String get deviceSearchEmpty => 'Nijedan uređaj ne odgovara.';
+
+  @override
+  String get favoritesReorder => 'Promeni redosled';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

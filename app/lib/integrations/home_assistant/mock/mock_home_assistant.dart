@@ -1213,6 +1213,35 @@ class _MockSocket implements HaSocket {
         _emit(ok(_server.flowProgress()));
       case 'frontend/get_translations':
         _emit(ok({'resources': _server.flowTranslations(msg['language'])}));
+      case 'config/entity_registry/update':
+        final entityId = msg['entity_id'] as String? ?? '';
+        final entry = _server.registries.entities
+            .where((e) => e['entity_id'] == entityId)
+            .firstOrNull;
+        final state = _server._states[entityId];
+        if (state == null) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'not_found', 'message': 'Entity not found'},
+          });
+          break;
+        }
+        if (msg.containsKey('area_id') && entry != null) {
+          entry['area_id'] = msg['area_id'];
+        }
+        if (msg['name'] case final String name) {
+          _server._setState(entityId, state['state']! as String, {
+            ...state['attributes']! as Map<String, Object?>,
+            'friendly_name': name,
+          });
+        }
+        _server.fireEvent('entity_registry_updated', {
+          'action': 'update',
+          'entity_id': entityId,
+        });
+        _emit(ok({'entity_entry': entry}));
       case 'config/device_registry/update':
         final device = _server.updateDevice(
           msg['device_id'] as String? ?? '',

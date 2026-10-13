@@ -8,6 +8,9 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Izmena imena i prostorije bilo kog uređaja sa njegovog ekrana (HA uređaj ili, za pomoćnike, entitet; nije dostupno u kiosku).
+- Pretraga svih uređaja po imenu, prostoriji, vrsti ili stanju.
+- Promena redosleda omiljenih (prevlačenjem) – isti redosled je na početnom ekranu i u kiosku.
 - Nove kontrole: ventilator (brzina u koracima ventilatora, okretanje, režimi), ovlaživač/odvlaživač (ciljna vlažnost, režim), robot usisivač (pokreni, pauza, na punjač), HA pomoćnici „izbor” (`select`/`input_select`) i „broj” (`number`/`input_number`, sa korakom i opsegom).
 - Alarmni panel: stanje (sa režimom), uključivanje u režimima koje panel podržava (kod kuće, odsutni, noć, odmor, prilagođeno) i isključivanje sa tastaturom za kod (kod se ne čuva); isključivanje je kritična komanda (potvrda + opciono otisak).
 - Više domova: Podešavanja → „Dodaj još jedan dom” (prijava na drugi HA server bez odjave sa prvog), lista domova i prebacivanje (i dodirom na ime doma na početnom ekranu); svaki dom ima svoj token, keš i omiljene; odjava sa jednog prelazi na drugi.

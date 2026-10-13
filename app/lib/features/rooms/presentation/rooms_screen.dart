@@ -8,6 +8,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/device_grid.dart';
+import '../../devices/presentation/device_presentation.dart';
 import '../../devices/presentation/stale_data_banner.dart';
 import 'room_card.dart';
 
@@ -118,19 +119,70 @@ class RoomDetailScreen extends ConsumerWidget {
 }
 
 /// Every visible device, alphabetically.
-class AllDevicesScreen extends ConsumerWidget {
+/// Every device, with a search over names, rooms and types.
+class AllDevicesScreen extends ConsumerStatefulWidget {
   const AllDevicesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AllDevicesScreen> createState() => _AllDevicesScreenState();
+}
+
+class _AllDevicesScreenState extends ConsumerState<AllDevicesScreen> {
+  String _query = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final ids = ref.watch(visibleDeviceIdsProvider);
+    final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
+    final rooms = ref.watch(homeSnapshotProvider.select((s) => s.rooms));
+    final words = _query
+        .toLowerCase()
+        .split(RegExp(r'\s+'))
+        .where((w) => w.isNotEmpty)
+        .toList();
+    final shown = words.isEmpty
+        ? ids
+        : [
+            for (final id in ids)
+              if (devices[id] case final d?)
+                if (words.every(
+                  (w) => [
+                    d.name,
+                    rooms[d.roomId]?.name ?? '',
+                    groupLabel(l10n, groupOf(d.kind)),
+                    DevicePresentation.status(l10n, d),
+                  ].any((field) => field.toLowerCase().contains(w)),
+                ))
+                  id,
+          ];
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.allDevices)),
+      appBar: AppBar(title: Text(l10n.allDevices)),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: TextField(
+                key: const Key('deviceSearch'),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: l10n.deviceSearchHint,
+                ),
+                onChanged: (v) => setState(() => _query = v),
+              ),
+            ),
+          ),
+          SliverPadding(
             padding: const EdgeInsets.all(16),
-            sliver: DeviceSliverGrid(deviceIds: ids),
+            sliver: shown.isEmpty
+                ? SliverToBoxAdapter(
+                    child: EmptyHint(
+                      icon: Icons.search_off,
+                      text: l10n.deviceSearchEmpty,
+                    ),
+                  )
+                : DeviceSliverGrid(deviceIds: shown),
           ),
         ],
       ),

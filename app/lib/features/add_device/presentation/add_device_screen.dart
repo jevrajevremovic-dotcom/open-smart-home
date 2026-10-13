@@ -9,10 +9,10 @@ import '../../../app/router/app_router.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../../core/widgets/status_widgets.dart';
-import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../authentication/application/session_controller.dart';
 import '../application/add_device_providers.dart';
+import '../../devices/presentation/device_edit.dart';
 import '../data/zigbee_pairing.dart';
 import 'discovered_devices_screen.dart';
 import 'matter_screen.dart';
@@ -370,7 +370,7 @@ class _ZigbeePairingScreenState extends ConsumerState<ZigbeePairingScreen> {
     final messenger = ScaffoldMessenger.of(context);
     final result = await showDialog<(String, String?)>(
       context: context,
-      builder: (_) => _SetUpDialog(initialName: d.primary.name),
+      builder: (_) => DeviceEditDialog(initialName: d.primary.name),
     );
     if (result == null || !mounted) return;
     final ws = ref.read(webSocketManagerProvider);
@@ -388,67 +388,5 @@ class _ZigbeePairingScreenState extends ConsumerState<ZigbeePairingScreen> {
     } on Object {
       messenger.showSnackBar(SnackBar(content: Text(l10n.setUpFailed)));
     }
-  }
-}
-
-class _SetUpDialog extends ConsumerStatefulWidget {
-  const _SetUpDialog({required this.initialName});
-
-  final String initialName;
-
-  @override
-  ConsumerState<_SetUpDialog> createState() => _SetUpDialogState();
-}
-
-class _SetUpDialogState extends ConsumerState<_SetUpDialog> {
-  late final _name = TextEditingController(text: widget.initialName);
-  String? _area;
-
-  @override
-  void dispose() {
-    _name.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final rooms = ref.watch(roomsProvider);
-    return AlertDialog(
-      title: Text(l10n.setUpDeviceTitle),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            key: const Key('setUpName'),
-            controller: _name,
-            decoration: InputDecoration(labelText: l10n.deviceNameLabel),
-          ),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String?>(
-            key: const Key('setUpRoom'),
-            initialValue: _area,
-            decoration: InputDecoration(labelText: l10n.deviceRoomLabel),
-            items: [
-              DropdownMenuItem(value: null, child: Text(l10n.roomNoRoom)),
-              for (final r in rooms)
-                DropdownMenuItem(value: r.id, child: Text(r.name)),
-            ],
-            onChanged: (v) => setState(() => _area = v),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.cancel),
-        ),
-        FilledButton(
-          key: const Key('setUpSave'),
-          onPressed: () => Navigator.of(context).pop((_name.text, _area)),
-          child: Text(l10n.save),
-        ),
-      ],
-    );
   }
 }

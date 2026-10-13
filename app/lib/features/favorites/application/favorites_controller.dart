@@ -27,6 +27,11 @@ class FavoritesController extends Notifier<List<String>> {
     return _save(list);
   }
 
+  /// New order for the favorites shown; ids not shown (devices that are
+  /// gone for now) keep their place at the end.
+  Future<void> setOrder(List<String> shown) =>
+      _save([...shown, ...state.where((id) => !shown.contains(id))]);
+
   Future<void> _save(List<String> ids) async {
     final profile = ref.read(activeProfileProvider);
     if (profile == null) return;

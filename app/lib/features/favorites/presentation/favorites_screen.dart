@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../devices/presentation/device_presentation.dart';
+
 import '../../../app/localization/l10n.dart';
 import '../../../core/utils/value_list.dart';
 import '../../../core/widgets/status_widgets.dart';
@@ -29,7 +31,22 @@ class FavoritesScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final ids = ref.watch(existingFavoritesProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.navFavorites)),
+      appBar: AppBar(
+        title: Text(l10n.navFavorites),
+        actions: [
+          if (ids.length > 1)
+            IconButton(
+              key: const Key('reorderFavorites'),
+              tooltip: l10n.favoritesReorder,
+              icon: const Icon(Icons.swap_vert),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const _ReorderFavoritesScreen(),
+                ),
+              ),
+            ),
+        ],
+      ),
       body: MockModeBanner(
         child: CustomScrollView(
           slivers: [
@@ -49,6 +66,59 @@ class FavoritesScreen extends ConsumerWidget {
                   : DeviceSliverGrid(deviceIds: ids),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Drag to change the order favorites appear in (dashboard, kiosk).
+class _ReorderFavoritesScreen extends ConsumerWidget {
+  const _ReorderFavoritesScreen();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final ids = ref.watch(existingFavoritesProvider);
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.favoritesReorder)),
+      body: ReorderableListView.builder(
+        key: const Key('favoritesReorderList'),
+        padding: const EdgeInsets.all(8),
+        itemCount: ids.length,
+        onReorderItem: (from, to) {
+          final list = [...ids];
+          final item = list.removeAt(from);
+          list.insert(to, item);
+          ref.read(favoritesProvider.notifier).setOrder(list);
+        },
+        itemBuilder: (context, i) => Consumer(
+          key: ValueKey(ids[i]),
+          builder: (context, ref, _) {
+            final d = ref.watch(deviceProvider(ids[i]));
+            return ListTile(
+              leading: d == null ? null : Icon(DevicePresentation.icon(d)),
+              title: Text(d?.name ?? ids[i]),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    tooltip: l10n.removeFavorite,
+                    icon: const Icon(Icons.star),
+                    onPressed: () =>
+                        ref.read(favoritesProvider.notifier).toggle(ids[i]),
+                  ),
+                  ReorderableDragStartListener(
+                    index: i,
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(Icons.drag_handle),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

@@ -918,5 +918,9 @@
   "fanOscillate": "Oscillate",
   "targetHumidityLabel": "Target humidity",
   "modeLabel": "Mode",
-  "valueLabel": "Value"
+  "valueLabel": "Value",
+  "editDevice": "Edit name and room",
+  "deviceSearchHint": "Search by name, room or type",
+  "deviceSearchEmpty": "No device matches.",
+  "favoritesReorder": "Change order"
 }

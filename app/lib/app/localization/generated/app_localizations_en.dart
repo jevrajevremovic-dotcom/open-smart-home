@@ -2014,4 +2014,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valueLabel => 'Value';
+
+  @override
+  String get editDevice => 'Edit name and room';
+
+  @override
+  String get deviceSearchHint => 'Search by name, room or type';
+
+  @override
+  String get deviceSearchEmpty => 'No device matches.';
+
+  @override
+  String get favoritesReorder => 'Change order';
 }

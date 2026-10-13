@@ -3566,6 +3566,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Value'**
   String get valueLabel;
+
+  /// No description provided for @editDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit name and room'**
+  String get editDevice;
+
+  /// No description provided for @deviceSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, room or type'**
+  String get deviceSearchHint;
+
+  /// No description provided for @deviceSearchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No device matches.'**
+  String get deviceSearchEmpty;
+
+  /// No description provided for @favoritesReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Change order'**
+  String get favoritesReorder;
 }
 
 class _AppLocalizationsDelegate

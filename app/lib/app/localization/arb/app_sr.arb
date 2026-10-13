@@ -577,5 +577,9 @@
   "fanOscillate": "Okretanje",
   "targetHumidityLabel": "Ciljna vlažnost",
   "modeLabel": "Režim",
-  "valueLabel": "Vrednost"
+  "valueLabel": "Vrednost",
+  "editDevice": "Izmeni ime i prostoriju",
+  "deviceSearchHint": "Pretraga po imenu, prostoriji ili vrsti",
+  "deviceSearchEmpty": "Nijedan uređaj ne odgovara.",
+  "favoritesReorder": "Promeni redosled"
 }

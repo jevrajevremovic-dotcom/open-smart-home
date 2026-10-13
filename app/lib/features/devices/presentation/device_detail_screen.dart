@@ -17,6 +17,8 @@ import 'controls/climate_controls.dart';
 import 'controls/light_controls.dart';
 import 'controls/more_controls.dart';
 import 'controls/other_controls.dart';
+import '../../kiosk/application/kiosk_controller.dart';
+import 'device_edit.dart';
 import 'device_history.dart';
 import 'device_presentation.dart';
 import 'stale_data_banner.dart';
@@ -51,6 +53,14 @@ class DeviceDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(device.name),
         actions: [
+          // Not on the wall panel: editing belongs to the household's phones.
+          if (!ref.watch(kioskActiveProvider))
+            IconButton(
+              key: const Key('editDevice'),
+              tooltip: l10n.editDevice,
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () => editDevice(context, ref, device),
+            ),
           IconButton(
             key: const Key('favoriteToggle'),
             tooltip: favorite ? l10n.removeFavorite : l10n.addFavorite,

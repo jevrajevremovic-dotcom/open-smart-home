@@ -24,6 +24,7 @@ import '../../favorites/presentation/favorites_screen.dart';
 import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_artwork.dart';
 import '../../media/presentation/media_sheet.dart';
+import '../../notifications/presentation/notifications.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
@@ -181,6 +182,7 @@ class DashboardBody extends ConsumerWidget {
       box(WeatherSection(allowDeviceLocation: !kiosk)),
       box(const NowPlayingCard()),
       box(const CriticalAlertsBanner()),
+      box(const NotificationsBanner()),
       if (!kiosk)
         box(
           Consumer(

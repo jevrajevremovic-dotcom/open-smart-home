@@ -1870,4 +1870,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activityEmpty => 'Nothing happened in the last 24 hours.';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String notificationsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notifications from Home Assistant',
+      one: '1 notification from Home Assistant',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notificationDismiss => 'Dismiss';
+
+  @override
+  String get notificationsDismissAll => 'Dismiss all';
+
+  @override
+  String get notificationsEmpty => 'No notifications.';
 }

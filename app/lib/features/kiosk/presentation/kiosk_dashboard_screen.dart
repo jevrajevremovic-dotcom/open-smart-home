@@ -13,6 +13,8 @@ import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/stale_data_banner.dart';
 import '../application/kiosk_controller.dart';
 import '../../cameras/application/camera_providers.dart';
+import '../../notifications/application/notifications_provider.dart';
+import '../../notifications/presentation/notifications.dart';
 import 'glass.dart';
 import 'kiosk_camera_panel.dart';
 import 'kiosk_panels.dart';
@@ -86,6 +88,9 @@ class _Header extends ConsumerWidget {
     final hasChips = ref.watch(
       kioskSettingsProvider.select((s) => s.statusEntityIds.isNotEmpty),
     );
+    final notifications = ref.watch(
+      haNotificationsProvider.select((n) => n.value?.length ?? 0),
+    );
     final connected = ref.watch(
       connectionStatusProvider.select((s) => s.value?.isConnected ?? false),
     );
@@ -110,6 +115,19 @@ class _Header extends ConsumerWidget {
         if (!connected) ...[
           const SizedBox(width: 12),
           const ConnectionIndicator(),
+        ],
+        if (notifications > 0) ...[
+          const SizedBox(width: 8),
+          IconButton(
+            key: const Key('kioskNotifications'),
+            tooltip: l10n.notificationsCount(notifications),
+            color: GlassColors.text,
+            onPressed: () => showNotificationsSheet(context),
+            icon: Badge.count(
+              count: notifications,
+              child: const Icon(Icons.notifications_outlined),
+            ),
+          ),
         ],
         const SizedBox(width: 12),
         const KioskPeople(),

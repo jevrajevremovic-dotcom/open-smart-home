@@ -141,6 +141,40 @@ class MockHomeAssistantServer {
     return out;
   }
 
+  /// Persistent notifications (`persistent_notification/subscribe`).
+  final Map<String, Map<String, Object?>> notifications = {
+    'config_entry_discovery': {
+      'notification_id': 'config_entry_discovery',
+      'title': 'Pronađen novi uređaj',
+      'message': 'Pronađeni su novi uređaji na mreži. [Proverite](/config/integrations).',
+      'created_at': DateTime.now()
+          .subtract(const Duration(minutes: 12))
+          .toUtc()
+          .toIso8601String(),
+    },
+    'washer_done': {
+      'notification_id': 'washer_done',
+      'title': 'Veš mašina',
+      'message': 'Pranje je završeno. **Izvadite veš.**',
+      'created_at': DateTime.now()
+          .subtract(const Duration(minutes: 2))
+          .toUtc()
+          .toIso8601String(),
+    },
+  };
+
+  void _dismissNotifications(List<String> ids) {
+    final removed = <String, Map<String, Object?>>{};
+    for (final id in ids) {
+      final n = notifications.remove(id);
+      if (n != null) removed[id] = n;
+    }
+    if (removed.isEmpty) return;
+    for (final socket in _sockets) {
+      socket._notifyNotifications('removed', removed);
+    }
+  }
+
   /// `GET /api/services` payload (only the parts the app looks at).
   List<Map<String, Object?>> get serviceList => [
     for (final (domain, services) in [
@@ -756,6 +790,14 @@ class MockHomeAssistantServer {
       _permitJoin(d is num ? d.toInt() : 60);
       return const [];
     }
+    if (domain == 'persistent_notification') {
+      if (service == 'dismiss' && data['notification_id'] is String) {
+        _dismissNotifications([data['notification_id']! as String]);
+      } else if (service == 'dismiss_all') {
+        _dismissNotifications(notifications.keys.toList());
+      }
+      return const [];
+    }
     if (domain == 'mqtt' && service == 'publish') {
       final topic = data['topic'];
       final payload = data['payload'];
@@ -972,6 +1014,9 @@ class _MockSocket implements HaSocket {
       case 'subscribe_events':
         _subscriptions[id!] = msg['event_type'] as String?;
         _emit(ok());
+      case 'unsubscribe_events' when msg['subscription'] == _notificationSub:
+        _notificationSub = null;
+        _emit(ok());
       case 'unsubscribe_events' when msg['subscription'] == _zwaveSub:
         _stopZwave();
         _emit(ok());
@@ -1043,6 +1088,10 @@ class _MockSocket implements HaSocket {
               },
           ]),
         );
+      case 'persistent_notification/subscribe':
+        _notificationSub = id;
+        _emit(ok());
+        _notifyNotifications('current', _server.notifications);
       case 'zwave_js/add_node':
         _stopZwave();
         _zwaveSub = id;
@@ -1150,6 +1199,23 @@ class _MockSocket implements HaSocket {
           'error': {'code': 'unknown_command', 'message': 'Unknown command.'},
         });
     }
+  }
+
+  int? _notificationSub;
+
+  void _notifyNotifications(
+    String type,
+    Map<String, Map<String, Object?>> items,
+  ) {
+    final sub = _notificationSub;
+    if (sub == null) return;
+    scheduleMicrotask(
+      () => _emit({
+        'id': sub,
+        'type': 'event',
+        'event': {'type': type, 'notifications': items},
+      }),
+    );
   }
 
   // --- Z-Wave inclusion simulation ---

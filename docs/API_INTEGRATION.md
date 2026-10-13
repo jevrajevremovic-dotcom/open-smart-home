@@ -68,6 +68,12 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 `config/device_registry/update` (`device_id`, `name_by_user`, `area_id`) takođe koristi frontend i nije u developer dokumentaciji; aplikacija ga koristi samo u koraku „Dodaj uređaj → Podesi” (ime i prostorija novog uređaja). Ako ne uspe (npr. korisnik nije administrator), poruka upućuje na HA podešavanja.
 
+## Obaveštenja
+
+- WS `persistent_notification/subscribe` (frontend; pretplata – događaji `current` / `added` / `updated` / `removed`); ako nije dostupno, kartica se ne prikazuje.
+- Odbacivanje dokumentovanim servisima `persistent_notification.dismiss` (`notification_id`) i `persistent_notification.dismiss_all`.
+- Markdown iz poruke se prikazuje kao običan tekst; linkovi se ne otvaraju.
+
 ## Dodavanje Wi-Fi/LAN uređaja (pronađenih na mreži)
 
 Koristi API HA frontenda (nije u developer dokumentaciji, potreban je administrator), pa je opciono i uz jasnu poruku kad nije dostupno:

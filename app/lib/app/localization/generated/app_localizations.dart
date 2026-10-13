@@ -3308,6 +3308,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing happened in the last 24 hours.'**
   String get activityEmpty;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 notification from Home Assistant} other{{count} notifications from Home Assistant}}'**
+  String notificationsCount(int count);
+
+  /// No description provided for @notificationDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get notificationDismiss;
+
+  /// No description provided for @notificationsDismissAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss all'**
+  String get notificationsDismissAll;
+
+  /// No description provided for @notificationsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications.'**
+  String get notificationsEmpty;
 }
 
 class _AppLocalizationsDelegate

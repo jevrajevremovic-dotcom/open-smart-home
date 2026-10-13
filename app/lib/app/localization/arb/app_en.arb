@@ -861,5 +861,17 @@
         "type": "String"
       }
     }
+  },
+  "notificationsTitle": "Notifications",
+  "notificationsCount": "{count, plural, =1{1 notification from Home Assistant} other{{count} notifications from Home Assistant}}",
+  "notificationDismiss": "Dismiss",
+  "notificationsDismissAll": "Dismiss all",
+  "notificationsEmpty": "No notifications.",
+  "@notificationsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

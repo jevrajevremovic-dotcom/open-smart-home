@@ -1879,6 +1879,30 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get activityEmpty => 'U poslednja 24 sata nije bilo promena.';
+
+  @override
+  String get notificationsTitle => 'Obaveštenja';
+
+  @override
+  String notificationsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count obaveštenja iz Home Assistanta',
+      few: '$count obaveštenja iz Home Assistanta',
+      one: '$count obaveštenje iz Home Assistanta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notificationDismiss => 'Odbaci';
+
+  @override
+  String get notificationsDismissAll => 'Odbaci sve';
+
+  @override
+  String get notificationsEmpty => 'Nema obaveštenja.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

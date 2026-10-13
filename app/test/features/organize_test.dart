@@ -40,7 +40,10 @@ void main() {
     await settle(tester, 10);
     await goTo(tester, AppRoutes.allDevices);
     await settle(tester, 2);
-    await tester.enterText(find.byKey(const Key('deviceSearch')), 'dnevna svetl');
+    await tester.enterText(
+      find.byKey(const Key('deviceSearch')),
+      'dnevna svetl',
+    );
     await settle(tester, 2);
     expect(find.text('Dnevna soba – glavno svetlo'), findsOneWidget);
     expect(find.text('Hodnik'), findsNothing);

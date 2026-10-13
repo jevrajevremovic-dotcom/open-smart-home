@@ -453,5 +453,16 @@
   "mediaSource": "Izvor",
   "mediaIdle": "Ništa ne svira",
   "weatherHomeLocationFar": "Lokacija doma u Home Assistantu je oko {km} km od ovog uređaja. Ako to nije tačno, podesite je u Home Assistantu (Podešavanja → Sistem → Opšte); prognoza za dom koristi tu lokaciju.",
-  "mediaNoPlayersShort": "Još nema media plejera"
+  "mediaNoPlayersShort": "Još nema media plejera",
+  "assistMic": "Izgovorite komandu",
+  "assistListening": "Slušam…",
+  "voicePrivacyTitle": "Glasovne komande",
+  "voicePrivacyBody": "Prepoznavač govora na telefonu pretvara govor u tekst; vašem Home Assistantu ide samo tekst. Neki telefoni prepoznaju govor samo preko interneta (na primer Google ili Apple servis), koji tada dobija snimak vašeg glasa.",
+  "voiceOnDeviceOnly": "Samo na uređaju",
+  "voiceAllowCloud": "Dozvoli i preko interneta",
+  "voiceUnavailable": "Prepoznavanje govora nije dostupno. Proverite dozvolu za mikrofon.",
+  "voiceOnDeviceUnavailable": "Ovaj uređaj ne može da prepozna ovaj jezik bez interneta. Prepoznavanje preko interneta možete dozvoliti u Podešavanjima.",
+  "voiceNoMatch": "Nisam razumeo. Pokušajte ponovo.",
+  "voiceCloudSetting": "Prepoznavanje govora preko interneta",
+  "voiceCloudSettingHint": "Kad je isključeno, glasovne komande se prepoznaju samo na uređaju."
 }

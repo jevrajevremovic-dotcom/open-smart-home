@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,6 +7,8 @@ import '../../../app/localization/l10n.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../authentication/application/session_controller.dart';
+import '../application/voice_providers.dart';
+import '../data/voice_input.dart';
 
 /// Opens Assist: a short text conversation with Home Assistant.
 Future<void> showAssist(BuildContext context) => showModalBottomSheet<void>(
@@ -35,9 +39,84 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
   final _messages = <_Message>[];
   String? _conversationId;
   bool _busy = false;
+  bool _listening = false;
+  late final VoiceInput _voice = ref.read(voiceInputProvider);
+
+  /// Asks once whether online recognition is OK; `null` = cancelled.
+  Future<bool?> _voicePrivacyChoice() async {
+    final saved = ref.read(voiceCloudAllowedProvider);
+    if (saved != null) return saved;
+    final choice = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        final l10n = context.l10n;
+        return AlertDialog(
+          icon: const Icon(Icons.mic_none),
+          title: Text(l10n.voicePrivacyTitle),
+          content: Text(l10n.voicePrivacyBody),
+          actions: [
+            TextButton(
+              key: const Key('voiceAllowCloud'),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(l10n.voiceAllowCloud),
+            ),
+            FilledButton(
+              key: const Key('voiceOnDeviceOnly'),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(l10n.voiceOnDeviceOnly),
+            ),
+          ],
+        );
+      },
+    );
+    if (choice != null) {
+      await ref.read(voiceCloudAllowedProvider.notifier).set(choice);
+    }
+    return choice;
+  }
+
+  Future<void> _listen() async {
+    final l10n = context.l10n;
+    if (_listening) {
+      await _voice.stop();
+      return;
+    }
+    final cloud = await _voicePrivacyChoice();
+    if (cloud == null || !mounted) return;
+    setState(() => _listening = true);
+    try {
+      final text = await _voice.listen(
+        languageTag: l10n.localeName,
+        onDeviceOnly: !cloud,
+        onText: (t) {
+          if (mounted) _controller.text = t;
+        },
+      );
+      if (!mounted) return;
+      setState(() => _listening = false);
+      await _send(text);
+    } on VoiceError catch (e) {
+      if (!mounted) return;
+      setState(() => _listening = false);
+      _messages.add(
+        _Message(
+          switch (e) {
+            VoiceError.unavailable => l10n.voiceUnavailable,
+            VoiceError.onDeviceUnavailable => l10n.voiceOnDeviceUnavailable,
+            VoiceError.noMatch => l10n.voiceNoMatch,
+            VoiceError.failed => l10n.voiceUnavailable,
+          },
+          fromUser: false,
+          error: true,
+        ),
+      );
+      _scrollToEnd();
+    }
+  }
 
   @override
   void dispose() {
+    if (_listening) unawaited(_voice.stop());
     _controller.dispose();
     _scroll.dispose();
     super.dispose();
@@ -180,11 +259,23 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
                     child: TextField(
                       key: const Key('assistInput'),
                       controller: _controller,
-                      autofocus: true,
                       textInputAction: TextInputAction.send,
                       onSubmitted: _send,
-                      decoration: InputDecoration(hintText: l10n.assistHint),
+                      decoration: InputDecoration(
+                        hintText: _listening
+                            ? l10n.assistListening
+                            : l10n.assistHint,
+                      ),
                     ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton.filledTonal(
+                    key: const Key('assistMic'),
+                    tooltip: _listening ? l10n.assistListening : l10n.assistMic,
+                    isSelected: _listening,
+                    onPressed: _busy ? null : _listen,
+                    icon: const Icon(Icons.mic_none),
+                    selectedIcon: const Icon(Icons.mic),
                   ),
                   const SizedBox(width: 8),
                   IconButton.filled(

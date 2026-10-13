@@ -73,6 +73,10 @@
 	</dict>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Used to find and connect to your Home Assistant server on the local network.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used only while you hold the microphone button in Assist, to turn a spoken command into text.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Turns your spoken command into text, which is sent to your Home Assistant.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Only if you turn on "Weather at my location": your approximate location (about 1 km) is sent to MET Norway to get the forecast.</string>
 	<key>NSBonjourServices</key>

@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Glasovne komande u Assistu: mikrofon pored polja za unos; govor se pretvara u tekst na telefonu (podrazumevano samo na uređaju; prepoznavanje preko interneta samo uz izričitu dozvolu, pita se jednom i menja u Podešavanjima → Privatnost), tekst ide u HA Assist.
 - Kontrola muzike i medija: panel „Muzika i mediji” (izbor plejera, uključi/isključi, pusti/pauziraj, prethodna/sledeća, jačina, izvor) sa početnog ekrana i iz kioska; dugme je u kiosku uvek vidljivo pored Assista; komanda `select_source`.
 - Prognoza za lokaciju doma (MET Norway, uz pristanak) kad HA nema `weather` entitet; koordinate iz `/api/config`, zaokružene na ~1 km; 24 h po satima i 7 dana.
 

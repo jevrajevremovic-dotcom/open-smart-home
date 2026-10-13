@@ -1596,6 +1596,43 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get mediaNoPlayersShort => 'Još nema media plejera';
+
+  @override
+  String get assistMic => 'Izgovorite komandu';
+
+  @override
+  String get assistListening => 'Slušam…';
+
+  @override
+  String get voicePrivacyTitle => 'Glasovne komande';
+
+  @override
+  String get voicePrivacyBody =>
+      'Prepoznavač govora na telefonu pretvara govor u tekst; vašem Home Assistantu ide samo tekst. Neki telefoni prepoznaju govor samo preko interneta (na primer Google ili Apple servis), koji tada dobija snimak vašeg glasa.';
+
+  @override
+  String get voiceOnDeviceOnly => 'Samo na uređaju';
+
+  @override
+  String get voiceAllowCloud => 'Dozvoli i preko interneta';
+
+  @override
+  String get voiceUnavailable =>
+      'Prepoznavanje govora nije dostupno. Proverite dozvolu za mikrofon.';
+
+  @override
+  String get voiceOnDeviceUnavailable =>
+      'Ovaj uređaj ne može da prepozna ovaj jezik bez interneta. Prepoznavanje preko interneta možete dozvoliti u Podešavanjima.';
+
+  @override
+  String get voiceNoMatch => 'Nisam razumeo. Pokušajte ponovo.';
+
+  @override
+  String get voiceCloudSetting => 'Prepoznavanje govora preko interneta';
+
+  @override
+  String get voiceCloudSettingHint =>
+      'Kad je isključeno, glasovne komande se prepoznaju samo na uređaju.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

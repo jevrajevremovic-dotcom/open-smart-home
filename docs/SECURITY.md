@@ -57,6 +57,8 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 
 ## Assist
 
+- Glas: mikrofon se koristi samo dok je dugme aktivno. Podrazumevano se govor prepoznaje **samo na uređaju** (`onDevice`); prepoznavanje preko interneta (Google/Apple servis telefona, koji tada dobija snimak) uključuje se samo izričitim izborom. Snimak ne čuva ni ne šalje aplikacija – Home Assistantu ide samo tekst.
+
 - Tekst se šalje samo na korisnikov HA (`/api/conversation/process`) i izvršava se sa ovlašćenjima prijavljenog naloga; aplikacija ga ne čuva ni ne loguje.
 - Slike medija (`entity_picture` sa `token` parametrom) učitavaju se bez tog parametra, sa `Authorization` zaglavljem.
 

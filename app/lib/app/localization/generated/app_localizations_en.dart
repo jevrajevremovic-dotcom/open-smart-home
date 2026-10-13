@@ -1587,4 +1587,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mediaNoPlayersShort => 'No media players yet';
+
+  @override
+  String get assistMic => 'Speak a command';
+
+  @override
+  String get assistListening => 'Listening…';
+
+  @override
+  String get voicePrivacyTitle => 'Voice commands';
+
+  @override
+  String get voicePrivacyBody =>
+      'Your phone\'s speech recogniser turns speech into text; only the text goes to your Home Assistant. Some phones can only recognise speech online (for example Google\'s or Apple\'s service), which then receives a recording of your voice.';
+
+  @override
+  String get voiceOnDeviceOnly => 'On this device only';
+
+  @override
+  String get voiceAllowCloud => 'Allow online too';
+
+  @override
+  String get voiceUnavailable =>
+      'Speech recognition isn\'t available. Check the microphone permission.';
+
+  @override
+  String get voiceOnDeviceUnavailable =>
+      'This device can\'t recognise this language offline. You can allow online recognition in Settings.';
+
+  @override
+  String get voiceNoMatch => 'I didn\'t catch that. Try again.';
+
+  @override
+  String get voiceCloudSetting => 'Online speech recognition';
+
+  @override
+  String get voiceCloudSettingHint =>
+      'When off, voice commands are recognised on this device only.';
 }

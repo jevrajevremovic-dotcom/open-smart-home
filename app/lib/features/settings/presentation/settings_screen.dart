@@ -10,6 +10,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
 import '../../kiosk/presentation/kiosk_settings_section.dart';
+import '../../assist/application/voice_providers.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
 import 'language_selector.dart';
@@ -101,6 +102,16 @@ class SettingsScreen extends ConsumerWidget {
                                 .read(deviceWeatherEnabledProvider.notifier)
                                 .set(false),
                     ),
+                  SwitchListTile(
+                    key: const Key('voiceCloudSwitch'),
+                    contentPadding: EdgeInsets.zero,
+                    secondary: const Icon(Icons.mic_none),
+                    title: Text(l10n.voiceCloudSetting),
+                    subtitle: Text(l10n.voiceCloudSettingHint),
+                    value: ref.watch(voiceCloudAllowedProvider) ?? false,
+                    onChanged: (v) =>
+                        ref.read(voiceCloudAllowedProvider.notifier).set(v),
+                  ),
                   SwitchListTile(
                     key: const Key('homeWeatherSwitch'),
                     contentPadding: EdgeInsets.zero,

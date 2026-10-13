@@ -123,4 +123,27 @@ void main() {
     expect(find.byKey(const Key('assistSheet')), findsOneWidget);
     await unmount(tester);
   });
+
+  testWidgets('voice: privacy choice once, then speech becomes a command', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1400));
+    await settle(tester, 10);
+    await tapKey(tester, 'openAssist');
+    await settle(tester, 6); // sheet slide-in
+    await tapKey(tester, 'assistMic');
+    await settle(tester, 2);
+    expect(find.text(en.voicePrivacyBody), findsOneWidget);
+    await tapKey(tester, 'voiceOnDeviceOnly');
+    await settle(tester, 10);
+    expect(find.text('turn off the lights'), findsOneWidget);
+    expect(find.text('Turned off the lights.'), findsOneWidget);
+
+    // Second time: no question.
+    await tapKey(tester, 'assistMic');
+    await settle(tester, 2);
+    expect(find.text(en.voicePrivacyBody), findsNothing);
+    await settle(tester, 10);
+    await unmount(tester);
+  });
 }

@@ -1,3 +1,5 @@
+import 'package:open_smart_home/features/assist/application/voice_providers.dart';
+import 'package:open_smart_home/features/assist/data/voice_input.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -81,6 +83,7 @@ Future<List<Override>> testOverrides({
   SnapshotCache? snapshotCache,
   Map<String, Object> preferences = const {},
   MockHomeAssistantServer? server,
+  VoiceInput? voiceInput,
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
@@ -98,5 +101,8 @@ Future<List<Override>> testOverrides({
     ),
     if (server != null)
       mockHomeAssistantServerProvider.overrideWithValue(server),
+    voiceInputProvider.overrideWithValue(
+      voiceInput ?? FakeVoiceInput('turn off the lights'),
+    ),
   ];
 }

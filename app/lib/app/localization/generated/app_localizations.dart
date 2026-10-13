@@ -2822,6 +2822,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No media players yet'**
   String get mediaNoPlayersShort;
+
+  /// No description provided for @assistMic.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak a command'**
+  String get assistMic;
+
+  /// No description provided for @assistListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening…'**
+  String get assistListening;
+
+  /// No description provided for @voicePrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice commands'**
+  String get voicePrivacyTitle;
+
+  /// No description provided for @voicePrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone\'s speech recogniser turns speech into text; only the text goes to your Home Assistant. Some phones can only recognise speech online (for example Google\'s or Apple\'s service), which then receives a recording of your voice.'**
+  String get voicePrivacyBody;
+
+  /// No description provided for @voiceOnDeviceOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'On this device only'**
+  String get voiceOnDeviceOnly;
+
+  /// No description provided for @voiceAllowCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow online too'**
+  String get voiceAllowCloud;
+
+  /// No description provided for @voiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech recognition isn\'t available. Check the microphone permission.'**
+  String get voiceUnavailable;
+
+  /// No description provided for @voiceOnDeviceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This device can\'t recognise this language offline. You can allow online recognition in Settings.'**
+  String get voiceOnDeviceUnavailable;
+
+  /// No description provided for @voiceNoMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'I didn\'t catch that. Try again.'**
+  String get voiceNoMatch;
+
+  /// No description provided for @voiceCloudSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Online speech recognition'**
+  String get voiceCloudSetting;
+
+  /// No description provided for @voiceCloudSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When off, voice commands are recognised on this device only.'**
+  String get voiceCloudSettingHint;
 }
 
 class _AppLocalizationsDelegate

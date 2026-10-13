@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
@@ -37,7 +38,8 @@ class DashboardScreen extends ConsumerWidget {
         context.l10n.appTitle;
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        toolbarHeight: 80,
+        title: DashboardGreeting(homeName: title),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 12),
@@ -46,6 +48,47 @@ class DashboardScreen extends ConsumerWidget {
         ],
       ),
       body: const MockModeBanner(child: DashboardBody()),
+    );
+  }
+}
+
+/// Time-of-day greeting and date above the home's name.
+class DashboardGreeting extends StatelessWidget {
+  const DashboardGreeting({super.key, required this.homeName});
+
+  final String homeName;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final now = DateTime.now();
+    final greeting = switch (now.hour) {
+      >= 5 && < 12 => l10n.greetingMorning,
+      >= 12 && < 18 => l10n.greetingAfternoon,
+      >= 18 && < 23 => l10n.greetingEvening,
+      _ => l10n.greetingNight,
+    };
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          '$greeting · ${DateFormat.MMMEd(l10n.localeName).format(now)}',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.labelLarge?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        Text(
+          homeName,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.headlineSmall,
+        ),
+      ],
     );
   }
 }
@@ -87,10 +130,10 @@ class DashboardBody extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
+              key: const Key('dashboardStatusPane'),
               width: width >= Breakpoints.large ? 400 : 340,
               child: CustomScrollView(slivers: _statusSlivers(ref)),
             ),
-            const VerticalDivider(width: 1),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async => refresh?.call(),
@@ -129,13 +172,16 @@ class DashboardBody extends ConsumerWidget {
       if (!kiosk)
         box(
           Consumer(
-            builder: (context, _, _) => Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton.icon(
-                key: const Key('openEnergy'),
-                onPressed: () => context.push(AppRoutes.energy),
-                icon: const Icon(Icons.bolt),
-                label: Text(context.l10n.energyTitle),
+            builder: (context, _, _) => Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: FilledButton.tonalIcon(
+                  key: const Key('openEnergy'),
+                  onPressed: () => context.push(AppRoutes.energy),
+                  icon: const Icon(Icons.bolt),
+                  label: Text(context.l10n.energyTitle),
+                ),
               ),
             ),
           ),
@@ -374,25 +420,39 @@ class _SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final card = Card.filled(
+    final accent = color ?? theme.colorScheme.primary;
+    final card = Card(
       margin: EdgeInsets.zero,
       child: ConstrainedBox(
         // Bounded width so long labels wrap instead of overflowing.
         constraints: width != null
             ? BoxConstraints.tightFor(width: width)
-            : const BoxConstraints(minWidth: 140, maxWidth: 220),
+            : const BoxConstraints(minWidth: 150, maxWidth: 220),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          padding: const EdgeInsets.all(14),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: color ?? theme.colorScheme.primary),
-              const SizedBox(width: 10),
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: accent.withValues(alpha: 0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, size: 20, color: accent),
+              ),
+              const SizedBox(width: 12),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(label, style: theme.textTheme.labelMedium),
+                    Text(
+                      label,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                     Text(
                       value ?? '—',
                       semanticsLabel: value ?? l10n.valueNotAvailable,

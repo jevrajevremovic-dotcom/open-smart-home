@@ -68,7 +68,6 @@ class AppShell extends StatelessWidget {
                       ),
                   ],
                 ),
-                const VerticalDivider(width: 1),
                 Expanded(child: child),
               ],
             ),

@@ -577,6 +577,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get summaryPower => 'Power';
 
   @override
+  String get greetingMorning => 'Good morning';
+
+  @override
+  String get greetingAfternoon => 'Good afternoon';
+
+  @override
+  String get greetingEvening => 'Good evening';
+
+  @override
+  String get greetingNight => 'Good night';
+
+  @override
   String get summaryAlerts => 'Alerts';
 
   @override

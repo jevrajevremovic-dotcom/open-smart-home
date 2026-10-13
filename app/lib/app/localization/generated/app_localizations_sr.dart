@@ -574,6 +574,18 @@ class AppLocalizationsSr extends AppLocalizations {
   String get summaryPower => 'Snaga';
 
   @override
+  String get greetingMorning => 'Dobro jutro';
+
+  @override
+  String get greetingAfternoon => 'Dobar dan';
+
+  @override
+  String get greetingEvening => 'Dobro veče';
+
+  @override
+  String get greetingNight => 'Laku noć';
+
+  @override
   String get summaryAlerts => 'Upozorenja';
 
   @override

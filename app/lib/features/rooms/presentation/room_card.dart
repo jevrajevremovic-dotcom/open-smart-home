@@ -68,7 +68,7 @@ class RoomCard extends ConsumerWidget {
       l10n.roomDevicesCount(summary.deviceCount),
     ];
 
-    return Card.outlined(
+    return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => context.push(
@@ -81,10 +81,26 @@ class RoomCard extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    roomIcon(icon),
-                    size: 28,
-                    color: theme.colorScheme.primary,
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: summary.lightsOn > 0
+                          ? context.deviceAccents
+                                .of(DeviceAccent.light)
+                                .container
+                          : theme.colorScheme.primaryContainer,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      roomIcon(icon),
+                      size: 22,
+                      color: summary.lightsOn > 0
+                          ? context.deviceAccents
+                                .of(DeviceAccent.light)
+                                .onContainer
+                          : theme.colorScheme.onPrimaryContainer,
+                    ),
                   ),
                   const Spacer(),
                   if (summary.alertCount > 0)
@@ -140,7 +156,7 @@ class RoomSliverGrid extends ConsumerWidget {
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 260,
-        mainAxisExtent: 116 * textScale,
+        mainAxisExtent: 128 * textScale,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
       ),

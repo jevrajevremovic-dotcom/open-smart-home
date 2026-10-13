@@ -23,7 +23,7 @@ class DeviceSliverGrid extends StatelessWidget {
           WindowSize.medium => 220,
           _ => 240,
         },
-        mainAxisExtent: 140 * textScale,
+        mainAxisExtent: 148 * textScale,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
       ),

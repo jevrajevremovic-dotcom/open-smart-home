@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../app/localization/l10n.dart';
+import '../../../app/theme/app_theme.dart';
 import '../domain/capability.dart';
 import '../domain/device_kind.dart';
 import '../../weather/domain/weather.dart';
@@ -130,6 +131,33 @@ abstract final class DevicePresentation {
         return s.isOn == true ? DeviceTone.active : DeviceTone.neutral;
     }
   }
+
+  /// Colour family of the tile when the device is on.
+  static DeviceAccent accent(SmartHomeDevice d) => switch (d.kind) {
+    DeviceKind.light ||
+    DeviceKind.dimmableLight ||
+    DeviceKind.rgbLight ||
+    DeviceKind.rgbwLight => DeviceAccent.light,
+    DeviceKind.thermostat || DeviceKind.climate =>
+      d.state.hvacMode == 'heat' || d.state.hvacAction == 'heating'
+          ? DeviceAccent.heat
+          : DeviceAccent.cool,
+    DeviceKind.airPurifier ||
+    DeviceKind.humidifier ||
+    DeviceKind.dehumidifier => DeviceAccent.cool,
+    DeviceKind.mediaPlayer ||
+    DeviceKind.speaker ||
+    DeviceKind.television => DeviceAccent.media,
+    DeviceKind.motionSensor ||
+    DeviceKind.occupancySensor ||
+    DeviceKind.contactSensor ||
+    DeviceKind.blind ||
+    DeviceKind.curtain ||
+    DeviceKind.garageDoor ||
+    DeviceKind.vacuum ||
+    DeviceKind.irrigation => DeviceAccent.motion,
+    _ => DeviceAccent.power,
+  };
 
   /// One-line status, e.g. "On · 75 %", "22.4 °C", "Locked".
   static String status(AppLocalizations l10n, SmartHomeDevice d) {

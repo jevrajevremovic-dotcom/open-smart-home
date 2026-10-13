@@ -106,11 +106,8 @@ void main() {
   testWidgets('tablet landscape dashboard uses two panes', (tester) async {
     await pumpApp(tester, signedIn: true, size: tablet);
     await settle(tester, 10);
-    expect(
-      find.byType(VerticalDivider),
-      findsNWidgets(2),
-      reason: 'rail divider + pane divider',
-    );
+    expect(find.byType(NavigationRail), findsOneWidget);
+    expect(find.byKey(const Key('dashboardStatusPane')), findsOneWidget);
     await unmount(tester);
   });
 }

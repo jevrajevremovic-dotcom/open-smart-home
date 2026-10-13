@@ -51,17 +51,28 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
     final device = widget.device;
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final status = context.statusColors;
+    final accents = context.deviceAccents;
     final tone = DevicePresentation.tone(device);
-    final toneColor = tone.color(
-      theme.colorScheme,
-      warning: status.warning,
-      critical: status.critical,
-      unavailable: status.unavailable,
-    );
     final statusText = DevicePresentation.status(l10n, device);
-    final highlighted =
-        tone == DeviceTone.active || tone == DeviceTone.critical;
+
+    // Active devices take their accent colour; alerts take warning/critical.
+    final swatch = switch (tone) {
+      DeviceTone.active => accents.of(DevicePresentation.accent(device)),
+      DeviceTone.warning => accents.warning,
+      DeviceTone.critical => accents.critical,
+      _ => null,
+    };
+    final fill = swatch?.container ?? scheme.surfaceContainerLow;
+    final onFill = swatch?.onContainer ?? scheme.onSurface;
+    final onFillMuted = swatch?.onContainer ?? scheme.onSurfaceVariant;
+    final iconColor =
+        swatch?.icon ??
+        (tone == DeviceTone.unavailable
+            ? status.unavailable
+            : scheme.onSurfaceVariant);
+    final disc = swatch != null ? accents.iconDisc : scheme.surfaceContainer;
 
     final live = ref.watch(syncStatusProvider) == SyncStatus.live;
     final Widget? action = !device.available
@@ -69,6 +80,7 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
         : DevicePresentation.hasQuickToggle(device)
         ? Switch(
             value: device.state.isOn ?? false,
+            activeTrackColor: swatch?.icon,
             onChanged: _busy || !live
                 ? null
                 : (on) => _run(on ? const TurnOn() : const TurnOff()),
@@ -90,76 +102,91 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
       label: '${device.name}, $statusText',
       button: true,
       excludeSemantics: action == null,
-      child: Card.outlined(
-        clipBehavior: Clip.antiAlias,
-        color: tone == DeviceTone.critical
-            ? status.critical.withValues(alpha: 0.12)
-            : highlighted
-            ? theme.colorScheme.primaryContainer.withValues(alpha: 0.45)
-            : null,
-        child: InkWell(
-          onTap: () => context.push(
-            AppRoutes.device(device.id, kiosk: ref.read(kioskActiveProvider)),
-          ),
-          child: Opacity(
-            opacity: device.available ? 1 : 0.6,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 12, 8, 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        DevicePresentation.icon(device),
-                        color: toneColor,
-                        size: 28,
-                      ),
-                      const Spacer(),
-                      if (device.hasLowBattery)
-                        Tooltip(
-                          message: l10n.lowBattery,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOut,
+        decoration: BoxDecoration(
+          color: fill,
+          borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+        ),
+        child: Material(
+          type: MaterialType.transparency,
+          borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () => context.push(
+              AppRoutes.device(device.id, kiosk: ref.read(kioskActiveProvider)),
+            ),
+            child: Opacity(
+              opacity: device.available ? 1 : 0.6,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 14, 8, 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: disc,
+                            shape: BoxShape.circle,
+                          ),
                           child: Icon(
-                            Icons.battery_alert,
-                            color: status.warning,
-                            size: 20,
+                            DevicePresentation.icon(device),
+                            color: iconColor,
+                            size: 22,
                           ),
                         ),
-                      ?action,
-                    ],
-                  ),
-                  const Spacer(),
-                  Text(
-                    device.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      if (!device.available) ...[
-                        Icon(Icons.cloud_off, size: 14, color: toneColor),
-                        const SizedBox(width: 4),
+                        const Spacer(),
+                        if (device.hasLowBattery)
+                          Tooltip(
+                            message: l10n.lowBattery,
+                            child: Icon(
+                              Icons.battery_alert,
+                              color: swatch == accents.warning
+                                  ? onFill
+                                  : status.warning,
+                              size: 20,
+                            ),
+                          ),
+                        ?action,
                       ],
-                      Expanded(
-                        child: Text(
-                          statusText,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: tone == DeviceTone.neutral
-                                ? null
-                                : toneColor,
-                            fontWeight: tone == DeviceTone.critical
-                                ? FontWeight.bold
-                                : null,
+                    ),
+                    const Spacer(),
+                    Text(
+                      device.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: onFill,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        if (!device.available) ...[
+                          Icon(Icons.cloud_off, size: 14, color: iconColor),
+                          const SizedBox(width: 4),
+                        ],
+                        Expanded(
+                          child: Text(
+                            statusText,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: onFillMuted,
+                              fontWeight: tone == DeviceTone.critical
+                                  ? FontWeight.bold
+                                  : null,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

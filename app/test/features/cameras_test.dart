@@ -84,4 +84,27 @@ void main() {
     );
     await unmount(tester);
   });
+
+  testWidgets('live mode falls back to a message when there is no stream', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(900, 1200));
+    await settle(tester, 10);
+    await goTo(tester, AppRoutes.device('camera.front_yard'));
+    await settle(tester, 4);
+    expect(
+      find.byKey(const Key('cameraMode')),
+      findsNothing,
+      reason: 'camera without stream support',
+    );
+    await goTo(tester, AppRoutes.device('camera.driveway'));
+    await settle(tester, 4);
+    await tester.tap(find.text(en.cameraLive));
+    await settle(tester, 6);
+    expect(find.byKey(const Key('cameraLiveFailed')), findsOneWidget);
+    await tester.tap(find.text(en.cameraSnapshots));
+    await settle(tester, 4);
+    expect(find.byKey(const Key('cameraImage')), findsOneWidget);
+    await unmount(tester);
+  });
 }

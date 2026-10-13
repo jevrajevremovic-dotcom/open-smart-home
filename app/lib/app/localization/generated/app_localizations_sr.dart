@@ -1903,6 +1903,20 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get notificationsEmpty => 'Nema obaveštenja.';
+
+  @override
+  String get cameraSnapshots => 'Snimci';
+
+  @override
+  String get cameraLive => 'Uživo';
+
+  @override
+  String get cameraLiveHint =>
+      'Video uživo iz Home Assistanta dok je ovaj ekran otvoren; zvuk je isključen. Ništa se ne snima.';
+
+  @override
+  String get cameraLiveFailed =>
+      'Video uživo nije dostupan za ovu kameru (ili video plejer ne veruje sertifikatu servera). Snimci i dalje rade.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

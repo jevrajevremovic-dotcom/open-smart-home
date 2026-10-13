@@ -1893,4 +1893,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationsEmpty => 'No notifications.';
+
+  @override
+  String get cameraSnapshots => 'Snapshots';
+
+  @override
+  String get cameraLive => 'Live';
+
+  @override
+  String get cameraLiveHint =>
+      'Live video from Home Assistant while this screen is open; sound is off. Nothing is recorded.';
+
+  @override
+  String get cameraLiveFailed =>
+      'Live video isn\'t available for this camera (or the server\'s certificate isn\'t trusted by the video player). Snapshots still work.';
 }

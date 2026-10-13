@@ -539,5 +539,9 @@
   "notificationsCount": "{count, plural, one{{count} obaveštenje iz Home Assistanta} few{{count} obaveštenja iz Home Assistanta} other{{count} obaveštenja iz Home Assistanta}}",
   "notificationDismiss": "Odbaci",
   "notificationsDismissAll": "Odbaci sve",
-  "notificationsEmpty": "Nema obaveštenja."
+  "notificationsEmpty": "Nema obaveštenja.",
+  "cameraSnapshots": "Snimci",
+  "cameraLive": "Uživo",
+  "cameraLiveHint": "Video uživo iz Home Assistanta dok je ovaj ekran otvoren; zvuk je isključen. Ništa se ne snima.",
+  "cameraLiveFailed": "Video uživo nije dostupan za ovu kameru (ili video plejer ne veruje sertifikatu servera). Snimci i dalje rade."
 }

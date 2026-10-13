@@ -3338,6 +3338,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No notifications.'**
   String get notificationsEmpty;
+
+  /// No description provided for @cameraSnapshots.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshots'**
+  String get cameraSnapshots;
+
+  /// No description provided for @cameraLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get cameraLive;
+
+  /// No description provided for @cameraLiveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Live video from Home Assistant while this screen is open; sound is off. Nothing is recorded.'**
+  String get cameraLiveHint;
+
+  /// No description provided for @cameraLiveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Live video isn\'t available for this camera (or the server\'s certificate isn\'t trusted by the video player). Snapshots still work.'**
+  String get cameraLiveFailed;
 }
 
 class _AppLocalizationsDelegate

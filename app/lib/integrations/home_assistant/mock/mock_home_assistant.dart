@@ -1088,6 +1088,16 @@ class _MockSocket implements HaSocket {
               },
           ]),
         );
+      case 'camera/stream':
+        _emit({
+          'id': id,
+          'type': 'result',
+          'success': false,
+          'error': {
+            'code': 'start_stream_failed',
+            'message': 'Demo cameras have no live stream',
+          },
+        });
       case 'persistent_notification/subscribe':
         _notificationSub = id;
         _emit(ok());

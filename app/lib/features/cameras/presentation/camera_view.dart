@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import '../../../app/localization/l10n.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/domain/smart_home_device.dart';
+import '../../devices/domain/capability.dart';
 import '../application/camera_providers.dart';
+import 'live_camera.dart';
 
 /// Live-ish camera picture (refreshed snapshots) with a small time label.
 /// Watching this widget is what keeps the camera refreshing.
@@ -128,26 +130,58 @@ class _Badge extends StatelessWidget {
 }
 
 /// Camera section of the device screen.
-class CameraDetail extends StatelessWidget {
+class CameraDetail extends StatefulWidget {
   const CameraDetail({super.key, required this.device});
 
   final SmartHomeDevice device;
 
   @override
+  State<CameraDetail> createState() => _CameraDetailState();
+}
+
+class _CameraDetailState extends State<CameraDetail> {
+  bool _live = false;
+
+  @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final device = widget.device;
+    final canStream =
+        liveVideoSupported && device.supports(Capability.cameraStream);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (canStream) ...[
+          SegmentedButton<bool>(
+            key: const Key('cameraMode'),
+            segments: [
+              ButtonSegment(
+                value: false,
+                icon: const Icon(Icons.photo_camera_outlined),
+                label: Text(l10n.cameraSnapshots),
+              ),
+              ButtonSegment(
+                value: true,
+                icon: const Icon(Icons.videocam_outlined),
+                label: Text(l10n.cameraLive),
+              ),
+            ],
+            selected: {_live},
+            onSelectionChanged: (s) => setState(() => _live = s.first),
+          ),
+          const SizedBox(height: 12),
+        ],
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: AspectRatio(
             aspectRatio: 16 / 9,
-            child: GestureDetector(
-              onTap: () => openCameraFullscreen(context, device.id),
-              child: CameraPicture(cameraId: device.id),
-            ),
+            child: _live
+                ? LiveCameraView(cameraId: device.id)
+                : GestureDetector(
+                    onTap: () => openCameraFullscreen(context, device.id),
+                    child: CameraPicture(cameraId: device.id),
+                  ),
           ),
         ),
         const SizedBox(height: 12),
@@ -155,19 +189,22 @@ class CameraDetail extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                l10n.cameraRefreshHint(cameraRefreshInterval.inSeconds),
+                _live
+                    ? l10n.cameraLiveHint
+                    : l10n.cameraRefreshHint(cameraRefreshInterval.inSeconds),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
             const SizedBox(width: 8),
-            OutlinedButton.icon(
-              key: const Key('cameraFullscreen'),
-              onPressed: () => openCameraFullscreen(context, device.id),
-              icon: const Icon(Icons.fullscreen),
-              label: Text(l10n.cameraFullscreen),
-            ),
+            if (!_live)
+              OutlinedButton.icon(
+                key: const Key('cameraFullscreen'),
+                onPressed: () => openCameraFullscreen(context, device.id),
+                icon: const Icon(Icons.fullscreen),
+                label: Text(l10n.cameraFullscreen),
+              ),
           ],
         ),
       ],

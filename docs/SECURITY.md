@@ -73,6 +73,11 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Isključeno dok korisnik ne potvrdi dijalog koji objašnjava šta se šalje. Koristi se samo kad HA nema `weather` entitet.
 - MET Norway dobija samo koordinate doma iz HA zaokružene na 2 decimale (~1 km), najviše jednom u 30 min, sa User-Agent identifikacijom aplikacije.
 
+## Video uživo (kamere)
+
+- URL dobija WS `camera/stream` (`format: hls`): kratkotrajna, potpisana putanja `/api/hls/<token>/…` na istom serveru; prihvata se samo ta putanja.
+- Video plejer koristi mrežni sloj platforme, pa **ne vidi** sertifikat koji je korisnik ručno odobrio (pinning) u aplikaciji: sa samopotpisanim sertifikatom uživo ne radi, a aplikacija nudi snimke. Ništa se ne snima; zvuk je isključen.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

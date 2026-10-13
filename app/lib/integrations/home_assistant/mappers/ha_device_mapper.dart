@@ -119,13 +119,42 @@ class HaDeviceMapper {
         {
           Capability.power,
           if (features.has(FanFeature.presetMode)) Capability.presetMode,
+          if (features.has(FanFeature.setSpeed)) Capability.fanSpeed,
+          if (features.has(FanFeature.oscillate)) Capability.oscillate,
         },
         DeviceState(
           raw: s.state,
           isOn: _onOff(s.state, known),
           presetMode: _str(a['preset_mode']),
+          percentage: _num(a['percentage'])?.round(),
+          oscillating: a['oscillating'] is bool
+              ? a['oscillating']! as bool
+              : null,
         ),
-        DeviceLimits(presetModes: _strList(a['preset_modes'])),
+        DeviceLimits(
+          presetModes: _strList(a['preset_modes']),
+          percentageStep: _num(a['percentage_step']),
+        ),
+      ),
+      'select' || 'input_select' => _Mapped(
+        DeviceKind.select,
+        {Capability.selectOption},
+        DeviceState(raw: s.state, textValue: known ? s.state : null),
+        DeviceLimits(options: _strList(a['options'])),
+      ),
+      'number' || 'input_number' => _Mapped(
+        DeviceKind.number,
+        {Capability.numberValue},
+        DeviceState(
+          raw: s.state,
+          numericValue: known ? double.tryParse(s.state) : null,
+          unit: _str(a['unit_of_measurement']),
+        ),
+        DeviceLimits(
+          minValue: _num(a['min']),
+          maxValue: _num(a['max']),
+          valueStep: _num(a['step']),
+        ),
       ),
       'humidifier' => _humidifier(s, deviceClass, features, known),
       'alarm_control_panel' => _alarm(s, features, known),
@@ -136,6 +165,9 @@ class HaDeviceMapper {
       }, DeviceState(raw: s.state, isOn: _onOff(s.state, known))),
       'vacuum' => _Mapped(DeviceKind.vacuum, {
         if (features.has(VacuumFeature.stop)) Capability.stop,
+        if (features.has(VacuumFeature.start)) Capability.vacuumStart,
+        if (features.has(VacuumFeature.pause)) Capability.vacuumPause,
+        if (features.has(VacuumFeature.returnHome)) Capability.vacuumReturnHome,
       }, DeviceState(raw: s.state)),
       'event' when deviceClass == 'doorbell' => _Mapped(
         DeviceKind.doorbell,

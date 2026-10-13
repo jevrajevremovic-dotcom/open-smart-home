@@ -22,6 +22,16 @@ SmartHomeDevice(
 
 Jedinice su normalizovane: svetlina i položaj u procentima (0–100), temperatura boje u Kelvinima, jačina zvuka u procentima. `null` znači „nije prijavljeno” i UI ga prikazuje kao nepoznato, nikad kao nulu.
 
+## Ventilator, ovlaživač, usisivač, izbor, broj
+
+| Vrsta | Mogućnosti | Servisi |
+|---|---|---|
+| `fan` | `fanSpeed` (SET_SPEED 1, `percentage_step`), `oscillate` (2), `presetMode` (8) | `set_percentage` (0 → `turn_off`), `oscillate`, `set_preset_mode` |
+| `humidifier` | `targetHumidity` (min/max), `presetMode` (MODES 1) | `set_humidity` (ograničeno na opseg), `set_mode` |
+| `vacuum` | `vacuumStart` (8192), `vacuumPause` (4), `vacuumReturnHome` (16), `stop` (8) | `start`, `pause`, `return_to_base` |
+| `select`, `input_select` | `selectOption` (`options`) | `select_option` (samo ponuđene vrednosti) |
+| `number`, `input_number` | `numberValue` (`min`, `max`, `step`) | `set_value` (ograničeno i zaokruženo na korak) |
+
 ## Alarm (`alarm_control_panel`)
 
 - Režimi uključivanja iz `supported_features` (ARM_HOME 1, ARM_AWAY 2, ARM_NIGHT 4, ARM_CUSTOM_BYPASS 16, ARM_VACATION 32) → `alarm_arm_<mode>`; isključivanje `alarm_disarm`.

@@ -563,5 +563,19 @@
   "alarmArm_custom_bypass": "Prilagođeno",
   "alarmArmTitle": "Uključi alarm",
   "alarmDisarm": "Isključi alarm",
-  "alarmCodeTitle": "Kod alarma"
+  "alarmCodeTitle": "Kod alarma",
+  "vacuumCleaning": "Čisti",
+  "vacuumDocked": "Na punjaču",
+  "vacuumReturning": "Vraća se na punjač",
+  "vacuumPaused": "Pauzirano",
+  "vacuumError": "Greška",
+  "vacuumIdle": "Miruje",
+  "vacuumStart": "Pokreni",
+  "vacuumPause": "Pauza",
+  "vacuumReturnHome": "Na punjač",
+  "fanSpeed": "Brzina",
+  "fanOscillate": "Okretanje",
+  "targetHumidityLabel": "Ciljna vlažnost",
+  "modeLabel": "Režim",
+  "valueLabel": "Vrednost"
 }

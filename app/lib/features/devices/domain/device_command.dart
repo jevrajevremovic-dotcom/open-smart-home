@@ -114,6 +114,59 @@ final class SelectSource extends DeviceCommand {
   Capability get requiredCapability => Capability.sourceSelection;
 }
 
+final class SetFanSpeed extends DeviceCommand {
+  const SetFanSpeed(this.percent) : assert(percent >= 0 && percent <= 100);
+  final int percent;
+  @override
+  Capability get requiredCapability => Capability.fanSpeed;
+}
+
+final class SetOscillation extends DeviceCommand {
+  const SetOscillation(this.on);
+  final bool on;
+  @override
+  Capability get requiredCapability => Capability.oscillate;
+}
+
+final class SetTargetHumidity extends DeviceCommand {
+  const SetTargetHumidity(this.humidity);
+  final double humidity;
+  @override
+  Capability get requiredCapability => Capability.targetHumidity;
+}
+
+final class VacuumStart extends DeviceCommand {
+  const VacuumStart();
+  @override
+  Capability get requiredCapability => Capability.vacuumStart;
+}
+
+final class VacuumPause extends DeviceCommand {
+  const VacuumPause();
+  @override
+  Capability get requiredCapability => Capability.vacuumPause;
+}
+
+final class VacuumReturnHome extends DeviceCommand {
+  const VacuumReturnHome();
+  @override
+  Capability get requiredCapability => Capability.vacuumReturnHome;
+}
+
+final class SelectOption extends DeviceCommand {
+  const SelectOption(this.option);
+  final String option;
+  @override
+  Capability get requiredCapability => Capability.selectOption;
+}
+
+final class SetNumber extends DeviceCommand {
+  const SetNumber(this.value);
+  final double value;
+  @override
+  Capability get requiredCapability => Capability.numberValue;
+}
+
 final class SetVolume extends DeviceCommand {
   const SetVolume(this.percent) : assert(percent >= 0 && percent <= 100);
   final int percent;

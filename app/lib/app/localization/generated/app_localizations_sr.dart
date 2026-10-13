@@ -1982,6 +1982,48 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get alarmCodeTitle => 'Kod alarma';
+
+  @override
+  String get vacuumCleaning => 'Čisti';
+
+  @override
+  String get vacuumDocked => 'Na punjaču';
+
+  @override
+  String get vacuumReturning => 'Vraća se na punjač';
+
+  @override
+  String get vacuumPaused => 'Pauzirano';
+
+  @override
+  String get vacuumError => 'Greška';
+
+  @override
+  String get vacuumIdle => 'Miruje';
+
+  @override
+  String get vacuumStart => 'Pokreni';
+
+  @override
+  String get vacuumPause => 'Pauza';
+
+  @override
+  String get vacuumReturnHome => 'Na punjač';
+
+  @override
+  String get fanSpeed => 'Brzina';
+
+  @override
+  String get fanOscillate => 'Okretanje';
+
+  @override
+  String get targetHumidityLabel => 'Ciljna vlažnost';
+
+  @override
+  String get modeLabel => 'Režim';
+
+  @override
+  String get valueLabel => 'Vrednost';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

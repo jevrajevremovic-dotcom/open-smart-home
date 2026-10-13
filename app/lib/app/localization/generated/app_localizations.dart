@@ -3482,6 +3482,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Alarm code'**
   String get alarmCodeTitle;
+
+  /// No description provided for @vacuumCleaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning'**
+  String get vacuumCleaning;
+
+  /// No description provided for @vacuumDocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Docked'**
+  String get vacuumDocked;
+
+  /// No description provided for @vacuumReturning.
+  ///
+  /// In en, this message translates to:
+  /// **'Returning to dock'**
+  String get vacuumReturning;
+
+  /// No description provided for @vacuumPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get vacuumPaused;
+
+  /// No description provided for @vacuumError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get vacuumError;
+
+  /// No description provided for @vacuumIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Idle'**
+  String get vacuumIdle;
+
+  /// No description provided for @vacuumStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get vacuumStart;
+
+  /// No description provided for @vacuumPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get vacuumPause;
+
+  /// No description provided for @vacuumReturnHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Dock'**
+  String get vacuumReturnHome;
+
+  /// No description provided for @fanSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get fanSpeed;
+
+  /// No description provided for @fanOscillate.
+  ///
+  /// In en, this message translates to:
+  /// **'Oscillate'**
+  String get fanOscillate;
+
+  /// No description provided for @targetHumidityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target humidity'**
+  String get targetHumidityLabel;
+
+  /// No description provided for @modeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get modeLabel;
+
+  /// No description provided for @valueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get valueLabel;
 }
 
 class _AppLocalizationsDelegate

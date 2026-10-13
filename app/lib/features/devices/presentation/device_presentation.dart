@@ -90,6 +90,8 @@ abstract final class DevicePresentation {
       ),
       DeviceKind.person =>
         d.state.isActive == true ? Icons.person : Icons.person_outline,
+      DeviceKind.select => Icons.list_alt_outlined,
+      DeviceKind.number => Icons.tune,
       DeviceKind.unknown => Icons.device_unknown_outlined,
     };
   }
@@ -252,6 +254,28 @@ abstract final class DevicePresentation {
         l10n,
         WeatherCondition.fromHomeAssistant(s.raw),
       ),
+      DeviceKind.select => s.textValue ?? l10n.stateUnknown,
+      DeviceKind.number =>
+        s.numericValue == null
+            ? l10n.stateUnknown
+            : formatNumber(
+                locale,
+                s.numericValue!,
+                unit: s.unit == null ? null : ' ${s.unit}',
+              ),
+      DeviceKind.vacuum => switch (s.raw) {
+        'cleaning' => l10n.vacuumCleaning,
+        'docked' => l10n.vacuumDocked,
+        'returning' => l10n.vacuumReturning,
+        'paused' => l10n.vacuumPaused,
+        'error' => l10n.vacuumError,
+        _ => l10n.vacuumIdle,
+      },
+      DeviceKind.fan when s.isOn == true && s.percentage != null =>
+        '${l10n.stateOn} · ${s.percentage} %',
+      DeviceKind.humidifier || DeviceKind.dehumidifier
+          when s.isOn == true && s.targetHumidity != null =>
+        '${l10n.stateOn} · ${formatNumber(locale, s.targetHumidity!, unit: ' %')}',
       DeviceKind.person => switch (s.textValue) {
         'home' => l10n.personHome,
         'not_home' => l10n.personAway,

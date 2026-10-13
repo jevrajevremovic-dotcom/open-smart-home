@@ -89,6 +89,8 @@ class DeviceState {
     this.lastTriggered,
     this.windSpeed,
     this.windSpeedUnit,
+    this.percentage,
+    this.oscillating,
   });
 
   /// Home Assistant's state string, kept for diagnostics.
@@ -146,6 +148,10 @@ class DeviceState {
   /// Weather entities.
   final double? windSpeed;
   final String? windSpeedUnit;
+
+  /// Fan speed 0–100.
+  final int? percentage;
+  final bool? oscillating;
 }
 
 /// Allowed ranges and options, so controls never offer invalid values.
@@ -167,6 +173,11 @@ class DeviceLimits {
     this.alarmArmModes = const [],
     this.alarmCodeFormat,
     this.alarmCodeArmRequired = false,
+    this.options = const [],
+    this.minValue,
+    this.maxValue,
+    this.valueStep,
+    this.percentageStep,
   });
 
   static const DeviceLimits none = DeviceLimits();
@@ -191,6 +202,17 @@ class DeviceLimits {
   /// `number`, `text` or `null` (no code).
   final String? alarmCodeFormat;
   final bool alarmCodeArmRequired;
+
+  /// Choices of a select.
+  final List<String> options;
+
+  /// Range of a number entity.
+  final double? minValue;
+  final double? maxValue;
+  final double? valueStep;
+
+  /// Fan speed step (e.g. 33.33 for a 3-speed fan).
+  final double? percentageStep;
 }
 
 @immutable

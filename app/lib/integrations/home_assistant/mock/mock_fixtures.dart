@@ -86,6 +86,41 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'current_position': 100,
       'supported_features': 15, // OPEN | CLOSE | SET_POSITION | STOP
     }),
+    e('fan.bedroom_fan', 'off', {
+      'friendly_name': 'Ventilator spavaća soba',
+      'percentage': 0,
+      'percentage_step': 33.333333333333336,
+      'oscillating': false,
+      'supported_features': 1 | 2 | 16 | 32, // SPEED | OSCILLATE | OFF | ON
+    }),
+    e('vacuum.robot', 'docked', {
+      'friendly_name': 'Robot usisivač',
+      'battery_level': 100,
+      // PAUSE | STOP | RETURN_HOME | START
+      'supported_features': 4 | 8 | 16 | 8192,
+    }),
+    e('humidifier.bedroom', 'on', {
+      'friendly_name': 'Ovlaživač',
+      'humidity': 50,
+      'current_humidity': 42,
+      'min_humidity': 30,
+      'max_humidity': 80,
+      'mode': 'normal',
+      'available_modes': ['normal', 'eco', 'sleep'],
+      'supported_features': 1,
+    }),
+    e('input_select.house_mode', 'Kod kuće', {
+      'friendly_name': 'Režim kuće',
+      'options': ['Kod kuće', 'Odsutni', 'Noć'],
+    }),
+    e('input_number.night_temperature', '19.0', {
+      'friendly_name': 'Noćna temperatura',
+      'min': 15.0,
+      'max': 25.0,
+      'step': 0.5,
+      'unit_of_measurement': '°C',
+      'mode': 'slider',
+    }),
     e('alarm_control_panel.home_alarm', 'disarmed', {
       'friendly_name': 'Alarm',
       'code_format': 'number',

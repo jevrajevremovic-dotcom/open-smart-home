@@ -1972,4 +1972,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alarmCodeTitle => 'Alarm code';
+
+  @override
+  String get vacuumCleaning => 'Cleaning';
+
+  @override
+  String get vacuumDocked => 'Docked';
+
+  @override
+  String get vacuumReturning => 'Returning to dock';
+
+  @override
+  String get vacuumPaused => 'Paused';
+
+  @override
+  String get vacuumError => 'Error';
+
+  @override
+  String get vacuumIdle => 'Idle';
+
+  @override
+  String get vacuumStart => 'Start';
+
+  @override
+  String get vacuumPause => 'Pause';
+
+  @override
+  String get vacuumReturnHome => 'Dock';
+
+  @override
+  String get fanSpeed => 'Speed';
+
+  @override
+  String get fanOscillate => 'Oscillate';
+
+  @override
+  String get targetHumidityLabel => 'Target humidity';
+
+  @override
+  String get modeLabel => 'Mode';
+
+  @override
+  String get valueLabel => 'Value';
 }

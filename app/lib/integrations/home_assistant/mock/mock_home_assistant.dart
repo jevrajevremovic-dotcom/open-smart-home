@@ -863,6 +863,37 @@ class MockHomeAssistantServer {
         case ('alarm_control_panel', 'alarm_disarm'):
           // Demo code: 1234.
           if (data['code'] == '1234') state = 'disarmed';
+        case ('fan', 'set_percentage'):
+          final p = data['percentage'];
+          if (p is num) {
+            attrs['percentage'] = p.toInt();
+            state = p > 0 ? 'on' : 'off';
+          }
+        case ('fan', 'oscillate'):
+          attrs['oscillating'] = data['oscillating'] == true;
+        case ('fan', 'turn_on'):
+          state = 'on';
+          if ((attrs['percentage'] as num? ?? 0) == 0) attrs['percentage'] = 33;
+        case ('fan', 'turn_off'):
+          state = 'off';
+        case ('vacuum', 'start'):
+          state = 'cleaning';
+        case ('vacuum', 'pause'):
+          state = 'paused';
+        case ('vacuum', 'return_to_base'):
+          state = 'returning';
+        case ('humidifier', 'set_humidity'):
+          final h = data['humidity'];
+          if (h is num) attrs['humidity'] = h.toInt();
+        case ('humidifier', 'set_mode'):
+          final m = data['mode'];
+          if (m is String) attrs['mode'] = m;
+        case ('input_select' || 'select', 'select_option'):
+          final o = data['option'];
+          if (o is String && (attrs['options'] as List).contains(o)) state = o;
+        case ('input_number' || 'number', 'set_value'):
+          final v = data['value'];
+          if (v is num) state = v.toDouble().toString();
         case ('media_player', 'select_source'):
           final source = data['source'];
           if (source is String &&

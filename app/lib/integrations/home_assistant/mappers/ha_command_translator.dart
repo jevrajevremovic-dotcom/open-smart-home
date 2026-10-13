@@ -98,6 +98,48 @@ class HaCommandTranslator {
           _ => unsupported(),
         };
 
+      case SetFanSpeed(:final percent):
+        if (domain != 'fan') return unsupported();
+        return percent == 0
+            ? call('turn_off')
+            : call('set_percentage', {'percentage': percent});
+      case SetOscillation(:final on):
+        if (domain != 'fan') return unsupported();
+        return call('oscillate', {'oscillating': on});
+      case SetTargetHumidity(:final humidity):
+        if (domain != 'humidifier') return unsupported();
+        final min = device.limits.minHumidity ?? 0;
+        final max = device.limits.maxHumidity ?? 100;
+        return call('set_humidity', {
+          'humidity': humidity.clamp(min, max).round(),
+        });
+      case VacuumStart():
+        if (domain != 'vacuum') return unsupported();
+        return call('start');
+      case VacuumPause():
+        if (domain != 'vacuum') return unsupported();
+        return call('pause');
+      case VacuumReturnHome():
+        if (domain != 'vacuum') return unsupported();
+        return call('return_to_base');
+      case SelectOption(:final option):
+        if (domain != 'select' && domain != 'input_select') {
+          return unsupported();
+        }
+        _requireOption(option, device.limits.options, 'option');
+        return call('select_option', {'option': option});
+      case SetNumber(:final value):
+        if (domain != 'number' && domain != 'input_number') {
+          return unsupported();
+        }
+        final l = device.limits;
+        final step = l.valueStep;
+        var v = value.clamp(l.minValue ?? value, l.maxValue ?? value);
+        if (step != null && step > 0) {
+          final base = l.minValue ?? 0;
+          v = base + ((v - base) / step).round() * step;
+        }
+        return call('set_value', {'value': double.parse(v.toStringAsFixed(6))});
       case SelectSource(:final source):
         if (domain != 'media_player') return unsupported();
         _requireOption(source, device.limits.sources, 'source');

@@ -904,5 +904,19 @@
   "alarmArm_custom_bypass": "Custom",
   "alarmArmTitle": "Arm",
   "alarmDisarm": "Disarm",
-  "alarmCodeTitle": "Alarm code"
+  "alarmCodeTitle": "Alarm code",
+  "vacuumCleaning": "Cleaning",
+  "vacuumDocked": "Docked",
+  "vacuumReturning": "Returning to dock",
+  "vacuumPaused": "Paused",
+  "vacuumError": "Error",
+  "vacuumIdle": "Idle",
+  "vacuumStart": "Start",
+  "vacuumPause": "Pause",
+  "vacuumReturnHome": "Dock",
+  "fanSpeed": "Speed",
+  "fanOscillate": "Oscillate",
+  "targetHumidityLabel": "Target humidity",
+  "modeLabel": "Mode",
+  "valueLabel": "Value"
 }

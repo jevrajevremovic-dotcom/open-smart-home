@@ -15,6 +15,7 @@ import '../domain/smart_home_device.dart';
 import 'controls/alarm_controls.dart';
 import 'controls/climate_controls.dart';
 import 'controls/light_controls.dart';
+import 'controls/more_controls.dart';
 import 'controls/other_controls.dart';
 import 'device_history.dart';
 import 'device_presentation.dart';
@@ -119,6 +120,12 @@ class DeviceDetailScreen extends ConsumerWidget {
         DeviceKind.irrigation => [CoverControls(device: d)],
         DeviceKind.lock => [LockControls(device: d)],
         DeviceKind.alarm => [AlarmControls(device: d)],
+        DeviceKind.fan || DeviceKind.airPurifier => [FanControls(device: d)],
+        DeviceKind.humidifier ||
+        DeviceKind.dehumidifier => [HumidifierControls(device: d)],
+        DeviceKind.vacuum => [VacuumControls(device: d)],
+        DeviceKind.select => [SelectControls(device: d)],
+        DeviceKind.number => [NumberControls(device: d)],
         DeviceKind.mediaPlayer ||
         DeviceKind.speaker ||
         DeviceKind.television => [MediaControls(device: d)],

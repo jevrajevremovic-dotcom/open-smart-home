@@ -48,4 +48,11 @@ enum Capability {
   sourceSelection,
   cameraStream,
   cameraSnapshot,
+  fanSpeed,
+  oscillate,
+  vacuumStart,
+  vacuumPause,
+  vacuumReturnHome,
+  selectOption,
+  numberValue,
 }

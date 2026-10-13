@@ -60,6 +60,12 @@ enum DeviceKind {
 
   /// A household member (Home Assistant `person`): home / away / zone.
   person,
+
+  /// A list to pick one option from (`select`, `input_select`).
+  select,
+
+  /// A number to set (`number`, `input_number`).
+  number,
   unknown;
 
   bool get isLight =>

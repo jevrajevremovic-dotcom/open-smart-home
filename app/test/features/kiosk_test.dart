@@ -54,8 +54,16 @@ void main() {
       dimAfter: Duration.zero,
       pinHash: 'h',
       pinSalt: 's',
+      background: KioskBackground.dusk,
+      liteEffects: true,
     );
     final back = KioskSettings.fromJson(s.toJson());
+    expect(back.background, KioskBackground.dusk);
+    expect(back.liteEffects, isTrue);
+    expect(
+      KioskSettings.fromJson({'background': 'neon'}).background,
+      KioskBackground.aurora,
+    );
     expect(back.startInKiosk, isTrue);
     expect(back.dimAfter, Duration.zero);
     expect(back.hasPin, isTrue);

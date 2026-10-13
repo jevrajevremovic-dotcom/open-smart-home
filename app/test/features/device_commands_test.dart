@@ -35,7 +35,8 @@ final ac = device('climate.ac', 'cool', {
   'min_temp': 16,
   'max_temp': 30,
   'target_temp_step': 0.5,
-  'supported_features': 1 | 8,
+  'preset_modes': ['none', 'eco', 'sleep'],
+  'supported_features': 1 | 8 | 16,
 });
 final lock = device('lock.door', 'locked');
 final garage = device('cover.garage', 'closed', {
@@ -83,6 +84,16 @@ void main() {
             FailureKind.validation,
           ),
         ),
+      );
+    });
+
+    test('presets are validated and use the domain-specific service', () {
+      final eco = t.translate(ac, const SetPresetMode('eco'));
+      expect((eco.domain, eco.service), ('climate', 'set_preset_mode'));
+      expect(eco.data['preset_mode'], 'eco');
+      expect(
+        () => t.translate(ac, const SetPresetMode('boost')),
+        throwsA(isA<AppFailure>()),
       );
     });
 

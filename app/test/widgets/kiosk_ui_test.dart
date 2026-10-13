@@ -24,7 +24,15 @@ void main() {
       expect(find.byKey(const Key('kioskExit')), findsOneWidget);
       expect(find.byType(NavigationRail), findsNothing);
       expect(find.byType(NavigationBar), findsNothing);
-      expect(find.text(en.summaryTemperature), findsOneWidget);
+      for (final key in [
+        'kioskWeather',
+        'kioskRooms',
+        'kioskShortcuts',
+        'kioskTargetTemperature',
+      ]) {
+        expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+      }
+      expect(find.text(en.kioskDoorsWindows), findsOneWidget);
 
       await goTo(tester, AppRoutes.settings);
       expect(
@@ -108,6 +116,48 @@ void main() {
     await settle(tester, 10);
     expect(find.byType(NavigationRail), findsOneWidget);
     expect(find.byKey(const Key('dashboardStatusPane')), findsOneWidget);
+    await unmount(tester);
+  });
+
+  testWidgets('kiosk thermostat: dial buttons and presets', (tester) async {
+    await pumpApp(tester, signedIn: true, size: tablet);
+    await settle(tester, 10);
+    await startKiosk(tester);
+    String target() => tester
+        .widget<Text>(find.byKey(const Key('kioskTargetTemperature')))
+        .data!;
+    expect(target(), '23°');
+
+    await tester.tap(find.byKey(const Key('kioskIncreaseTemperature')));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('kioskIncreaseTemperature')));
+    await tester.pump();
+    expect(target(), '24°', reason: 'local value while debouncing');
+    await settle(tester, 12);
+    expect(target(), '24°', reason: 'confirmed by the server');
+
+    await tester.tap(find.byTooltip(en.presetSleep));
+    await settle(tester, 6);
+    expect(
+      tester.getSemantics(find.bySemanticsLabel(en.presetSleep)),
+      isSemantics(isSelected: true),
+    );
+    await unmount(tester);
+  });
+
+  testWidgets('portrait kiosk stacks the panels without overflow', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1280));
+    await settle(tester, 10);
+    await startKiosk(tester);
+    expect(find.byKey(const Key('kioskWeather')), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('kioskRooms')),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.byKey(const Key('kioskRooms')), findsOneWidget);
     await unmount(tester);
   });
 }

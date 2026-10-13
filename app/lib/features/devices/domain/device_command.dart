@@ -79,6 +79,14 @@ final class SetFanMode extends DeviceCommand {
   Capability get requiredCapability => Capability.fanMode;
 }
 
+/// Climate/fan/humidifier preset, e.g. `home`, `sleep`, `eco`.
+final class SetPresetMode extends DeviceCommand {
+  const SetPresetMode(this.mode);
+  final String mode;
+  @override
+  Capability get requiredCapability => Capability.presetMode;
+}
+
 final class SetVolume extends DeviceCommand {
   const SetVolume(this.percent) : assert(percent >= 0 && percent <= 100);
   final int percent;

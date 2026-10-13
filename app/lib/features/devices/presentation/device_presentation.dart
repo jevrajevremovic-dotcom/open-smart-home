@@ -278,6 +278,20 @@ abstract final class DevicePresentation {
     return s.textValue ?? l10n.stateUnknown;
   }
 
+  /// Standard Home Assistant preset names; custom ones are shown as-is.
+  static String presetLabel(AppLocalizations l10n, String preset) =>
+      switch (preset) {
+        'none' => l10n.presetNone,
+        'home' => l10n.presetHome,
+        'away' => l10n.presetAway,
+        'sleep' => l10n.presetSleep,
+        'eco' => l10n.presetEco,
+        'comfort' => l10n.presetComfort,
+        'boost' => l10n.presetBoost,
+        'activity' => l10n.presetActivity,
+        _ => preset,
+      };
+
   static String hvacModeLabel(AppLocalizations l10n, String? mode) =>
       switch (mode) {
         'off' => l10n.hvacOff,

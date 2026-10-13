@@ -516,5 +516,51 @@
   "weatherLocationDenied": "Location access was not allowed.",
   "weatherDeviceUnavailable": "Weather for your location is not available right now.",
   "weatherWind": "Wind",
-  "summaryOutdoor": "Outdoor"
+  "summaryOutdoor": "Outdoor",
+  "presetNone": "No preset",
+  "presetHome": "Home",
+  "presetAway": "Away",
+  "presetSleep": "Sleep",
+  "presetEco": "Eco",
+  "presetComfort": "Comfort",
+  "presetBoost": "Boost",
+  "presetActivity": "Activity",
+  "kioskShortcuts": "Shortcuts",
+  "kioskShortcutsEmpty": "Star devices to show them here.",
+  "kioskLightsOn": "{count, plural, =0{All lights off} =1{1 light on} other{{count} lights on}}",
+  "@kioskLightsOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "kioskClimate": "Climate",
+  "kioskAverage": "Average {value}",
+  "@kioskAverage": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "kioskOpenings": "{count, plural, =0{Everything closed} other{{count} open}}",
+  "@kioskOpenings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "kioskDoorsWindows": "Doors and windows",
+  "kioskPower": "Power now",
+  "kioskBackground": "Background",
+  "kioskBackgroundAurora": "Aurora",
+  "kioskBackgroundOcean": "Ocean",
+  "kioskBackgroundDusk": "Dusk",
+  "kioskBackgroundForest": "Forest",
+  "kioskLiteEffects": "Lighter effects",
+  "kioskLiteEffectsHint": "No glass blur, for slower tablets.",
+  "thermostatModes": "Modes",
+  "powerToggle": "On/off"
 }

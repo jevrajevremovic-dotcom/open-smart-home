@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+/// Gradient behind the kiosk dashboard's glass panels.
+enum KioskBackground { aurora, ocean, dusk, forest }
+
 /// Wall-panel options, stored locally (non-secret; the PIN only as a
 /// salted PBKDF2 hash).
 @immutable
@@ -11,6 +14,8 @@ class KioskSettings {
     this.returnHomeAfter = const Duration(seconds: 60),
     this.pinHash,
     this.pinSalt,
+    this.background = KioskBackground.aurora,
+    this.liteEffects = false,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -26,6 +31,11 @@ class KioskSettings {
           seconds(json['returnHomeAfterSeconds']) ?? d.returnHomeAfter,
       pinHash: json['pinHash'] is String ? json['pinHash']! as String : null,
       pinSalt: json['pinSalt'] is String ? json['pinSalt']! as String : null,
+      background: KioskBackground.values.firstWhere(
+        (b) => b.name == json['background'],
+        orElse: () => d.background,
+      ),
+      liteEffects: json['liteEffects'] == true,
     );
   }
 
@@ -39,6 +49,11 @@ class KioskSettings {
   final Duration returnHomeAfter;
   final String? pinHash;
   final String? pinSalt;
+
+  final KioskBackground background;
+
+  /// No backdrop blur (cheaper on slow wall tablets).
+  final bool liteEffects;
 
   bool get hasPin => pinHash != null && pinSalt != null;
 
@@ -67,7 +82,11 @@ class KioskSettings {
     String? pinHash,
     String? pinSalt,
     bool clearPin = false,
+    KioskBackground? background,
+    bool? liteEffects,
   }) => KioskSettings(
+    background: background ?? this.background,
+    liteEffects: liteEffects ?? this.liteEffects,
     startInKiosk: startInKiosk ?? this.startInKiosk,
     keepScreenOn: keepScreenOn ?? this.keepScreenOn,
     dimAfter: dimAfter ?? this.dimAfter,
@@ -83,5 +102,7 @@ class KioskSettings {
     'returnHomeAfterSeconds': returnHomeAfter.inSeconds,
     'pinHash': pinHash,
     'pinSalt': pinSalt,
+    'background': background.name,
+    'liteEffects': liteEffects,
   };
 }

@@ -1133,4 +1133,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get summaryOutdoor => 'Outdoor';
+
+  @override
+  String get presetNone => 'No preset';
+
+  @override
+  String get presetHome => 'Home';
+
+  @override
+  String get presetAway => 'Away';
+
+  @override
+  String get presetSleep => 'Sleep';
+
+  @override
+  String get presetEco => 'Eco';
+
+  @override
+  String get presetComfort => 'Comfort';
+
+  @override
+  String get presetBoost => 'Boost';
+
+  @override
+  String get presetActivity => 'Activity';
+
+  @override
+  String get kioskShortcuts => 'Shortcuts';
+
+  @override
+  String get kioskShortcutsEmpty => 'Star devices to show them here.';
+
+  @override
+  String kioskLightsOn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lights on',
+      one: '1 light on',
+      zero: 'All lights off',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskClimate => 'Climate';
+
+  @override
+  String kioskAverage(String value) {
+    return 'Average $value';
+  }
+
+  @override
+  String kioskOpenings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count open',
+      zero: 'Everything closed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskDoorsWindows => 'Doors and windows';
+
+  @override
+  String get kioskPower => 'Power now';
+
+  @override
+  String get kioskBackground => 'Background';
+
+  @override
+  String get kioskBackgroundAurora => 'Aurora';
+
+  @override
+  String get kioskBackgroundOcean => 'Ocean';
+
+  @override
+  String get kioskBackgroundDusk => 'Dusk';
+
+  @override
+  String get kioskBackgroundForest => 'Forest';
+
+  @override
+  String get kioskLiteEffects => 'Lighter effects';
+
+  @override
+  String get kioskLiteEffectsHint => 'No glass blur, for slower tablets.';
+
+  @override
+  String get thermostatModes => 'Modes';
+
+  @override
+  String get powerToggle => 'On/off';
 }

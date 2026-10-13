@@ -224,6 +224,19 @@ class MockHomeAssistantServer {
           if (mode is String && (attrs['hvac_modes']! as List).contains(mode)) {
             state = mode;
           }
+        case ('climate', 'turn_off'):
+          attrs['last_on_mode'] = state;
+          state = 'off';
+        case ('climate', 'turn_on'):
+          if (state == 'off') {
+            state = attrs.remove('last_on_mode') as String? ?? 'heat';
+          }
+        case ('climate', 'set_preset_mode'):
+          final mode = data['preset_mode'];
+          if (mode is String &&
+              (attrs['preset_modes']! as List).contains(mode)) {
+            attrs['preset_mode'] = mode;
+          }
         case ('cover', 'open_cover'):
           state = 'open';
           attrs['current_position'] = 100;

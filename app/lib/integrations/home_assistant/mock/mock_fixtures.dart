@@ -74,8 +74,10 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'target_temp_step': 0.5,
       'fan_modes': ['auto', 'low', 'high'],
       'fan_mode': 'auto',
-      'supported_features':
-          393, // TARGET_TEMPERATURE | FAN_MODE | TURN_OFF | TURN_ON
+      'preset_modes': ['none', 'home', 'sleep', 'away', 'eco'],
+      'preset_mode': 'home',
+      'hvac_action': 'heating',
+      'supported_features': 409, // TARGET_TEMPERATURE | PRESET_MODE | FAN_MODE | TURN_OFF | TURN_ON
     }),
     e('cover.living_room_blinds', 'open', {
       'friendly_name': 'Roletne dnevna soba',

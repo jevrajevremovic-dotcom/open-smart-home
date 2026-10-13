@@ -2078,6 +2078,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Outdoor'**
   String get summaryOutdoor;
+
+  /// No description provided for @presetNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No preset'**
+  String get presetNone;
+
+  /// No description provided for @presetHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get presetHome;
+
+  /// No description provided for @presetAway.
+  ///
+  /// In en, this message translates to:
+  /// **'Away'**
+  String get presetAway;
+
+  /// No description provided for @presetSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get presetSleep;
+
+  /// No description provided for @presetEco.
+  ///
+  /// In en, this message translates to:
+  /// **'Eco'**
+  String get presetEco;
+
+  /// No description provided for @presetComfort.
+  ///
+  /// In en, this message translates to:
+  /// **'Comfort'**
+  String get presetComfort;
+
+  /// No description provided for @presetBoost.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost'**
+  String get presetBoost;
+
+  /// No description provided for @presetActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get presetActivity;
+
+  /// No description provided for @kioskShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortcuts'**
+  String get kioskShortcuts;
+
+  /// No description provided for @kioskShortcutsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Star devices to show them here.'**
+  String get kioskShortcutsEmpty;
+
+  /// No description provided for @kioskLightsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{All lights off} =1{1 light on} other{{count} lights on}}'**
+  String kioskLightsOn(int count);
+
+  /// No description provided for @kioskClimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Climate'**
+  String get kioskClimate;
+
+  /// No description provided for @kioskAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Average {value}'**
+  String kioskAverage(String value);
+
+  /// No description provided for @kioskOpenings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Everything closed} other{{count} open}}'**
+  String kioskOpenings(int count);
+
+  /// No description provided for @kioskDoorsWindows.
+  ///
+  /// In en, this message translates to:
+  /// **'Doors and windows'**
+  String get kioskDoorsWindows;
+
+  /// No description provided for @kioskPower.
+  ///
+  /// In en, this message translates to:
+  /// **'Power now'**
+  String get kioskPower;
+
+  /// No description provided for @kioskBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get kioskBackground;
+
+  /// No description provided for @kioskBackgroundAurora.
+  ///
+  /// In en, this message translates to:
+  /// **'Aurora'**
+  String get kioskBackgroundAurora;
+
+  /// No description provided for @kioskBackgroundOcean.
+  ///
+  /// In en, this message translates to:
+  /// **'Ocean'**
+  String get kioskBackgroundOcean;
+
+  /// No description provided for @kioskBackgroundDusk.
+  ///
+  /// In en, this message translates to:
+  /// **'Dusk'**
+  String get kioskBackgroundDusk;
+
+  /// No description provided for @kioskBackgroundForest.
+  ///
+  /// In en, this message translates to:
+  /// **'Forest'**
+  String get kioskBackgroundForest;
+
+  /// No description provided for @kioskLiteEffects.
+  ///
+  /// In en, this message translates to:
+  /// **'Lighter effects'**
+  String get kioskLiteEffects;
+
+  /// No description provided for @kioskLiteEffectsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No glass blur, for slower tablets.'**
+  String get kioskLiteEffectsHint;
+
+  /// No description provided for @thermostatModes.
+  ///
+  /// In en, this message translates to:
+  /// **'Modes'**
+  String get thermostatModes;
+
+  /// No description provided for @powerToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'On/off'**
+  String get powerToggle;
 }
 
 class _AppLocalizationsDelegate

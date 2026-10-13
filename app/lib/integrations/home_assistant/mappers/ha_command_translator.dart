@@ -90,6 +90,13 @@ class HaCommandTranslator {
         if (domain != 'climate') return unsupported();
         _requireOption(mode, device.limits.fanModes, 'fan_mode');
         return call('set_fan_mode', {'fan_mode': mode});
+      case SetPresetMode(:final mode):
+        _requireOption(mode, device.limits.presetModes, 'preset_mode');
+        return switch (domain) {
+          'climate' || 'fan' => call('set_preset_mode', {'preset_mode': mode}),
+          'humidifier' => call('set_mode', {'mode': mode}),
+          _ => unsupported(),
+        };
 
       case SetVolume(:final percent):
         if (domain != 'media_player') return unsupported();

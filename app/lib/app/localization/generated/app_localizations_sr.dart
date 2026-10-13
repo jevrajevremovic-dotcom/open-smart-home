@@ -1133,6 +1133,103 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get summaryOutdoor => 'Napolju';
+
+  @override
+  String get presetNone => 'Bez režima';
+
+  @override
+  String get presetHome => 'Kod kuće';
+
+  @override
+  String get presetAway => 'Odsutni';
+
+  @override
+  String get presetSleep => 'Spavanje';
+
+  @override
+  String get presetEco => 'Eco';
+
+  @override
+  String get presetComfort => 'Udobno';
+
+  @override
+  String get presetBoost => 'Pojačano';
+
+  @override
+  String get presetActivity => 'Aktivnost';
+
+  @override
+  String get kioskShortcuts => 'Prečice';
+
+  @override
+  String get kioskShortcutsEmpty =>
+      'Označite uređaje zvezdicom da se pojave ovde.';
+
+  @override
+  String kioskLightsOn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count svetala upaljeno',
+      few: '$count svetla upaljena',
+      one: '$count svetlo upaljeno',
+      zero: 'Sva svetla ugašena',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskClimate => 'Klima';
+
+  @override
+  String kioskAverage(String value) {
+    return 'Prosečno $value';
+  }
+
+  @override
+  String kioskOpenings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Otvoreno: $count',
+      zero: 'Sve zatvoreno',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskDoorsWindows => 'Vrata i prozori';
+
+  @override
+  String get kioskPower => 'Trenutna snaga';
+
+  @override
+  String get kioskBackground => 'Pozadina';
+
+  @override
+  String get kioskBackgroundAurora => 'Polarna svetlost';
+
+  @override
+  String get kioskBackgroundOcean => 'Okean';
+
+  @override
+  String get kioskBackgroundDusk => 'Sumrak';
+
+  @override
+  String get kioskBackgroundForest => 'Šuma';
+
+  @override
+  String get kioskLiteEffects => 'Lakši efekti';
+
+  @override
+  String get kioskLiteEffectsHint =>
+      'Bez zamućenja stakla, za slabije tablete.';
+
+  @override
+  String get thermostatModes => 'Režimi';
+
+  @override
+  String get powerToggle => 'Uključi/isključi';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -71,6 +71,37 @@ class KioskSettingsSection extends ConsumerWidget {
           onChanged: (v) =>
               controller.update((s) => s.copyWith(keepScreenOn: v)),
         ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.kioskBackground),
+          trailing: DropdownButton<KioskBackground>(
+            key: const Key('kioskBackground'),
+            value: settings.background,
+            items: [
+              for (final b in KioskBackground.values)
+                DropdownMenuItem(
+                  value: b,
+                  child: Text(switch (b) {
+                    KioskBackground.aurora => l10n.kioskBackgroundAurora,
+                    KioskBackground.ocean => l10n.kioskBackgroundOcean,
+                    KioskBackground.dusk => l10n.kioskBackgroundDusk,
+                    KioskBackground.forest => l10n.kioskBackgroundForest,
+                  }),
+                ),
+            ],
+            onChanged: (v) => v == null
+                ? null
+                : controller.update((s) => s.copyWith(background: v)),
+          ),
+        ),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.kioskLiteEffects),
+          subtitle: Text(l10n.kioskLiteEffectsHint),
+          value: settings.liteEffects,
+          onChanged: (v) =>
+              controller.update((s) => s.copyWith(liteEffects: v)),
+        ),
         durationPicker(
           key: const Key('kioskDimAfter'),
           title: l10n.kioskDimAfter,

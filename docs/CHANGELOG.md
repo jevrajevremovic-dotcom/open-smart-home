@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Novi kiosk ekran za zidni tablet: stakleni paneli preko gradijenta (4 pozadine po izboru, opcija „lakši efekti” bez zamućenja), krupan sat sa sekundama, vreme sa prognozom, termostat sa polukružnim regulatorom (prevlačenje, −/+, uključi/isključi, režimi), sobe sa brojem upaljenih svetala i temperaturom, prečice (dodir uključuje/isključuje, dugi dodir otvara uređaj), scene i statusna traka (svetla, klima, vrata i prozori, snaga, upozorenja). Na uspravnom tabletu paneli idu jedan ispod drugog.
+- Nova komanda `SetPresetMode` (`climate`/`fan.set_preset_mode`, `humidifier.set_mode`) uz proveru dozvoljenih vrednosti.
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato

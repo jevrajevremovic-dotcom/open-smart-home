@@ -15,6 +15,7 @@ import '../../features/favorites/presentation/favorites_screen.dart';
 import '../../features/kiosk/application/kiosk_controller.dart';
 import '../../features/kiosk/presentation/kiosk_dashboard_screen.dart';
 import '../../features/kiosk/presentation/kiosk_shell.dart';
+import '../../features/restricted/application/restricted_mode.dart';
 import '../../features/weather/presentation/weather_screen.dart';
 import '../../features/onboarding/presentation/welcome_screen.dart';
 import '../../features/rooms/presentation/rooms_screen.dart';
@@ -75,6 +76,7 @@ String? resolveRedirect({
   required bool serverChosen,
   bool kioskActive = false,
   bool addingHome = false,
+  bool restricted = false,
 }) {
   if (sessionLoading) {
     return location == AppRoutes.splash ? null : AppRoutes.splash;
@@ -93,6 +95,11 @@ String? resolveRedirect({
   // (deep links, back navigation, …); leaving requires the PIN.
   if (kioskActive) return inKiosk ? null : AppRoutes.kiosk;
   if (inKiosk) return AppRoutes.home;
+  // Child / guest mode: no adding devices or homes.
+  if (restricted &&
+      (location.startsWith(AppRoutes.addDevice) || inOnboarding)) {
+    return AppRoutes.home;
+  }
   // Adding another home: the connect screens stay reachable.
   if (addingHome && location.startsWith('/connect')) return null;
   if (inOnboarding || location == AppRoutes.splash) return AppRoutes.home;
@@ -104,7 +111,11 @@ final routerProvider = Provider<GoRouter>((ref) {
   ref
     ..listen(sessionControllerProvider, (_, _) => refresh.value++)
     ..listen(kioskActiveProvider, (_, _) => refresh.value++)
-    ..listen(addingHomeProvider, (_, _) => refresh.value++);
+    ..listen(addingHomeProvider, (_, _) => refresh.value++)
+    ..listen(
+      restrictedModeProvider.select((s) => s.enabled),
+      (_, _) => refresh.value++,
+    );
 
   final router = GoRouter(
     initialLocation: AppRoutes.splash,
@@ -119,6 +130,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             ref.read(connectionSetupControllerProvider).profile != null,
         kioskActive: ref.read(kioskActiveProvider),
         addingHome: ref.read(addingHomeProvider),
+        restricted: ref.read(restrictedModeProvider).enabled,
       );
     },
     routes: [

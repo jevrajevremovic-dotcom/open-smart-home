@@ -2036,6 +2036,31 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get favoritesReorder => 'Promeni redosled';
+
+  @override
+  String get restrictedTitle => 'Režim za decu i goste';
+
+  @override
+  String get restrictedHint =>
+      'Skriva osetljive uređaje i zaključava podešavanja PIN-om na ovom uređaju. Ovlašćenja u Home Assistantu se ne menjaju; za prava ograničenja koristite posebnog HA korisnika.';
+
+  @override
+  String get restrictedHideSecurity => 'Sakrij brave, alarm i garažna vrata';
+
+  @override
+  String get restrictedHideCameras => 'Sakrij kamere';
+
+  @override
+  String get restrictedEnable => 'Uključi (postavi PIN)';
+
+  @override
+  String get restrictedActive => 'Režim za decu i goste je uključen';
+
+  @override
+  String get restrictedDisable => 'Isključi (PIN)';
+
+  @override
+  String get restrictedHidden => 'Nije dostupno u režimu za decu i goste.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

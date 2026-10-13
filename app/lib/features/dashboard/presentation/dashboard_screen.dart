@@ -25,6 +25,7 @@ import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_artwork.dart';
 import '../../media/presentation/media_sheet.dart';
 import '../../notifications/presentation/notifications.dart';
+import '../../restricted/application/restricted_mode.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
@@ -49,12 +50,15 @@ class DashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        key: const Key('openAssist'),
-        tooltip: context.l10n.assistTitle,
-        onPressed: () => showAssist(context),
-        child: const Icon(Icons.assistant_outlined),
-      ),
+      // Assist can unlock doors by voice: not in child / guest mode.
+      floatingActionButton: ref.watch(restrictedModeProvider).enabled
+          ? null
+          : FloatingActionButton(
+              key: const Key('openAssist'),
+              tooltip: context.l10n.assistTitle,
+              onPressed: () => showAssist(context),
+              child: const Icon(Icons.assistant_outlined),
+            ),
       body: const MockModeBanner(child: DashboardBody()),
     );
   }

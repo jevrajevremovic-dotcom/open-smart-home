@@ -18,6 +18,7 @@ import 'controls/light_controls.dart';
 import 'controls/more_controls.dart';
 import 'controls/other_controls.dart';
 import '../../kiosk/application/kiosk_controller.dart';
+import '../../restricted/application/restricted_mode.dart';
 import 'device_edit.dart';
 import 'device_history.dart';
 import 'device_presentation.dart';
@@ -48,6 +49,12 @@ class DeviceDetailScreen extends ConsumerWidget {
       );
     }
 
+    if (ref.watch(restrictedModeProvider).hides(device)) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: EmptyHintPlaceholder(text: l10n.restrictedHidden),
+      );
+    }
     final favorite = ref.watch(isFavoriteProvider(deviceId));
     return Scaffold(
       appBar: AppBar(
@@ -270,4 +277,33 @@ class _InfoSection extends ConsumerWidget {
       ),
     );
   }
+}
+
+class EmptyHintPlaceholder extends StatelessWidget {
+  const EmptyHintPlaceholder({super.key, required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.lock_outline,
+            size: 48,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            text,
+            key: const Key('restrictedHidden'),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    ),
+  );
 }

@@ -922,5 +922,13 @@
   "editDevice": "Edit name and room",
   "deviceSearchHint": "Search by name, room or type",
   "deviceSearchEmpty": "No device matches.",
-  "favoritesReorder": "Change order"
+  "favoritesReorder": "Change order",
+  "restrictedTitle": "Child / guest mode",
+  "restrictedHint": "Hides sensitive devices and locks settings with a PIN on this device. Home Assistant permissions don't change; for real limits use a separate HA user.",
+  "restrictedHideSecurity": "Hide locks, alarm and garage doors",
+  "restrictedHideCameras": "Hide cameras",
+  "restrictedEnable": "Turn on (set a PIN)",
+  "restrictedActive": "Child / guest mode is on",
+  "restrictedDisable": "Turn off (PIN)",
+  "restrictedHidden": "Not available in child / guest mode."
 }

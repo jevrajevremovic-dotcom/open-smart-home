@@ -9,17 +9,19 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/stale_data_banner.dart';
+import '../../restricted/application/restricted_mode.dart';
 import '../application/favorites_controller.dart';
 
 /// Favorite ids that still exist on the server, in the user's order.
 final existingFavoritesProvider = Provider<ValueList<String>>((ref) {
   final favorites = ref.watch(favoritesProvider);
   final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
+  final restricted = ref.watch(restrictedModeProvider);
   // Not synced yet: keep the stored order; tiles of missing devices hide.
   if (devices.isEmpty) return ValueList(favorites);
   return ValueList([
     for (final id in favorites)
-      if (devices.containsKey(id)) id,
+      if (devices[id] case final d? when !restricted.hides(d)) id,
   ]);
 });
 

@@ -84,6 +84,11 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - „Potvrda za brave i alarm”: posle dijaloga za potvrdu kritičnih komandi (otključavanje, garaža, alarm) traži se i otisak/lice/PIN.
 - Provera ide preko sistema (`local_auth`; Android BiometricPrompt, iOS Face ID/Touch ID); aplikacija ne vidi niti čuva biometrijske podatke. Kiosk koristi svoj PIN i ne zaključava se ovako.
 
+## Režim za decu i goste
+
+- Lokalno ograničenje interfejsa (skriveni osetljivi uređaji, zaključana podešavanja i dodavanje uređaja, bez Assista); PIN se čuva kao PBKDF2 heš kao kiosk PIN.
+- Nije zamena za HA ovlašćenja: token i dalje ima prava naloga. Za prava ograničenja treba poseban HA korisnik (ne-administrator).
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

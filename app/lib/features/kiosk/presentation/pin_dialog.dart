@@ -16,7 +16,7 @@ Future<bool> showKioskExitDialog(BuildContext context, WidgetRef ref) async {
   }
   final ok = await showDialog<bool>(
     context: context,
-    builder: (_) => _PinEntryDialog(
+    builder: (_) => PinEntryDialog(
       title: context.l10n.kioskEnterPin,
       onSubmit: (pin) async {
         final l10n = context.l10n;
@@ -39,7 +39,7 @@ Future<bool> showSetPinDialog(BuildContext context, WidgetRef ref) async {
   String? first;
   final ok = await showDialog<bool>(
     context: context,
-    builder: (_) => _PinEntryDialog(
+    builder: (_) => PinEntryDialog(
       title: l10n.kioskSetPin,
       helper: l10n.kioskPinHint,
       onSubmit: (pin) async {
@@ -52,7 +52,7 @@ Future<bool> showSetPinDialog(BuildContext context, WidgetRef ref) async {
   if (ok != true || first == null || !context.mounted) return false;
   final confirmed = await showDialog<bool>(
     context: context,
-    builder: (_) => _PinEntryDialog(
+    builder: (_) => PinEntryDialog(
       title: l10n.kioskPinConfirm,
       onSubmit: (pin) async {
         if (pin != first) return l10n.kioskPinMismatch;
@@ -66,8 +66,9 @@ Future<bool> showSetPinDialog(BuildContext context, WidgetRef ref) async {
 
 /// Digit-only, obscured PIN field. [onSubmit] returns an error message, or
 /// `null` to close the dialog with `true`.
-class _PinEntryDialog extends StatefulWidget {
-  const _PinEntryDialog({
+class PinEntryDialog extends StatefulWidget {
+  const PinEntryDialog({
+    super.key,
     required this.title,
     required this.onSubmit,
     this.helper,
@@ -78,10 +79,10 @@ class _PinEntryDialog extends StatefulWidget {
   final Future<String?> Function(String pin) onSubmit;
 
   @override
-  State<_PinEntryDialog> createState() => _PinEntryDialogState();
+  State<PinEntryDialog> createState() => _PinEntryDialogState();
 }
 
-class _PinEntryDialogState extends State<_PinEntryDialog> {
+class _PinEntryDialogState extends State<PinEntryDialog> {
   final _controller = TextEditingController();
   String? _error;
   bool _busy = false;

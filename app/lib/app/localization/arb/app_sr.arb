@@ -581,5 +581,13 @@
   "editDevice": "Izmeni ime i prostoriju",
   "deviceSearchHint": "Pretraga po imenu, prostoriji ili vrsti",
   "deviceSearchEmpty": "Nijedan uređaj ne odgovara.",
-  "favoritesReorder": "Promeni redosled"
+  "favoritesReorder": "Promeni redosled",
+  "restrictedTitle": "Režim za decu i goste",
+  "restrictedHint": "Skriva osetljive uređaje i zaključava podešavanja PIN-om na ovom uređaju. Ovlašćenja u Home Assistantu se ne menjaju; za prava ograničenja koristite posebnog HA korisnika.",
+  "restrictedHideSecurity": "Sakrij brave, alarm i garažna vrata",
+  "restrictedHideCameras": "Sakrij kamere",
+  "restrictedEnable": "Uključi (postavi PIN)",
+  "restrictedActive": "Režim za decu i goste je uključen",
+  "restrictedDisable": "Isključi (PIN)",
+  "restrictedHidden": "Nije dostupno u režimu za decu i goste."
 }

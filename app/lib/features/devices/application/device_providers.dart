@@ -1,3 +1,5 @@
+import '../../restricted/application/restricted_mode.dart';
+
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,6 +53,7 @@ final syncStatusProvider = Provider<SyncStatus>(
 /// Devices meant for normal lists: no auxiliary entities, no routines.
 final visibleDeviceIdsProvider = Provider<ValueList<String>>((ref) {
   final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
+  final restricted = ref.watch(restrictedModeProvider);
   final visible =
       devices.values
           .where(
@@ -59,7 +62,8 @@ final visibleDeviceIdsProvider = Provider<ValueList<String>>((ref) {
                 !d.kind.isRoutine &&
                 d.kind != DeviceKind.unknown &&
                 d.kind != DeviceKind.weather &&
-                d.kind != DeviceKind.person,
+                d.kind != DeviceKind.person &&
+                !restricted.hides(d),
           )
           .toList()
         ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));

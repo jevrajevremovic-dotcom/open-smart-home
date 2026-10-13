@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Režim za decu i goste (Podešavanja → Bezbednost): skriva brave, alarm, garažna vrata i kamere, isključuje Assist i dodavanje uređaja, a podešavanja zaključava PIN-om (PBKDF2 heš). Lokalno na uređaju; ovlašćenja u HA se ne menjaju.
 - Izmena imena i prostorije bilo kog uređaja sa njegovog ekrana (HA uređaj ili, za pomoćnike, entitet; nije dostupno u kiosku).
 - Pretraga svih uređaja po imenu, prostoriji, vrsti ili stanju.
 - Promena redosleda omiljenih (prevlačenjem) – isti redosled je na početnom ekranu i u kiosku.

@@ -12,6 +12,8 @@ import '../../devices/application/device_providers.dart';
 import '../../kiosk/presentation/kiosk_settings_section.dart';
 import '../../app_lock/application/app_lock.dart';
 import '../../assist/application/voice_providers.dart';
+import '../../restricted/application/restricted_mode.dart';
+import '../../restricted/presentation/restricted_settings.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
 import 'language_selector.dart';
@@ -36,6 +38,16 @@ class SettingsScreen extends ConsumerWidget {
       child: Text(title, style: textTheme.titleSmall),
     );
 
+    // Child / guest mode: settings are closed until the PIN is entered.
+    if (ref.watch(restrictedModeProvider).enabled) {
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.settingsTitle)),
+        body: ListView(
+          padding: const EdgeInsets.all(16),
+          children: const [RestrictedActiveCard()],
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: MockModeBanner(
@@ -124,6 +136,9 @@ class SettingsScreen extends ConsumerWidget {
                           .update((s) => s.copyWith(confirmCritical: v)),
                     ),
                   ],
+                  if (!(ref.watch(deviceAuthAvailableProvider).value ?? false))
+                    section(l10n.securitySection),
+                  const RestrictedSettingsTile(),
                   section(l10n.privacySection),
                   if (ref.watch(deviceLocatorProvider).isSupported)
                     SwitchListTile(

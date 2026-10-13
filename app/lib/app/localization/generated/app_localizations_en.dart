@@ -2026,4 +2026,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favoritesReorder => 'Change order';
+
+  @override
+  String get restrictedTitle => 'Child / guest mode';
+
+  @override
+  String get restrictedHint =>
+      'Hides sensitive devices and locks settings with a PIN on this device. Home Assistant permissions don\'t change; for real limits use a separate HA user.';
+
+  @override
+  String get restrictedHideSecurity => 'Hide locks, alarm and garage doors';
+
+  @override
+  String get restrictedHideCameras => 'Hide cameras';
+
+  @override
+  String get restrictedEnable => 'Turn on (set a PIN)';
+
+  @override
+  String get restrictedActive => 'Child / guest mode is on';
+
+  @override
+  String get restrictedDisable => 'Turn off (PIN)';
+
+  @override
+  String get restrictedHidden => 'Not available in child / guest mode.';
 }

@@ -3590,6 +3590,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change order'**
   String get favoritesReorder;
+
+  /// No description provided for @restrictedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Child / guest mode'**
+  String get restrictedTitle;
+
+  /// No description provided for @restrictedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hides sensitive devices and locks settings with a PIN on this device. Home Assistant permissions don\'t change; for real limits use a separate HA user.'**
+  String get restrictedHint;
+
+  /// No description provided for @restrictedHideSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide locks, alarm and garage doors'**
+  String get restrictedHideSecurity;
+
+  /// No description provided for @restrictedHideCameras.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide cameras'**
+  String get restrictedHideCameras;
+
+  /// No description provided for @restrictedEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on (set a PIN)'**
+  String get restrictedEnable;
+
+  /// No description provided for @restrictedActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Child / guest mode is on'**
+  String get restrictedActive;
+
+  /// No description provided for @restrictedDisable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off (PIN)'**
+  String get restrictedDisable;
+
+  /// No description provided for @restrictedHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available in child / guest mode.'**
+  String get restrictedHidden;
 }
 
 class _AppLocalizationsDelegate

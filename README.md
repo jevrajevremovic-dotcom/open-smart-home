@@ -196,4 +196,6 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 
 ## Doprinos i licenca
 
-Doprinosi su dobrodošli – vidi [CONTRIBUTING.md](CONTRIBUTING.md). Problemi i rešenja: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). Licenca još nije izabrana (predlog: Apache-2.0, ista kao Home Assistant) – dodati `LICENSE` pre prvog javnog objavljivanja.
+Doprinosi su dobrodošli – vidi [CONTRIBUTING.md](CONTRIBUTING.md). Problemi i rešenja: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
+
+Licenca: [Apache License 2.0](LICENSE) – vidi i [NOTICE](NOTICE). Projekat nije povezan sa Home Assistant projektom niti ga on podržava.

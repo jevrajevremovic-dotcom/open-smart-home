@@ -166,6 +166,18 @@ void main() {
       AppRoutes.device('light.living_room_ambient'),
       AppRoutes.energy,
       AppRoutes.settings,
+      AppRoutes.weather,
+      AppRoutes.calendar,
+      AppRoutes.addDevice,
+      AppRoutes.allDevices,
+      AppRoutes.device('media_player.living_room_speaker'),
+      AppRoutes.device('alarm_control_panel.home_alarm'),
+      AppRoutes.device('fan.bedroom_fan'),
+      AppRoutes.device('humidifier.bedroom'),
+      AppRoutes.device('vacuum.robot'),
+      AppRoutes.device('input_number.night_temperature'),
+      AppRoutes.device('sensor.living_room_temperature'),
+      AppRoutes.device('camera.driveway'),
     ]) {
       await goTo(tester, location);
       expect(tester.takeException(), isNull, reason: location);

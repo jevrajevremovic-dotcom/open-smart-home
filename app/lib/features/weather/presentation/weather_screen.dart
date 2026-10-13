@@ -105,34 +105,41 @@ class _NowCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              weatherIcon(now.condition),
-              size: 72,
-              color: theme.colorScheme.primary,
-            ),
-            const SizedBox(width: 16),
-            Text(t(now.temperature), style: theme.textTheme.displayMedium),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    weatherConditionLabel(l10n, now.condition),
-                    style: theme.textTheme.titleLarge,
-                  ),
-                  for (final line in details)
-                    Text(
-                      line,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
+            Row(
+              children: [
+                Icon(
+                  weatherIcon(now.condition),
+                  size: 64,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(width: 16),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      t(now.temperature),
+                      style: theme.textTheme.displayMedium,
                     ),
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
+            const SizedBox(height: 8),
+            Text(
+              weatherConditionLabel(l10n, now.condition),
+              style: theme.textTheme.titleLarge,
+            ),
+            for (final line in details)
+              Text(
+                line,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
           ],
         ),
       ),

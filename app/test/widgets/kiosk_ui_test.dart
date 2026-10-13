@@ -210,4 +210,15 @@ void main() {
     expect(find.byKey(const Key('kioskExit')), findsNothing);
     await unmount(tester);
   });
+
+  testWidgets('kiosk with larger system text has no overflow', (tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    await pumpApp(tester, signedIn: true, size: tablet);
+    await settle(tester, 10);
+    await startKiosk(tester);
+    await settle(tester, 10);
+    expect(tester.takeException(), isNull);
+    await unmount(tester);
+  });
 }

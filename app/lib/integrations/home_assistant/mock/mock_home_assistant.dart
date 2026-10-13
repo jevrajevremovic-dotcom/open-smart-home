@@ -7,6 +7,7 @@ import '../../../core/errors/app_failure.dart';
 import '../../../core/network/server_address.dart';
 import '../api/home_assistant_api.dart';
 import '../auth/ha_auth_client.dart';
+import '../models/ha_calendar.dart';
 import '../models/ha_models.dart';
 import '../websocket/ha_socket.dart';
 import 'mock_camera_image.dart';
@@ -44,6 +45,56 @@ class MockHomeAssistantServer {
   final Map<String, Map<String, Object?>> _states = {};
 
   DateTime now() => _clock();
+
+  /// Demo calendars (`GET /api/calendars`).
+  final List<Map<String, Object?>> calendars = const [
+    {'entity_id': 'calendar.porodica', 'name': 'Porodica'},
+    {'entity_id': 'calendar.posao', 'name': 'Posao'},
+  ];
+
+  /// Demo events around "now", in the documented response format.
+  List<Map<String, Object?>> calendarEvents(String calendarId) {
+    final now = _clock();
+    DateTime day(int offset) => DateTime(now.year, now.month, now.day + offset);
+    Map<String, Object?> timed(String summary, int offset, int h1, int h2) => {
+      'summary': summary,
+      'start': {
+        'dateTime': day(offset).add(Duration(hours: h1)).toIso8601String(),
+      },
+      'end': {
+        'dateTime': day(offset).add(Duration(hours: h2)).toIso8601String(),
+      },
+    };
+    Map<String, Object?> allDay(String summary, int offset, [int days = 1]) => {
+      'summary': summary,
+      'start': {'date': _date(day(offset))},
+      'end': {'date': _date(day(offset + days))},
+    };
+    return switch (calendarId) {
+      'calendar.porodica' => [
+        timed('Vrtić', 0, 8, 16),
+        allDay('Rođendan – Ana', 1),
+        timed('Trening', 2, 18, 19),
+        timed('Servis kotla', 3, 10, 11),
+        allDay('Vikend kod bake', 9, 2),
+        timed('Roditeljski sastanak', 16, 17, 18),
+        timed('Zubar', 24, 9, 10),
+        for (var w = 0; w < 6; w++) timed('Bazen', 7 * w + 5, 17, 18),
+      ],
+      'calendar.posao' => [
+        timed('Sastanak tima', 0, 9, 11),
+        timed('Prezentacija', 1, 13, 14),
+        timed('Planiranje', 7, 10, 12),
+        allDay('Konferencija', 14, 2),
+      ],
+      _ => const [],
+    };
+  }
+
+  static String _date(DateTime d) =>
+      '${d.year.toString().padLeft(4, '0')}-'
+      '${d.month.toString().padLeft(2, '0')}-'
+      '${d.day.toString().padLeft(2, '0')}';
 
   /// Camera snapshots served so far (lets tests check polling stops).
   int cameraRequests = 0;
@@ -604,6 +655,30 @@ class MockHomeAssistantApi implements HomeAssistantApi {
           'forecast': hourly ? server.hourlyForecast() : server.dailyForecast(),
         },
     };
+  }
+
+  @override
+  Future<List<HaCalendar>> fetchCalendars() async {
+    await _requireAuth();
+    await _latency();
+    return HaCalendar.parseList(server.calendars);
+  }
+
+  @override
+  Future<List<HaCalendarEvent>> fetchCalendarEvents(
+    String calendarId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    await _requireAuth();
+    await _latency();
+    return [
+      for (final e in HaCalendarEvent.parseList(
+        server.calendarEvents(calendarId),
+        calendarId,
+      ))
+        if (e.start.isBefore(end) && e.end.isAfter(start)) e,
+    ];
   }
 
   @override

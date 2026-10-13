@@ -8,6 +8,7 @@ import '../../features/connection/presentation/server_address_screen.dart';
 import '../../features/connection/presentation/token_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/devices/presentation/device_detail_screen.dart';
+import '../../features/calendar/presentation/calendar_screen.dart';
 import '../../features/energy/presentation/energy_screen.dart';
 import '../../features/favorites/presentation/favorites_screen.dart';
 import '../../features/kiosk/application/kiosk_controller.dart';
@@ -33,6 +34,7 @@ abstract final class AppRoutes {
   static const settings = '/settings';
   static const energy = '/energy';
   static const weather = '/weather';
+  static const calendar = '/calendar';
   static String weatherFor({bool kiosk = false}) =>
       '${kiosk ? AppRoutes.kiosk : ''}$weather';
 
@@ -197,6 +199,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.weather,
             builder: (_, _) => const WeatherScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.calendar,
+            builder: (_, _) => const CalendarScreen(),
           ),
           GoRoute(
             path: AppRoutes.allDevices,

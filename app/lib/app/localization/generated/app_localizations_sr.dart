@@ -1362,6 +1362,44 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get kioskShowCamerasHint =>
       'Sliku kamera vidi svako ko gleda u zidni tablet.';
+
+  @override
+  String get calendarTitle => 'Kalendar';
+
+  @override
+  String get calendarToday => 'Danas';
+
+  @override
+  String get calendarTomorrow => 'Sutra';
+
+  @override
+  String get calendarAllDay => 'Ceo dan';
+
+  @override
+  String get calendarNoEvents => 'Nema događaja';
+
+  @override
+  String get calendarNone =>
+      'U Home Assistantu nema kalendara. Dodajte ga tamo, na primer Google Calendar, CalDAV ili integraciju Local Calendar.';
+
+  @override
+  String get calendarUnavailable => 'Kalendar trenutno nije dostupan.';
+
+  @override
+  String get calendarPrevMonth => 'Prethodni mesec';
+
+  @override
+  String get calendarNextMonth => 'Sledeći mesec';
+
+  @override
+  String get calendarBackToToday => 'Danas';
+
+  @override
+  String get kioskShowCalendar => 'Prikaži kalendar';
+
+  @override
+  String get kioskShowCalendarHint =>
+      'Događaje vidi svako ko gleda u zidni tablet.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

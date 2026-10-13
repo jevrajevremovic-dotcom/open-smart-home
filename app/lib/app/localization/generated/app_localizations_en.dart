@@ -1355,4 +1355,42 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kioskShowCamerasHint =>
       'Camera pictures are visible to anyone looking at the wall tablet.';
+
+  @override
+  String get calendarTitle => 'Calendar';
+
+  @override
+  String get calendarToday => 'Today';
+
+  @override
+  String get calendarTomorrow => 'Tomorrow';
+
+  @override
+  String get calendarAllDay => 'All day';
+
+  @override
+  String get calendarNoEvents => 'No events';
+
+  @override
+  String get calendarNone =>
+      'Home Assistant has no calendars. Add one there, for example Google Calendar, CalDAV or the Local Calendar integration.';
+
+  @override
+  String get calendarUnavailable => 'The calendar isn\'t available right now.';
+
+  @override
+  String get calendarPrevMonth => 'Previous month';
+
+  @override
+  String get calendarNextMonth => 'Next month';
+
+  @override
+  String get calendarBackToToday => 'Today';
+
+  @override
+  String get kioskShowCalendar => 'Show calendar';
+
+  @override
+  String get kioskShowCalendarHint =>
+      'Events are visible to anyone looking at the wall tablet.';
 }

@@ -22,6 +22,8 @@ import '../../weather/presentation/weather_labels.dart';
 import '../../household/application/household_providers.dart';
 import '../../household/presentation/person_avatar.dart';
 import '../application/kiosk_controller.dart';
+import '../../calendar/presentation/calendar_browser.dart';
+import '../../calendar/presentation/calendar_widgets.dart';
 import 'glass.dart';
 
 /// Large clock with small seconds and the date underneath.
@@ -338,60 +340,66 @@ class _RoomRow extends ConsumerWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () => context.push(AppRoutes.room(roomId, kiosk: true)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: _roomColors[colorIndex % _roomColors.length],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(roomIcon(icon), color: Colors.white, size: 22),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Text(
-                name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: GlassColors.text,
+      child: LayoutBuilder(
+        builder: (context, c) {
+          // Narrow panel (next to the calendar): only the lights pill.
+          final compact = c.maxWidth < 300;
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: _roomColors[colorIndex % _roomColors.length],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(roomIcon(icon), color: Colors.white, size: 22),
                 ),
-              ),
-            ),
-            if (summary.lightsOn > 0)
-              _Pill(
-                color: amber.container,
-                foreground: amber.onContainer,
-                icon: Icons.lightbulb,
-                text: '${summary.lightsOn}',
-                semantics: l10n.roomLightsOn(summary.lightsOn),
-              ),
-            if (summary.temperature != null) ...[
-              const SizedBox(width: 6),
-              _Pill(
-                color: GlassColors.fill,
-                foreground: GlassColors.text,
-                text: formatNumber(
-                  l10n.localeName,
-                  summary.temperature!,
-                  unit: '°',
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: GlassColors.text,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-            if (summary.alertCount > 0) ...[
-              const SizedBox(width: 6),
-              Icon(
-                Icons.warning_amber_rounded,
-                color: context.statusColors.warning,
-                semanticLabel: l10n.summaryAlerts,
-              ),
-            ],
-          ],
-        ),
+                if (summary.lightsOn > 0)
+                  _Pill(
+                    color: amber.container,
+                    foreground: amber.onContainer,
+                    icon: Icons.lightbulb,
+                    text: '${summary.lightsOn}',
+                    semantics: l10n.roomLightsOn(summary.lightsOn),
+                  ),
+                if (summary.temperature != null && !compact) ...[
+                  const SizedBox(width: 6),
+                  _Pill(
+                    color: GlassColors.fill,
+                    foreground: GlassColors.text,
+                    text: formatNumber(
+                      l10n.localeName,
+                      summary.temperature!,
+                      unit: '°',
+                    ),
+                  ),
+                ],
+                if (summary.alertCount > 0) ...[
+                  const SizedBox(width: 6),
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: context.statusColors.warning,
+                    semanticLabel: l10n.summaryAlerts,
+                  ),
+                ],
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -443,9 +451,17 @@ class _Pill extends StatelessWidget {
 /// Favorite devices as large glass tiles. Tap switches (or activates),
 /// long press opens the device.
 class KioskShortcutsPanel extends ConsumerWidget {
-  const KioskShortcutsPanel({super.key, this.scrollable = true});
+  const KioskShortcutsPanel({
+    super.key,
+    this.scrollable = true,
+    this.sceneIds = const [],
+  });
 
   final bool scrollable;
+
+  /// Scenes shown as chips under the title (when there is no room for a
+  /// separate scenes panel).
+  final List<String> sceneIds;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -482,7 +498,27 @@ class KioskShortcutsPanel extends ConsumerWidget {
         mainAxisSize: scrollable ? MainAxisSize.max : MainAxisSize.min,
         children: [
           GlassTitle(l10n.kioskShortcuts),
-          if (scrollable && ids.isNotEmpty) Expanded(child: body) else body,
+          if (sceneIds.isNotEmpty) ...[
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (final id in sceneIds)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: KioskSceneChip(sceneId: id),
+                    ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+          if (scrollable)
+            Expanded(
+              child: ids.isEmpty ? SingleChildScrollView(child: body) : body,
+            )
+          else
+            body,
         ],
       ),
     );
@@ -626,49 +662,42 @@ class KioskScenesPanel extends ConsumerWidget {
               spacing: 10,
               runSpacing: 10,
               children: [
-                for (final id in sceneIds)
-                  Consumer(
-                    builder: (context, ref, _) {
-                      final d = ref.watch(deviceProvider(id));
-                      if (d == null) return const SizedBox.shrink();
-                      return ActionChip(
-                        backgroundColor: GlassColors.fill,
-                        side: const BorderSide(color: GlassColors.border),
-                        avatar: const Icon(
-                          Icons.play_arrow_rounded,
-                          color: GlassColors.text,
-                        ),
-                        label: Text(
-                          d.name,
-                          style: const TextStyle(color: GlassColors.text),
-                        ),
-                        onPressed: d.available
-                            ? () async {
-                                final messenger = ScaffoldMessenger.of(context);
-                                if (await runDeviceCommand(
-                                  context,
-                                  ref,
-                                  d,
-                                  const Activate(),
-                                )) {
-                                  messenger.showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        l10n.sceneActivated(d.name),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              }
-                            : null,
-                      );
-                    },
-                  ),
+                for (final id in sceneIds) KioskSceneChip(sceneId: id),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+/// A scene as a glass chip; tap activates it.
+class KioskSceneChip extends ConsumerWidget {
+  const KioskSceneChip({super.key, required this.sceneId});
+
+  final String sceneId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final d = ref.watch(deviceProvider(sceneId));
+    if (d == null) return const SizedBox.shrink();
+    return ActionChip(
+      backgroundColor: GlassColors.fill,
+      side: const BorderSide(color: GlassColors.border),
+      avatar: const Icon(Icons.play_arrow_rounded, color: GlassColors.text),
+      label: Text(d.name, style: const TextStyle(color: GlassColors.text)),
+      onPressed: d.available
+          ? () async {
+              final messenger = ScaffoldMessenger.of(context);
+              if (await runDeviceCommand(context, ref, d, const Activate())) {
+                messenger.showSnackBar(
+                  SnackBar(content: Text(l10n.sceneActivated(d.name))),
+                );
+              }
+            }
+          : null,
     );
   }
 }
@@ -928,6 +957,30 @@ class KioskPeople extends ConsumerWidget {
               child: PersonAvatar(personId: id, size: 48),
             ),
         ],
+      ),
+    );
+  }
+}
+
+/// Agenda and month of the Home Assistant calendars.
+class KioskCalendarPanel extends ConsumerWidget {
+  const KioskCalendarPanel({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = context.l10n.localeName;
+    return GlassPanel(
+      key: const Key('kioskCalendar'),
+      padding: const EdgeInsets.fromLTRB(20, 18, 16, 12),
+      child: CalendarBrowser(
+        palette: CalendarPalette.glass,
+        fitGrid: true,
+        header: GlassTitle(
+          toBeginningOfSentenceCase(
+            DateFormat.MMMMEEEEd(locale).format(ref.watch(kioskNowProvider)),
+            locale,
+          ),
+        ),
       ),
     );
   }

@@ -176,11 +176,23 @@ class DashboardBody extends ConsumerWidget {
               padding: const EdgeInsets.only(top: 12),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: FilledButton.tonalIcon(
-                  key: const Key('openEnergy'),
-                  onPressed: () => context.push(AppRoutes.energy),
-                  icon: const Icon(Icons.bolt),
-                  label: Text(context.l10n.energyTitle),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    FilledButton.tonalIcon(
+                      key: const Key('openEnergy'),
+                      onPressed: () => context.push(AppRoutes.energy),
+                      icon: const Icon(Icons.bolt),
+                      label: Text(context.l10n.energyTitle),
+                    ),
+                    FilledButton.tonalIcon(
+                      key: const Key('openCalendar'),
+                      onPressed: () => context.push(AppRoutes.calendar),
+                      icon: const Icon(Icons.calendar_month_outlined),
+                      label: Text(context.l10n.calendarTitle),
+                    ),
+                  ],
                 ),
               ),
             ),

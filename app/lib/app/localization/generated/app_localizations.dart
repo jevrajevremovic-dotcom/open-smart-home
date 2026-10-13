@@ -2402,6 +2402,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Camera pictures are visible to anyone looking at the wall tablet.'**
   String get kioskShowCamerasHint;
+
+  /// No description provided for @calendarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get calendarTitle;
+
+  /// No description provided for @calendarToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get calendarToday;
+
+  /// No description provided for @calendarTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get calendarTomorrow;
+
+  /// No description provided for @calendarAllDay.
+  ///
+  /// In en, this message translates to:
+  /// **'All day'**
+  String get calendarAllDay;
+
+  /// No description provided for @calendarNoEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'No events'**
+  String get calendarNoEvents;
+
+  /// No description provided for @calendarNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no calendars. Add one there, for example Google Calendar, CalDAV or the Local Calendar integration.'**
+  String get calendarNone;
+
+  /// No description provided for @calendarUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The calendar isn\'t available right now.'**
+  String get calendarUnavailable;
+
+  /// No description provided for @calendarPrevMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get calendarPrevMonth;
+
+  /// No description provided for @calendarNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get calendarNextMonth;
+
+  /// No description provided for @calendarBackToToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get calendarBackToToday;
+
+  /// No description provided for @kioskShowCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Show calendar'**
+  String get kioskShowCalendar;
+
+  /// No description provided for @kioskShowCalendarHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Events are visible to anyone looking at the wall tablet.'**
+  String get kioskShowCalendarHint;
 }
 
 class _AppLocalizationsDelegate

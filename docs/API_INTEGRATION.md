@@ -17,6 +17,8 @@ Home Assistant se oglašava kao `_home-assistant._tcp` (integracija *Zeroconf*, 
 | `GET /api/config` | `fetchConfig()` | naziv lokacije, verzija, vremenska zona, jedinice |
 | `GET /api/states` | `fetchStates()` | početno učitavanje svih entiteta |
 | `POST /api/services/<domain>/<service>` | `callService()` | komande; odgovor je lista promenjenih stanja |
+| `GET /api/calendars` | `fetchCalendars()` | lista kalendara (Google, CalDAV, Local Calendar…) |
+| `GET /api/calendars/<entity_id>?start=&end=` | `fetchCalendarEvents()` | događaji u opsegu (ponavljajući već razvijeni); `start`/`end` kao `dateTime` ili `date` (ceo dan, kraj isključiv); ID se proverava (`calendar.[a-z0-9_]+`) |
 | `GET /api/camera_proxy/<entity_id>` | `fetchImage()` | snimak kamere (JPEG/PNG); osvežava se svake 2 s samo dok je kamera prikazana |
 | `GET <entity_picture>` (npr. `/api/image/serve/<id>/512x512`) | `fetchImage()` | slika ukućana; prihvataju se samo putanje na samom HA serveru koje počinju sa `/api/`, tako da token nikad ne ide drugom hostu; spoljne slike se ne učitavaju (prikazuju se inicijali); najviše 5 MB |
 

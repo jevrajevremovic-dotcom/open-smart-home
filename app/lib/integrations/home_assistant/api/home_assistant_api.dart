@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import '../../../core/network/server_address.dart';
+import '../models/ha_calendar.dart';
 import '../models/ha_models.dart';
 
 /// Outcome of probing a server before the user has a token.
@@ -48,6 +49,17 @@ abstract interface class HomeAssistantApi {
     String service, {
     Map<String, Object?> data = const {},
   });
+
+  /// `GET /api/calendars` – calendar entities.
+  Future<List<HaCalendar>> fetchCalendars();
+
+  /// `GET /api/calendars/<entity_id>?start=&end=` – events overlapping the
+  /// range (expanded recurring events included).
+  Future<List<HaCalendarEvent>> fetchCalendarEvents(
+    String calendarId,
+    DateTime start,
+    DateTime end,
+  );
 
   /// `GET` of an image served by Home Assistant itself (e.g. a person's
   /// `entity_picture`, `/api/image/serve/...`). Only server-relative

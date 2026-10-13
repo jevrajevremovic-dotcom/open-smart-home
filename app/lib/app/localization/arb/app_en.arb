@@ -640,5 +640,17 @@
   "cameraFullscreen": "Full screen",
   "cameraLoading": "Loading the camera…",
   "kioskShowCameras": "Show cameras",
-  "kioskShowCamerasHint": "Camera pictures are visible to anyone looking at the wall tablet."
+  "kioskShowCamerasHint": "Camera pictures are visible to anyone looking at the wall tablet.",
+  "calendarTitle": "Calendar",
+  "calendarToday": "Today",
+  "calendarTomorrow": "Tomorrow",
+  "calendarAllDay": "All day",
+  "calendarNoEvents": "No events",
+  "calendarNone": "Home Assistant has no calendars. Add one there, for example Google Calendar, CalDAV or the Local Calendar integration.",
+  "calendarUnavailable": "The calendar isn't available right now.",
+  "calendarPrevMonth": "Previous month",
+  "calendarNextMonth": "Next month",
+  "calendarBackToToday": "Today",
+  "kioskShowCalendar": "Show calendar",
+  "kioskShowCalendarHint": "Events are visible to anyone looking at the wall tablet."
 }

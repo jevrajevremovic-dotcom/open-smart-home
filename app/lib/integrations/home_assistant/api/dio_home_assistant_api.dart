@@ -6,6 +6,7 @@ import '../../../core/errors/app_failure.dart';
 import '../../../core/logging/app_logger.dart';
 import '../../../core/network/server_address.dart';
 import '../../../core/network/tls_trust.dart';
+import '../models/ha_calendar.dart';
 import '../models/ha_models.dart';
 import '../transport/transport.dart';
 import 'dio_error_mapper.dart';
@@ -128,6 +129,36 @@ class DioHomeAssistantApi implements HomeAssistantApi {
       data: data,
     );
     return body is Map ? body['service_response'] : null;
+  }
+
+  static final _calendarId = RegExp(r'^calendar\.[a-z0-9_]+$');
+
+  @override
+  Future<List<HaCalendar>> fetchCalendars() async =>
+      HaCalendar.parseList(await _authorized('GET', '/api/calendars'));
+
+  @override
+  Future<List<HaCalendarEvent>> fetchCalendarEvents(
+    String calendarId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    if (!_calendarId.hasMatch(calendarId)) {
+      throw const AppFailure(
+        FailureKind.validation,
+        debugMessage: 'invalid calendar entity id',
+      );
+    }
+    final query = Uri(
+      queryParameters: {
+        'start': start.toUtc().toIso8601String(),
+        'end': end.toUtc().toIso8601String(),
+      },
+    ).query;
+    return HaCalendarEvent.parseList(
+      await _authorized('GET', '/api/calendars/$calendarId?$query'),
+      calendarId,
+    );
   }
 
   /// Pictures larger than this are refused (a profile picture is ~50 kB).

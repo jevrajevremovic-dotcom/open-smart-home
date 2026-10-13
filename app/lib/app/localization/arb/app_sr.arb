@@ -383,5 +383,17 @@
   "cameraFullscreen": "Ceo ekran",
   "cameraLoading": "Učitavam kameru…",
   "kioskShowCameras": "Prikaži kamere",
-  "kioskShowCamerasHint": "Sliku kamera vidi svako ko gleda u zidni tablet."
+  "kioskShowCamerasHint": "Sliku kamera vidi svako ko gleda u zidni tablet.",
+  "calendarTitle": "Kalendar",
+  "calendarToday": "Danas",
+  "calendarTomorrow": "Sutra",
+  "calendarAllDay": "Ceo dan",
+  "calendarNoEvents": "Nema događaja",
+  "calendarNone": "U Home Assistantu nema kalendara. Dodajte ga tamo, na primer Google Calendar, CalDAV ili integraciju Local Calendar.",
+  "calendarUnavailable": "Kalendar trenutno nije dostupan.",
+  "calendarPrevMonth": "Prethodni mesec",
+  "calendarNextMonth": "Sledeći mesec",
+  "calendarBackToToday": "Danas",
+  "kioskShowCalendar": "Prikaži kalendar",
+  "kioskShowCalendarHint": "Događaje vidi svako ko gleda u zidni tablet."
 }

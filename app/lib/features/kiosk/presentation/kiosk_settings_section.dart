@@ -127,6 +127,15 @@ class KioskSettingsSection extends ConsumerWidget {
               controller.update((s) => s.copyWith(showCameras: v)),
         ),
         SwitchListTile(
+          key: const Key('kioskShowCalendar'),
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.kioskShowCalendar),
+          subtitle: Text(l10n.kioskShowCalendarHint),
+          value: settings.showCalendar,
+          onChanged: (v) =>
+              controller.update((s) => s.copyWith(showCalendar: v)),
+        ),
+        SwitchListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(l10n.kioskLiteEffects),
           subtitle: Text(l10n.kioskLiteEffectsHint),

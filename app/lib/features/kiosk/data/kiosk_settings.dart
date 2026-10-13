@@ -18,6 +18,7 @@ class KioskSettings {
     this.liteEffects = false,
     this.statusEntityIds = const [],
     this.showCameras = true,
+    this.showCalendar = true,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -39,6 +40,7 @@ class KioskSettings {
       ),
       liteEffects: json['liteEffects'] == true,
       showCameras: json['showCameras'] != false,
+      showCalendar: json['showCalendar'] != false,
       statusEntityIds: [
         if (json['statusEntityIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(maxStatusEntities)) id,
@@ -68,6 +70,9 @@ class KioskSettings {
 
   /// Camera panel on the kiosk dashboard (visible to anyone in the room).
   final bool showCameras;
+
+  /// Calendar panel on the kiosk dashboard.
+  final bool showCalendar;
 
   bool get hasPin => pinHash != null && pinSalt != null;
 
@@ -100,7 +105,9 @@ class KioskSettings {
     bool? liteEffects,
     List<String>? statusEntityIds,
     bool? showCameras,
+    bool? showCalendar,
   }) => KioskSettings(
+    showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
     statusEntityIds: statusEntityIds ?? this.statusEntityIds,
     background: background ?? this.background,
@@ -124,5 +131,6 @@ class KioskSettings {
     'liteEffects': liteEffects,
     'statusEntityIds': statusEntityIds,
     'showCameras': showCameras,
+    'showCalendar': showCalendar,
   };
 }

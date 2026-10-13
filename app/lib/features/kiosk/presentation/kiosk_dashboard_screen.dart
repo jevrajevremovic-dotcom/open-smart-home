@@ -13,6 +13,7 @@ import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/stale_data_banner.dart';
 import '../../weather/application/weather_providers.dart';
 import '../application/kiosk_controller.dart';
+import '../../calendar/application/calendar_providers.dart';
 import '../../cameras/application/camera_providers.dart';
 import 'glass.dart';
 import 'kiosk_camera_panel.dart';
@@ -163,6 +164,12 @@ class _GridLayout extends ConsumerWidget {
         ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
         ref.watch(cameraIdsProvider.select((ids) => ids.isNotEmpty));
 
+    final calendar =
+        ref.watch(kioskSettingsProvider.select((s) => s.showCalendar)) &&
+        ref.watch(
+          calendarsProvider.select((c) => c.value?.isNotEmpty ?? false),
+        );
+
     // With cameras the picture takes the top-left, rooms move down.
     final top = <Widget>[
       if (cameras) const Expanded(flex: 6, child: KioskCameraPanel()),
@@ -171,11 +178,17 @@ class _GridLayout extends ConsumerWidget {
         Expanded(flex: 4, child: KioskThermostatPanel(deviceId: thermostat)),
       if (!cameras) const Expanded(flex: 4, child: KioskRoomsPanel()),
     ];
+    // With the calendar, scenes become chips in the shortcuts panel.
     final bottom = <Widget>[
-      if (cameras) const Expanded(flex: 4, child: KioskRoomsPanel()),
-      Expanded(flex: cameras ? 6 : 8, child: const KioskShortcutsPanel()),
-      if (scenes.isNotEmpty)
+      if (cameras)
+        Expanded(flex: calendar ? 3 : 4, child: const KioskRoomsPanel()),
+      Expanded(
+        flex: calendar ? 4 : (cameras ? 6 : 8),
+        child: KioskShortcutsPanel(sceneIds: calendar ? scenes : const []),
+      ),
+      if (scenes.isNotEmpty && !calendar)
         Expanded(flex: 4, child: KioskScenesPanel(sceneIds: scenes)),
+      if (calendar) const Expanded(flex: 7, child: KioskCalendarPanel()),
     ];
     List<Widget> spaced(List<Widget> items) => [
       for (var i = 0; i < items.length; i++) ...[
@@ -193,7 +206,7 @@ class _GridLayout extends ConsumerWidget {
           const _Problems(),
           const SizedBox(height: _gap),
           Expanded(
-            flex: 12,
+            flex: calendar ? 11 : 12,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: spaced(top),
@@ -201,7 +214,7 @@ class _GridLayout extends ConsumerWidget {
           ),
           const SizedBox(height: _gap),
           Expanded(
-            flex: 8,
+            flex: calendar ? 10 : 8,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: spaced(bottom),
@@ -228,6 +241,11 @@ class _ColumnLayout extends ConsumerWidget {
     final cameras =
         ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
         ref.watch(cameraIdsProvider.select((ids) => ids.isNotEmpty));
+    final calendar =
+        ref.watch(kioskSettingsProvider.select((s) => s.showCalendar)) &&
+        ref.watch(
+          calendarsProvider.select((c) => c.value?.isNotEmpty ?? false),
+        );
     final refresh = ref.read(webSocketManagerProvider)?.retryNow;
     const gap = SizedBox(height: 16);
     return RefreshIndicator(
@@ -253,6 +271,10 @@ class _ColumnLayout extends ConsumerWidget {
           ],
           gap,
           const KioskShortcutsPanel(scrollable: false),
+          if (calendar) ...[
+            gap,
+            const SizedBox(height: 520, child: KioskCalendarPanel()),
+          ],
           if (scenes.isNotEmpty) ...[
             gap,
             KioskScenesPanel(sceneIds: scenes, scrollable: false),

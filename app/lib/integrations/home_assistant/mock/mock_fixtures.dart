@@ -1,0 +1,325 @@
+/// Mock entities in Home Assistant's wire format (`GET /api/states`).
+///
+/// Attribute names and `supported_features` bit values follow Home
+/// Assistant's entity documentation so the mappers built later see realistic
+/// input. Used only when mock mode is enabled in a non-release build.
+List<Map<String, Object?>> buildMockStates(DateTime now) {
+  final ts = now.toUtc().toIso8601String();
+  Map<String, Object?> e(String id, String state, Map<String, Object?> attrs) =>
+      {
+        'entity_id': id,
+        'state': state,
+        'attributes': attrs,
+        'last_changed': ts,
+        'last_updated': ts,
+      };
+
+  return [
+    e('light.hallway', 'off', {
+      'friendly_name': 'Hodnik',
+      'supported_color_modes': ['onoff'],
+      'color_mode': null,
+      'supported_features': 0,
+    }),
+    e('light.living_room_main', 'on', {
+      'friendly_name': 'Dnevna soba – glavno svetlo',
+      'supported_color_modes': ['color_temp'],
+      'color_mode': 'color_temp',
+      'brightness': 191,
+      'color_temp_kelvin': 3200,
+      'min_color_temp_kelvin': 2200,
+      'max_color_temp_kelvin': 6500,
+      'supported_features': 32, // TRANSITION
+    }),
+    e('light.living_room_ambient', 'on', {
+      'friendly_name': 'Dnevna soba – ambijent',
+      'supported_color_modes': ['rgb'],
+      'color_mode': 'rgb',
+      'brightness': 128,
+      'rgb_color': [255, 140, 40],
+      'supported_features': 44, // EFFECT | FLASH | TRANSITION
+    }),
+    e('switch.coffee_machine', 'off', {'friendly_name': 'Aparat za kafu'}),
+    e('switch.tv_outlet', 'on', {
+      'friendly_name': 'Utičnica TV',
+      'device_class': 'outlet',
+    }),
+    e('sensor.living_room_temperature', '22.4', {
+      'friendly_name': 'Temperatura dnevna soba',
+      'device_class': 'temperature',
+      'state_class': 'measurement',
+      'unit_of_measurement': '°C',
+    }),
+    e('sensor.living_room_humidity', '48', {
+      'friendly_name': 'Vlažnost dnevna soba',
+      'device_class': 'humidity',
+      'state_class': 'measurement',
+      'unit_of_measurement': '%',
+    }),
+    e('binary_sensor.hallway_motion', 'off', {
+      'friendly_name': 'Pokret hodnik',
+      'device_class': 'motion',
+    }),
+    e('binary_sensor.front_door', 'off', {
+      'friendly_name': 'Ulazna vrata',
+      'device_class': 'door',
+    }),
+    e('climate.living_room', 'heat', {
+      'friendly_name': 'Klima dnevna soba',
+      'hvac_modes': ['off', 'heat', 'cool', 'auto'],
+      'current_temperature': 22.4,
+      'temperature': 23.0,
+      'min_temp': 16.0,
+      'max_temp': 30.0,
+      'target_temp_step': 0.5,
+      'fan_modes': ['auto', 'low', 'high'],
+      'fan_mode': 'auto',
+      'supported_features':
+          393, // TARGET_TEMPERATURE | FAN_MODE | TURN_OFF | TURN_ON
+    }),
+    e('cover.living_room_blinds', 'open', {
+      'friendly_name': 'Roletne dnevna soba',
+      'device_class': 'blind',
+      'current_position': 100,
+      'supported_features': 15, // OPEN | CLOSE | SET_POSITION | STOP
+    }),
+    e('lock.front_door', 'locked', {
+      'friendly_name': 'Brava ulazna vrata',
+      'supported_features': 0,
+    }),
+    e('camera.front_yard', 'idle', {
+      'friendly_name': 'Kamera dvorište',
+      'supported_features': 0,
+    }),
+    e('sensor.house_power', '742', {
+      'friendly_name': 'Trenutna snaga',
+      'device_class': 'power',
+      'state_class': 'measurement',
+      'unit_of_measurement': 'W',
+    }),
+    e('sensor.house_energy', '15234.7', {
+      'friendly_name': 'Ukupna potrošnja',
+      'device_class': 'energy',
+      'state_class': 'total_increasing',
+      'unit_of_measurement': 'kWh',
+    }),
+    e('scene.movie_night', 'unknown', {'friendly_name': 'Filmsko veče'}),
+    e('automation.hallway_night_light', 'on', {
+      'friendly_name': 'Noćno svetlo u hodniku',
+      'last_triggered': null,
+      'id': '1700000000000',
+    }),
+    e('switch.garage_heater', 'unavailable', {
+      'friendly_name': 'Grejalica garaža',
+      'restored': true,
+    }),
+    e('binary_sensor.bedroom_window', 'off', {
+      'friendly_name': 'Prozor spavaća soba',
+      'device_class': 'window',
+    }),
+    e('sensor.bedroom_window_battery', '8', {
+      'friendly_name': 'Senzor prozora spavaća soba – baterija',
+      'device_class': 'battery',
+      'state_class': 'measurement',
+      'unit_of_measurement': '%',
+    }),
+  ];
+}
+
+/// Mock `config/*_registry/list` results (subset of the real fields).
+({
+  List<Map<String, Object?>> areas,
+  List<Map<String, Object?>> devices,
+  List<Map<String, Object?>> entities,
+})
+buildMockRegistries() {
+  Map<String, Object?> area(String id, String name, String icon) => {
+    'area_id': id,
+    'name': name,
+    'icon': icon,
+    'picture': null,
+    'floor_id': null,
+    'aliases': <String>[],
+  };
+  Map<String, Object?> device(
+    String id,
+    String name,
+    String manufacturer,
+    String model,
+    String? areaId,
+    List<List<String>> identifiers,
+  ) => {
+    'id': id,
+    'name': name,
+    'name_by_user': null,
+    'manufacturer': manufacturer,
+    'model': model,
+    'area_id': areaId,
+    'identifiers': identifiers,
+    'connections': <List<String>>[],
+    'via_device_id': null,
+    'disabled_by': null,
+  };
+  Map<String, Object?> entity(
+    String entityId,
+    String platform, {
+    String? deviceId,
+    String? areaId,
+    String? category,
+  }) => {
+    'entity_id': entityId,
+    'platform': platform,
+    'device_id': deviceId,
+    'area_id': areaId,
+    'entity_category': category,
+    'hidden_by': null,
+    'disabled_by': null,
+  };
+
+  return (
+    areas: [
+      area('living_room', 'Dnevna soba', 'mdi:sofa'),
+      area('bedroom', 'Spavaća soba', 'mdi:bed'),
+      area('hallway', 'Hodnik', 'mdi:door'),
+      area('kitchen', 'Kuhinja', 'mdi:countertop'),
+      area('garage', 'Garaža', 'mdi:garage'),
+      area('yard', 'Dvorište', 'mdi:tree'),
+    ],
+    devices: [
+      device('d_hall_light', 'Hodnik svetlo', 'IKEA', 'LED2101G4', 'hallway', [
+        ['mqtt', 'zigbee2mqtt_0x0017880101aa0001'],
+      ]),
+      device(
+        'd_living_main',
+        'Glavno svetlo',
+        'Signify',
+        'LCA001',
+        'living_room',
+        [
+          ['hue', '00:17:88:01:0b:aa:bb:cc-0b'],
+        ],
+      ),
+      device(
+        'd_living_ambient',
+        'Ambijent',
+        'Nanoleaf',
+        'Essentials A19',
+        'living_room',
+        [
+          ['matter', 'deviceid_1-0000000000000004-MatterNodeDevice'],
+        ],
+      ),
+      device('d_coffee', 'Aparat za kafu', 'Shelly', 'Plus 1PM', 'kitchen', [
+        ['shelly', 'c4:5b:be:00:11:22'],
+      ]),
+      device('d_tv_outlet', 'TV utičnica', 'Nous', 'A1T', 'living_room', [
+        ['tasmota', '3C71BF000001'],
+      ]),
+      device(
+        'd_living_climate_sensor',
+        'Senzor dnevna soba',
+        'Aqara',
+        'WSDCGQ11LM',
+        'living_room',
+        [
+          ['zha', '00:15:8d:00:01:02:03:04'],
+        ],
+      ),
+      device(
+        'd_hall_motion',
+        'Pokret hodnik',
+        'Aqara',
+        'RTCGQ11LM',
+        'hallway',
+        [
+          ['zha', '00:15:8d:00:05:06:07:08'],
+        ],
+      ),
+      device(
+        'd_front_door_contact',
+        'Kontakt ulazna vrata',
+        'Aqara',
+        'MCCGQ11LM',
+        'hallway',
+        [
+          ['mqtt', 'zigbee2mqtt_0x00158d0001020304'],
+        ],
+      ),
+      device('d_living_ac', 'Klima', 'ESPHome', 'esp32-ac', 'living_room', [
+        ['esphome', 'ac-living'],
+      ]),
+      device('d_blinds', 'Roletne', 'Fibaro', 'FGR-223', 'living_room', [
+        ['zwave_js', '3967352045-12'],
+      ]),
+      device('d_front_lock', 'Brava', 'Yale', 'Assure Lock 2', 'hallway', [
+        ['zwave_js', '3967352045-21'],
+      ]),
+      device('d_camera', 'Kamera', 'Reolink', 'RLC-810A', 'yard', [
+        ['onvif', 'ec:71:db:00:00:01'],
+      ]),
+      device('d_energy', 'Kućni merač', 'ESPHome', 'esp32-meter', null, [
+        ['esphome', 'house-meter'],
+      ]),
+      device('d_garage_heater', 'Grejalica', 'Shelly', 'Plug S', 'garage', [
+        ['shelly', 'c4:5b:be:00:33:44'],
+      ]),
+      device(
+        'd_bedroom_window',
+        'Senzor prozora',
+        'Aqara',
+        'MCCGQ11LM',
+        'bedroom',
+        [
+          ['mqtt', 'zigbee2mqtt_0x00158d0009080706'],
+        ],
+      ),
+    ],
+    entities: [
+      entity('light.hallway', 'mqtt', deviceId: 'd_hall_light'),
+      entity('light.living_room_main', 'hue', deviceId: 'd_living_main'),
+      entity(
+        'light.living_room_ambient',
+        'matter',
+        deviceId: 'd_living_ambient',
+      ),
+      entity('switch.coffee_machine', 'shelly', deviceId: 'd_coffee'),
+      entity('switch.tv_outlet', 'tasmota', deviceId: 'd_tv_outlet'),
+      entity(
+        'sensor.living_room_temperature',
+        'zha',
+        deviceId: 'd_living_climate_sensor',
+      ),
+      entity(
+        'sensor.living_room_humidity',
+        'zha',
+        deviceId: 'd_living_climate_sensor',
+      ),
+      entity('binary_sensor.hallway_motion', 'zha', deviceId: 'd_hall_motion'),
+      entity(
+        'binary_sensor.front_door',
+        'mqtt',
+        deviceId: 'd_front_door_contact',
+      ),
+      entity('climate.living_room', 'esphome', deviceId: 'd_living_ac'),
+      entity('cover.living_room_blinds', 'zwave_js', deviceId: 'd_blinds'),
+      entity('lock.front_door', 'zwave_js', deviceId: 'd_front_lock'),
+      entity('camera.front_yard', 'onvif', deviceId: 'd_camera'),
+      entity('sensor.house_power', 'esphome', deviceId: 'd_energy'),
+      entity('sensor.house_energy', 'esphome', deviceId: 'd_energy'),
+      entity('scene.movie_night', 'homeassistant', areaId: 'living_room'),
+      entity('automation.hallway_night_light', 'automation', areaId: 'hallway'),
+      entity('switch.garage_heater', 'shelly', deviceId: 'd_garage_heater'),
+      entity(
+        'binary_sensor.bedroom_window',
+        'mqtt',
+        deviceId: 'd_bedroom_window',
+      ),
+      entity(
+        'sensor.bedroom_window_battery',
+        'mqtt',
+        deviceId: 'd_bedroom_window',
+        category: 'diagnostic',
+      ),
+    ],
+  );
+}

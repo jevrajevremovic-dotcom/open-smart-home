@@ -1,0 +1,144 @@
+{
+  "@@locale": "en",
+  "appTitle": "Open Smart Home",
+  "mockModeBanner": "MOCK MODE — demo data, no real devices",
+  "welcomeTitle": "Your home, in one app",
+  "welcomeBody": "Control lights, climate, sensors and scenes from every brand and protocol your Home Assistant server supports.",
+  "welcomeLocalFirst": "Works locally. No cloud account required.",
+  "chooseLanguage": "Language",
+  "languageSystem": "System",
+  "languageSerbian": "Srpski",
+  "languageEnglish": "English",
+  "getStarted": "Get started",
+  "back": "Back",
+  "cancel": "Cancel",
+  "continueAction": "Continue",
+  "serverAddressTitle": "Connect to Home Assistant",
+  "serverAddressIntro": "Enter the address of your Home Assistant server, for example the one you open in a browser at home.",
+  "serverAddressLabel": "Server address",
+  "serverAddressHint": "homeassistant.local:8123",
+  "checkConnection": "Check connection",
+  "checking": "Checking…",
+  "serverReachable": "Home Assistant found at {address}",
+  "@serverReachable": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "addressErrorEmpty": "Enter a server address.",
+  "addressErrorMalformed": "This is not a valid address.",
+  "addressErrorUnsupportedScheme": "Only http:// and https:// addresses are supported.",
+  "addressErrorMissingHost": "The address is missing a host name or IP address.",
+  "addressErrorCredentials": "Do not put a user name or password in the address.",
+  "addressErrorPath": "Home Assistant must be served from the root of the address (no path such as /ha).",
+  "addressErrorQuery": "Remove the part after ? or # from the address.",
+  "addressErrorPort": "The port must be between 1 and 65535.",
+  "riskLocalHttp": "Unencrypted connection inside your local network.",
+  "riskRemoteExposure": "This is a public address. Make sure your server is kept up to date and protected.",
+  "riskInsecureRemote": "Warning: this public address uses unencrypted HTTP. Your access token could be intercepted. Use HTTPS unless the connection runs through a VPN.",
+  "insecureAcknowledge": "I understand the risk (e.g. I use a VPN)",
+  "certificateUntrustedTitle": "Untrusted certificate",
+  "certificateUntrustedBody": "The server's certificate is not trusted by this device. This is normal for a self-signed certificate, but can also mean someone is intercepting the connection. Only continue if the fingerprint matches the one shown on your server.",
+  "certificateSubject": "Issued to",
+  "certificateIssuer": "Issued by",
+  "certificateValidUntil": "Valid until",
+  "certificateFingerprint": "SHA-256 fingerprint",
+  "certificateExpired": "This certificate has expired.",
+  "certificateConfirm": "I compared the fingerprint and trust this certificate",
+  "trustCertificate": "Trust this certificate",
+  "tokenTitle": "Sign in",
+  "tokenIntro": "The app signs in with a long-lived access token from your Home Assistant user profile.",
+  "tokenSteps": "1. Open Home Assistant in a browser.\n2. Click your user name (bottom left) → Security.\n3. Under “Long-lived access tokens” choose “Create token”.\n4. Copy the token and paste it below. Home Assistant shows it only once.",
+  "tokenLabel": "Access token",
+  "tokenMockHint": "Mock mode: any token works; “invalid” simulates a rejected token.",
+  "showToken": "Show token",
+  "hideToken": "Hide token",
+  "connect": "Connect",
+  "connecting": "Connecting…",
+  "tokenInvalidFormat": "The token must not be empty or contain spaces.",
+  "failureNetwork": "The server cannot be reached. Check the address and that this device is on the right network.",
+  "failureTimeout": "The server took too long to respond.",
+  "failureAuthentication": "The access token was rejected. It may be wrong, expired or revoked.",
+  "failureAuthorization": "This user is not allowed to perform this action.",
+  "failureValidation": "The request was not accepted by the server.",
+  "failureParsing": "The server sent an unexpected response.",
+  "failureServer": "The server responded, but not like Home Assistant, or reported an error.",
+  "failureCertificate": "The secure connection could not be verified (certificate problem).",
+  "failureUnavailableEntity": "This device is currently unavailable.",
+  "failureUnsupportedFeature": "This device does not support this action.",
+  "failureWebSocket": "The live connection was interrupted.",
+  "failureStorage": "Secure storage on this device could not be accessed.",
+  "failureUnknown": "Something went wrong. Please try again.",
+  "navHome": "Home",
+  "navSettings": "Settings",
+  "statusConnected": "Connected",
+  "statusConnecting": "Connecting…",
+  "statusAuthenticating": "Signing in…",
+  "statusReconnecting": "Reconnecting…",
+  "statusReconnectingIn": "Reconnecting in {seconds} s",
+  "@statusReconnectingIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "statusDisconnected": "Disconnected",
+  "statusAuthFailed": "Sign-in rejected",
+  "statusServerUnavailable": "Server unavailable",
+  "statusError": "Connection error",
+  "retryNow": "Retry now",
+  "signInAgain": "Sign in again",
+  "serverVersion": "Home Assistant {version}",
+  "@serverVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "liveEventsTitle": "Live state changes",
+  "liveEventsEmpty": "Waiting for changes from Home Assistant…",
+  "homeComingSoon": "Rooms, devices and favorites arrive in the next development phase.",
+  "settingsTitle": "Settings",
+  "appearance": "Appearance",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "language": "Language",
+  "serverSection": "Server",
+  "signOut": "Sign out",
+  "signOutConfirmTitle": "Sign out?",
+  "signOutConfirmBody": "The access token will be deleted from this device. You can sign in again at any time.",
+  "deleteAllData": "Delete all local data",
+  "deleteAllConfirmTitle": "Delete all local data?",
+  "deleteAllConfirmBody": "This removes the access token, server address and all settings from this device. Nothing is changed on your Home Assistant server.",
+  "delete": "Delete",
+  "privacySection": "Privacy & data",
+  "addressErrorMixedContent": "This page is loaded over HTTPS, so the browser blocks connections to an http:// server. Use the server's https:// address, or open this web app from the same address as Home Assistant.",
+  "webConnectionHint": "In a browser this can also mean that Home Assistant does not allow this web app's address (add it to http: cors_allowed_origins in configuration.yaml), or that the browser does not trust the server's certificate (open the server address in a new tab once and accept it there).",
+  "webSessionNotice": "In the browser the token is kept only while this tab is open. Closing the tab signs you out.",
+  "failureConfirmationRequired": "Please confirm this action.",
+  "devicesInRooms": "{devices, plural, =1{1 device} other{{devices} devices}} in {rooms, plural, =0{no rooms} =1{1 room} other{{rooms} rooms}}",
+  "@devicesInRooms": {
+    "placeholders": {
+      "devices": {
+        "type": "int"
+      },
+      "rooms": {
+        "type": "int"
+      }
+    }
+  },
+  "dataStaleSince": "Offline — showing data last updated at {time}. It may not be current.",
+  "@dataStaleSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pem
+key.properties
+google-services.json
+GoogleService-Info.plist
+
+# Editors / OS
+.idea/
+*.iml
+.DS_Store
+*.swp

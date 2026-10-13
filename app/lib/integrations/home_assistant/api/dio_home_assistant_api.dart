@@ -1,0 +1,151 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+
+import '../../../core/config/app_config.dart';
+import '../../../core/errors/app_failure.dart';
+import '../../../core/logging/app_logger.dart';
+import '../../../core/network/server_address.dart';
+import '../../../core/network/tls_trust.dart';
+import '../models/ha_models.dart';
+import '../transport/transport.dart';
+import 'dio_error_mapper.dart';
+import 'home_assistant_api.dart';
+
+typedef AccessTokenReader = Future<String?> Function();
+
+class DioHomeAssistantApi implements HomeAssistantApi {
+  DioHomeAssistantApi({
+    required this.address,
+    required this._readToken,
+    TlsTrust trust = TlsTrust.system,
+    Dio? dio,
+  }) : _dio = dio ?? Dio() {
+    _dio.options
+      ..baseUrl = address.baseUri.toString()
+      ..connectTimeout = AppConfig.connectTimeout
+      ..receiveTimeout = AppConfig.receiveTimeout
+      // Browsers cannot enforce a send timeout on body-less requests.
+      ..sendTimeout = kIsWeb ? null : AppConfig.sendTimeout
+      ..responseType = ResponseType.json
+      ..followRedirects = false
+      // Status handling is done in one place, see mapStatusCode.
+      ..validateStatus = (status) =>
+          status != null && status >= 200 && status < 300;
+
+    final adapter = dio == null
+        ? createPlatformHttpAdapter(
+            trust,
+            onRejected: (cert) => _lastRejectedCertificate = cert,
+          )
+        : null;
+    if (adapter != null) _dio.httpClientAdapter = adapter;
+  }
+
+  @override
+  final ServerAddress address;
+
+  final AccessTokenReader _readToken;
+  final Dio _dio;
+  CertificateInfo? _lastRejectedCertificate;
+
+  static final _log = AppLogger('HomeAssistantApi');
+  static final RegExp _slug = RegExp(r'^[a-z0-9_]+$');
+
+  @override
+  Future<ServerProbeResult> probe() async {
+    try {
+      await _dio.get<Object?>('/api/');
+      // 2xx without a token should not happen on Home Assistant.
+      return ServerProbeResult.unexpectedResponse;
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
+        return e.response?.statusCode == 401
+            ? ServerProbeResult.reachableRequiresAuth
+            : ServerProbeResult.unexpectedResponse;
+      }
+      throw _map(e);
+    }
+  }
+
+  @override
+  Future<void> verifyAccessToken() async {
+    final body = await _authorized('GET', '/api/');
+    // Documented response: {"message": "API running."}
+    if (body is! Map || body['message'] is! String) {
+      throw const AppFailure(
+        FailureKind.parsing,
+        debugMessage: 'unexpected /api/ body',
+      );
+    }
+  }
+
+  @override
+  Future<HaConfig> fetchConfig() async =>
+      HaConfig.fromJson(await _authorized('GET', '/api/config'));
+
+  @override
+  Future<List<HaEntityState>> fetchStates() async => parseStateList(
+    await _authorized('GET', '/api/states'),
+    onSkipped: (e) => _log.warning('Skipped malformed state', e),
+  );
+
+  @override
+  Future<List<HaEntityState>> callService(
+    String domain,
+    String service, {
+    Map<String, Object?> data = const {},
+  }) async {
+    if (!_slug.hasMatch(domain) || !_slug.hasMatch(service)) {
+      throw AppFailure(
+        FailureKind.validation,
+        debugMessage: 'invalid service name $domain.$service',
+      );
+    }
+    final body = await _authorized(
+      'POST',
+      '/api/services/$domain/$service',
+      data: data,
+    );
+    return body is List ? parseStateList(body) : const [];
+  }
+
+  Future<Object?> _authorized(
+    String method,
+    String path, {
+    Object? data,
+  }) async {
+    final token = await _readToken();
+    if (token == null || token.isEmpty) {
+      throw const AppFailure(
+        FailureKind.authentication,
+        debugMessage: 'no token stored',
+      );
+    }
+    try {
+      final response = await _dio.request<Object?>(
+        path,
+        data: data,
+        options: Options(
+          method: method,
+          headers: {'Authorization': 'Bearer $token'},
+          contentType: data == null ? null : Headers.jsonContentType,
+        ),
+      );
+      _log.debug('$method $path → ${response.statusCode}');
+      return response.data;
+    } on DioException catch (e) {
+      final failure = _map(e);
+      _log.warning('$method $path failed', failure);
+      throw failure;
+    }
+  }
+
+  AppFailure _map(DioException e) {
+    final cert = _lastRejectedCertificate;
+    _lastRejectedCertificate = null;
+    return mapDioException(e, rejectedCertificate: cert);
+  }
+
+  @override
+  void close() => _dio.close(force: true);
+}

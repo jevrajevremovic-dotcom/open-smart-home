@@ -1,0 +1,334 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+
+import '../../../core/errors/app_failure.dart';
+import '../../../core/logging/app_logger.dart';
+import '../../../integrations/home_assistant/mappers/ha_device_mapper.dart';
+import '../../../integrations/home_assistant/models/ha_models.dart';
+import '../../../integrations/home_assistant/models/ha_registry.dart';
+import '../../../integrations/home_assistant/websocket/connection_status.dart';
+import '../../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
+import '../domain/smart_home_device.dart';
+
+enum SyncStatus {
+  /// Nothing loaded yet.
+  initial,
+
+  /// Loading a snapshot after (re)connecting.
+  syncing,
+
+  /// Snapshot loaded and live events are flowing.
+  live,
+
+  /// Showing the last known data; the connection is down.
+  stale,
+}
+
+@immutable
+class HomeSnapshot {
+  const HomeSnapshot({
+    this.devices = const {},
+    this.rooms = const {},
+    this.status = SyncStatus.initial,
+    this.lastSyncedAt,
+    this.failure,
+  });
+
+  static const HomeSnapshot empty = HomeSnapshot();
+
+  /// By device id (= entity id).
+  final Map<String, SmartHomeDevice> devices;
+  final Map<String, Room> rooms;
+  final SyncStatus status;
+
+  /// Last time live data was confirmed (snapshot or event).
+  final DateTime? lastSyncedAt;
+  final AppFailure? failure;
+
+  bool get hasData => devices.isNotEmpty;
+
+  HomeSnapshot copyWith({
+    Map<String, SmartHomeDevice>? devices,
+    Map<String, Room>? rooms,
+    SyncStatus? status,
+    DateTime? lastSyncedAt,
+    AppFailure? failure,
+    bool clearFailure = false,
+  }) => HomeSnapshot(
+    devices: devices ?? this.devices,
+    rooms: rooms ?? this.rooms,
+    status: status ?? this.status,
+    lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
+    failure: clearFailure ? null : (failure ?? this.failure),
+  );
+}
+
+/// Keeps a consistent, live picture of the home.
+///
+/// Synchronisation (repeated after every reconnect):
+/// 1. `state_changed` subscription is active before anything is loaded
+///    (the WebSocket manager re-subscribes right after `auth_ok`);
+/// 2. registries and `get_states` are fetched over the same socket, so the
+///    snapshot is taken *after* the subscription started;
+/// 3. events that arrived during loading are applied on top, skipping any
+///    older than the snapshot's `last_updated`.
+///
+/// After that each event re-maps only the affected entity (or all entities
+/// of its device when a battery/signal reading changed). Unchanged devices
+/// keep their object identity, so UI widgets watching them do not rebuild.
+class HomeStateRepository {
+  HomeStateRepository(
+    this._ws, {
+    this._mapper = const HaDeviceMapper(),
+    this.registryRefreshDelay = const Duration(milliseconds: 500),
+  });
+
+  final HaWebSocketManager _ws;
+  final HaDeviceMapper _mapper;
+  final Duration registryRefreshDelay;
+  static final _log = AppLogger('HomeState');
+
+  static const _registryEvents = [
+    'area_registry_updated',
+    'device_registry_updated',
+    'entity_registry_updated',
+  ];
+
+  final StreamController<HomeSnapshot> _controller =
+      StreamController<HomeSnapshot>.broadcast();
+  HomeSnapshot _snapshot = HomeSnapshot.empty;
+
+  final Map<String, HaEntityState> _states = {};
+  HaRegistries _registries = HaRegistries.empty;
+  Map<String, DeviceAuxiliaryInfo> _aux = const {};
+
+  /// Non-null while a snapshot is loading; events are queued here.
+  List<HaStateChangedEvent>? _pending;
+  int _syncGeneration = 0;
+  Timer? _registryTimer;
+  final List<StreamSubscription<Object?>> _subscriptions = [];
+  bool _started = false;
+
+  HomeSnapshot get current => _snapshot;
+  Stream<HomeSnapshot> get snapshots => _controller.stream;
+
+  void start() {
+    if (_started) return;
+    _started = true;
+    _subscriptions
+      ..add(_ws.stateChanges().listen(_onStateChanged))
+      ..addAll(
+        _registryEvents.map(
+          (type) => _ws.events(type).listen((_) => _scheduleRegistryRefresh()),
+        ),
+      )
+      ..add(_ws.statusStream.listen(_onConnectionStatus));
+    _onConnectionStatus(_ws.status);
+  }
+
+  Future<void> dispose() async {
+    _registryTimer?.cancel();
+    for (final s in _subscriptions) {
+      await s.cancel();
+    }
+    _subscriptions.clear();
+    await _controller.close();
+  }
+
+  // ---------------------------------------------------------------------------
+
+  void _onConnectionStatus(HaConnectionStatus status) {
+    if (status.isConnected) {
+      if (_snapshot.status != SyncStatus.syncing &&
+          _snapshot.status != SyncStatus.live) {
+        unawaited(_resync());
+      }
+    } else if (_snapshot.status == SyncStatus.live ||
+        _snapshot.status == SyncStatus.syncing) {
+      _syncGeneration++; // abandon an in-flight sync
+      _pending = null;
+      _emit(
+        _snapshot.copyWith(
+          status: _snapshot.hasData ? SyncStatus.stale : SyncStatus.initial,
+        ),
+      );
+    }
+  }
+
+  Future<void> _resync() async {
+    final generation = ++_syncGeneration;
+    _pending = [];
+    _emit(_snapshot.copyWith(status: SyncStatus.syncing, clearFailure: true));
+    try {
+      final (registries, statesJson) = await (
+        _loadRegistries(),
+        _ws.sendCommand({'type': 'get_states'}),
+      ).wait;
+      if (generation != _syncGeneration) return;
+
+      _registries = registries;
+      _states
+        ..clear()
+        ..addEntries(
+          parseStateList(
+            statesJson,
+            onSkipped: (e) => _log.warning('Skipped malformed state', e),
+          ).map((s) => MapEntry(s.entityId, s)),
+        );
+      final queued = _pending ?? const [];
+      _pending = null;
+      for (final event in queued) {
+        _applyToStates(event);
+      }
+      _remapAll(status: SyncStatus.live);
+      _log.info(
+        'Synced ${_states.length} entities, ${_registries.areas.length} areas',
+      );
+    } on Object catch (e) {
+      if (generation != _syncGeneration) return;
+      _pending = null;
+      final failure = e is AppFailure
+          ? e
+          : AppFailure(
+              FailureKind.parsing,
+              debugMessage: 'sync failed: ${e.runtimeType}',
+            );
+      if (e is ParallelWaitError) _log.warning('Sync failed', e.errors);
+      _log.warning('Sync failed', failure);
+      _emit(
+        _snapshot.copyWith(
+          status: _snapshot.hasData ? SyncStatus.stale : SyncStatus.initial,
+          failure: failure,
+        ),
+      );
+    }
+  }
+
+  /// Registries are optional: on failure (older server, restricted user)
+  /// the app continues without rooms and protocol information.
+  Future<HaRegistries> _loadRegistries() async {
+    Future<Object?> list(String type) async {
+      try {
+        return await _ws.sendCommand({'type': type});
+      } on AppFailure catch (e) {
+        _log.warning('$type unavailable', e);
+        return null;
+      }
+    }
+
+    final (areas, devices, entities) = await (
+      list('config/area_registry/list'),
+      list('config/device_registry/list'),
+      list('config/entity_registry/list'),
+    ).wait;
+    return HaRegistries.parse(
+      areas: areas,
+      devices: devices,
+      entities: entities,
+    );
+  }
+
+  void _scheduleRegistryRefresh() {
+    _registryTimer?.cancel();
+    _registryTimer = Timer(registryRefreshDelay, () async {
+      if (_snapshot.status != SyncStatus.live) return;
+      final generation = _syncGeneration;
+      final registries = await _loadRegistries();
+      if (generation != _syncGeneration) return;
+      _registries = registries;
+      _remapAll(status: SyncStatus.live);
+    });
+  }
+
+  void _onStateChanged(HaStateChangedEvent event) {
+    final pending = _pending;
+    if (pending != null) {
+      pending.add(event);
+      return;
+    }
+    if (_snapshot.status != SyncStatus.live) return;
+    if (!_applyToStates(event)) return;
+
+    final newState = event.newState;
+    final deviceId = _registries.entities[event.entityId]?.deviceId;
+    final auxChanged =
+        deviceId != null &&
+        ((newState != null && _mapper.isAuxiliarySource(newState)) ||
+            (event.oldState != null &&
+                _mapper.isAuxiliarySource(event.oldState!)));
+    if (auxChanged) {
+      _aux = _mapper.collectAuxiliaryInfo(_states.values, _registries);
+    }
+
+    final devices = Map<String, SmartHomeDevice>.of(_snapshot.devices);
+    if (newState == null) {
+      devices.remove(event.entityId);
+    }
+    final affected = auxChanged
+        ? _states.values.where(
+            (s) => _registries.entities[s.entityId]?.deviceId == deviceId,
+          )
+        : [?newState];
+    for (final state in affected) {
+      _mapInto(devices, state);
+    }
+    _emit(_snapshot.copyWith(devices: devices, lastSyncedAt: DateTime.now()));
+  }
+
+  /// Returns `false` when the event is older than what is already known.
+  bool _applyToStates(HaStateChangedEvent event) {
+    final next = event.newState;
+    if (next == null) {
+      return _states.remove(event.entityId) != null;
+    }
+    final known = _states[event.entityId]?.lastUpdated;
+    final incoming = next.lastUpdated;
+    if (known != null && incoming != null && incoming.isBefore(known)) {
+      return false;
+    }
+    _states[event.entityId] = next;
+    return true;
+  }
+
+  void _remapAll({required SyncStatus status}) {
+    _aux = _mapper.collectAuxiliaryInfo(_states.values, _registries);
+    final devices = _mapper.mapAll(
+      _states.values,
+      _registries,
+      onError: (id, e) => _log.warning('Could not map $id', e),
+    );
+    final rooms = {
+      for (final area in _registries.areas.values)
+        area.id: Room(
+          id: area.id,
+          name: area.name,
+          icon: area.icon,
+          picture: area.picture,
+        ),
+    };
+    _emit(
+      _snapshot.copyWith(
+        devices: Map.unmodifiable(devices),
+        rooms: Map.unmodifiable(rooms),
+        status: status,
+        lastSyncedAt: DateTime.now(),
+        clearFailure: true,
+      ),
+    );
+  }
+
+  void _mapInto(Map<String, SmartHomeDevice> devices, HaEntityState state) {
+    if (_registries.entities[state.entityId]?.disabled ?? false) return;
+    try {
+      devices[state.entityId] = _mapper.map(state, _registries, _aux);
+    } on Object catch (e) {
+      _log.warning('Could not map ${state.entityId}', e);
+    }
+  }
+
+  void _emit(HomeSnapshot snapshot) {
+    _snapshot = snapshot;
+    if (!_controller.isClosed) _controller.add(snapshot);
+  }
+}

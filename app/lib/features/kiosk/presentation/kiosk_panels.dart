@@ -24,6 +24,10 @@ import '../../household/presentation/person_avatar.dart';
 import '../application/kiosk_controller.dart';
 import '../../calendar/presentation/calendar_browser.dart';
 import '../../calendar/presentation/calendar_widgets.dart';
+import '../../assist/presentation/assist_sheet.dart';
+import '../../devices/domain/capability.dart';
+import '../../media/application/media_providers.dart';
+import '../../media/presentation/media_artwork.dart';
 import 'glass.dart';
 
 /// Large clock with small seconds and the date underneath.
@@ -760,7 +764,152 @@ class KioskStatusBar extends ConsumerWidget {
           subtitle: '${s.criticalIds.length}',
         ),
     ];
-    return Wrap(spacing: 12, runSpacing: 12, children: items);
+    final playing = ref.watch(nowPlayingIdProvider);
+    final row = [
+      ...items,
+      if (playing != null)
+        _NowPlayingPill(key: const Key('kioskNowPlaying'), deviceId: playing),
+    ];
+    return Row(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (final (i, w) in row.indexed) ...[
+                  if (i > 0) const SizedBox(width: 12),
+                  w,
+                ],
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Semantics(
+          button: true,
+          label: l10n.assistTitle,
+          excludeSemantics: true,
+          child: GestureDetector(
+            key: const Key('kioskAssist'),
+            onTap: () => showAssist(context),
+            child: GlassPanel(
+              radius: 40,
+              padding: const EdgeInsets.fromLTRB(8, 8, 22, 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF3D7BFF),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.assistant_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    l10n.assistTitle,
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(color: GlassColors.text),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// What is playing, with play/pause; tap opens the player.
+class _NowPlayingPill extends ConsumerWidget {
+  const _NowPlayingPill({super.key, required this.deviceId});
+
+  final String deviceId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final d = ref.watch(deviceProvider(deviceId));
+    if (d == null) return const SizedBox.shrink();
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final playing = d.state.raw == 'playing';
+    final title = d.state.mediaTitle ?? d.name;
+    final subtitle = d.state.mediaArtist ?? d.name;
+    return Semantics(
+      label: '${l10n.mediaNowPlaying}: $title, $subtitle',
+      child: GestureDetector(
+        onTap: () => context.push(AppRoutes.device(d.id, kiosk: true)),
+        child: GlassPanel(
+          radius: 40,
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MediaArtwork(
+                deviceId: d.id,
+                size: 44,
+                radius: 22,
+                background: const Color(0xFFB065E8),
+                iconColor: Colors.white,
+              ),
+              const SizedBox(width: 12),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 200),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: GlassColors.text,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: GlassColors.muted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 4),
+              IconButton(
+                key: const Key('kioskPlayPause'),
+                tooltip: l10n.mediaPlayPause,
+                color: GlassColors.text,
+                style: IconButton.styleFrom(
+                  side: const BorderSide(color: GlassColors.muted),
+                ),
+                onPressed: d.supports(Capability.mediaPause)
+                    ? () => runDeviceCommand(
+                        context,
+                        ref,
+                        d,
+                        const MediaPlayPause(),
+                      )
+                    : null,
+                icon: Icon(
+                  playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

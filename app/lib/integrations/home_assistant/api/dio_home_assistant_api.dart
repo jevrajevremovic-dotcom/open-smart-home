@@ -7,6 +7,7 @@ import '../../../core/logging/app_logger.dart';
 import '../../../core/network/server_address.dart';
 import '../../../core/network/tls_trust.dart';
 import '../models/ha_calendar.dart';
+import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 import '../transport/transport.dart';
 import 'dio_error_mapper.dart';
@@ -160,6 +161,23 @@ class DioHomeAssistantApi implements HomeAssistantApi {
       calendarId,
     );
   }
+
+  @override
+  Future<HaConversationReply> processConversation(
+    String text, {
+    String? language,
+    String? conversationId,
+  }) async => HaConversationReply.parse(
+    await _authorized(
+      'POST',
+      '/api/conversation/process',
+      data: {
+        'text': text,
+        'language': ?language,
+        'conversation_id': ?conversationId,
+      },
+    ),
+  );
 
   /// Pictures larger than this are refused (a profile picture is ~50 kB).
   static const _maxImageBytes = 5 * 1024 * 1024;

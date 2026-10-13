@@ -2474,6 +2474,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Events are visible to anyone looking at the wall tablet.'**
   String get kioskShowCalendarHint;
+
+  /// No description provided for @assistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assist'**
+  String get assistTitle;
+
+  /// No description provided for @assistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a command or a question'**
+  String get assistHint;
+
+  /// No description provided for @assistSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get assistSend;
+
+  /// No description provided for @assistIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Home Assistant to do something, for example:'**
+  String get assistIntro;
+
+  /// No description provided for @assistSuggestionLightsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off the lights'**
+  String get assistSuggestionLightsOff;
+
+  /// No description provided for @assistSuggestionTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'What is the temperature in the living room?'**
+  String get assistSuggestionTemperature;
+
+  /// No description provided for @assistSuggestionLightsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on the lights'**
+  String get assistSuggestionLightsOn;
+
+  /// No description provided for @assistUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Assist isn\'t available right now.'**
+  String get assistUnavailable;
+
+  /// No description provided for @assistNotUnderstood.
+  ///
+  /// In en, this message translates to:
+  /// **'Assist couldn\'t do that.'**
+  String get assistNotUnderstood;
+
+  /// No description provided for @assistPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Your text goes only to your Home Assistant server. Assist understands the languages set up there and acts with your account\'s permissions.'**
+  String get assistPrivacy;
+
+  /// No description provided for @mediaPlayPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Play or pause'**
+  String get mediaPlayPause;
+
+  /// No description provided for @mediaNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get mediaNext;
+
+  /// No description provided for @mediaPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get mediaPrevious;
+
+  /// No description provided for @mediaNowPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Now playing'**
+  String get mediaNowPlaying;
 }
 
 class _AppLocalizationsDelegate

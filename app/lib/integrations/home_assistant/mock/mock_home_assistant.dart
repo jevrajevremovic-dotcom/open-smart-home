@@ -8,6 +8,7 @@ import '../../../core/network/server_address.dart';
 import '../api/home_assistant_api.dart';
 import '../auth/ha_auth_client.dart';
 import '../models/ha_calendar.dart';
+import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 import '../websocket/ha_socket.dart';
 import 'mock_camera_image.dart';
@@ -320,6 +321,21 @@ class MockHomeAssistantServer {
           if (mode is String && (attrs['hvac_modes']! as List).contains(mode)) {
             state = mode;
           }
+        case ('media_player', 'media_play_pause'):
+          state = state == 'playing' ? 'paused' : 'playing';
+        case ('media_player', 'media_next_track' || 'media_previous_track'):
+          const titles = ['Kafa i kiša', 'Tiho jutro', 'Večernji šetač'];
+          final i = titles.indexOf(attrs['media_title'] as String? ?? '');
+          final step = service == 'media_next_track' ? 1 : titles.length - 1;
+          attrs['media_title'] = titles[(i + step) % titles.length];
+          state = 'playing';
+        case ('media_player', 'volume_set'):
+          final v = data['volume_level'];
+          if (v is num) attrs['volume_level'] = v.toDouble();
+        case ('media_player', 'turn_off'):
+          state = 'off';
+        case ('media_player', 'turn_on'):
+          state = 'idle';
         case ('climate', 'turn_off'):
           attrs['last_on_mode'] = state;
           state = 'off';
@@ -679,6 +695,66 @@ class MockHomeAssistantApi implements HomeAssistantApi {
       ))
         if (e.start.isBefore(end) && e.end.isAfter(start)) e,
     ];
+  }
+
+  @override
+  Future<HaConversationReply> processConversation(
+    String text, {
+    String? language,
+    String? conversationId,
+  }) async {
+    await _requireAuth();
+    await _latency();
+    final t = text.toLowerCase();
+    final sr = language?.startsWith('sr') ?? false;
+    bool has(List<String> words) => words.any(t.contains);
+    Map<String, Object?> reply(String speech, String type) => {
+      'conversation_id': conversationId ?? 'mock-conversation',
+      'response': {
+        'response_type': type,
+        'speech': {
+          'plain': {'speech': speech},
+        },
+      },
+    };
+    final lights = [
+      for (final s in server.states)
+        if ((s['entity_id']! as String).startsWith('light.'))
+          s['entity_id']! as String,
+    ];
+    if (has(['svetl', 'light'])) {
+      final off = has(['ugasi', 'isključi', 'iskljuci', 'turn off', 'off']);
+      final on = has(['upali', 'uključi', 'ukljuci', 'turn on', ' on']);
+      if (off || on) {
+        await callService(
+          'light',
+          off ? 'turn_off' : 'turn_on',
+          data: {'entity_id': lights},
+        );
+        return HaConversationReply.parse(
+          reply(
+            sr
+                ? (off ? 'Ugasio sam svetla.' : 'Upalio sam svetla.')
+                : (off ? 'Turned off the lights.' : 'Turned on the lights.'),
+            'action_done',
+          ),
+        );
+      }
+    }
+    if (has(['temperatur'])) {
+      return HaConversationReply.parse(
+        reply(
+          sr ? 'U dnevnoj sobi je 22,4 °C.' : 'The living room is 22.4 °C.',
+          'query_answer',
+        ),
+      );
+    }
+    return HaConversationReply.parse(
+      reply(
+        sr ? 'Izvinite, nisam razumeo.' : "Sorry, I couldn't understand that.",
+        'error',
+      ),
+    );
   }
 
   @override

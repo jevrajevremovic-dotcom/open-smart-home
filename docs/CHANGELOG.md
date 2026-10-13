@@ -8,6 +8,8 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Mediji: „sada svira” (naslov, izvođač, omot) na početnom ekranu i u kiosk traci, pusti/pauziraj, prethodna/sledeća, jačina zvuka; komande `media_play_pause`, `media_next_track`, `media_previous_track`.
+- Assist: tekstualne komande i pitanja Home Assistantu (dokumentovani `/api/conversation/process`) sa predlozima, u kiosku (dugme u traci) i u aplikaciji (plutajuće dugme); razgovor se nastavlja u istoj sesiji.
 - Kalendar: događaji iz svih HA kalendara (dokumentovani REST `/api/calendars`), mesečni prikaz sa označenim danima i lista po danima (Danas, Sutra…), boja po kalendaru, osvežavanje na 5 min; ekran „Kalendar” i kiosk panel (scene tada prelaze u prečice); kalendar u kiosku može da se isključi.
 - Kamere: snimci preko dokumentovanog `camera_proxy` (osvežavanje svake 2 s samo dok je kamera na ekranu, pauza u čuvaru ekrana), ekran kamere sa celim ekranom i zumiranjem, kiosk panel sa prebacivanjem između kamera; kamere u kiosku mogu da se isključe. Demo režim ima tri generisane kamere.
 - Ukućani: HA `person` entiteti (kod kuće / nije kod kuće / zona) kao avatari sa slikom ili inicijalima u kiosk zaglavlju.

@@ -18,7 +18,11 @@ import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../devices/presentation/stale_data_banner.dart';
+import '../../assist/presentation/assist_sheet.dart';
+import '../../devices/domain/capability.dart';
 import '../../favorites/presentation/favorites_screen.dart';
+import '../../media/application/media_providers.dart';
+import '../../media/presentation/media_artwork.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
@@ -46,6 +50,12 @@ class DashboardScreen extends ConsumerWidget {
             child: ConnectionIndicator(),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        key: const Key('openAssist'),
+        tooltip: context.l10n.assistTitle,
+        onPressed: () => showAssist(context),
+        child: const Icon(Icons.assistant_outlined),
       ),
       body: const MockModeBanner(child: DashboardBody()),
     );
@@ -168,6 +178,7 @@ class DashboardBody extends ConsumerWidget {
       if (syncing) const SliverToBoxAdapter(child: LinearProgressIndicator()),
       box(const DashboardSummaryRow()),
       box(WeatherSection(allowDeviceLocation: !kiosk)),
+      box(const NowPlayingCard()),
       box(const CriticalAlertsBanner()),
       if (!kiosk)
         box(
@@ -633,6 +644,54 @@ class AttentionSection extends ConsumerWidget {
                 },
               ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The media player that is playing, with play/pause.
+class NowPlayingCard extends ConsumerWidget {
+  const NowPlayingCard({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final id = ref.watch(nowPlayingIdProvider);
+    final d = id == null ? null : ref.watch(deviceProvider(id));
+    if (d == null) return const SizedBox.shrink();
+    final l10n = context.l10n;
+    final playing = d.state.raw == 'playing';
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Card(
+        key: const Key('nowPlayingCard'),
+        clipBehavior: Clip.antiAlias,
+        child: ListTile(
+          contentPadding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+          leading: MediaArtwork(deviceId: d.id, size: 48),
+          title: Text(
+            d.state.mediaTitle ?? d.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
+            [?d.state.mediaArtist, d.name].join(' · '),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          onTap: () => context.push(
+            AppRoutes.device(d.id, kiosk: ref.read(kioskActiveProvider)),
+          ),
+          trailing: d.supports(Capability.mediaPause)
+              ? IconButton.filledTonal(
+                  tooltip: l10n.mediaPlayPause,
+                  onPressed: () =>
+                      runDeviceCommand(context, ref, d, const MediaPlayPause()),
+                  icon: Icon(
+                    playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  ),
+                )
+              : null,
         ),
       ),
     );

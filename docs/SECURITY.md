@@ -50,6 +50,11 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Samo približna lokacija (Android `ACCESS_COARSE_LOCATION`, `LocationAccuracy.low`), dodatno zaokružena na 2 decimale (~1 km) pre slanja servisu MET Norway; ništa drugo se ne šalje. Osvežavanje na 30 min dok je aplikacija otvorena.
 - Samo na mobilnom; na webu i u kiosku se ne nudi.
 
+## Assist
+
+- Tekst se šalje samo na korisnikov HA (`/api/conversation/process`) i izvršava se sa ovlašćenjima prijavljenog naloga; aplikacija ga ne čuva ni ne loguje.
+- Slike medija (`entity_picture` sa `token` parametrom) učitavaju se bez tog parametra, sa `Authorization` zaglavljem.
+
 ## Kamere
 
 - Slika se uzima preko dokumentovanog `GET /api/camera_proxy/<entity_id>` sa `Authorization` zaglavljem; token se nikad ne stavlja u URL (ne koristi se `access_token` iz `entity_picture`).

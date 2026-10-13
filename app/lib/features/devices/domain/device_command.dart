@@ -87,6 +87,25 @@ final class SetPresetMode extends DeviceCommand {
   Capability get requiredCapability => Capability.presetMode;
 }
 
+/// Toggle between playing and paused.
+final class MediaPlayPause extends DeviceCommand {
+  const MediaPlayPause();
+  @override
+  Capability get requiredCapability => Capability.mediaPause;
+}
+
+final class MediaNext extends DeviceCommand {
+  const MediaNext();
+  @override
+  Capability get requiredCapability => Capability.mediaNext;
+}
+
+final class MediaPrevious extends DeviceCommand {
+  const MediaPrevious();
+  @override
+  Capability get requiredCapability => Capability.mediaPrevious;
+}
+
 final class SetVolume extends DeviceCommand {
   const SetVolume(this.percent) : assert(percent >= 0 && percent <= 100);
   final int percent;

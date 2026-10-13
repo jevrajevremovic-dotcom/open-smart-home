@@ -652,5 +652,19 @@
   "calendarNextMonth": "Next month",
   "calendarBackToToday": "Today",
   "kioskShowCalendar": "Show calendar",
-  "kioskShowCalendarHint": "Events are visible to anyone looking at the wall tablet."
+  "kioskShowCalendarHint": "Events are visible to anyone looking at the wall tablet.",
+  "assistTitle": "Assist",
+  "assistHint": "Type a command or a question",
+  "assistSend": "Send",
+  "assistIntro": "Ask Home Assistant to do something, for example:",
+  "assistSuggestionLightsOff": "Turn off the lights",
+  "assistSuggestionTemperature": "What is the temperature in the living room?",
+  "assistSuggestionLightsOn": "Turn on the lights",
+  "assistUnavailable": "Assist isn't available right now.",
+  "assistNotUnderstood": "Assist couldn't do that.",
+  "assistPrivacy": "Your text goes only to your Home Assistant server. Assist understands the languages set up there and acts with your account's permissions.",
+  "mediaPlayPause": "Play or pause",
+  "mediaNext": "Next",
+  "mediaPrevious": "Previous",
+  "mediaNowPlaying": "Now playing"
 }

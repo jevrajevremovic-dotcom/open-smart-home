@@ -1393,4 +1393,48 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kioskShowCalendarHint =>
       'Events are visible to anyone looking at the wall tablet.';
+
+  @override
+  String get assistTitle => 'Assist';
+
+  @override
+  String get assistHint => 'Type a command or a question';
+
+  @override
+  String get assistSend => 'Send';
+
+  @override
+  String get assistIntro => 'Ask Home Assistant to do something, for example:';
+
+  @override
+  String get assistSuggestionLightsOff => 'Turn off the lights';
+
+  @override
+  String get assistSuggestionTemperature =>
+      'What is the temperature in the living room?';
+
+  @override
+  String get assistSuggestionLightsOn => 'Turn on the lights';
+
+  @override
+  String get assistUnavailable => 'Assist isn\'t available right now.';
+
+  @override
+  String get assistNotUnderstood => 'Assist couldn\'t do that.';
+
+  @override
+  String get assistPrivacy =>
+      'Your text goes only to your Home Assistant server. Assist understands the languages set up there and acts with your account\'s permissions.';
+
+  @override
+  String get mediaPlayPause => 'Play or pause';
+
+  @override
+  String get mediaNext => 'Next';
+
+  @override
+  String get mediaPrevious => 'Previous';
+
+  @override
+  String get mediaNowPlaying => 'Now playing';
 }

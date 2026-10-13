@@ -530,6 +530,11 @@ class HaDeviceMapper {
             : null,
         source: _str(a['source']),
         mediaTitle: _str(a['media_title']),
+        mediaArtist:
+            _str(a['media_artist']) ??
+            _str(a['media_album_name']) ??
+            _str(a['media_channel']) ??
+            _str(a['app_name']),
       ),
       DeviceLimits(sources: _strList(a['source_list'])),
     );
@@ -680,5 +685,12 @@ String? localPicturePath(Object? value) {
   final uri = Uri.tryParse(value);
   if (uri == null || uri.hasScheme || uri.hasAuthority) return null;
   if (!value.startsWith('/api/') || value.contains('..')) return null;
-  return value;
+  // Some pictures (media players, cameras) carry a short-lived
+  // `token` parameter; the app authenticates with its header instead.
+  if (!uri.queryParameters.containsKey('token')) return value;
+  final rest = Map.of(uri.queryParameters)..remove('token');
+  return Uri(
+    path: uri.path,
+    queryParameters: rest.isEmpty ? null : rest,
+  ).toString();
 }

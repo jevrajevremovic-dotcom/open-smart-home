@@ -90,6 +90,16 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Brava ulazna vrata',
       'supported_features': 0,
     }),
+    e('media_player.living_room_speaker', 'playing', {
+      'friendly_name': 'Zvučnik dnevna soba',
+      'device_class': 'speaker',
+      'media_title': 'Kafa i kiša',
+      'media_artist': 'Demo bend',
+      'volume_level': 0.35,
+      'is_volume_muted': false,
+      // PAUSE | VOLUME_SET | PREVIOUS | NEXT | TURN_ON | TURN_OFF | STOP | PLAY
+      'supported_features': 20917,
+    }),
     e('camera.front_yard', 'idle', {
       'friendly_name': 'Kamera dvorište',
       'supported_features': 0,

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import '../../../core/network/server_address.dart';
 import '../models/ha_calendar.dart';
+import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 
 /// Outcome of probing a server before the user has a token.
@@ -60,6 +61,14 @@ abstract interface class HomeAssistantApi {
     DateTime start,
     DateTime end,
   );
+
+  /// `POST /api/conversation/process` – sends a sentence to Assist, which
+  /// may control devices with the user's permissions and answers in text.
+  Future<HaConversationReply> processConversation(
+    String text, {
+    String? language,
+    String? conversationId,
+  });
 
   /// `GET` of an image served by Home Assistant itself (e.g. a person's
   /// `entity_picture`, `/api/image/serve/...`). Only server-relative

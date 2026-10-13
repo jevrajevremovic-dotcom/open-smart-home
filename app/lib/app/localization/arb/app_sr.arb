@@ -395,5 +395,19 @@
   "calendarNextMonth": "Sledeći mesec",
   "calendarBackToToday": "Danas",
   "kioskShowCalendar": "Prikaži kalendar",
-  "kioskShowCalendarHint": "Događaje vidi svako ko gleda u zidni tablet."
+  "kioskShowCalendarHint": "Događaje vidi svako ko gleda u zidni tablet.",
+  "assistTitle": "Assist",
+  "assistHint": "Napišite komandu ili pitanje",
+  "assistSend": "Pošalji",
+  "assistIntro": "Zamolite Home Assistant da nešto uradi, na primer:",
+  "assistSuggestionLightsOff": "Ugasi svetla",
+  "assistSuggestionTemperature": "Kolika je temperatura u dnevnoj sobi?",
+  "assistSuggestionLightsOn": "Upali svetla",
+  "assistUnavailable": "Assist trenutno nije dostupan.",
+  "assistNotUnderstood": "Assist to nije mogao da uradi.",
+  "assistPrivacy": "Tekst ide samo na vaš Home Assistant server. Assist razume jezike koji su tamo podešeni i radi sa ovlašćenjima vašeg naloga.",
+  "mediaPlayPause": "Pusti ili pauziraj",
+  "mediaNext": "Sledeća",
+  "mediaPrevious": "Prethodna",
+  "mediaNowPlaying": "Sada svira"
 }

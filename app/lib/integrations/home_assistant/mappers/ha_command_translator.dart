@@ -98,6 +98,15 @@ class HaCommandTranslator {
           _ => unsupported(),
         };
 
+      case MediaPlayPause():
+        if (domain != 'media_player') return unsupported();
+        return call('media_play_pause');
+      case MediaNext():
+        if (domain != 'media_player') return unsupported();
+        return call('media_next_track');
+      case MediaPrevious():
+        if (domain != 'media_player') return unsupported();
+        return call('media_previous_track');
       case SetVolume(:final percent):
         if (domain != 'media_player') return unsupported();
         return call('volume_set', {'volume_level': percent / 100});

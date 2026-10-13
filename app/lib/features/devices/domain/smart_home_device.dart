@@ -85,6 +85,7 @@ class DeviceState {
     this.isMuted,
     this.source,
     this.mediaTitle,
+    this.mediaArtist,
     this.lastTriggered,
     this.windSpeed,
     this.windSpeedUnit,
@@ -135,6 +136,9 @@ class DeviceState {
   final bool? isMuted;
   final String? source;
   final String? mediaTitle;
+
+  /// Artist, or the album / channel / app when there is no artist.
+  final String? mediaArtist;
 
   /// Automations and scripts.
   final DateTime? lastTriggered;

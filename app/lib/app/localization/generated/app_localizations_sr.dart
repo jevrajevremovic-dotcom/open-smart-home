@@ -1400,6 +1400,51 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get kioskShowCalendarHint =>
       'Događaje vidi svako ko gleda u zidni tablet.';
+
+  @override
+  String get assistTitle => 'Assist';
+
+  @override
+  String get assistHint => 'Napišite komandu ili pitanje';
+
+  @override
+  String get assistSend => 'Pošalji';
+
+  @override
+  String get assistIntro =>
+      'Zamolite Home Assistant da nešto uradi, na primer:';
+
+  @override
+  String get assistSuggestionLightsOff => 'Ugasi svetla';
+
+  @override
+  String get assistSuggestionTemperature =>
+      'Kolika je temperatura u dnevnoj sobi?';
+
+  @override
+  String get assistSuggestionLightsOn => 'Upali svetla';
+
+  @override
+  String get assistUnavailable => 'Assist trenutno nije dostupan.';
+
+  @override
+  String get assistNotUnderstood => 'Assist to nije mogao da uradi.';
+
+  @override
+  String get assistPrivacy =>
+      'Tekst ide samo na vaš Home Assistant server. Assist razume jezike koji su tamo podešeni i radi sa ovlašćenjima vašeg naloga.';
+
+  @override
+  String get mediaPlayPause => 'Pusti ili pauziraj';
+
+  @override
+  String get mediaNext => 'Sledeća';
+
+  @override
+  String get mediaPrevious => 'Prethodna';
+
+  @override
+  String get mediaNowPlaying => 'Sada svira';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

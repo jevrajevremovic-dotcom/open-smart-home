@@ -66,6 +66,14 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 `config/device_registry/update` (`device_id`, `name_by_user`, `area_id`) takođe koristi frontend i nije u developer dokumentaciji; aplikacija ga koristi samo u koraku „Dodaj uređaj → Podesi” (ime i prostorija novog uređaja). Ako ne uspe (npr. korisnik nije administrator), poruka upućuje na HA podešavanja.
 
+## Dodavanje Wi-Fi/LAN uređaja (pronađenih na mreži)
+
+Koristi API HA frontenda (nije u developer dokumentaciji, potreban je administrator), pa je opciono i uz jasnu poruku kad nije dostupno:
+- WS `config_entries/flow/progress` – tokovi koje je HA sam pokrenuo kad je pronašao uređaj (prikazuju se samo izvori `zeroconf`, `ssdp`, `dhcp`, `bluetooth`, `homekit`, `mqtt`, `usb`, …).
+- REST `GET` / `POST /api/config/config_entries/flow/<flow_id>` – trenutni korak i slanje odgovora; `flow_id` se proverava (`[A-Za-z0-9_-]`).
+- WS `frontend/get_translations` (`category: config`) – naslovi, opisi, nazivi polja i poruke o greškama na jeziku aplikacije (rezervno engleski).
+- Formulari se crtaju iz `data_schema` (tekst, broj, da/ne, izbor; klasični `type` i noviji `selector`). Polja sa „password/key/token/secret/pin” u imenu su skrivena i nikad se ne loguju. Koraci koje aplikacija ne ume (prijava u pregledaču i sl.) upućuju na HA.
+
 ## Dodavanje Zigbee uređaja
 
 - `GET /api/services` (dokumentovano) – otkrivanje: ZHA ako postoji servis `zha.permit`; Zigbee2MQTT ako postoji `mqtt.publish` i poznat je Zigbee2MQTT bridge uređaj.

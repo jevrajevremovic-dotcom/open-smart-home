@@ -8,6 +8,7 @@ import '../../../core/network/server_address.dart';
 import '../api/home_assistant_api.dart';
 import '../auth/ha_auth_client.dart';
 import '../models/ha_calendar.dart';
+import '../models/ha_config_flow.dart';
 import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 import '../websocket/ha_socket.dart';
@@ -250,6 +251,207 @@ class MockHomeAssistantServer {
       'device_id': deviceId,
     });
     return device;
+  }
+
+  // --- Config flows: devices HA "discovered" on the network ---
+
+  /// flow_id → (handler, name, current step id).
+  final Map<String, ({String handler, String name, String step})> _flows = {
+    'flowshelly01': (
+      handler: 'shelly',
+      name: 'shellyplug-s-c8c9a3',
+      step: 'confirm_discovery',
+    ),
+    'flowesphome01': (
+      handler: 'esphome',
+      name: 'kitchen-sensor',
+      step: 'discovery_confirm',
+    ),
+  };
+
+  /// `config_entries/flow/progress` payload.
+  List<Map<String, Object?>> flowProgress() => [
+    for (final MapEntry(:key, :value) in _flows.entries)
+      {
+        'flow_id': key,
+        'handler': value.handler,
+        'step_id': value.step,
+        'context': {
+          'source': 'zeroconf',
+          'title_placeholders': {'name': value.name},
+        },
+      },
+  ];
+
+  Map<String, Object?> _flowStepJson(String flowId) {
+    final f = _flows[flowId];
+    if (f == null) {
+      return {'type': 'abort', 'flow_id': flowId, 'reason': 'unknown_flow'};
+    }
+    Map<String, Object?> form(
+      List<Map<String, Object?>> schema, {
+      Map<String, String> errors = const {},
+      Map<String, String> placeholders = const {},
+    }) => {
+      'type': 'form',
+      'flow_id': flowId,
+      'handler': f.handler,
+      'step_id': f.step,
+      'data_schema': schema,
+      'errors': errors,
+      'description_placeholders': placeholders,
+    };
+    return switch (f.step) {
+      'confirm_discovery' => form(
+        const [],
+        placeholders: {'model': 'Shelly Plug S', 'host': '192.168.1.42'},
+      ),
+      'discovery_confirm' => form(const [], placeholders: {'name': f.name}),
+      'encryption_key' => form(const [
+        {'name': 'noise_psk', 'type': 'string', 'required': true},
+      ]),
+      _ => {'type': 'abort', 'flow_id': flowId, 'reason': 'unknown'},
+    };
+  }
+
+  Map<String, Object?> flowStep(String flowId) => _flowStepJson(flowId);
+
+  Map<String, Object?> flowSubmit(String flowId, Map<String, Object?> data) {
+    final f = _flows[flowId];
+    if (f == null) return _flowStepJson(flowId);
+    switch ((f.handler, f.step)) {
+      case ('shelly', 'confirm_discovery'):
+        _flows.remove(flowId);
+        _addWifiDevice(
+          deviceId: 'd_shelly_plug',
+          name: 'Shelly Plug S',
+          manufacturer: 'Shelly',
+          model: 'SHPLG-S',
+          platform: 'shelly',
+          identifier: ['shelly', 'c8c9a3'],
+          entities: [
+            (
+              'switch.shelly_plug_s',
+              'on',
+              {'friendly_name': 'Shelly Plug S', 'device_class': 'outlet'},
+            ),
+          ],
+        );
+        return {
+          'type': 'create_entry',
+          'flow_id': flowId,
+          'handler': 'shelly',
+          'title': 'Shelly Plug S',
+        };
+      case ('esphome', 'discovery_confirm'):
+        _flows[flowId] = (
+          handler: f.handler,
+          name: f.name,
+          step: 'encryption_key',
+        );
+        return _flowStepJson(flowId);
+      case ('esphome', 'encryption_key'):
+        final key = data['noise_psk'];
+        if (key is! String || key.length < 8) {
+          return {
+            ..._flowStepJson(flowId),
+            'errors': {'base': 'invalid_psk'},
+          };
+        }
+        _flows.remove(flowId);
+        _addWifiDevice(
+          deviceId: 'd_kitchen_sensor',
+          name: 'kitchen-sensor',
+          manufacturer: 'Espressif',
+          model: 'ESP32',
+          platform: 'esphome',
+          identifier: ['esphome', 'kitchen-sensor'],
+          entities: [
+            (
+              'sensor.kitchen_sensor_temperature',
+              '23.1',
+              {
+                'friendly_name': 'Kuhinja temperatura',
+                'device_class': 'temperature',
+                'unit_of_measurement': '°C',
+                'state_class': 'measurement',
+              },
+            ),
+          ],
+        );
+        return {
+          'type': 'create_entry',
+          'flow_id': flowId,
+          'handler': 'esphome',
+          'title': 'kitchen-sensor',
+        };
+    }
+    return _flowStepJson(flowId);
+  }
+
+  void flowAbort(String flowId) => _flows.remove(flowId);
+
+  /// A few `frontend/get_translations` keys (category `config`).
+  Map<String, String> flowTranslations(Object? language) {
+    final sr = language is String && language.startsWith('sr');
+    return {
+      'component.shelly.config.step.confirm_discovery.description': sr
+          ? 'Da li želite da podesite {model} na adresi {host}?'
+          : 'Do you want to set up the {model} at {host}?',
+      'component.esphome.config.step.discovery_confirm.description': sr
+          ? 'Da li želite da dodate ESPHome uređaj `{name}` u Home Assistant?'
+          : 'Do you want to add the ESPHome node `{name}` to Home Assistant?',
+      'component.esphome.config.step.encryption_key.title': sr
+          ? 'Ključ za šifrovanje'
+          : 'Enter encryption key',
+      'component.esphome.config.step.encryption_key.data.noise_psk': sr
+          ? 'Ključ za šifrovanje'
+          : 'Encryption key',
+      'component.esphome.config.error.invalid_psk': sr
+          ? 'Ključ nije ispravan.'
+          : 'The transport encryption key is invalid.',
+    };
+  }
+
+  void _addWifiDevice({
+    required String deviceId,
+    required String name,
+    required String manufacturer,
+    required String model,
+    required String platform,
+    required List<String> identifier,
+    required List<(String, String, Map<String, Object?>)> entities,
+  }) {
+    registries.devices.add({
+      'id': deviceId,
+      'name': name,
+      'name_by_user': null,
+      'manufacturer': manufacturer,
+      'model': model,
+      'area_id': null,
+      'identifiers': [identifier],
+      'connections': <List<String>>[],
+      'via_device_id': null,
+      'disabled_by': null,
+    });
+    for (final (id, _, _) in entities) {
+      registries.entities.add({
+        'entity_id': id,
+        'platform': platform,
+        'device_id': deviceId,
+        'area_id': null,
+        'entity_category': null,
+        'hidden_by': null,
+        'disabled_by': null,
+      });
+    }
+    fireEvent('device_registry_updated', {
+      'action': 'create',
+      'device_id': deviceId,
+    });
+    for (final (id, state, attrs) in entities) {
+      _setState(id, state, Map.of(attrs));
+    }
   }
 
   /// Camera snapshots served so far (lets tests check polling stops).
@@ -724,6 +926,10 @@ class _MockSocket implements HaSocket {
         _emit(ok(_server.registries.areas));
       case 'config/device_registry/list':
         _emit(ok(_server.registries.devices));
+      case 'config_entries/flow/progress':
+        _emit(ok(_server.flowProgress()));
+      case 'frontend/get_translations':
+        _emit(ok({'resources': _server.flowTranslations(msg['language'])}));
       case 'config/device_registry/update':
         final device = _server.updateDevice(
           msg['device_id'] as String? ?? '',
@@ -895,6 +1101,29 @@ class MockHomeAssistantApi implements HomeAssistantApi {
       ))
         if (e.start.isBefore(end) && e.end.isAfter(start)) e,
     ];
+  }
+
+  @override
+  Future<HaFlowStep> configFlowStep(String flowId) async {
+    await _requireAuth();
+    await _latency();
+    return HaFlowStep.parse(server.flowStep(flowId));
+  }
+
+  @override
+  Future<HaFlowStep> configFlowSubmit(
+    String flowId,
+    Map<String, Object?> data,
+  ) async {
+    await _requireAuth();
+    await _latency();
+    return HaFlowStep.parse(server.flowSubmit(flowId, data));
+  }
+
+  @override
+  Future<void> configFlowAbort(String flowId) async {
+    await _requireAuth();
+    server.flowAbort(flowId);
   }
 
   @override

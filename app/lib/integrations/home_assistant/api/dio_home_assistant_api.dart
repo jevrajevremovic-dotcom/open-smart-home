@@ -7,6 +7,7 @@ import '../../../core/logging/app_logger.dart';
 import '../../../core/network/server_address.dart';
 import '../../../core/network/tls_trust.dart';
 import '../models/ha_calendar.dart';
+import '../models/ha_config_flow.dart';
 import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 import '../transport/transport.dart';
@@ -135,6 +136,35 @@ class DioHomeAssistantApi implements HomeAssistantApi {
   @override
   Future<Map<String, Set<String>>> fetchServices() async =>
       parseServiceList(await _authorized('GET', '/api/services'));
+
+  static final _flowId = RegExp(r'^[A-Za-z0-9_-]{1,64}$');
+
+  String _flowPath(String flowId) {
+    if (!_flowId.hasMatch(flowId)) {
+      throw const AppFailure(
+        FailureKind.validation,
+        debugMessage: 'invalid flow id',
+      );
+    }
+    return '/api/config/config_entries/flow/$flowId';
+  }
+
+  @override
+  Future<HaFlowStep> configFlowStep(String flowId) async =>
+      HaFlowStep.parse(await _authorized('GET', _flowPath(flowId)));
+
+  @override
+  Future<HaFlowStep> configFlowSubmit(
+    String flowId,
+    Map<String, Object?> data,
+  ) async => HaFlowStep.parse(
+    await _authorized('POST', _flowPath(flowId), data: data),
+  );
+
+  @override
+  Future<void> configFlowAbort(String flowId) async {
+    await _authorized('DELETE', _flowPath(flowId));
+  }
 
   static final _calendarId = RegExp(r'^calendar\.[a-z0-9_]+$');
 

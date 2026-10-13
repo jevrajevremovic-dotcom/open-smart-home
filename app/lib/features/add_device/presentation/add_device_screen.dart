@@ -14,6 +14,7 @@ import '../../devices/presentation/device_presentation.dart';
 import '../../authentication/application/session_controller.dart';
 import '../application/add_device_providers.dart';
 import '../data/zigbee_pairing.dart';
+import 'discovered_devices_screen.dart';
 
 /// Step 1: what kind of device. Zigbee works today; the others follow.
 class AddDeviceScreen extends ConsumerWidget {
@@ -95,10 +96,15 @@ class AddDeviceScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           option(
             key: const Key('addWifi'),
-            soon: true,
             icon: Icons.wifi,
             title: l10n.addDeviceWifi,
-            subtitle: 'Shelly, ESPHome, Hue, Tasmota…',
+            subtitle:
+                '${l10n.addDeviceWifiSubtitle} · Shelly, ESPHome, Hue, Cast…',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const DiscoveredDevicesScreen(),
+              ),
+            ),
           ),
           const SizedBox(height: 8),
           option(

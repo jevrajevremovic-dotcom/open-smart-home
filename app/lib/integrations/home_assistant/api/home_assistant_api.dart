@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import '../../../core/network/server_address.dart';
 import '../models/ha_calendar.dart';
+import '../models/ha_config_flow.dart';
 import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 
@@ -73,6 +74,13 @@ abstract interface class HomeAssistantApi {
     String? language,
     String? conversationId,
   });
+
+  /// Config flows (adding an integration / discovered device), REST API of
+  /// the HA frontend (`/api/config/config_entries/flow/<flow_id>`; not in
+  /// the developer docs, admin only).
+  Future<HaFlowStep> configFlowStep(String flowId);
+  Future<HaFlowStep> configFlowSubmit(String flowId, Map<String, Object?> data);
+  Future<void> configFlowAbort(String flowId);
 
   /// `GET` of an image served by Home Assistant itself (e.g. a person's
   /// `entity_picture`, `/api/image/serve/...`). Only server-relative

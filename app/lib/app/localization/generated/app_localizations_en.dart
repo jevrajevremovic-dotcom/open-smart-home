@@ -1624,4 +1624,71 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get voiceCloudSettingHint =>
       'When off, voice commands are recognised on this device only.';
+
+  @override
+  String get addDeviceWifiSubtitle =>
+      'Devices Home Assistant found on your network';
+
+  @override
+  String get discoveredTitle => 'Found on the network';
+
+  @override
+  String get discoveredEmpty =>
+      'Home Assistant hasn\'t found any new devices. Connect the device to the same Wi-Fi network and wait a minute; devices HA can\'t find on its own are added in Home Assistant under Settings, Devices.';
+
+  @override
+  String discoveredVia(String source) {
+    return 'Found via $source';
+  }
+
+  @override
+  String get discoveredRefresh => 'Search again';
+
+  @override
+  String get discoveredUnavailable =>
+      'The list of found devices isn\'t available. This usually needs an administrator account in Home Assistant.';
+
+  @override
+  String get flowAdd => 'Add';
+
+  @override
+  String get flowNext => 'Next';
+
+  @override
+  String flowConfirm(String name) {
+    return 'Add $name to your home?';
+  }
+
+  @override
+  String flowDone(String title) {
+    return 'Added: $title';
+  }
+
+  @override
+  String get flowDoneDevices => 'New devices';
+
+  @override
+  String flowAborted(String reason) {
+    return 'Setup stopped: $reason';
+  }
+
+  @override
+  String get flowAbortedGeneric => 'Home Assistant stopped the setup.';
+
+  @override
+  String get flowUnsupported =>
+      'This step needs Home Assistant itself (for example a sign-in in a browser). Continue there.';
+
+  @override
+  String get flowUnsupportedField =>
+      'This form has fields the app can\'t show yet. Continue in Home Assistant.';
+
+  @override
+  String get flowWorking => 'Setting up…';
+
+  @override
+  String get flowRequired => 'Required';
+
+  @override
+  String get flowFinish => 'Done';
 }

@@ -2888,6 +2888,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When off, voice commands are recognised on this device only.'**
   String get voiceCloudSettingHint;
+
+  /// No description provided for @addDeviceWifiSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices Home Assistant found on your network'**
+  String get addDeviceWifiSubtitle;
+
+  /// No description provided for @discoveredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Found on the network'**
+  String get discoveredTitle;
+
+  /// No description provided for @discoveredEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant hasn\'t found any new devices. Connect the device to the same Wi-Fi network and wait a minute; devices HA can\'t find on its own are added in Home Assistant under Settings, Devices.'**
+  String get discoveredEmpty;
+
+  /// No description provided for @discoveredVia.
+  ///
+  /// In en, this message translates to:
+  /// **'Found via {source}'**
+  String discoveredVia(String source);
+
+  /// No description provided for @discoveredRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Search again'**
+  String get discoveredRefresh;
+
+  /// No description provided for @discoveredUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The list of found devices isn\'t available. This usually needs an administrator account in Home Assistant.'**
+  String get discoveredUnavailable;
+
+  /// No description provided for @flowAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get flowAdd;
+
+  /// No description provided for @flowNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get flowNext;
+
+  /// No description provided for @flowConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {name} to your home?'**
+  String flowConfirm(String name);
+
+  /// No description provided for @flowDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Added: {title}'**
+  String flowDone(String title);
+
+  /// No description provided for @flowDoneDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'New devices'**
+  String get flowDoneDevices;
+
+  /// No description provided for @flowAborted.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup stopped: {reason}'**
+  String flowAborted(String reason);
+
+  /// No description provided for @flowAbortedGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant stopped the setup.'**
+  String get flowAbortedGeneric;
+
+  /// No description provided for @flowUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This step needs Home Assistant itself (for example a sign-in in a browser). Continue there.'**
+  String get flowUnsupported;
+
+  /// No description provided for @flowUnsupportedField.
+  ///
+  /// In en, this message translates to:
+  /// **'This form has fields the app can\'t show yet. Continue in Home Assistant.'**
+  String get flowUnsupportedField;
+
+  /// No description provided for @flowWorking.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting up…'**
+  String get flowWorking;
+
+  /// No description provided for @flowRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get flowRequired;
+
+  /// No description provided for @flowFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get flowFinish;
 }
 
 class _AppLocalizationsDelegate

@@ -742,5 +742,51 @@
   "voiceOnDeviceUnavailable": "This device can't recognise this language offline. You can allow online recognition in Settings.",
   "voiceNoMatch": "I didn't catch that. Try again.",
   "voiceCloudSetting": "Online speech recognition",
-  "voiceCloudSettingHint": "When off, voice commands are recognised on this device only."
+  "voiceCloudSettingHint": "When off, voice commands are recognised on this device only.",
+  "addDeviceWifiSubtitle": "Devices Home Assistant found on your network",
+  "discoveredTitle": "Found on the network",
+  "discoveredEmpty": "Home Assistant hasn't found any new devices. Connect the device to the same Wi-Fi network and wait a minute; devices HA can't find on its own are added in Home Assistant under Settings, Devices.",
+  "discoveredVia": "Found via {source}",
+  "@discoveredVia": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveredRefresh": "Search again",
+  "discoveredUnavailable": "The list of found devices isn't available. This usually needs an administrator account in Home Assistant.",
+  "flowAdd": "Add",
+  "flowNext": "Next",
+  "flowConfirm": "Add {name} to your home?",
+  "@flowConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "flowDone": "Added: {title}",
+  "@flowDone": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "flowDoneDevices": "New devices",
+  "flowAborted": "Setup stopped: {reason}",
+  "@flowAborted": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "flowAbortedGeneric": "Home Assistant stopped the setup.",
+  "flowUnsupported": "This step needs Home Assistant itself (for example a sign-in in a browser). Continue there.",
+  "flowUnsupportedField": "This form has fields the app can't show yet. Continue in Home Assistant.",
+  "flowWorking": "Setting up…",
+  "flowRequired": "Required",
+  "flowFinish": "Done"
 }

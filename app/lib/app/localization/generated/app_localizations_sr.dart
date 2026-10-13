@@ -1633,6 +1633,73 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get voiceCloudSettingHint =>
       'Kad je isključeno, glasovne komande se prepoznaju samo na uređaju.';
+
+  @override
+  String get addDeviceWifiSubtitle =>
+      'Uređaji koje je Home Assistant pronašao na mreži';
+
+  @override
+  String get discoveredTitle => 'Pronađeno na mreži';
+
+  @override
+  String get discoveredEmpty =>
+      'Home Assistant nije pronašao nove uređaje. Povežite uređaj na istu Wi-Fi mrežu i sačekajte minut; uređaji koje HA ne može sam da pronađe dodaju se u Home Assistantu, u Podešavanja → Uređaji.';
+
+  @override
+  String discoveredVia(String source) {
+    return 'Pronađeno preko: $source';
+  }
+
+  @override
+  String get discoveredRefresh => 'Traži ponovo';
+
+  @override
+  String get discoveredUnavailable =>
+      'Lista pronađenih uređaja nije dostupna. Za to je obično potreban administratorski nalog u Home Assistantu.';
+
+  @override
+  String get flowAdd => 'Dodaj';
+
+  @override
+  String get flowNext => 'Dalje';
+
+  @override
+  String flowConfirm(String name) {
+    return 'Dodati $name u vaš dom?';
+  }
+
+  @override
+  String flowDone(String title) {
+    return 'Dodato: $title';
+  }
+
+  @override
+  String get flowDoneDevices => 'Novi uređaji';
+
+  @override
+  String flowAborted(String reason) {
+    return 'Podešavanje je prekinuto: $reason';
+  }
+
+  @override
+  String get flowAbortedGeneric => 'Home Assistant je prekinuo podešavanje.';
+
+  @override
+  String get flowUnsupported =>
+      'Ovaj korak zahteva sam Home Assistant (na primer prijavu u pregledaču). Nastavite tamo.';
+
+  @override
+  String get flowUnsupportedField =>
+      'Ovaj formular ima polja koja aplikacija još ne prikazuje. Nastavite u Home Assistantu.';
+
+  @override
+  String get flowWorking => 'Podešavam…';
+
+  @override
+  String get flowRequired => 'Obavezno';
+
+  @override
+  String get flowFinish => 'Gotovo';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

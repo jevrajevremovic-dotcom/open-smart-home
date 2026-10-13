@@ -8,6 +8,7 @@ import '../../features/connection/presentation/server_address_screen.dart';
 import '../../features/connection/presentation/token_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/devices/presentation/device_detail_screen.dart';
+import '../../features/energy/presentation/energy_screen.dart';
 import '../../features/favorites/presentation/favorites_screen.dart';
 import '../../features/kiosk/application/kiosk_controller.dart';
 import '../../features/kiosk/presentation/kiosk_dashboard_screen.dart';
@@ -29,6 +30,7 @@ abstract final class AppRoutes {
   static const favorites = '/favorites';
   static const scenes = '/scenes';
   static const settings = '/settings';
+  static const energy = '/energy';
 
   /// Path segment used for "devices without a room".
   static const noRoomId = '_unassigned';
@@ -179,6 +181,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                 },
               ),
             ],
+          ),
+          GoRoute(
+            path: AppRoutes.energy,
+            builder: (_, _) => const EnergyScreen(),
           ),
           GoRoute(
             path: AppRoutes.allDevices,

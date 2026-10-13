@@ -164,6 +164,7 @@ void main() {
       AppRoutes.scenes,
       AppRoutes.device('climate.living_room'),
       AppRoutes.device('light.living_room_ambient'),
+      AppRoutes.energy,
       AppRoutes.settings,
     ]) {
       await goTo(tester, location);

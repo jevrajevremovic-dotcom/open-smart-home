@@ -934,6 +934,108 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get discoverySearchAgain => 'Traži ponovo';
+
+  @override
+  String get energyTitle => 'Energija';
+
+  @override
+  String get energyToday => 'Danas';
+
+  @override
+  String get energyWeek => 'Ova nedelja';
+
+  @override
+  String get energyMonth => 'Ovaj mesec';
+
+  @override
+  String get energyCurrentPower => 'Trenutna snaga';
+
+  @override
+  String get energyNotConfigured =>
+      'Energija još nije podešena u Home Assistantu (Podešavanja → Kontrolne table → Energija). Kada se podesi, ovde se prikazuju potrošnja, solar i uređaji.';
+
+  @override
+  String get energyOffline =>
+      'Statistika energije se učitava iz Home Assistanta i dostupna je dok je aplikacija povezana.';
+
+  @override
+  String get energyConsumption => 'Potrošnja doma';
+
+  @override
+  String get energyFromGrid => 'Iz mreže';
+
+  @override
+  String get energyToGrid => 'U mrežu';
+
+  @override
+  String get energySolar => 'Solarna proizvodnja';
+
+  @override
+  String get energyBatteryCharge => 'Baterija – punjenje';
+
+  @override
+  String get energyBatteryDischarge => 'Baterija – pražnjenje';
+
+  @override
+  String get energyGas => 'Gas';
+
+  @override
+  String get energyCostEstimate => 'Procena troška';
+
+  @override
+  String get energySetTariff => 'Unesite tarifu za procenu troška';
+
+  @override
+  String get energyPerHour => 'Potrošnja po satima';
+
+  @override
+  String get energyPerDay => 'Potrošnja po danima';
+
+  @override
+  String get energyTopConsumers => 'Najveći potrošači';
+
+  @override
+  String get energyNoDevices =>
+      'U Home Assistantu nijedan uređaj nije dodat u Energy kontrolnu tablu.';
+
+  @override
+  String get energyNoData => 'Još nema podataka za ovaj period.';
+
+  @override
+  String energyPeak(String time, String value) {
+    return 'Najviše: $time · $value';
+  }
+
+  @override
+  String get energyShowChart => 'Grafikon';
+
+  @override
+  String get energyShowTable => 'Tabela';
+
+  @override
+  String get energyConsumptionChart => 'Grafikon potrošnje';
+
+  @override
+  String get energyTariffTitle => 'Tarifa za struju';
+
+  @override
+  String get energyTariffHint =>
+      'Koristi se samo za procenu na ovom uređaju. Pravi račun uključuje i fiksne naknade, poreze i višu/nižu tarifu.';
+
+  @override
+  String get energyTariffImport => 'Cena po kWh iz mreže';
+
+  @override
+  String get energyTariffExport => 'Naknada po kWh predatom u mrežu (opciono)';
+
+  @override
+  String get energyTariffCurrency => 'Valuta';
+
+  @override
+  String get energyTariffInvalid => 'Unesite ispravnu, nenegativnu cenu.';
+
+  @override
+  String get save => 'Sačuvaj';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

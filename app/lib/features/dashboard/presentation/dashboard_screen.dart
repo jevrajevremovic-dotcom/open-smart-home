@@ -123,6 +123,20 @@ class DashboardBody extends ConsumerWidget {
       if (syncing) const SliverToBoxAdapter(child: LinearProgressIndicator()),
       box(const DashboardSummaryRow()),
       box(const CriticalAlertsBanner()),
+      if (!kiosk)
+        box(
+          Consumer(
+            builder: (context, _, _) => Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                key: const Key('openEnergy'),
+                onPressed: () => context.push(AppRoutes.energy),
+                icon: const Icon(Icons.bolt),
+                label: Text(context.l10n.energyTitle),
+              ),
+            ),
+          ),
+        ),
       if (sceneIds.isNotEmpty) ...[
         box(
           Consumer(

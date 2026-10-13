@@ -53,6 +53,13 @@ class AppPreferences {
   Future<void> setKioskSettingsJson(Map<String, Object?> json) =>
       _prefs.setString('kiosk.settings', jsonEncode(json));
 
+  /// Small JSON documents (e.g. per-server energy tariff).
+  Map<String, Object?>? readJson(String key) => _readJson(key);
+
+  Future<void> writeJson(String key, Map<String, Object?>? json) => json == null
+      ? _prefs.remove(key)
+      : _prefs.setString(key, jsonEncode(json));
+
   Map<String, Object?>? _readJson(String key) {
     final raw = _prefs.getString(key);
     if (raw == null) return null;

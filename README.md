@@ -16,6 +16,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Responsive raspored: `NavigationBar` na telefonu, `NavigationRail` na tabletu
 - Mock režim sa in-memory Home Assistant serverom (REST + WebSocket protokol)
 - Web verzija (JS i WebAssembly build), koja se može hostovati direktno iz Home Assistanta
+- Energy: trenutna snaga, potrošnja danas / ove nedelje / ovog meseca, mreža, solar, baterija, gas, najveći potrošači i procena troška po vašoj tarifi (podaci iz HA Energy podešavanja i statistike)
 - Odjava i brisanje svih lokalnih podataka
 
 ## Arhitektura ukratko

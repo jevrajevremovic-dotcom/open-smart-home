@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Energy ekran: trenutna snaga uživo, potrošnja danas / ove nedelje / ovog meseca po satima ili danima (grafikon + tabela), mreža, solar, baterija, gas, najveći potrošači, procena troška po lokalno unetoj tarifi. Nekonfigurisani izvori se ne prikazuju; bez veze jasna poruka.
 - Automatsko pronalaženje Home Assistant servera na lokalnoj mreži (mDNS `_home-assistant._tcp`, Android NsdManager / Apple Bonjour), pretraga od 10 s sa ponavljanjem, samo lokalne adrese, IPv4 pre `.local`.
 - OAuth2 prijava na webu (HA login stranica, automatska obnova tokena, opoziv pri odjavi, „Zapamti me“); kompatibilno sa tokenima sačuvanim u 0.1.0.
 - `gateway/`: Docker Compose za lokalni hub (Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR, ESPHome) sa profilima, named volumenima, health check-ovima, `.env.example`, MQTT lozinkama generisanim iz okruženja i backup/restore skriptama; uputstvo `docs/GATEWAY.md`.

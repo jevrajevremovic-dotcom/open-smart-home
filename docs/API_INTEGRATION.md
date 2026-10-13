@@ -44,6 +44,12 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 4. Pri gubitku veze podaci ostaju vidljivi sa statusom `stale`; posle reconnect-a ceo postupak se ponavlja.
 5. Događaj o promeni registra pokreće ponovno učitavanje registara (debounce 500 ms).
 
+## Energija
+- `energy/get_prefs` – HA Energy podešavanja: koji statistički nizovi su uvoz/izvoz mreže, solar, baterija (punjenje = `stat_energy_to`, pražnjenje = `stat_energy_from`), gas i potrošnja po uređaju. Odgovor `not_found` znači da Energy nije podešen.
+- `recorder/statistics_during_period` sa `types: ["change"]`, `period: hour|day` i `units: {energy: kWh, volume: m³}` – promena po satu/danu. `start` je epoch u milisekundama (stariji HA: ISO tekst); oba formata se prihvataju.
+- Potrošnja doma = uvoz + solar − izvoz − punjenje baterije + pražnjenje baterije (definicija HA). Periodi bez podataka su „nema podatka”, ne 0.
+- Obe komande koristi HA frontend, ali nisu u developer dokumentaciji – opcione su; bez njih ekran jasno kaže da Energy nije dostupan.
+
 ## Registri
 `config/area_registry/list`, `config/device_registry/list` i `config/entity_registry/list` koristi zvanični HA frontend, ali nisu opisane na stranici developer dokumentacije. Zato su opcione: ako komanda ne uspe (npr. stariji server ili korisnik bez prava), aplikacija radi dalje bez prostorija i informacija o proizvođaču i protokolu. Iz odgovora se čitaju samo polja `area_id`, `name`, `icon`, `picture` / `id`, `name`, `name_by_user`, `manufacturer`, `model`, `area_id`, `identifiers`, `connections`, `via_device_id` / `entity_id`, `device_id`, `area_id`, `platform`, `entity_category`, `hidden_by`, `disabled_by`.
 

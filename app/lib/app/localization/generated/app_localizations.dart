@@ -1700,6 +1700,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search again'**
   String get discoverySearchAgain;
+
+  /// No description provided for @energyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get energyTitle;
+
+  /// No description provided for @energyToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get energyToday;
+
+  /// No description provided for @energyWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get energyWeek;
+
+  /// No description provided for @energyMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get energyMonth;
+
+  /// No description provided for @energyCurrentPower.
+  ///
+  /// In en, this message translates to:
+  /// **'Power now'**
+  String get energyCurrentPower;
+
+  /// No description provided for @energyNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy is not set up in Home Assistant yet (Settings → Dashboards → Energy). Once it is, consumption, solar and devices appear here.'**
+  String get energyNotConfigured;
+
+  /// No description provided for @energyOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy statistics are loaded from Home Assistant and are available while connected.'**
+  String get energyOffline;
+
+  /// No description provided for @energyConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Home consumption'**
+  String get energyConsumption;
+
+  /// No description provided for @energyFromGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'From grid'**
+  String get energyFromGrid;
+
+  /// No description provided for @energyToGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'To grid'**
+  String get energyToGrid;
+
+  /// No description provided for @energySolar.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar production'**
+  String get energySolar;
+
+  /// No description provided for @energyBatteryCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery charged'**
+  String get energyBatteryCharge;
+
+  /// No description provided for @energyBatteryDischarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery discharged'**
+  String get energyBatteryDischarge;
+
+  /// No description provided for @energyGas.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas'**
+  String get energyGas;
+
+  /// No description provided for @energyCostEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated cost'**
+  String get energyCostEstimate;
+
+  /// No description provided for @energySetTariff.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a tariff for a cost estimate'**
+  String get energySetTariff;
+
+  /// No description provided for @energyPerHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption per hour'**
+  String get energyPerHour;
+
+  /// No description provided for @energyPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption per day'**
+  String get energyPerDay;
+
+  /// No description provided for @energyTopConsumers.
+  ///
+  /// In en, this message translates to:
+  /// **'Top consumers'**
+  String get energyTopConsumers;
+
+  /// No description provided for @energyNoDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'No individual devices are added to the Energy dashboard in Home Assistant.'**
+  String get energyNoDevices;
+
+  /// No description provided for @energyNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for this period yet.'**
+  String get energyNoData;
+
+  /// No description provided for @energyPeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest: {time} · {value}'**
+  String energyPeak(String time, String value);
+
+  /// No description provided for @energyShowChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart'**
+  String get energyShowChart;
+
+  /// No description provided for @energyShowTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Table'**
+  String get energyShowTable;
+
+  /// No description provided for @energyConsumptionChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumption chart'**
+  String get energyConsumptionChart;
+
+  /// No description provided for @energyTariffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity tariff'**
+  String get energyTariffTitle;
+
+  /// No description provided for @energyTariffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Used only for an estimate on this device. Real bills also include fixed fees, taxes and time-of-day rates.'**
+  String get energyTariffHint;
+
+  /// No description provided for @energyTariffImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per kWh from the grid'**
+  String get energyTariffImport;
+
+  /// No description provided for @energyTariffExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Compensation per kWh to the grid (optional)'**
+  String get energyTariffExport;
+
+  /// No description provided for @energyTariffCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get energyTariffCurrency;
+
+  /// No description provided for @energyTariffInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid, non-negative price.'**
+  String get energyTariffInvalid;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
 }
 
 class _AppLocalizationsDelegate

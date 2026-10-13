@@ -443,5 +443,47 @@
   "discoveryTitle": "Home Assistant on this network",
   "discoverySearching": "Searching…",
   "discoveryNothingFound": "No server found automatically. Enter the address below.",
-  "discoverySearchAgain": "Search again"
+  "discoverySearchAgain": "Search again",
+  "energyTitle": "Energy",
+  "energyToday": "Today",
+  "energyWeek": "This week",
+  "energyMonth": "This month",
+  "energyCurrentPower": "Power now",
+  "energyNotConfigured": "Energy is not set up in Home Assistant yet (Settings → Dashboards → Energy). Once it is, consumption, solar and devices appear here.",
+  "energyOffline": "Energy statistics are loaded from Home Assistant and are available while connected.",
+  "energyConsumption": "Home consumption",
+  "energyFromGrid": "From grid",
+  "energyToGrid": "To grid",
+  "energySolar": "Solar production",
+  "energyBatteryCharge": "Battery charged",
+  "energyBatteryDischarge": "Battery discharged",
+  "energyGas": "Gas",
+  "energyCostEstimate": "Estimated cost",
+  "energySetTariff": "Enter a tariff for a cost estimate",
+  "energyPerHour": "Consumption per hour",
+  "energyPerDay": "Consumption per day",
+  "energyTopConsumers": "Top consumers",
+  "energyNoDevices": "No individual devices are added to the Energy dashboard in Home Assistant.",
+  "energyNoData": "No data for this period yet.",
+  "energyPeak": "Highest: {time} · {value}",
+  "@energyPeak": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "energyShowChart": "Chart",
+  "energyShowTable": "Table",
+  "energyConsumptionChart": "Consumption chart",
+  "energyTariffTitle": "Electricity tariff",
+  "energyTariffHint": "Used only for an estimate on this device. Real bills also include fixed fees, taxes and time-of-day rates.",
+  "energyTariffImport": "Price per kWh from the grid",
+  "energyTariffExport": "Compensation per kWh to the grid (optional)",
+  "energyTariffCurrency": "Currency",
+  "energyTariffInvalid": "Enter a valid, non-negative price.",
+  "save": "Save"
 }

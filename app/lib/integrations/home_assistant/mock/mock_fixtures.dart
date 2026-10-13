@@ -323,3 +323,50 @@ buildMockRegistries() {
     ],
   );
 }
+
+/// Mock `energy/get_prefs` (Home Assistant Energy configuration).
+Map<String, Object?> buildMockEnergyPrefs() => {
+  'energy_sources': [
+    {
+      'type': 'grid',
+      'flow_from': [
+        {'stat_energy_from': 'sensor.house_energy'},
+      ],
+      'flow_to': [
+        {'stat_energy_to': 'sensor.grid_export_energy'},
+      ],
+      'cost_adjustment_day': 0,
+    },
+    {'type': 'solar', 'stat_energy_from': 'sensor.solar_energy'},
+  ],
+  'device_consumption': [
+    {'stat_consumption': 'sensor.ac_energy', 'name': 'Klima dnevna soba'},
+    {'stat_consumption': 'sensor.coffee_energy', 'name': 'Aparat za kafu'},
+    {'stat_consumption': 'sensor.tv_energy', 'name': 'Televizor'},
+  ],
+};
+
+/// Synthetic, deterministic kWh for one hour of a mock statistic: a daily
+/// load profile with morning/evening peaks and a bell-shaped solar curve.
+double mockHourlyEnergy(String statisticId, DateTime hour) {
+  final h = hour.hour;
+  final dayFactor =
+      1 + 0.15 * ((hour.day * 7919) % 11 - 5) / 5; // varies by day
+  final load =
+      (0.25 + ((h >= 6 && h <= 8) || (h >= 18 && h <= 22) ? 0.45 : 0)) *
+      dayFactor;
+  final solar = h >= 6 && h <= 19 ? 1.4 * _bell((h - 6) / 13) / dayFactor : 0.0;
+  final export = solar > load ? (solar - load) * 0.7 : 0.0;
+  return switch (statisticId) {
+    'sensor.house_energy' => (load - solar + export).clamp(0.05, 10),
+    'sensor.solar_energy' => solar,
+    'sensor.grid_export_energy' => export,
+    'sensor.ac_energy' =>
+      (h >= 13 && h <= 17) || (h >= 19 && h <= 22) ? 0.18 * dayFactor : 0.0,
+    'sensor.coffee_energy' => h == 7 || h == 8 ? 0.12 : 0.0,
+    'sensor.tv_energy' => h >= 19 && h <= 23 ? 0.07 : 0.0,
+    _ => 0.0,
+  };
+}
+
+double _bell(double x) => x <= 0 || x >= 1 ? 0 : 4 * x * (1 - x);

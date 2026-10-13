@@ -932,4 +932,107 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discoverySearchAgain => 'Search again';
+
+  @override
+  String get energyTitle => 'Energy';
+
+  @override
+  String get energyToday => 'Today';
+
+  @override
+  String get energyWeek => 'This week';
+
+  @override
+  String get energyMonth => 'This month';
+
+  @override
+  String get energyCurrentPower => 'Power now';
+
+  @override
+  String get energyNotConfigured =>
+      'Energy is not set up in Home Assistant yet (Settings → Dashboards → Energy). Once it is, consumption, solar and devices appear here.';
+
+  @override
+  String get energyOffline =>
+      'Energy statistics are loaded from Home Assistant and are available while connected.';
+
+  @override
+  String get energyConsumption => 'Home consumption';
+
+  @override
+  String get energyFromGrid => 'From grid';
+
+  @override
+  String get energyToGrid => 'To grid';
+
+  @override
+  String get energySolar => 'Solar production';
+
+  @override
+  String get energyBatteryCharge => 'Battery charged';
+
+  @override
+  String get energyBatteryDischarge => 'Battery discharged';
+
+  @override
+  String get energyGas => 'Gas';
+
+  @override
+  String get energyCostEstimate => 'Estimated cost';
+
+  @override
+  String get energySetTariff => 'Enter a tariff for a cost estimate';
+
+  @override
+  String get energyPerHour => 'Consumption per hour';
+
+  @override
+  String get energyPerDay => 'Consumption per day';
+
+  @override
+  String get energyTopConsumers => 'Top consumers';
+
+  @override
+  String get energyNoDevices =>
+      'No individual devices are added to the Energy dashboard in Home Assistant.';
+
+  @override
+  String get energyNoData => 'No data for this period yet.';
+
+  @override
+  String energyPeak(String time, String value) {
+    return 'Highest: $time · $value';
+  }
+
+  @override
+  String get energyShowChart => 'Chart';
+
+  @override
+  String get energyShowTable => 'Table';
+
+  @override
+  String get energyConsumptionChart => 'Consumption chart';
+
+  @override
+  String get energyTariffTitle => 'Electricity tariff';
+
+  @override
+  String get energyTariffHint =>
+      'Used only for an estimate on this device. Real bills also include fixed fees, taxes and time-of-day rates.';
+
+  @override
+  String get energyTariffImport => 'Price per kWh from the grid';
+
+  @override
+  String get energyTariffExport =>
+      'Compensation per kWh to the grid (optional)';
+
+  @override
+  String get energyTariffCurrency => 'Currency';
+
+  @override
+  String get energyTariffInvalid => 'Enter a valid, non-negative price.';
+
+  @override
+  String get save => 'Save';
 }

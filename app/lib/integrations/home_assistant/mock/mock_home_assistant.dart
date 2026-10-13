@@ -48,6 +48,46 @@ class MockHomeAssistantServer {
   })
   registries;
 
+  /// `energy/get_prefs` payload; `null` simulates "Energy not configured".
+  Map<String, Object?>? energyPrefs = buildMockEnergyPrefs();
+
+  /// `recorder/statistics_during_period` with `types: [change]`, generated
+  /// from [mockHourlyEnergy]. Only past buckets are returned.
+  Map<String, Object?> statistics({
+    required DateTime start,
+    required DateTime end,
+    required List<String> ids,
+    required String period,
+  }) {
+    final now = _clock();
+    final result = <String, Object?>{};
+    for (final id in ids) {
+      final rows = <Map<String, Object?>>[];
+      var t = start.toLocal();
+      while (t.isBefore(end) && t.isBefore(now)) {
+        final next = period == 'hour'
+            ? t.add(const Duration(hours: 1))
+            : DateTime(t.year, t.month, t.day + 1);
+        var change = 0.0;
+        for (
+          var h = t;
+          h.isBefore(next) && h.isBefore(now);
+          h = h.add(const Duration(hours: 1))
+        ) {
+          change += mockHourlyEnergy(id, h);
+        }
+        rows.add({
+          'start': t.millisecondsSinceEpoch,
+          'end': next.millisecondsSinceEpoch,
+          'change': double.parse(change.toStringAsFixed(3)),
+        });
+        t = next;
+      }
+      if (rows.isNotEmpty) result[id] = rows;
+    }
+    return result;
+  }
+
   /// `GET /api/config` / WS `get_config` payload.
   final Map<String, Object?> config = {
     'location_name': 'Demo dom (mock)',
@@ -335,6 +375,29 @@ class _MockSocket implements HaSocket {
         }
       case 'get_config':
         _emit(ok(_server.config));
+      case 'energy/get_prefs':
+        final prefs = _server.energyPrefs;
+        _emit(
+          prefs == null
+              ? {
+                  'id': id,
+                  'type': 'result',
+                  'success': false,
+                  'error': {'code': 'not_found', 'message': 'No prefs'},
+                }
+              : ok(prefs),
+        );
+      case 'recorder/statistics_during_period':
+        _emit(
+          ok(
+            _server.statistics(
+              start: DateTime.parse(msg['start_time']! as String),
+              end: DateTime.parse(msg['end_time']! as String),
+              ids: (msg['statistic_ids']! as List).cast<String>(),
+              period: msg['period']! as String,
+            ),
+          ),
+        );
       case 'config/area_registry/list':
         _emit(ok(_server.registries.areas));
       case 'config/device_registry/list':

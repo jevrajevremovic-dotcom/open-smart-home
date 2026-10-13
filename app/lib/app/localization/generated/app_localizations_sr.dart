@@ -1700,6 +1700,59 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get flowFinish => 'Gotovo';
+
+  @override
+  String get matterTitle => 'Matter';
+
+  @override
+  String get matterIntro =>
+      'Dodajte Matter uređaj koji već radi sa nekom drugom aplikacijom (Google Home, Apple Home, SmartThings, Alexa…).';
+
+  @override
+  String get matterStep1 =>
+      'U toj aplikaciji otvorite uređaj i izaberite da ga podelite sa drugom aplikacijom ili kontrolerom („Povezane Matter aplikacije”, „Uključi režim uparivanja”).';
+
+  @override
+  String get matterStep2 =>
+      'Skenirajte QR kod koji se prikaže ili unesite 11-cifreni kod.';
+
+  @override
+  String get matterStep3 =>
+      'Home Assistant tada dodaje uređaj preko vaše mreže; obe aplikacije mogu da ga kontrolišu.';
+
+  @override
+  String get matterNewDeviceNote =>
+      'Potpuno novi Matter uređaji koji se uparuju preko Bluetooth-a za sada zahtevaju Home Assistant Companion aplikaciju.';
+
+  @override
+  String get matterCodeLabel => 'Kod za uparivanje';
+
+  @override
+  String get matterCodeHint => '1234-567-8901 ili MT:…';
+
+  @override
+  String get matterInvalidCode =>
+      'To nije ispravan Matter kod. Proverite cifre.';
+
+  @override
+  String get matterScan => 'Skeniraj QR kod';
+
+  @override
+  String get matterAdding => 'Dodajem uređaj… može potrajati do minut.';
+
+  @override
+  String get matterNotAvailable =>
+      'Matter integracija nije podešena u Home Assistantu. Prvo je dodajte tamo.';
+
+  @override
+  String get matterFailed =>
+      'Uređaj nije dodat. Proverite da je deljenje i dalje uključeno u drugoj aplikaciji (kod važi nekoliko minuta) i da je uređaj na istoj mreži.';
+
+  @override
+  String get matterAdded => 'Uređaj je dodat';
+
+  @override
+  String get scanPointCamera => 'Usmerite kameru na Matter QR kod.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

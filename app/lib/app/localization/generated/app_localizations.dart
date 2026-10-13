@@ -2996,6 +2996,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get flowFinish;
+
+  /// No description provided for @matterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matter'**
+  String get matterTitle;
+
+  /// No description provided for @matterIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Matter device that already works with another app (Google Home, Apple Home, SmartThings, Alexa…).'**
+  String get matterIntro;
+
+  /// No description provided for @matterStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'In that app, open the device and choose to share it with another app or controller (\"Linked Matter apps\", \"Turn on pairing mode\").'**
+  String get matterStep1;
+
+  /// No description provided for @matterStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the QR code it shows, or type the 11-digit code.'**
+  String get matterStep2;
+
+  /// No description provided for @matterStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant then adds the device over your network; both apps can control it.'**
+  String get matterStep3;
+
+  /// No description provided for @matterNewDeviceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand-new Matter devices that pair over Bluetooth need Home Assistant\'s Companion app for now.'**
+  String get matterNewDeviceNote;
+
+  /// No description provided for @matterCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup code'**
+  String get matterCodeLabel;
+
+  /// No description provided for @matterCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'1234-567-8901 or MT:…'**
+  String get matterCodeHint;
+
+  /// No description provided for @matterInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'That isn\'t a valid Matter code. Check the digits.'**
+  String get matterInvalidCode;
+
+  /// No description provided for @matterScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR code'**
+  String get matterScan;
+
+  /// No description provided for @matterAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding the device… this can take a minute.'**
+  String get matterAdding;
+
+  /// No description provided for @matterNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The Matter integration isn\'t set up in Home Assistant. Add it there first.'**
+  String get matterNotAvailable;
+
+  /// No description provided for @matterFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The device couldn\'t be added. Make sure sharing is still on in the other app (the code is valid for a few minutes) and the device is on the same network.'**
+  String get matterFailed;
+
+  /// No description provided for @matterAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Device added'**
+  String get matterAdded;
+
+  /// No description provided for @scanPointCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the Matter QR code.'**
+  String get scanPointCamera;
 }
 
 class _AppLocalizationsDelegate

@@ -15,6 +15,7 @@ import '../../authentication/application/session_controller.dart';
 import '../application/add_device_providers.dart';
 import '../data/zigbee_pairing.dart';
 import 'discovered_devices_screen.dart';
+import 'matter_screen.dart';
 
 /// Step 1: what kind of device. Zigbee works today; the others follow.
 class AddDeviceScreen extends ConsumerWidget {
@@ -109,10 +110,14 @@ class AddDeviceScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           option(
             key: const Key('addMatter'),
-            soon: true,
             icon: Icons.qr_code_2,
             title: l10n.addDeviceMatter,
-            subtitle: 'QR',
+            subtitle: l10n.matterIntro,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const MatterPairingScreen(),
+              ),
+            ),
           ),
           const SizedBox(height: 8),
           option(

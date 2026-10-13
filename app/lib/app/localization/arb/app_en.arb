@@ -788,5 +788,20 @@
   "flowUnsupportedField": "This form has fields the app can't show yet. Continue in Home Assistant.",
   "flowWorking": "Setting up…",
   "flowRequired": "Required",
-  "flowFinish": "Done"
+  "flowFinish": "Done",
+  "matterTitle": "Matter",
+  "matterIntro": "Add a Matter device that already works with another app (Google Home, Apple Home, SmartThings, Alexa…).",
+  "matterStep1": "In that app, open the device and choose to share it with another app or controller (\"Linked Matter apps\", \"Turn on pairing mode\").",
+  "matterStep2": "Scan the QR code it shows, or type the 11-digit code.",
+  "matterStep3": "Home Assistant then adds the device over your network; both apps can control it.",
+  "matterNewDeviceNote": "Brand-new Matter devices that pair over Bluetooth need Home Assistant's Companion app for now.",
+  "matterCodeLabel": "Setup code",
+  "matterCodeHint": "1234-567-8901 or MT:…",
+  "matterInvalidCode": "That isn't a valid Matter code. Check the digits.",
+  "matterScan": "Scan QR code",
+  "matterAdding": "Adding the device… this can take a minute.",
+  "matterNotAvailable": "The Matter integration isn't set up in Home Assistant. Add it there first.",
+  "matterFailed": "The device couldn't be added. Make sure sharing is still on in the other app (the code is valid for a few minutes) and the device is on the same network.",
+  "matterAdded": "Device added",
+  "scanPointCamera": "Point the camera at the Matter QR code."
 }

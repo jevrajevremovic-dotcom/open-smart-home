@@ -74,6 +74,12 @@ Koristi API HA frontenda (nije u developer dokumentaciji, potreban je administra
 - WS `frontend/get_translations` (`category: config`) – naslovi, opisi, nazivi polja i poruke o greškama na jeziku aplikacije (rezervno engleski).
 - Formulari se crtaju iz `data_schema` (tekst, broj, da/ne, izbor; klasični `type` i noviji `selector`). Polja sa „password/key/token/secret/pin” u imenu su skrivena i nikad se ne loguju. Koraci koje aplikacija ne ume (prijava u pregledaču i sl.) upućuju na HA.
 
+## Dodavanje Matter uređaja (deljenog iz druge aplikacije)
+
+- Otkrivanje: `matter` u `components` iz `/api/config`.
+- WS `matter/commission` sa `{"code": "<MT:… ili 11/21 cifara>", "network_only": true}` (frontend API, administrator). Kod se pre slanja proverava (QR `MT:` ili ručni kod sa Verhoeff kontrolnom cifrom).
+- QR se skenira kamerom telefona (`mobile_scanner`, ne na webu); slika se ne čuva. Potpuno novi uređaji preko Bluetooth-a zahtevaju nativne Matter API-je (Companion app) – nije u aplikaciji.
+
 ## Dodavanje Zigbee uređaja
 
 - `GET /api/services` (dokumentovano) – otkrivanje: ZHA ako postoji servis `zha.permit`; Zigbee2MQTT ako postoji `mqtt.publish` i poznat je Zigbee2MQTT bridge uređaj.

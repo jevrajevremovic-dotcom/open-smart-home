@@ -1691,4 +1691,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get flowFinish => 'Done';
+
+  @override
+  String get matterTitle => 'Matter';
+
+  @override
+  String get matterIntro =>
+      'Add a Matter device that already works with another app (Google Home, Apple Home, SmartThings, Alexa…).';
+
+  @override
+  String get matterStep1 =>
+      'In that app, open the device and choose to share it with another app or controller (\"Linked Matter apps\", \"Turn on pairing mode\").';
+
+  @override
+  String get matterStep2 =>
+      'Scan the QR code it shows, or type the 11-digit code.';
+
+  @override
+  String get matterStep3 =>
+      'Home Assistant then adds the device over your network; both apps can control it.';
+
+  @override
+  String get matterNewDeviceNote =>
+      'Brand-new Matter devices that pair over Bluetooth need Home Assistant\'s Companion app for now.';
+
+  @override
+  String get matterCodeLabel => 'Setup code';
+
+  @override
+  String get matterCodeHint => '1234-567-8901 or MT:…';
+
+  @override
+  String get matterInvalidCode =>
+      'That isn\'t a valid Matter code. Check the digits.';
+
+  @override
+  String get matterScan => 'Scan QR code';
+
+  @override
+  String get matterAdding => 'Adding the device… this can take a minute.';
+
+  @override
+  String get matterNotAvailable =>
+      'The Matter integration isn\'t set up in Home Assistant. Add it there first.';
+
+  @override
+  String get matterFailed =>
+      'The device couldn\'t be added. Make sure sharing is still on in the other app (the code is valid for a few minutes) and the device is on the same network.';
+
+  @override
+  String get matterAdded => 'Device added';
+
+  @override
+  String get scanPointCamera => 'Point the camera at the Matter QR code.';
 }

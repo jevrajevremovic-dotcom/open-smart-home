@@ -391,6 +391,30 @@ class MockHomeAssistantServer {
 
   void flowAbort(String flowId) => _flows.remove(flowId);
 
+  /// `matter/commission` for a shared device: any well-formed code works
+  /// once; `00000000000`-like codes fail as if the device were unreachable.
+  bool commissionMatter(String code) {
+    if (code.startsWith('0000') || _states.containsKey('switch.eve_energy')) {
+      return false;
+    }
+    _addWifiDevice(
+      deviceId: 'd_eve_energy',
+      name: 'Eve Energy',
+      manufacturer: 'Eve Systems',
+      model: 'Eve Energy 20EBO8301',
+      platform: 'matter',
+      identifier: ['matter', 'deviceid_0000000000000001-0000000000000005'],
+      entities: [
+        (
+          'switch.eve_energy',
+          'off',
+          {'friendly_name': 'Eve Energy', 'device_class': 'outlet'},
+        ),
+      ],
+    );
+    return true;
+  }
+
   /// A few `frontend/get_translations` keys (category `config`).
   Map<String, String> flowTranslations(Object? language) {
     final sr = language is String && language.startsWith('sr');
@@ -571,7 +595,7 @@ class MockHomeAssistantServer {
     'latitude': 44.8125,
     'longitude': 20.4612,
     'unit_system': {'temperature': '°C'},
-    'components': ['light', 'switch', 'sensor', 'climate', 'scene'],
+    'components': ['light', 'switch', 'sensor', 'climate', 'scene', 'matter'],
   };
 
   /// Artificial latency for `get_states`, to exercise events that arrive
@@ -926,6 +950,21 @@ class _MockSocket implements HaSocket {
         _emit(ok(_server.registries.areas));
       case 'config/device_registry/list':
         _emit(ok(_server.registries.devices));
+      case 'matter/commission':
+        final code = msg['code'];
+        if (code is String && _server.commissionMatter(code)) {
+          _emit(ok(null));
+        } else {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {
+              'code': 'unknown_error',
+              'message': 'Commissioning failed',
+            },
+          });
+        }
       case 'config_entries/flow/progress':
         _emit(ok(_server.flowProgress()));
       case 'frontend/get_translations':

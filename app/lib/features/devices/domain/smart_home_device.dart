@@ -86,6 +86,8 @@ class DeviceState {
     this.source,
     this.mediaTitle,
     this.lastTriggered,
+    this.windSpeed,
+    this.windSpeedUnit,
   });
 
   /// Home Assistant's state string, kept for diagnostics.
@@ -136,6 +138,10 @@ class DeviceState {
 
   /// Automations and scripts.
   final DateTime? lastTriggered;
+
+  /// Weather entities.
+  final double? windSpeed;
+  final String? windSpeedUnit;
 }
 
 /// Allowed ranges and options, so controls never offer invalid values.

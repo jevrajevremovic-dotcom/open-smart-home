@@ -293,7 +293,7 @@ void main() {
     });
 
     test('unsupported domains map to unknown without capabilities', () {
-      final d = one('weather.home', 'sunny');
+      final d = one('update.home_assistant_core', 'off');
       expect(d.kind, DeviceKind.unknown);
       expect(d.capabilities, isEmpty);
     });

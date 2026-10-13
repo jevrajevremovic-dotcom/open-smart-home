@@ -109,6 +109,26 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     return body is List ? parseStateList(body) : const [];
   }
 
+  @override
+  Future<Object?> callServiceForResponse(
+    String domain,
+    String service, {
+    Map<String, Object?> data = const {},
+  }) async {
+    if (!_slug.hasMatch(domain) || !_slug.hasMatch(service)) {
+      throw AppFailure(
+        FailureKind.validation,
+        debugMessage: 'invalid service name $domain.$service',
+      );
+    }
+    final body = await _authorized(
+      'POST',
+      '/api/services/$domain/$service?return_response',
+      data: data,
+    );
+    return body is Map ? body['service_response'] : null;
+  }
+
   Future<Object?> _authorized(
     String method,
     String path, {

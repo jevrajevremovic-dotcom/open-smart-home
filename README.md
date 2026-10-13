@@ -16,6 +16,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Responsive raspored: `NavigationBar` na telefonu, `NavigationRail` na tabletu
 - Mock režim sa in-memory Home Assistant serverom (REST + WebSocket protokol)
 - Web verzija (JS i WebAssembly build), koja se može hostovati direktno iz Home Assistanta
+- Vreme: kod kuće iz Home Assistanta (trenutno + 5 dana, ništa ne napušta mrežu) i, ako ga uključite, na lokaciji telefona (MET Norway, približna lokacija)
 - Energy: trenutna snaga, potrošnja danas / ove nedelje / ovog meseca, mreža, solar, baterija, gas, najveći potrošači i procena troška po vašoj tarifi (podaci iz HA Energy podešavanja i statistike)
 - Odjava i brisanje svih lokalnih podataka
 
@@ -39,6 +40,7 @@ Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji:
 | `dio` | REST klijent: timeout-i, mapiranje grešaka, prilagođen `HttpClient` za TLS pinovanje |
 | `web_socket_channel` | WebSocket transport (`IOWebSocketChannel` sa istim TLS pravilima; u pregledaču browser WebSocket) |
 | `web` | pristup `sessionStorage`/`localStorage` u web verziji |
+| `geolocator` | približna lokacija telefona, samo za opciono „Vreme na mojoj lokaciji” |
 | `nsd` | mDNS/zeroconf pretraga (`_home-assistant._tcp`) preko sistemskih servisa: Android NsdManager, Apple Bonjour |
 | `flutter_secure_storage` | Keychain / Keystore za pristupni token |
 | `shared_preferences` | samo netajna podešavanja (tema, jezik, adresa servera) |

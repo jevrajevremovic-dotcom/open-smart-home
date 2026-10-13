@@ -1892,6 +1892,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get save;
+
+  /// No description provided for @weatherClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get weatherClear;
+
+  /// No description provided for @weatherClearNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear night'**
+  String get weatherClearNight;
+
+  /// No description provided for @weatherPartlyCloudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Partly cloudy'**
+  String get weatherPartlyCloudy;
+
+  /// No description provided for @weatherCloudy.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloudy'**
+  String get weatherCloudy;
+
+  /// No description provided for @weatherFog.
+  ///
+  /// In en, this message translates to:
+  /// **'Fog'**
+  String get weatherFog;
+
+  /// No description provided for @weatherRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Rain'**
+  String get weatherRain;
+
+  /// No description provided for @weatherHeavyRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy rain'**
+  String get weatherHeavyRain;
+
+  /// No description provided for @weatherSnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Snow'**
+  String get weatherSnow;
+
+  /// No description provided for @weatherSleet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleet'**
+  String get weatherSleet;
+
+  /// No description provided for @weatherHail.
+  ///
+  /// In en, this message translates to:
+  /// **'Hail'**
+  String get weatherHail;
+
+  /// No description provided for @weatherThunderstorm.
+  ///
+  /// In en, this message translates to:
+  /// **'Thunderstorm'**
+  String get weatherThunderstorm;
+
+  /// No description provided for @weatherWindy.
+  ///
+  /// In en, this message translates to:
+  /// **'Windy'**
+  String get weatherWindy;
+
+  /// No description provided for @weatherExceptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe weather'**
+  String get weatherExceptional;
+
+  /// No description provided for @weatherAtHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather at home'**
+  String get weatherAtHome;
+
+  /// No description provided for @weatherAtMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather at my location'**
+  String get weatherAtMyLocation;
+
+  /// No description provided for @weatherEnableDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather at my location'**
+  String get weatherEnableDevice;
+
+  /// No description provided for @weatherEnableDeviceConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get weatherEnableDeviceConfirm;
+
+  /// No description provided for @weatherDeviceDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'The app will ask for your approximate location (not precise GPS), round it to about 1 km and send it to MET Norway (api.met.no) to get the forecast – about every 30 minutes while the app is open. Nothing else is sent. You can turn this off anytime in Settings → Privacy & data.'**
+  String get weatherDeviceDisclosure;
+
+  /// No description provided for @weatherDeviceSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Approximate location is sent to MET Norway. Off by default.'**
+  String get weatherDeviceSettingHint;
+
+  /// No description provided for @weatherMetAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Data: MET Norway (CC BY 4.0)'**
+  String get weatherMetAttribution;
+
+  /// No description provided for @weatherLocationDeniedForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Location access is blocked for this app.'**
+  String get weatherLocationDeniedForever;
+
+  /// No description provided for @weatherOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get weatherOpenSettings;
+
+  /// No description provided for @weatherLocationOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are turned off on this device.'**
+  String get weatherLocationOff;
+
+  /// No description provided for @weatherLocationDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Location access was not allowed.'**
+  String get weatherLocationDenied;
+
+  /// No description provided for @weatherDeviceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather for your location is not available right now.'**
+  String get weatherDeviceUnavailable;
+
+  /// No description provided for @weatherWind.
+  ///
+  /// In en, this message translates to:
+  /// **'Wind'**
+  String get weatherWind;
+
+  /// No description provided for @summaryOutdoor.
+  ///
+  /// In en, this message translates to:
+  /// **'Outdoor'**
+  String get summaryOutdoor;
 }
 
 class _AppLocalizationsDelegate

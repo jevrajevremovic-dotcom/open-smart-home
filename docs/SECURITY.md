@@ -44,6 +44,12 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Briše se pri odjavi (za taj server) i pri „Obriši sve lokalne podatke” (sve).
 - Keširani podaci se uvek prikazuju sa oznakom vremena, a komande su blokirane dok se ne potvrde živi podaci.
 
+## Vreme na lokaciji telefona (opciono)
+- Podrazumevano isključeno; prikazuje se vreme iz Home Assistanta (lokacija doma), bez slanja podataka van mreže.
+- Pre uključivanja dijalog objašnjava šta se šalje i kome; tek tada se traži dozvola.
+- Samo približna lokacija (Android `ACCESS_COARSE_LOCATION`, `LocationAccuracy.low`), dodatno zaokružena na 2 decimale (~1 km) pre slanja servisu MET Norway; ništa drugo se ne šalje. Osvežavanje na 30 min dok je aplikacija otvorena.
+- Samo na mobilnom; na webu i u kiosku se ne nudi.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

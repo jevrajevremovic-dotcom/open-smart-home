@@ -1035,4 +1035,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get weatherClear => 'Clear';
+
+  @override
+  String get weatherClearNight => 'Clear night';
+
+  @override
+  String get weatherPartlyCloudy => 'Partly cloudy';
+
+  @override
+  String get weatherCloudy => 'Cloudy';
+
+  @override
+  String get weatherFog => 'Fog';
+
+  @override
+  String get weatherRain => 'Rain';
+
+  @override
+  String get weatherHeavyRain => 'Heavy rain';
+
+  @override
+  String get weatherSnow => 'Snow';
+
+  @override
+  String get weatherSleet => 'Sleet';
+
+  @override
+  String get weatherHail => 'Hail';
+
+  @override
+  String get weatherThunderstorm => 'Thunderstorm';
+
+  @override
+  String get weatherWindy => 'Windy';
+
+  @override
+  String get weatherExceptional => 'Severe weather';
+
+  @override
+  String get weatherAtHome => 'Weather at home';
+
+  @override
+  String get weatherAtMyLocation => 'Weather at my location';
+
+  @override
+  String get weatherEnableDevice => 'Weather at my location';
+
+  @override
+  String get weatherEnableDeviceConfirm => 'Turn on';
+
+  @override
+  String get weatherDeviceDisclosure =>
+      'The app will ask for your approximate location (not precise GPS), round it to about 1 km and send it to MET Norway (api.met.no) to get the forecast – about every 30 minutes while the app is open. Nothing else is sent. You can turn this off anytime in Settings → Privacy & data.';
+
+  @override
+  String get weatherDeviceSettingHint =>
+      'Approximate location is sent to MET Norway. Off by default.';
+
+  @override
+  String get weatherMetAttribution => 'Data: MET Norway (CC BY 4.0)';
+
+  @override
+  String get weatherLocationDeniedForever =>
+      'Location access is blocked for this app.';
+
+  @override
+  String get weatherOpenSettings => 'Open settings';
+
+  @override
+  String get weatherLocationOff =>
+      'Location services are turned off on this device.';
+
+  @override
+  String get weatherLocationDenied => 'Location access was not allowed.';
+
+  @override
+  String get weatherDeviceUnavailable =>
+      'Weather for your location is not available right now.';
+
+  @override
+  String get weatherWind => 'Wind';
+
+  @override
+  String get summaryOutdoor => 'Outdoor';
 }

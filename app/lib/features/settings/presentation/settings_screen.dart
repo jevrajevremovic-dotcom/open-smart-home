@@ -8,6 +8,8 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
 import '../../kiosk/presentation/kiosk_settings_section.dart';
+import '../../weather/application/weather_providers.dart';
+import '../../weather/presentation/weather_card.dart';
 import 'language_selector.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -75,6 +77,20 @@ class SettingsScreen extends ConsumerWidget {
                   section(l10n.kioskSection),
                   const KioskSettingsSection(),
                   section(l10n.privacySection),
+                  if (ref.watch(deviceLocatorProvider).isSupported)
+                    SwitchListTile(
+                      key: const Key('deviceWeatherSwitch'),
+                      contentPadding: EdgeInsets.zero,
+                      secondary: const Icon(Icons.my_location_outlined),
+                      title: Text(l10n.weatherEnableDevice),
+                      subtitle: Text(l10n.weatherDeviceSettingHint),
+                      value: ref.watch(deviceWeatherEnabledProvider),
+                      onChanged: (v) => v
+                          ? enableDeviceWeather(context, ref)
+                          : ref
+                                .read(deviceWeatherEnabledProvider.notifier)
+                                .set(false),
+                    ),
                   OutlinedButton.icon(
                     onPressed: () => _confirmDeleteAll(context, ref),
                     style: OutlinedButton.styleFrom(

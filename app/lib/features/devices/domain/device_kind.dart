@@ -53,6 +53,10 @@ enum DeviceKind {
   scene,
   script,
   automation,
+
+  /// A Home Assistant weather entity (shown in the weather card, not as
+  /// a device).
+  weather,
   unknown;
 
   bool get isLight =>

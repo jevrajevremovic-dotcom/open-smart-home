@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import '../../../app/localization/l10n.dart';
 import '../domain/capability.dart';
 import '../domain/device_kind.dart';
+import '../../weather/domain/weather.dart';
+import '../../weather/presentation/weather_labels.dart';
 import '../domain/smart_home_device.dart';
 
 /// Visual emphasis of a device's current state.
@@ -82,6 +84,9 @@ abstract final class DevicePresentation {
       DeviceKind.scene => Icons.palette_outlined,
       DeviceKind.script => Icons.description_outlined,
       DeviceKind.automation => Icons.auto_mode,
+      DeviceKind.weather => weatherIcon(
+        WeatherCondition.fromHomeAssistant(d.state.raw),
+      ),
       DeviceKind.unknown => Icons.device_unknown_outlined,
     };
   }
@@ -207,6 +212,10 @@ abstract final class DevicePresentation {
       DeviceKind.script =>
         s.isOn == true ? l10n.scriptRunning : l10n.routineReady,
       DeviceKind.automation => onOff(),
+      DeviceKind.weather => weatherConditionLabel(
+        l10n,
+        WeatherCondition.fromHomeAssistant(s.raw),
+      ),
       DeviceKind.unknown => s.raw,
       _ when d.kind.isSensor => sensorValue(l10n, s),
       _ => onOff(),

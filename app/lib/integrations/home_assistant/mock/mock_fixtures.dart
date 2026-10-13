@@ -113,6 +113,18 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Grejalica garaža',
       'restored': true,
     }),
+    e('weather.forecast_home', 'partlycloudy', {
+      'friendly_name': 'Forecast Home',
+      'temperature': 17.5,
+      'temperature_unit': '°C',
+      'humidity': 62,
+      'wind_speed': 11.2,
+      'wind_speed_unit': 'km/h',
+      'pressure': 1016,
+      'pressure_unit': 'hPa',
+      'attribution': 'Weather forecast from met.no, delivered by the Norwegian Meteorological Institute.',
+      'supported_features': 3, // FORECAST_DAILY | FORECAST_HOURLY
+    }),
     e('binary_sensor.bedroom_window', 'off', {
       'friendly_name': 'Prozor spavaća soba',
       'device_class': 'window',
@@ -309,6 +321,7 @@ buildMockRegistries() {
       entity('scene.movie_night', 'homeassistant', areaId: 'living_room'),
       entity('automation.hallway_night_light', 'automation', areaId: 'hallway'),
       entity('switch.garage_heater', 'shelly', deviceId: 'd_garage_heater'),
+      entity('weather.forecast_home', 'met'),
       entity(
         'binary_sensor.bedroom_window',
         'mqtt',

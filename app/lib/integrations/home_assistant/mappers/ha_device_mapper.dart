@@ -145,6 +145,19 @@ class HaDeviceMapper {
           lastTriggered: known ? DateTime.tryParse(s.state) : null,
         ),
       ),
+      'weather' => _Mapped(
+        DeviceKind.weather,
+        const {},
+        DeviceState(
+          raw: s.state,
+          textValue: known ? s.state : null,
+          currentTemperature: _num(a['temperature']),
+          unit: _str(a['temperature_unit']),
+          currentHumidity: _num(a['humidity']),
+          windSpeed: _num(a['wind_speed']),
+          windSpeedUnit: _str(a['wind_speed_unit']),
+        ),
+      ),
       'button' || 'input_button' => _Mapped(DeviceKind.button, {
         Capability.trigger,
       }, DeviceState(raw: s.state)),

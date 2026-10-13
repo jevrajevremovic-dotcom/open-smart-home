@@ -1036,6 +1036,91 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get save => 'Sačuvaj';
+
+  @override
+  String get weatherClear => 'Vedro';
+
+  @override
+  String get weatherClearNight => 'Vedra noć';
+
+  @override
+  String get weatherPartlyCloudy => 'Delimično oblačno';
+
+  @override
+  String get weatherCloudy => 'Oblačno';
+
+  @override
+  String get weatherFog => 'Magla';
+
+  @override
+  String get weatherRain => 'Kiša';
+
+  @override
+  String get weatherHeavyRain => 'Jaka kiša';
+
+  @override
+  String get weatherSnow => 'Sneg';
+
+  @override
+  String get weatherSleet => 'Susnežica';
+
+  @override
+  String get weatherHail => 'Grad';
+
+  @override
+  String get weatherThunderstorm => 'Grmljavina';
+
+  @override
+  String get weatherWindy => 'Vetrovito';
+
+  @override
+  String get weatherExceptional => 'Nepogoda';
+
+  @override
+  String get weatherAtHome => 'Vreme kod kuće';
+
+  @override
+  String get weatherAtMyLocation => 'Vreme na mojoj lokaciji';
+
+  @override
+  String get weatherEnableDevice => 'Vreme na mojoj lokaciji';
+
+  @override
+  String get weatherEnableDeviceConfirm => 'Uključi';
+
+  @override
+  String get weatherDeviceDisclosure =>
+      'Aplikacija će tražiti vašu približnu lokaciju (ne precizan GPS), zaokružiti je na oko 1 km i slati je servisu MET Norway (api.met.no) radi prognoze – otprilike na svakih 30 minuta dok je aplikacija otvorena. Ništa drugo se ne šalje. Možete isključiti bilo kada u Podešavanja → Privatnost i podaci.';
+
+  @override
+  String get weatherDeviceSettingHint =>
+      'Približna lokacija se šalje servisu MET Norway. Podrazumevano isključeno.';
+
+  @override
+  String get weatherMetAttribution => 'Podaci: MET Norway (CC BY 4.0)';
+
+  @override
+  String get weatherLocationDeniedForever =>
+      'Pristup lokaciji je blokiran za ovu aplikaciju.';
+
+  @override
+  String get weatherOpenSettings => 'Otvori podešavanja';
+
+  @override
+  String get weatherLocationOff => 'Lokacija je isključena na ovom uređaju.';
+
+  @override
+  String get weatherLocationDenied => 'Pristup lokaciji nije dozvoljen.';
+
+  @override
+  String get weatherDeviceUnavailable =>
+      'Vreme za vašu lokaciju trenutno nije dostupno.';
+
+  @override
+  String get weatherWind => 'Vetar';
+
+  @override
+  String get summaryOutdoor => 'Napolju';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

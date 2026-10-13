@@ -88,6 +88,27 @@ class MockHomeAssistantServer {
     return result;
   }
 
+  /// Synthetic 5-day forecast (mock `weather.get_forecasts`, type daily).
+  List<Map<String, Object?>> dailyForecast() {
+    const conditions = ['partlycloudy', 'sunny', 'rainy', 'cloudy', 'sunny'];
+    final today = _clock();
+    return [
+      for (var i = 0; i < 5; i++)
+        {
+          'datetime': DateTime(
+            today.year,
+            today.month,
+            today.day + i,
+            12,
+          ).toUtc().toIso8601String(),
+          'condition': conditions[i],
+          'temperature': 18.0 + i - (i == 2 ? 4 : 0),
+          'templow': 9.0 + i / 2,
+          'precipitation': i == 2 ? 6.4 : 0.0,
+        },
+    ];
+  }
+
   /// `GET /api/config` / WS `get_config` payload.
   final Map<String, Object?> config = {
     'location_name': 'Demo dom (mock)',
@@ -501,6 +522,26 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   }) async {
     await _requireAuth();
     return parseStateList(server.callService(domain, service, data));
+  }
+
+  @override
+  Future<Object?> callServiceForResponse(
+    String domain,
+    String service, {
+    Map<String, Object?> data = const {},
+  }) async {
+    await _requireAuth();
+    if (domain != 'weather' || service != 'get_forecasts') {
+      throw AppFailure(
+        FailureKind.validation,
+        debugMessage: '$domain.$service returns no response',
+      );
+    }
+    final id = data['entity_id'];
+    // Shape of the documented `weather.get_forecasts` response.
+    return {
+      if (id is String) id: {'forecast': server.dailyForecast()},
+    };
   }
 
   @override

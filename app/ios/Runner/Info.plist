@@ -73,6 +73,8 @@
 	</dict>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Used to find and connect to your Home Assistant server on the local network.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Only if you turn on "Weather at my location": your approximate location (about 1 km) is sent to MET Norway to get the forecast.</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_home-assistant._tcp</string>

@@ -20,6 +20,8 @@ import '../../devices/presentation/stale_data_banner.dart';
 import '../../favorites/presentation/favorites_screen.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
+import '../../weather/application/weather_providers.dart';
+import '../../weather/presentation/weather_card.dart';
 import '../application/home_summaries.dart';
 
 /// Default home screen, generated from the available devices: summary,
@@ -122,6 +124,7 @@ class DashboardBody extends ConsumerWidget {
       ),
       if (syncing) const SliverToBoxAdapter(child: LinearProgressIndicator()),
       box(const DashboardSummaryRow()),
+      box(WeatherSection(allowDeviceLocation: !kiosk)),
       box(const CriticalAlertsBanner()),
       if (!kiosk)
         box(
@@ -271,6 +274,9 @@ class DashboardSummaryRow extends ConsumerWidget {
         : ref.watch(deviceProvider(s.powerDeviceId!));
     final locale = l10n.localeName;
     final colors = context.statusColors;
+    final outdoor = ref.watch(
+      homeWeatherProvider.select((w) => w?.now.temperature),
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -293,6 +299,13 @@ class DashboardSummaryRow extends ConsumerWidget {
                     ? null
                     : formatNumber(locale, s.averageTemperature!, unit: '°'),
               ),
+              if (outdoor != null)
+                _SummaryCard(
+                  width: cardWidth,
+                  icon: Icons.wb_cloudy_outlined,
+                  label: l10n.summaryOutdoor,
+                  value: formatNumber(locale, outdoor, unit: '°'),
+                ),
               _SummaryCard(
                 width: cardWidth,
                 icon: Icons.water_drop_outlined,

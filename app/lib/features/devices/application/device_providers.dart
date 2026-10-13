@@ -57,7 +57,8 @@ final visibleDeviceIdsProvider = Provider<ValueList<String>>((ref) {
             (d) =>
                 !d.isAuxiliary &&
                 !d.kind.isRoutine &&
-                d.kind != DeviceKind.unknown,
+                d.kind != DeviceKind.unknown &&
+                d.kind != DeviceKind.weather,
           )
           .toList()
         ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));

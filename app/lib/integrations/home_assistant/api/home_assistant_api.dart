@@ -38,5 +38,14 @@ abstract interface class HomeAssistantApi {
     Map<String, Object?> data = const {},
   });
 
+  /// `POST /api/services/<domain>/<service>?return_response` – for services
+  /// that return data (e.g. `weather.get_forecasts`). Returns the
+  /// `service_response` object.
+  Future<Object?> callServiceForResponse(
+    String domain,
+    String service, {
+    Map<String, Object?> data = const {},
+  });
+
   void close();
 }

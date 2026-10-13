@@ -1844,6 +1844,41 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get scanPointCameraZwave => 'Usmerite kameru na Z-Wave QR kod.';
+
+  @override
+  String get historyTitle => 'Istorija';
+
+  @override
+  String get history24h => '24 h';
+
+  @override
+  String get history7d => '7 dana';
+
+  @override
+  String historyMin(String value) {
+    return 'Min $value';
+  }
+
+  @override
+  String historyMax(String value) {
+    return 'Maks $value';
+  }
+
+  @override
+  String get historyEmpty => 'Nema podataka za ovaj period.';
+
+  @override
+  String get historyUnavailable =>
+      'Istorija nije dostupna. Moguće je da je snimanje (recorder) isključeno u Home Assistantu.';
+
+  @override
+  String get activityTitle => 'Aktivnost';
+
+  @override
+  String get activityByUser => 'ručno';
+
+  @override
+  String get activityEmpty => 'U poslednja 24 sata nije bilo promena.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

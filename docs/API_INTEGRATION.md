@@ -17,6 +17,8 @@ Home Assistant se oglašava kao `_home-assistant._tcp` (integracija *Zeroconf*, 
 | `GET /api/config` | `fetchConfig()` | naziv lokacije, verzija, vremenska zona, jedinice |
 | `GET /api/states` | `fetchStates()` | početno učitavanje svih entiteta |
 | `POST /api/services/<domain>/<service>` | `callService()` | komande; odgovor je lista promenjenih stanja |
+| `GET /api/history/period/<start>?filter_entity_id=&end_time=&minimal_response&no_attributes` | `fetchHistory()` | istorija jednog entiteta (24 h / 7 dana) za grafikon ili vremensku traku |
+| `GET /api/logbook/<start>?entity=&end_time=` | `fetchLogbook()` | aktivnost uređaja u poslednja 24 h (uz oznaku da li je promenu napravila osoba) |
 | `GET /api/services` | `fetchServices()` | dostupni servisi po domenu (otkrivanje ZHA/Zigbee2MQTT) |
 | `POST /api/conversation/process` | `processConversation()` | Assist: tekstualna komanda/pitanje (`text`, `language`, `conversation_id`); odgovor `response.speech.plain.speech`, `response_type` |
 | `GET /api/calendars` | `fetchCalendars()` | lista kalendara (Google, CalDAV, Local Calendar…) |

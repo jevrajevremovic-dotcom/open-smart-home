@@ -837,5 +837,29 @@
         "type": "String"
       }
     }
+  },
+  "historyTitle": "History",
+  "history24h": "24 h",
+  "history7d": "7 days",
+  "historyMin": "Min {value}",
+  "historyMax": "Max {value}",
+  "historyEmpty": "No data for this period.",
+  "historyUnavailable": "History isn't available. The recorder may be turned off in Home Assistant.",
+  "activityTitle": "Activity",
+  "activityByUser": "by a person",
+  "activityEmpty": "Nothing happened in the last 24 hours.",
+  "@historyMin": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@historyMax": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   }
 }

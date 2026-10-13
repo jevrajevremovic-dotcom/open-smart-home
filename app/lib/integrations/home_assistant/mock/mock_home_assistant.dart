@@ -9,6 +9,7 @@ import '../api/home_assistant_api.dart';
 import '../auth/ha_auth_client.dart';
 import '../models/ha_calendar.dart';
 import '../models/ha_config_flow.dart';
+import '../models/ha_history.dart';
 import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 import '../websocket/ha_socket.dart';
@@ -97,6 +98,48 @@ class MockHomeAssistantServer {
       '${d.year.toString().padLeft(4, '0')}-'
       '${d.month.toString().padLeft(2, '0')}-'
       '${d.day.toString().padLeft(2, '0')}';
+
+  /// Synthetic history: numeric sensors follow a daily curve around their
+  /// current value; everything else toggles every few hours.
+  List<Map<String, Object?>> history(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  ) {
+    final current = _states[entityId];
+    if (current == null) return const [];
+    final state = current['state']! as String;
+    final value = double.tryParse(state);
+    final out = <Map<String, Object?>>[];
+    if (value != null) {
+      for (
+        var t = start;
+        t.isBefore(end);
+        t = t.add(const Duration(minutes: 30))
+      ) {
+        final h = t.hour + t.minute / 60;
+        final v = value + 2 * math.sin((h - 9) / 24 * 2 * math.pi);
+        out.add({
+          'state': v.toStringAsFixed(1),
+          'last_changed': t.toUtc().toIso8601String(),
+        });
+      }
+      return out;
+    }
+    const pair = {'on': 'off', 'off': 'on'};
+    final other = pair[state];
+    if (other == null) {
+      return [
+        {'state': state, 'last_changed': start.toUtc().toIso8601String()},
+      ];
+    }
+    var s = other;
+    for (var t = start; t.isBefore(end); t = t.add(const Duration(hours: 3))) {
+      out.add({'state': s, 'last_changed': t.toUtc().toIso8601String()});
+      s = pair[s]!;
+    }
+    return out;
+  }
 
   /// `GET /api/services` payload (only the parts the app looks at).
   List<Map<String, Object?>> get serviceList => [
@@ -1275,6 +1318,38 @@ class MockHomeAssistantApi implements HomeAssistantApi {
       ))
         if (e.start.isBefore(end) && e.end.isAfter(start)) e,
     ];
+  }
+
+  @override
+  Future<List<HaHistoryPoint>> fetchHistory(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    await _requireAuth();
+    await _latency();
+    return HaHistoryPoint.parse([server.history(entityId, start, end)]);
+  }
+
+  @override
+  Future<List<HaLogbookEntry>> fetchLogbook(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    await _requireAuth();
+    await _latency();
+    final points = server.history(entityId, start, end);
+    return HaLogbookEntry.parse([
+      for (final (i, p) in points.indexed)
+        if (i > 0)
+          {
+            'when': p['last_changed'],
+            'state': p['state'],
+            'entity_id': entityId,
+            if (i.isEven) 'context_user_id': 'mock-user',
+          },
+    ]);
   }
 
   @override

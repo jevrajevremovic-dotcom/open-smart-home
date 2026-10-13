@@ -8,6 +8,7 @@ import '../../../core/network/server_address.dart';
 import '../../../core/network/tls_trust.dart';
 import '../models/ha_calendar.dart';
 import '../models/ha_config_flow.dart';
+import '../models/ha_history.dart';
 import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 import '../transport/transport.dart';
@@ -165,6 +166,54 @@ class DioHomeAssistantApi implements HomeAssistantApi {
   Future<void> configFlowAbort(String flowId) async {
     await _authorized('DELETE', _flowPath(flowId));
   }
+
+  static final _entityId = RegExp(r'^[a-z_]+\.[a-z0-9_]+$');
+
+  String _periodPath(
+    String base,
+    String entityId,
+    DateTime start,
+    DateTime end, {
+    bool history = false,
+  }) {
+    if (!_entityId.hasMatch(entityId)) {
+      throw const AppFailure(
+        FailureKind.validation,
+        debugMessage: 'invalid entity id',
+      );
+    }
+    final query = Uri(
+      queryParameters: {
+        if (history) 'filter_entity_id': entityId else 'entity': entityId,
+        'end_time': end.toUtc().toIso8601String(),
+      },
+    ).query;
+    final flags = history ? '&minimal_response&no_attributes' : '';
+    // An ISO timestamp is path-safe (digits, '-', ':', '.', 'Z').
+    return '$base/${start.toUtc().toIso8601String()}'
+        '?$query$flags';
+  }
+
+  @override
+  Future<List<HaHistoryPoint>> fetchHistory(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  ) async => HaHistoryPoint.parse(
+    await _authorized(
+      'GET',
+      _periodPath('/api/history/period', entityId, start, end, history: true),
+    ),
+  );
+
+  @override
+  Future<List<HaLogbookEntry>> fetchLogbook(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  ) async => HaLogbookEntry.parse(
+    await _authorized('GET', _periodPath('/api/logbook', entityId, start, end)),
+  );
 
   static final _calendarId = RegExp(r'^calendar\.[a-z0-9_]+$');
 

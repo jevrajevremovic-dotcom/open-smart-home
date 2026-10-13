@@ -15,6 +15,7 @@ import '../domain/smart_home_device.dart';
 import 'controls/climate_controls.dart';
 import 'controls/light_controls.dart';
 import 'controls/other_controls.dart';
+import 'device_history.dart';
 import 'device_presentation.dart';
 import 'stale_data_banner.dart';
 
@@ -89,6 +90,10 @@ class DeviceDetailScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                if (hasHistory(device)) ...[
+                  const SizedBox(height: 24),
+                  DeviceHistorySection(device: device),
+                ],
                 const SizedBox(height: 24),
                 _InfoSection(device: device),
               ],

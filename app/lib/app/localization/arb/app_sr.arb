@@ -524,5 +524,15 @@
   "zwaveSmartStartHint": "Uređaji sa SmartStart QR kodom se sami pridruže kad ih uključite.",
   "zwaveSmartStartDone": "Uređaj je prijavljen. Uključite ga; pridružiće se sam za nekoliko minuta.",
   "zwaveSmartStartInvalid": "To nije Z-Wave QR kod.",
-  "scanPointCameraZwave": "Usmerite kameru na Z-Wave QR kod."
+  "scanPointCameraZwave": "Usmerite kameru na Z-Wave QR kod.",
+  "historyTitle": "Istorija",
+  "history24h": "24 h",
+  "history7d": "7 dana",
+  "historyMin": "Min {value}",
+  "historyMax": "Maks {value}",
+  "historyEmpty": "Nema podataka za ovaj period.",
+  "historyUnavailable": "Istorija nije dostupna. Moguće je da je snimanje (recorder) isključeno u Home Assistantu.",
+  "activityTitle": "Aktivnost",
+  "activityByUser": "ručno",
+  "activityEmpty": "U poslednja 24 sata nije bilo promena."
 }

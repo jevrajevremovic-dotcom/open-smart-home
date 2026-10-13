@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import '../../../core/network/server_address.dart';
 import '../models/ha_calendar.dart';
 import '../models/ha_config_flow.dart';
+import '../models/ha_history.dart';
 import '../models/ha_conversation.dart';
 import '../models/ha_models.dart';
 
@@ -55,6 +56,21 @@ abstract interface class HomeAssistantApi {
   /// `GET /api/services` – available services per domain
   /// (`{"zha": {"permit", …}, "mqtt": {"publish", …}}`).
   Future<Map<String, Set<String>>> fetchServices();
+
+  /// `GET /api/history/period/<start>` for one entity (documented),
+  /// minimal response without attributes.
+  Future<List<HaHistoryPoint>> fetchHistory(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  );
+
+  /// `GET /api/logbook/<start>` for one entity (documented).
+  Future<List<HaLogbookEntry>> fetchLogbook(
+    String entityId,
+    DateTime start,
+    DateTime end,
+  );
 
   /// `GET /api/calendars` – calendar entities.
   Future<List<HaCalendar>> fetchCalendars();

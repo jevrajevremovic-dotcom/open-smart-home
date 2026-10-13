@@ -1835,4 +1835,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanPointCameraZwave => 'Point the camera at the Z-Wave QR code.';
+
+  @override
+  String get historyTitle => 'History';
+
+  @override
+  String get history24h => '24 h';
+
+  @override
+  String get history7d => '7 days';
+
+  @override
+  String historyMin(String value) {
+    return 'Min $value';
+  }
+
+  @override
+  String historyMax(String value) {
+    return 'Max $value';
+  }
+
+  @override
+  String get historyEmpty => 'No data for this period.';
+
+  @override
+  String get historyUnavailable =>
+      'History isn\'t available. The recorder may be turned off in Home Assistant.';
+
+  @override
+  String get activityTitle => 'Activity';
+
+  @override
+  String get activityByUser => 'by a person';
+
+  @override
+  String get activityEmpty => 'Nothing happened in the last 24 hours.';
 }

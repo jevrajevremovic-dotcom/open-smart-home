@@ -3248,6 +3248,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Point the camera at the Z-Wave QR code.'**
   String get scanPointCameraZwave;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTitle;
+
+  /// No description provided for @history24h.
+  ///
+  /// In en, this message translates to:
+  /// **'24 h'**
+  String get history24h;
+
+  /// No description provided for @history7d.
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get history7d;
+
+  /// No description provided for @historyMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Min {value}'**
+  String historyMin(String value);
+
+  /// No description provided for @historyMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Max {value}'**
+  String historyMax(String value);
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No data for this period.'**
+  String get historyEmpty;
+
+  /// No description provided for @historyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'History isn\'t available. The recorder may be turned off in Home Assistant.'**
+  String get historyUnavailable;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activityTitle;
+
+  /// No description provided for @activityByUser.
+  ///
+  /// In en, this message translates to:
+  /// **'by a person'**
+  String get activityByUser;
+
+  /// No description provided for @activityEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing happened in the last 24 hours.'**
+  String get activityEmpty;
 }
 
 class _AppLocalizationsDelegate

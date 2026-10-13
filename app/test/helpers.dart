@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:open_smart_home/core/config/app_config.dart';
+import 'package:open_smart_home/core/platform/browser_port.dart';
 import 'package:open_smart_home/core/storage/app_preferences.dart';
 import 'package:open_smart_home/core/storage/credential_store.dart';
 import 'package:open_smart_home/features/devices/data/cache/snapshot_cache.dart';
@@ -11,18 +12,49 @@ class InMemoryCredentialStore implements CredentialStore {
   final Map<String, String> values = {};
 
   @override
-  Future<String?> readAccessToken(String serverId) async => values[serverId];
+  Future<String?> readCredential(String serverId) async => values[serverId];
 
   @override
-  Future<void> writeAccessToken(String serverId, String token) async =>
-      values[serverId] = token;
+  Future<void> writeCredential(
+    String serverId,
+    String value, {
+    bool persistent = false,
+  }) async => values[serverId] = value;
 
   @override
-  Future<void> deleteAccessToken(String serverId) async =>
+  Future<void> deleteCredential(String serverId) async =>
       values.remove(serverId);
 
   @override
   Future<void> deleteAll() async => values.clear();
+}
+
+/// A scriptable browser for testing the web sign-in on the VM.
+class FakeBrowserPort implements BrowserPort {
+  FakeBrowserPort(this.currentUrl);
+
+  @override
+  Uri currentUrl;
+  final Map<String, String> session = {};
+  final List<Uri> navigations = [];
+
+  @override
+  bool get isAvailable => true;
+
+  @override
+  String? sessionGet(String key) => session[key];
+
+  @override
+  void sessionSet(String key, String value) => session[key] = value;
+
+  @override
+  void sessionRemove(String key) => session.remove(key);
+
+  @override
+  void navigate(Uri url) => navigations.add(url);
+
+  @override
+  void replaceUrl(Uri url) => currentUrl = url;
 }
 
 /// Records kiosk platform calls instead of touching platform channels.

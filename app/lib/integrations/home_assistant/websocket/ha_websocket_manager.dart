@@ -360,7 +360,13 @@ class HaWebSocketManager {
     try {
       token = await _readToken();
     } on AppFailure catch (e) {
-      _failTerminal(e);
+      // A token refresh that failed for network reasons is worth retrying;
+      // a rejected credential is not.
+      if (e.isTransient) {
+        _handleDrop(generation, e);
+      } else {
+        _failTerminal(e);
+      }
       return;
     }
     if (generation != _generation) return;

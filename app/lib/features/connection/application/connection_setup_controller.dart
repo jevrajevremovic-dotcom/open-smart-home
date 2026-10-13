@@ -8,7 +8,9 @@ import '../../../core/network/server_address.dart';
 import '../../../integrations/home_assistant/api/home_assistant_api.dart';
 import '../../../integrations/home_assistant/home_assistant_providers.dart';
 import '../../authentication/application/session_controller.dart';
+import '../../authentication/application/web_login.dart';
 import '../../authentication/data/server_profile.dart';
+import '../../authentication/domain/stored_credential.dart';
 
 enum ProbeStatus { idle, checking, reachable, failed }
 
@@ -160,6 +162,13 @@ class ConnectionSetupController extends Notifier<ConnectionSetupState> {
     return false;
   }
 
+  /// Web only: continues on Home Assistant's own login page (OAuth2).
+  void startWebSignIn({required bool remember}) {
+    final profile = state.profile;
+    if (profile == null) return;
+    ref.read(webLoginServiceProvider).start(profile, remember: remember);
+  }
+
   /// Verifies [rawToken] against the server and, on success, signs in.
   Future<bool> authenticate(String rawToken) async {
     final profile = state.profile;
@@ -183,7 +192,9 @@ class ConnectionSetupController extends Notifier<ConnectionSetupState> {
       await api.verifyAccessToken();
       final config = await api.fetchConfig(); // proves it really is HA
       _log.info('Token accepted by Home Assistant ${config.version}');
-      await ref.read(sessionControllerProvider.notifier).signIn(profile, token);
+      await ref
+          .read(sessionControllerProvider.notifier)
+          .signIn(profile, LongLivedToken(token, persistent: false));
       state = const ConnectionSetupState();
       return true;
     } on AppFailure catch (e) {

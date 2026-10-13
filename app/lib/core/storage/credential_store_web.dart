@@ -4,44 +4,59 @@ import '../errors/app_failure.dart';
 import '../logging/app_logger.dart';
 import 'credential_store.dart';
 
-CredentialStore createPlatformCredentialStore() =>
-    SessionStorageCredentialStore();
+CredentialStore createPlatformCredentialStore() => BrowserCredentialStore();
 
-/// Browser storage for the access token: the tab's `sessionStorage`.
+/// Browser storage for credentials.
 ///
 /// Browsers have no hardware-backed secret store comparable to Keychain or
-/// Keystore. Encrypting into `localStorage` would keep the key next to the
-/// data and needs Web Crypto, which is unavailable on plain-HTTP origins
-/// (the usual `http://homeassistant.local:8123`). So the token is kept only
-/// for the lifetime of the tab: it is never written to disk long-term and
-/// disappears when the tab is closed. Persistent web sign-in is planned via
-/// OAuth2 refresh tokens.
-class SessionStorageCredentialStore implements CredentialStore {
+/// Keystore, and Web Crypto is unavailable on plain-HTTP origins (the usual
+/// `http://homeassistant.local:8123`). So:
+/// * default: the tab's `sessionStorage` – gone when the tab closes;
+/// * "remember me": `localStorage` – survives restarts, like Home
+///   Assistant's own frontend does. Only offered with OAuth2, where the
+///   stored refresh token can be revoked from the HA profile at any time.
+class BrowserCredentialStore implements CredentialStore {
   static const _prefix = 'ha_access_token::';
   static final _log = AppLogger('CredentialStore');
 
-  web.Storage get _storage => web.window.sessionStorage;
+  web.Storage get _session => web.window.sessionStorage;
+  web.Storage get _local => web.window.localStorage;
 
   @override
-  Future<String?> readAccessToken(String serverId) async =>
-      _guard('read', () => _storage.getItem('$_prefix$serverId'));
+  Future<String?> readCredential(String serverId) async => _guard(
+    'read',
+    () =>
+        _session.getItem('$_prefix$serverId') ??
+        _local.getItem('$_prefix$serverId'),
+  );
 
   @override
-  Future<void> writeAccessToken(String serverId, String token) async =>
-      _guard('write', () => _storage.setItem('$_prefix$serverId', token));
+  Future<void> writeCredential(
+    String serverId,
+    String value, {
+    bool persistent = false,
+  }) async => _guard('write', () {
+    // Exactly one copy, in the store the user chose.
+    (persistent ? _session : _local).removeItem('$_prefix$serverId');
+    (persistent ? _local : _session).setItem('$_prefix$serverId', value);
+  });
 
   @override
-  Future<void> deleteAccessToken(String serverId) async =>
-      _guard('delete', () => _storage.removeItem('$_prefix$serverId'));
+  Future<void> deleteCredential(String serverId) async => _guard('delete', () {
+    _session.removeItem('$_prefix$serverId');
+    _local.removeItem('$_prefix$serverId');
+  });
 
   @override
   Future<void> deleteAll() async => _guard('deleteAll', () {
-    final keys = [for (var i = 0; i < _storage.length; i++) _storage.key(i)]
-        .whereType<String>()
-        .where((k) => k.startsWith(_prefix))
-        .toList();
-    for (final key in keys) {
-      _storage.removeItem(key);
+    for (final storage in [_session, _local]) {
+      final keys = [for (var i = 0; i < storage.length; i++) storage.key(i)]
+          .whereType<String>()
+          .where((k) => k.startsWith(_prefix))
+          .toList();
+      for (final key in keys) {
+        storage.removeItem(key);
+      }
     }
   });
 
@@ -49,10 +64,10 @@ class SessionStorageCredentialStore implements CredentialStore {
     try {
       return action();
     } on Object catch (e) {
-      _log.error('sessionStorage $op failed', e.runtimeType);
+      _log.error('Browser storage $op failed', e.runtimeType);
       throw AppFailure(
         FailureKind.storage,
-        debugMessage: 'sessionStorage $op failed',
+        debugMessage: 'browser storage $op failed',
       );
     }
   }

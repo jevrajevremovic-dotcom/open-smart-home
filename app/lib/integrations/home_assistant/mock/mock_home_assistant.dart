@@ -4,6 +4,7 @@ import 'dart:convert';
 import '../../../core/errors/app_failure.dart';
 import '../../../core/network/server_address.dart';
 import '../api/home_assistant_api.dart';
+import '../auth/ha_auth_client.dart';
 import '../models/ha_models.dart';
 import '../websocket/ha_socket.dart';
 import 'mock_fixtures.dart';
@@ -75,6 +76,20 @@ class MockHomeAssistantServer {
 
   /// When false, new connections fail as if the server were down.
   bool online = true;
+
+  // --- OAuth2 (see MockHaAuthClient) ---
+  // Codes and refresh tokens are recognised by their format, so they stay
+  // valid across a page reload (which recreates this in-memory server in
+  // the web build). Only used codes and revoked tokens are remembered.
+  int _nextAuthCode = 1;
+  final Set<String> _usedAuthCodes = {};
+
+  /// Refresh tokens revoked via `/auth/revoke`.
+  final Set<String> revokedRefreshTokens = {};
+  Duration accessTokenLifetime = const Duration(minutes: 30);
+
+  /// Number of refresh-token grants (tests check single-flight refresh).
+  int refreshCount = 0;
 
   /// Currently open WebSocket connections (leak checks in tests).
   int get openConnections => _sockets.length;
@@ -427,4 +442,68 @@ class MockHomeAssistantApi implements HomeAssistantApi {
 
   @override
   void close() {}
+}
+
+/// [HaAuthClient] for mock mode: "logging in" redirects straight back with
+/// a code, so the whole OAuth2 flow can be exercised without a server.
+class MockHaAuthClient implements HaAuthClient {
+  MockHaAuthClient(this.server);
+
+  final MockHomeAssistantServer server;
+
+  @override
+  Uri authorizeUrl({
+    required String clientId,
+    required Uri redirectUri,
+    required String state,
+  }) {
+    final code =
+        'mock-code-${DateTime.now().microsecondsSinceEpoch}-${server._nextAuthCode++}';
+    return redirectUri.replace(queryParameters: {'code': code, 'state': state});
+  }
+
+  @override
+  Future<OAuthTokenResponse> exchangeCode({
+    required String code,
+    required String clientId,
+  }) async {
+    if (!code.startsWith('mock-code-') || !server._usedAuthCodes.add(code)) {
+      throw const AppFailure(
+        FailureKind.authentication,
+        statusCode: 400,
+        debugMessage: 'invalid_grant',
+      );
+    }
+    final refresh =
+        'mock-refresh-${DateTime.now().microsecondsSinceEpoch}-${server._nextAuthCode++}';
+    return OAuthTokenResponse(
+      accessToken: 'mock-access-${server._nextAuthCode++}',
+      expiresIn: server.accessTokenLifetime,
+      refreshToken: refresh,
+    );
+  }
+
+  @override
+  Future<OAuthTokenResponse> refresh({
+    required String refreshToken,
+    required String clientId,
+  }) async {
+    server.refreshCount++;
+    if (!refreshToken.startsWith('mock-refresh-') ||
+        server.revokedRefreshTokens.contains(refreshToken)) {
+      throw const AppFailure(
+        FailureKind.authentication,
+        statusCode: 400,
+        debugMessage: 'invalid_grant',
+      );
+    }
+    return OAuthTokenResponse(
+      accessToken: 'mock-access-${server._nextAuthCode++}',
+      expiresIn: server.accessTokenLifetime,
+    );
+  }
+
+  @override
+  Future<void> revoke(String refreshToken) async =>
+      server.revokedRefreshTokens.add(refreshToken);
 }

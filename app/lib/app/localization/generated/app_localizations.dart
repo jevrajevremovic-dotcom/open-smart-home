@@ -678,7 +678,7 @@ abstract class AppLocalizations {
   /// No description provided for @webSessionNotice.
   ///
   /// In en, this message translates to:
-  /// **'In the browser the token is kept only while this tab is open. Closing the tab signs you out.'**
+  /// **'With a token, sign-in lasts only while this tab is open.'**
   String get webSessionNotice;
 
   /// No description provided for @failureConfirmationRequired.
@@ -1640,6 +1640,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Showing data from {time} — updating…'**
   String dataUpdating(String time);
+
+  /// No description provided for @oauthSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Home Assistant'**
+  String get oauthSignIn;
+
+  /// No description provided for @oauthHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You sign in on your Home Assistant\'s own login page – this app never sees your password.'**
+  String get oauthHint;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me on this device'**
+  String get rememberMe;
+
+  /// No description provided for @rememberMeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay signed in after the browser is closed. You can revoke access anytime in your Home Assistant profile (Security → Refresh tokens).'**
+  String get rememberMeHint;
+
+  /// No description provided for @orUseToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Or use a long-lived access token'**
+  String get orUseToken;
+
+  /// No description provided for @loginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in did not complete. Please try again.'**
+  String get loginFailed;
 }
 
 class _AppLocalizationsDelegate

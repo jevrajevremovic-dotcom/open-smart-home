@@ -96,7 +96,7 @@
   "privacySection": "Privatnost i podaci",
   "addressErrorMixedContent": "Ova stranica je učitana preko HTTPS-a, pa pregledač blokira veze ka http:// serveru. Koristite https:// adresu servera ili otvorite web aplikaciju sa iste adrese kao Home Assistant.",
   "webConnectionHint": "U pregledaču ovo može značiti i da Home Assistant ne dozvoljava adresu ove web aplikacije (dodajte je u http: cors_allowed_origins u configuration.yaml) ili da pregledač ne veruje sertifikatu servera (jednom otvorite adresu servera u novoj kartici i prihvatite ga).",
-  "webSessionNotice": "U pregledaču se token čuva samo dok je ova kartica otvorena. Zatvaranjem kartice se odjavljujete.",
+  "webSessionNotice": "Sa tokenom prijava traje samo dok je ova kartica otvorena.",
   "failureConfirmationRequired": "Potvrdite ovu radnju.",
   "devicesInRooms": "{devices, plural, one{{devices} uređaj} few{{devices} uređaja} other{{devices} uređaja}} u {rooms, plural, =0{0 prostorija} one{{rooms} prostoriji} other{{rooms} prostorija}}",
   "dataStaleSince": "Nema veze — prikazani su podaci poslednji put ažurirani {time}. Možda nisu aktuelni.",
@@ -256,5 +256,11 @@
   "durationNever": "Nikad",
   "durationSeconds": "{seconds} s",
   "durationMinutes": "{minutes} min",
-  "dataUpdating": "Prikazani su podaci od {time} — ažuriranje…"
+  "dataUpdating": "Prikazani su podaci od {time} — ažuriranje…",
+  "oauthSignIn": "Prijavi se preko Home Assistanta",
+  "oauthHint": "Prijavljujete se na stranici za prijavu vašeg Home Assistanta – aplikacija nikad ne vidi vašu lozinku.",
+  "rememberMe": "Zapamti me na ovom uređaju",
+  "rememberMeHint": "Ostajete prijavljeni i posle zatvaranja pregledača. Pristup možete opozvati bilo kada u Home Assistant profilu (Security → Refresh tokens).",
+  "orUseToken": "Ili koristite dugotrajni pristupni token",
+  "loginFailed": "Prijava nije završena. Pokušajte ponovo."
 }

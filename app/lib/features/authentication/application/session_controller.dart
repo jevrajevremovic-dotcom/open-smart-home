@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/errors/app_failure.dart';
 import '../../../core/logging/app_logger.dart';
+import '../../../core/storage/credential_store.dart';
 import '../../../integrations/home_assistant/api/home_assistant_api.dart';
 import '../../../integrations/home_assistant/home_assistant_providers.dart';
 import '../../../integrations/home_assistant/models/ha_models.dart';
@@ -11,6 +13,9 @@ import '../../../integrations/home_assistant/websocket/connection_status.dart';
 import '../../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
 import '../data/server_profile.dart';
 import '../data/session_repository.dart';
+import '../domain/stored_credential.dart';
+import 'access_token_manager.dart';
+import 'web_login.dart';
 
 /// The signed-in state. `null` in [SessionController] means signed out.
 @immutable
@@ -24,22 +29,49 @@ class SessionController extends AsyncNotifier<Session?> {
 
   SessionRepository get _repository => ref.read(sessionRepositoryProvider);
 
+  // Built directly (not via accessTokenManagerProvider, which depends on
+  // this notifier) to revoke OAuth2 tokens during sign-out.
+  AccessTokenManager _tokenManagerFor(ServerProfile profile) =>
+      AccessTokenManager(
+        serverId: profile.id,
+        store: ref.read(credentialStoreProvider),
+        authClient: () => ref.read(haAuthClientFactoryProvider)(profile),
+      );
+
   @override
   Future<Session?> build() async {
+    // Web: returning from Home Assistant's login page with ?code=…&state=…
+    final webLogin = ref.read(webLoginServiceProvider);
+    if (webLogin.hasCallback) {
+      try {
+        await webLogin.complete();
+      } on AppFailure catch (e) {
+        _log.warning('Web sign-in failed', e);
+        // Report after build so listeners exist.
+        unawaited(
+          Future.microtask(() => ref.read(loginErrorProvider.notifier).set(e)),
+        );
+      }
+    }
     final profile = await _repository.loadProfile();
     return profile == null ? null : Session(profile);
   }
 
-  /// Persists a profile whose token was already verified by the caller.
-  Future<void> signIn(ServerProfile profile, String token) async {
-    await _repository.save(profile, token);
+  /// Persists a profile whose credential was already verified by the caller.
+  Future<void> signIn(
+    ServerProfile profile,
+    StoredCredential credential,
+  ) async {
+    await _repository.save(profile, credential);
     _log.info('Signed in to ${profile.address.host}');
     state = AsyncData(Session(profile));
   }
 
-  /// Closes connections and deletes the stored token.
+  /// Revokes OAuth2 tokens (best effort), closes connections and deletes the
+  /// stored credential.
   Future<void> signOut() async {
     final profile = state.value?.profile;
+    if (profile != null) await _tokenManagerFor(profile).revoke();
     state = const AsyncData(null); // disposes session-scoped providers
     await _repository.signOut(profile);
     _log.info('Signed out');
@@ -47,6 +79,8 @@ class SessionController extends AsyncNotifier<Session?> {
 
   /// Signs out and wipes every local value, including theme and language.
   Future<void> deleteAllLocalData() async {
+    final profile = state.value?.profile;
+    if (profile != null) await _tokenManagerFor(profile).revoke();
     state = const AsyncData(null);
     await _repository.deleteAllLocalData();
     _log.info('All local data deleted');
@@ -61,14 +95,26 @@ final activeProfileProvider = Provider<ServerProfile?>(
   (ref) => ref.watch(sessionControllerProvider).value?.profile,
 );
 
+/// Valid access tokens for the active session (refreshes OAuth2 tokens).
+final accessTokenManagerProvider = Provider<AccessTokenManager?>((ref) {
+  final profile = ref.watch(activeProfileProvider);
+  if (profile == null) return null;
+  final authClients = ref.watch(haAuthClientFactoryProvider);
+  return AccessTokenManager(
+    serverId: profile.id,
+    store: ref.watch(credentialStoreProvider),
+    authClient: () => authClients(profile),
+  );
+});
+
 /// REST client for the active session.
 final homeAssistantApiProvider = Provider<HomeAssistantApi?>((ref) {
   final profile = ref.watch(activeProfileProvider);
-  if (profile == null) return null;
-  final repository = ref.watch(sessionRepositoryProvider);
+  final tokens = ref.watch(accessTokenManagerProvider);
+  if (profile == null || tokens == null) return null;
   final api = ref.watch(homeAssistantApiFactoryProvider)(
     profile,
-    () => repository.readToken(profile),
+    tokens.accessToken,
   );
   ref.onDispose(api.close);
   return api;
@@ -77,11 +123,11 @@ final homeAssistantApiProvider = Provider<HomeAssistantApi?>((ref) {
 /// The WebSocket manager lives exactly as long as the session.
 final webSocketManagerProvider = Provider<HaWebSocketManager?>((ref) {
   final profile = ref.watch(activeProfileProvider);
-  if (profile == null) return null;
-  final repository = ref.watch(sessionRepositoryProvider);
+  final tokens = ref.watch(accessTokenManagerProvider);
+  if (profile == null || tokens == null) return null;
   final manager = HaWebSocketManager(
     uri: profile.address.webSocketUri,
-    readToken: () => repository.readToken(profile),
+    readToken: tokens.accessToken,
     connector: ref.watch(haSocketConnectorFactoryProvider)(profile.tlsTrust),
   )..connect();
   ref.onDispose(() => unawaited(manager.dispose()));

@@ -5,6 +5,7 @@ import 'package:open_smart_home/core/errors/app_failure.dart';
 import 'package:open_smart_home/core/network/server_address.dart';
 import 'package:open_smart_home/core/storage/app_preferences.dart';
 import 'package:open_smart_home/features/authentication/application/session_controller.dart';
+import 'package:open_smart_home/features/authentication/domain/stored_credential.dart';
 import 'package:open_smart_home/features/connection/application/connection_setup_controller.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
 
@@ -79,7 +80,15 @@ void main() {
 
       final session = container.read(sessionControllerProvider).value;
       expect(session, isNotNull);
-      expect(credentials.values.values.single, 'secret-token-123');
+      final stored = StoredCredential.parse(credentials.values.values.single);
+      expect(
+        stored,
+        isA<LongLivedToken>().having(
+          (c) => c.token,
+          'token',
+          'secret-token-123',
+        ),
+      );
 
       final prefsJson = container
           .read(appPreferencesProvider)

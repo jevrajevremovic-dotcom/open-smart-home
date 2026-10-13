@@ -5,6 +5,7 @@ import '../../core/network/tls_trust.dart';
 import '../../features/authentication/data/server_profile.dart';
 import 'api/dio_home_assistant_api.dart';
 import 'api/home_assistant_api.dart';
+import 'auth/ha_auth_client.dart';
 import 'mock/mock_home_assistant.dart';
 import 'transport/transport.dart';
 import 'websocket/ha_socket.dart';
@@ -37,6 +38,17 @@ final homeAssistantApiFactoryProvider = Provider<HomeAssistantApiFactory>((
     trust: profile.tlsTrust,
   );
 });
+
+/// Creates OAuth2 clients for a server — real ones, or mock ones in mock mode.
+final haAuthClientFactoryProvider =
+    Provider<HaAuthClient Function(ServerProfile profile)>((ref) {
+      if (ref.watch(appConfigProvider).mockMode) {
+        final server = ref.watch(mockHomeAssistantServerProvider);
+        return (_) => MockHaAuthClient(server);
+      }
+      return (profile) =>
+          DioHaAuthClient(address: profile.address, trust: profile.tlsTrust);
+    });
 
 /// Creates WebSocket connectors — real ones, or mock ones in mock mode.
 final haSocketConnectorFactoryProvider =

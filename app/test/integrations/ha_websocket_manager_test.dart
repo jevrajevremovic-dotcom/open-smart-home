@@ -189,6 +189,46 @@ void main() {
     );
   });
 
+  test(
+    'transient token error (refresh offline) retries instead of failing',
+    () async {
+      var calls = 0;
+      final m = HaWebSocketManager(
+        uri: _uri,
+        readToken: () async {
+          if (++calls == 1) {
+            throw const AppFailure(
+              FailureKind.network,
+              debugMessage: 'refresh offline',
+            );
+          }
+          return 'good';
+        },
+        connector: server.connect,
+        backoff: fastBackoff(),
+      );
+      managers.add(m);
+      m.connect();
+      await waitForState(m, HaConnectionState.connected);
+      expect(calls, 2);
+    },
+  );
+
+  test('rejected credential during refresh is terminal', () async {
+    final m = HaWebSocketManager(
+      uri: _uri,
+      readToken: () async => throw const AppFailure(
+        FailureKind.authentication,
+        debugMessage: 'invalid_grant',
+      ),
+      connector: server.connect,
+      backoff: fastBackoff(),
+    );
+    managers.add(m);
+    m.connect();
+    await waitForState(m, HaConnectionState.authenticationFailed);
+  });
+
   test('sendCommand while disconnected fails fast', () async {
     final m = create();
     await expectLater(

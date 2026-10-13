@@ -123,7 +123,7 @@ flutter run -d chrome --dart-define=SMARTHOME_MOCK=true
 ```
 
 ### Razlike u odnosu na mobilnu verziju
-- Token se čuva samo u `sessionStorage` kartice; zatvaranjem kartice se odjavljujete. Trajna prijava na webu planirana je preko OAuth2.
+- Prijava preko Home Assistant login stranice (OAuth2), uz opciju „Zapamti me“; sa long-lived tokenom prijava traje dok je kartica otvorena.
 - TLS obrađuje pregledač: samopotpisani sertifikat morate prihvatiti u pregledaču, pinovanje u aplikaciji nije moguće.
 - Pregledač ne otkriva uzrok mrežne greške (CORS, mixed content, sertifikat, DNS), pa aplikacija prikazuje objašnjenje mogućih uzroka.
 - Rute koriste `#` (npr. `/#/home`), pa statičkom serveru ne treba posebno podešavanje.
@@ -188,11 +188,11 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 
 ## Poznata ograničenja
 
-- Prijava je trenutno samo pomoću long-lived access tokena. OAuth2 tok je planiran – vidi [SECURITY.md](docs/SECURITY.md#autentifikacija).
+- Mobilni koristi long-lived token; OAuth2 je za sada samo na webu – vidi [SECURITY.md](docs/SECURITY.md#autentifikacija).
 - Automatsko pronalaženje servera (mDNS/zeroconf) još nije implementirano; adresa se unosi ručno.
 - iOS ATS blokira čist HTTP ka javnim **nazivima domena** (IP adrese i `.local` rade). To je namerno; za udaljeni pristup koristite HTTPS.
 - Na webu se keš (kao i token) čuva samo dok je kartica otvorena.
-- Na webu nema trajne prijave ni pinovanja sertifikata (vidi „Web verzija”).
+- Na webu nema pinovanja sertifikata (vidi „Web verzija”).
 
 ## Doprinos i licenca
 

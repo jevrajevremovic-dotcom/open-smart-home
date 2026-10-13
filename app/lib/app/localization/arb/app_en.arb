@@ -117,7 +117,7 @@
   "privacySection": "Privacy & data",
   "addressErrorMixedContent": "This page is loaded over HTTPS, so the browser blocks connections to an http:// server. Use the server's https:// address, or open this web app from the same address as Home Assistant.",
   "webConnectionHint": "In a browser this can also mean that Home Assistant does not allow this web app's address (add it to http: cors_allowed_origins in configuration.yaml), or that the browser does not trust the server's certificate (open the server address in a new tab once and accept it there).",
-  "webSessionNotice": "In the browser the token is kept only while this tab is open. Closing the tab signs you out.",
+  "webSessionNotice": "With a token, sign-in lasts only while this tab is open.",
   "failureConfirmationRequired": "Please confirm this action.",
   "devicesInRooms": "{devices, plural, =1{1 device} other{{devices} devices}} in {rooms, plural, =0{no rooms} =1{1 room} other{{rooms} rooms}}",
   "@devicesInRooms": {
@@ -433,5 +433,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "oauthSignIn": "Sign in with Home Assistant",
+  "oauthHint": "You sign in on your Home Assistant's own login page – this app never sees your password.",
+  "rememberMe": "Remember me on this device",
+  "rememberMeHint": "Stay signed in after the browser is closed. You can revoke access anytime in your Home Assistant profile (Security → Refresh tokens).",
+  "orUseToken": "Or use a long-lived access token",
+  "loginFailed": "Sign-in did not complete. Please try again."
 }

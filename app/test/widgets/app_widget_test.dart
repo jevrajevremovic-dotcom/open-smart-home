@@ -5,6 +5,7 @@ import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/localization/generated/app_localizations_en.dart';
 import 'package:open_smart_home/app/localization/generated/app_localizations_sr.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
+import 'package:open_smart_home/features/authentication/domain/stored_credential.dart';
 import 'package:open_smart_home/features/settings/presentation/settings_screen.dart';
 
 import '../helpers.dart';
@@ -141,7 +142,12 @@ void main() {
       expect(find.text('Demo dom (mock)'), findsOneWidget);
       expect(find.text(en.statusConnected), findsOneWidget);
       expect(find.text(en.summaryLights), findsOneWidget);
-      expect(credentials.values.values.single, 'demo-token');
+      expect(
+        (StoredCredential.parse(credentials.values.values.single)!
+                as LongLivedToken)
+            .token,
+        'demo-token',
+      );
       await unmount(tester);
     },
   );

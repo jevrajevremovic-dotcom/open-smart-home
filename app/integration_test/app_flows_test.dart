@@ -14,6 +14,7 @@ import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/core/config/app_config.dart';
 import 'package:open_smart_home/core/storage/app_preferences.dart';
 import 'package:open_smart_home/core/storage/credential_store_io.dart';
+import 'package:open_smart_home/features/authentication/domain/stored_credential.dart';
 import 'package:open_smart_home/features/devices/application/device_providers.dart';
 import 'package:open_smart_home/features/devices/data/cache/snapshot_cache_io.dart';
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
@@ -135,7 +136,11 @@ void main() {
       await signIn(tester);
 
       expect(
-        await SecureCredentialStore().readAccessToken(serverId),
+        (StoredCredential.parse(
+                  await SecureCredentialStore().readCredential(serverId),
+                )!
+                as LongLivedToken)
+            .token,
         'integration-token',
       );
 
@@ -149,7 +154,7 @@ void main() {
       await tap(tester, find.byKey(const Key('confirmDialogAction')));
       await waitFor(tester, find.text(en.welcomeTitle));
 
-      expect(await SecureCredentialStore().readAccessToken(serverId), isNull);
+      expect(await SecureCredentialStore().readCredential(serverId), isNull);
       expect(await FileSnapshotCache().load(serverId), isNull);
     },
   );

@@ -329,7 +329,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get webSessionNotice =>
-      'U pregledaču se token čuva samo dok je ova kartica otvorena. Zatvaranjem kartice se odjavljujete.';
+      'Sa tokenom prijava traje samo dok je ova kartica otvorena.';
 
   @override
   String get failureConfirmationRequired => 'Potvrdite ovu radnju.';
@@ -901,6 +901,26 @@ class AppLocalizationsSr extends AppLocalizations {
   String dataUpdating(String time) {
     return 'Prikazani su podaci od $time — ažuriranje…';
   }
+
+  @override
+  String get oauthSignIn => 'Prijavi se preko Home Assistanta';
+
+  @override
+  String get oauthHint =>
+      'Prijavljujete se na stranici za prijavu vašeg Home Assistanta – aplikacija nikad ne vidi vašu lozinku.';
+
+  @override
+  String get rememberMe => 'Zapamti me na ovom uređaju';
+
+  @override
+  String get rememberMeHint =>
+      'Ostajete prijavljeni i posle zatvaranja pregledača. Pristup možete opozvati bilo kada u Home Assistant profilu (Security → Refresh tokens).';
+
+  @override
+  String get orUseToken => 'Ili koristite dugotrajni pristupni token';
+
+  @override
+  String get loginFailed => 'Prijava nije završena. Pokušajte ponovo.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

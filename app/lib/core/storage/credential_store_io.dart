@@ -25,15 +25,19 @@ class SecureCredentialStore implements CredentialStore {
   static String _key(String serverId) => 'ha_access_token::$serverId';
 
   @override
-  Future<String?> readAccessToken(String serverId) =>
+  Future<String?> readCredential(String serverId) =>
       _guard('read', () => _storage.read(key: _key(serverId)));
 
   @override
-  Future<void> writeAccessToken(String serverId, String token) =>
-      _guard('write', () => _storage.write(key: _key(serverId), value: token));
+  Future<void> writeCredential(
+    String serverId,
+    String value, {
+    bool persistent = false,
+  }) =>
+      _guard('write', () => _storage.write(key: _key(serverId), value: value));
 
   @override
-  Future<void> deleteAccessToken(String serverId) =>
+  Future<void> deleteCredential(String serverId) =>
       _guard('delete', () => _storage.delete(key: _key(serverId)));
 
   @override

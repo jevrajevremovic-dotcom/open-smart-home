@@ -13,8 +13,15 @@ Odbijen token na WebSocket-u (`auth_invalid`) zaustavlja ponovne pokušaje i nud
 
 Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplikacija nudi odjavu i brisanje svih podataka, a dokumentacija preporučuje poseban token po uređaju.
 
-### Sledeći korak: OAuth2 Authorization Code (planirano)
-HA podržava OAuth2 (`/auth/authorize`, `/auth/token`, refresh token). Uslov za mobilnu aplikaciju: `client_id` je URL, a `redirect_uri` sa custom šemom (npr. `opensmarthome://auth-callback`) mora biti deklarisan na stranici `client_id` URL-a (`<link rel="redirect_uri" …>`), jer nije na istom hostu. To znači da projekat mora da hostuje tu stranicu (npr. GitHub Pages) pre nego što OAuth može da radi. Arhitektura je spremna: token se čita isključivo preko funkcije (`AccessTokenReader`), pa se može zameniti provajderom koji osvežava access token bez izmena u API i WebSocket sloju.
+### OAuth2 Authorization Code – web (implementirano)
+- `client_id` = poreklo aplikacije, `redirect_uri` = stranica aplikacije (isti host, pa HA ne mora da preuzima stranicu i sve radi lokalno).
+- Zaštita od podmetnutog callback-a: nasumični `state` u `sessionStorage`, jednokratan, važi 15 minuta; kod se odmah uklanja iz adrese.
+- Access token (30 min) se automatski obnavlja refresh tokenom, jednim zahtevom za sve paralelne pozive; odbijen refresh token traži novu prijavu, a mrežna greška se ponavlja.
+- Odjava opoziva refresh token (`/auth/revoke`, best effort).
+- „Zapamti me“: tokeni u `localStorage` (kao HA frontend); bez toga u `sessionStorage`.
+
+### OAuth2 na mobilnom (planirano)
+Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA sa pristupom internetu; do tada mobilni koristi long-lived token.
 
 ## Čuvanje tajni
 - Token: `flutter_secure_storage` – iOS Keychain (`first_unlock_this_device`: dostupan zidnom tabletu posle restarta, ne prenosi se u backup), Android Keystore.

@@ -8,6 +8,7 @@ import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../../core/widgets/responsive.dart';
 import '../../../core/widgets/status_widgets.dart';
+import '../../authentication/application/web_login.dart';
 import '../application/connection_setup_controller.dart';
 
 /// Collects a long-lived access token. On success the session changes and
@@ -22,6 +23,7 @@ class TokenScreen extends ConsumerStatefulWidget {
 class _TokenScreenState extends ConsumerState<TokenScreen> {
   final TextEditingController _controller = TextEditingController();
   bool _obscured = true;
+  bool _remember = false;
 
   @override
   void dispose() {
@@ -63,6 +65,42 @@ class _TokenScreenState extends ConsumerState<TokenScreen> {
                       leading: const Icon(Icons.dns_outlined),
                       title: Text(state.address.toString()),
                     ),
+                  if (ref.watch(webLoginServiceProvider).isSupported) ...[
+                    // Web: OAuth2 on Home Assistant's login page is the
+                    // primary way; the token form below is the fallback.
+                    Text(
+                      l10n.oauthHint,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const SizedBox(height: 16),
+                    FilledButton.icon(
+                      key: const Key('oauthSignIn'),
+                      onPressed: busy
+                          ? null
+                          : () => ref
+                                .read(
+                                  connectionSetupControllerProvider.notifier,
+                                )
+                                .startWebSignIn(remember: _remember),
+                      icon: const Icon(Icons.login),
+                      label: Text(l10n.oauthSignIn),
+                    ),
+                    CheckboxListTile(
+                      key: const Key('rememberMe'),
+                      contentPadding: EdgeInsets.zero,
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: _remember,
+                      onChanged: (v) => setState(() => _remember = v ?? false),
+                      title: Text(l10n.rememberMe),
+                      subtitle: Text(l10n.rememberMeHint),
+                    ),
+                    const Divider(height: 32),
+                    Text(
+                      l10n.orUseToken,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
                   Text(
                     l10n.tokenIntro,
                     style: Theme.of(context).textTheme.bodyLarge,

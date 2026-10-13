@@ -333,7 +333,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get webSessionNotice =>
-      'In the browser the token is kept only while this tab is open. Closing the tab signs you out.';
+      'With a token, sign-in lasts only while this tab is open.';
 
   @override
   String get failureConfirmationRequired => 'Please confirm this action.';
@@ -899,4 +899,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String dataUpdating(String time) {
     return 'Showing data from $time — updating…';
   }
+
+  @override
+  String get oauthSignIn => 'Sign in with Home Assistant';
+
+  @override
+  String get oauthHint =>
+      'You sign in on your Home Assistant\'s own login page – this app never sees your password.';
+
+  @override
+  String get rememberMe => 'Remember me on this device';
+
+  @override
+  String get rememberMeHint =>
+      'Stay signed in after the browser is closed. You can revoke access anytime in your Home Assistant profile (Security → Refresh tokens).';
+
+  @override
+  String get orUseToken => 'Or use a long-lived access token';
+
+  @override
+  String get loginFailed => 'Sign-in did not complete. Please try again.';
 }

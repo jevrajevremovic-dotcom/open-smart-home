@@ -156,11 +156,11 @@ void main() {
       }
       expect(report.consumption, closeTo(expected, 0.01));
       expect(report.buckets, hasLength(24));
-      expect(
-        report.buckets.last.consumption,
-        isNull,
-        reason: 'future hours are "no data", not 0',
-      );
+      // Hours that have not started yet are "no data", not 0. (Between
+      // 23:00 and midnight there is no such hour left today.)
+      for (final b in report.buckets.where((b) => b.start.isAfter(now))) {
+        expect(b.consumption, isNull, reason: '${b.start}');
+      }
       expect(report.gas, isNull, reason: 'gas is not configured');
       expect(report.solar, isNotNull);
     });

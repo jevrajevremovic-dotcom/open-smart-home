@@ -1,5 +1,9 @@
 # Arhitektura
 
+## Više domova
+
+`SessionRepository` čuva listu profila (`connection.savedProfiles`, bez tajni) i imena domova (`connection.homeNames`, iz `location_name`); token svakog doma je u secure storage-u pod ID-jem profila. Aktivan je jedan profil; promena aktivnog profila (`SessionController.switchTo`) ponovo gradi sve provajdere vezane za sesiju (REST, WebSocket, keš, omiljeni). Dok korisnik dodaje dom (`addingHomeProvider`), ekrani za povezivanje su dostupni i uz postojeću sesiju.
+
 ## Osnovna odluka
 
 Telefon nema Zigbee/Z-Wave/Thread radio, pa aplikacija **ne implementira fizičke protokole**. Home Assistant Core je integration engine: registruje uređaje, drži stanja, izvršava servise i automatizacije, i povezuje Zigbee2MQTT, Z-Wave JS, Matter Server, OTBR, MQTT i LAN integracije. Aplikacija u MVP-u direktno koristi dokumentovane HA REST i WebSocket API-je; sopstveni backend (NestJS/PostgreSQL/Redis) uvodi se tek za multi-home, uloge, udaljeni pristup i push.

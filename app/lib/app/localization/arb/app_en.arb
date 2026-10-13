@@ -894,5 +894,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "homesTitle": "Homes",
+  "addHome": "Add another home"
 }

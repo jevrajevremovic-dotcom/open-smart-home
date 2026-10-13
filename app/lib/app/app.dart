@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../features/app_lock/application/app_lock.dart';
 import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/authentication/application/session_controller.dart';
+import '../features/authentication/data/session_repository.dart';
 import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
 import 'localization/app_locales.dart';
@@ -49,6 +50,16 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Remember each home's name for the home switcher.
+    ref.listen(serverConfigProvider, (_, next) {
+      final profile = ref.read(activeProfileProvider);
+      final name = next.value?.locationName;
+      if (profile == null || name == null) return;
+      ref
+          .read(sessionRepositoryProvider)
+          .setHomeName(profile.id, name)
+          .then((_) => ref.invalidate(savedHomesProvider));
+    });
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appTitle,
       debugShowCheckedModeBanner: false,

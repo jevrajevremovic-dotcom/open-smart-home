@@ -80,6 +80,7 @@ class SettingsScreen extends ConsumerWidget {
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () => context.push(AppRoutes.addDevice),
                   ),
+                  const _HomesList(),
                   OutlinedButton.icon(
                     key: const Key('signOutButton'),
                     onPressed: () => _confirmSignOut(context, ref),
@@ -239,5 +240,54 @@ class SettingsScreen extends ConsumerWidget {
       },
     );
     return result ?? false;
+  }
+}
+
+/// Saved homes (several Home Assistant servers): switch or add one.
+class _HomesList extends ConsumerWidget {
+  const _HomesList();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final homes = ref.watch(savedHomesProvider).value ?? const [];
+    final active = ref.watch(activeProfileProvider);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (homes.length > 1) ...[
+          Text(l10n.homesTitle, style: Theme.of(context).textTheme.labelLarge),
+          for (final h in homes)
+            ListTile(
+              key: ValueKey('home-${h.profile.id}'),
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(
+                h.profile.id == active?.id
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
+              ),
+              title: Text(h.name),
+              subtitle: Text(h.profile.address.host),
+              onTap: h.profile.id == active?.id
+                  ? null
+                  : () => ref
+                        .read(sessionControllerProvider.notifier)
+                        .switchTo(h.profile),
+            ),
+        ],
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            key: const Key('addHome'),
+            onPressed: () {
+              ref.read(addingHomeProvider.notifier).set(true);
+              context.go(AppRoutes.connectServer);
+            },
+            icon: const Icon(Icons.add_home_outlined),
+            label: Text(l10n.addHome),
+          ),
+        ),
+      ],
+    );
   }
 }

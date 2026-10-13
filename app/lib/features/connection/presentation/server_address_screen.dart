@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../authentication/application/session_controller.dart';
+
 import 'package:go_router/go_router.dart';
 
 import '../../../app/localization/l10n.dart';
@@ -92,7 +95,21 @@ class _ServerAddressScreenState extends ConsumerState<ServerAddressScreen> {
     final shown = _preview;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.serverAddressTitle)),
+      appBar: AppBar(
+        title: Text(l10n.serverAddressTitle),
+        // Adding a second home from Settings: a way back to the first.
+        leading: ref.watch(addingHomeProvider)
+            ? IconButton(
+                key: const Key('cancelAddHome'),
+                tooltip: l10n.cancel,
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  ref.read(addingHomeProvider.notifier).set(false);
+                  context.go(AppRoutes.home);
+                },
+              )
+            : null,
+      ),
       body: MockModeBanner(
         child: SafeArea(
           child: SingleChildScrollView(

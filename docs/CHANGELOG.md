@@ -8,6 +8,10 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Više domova: Podešavanja → „Dodaj još jedan dom” (prijava na drugi HA server bez odjave sa prvog), lista domova i prebacivanje (i dodirom na ime doma na početnom ekranu); svaki dom ima svoj token, keš i omiljene; odjava sa jednog prelazi na drugi.
+
+### Ispravljeno
+- Test energije je padao između 23:00 i ponoći (nema „budućeg” sata u danu).
 - Zaključavanje aplikacije otiskom prsta, licem ili PIN-om uređaja i opciona dodatna potvrda pre otključavanja vrata, otvaranja garaže i isključivanja alarma (Podešavanja → Bezbednost).
 - Kamere: režim „Uživo” (HLS iz HA, Android/iOS) pored snimaka, za kamere koje podržavaju stream; kad uživo nije moguće, jasna poruka i snimci.
 - Obaveštenja iz Home Assistanta: kartica na početnom ekranu i zvonce u kiosku kad ih ima, lista sa vremenom, odbacivanje jednog ili svih; ažurira se uživo.

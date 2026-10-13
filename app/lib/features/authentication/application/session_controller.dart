@@ -64,6 +64,15 @@ class SessionController extends AsyncNotifier<Session?> {
   ) async {
     await _repository.save(profile, credential);
     _log.info('Signed in to ${profile.address.host}');
+    ref.read(addingHomeProvider.notifier).set(false);
+    state = AsyncData(Session(profile));
+  }
+
+  /// Switches to another saved home (its credential is already stored).
+  Future<void> switchTo(ServerProfile profile) async {
+    if (state.value?.profile.id == profile.id) return;
+    await _repository.activate(profile);
+    _log.info('Switched to ${profile.address.host}');
     state = AsyncData(Session(profile));
   }
 
@@ -73,8 +82,10 @@ class SessionController extends AsyncNotifier<Session?> {
     final profile = state.value?.profile;
     if (profile != null) await _tokenManagerFor(profile).revoke();
     state = const AsyncData(null); // disposes session-scoped providers
-    await _repository.signOut(profile);
+    final next = await _repository.signOut(profile);
     _log.info('Signed out');
+    // Another saved home takes over, if there is one.
+    if (next != null) state = AsyncData(Session(next));
   }
 
   /// Signs out and wipes every local value, including theme and language.
@@ -86,6 +97,37 @@ class SessionController extends AsyncNotifier<Session?> {
     _log.info('All local data deleted');
   }
 }
+
+/// `true` while the user adds another home from Settings: the connect
+/// screens are then reachable although a session exists.
+class AddingHomeController extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  // ignore: use_setters_to_change_properties
+  void set(bool adding) => state = adding;
+}
+
+final addingHomeProvider = NotifierProvider<AddingHomeController, bool>(
+  AddingHomeController.new,
+);
+
+/// Saved homes with their display names, active first.
+final savedHomesProvider =
+    FutureProvider<List<({ServerProfile profile, String name})>>((ref) async {
+      final active = ref.watch(activeProfileProvider);
+      final repo = ref.watch(sessionRepositoryProvider);
+      final names = repo.homeNames();
+      final profiles = await repo.savedProfiles();
+      return [
+        for (final p in profiles)
+          (profile: p, name: names[p.id] ?? p.address.host),
+      ]..sort((a, b) {
+        if (a.profile.id == active?.id) return -1;
+        if (b.profile.id == active?.id) return 1;
+        return a.name.compareTo(b.name);
+      });
+    });
 
 final sessionControllerProvider =
     AsyncNotifierProvider<SessionController, Session?>(SessionController.new);

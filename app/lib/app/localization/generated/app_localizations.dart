@@ -3422,6 +3422,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This device has no screen lock or biometrics set up.'**
   String get appLockNoDeviceAuth;
+
+  /// No description provided for @homesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Homes'**
+  String get homesTitle;
+
+  /// No description provided for @addHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another home'**
+  String get addHome;
 }
 
 class _AppLocalizationsDelegate

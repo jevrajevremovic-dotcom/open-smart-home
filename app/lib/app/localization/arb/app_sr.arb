@@ -553,5 +553,7 @@
   "appLockSettingHint": "Traži otisak, lice ili PIN uređaja pri otvaranju aplikacije (posle 1 minuta u pozadini).",
   "appLockCriticalSetting": "Potvrda za brave i alarm",
   "appLockCriticalSettingHint": "Traži potvrdu i pre otključavanja vrata, otvaranja garaže ili isključivanja alarma.",
-  "appLockNoDeviceAuth": "Na ovom uređaju nije podešeno zaključavanje ekrana ni biometrija."
+  "appLockNoDeviceAuth": "Na ovom uređaju nije podešeno zaključavanje ekrana ni biometrija.",
+  "homesTitle": "Domovi",
+  "addHome": "Dodaj još jedan dom"
 }

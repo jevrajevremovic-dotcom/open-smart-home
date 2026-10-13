@@ -1952,6 +1952,12 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get appLockNoDeviceAuth =>
       'Na ovom uređaju nije podešeno zaključavanje ekrana ni biometrija.';
+
+  @override
+  String get homesTitle => 'Domovi';
+
+  @override
+  String get addHome => 'Dodaj još jedan dom';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

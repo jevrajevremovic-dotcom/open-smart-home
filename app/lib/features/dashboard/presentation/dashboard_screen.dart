@@ -38,14 +38,10 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final title =
-        ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
-        ref.watch(serverConfigProvider).value?.locationName ??
-        context.l10n.appTitle;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        title: DashboardGreeting(homeName: title),
+        title: const _HomeSwitcher(),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 12),
@@ -64,11 +60,56 @@ class DashboardScreen extends ConsumerWidget {
   }
 }
 
+/// The greeting; with several homes, tapping it switches between them.
+class _HomeSwitcher extends ConsumerWidget {
+  const _HomeSwitcher();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final title =
+        ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
+        ref.watch(serverConfigProvider).value?.locationName ??
+        context.l10n.appTitle;
+    final homes = ref.watch(savedHomesProvider).value ?? const [];
+    final greeting = DashboardGreeting(
+      homeName: title,
+      showSwitcher: homes.length > 1,
+    );
+    if (homes.length < 2) return greeting;
+    final active = ref.watch(activeProfileProvider);
+    return PopupMenuButton<String>(
+      key: const Key('homeSwitcher'),
+      tooltip: context.l10n.homesTitle,
+      onSelected: (id) {
+        final home = homes.firstWhere((h) => h.profile.id == id);
+        ref.read(sessionControllerProvider.notifier).switchTo(home.profile);
+      },
+      itemBuilder: (_) => [
+        for (final h in homes)
+          CheckedPopupMenuItem(
+            key: ValueKey('switchHome-${h.profile.id}'),
+            value: h.profile.id,
+            checked: h.profile.id == active?.id,
+            child: Text(h.name),
+          ),
+      ],
+      child: greeting,
+    );
+  }
+}
+
 /// Time-of-day greeting and date above the home's name.
 class DashboardGreeting extends StatelessWidget {
-  const DashboardGreeting({super.key, required this.homeName});
+  const DashboardGreeting({
+    super.key,
+    required this.homeName,
+    this.showSwitcher = false,
+  });
 
   final String homeName;
+
+  /// A small arrow hints that the name opens the home switcher.
+  final bool showSwitcher;
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +135,19 @@ class DashboardGreeting extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        Text(
-          homeName,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.headlineSmall,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                homeName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.headlineSmall,
+              ),
+            ),
+            if (showSwitcher) const Icon(Icons.arrow_drop_down),
+          ],
         ),
       ],
     );

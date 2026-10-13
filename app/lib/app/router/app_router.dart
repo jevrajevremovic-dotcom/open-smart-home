@@ -74,6 +74,7 @@ String? resolveRedirect({
   required bool signedIn,
   required bool serverChosen,
   bool kioskActive = false,
+  bool addingHome = false,
 }) {
   if (sessionLoading) {
     return location == AppRoutes.splash ? null : AppRoutes.splash;
@@ -92,6 +93,8 @@ String? resolveRedirect({
   // (deep links, back navigation, …); leaving requires the PIN.
   if (kioskActive) return inKiosk ? null : AppRoutes.kiosk;
   if (inKiosk) return AppRoutes.home;
+  // Adding another home: the connect screens stay reachable.
+  if (addingHome && location.startsWith('/connect')) return null;
   if (inOnboarding || location == AppRoutes.splash) return AppRoutes.home;
   return null;
 }
@@ -100,7 +103,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
   ref
     ..listen(sessionControllerProvider, (_, _) => refresh.value++)
-    ..listen(kioskActiveProvider, (_, _) => refresh.value++);
+    ..listen(kioskActiveProvider, (_, _) => refresh.value++)
+    ..listen(addingHomeProvider, (_, _) => refresh.value++);
 
   final router = GoRouter(
     initialLocation: AppRoutes.splash,
@@ -114,6 +118,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         serverChosen:
             ref.read(connectionSetupControllerProvider).profile != null,
         kioskActive: ref.read(kioskActiveProvider),
+        addingHome: ref.read(addingHomeProvider),
       );
     },
     routes: [

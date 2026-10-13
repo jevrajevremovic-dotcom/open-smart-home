@@ -1942,4 +1942,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get appLockNoDeviceAuth =>
       'This device has no screen lock or biometrics set up.';
+
+  @override
+  String get homesTitle => 'Homes';
+
+  @override
+  String get addHome => 'Add another home';
 }

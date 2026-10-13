@@ -592,6 +592,17 @@ class HaDeviceMapper {
           ? _enumByName(AlarmState.values, _snakeToCamel(s.state))
           : null,
     ),
+    DeviceLimits(
+      alarmArmModes: [
+        if (features.has(AlarmFeature.armHome)) 'home',
+        if (features.has(AlarmFeature.armAway)) 'away',
+        if (features.has(AlarmFeature.armNight)) 'night',
+        if (features.has(AlarmFeature.armVacation)) 'vacation',
+        if (features.has(AlarmFeature.armCustomBypass)) 'custom_bypass',
+      ],
+      alarmCodeFormat: _str(s.attributes['code_format']),
+      alarmCodeArmRequired: s.attributes['code_arm_required'] == true,
+    ),
   );
 
   // ---------------------------------------------------------------------------

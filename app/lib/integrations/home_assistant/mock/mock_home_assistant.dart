@@ -790,6 +790,16 @@ class MockHomeAssistantServer {
       _permitJoin(d is num ? d.toInt() : 60);
       return const [];
     }
+    if (domain == 'alarm_control_panel' &&
+        service == 'alarm_disarm' &&
+        data['code'] != '1234') {
+      // Like HA: a wrong code is rejected (HTTP 400).
+      throw const AppFailure(
+        FailureKind.validation,
+        statusCode: 400,
+        debugMessage: 'Invalid alarm code provided',
+      );
+    }
     if (domain == 'persistent_notification') {
       if (service == 'dismiss' && data['notification_id'] is String) {
         _dismissNotifications([data['notification_id']! as String]);
@@ -848,6 +858,11 @@ class MockHomeAssistantServer {
         case ('media_player', 'volume_set'):
           final v = data['volume_level'];
           if (v is num) attrs['volume_level'] = v.toDouble();
+        case ('alarm_control_panel', final s) when s.startsWith('alarm_arm_'):
+          state = 'armed_${s.substring('alarm_arm_'.length)}';
+        case ('alarm_control_panel', 'alarm_disarm'):
+          // Demo code: 1234.
+          if (data['code'] == '1234') state = 'disarmed';
         case ('media_player', 'select_source'):
           final source = data['source'];
           if (source is String &&

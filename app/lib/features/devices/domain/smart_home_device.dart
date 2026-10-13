@@ -164,6 +164,9 @@ class DeviceLimits {
     this.swingModes = const [],
     this.presetModes = const [],
     this.sources = const [],
+    this.alarmArmModes = const [],
+    this.alarmCodeFormat,
+    this.alarmCodeArmRequired = false,
   });
 
   static const DeviceLimits none = DeviceLimits();
@@ -180,6 +183,14 @@ class DeviceLimits {
   final List<String> swingModes;
   final List<String> presetModes;
   final List<String> sources;
+
+  /// Arm modes the alarm panel offers (`home`, `away`, `night`,
+  /// `vacation`, `custom_bypass`).
+  final List<String> alarmArmModes;
+
+  /// `number`, `text` or `null` (no code).
+  final String? alarmCodeFormat;
+  final bool alarmCodeArmRequired;
 }
 
 @immutable

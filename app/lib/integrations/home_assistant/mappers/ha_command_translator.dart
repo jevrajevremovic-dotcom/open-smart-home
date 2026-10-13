@@ -146,6 +146,10 @@ class HaCommandTranslator {
         return domain == 'lock' ? call('lock') : unsupported();
       case UnlockDevice():
         return domain == 'lock' ? call('unlock') : unsupported();
+      case ArmAlarm(:final mode, :final code):
+        if (domain != 'alarm_control_panel') return unsupported();
+        _requireOption(mode, device.limits.alarmArmModes, 'arm mode');
+        return call('alarm_arm_$mode', {'code': ?code});
       case DisarmAlarm(:final code):
         if (domain != 'alarm_control_panel') return unsupported();
         return call('alarm_disarm', {'code': ?code});

@@ -1948,4 +1948,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addHome => 'Add another home';
+
+  @override
+  String get alarmArm_home => 'Home';
+
+  @override
+  String get alarmArm_away => 'Away';
+
+  @override
+  String get alarmArm_night => 'Night';
+
+  @override
+  String get alarmArm_vacation => 'Vacation';
+
+  @override
+  String get alarmArm_custom_bypass => 'Custom';
+
+  @override
+  String get alarmArmTitle => 'Arm';
+
+  @override
+  String get alarmDisarm => 'Disarm';
+
+  @override
+  String get alarmCodeTitle => 'Alarm code';
 }

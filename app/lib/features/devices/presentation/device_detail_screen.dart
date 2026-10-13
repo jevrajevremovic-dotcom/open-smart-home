@@ -12,6 +12,7 @@ import '../data/home_state_repository.dart';
 import '../domain/capability.dart';
 import '../domain/device_kind.dart';
 import '../domain/smart_home_device.dart';
+import 'controls/alarm_controls.dart';
 import 'controls/climate_controls.dart';
 import 'controls/light_controls.dart';
 import 'controls/other_controls.dart';
@@ -117,6 +118,7 @@ class DeviceDetailScreen extends ConsumerWidget {
         DeviceKind.garageDoor ||
         DeviceKind.irrigation => [CoverControls(device: d)],
         DeviceKind.lock => [LockControls(device: d)],
+        DeviceKind.alarm => [AlarmControls(device: d)],
         DeviceKind.mediaPlayer ||
         DeviceKind.speaker ||
         DeviceKind.television => [MediaControls(device: d)],

@@ -166,6 +166,18 @@ final class UnlockDevice extends DeviceCommand {
   bool isCritical(SmartHomeDevice device) => true;
 }
 
+/// Arms the alarm in one of the panel's [DeviceLimits.alarmArmModes].
+final class ArmAlarm extends DeviceCommand {
+  const ArmAlarm(this.mode, {this.code});
+
+  final String mode;
+
+  /// Alarm code, if arming requires one. Never logged.
+  final String? code;
+  @override
+  Capability get requiredCapability => Capability.arm;
+}
+
 final class DisarmAlarm extends DeviceCommand {
   const DisarmAlarm({this.code});
 

@@ -3434,6 +3434,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add another home'**
   String get addHome;
+
+  /// No description provided for @alarmArm_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get alarmArm_home;
+
+  /// No description provided for @alarmArm_away.
+  ///
+  /// In en, this message translates to:
+  /// **'Away'**
+  String get alarmArm_away;
+
+  /// No description provided for @alarmArm_night.
+  ///
+  /// In en, this message translates to:
+  /// **'Night'**
+  String get alarmArm_night;
+
+  /// No description provided for @alarmArm_vacation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation'**
+  String get alarmArm_vacation;
+
+  /// No description provided for @alarmArm_custom_bypass.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get alarmArm_custom_bypass;
+
+  /// No description provided for @alarmArmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Arm'**
+  String get alarmArmTitle;
+
+  /// No description provided for @alarmDisarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Disarm'**
+  String get alarmDisarm;
+
+  /// No description provided for @alarmCodeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm code'**
+  String get alarmCodeTitle;
 }
 
 class _AppLocalizationsDelegate

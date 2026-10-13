@@ -86,6 +86,12 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'current_position': 100,
       'supported_features': 15, // OPEN | CLOSE | SET_POSITION | STOP
     }),
+    e('alarm_control_panel.home_alarm', 'disarmed', {
+      'friendly_name': 'Alarm',
+      'code_format': 'number',
+      'code_arm_required': false,
+      'supported_features': 1 | 2 | 4, // ARM_HOME | ARM_AWAY | ARM_NIGHT
+    }),
     e('lock.front_door', 'locked', {
       'friendly_name': 'Brava ulazna vrata',
       'supported_features': 0,

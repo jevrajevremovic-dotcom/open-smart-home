@@ -22,6 +22,11 @@ SmartHomeDevice(
 
 Jedinice su normalizovane: svetlina i položaj u procentima (0–100), temperatura boje u Kelvinima, jačina zvuka u procentima. `null` znači „nije prijavljeno” i UI ga prikazuje kao nepoznato, nikad kao nulu.
 
+## Alarm (`alarm_control_panel`)
+
+- Režimi uključivanja iz `supported_features` (ARM_HOME 1, ARM_AWAY 2, ARM_NIGHT 4, ARM_CUSTOM_BYPASS 16, ARM_VACATION 32) → `alarm_arm_<mode>`; isključivanje `alarm_disarm`.
+- `code_format` (`number` → tastatura, `text` → skriveno polje) i `code_arm_required`; pogrešan kod HA odbija i aplikacija prikazuje grešku.
+
 ## Mapiranje (HA → aplikacija)
 
 Odluke se donose na osnovu **domena, `device_class`, `supported_color_modes` i `supported_features` bitova** (`ha_feature_flags.dart`, preuzeto iz HA `*EntityFeature` enum-a), a nikad na osnovu teksta `entity_id`-a.

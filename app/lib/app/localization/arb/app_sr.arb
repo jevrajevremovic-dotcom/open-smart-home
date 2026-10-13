@@ -555,5 +555,13 @@
   "appLockCriticalSettingHint": "Traži potvrdu i pre otključavanja vrata, otvaranja garaže ili isključivanja alarma.",
   "appLockNoDeviceAuth": "Na ovom uređaju nije podešeno zaključavanje ekrana ni biometrija.",
   "homesTitle": "Domovi",
-  "addHome": "Dodaj još jedan dom"
+  "addHome": "Dodaj još jedan dom",
+  "alarmArm_home": "Kod kuće",
+  "alarmArm_away": "Odsutni",
+  "alarmArm_night": "Noć",
+  "alarmArm_vacation": "Odmor",
+  "alarmArm_custom_bypass": "Prilagođeno",
+  "alarmArmTitle": "Uključi alarm",
+  "alarmDisarm": "Isključi alarm",
+  "alarmCodeTitle": "Kod alarma"
 }

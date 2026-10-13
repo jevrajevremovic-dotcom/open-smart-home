@@ -1958,6 +1958,30 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get addHome => 'Dodaj još jedan dom';
+
+  @override
+  String get alarmArm_home => 'Kod kuće';
+
+  @override
+  String get alarmArm_away => 'Odsutni';
+
+  @override
+  String get alarmArm_night => 'Noć';
+
+  @override
+  String get alarmArm_vacation => 'Odmor';
+
+  @override
+  String get alarmArm_custom_bypass => 'Prilagođeno';
+
+  @override
+  String get alarmArmTitle => 'Uključi alarm';
+
+  @override
+  String get alarmDisarm => 'Isključi alarm';
+
+  @override
+  String get alarmCodeTitle => 'Kod alarma';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

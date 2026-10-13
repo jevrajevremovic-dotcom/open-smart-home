@@ -896,5 +896,13 @@
     }
   },
   "homesTitle": "Homes",
-  "addHome": "Add another home"
+  "addHome": "Add another home",
+  "alarmArm_home": "Home",
+  "alarmArm_away": "Away",
+  "alarmArm_night": "Night",
+  "alarmArm_vacation": "Vacation",
+  "alarmArm_custom_bypass": "Custom",
+  "alarmArmTitle": "Arm",
+  "alarmDisarm": "Disarm",
+  "alarmCodeTitle": "Alarm code"
 }

@@ -219,8 +219,14 @@ abstract final class DevicePresentation {
         AlarmState.arming => l10n.alarmArming,
         AlarmState.pending => l10n.alarmPending,
         AlarmState.disarming => l10n.alarmDisarmed,
+        AlarmState.armedHome => '${l10n.alarmArmed} · ${l10n.alarmArm_home}',
+        AlarmState.armedAway => '${l10n.alarmArmed} · ${l10n.alarmArm_away}',
+        AlarmState.armedNight => '${l10n.alarmArmed} · ${l10n.alarmArm_night}',
+        AlarmState.armedVacation =>
+          '${l10n.alarmArmed} · ${l10n.alarmArm_vacation}',
+        AlarmState.armedCustomBypass =>
+          '${l10n.alarmArmed} · ${l10n.alarmArm_custom_bypass}',
         null => l10n.stateUnknown,
-        _ => l10n.alarmArmed,
       },
       DeviceKind.camera => switch (s.raw) {
         'streaming' => l10n.cameraStreaming,

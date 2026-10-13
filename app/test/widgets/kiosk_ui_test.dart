@@ -158,6 +158,7 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.byKey(const Key('kioskRooms')), findsOneWidget);
+    await settle(tester, 4); // let in-flight requests finish
     await unmount(tester);
   });
 

@@ -1533,4 +1533,49 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get setUpFailed =>
       'Name and room can\'t be changed from here. Do it in Home Assistant under Settings, Devices.';
+
+  @override
+  String get weatherHomeLocationTitle => 'Forecast for your home';
+
+  @override
+  String get weatherHomeLocationHint =>
+      'Home Assistant has no weather entity. Add the Met.no integration in Home Assistant, or turn on the forecast in the app.';
+
+  @override
+  String get weatherHomeLocationEnable => 'Turn on forecast';
+
+  @override
+  String get weatherHomeLocationDisclosure =>
+      'The app will send your home\'s approximate location from Home Assistant, rounded to about 1 km, to MET Norway (api.met.no) every 30 minutes. Nothing else is sent. You can turn it off in Settings.';
+
+  @override
+  String get weatherHomeLocationSetting =>
+      'Forecast for the home location (MET Norway)';
+
+  @override
+  String get weatherHomeLocationSettingHint =>
+      'Only when Home Assistant has no weather entity. Sends the home\'s approximate location.';
+
+  @override
+  String get weatherNoHomeCoordinates =>
+      'Home Assistant has no home location set.';
+
+  @override
+  String get kioskWeatherMissing =>
+      'No weather forecast. Turn it on in Settings, Privacy, or add the Met.no integration in Home Assistant.';
+
+  @override
+  String get calendarNoneShort => 'No calendars in Home Assistant';
+
+  @override
+  String get mediaTitle => 'Music and media';
+
+  @override
+  String get mediaNoPlayers => 'No media players in Home Assistant.';
+
+  @override
+  String get mediaSource => 'Source';
+
+  @override
+  String get mediaIdle => 'Not playing';
 }

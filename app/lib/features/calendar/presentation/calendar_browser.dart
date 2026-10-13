@@ -54,12 +54,10 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
       child: Text(text, style: TextStyle(color: p.muted)),
     );
 
-    if (calendars case AsyncData(value: final list) when list.isEmpty) {
-      return message(l10n.calendarNone, key: const Key('calendarNone'));
-    }
-    if (calendars.hasError && !calendars.hasValue) {
-      return message(l10n.calendarUnavailable);
-    }
+    // Without calendars (or when they fail) the month grid still shows;
+    // the agenda explains why it is empty.
+    final noCalendars = calendars.hasValue && calendars.value!.isEmpty;
+    final calendarsFailed = calendars.hasError && !calendars.hasValue;
 
     final list = events.value ?? const [];
     final grid = MonthGrid(
@@ -75,7 +73,9 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
         }
       }),
     );
-    final agenda = events.hasError && !events.hasValue
+    final agenda = noCalendars
+        ? message(l10n.calendarNone, key: const Key('calendarNone'))
+        : calendarsFailed || (events.hasError && !events.hasValue)
         ? message(l10n.calendarUnavailable)
         : CalendarAgenda(
             key: const Key('calendarAgenda'),

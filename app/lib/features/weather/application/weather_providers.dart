@@ -72,11 +72,55 @@ final homeHourlyForecastProvider = FutureProvider<List<HourlyForecast>>((
   }
 });
 
-/// Weather at home, from Home Assistant. Nothing leaves the local network.
+/// Off until the user agrees to send the home's approximate location
+/// (from Home Assistant, rounded to ~1 km) to MET Norway. Only used when
+/// Home Assistant has no weather entity.
+class HomeLocationWeatherController extends Notifier<bool> {
+  static const _key = 'weather.homeLocation';
+
+  @override
+  bool build() =>
+      ref.watch(appPreferencesProvider).readJson(_key)?['enabled'] == true;
+
+  Future<void> set(bool enabled) async {
+    state = enabled;
+    await ref
+        .read(appPreferencesProvider)
+        .writeJson(_key, enabled ? {'enabled': true} : null);
+  }
+}
+
+final homeLocationWeatherEnabledProvider =
+    NotifierProvider<HomeLocationWeatherController, bool>(
+      HomeLocationWeatherController.new,
+    );
+
+/// MET Norway forecast for the home location; `null` when not enabled,
+/// when HA has its own weather entity, or HA has no home coordinates.
+final homeLocationWeatherProvider = FutureProvider<WeatherReport?>((ref) async {
+  if (!ref.watch(homeLocationWeatherEnabledProvider)) return null;
+  if (ref.watch(homeWeatherEntityIdProvider) != null) return null;
+  final config = await ref.watch(serverConfigProvider.future);
+  final lat = config?.latitude;
+  final lon = config?.longitude;
+  if (lat == null || lon == null) return null;
+  final timer = Timer(_refreshEvery, ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
+  return ref
+      .read(locationWeatherServiceProvider)
+      .forecast(
+        latitude: lat,
+        longitude: lon,
+        source: WeatherSource.homeLocation,
+      );
+});
+
+/// Weather at home: the Home Assistant weather entity (nothing leaves the
+/// network) or, if there is none and the user opted in, MET Norway.
 final homeWeatherProvider = Provider<WeatherReport?>((ref) {
   final id = ref.watch(homeWeatherEntityIdProvider);
   final device = id == null ? null : ref.watch(deviceProvider(id));
-  if (device == null) return null;
+  if (device == null) return ref.watch(homeLocationWeatherProvider).value;
   final daily = ref.watch(homeForecastProvider).value ?? const [];
   final hourly = ref.watch(homeHourlyForecastProvider).value ?? const [];
   return weatherFromEntity(device, daily: daily, hourly: hourly);
@@ -163,10 +207,11 @@ class _MockLocationWeather implements LocationWeatherService {
   Future<WeatherReport> forecast({
     required double latitude,
     required double longitude,
+    WeatherSource source = WeatherSource.device,
   }) async {
     final today = DateTime.now();
     return WeatherReport(
-      source: WeatherSource.device,
+      source: source,
       updatedAt: today,
       now: const WeatherNow(
         condition: WeatherCondition.clearDay,
@@ -176,7 +221,7 @@ class _MockLocationWeather implements LocationWeatherService {
         windSpeedUnit: 'km/h',
       ),
       daily: [
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < 7; i++)
           DailyForecast(
             date: DateTime(today.year, today.month, today.day + i),
             condition: i == 3

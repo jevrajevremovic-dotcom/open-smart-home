@@ -11,9 +11,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/stale_data_banner.dart';
-import '../../weather/application/weather_providers.dart';
 import '../application/kiosk_controller.dart';
-import '../../calendar/application/calendar_providers.dart';
 import '../../cameras/application/camera_providers.dart';
 import 'glass.dart';
 import 'kiosk_camera_panel.dart';
@@ -154,7 +152,6 @@ class _GridLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hasWeather = ref.watch(homeWeatherProvider.select((w) => w != null));
     final thermostat = ref.watch(kioskThermostatIdProvider);
     final scenes = ref.watch(
       dashboardSummaryProvider.select((s) => s.sceneIds),
@@ -164,16 +161,16 @@ class _GridLayout extends ConsumerWidget {
         ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
         ref.watch(cameraIdsProvider.select((ids) => ids.isNotEmpty));
 
-    final calendar =
-        ref.watch(kioskSettingsProvider.select((s) => s.showCalendar)) &&
-        ref.watch(
-          calendarsProvider.select((c) => c.value?.isNotEmpty ?? false),
-        );
+    // Shown even without HA calendars: the month view is still useful and
+    // the panel explains how to add one.
+    final calendar = ref.watch(
+      kioskSettingsProvider.select((s) => s.showCalendar),
+    );
 
     // With cameras the picture takes the top-left, rooms move down.
     final top = <Widget>[
       if (cameras) const Expanded(flex: 6, child: KioskCameraPanel()),
-      if (hasWeather) const Expanded(flex: 4, child: KioskWeatherPanel()),
+      const Expanded(flex: 4, child: KioskWeatherPanel()),
       if (thermostat != null)
         Expanded(flex: 4, child: KioskThermostatPanel(deviceId: thermostat)),
       if (!cameras) const Expanded(flex: 4, child: KioskRoomsPanel()),
@@ -237,15 +234,14 @@ class _ColumnLayout extends ConsumerWidget {
     final scenes = ref.watch(
       dashboardSummaryProvider.select((s) => s.sceneIds),
     );
-    final hasWeather = ref.watch(homeWeatherProvider.select((w) => w != null));
     final cameras =
         ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
         ref.watch(cameraIdsProvider.select((ids) => ids.isNotEmpty));
-    final calendar =
-        ref.watch(kioskSettingsProvider.select((s) => s.showCalendar)) &&
-        ref.watch(
-          calendarsProvider.select((c) => c.value?.isNotEmpty ?? false),
-        );
+    // Shown even without HA calendars: the month view is still useful and
+    // the panel explains how to add one.
+    final calendar = ref.watch(
+      kioskSettingsProvider.select((s) => s.showCalendar),
+    );
     final refresh = ref.read(webSocketManagerProvider)?.retryNow;
     const gap = SizedBox(height: 16);
     return RefreshIndicator(
@@ -261,7 +257,8 @@ class _ColumnLayout extends ConsumerWidget {
             gap,
             const SizedBox(height: 300, child: KioskCameraPanel()),
           ],
-          if (hasWeather) ...[gap, const KioskWeatherPanel()],
+          gap,
+          const KioskWeatherPanel(),
           if (thermostat != null) ...[
             gap,
             SizedBox(

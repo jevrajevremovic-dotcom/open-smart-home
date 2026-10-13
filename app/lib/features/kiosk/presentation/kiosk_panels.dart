@@ -18,6 +18,7 @@ import '../../devices/presentation/device_presentation.dart';
 import '../../favorites/presentation/favorites_screen.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../weather/application/weather_providers.dart';
+import '../../weather/domain/weather.dart';
 import '../../weather/presentation/weather_labels.dart';
 import '../../household/application/household_providers.dart';
 import '../../household/presentation/person_avatar.dart';
@@ -28,6 +29,7 @@ import '../../assist/presentation/assist_sheet.dart';
 import '../../devices/domain/capability.dart';
 import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_artwork.dart';
+import '../../media/presentation/media_sheet.dart';
 import 'glass.dart';
 
 /// Large clock with small seconds and the date underneath.
@@ -126,8 +128,30 @@ class KioskWeatherPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final report = ref.watch(homeWeatherProvider);
-    if (report == null) return const SizedBox.shrink();
     final l10n = context.l10n;
+    if (report == null) {
+      return GlassPanel(
+        key: const Key('kioskWeatherMissing'),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.cloud_off_outlined,
+                size: 40,
+                color: GlassColors.muted,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.kioskWeatherMissing,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: GlassColors.muted),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     final locale = l10n.localeName;
     final theme = Theme.of(context);
     final now = report.now;
@@ -236,6 +260,15 @@ class KioskWeatherPanel extends ConsumerWidget {
                             t(h.temperature),
                           ),
                       ],
+                    ),
+                  ],
+                  if (report.source == WeatherSource.homeLocation) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.weatherMetAttribution,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: GlassColors.faint,
+                      ),
                     ),
                   ],
                   if (next.isNotEmpty) ...[
@@ -765,11 +798,25 @@ class KioskStatusBar extends ConsumerWidget {
         ),
     ];
     final playing = ref.watch(nowPlayingIdProvider);
-    final row = [
-      ...items,
-      if (playing != null)
-        _NowPlayingPill(key: const Key('kioskNowPlaying'), deviceId: playing),
-    ];
+    final hasPlayers = ref.watch(
+      mediaPlayerIdsProvider.select((ids) => ids.isNotEmpty),
+    );
+    final row = items;
+    // Media stays next to Assist on the right, always visible.
+    final media = playing != null
+        ? _NowPlayingPill(key: const Key('kioskNowPlaying'), deviceId: playing)
+        : hasPlayers
+        ? GestureDetector(
+            key: const Key('kioskMedia'),
+            onTap: () => showMediaSheet(context),
+            child: _StatusItem(
+              icon: Icons.music_note,
+              disc: const Color(0xFFB065E8),
+              title: l10n.mediaTitle,
+              subtitle: l10n.mediaIdle,
+            ),
+          )
+        : null;
     return Row(
       children: [
         Expanded(
@@ -785,6 +832,10 @@ class KioskStatusBar extends ConsumerWidget {
             ),
           ),
         ),
+        if (media != null) ...[
+          const SizedBox(width: 12),
+          Flexible(child: media),
+        ],
         const SizedBox(width: 12),
         Semantics(
           button: true,
@@ -845,7 +896,7 @@ class _NowPlayingPill extends ConsumerWidget {
     return Semantics(
       label: '${l10n.mediaNowPlaying}: $title, $subtitle',
       child: GestureDetector(
-        onTap: () => context.push(AppRoutes.device(d.id, kiosk: true)),
+        onTap: () => showMediaSheet(context, playerId: d.id),
         child: GlassPanel(
           radius: 40,
           padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -860,29 +911,31 @@ class _NowPlayingPill extends ConsumerWidget {
                 iconColor: Colors.white,
               ),
               const SizedBox(width: 12),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 200),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: GlassColors.text,
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 200),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: GlassColors.text,
+                        ),
                       ),
-                    ),
-                    Text(
-                      subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: GlassColors.muted,
+                      Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: GlassColors.muted,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(width: 4),
@@ -942,24 +995,30 @@ class _StatusItem extends StatelessWidget {
             child: Icon(icon, color: Colors.white, size: 24),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: GlassColors.text,
-                ),
-              ),
-              if (subtitle != null)
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
                 Text(
-                  subtitle!,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: GlassColors.muted,
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: GlassColors.text,
                   ),
                 ),
-            ],
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: GlassColors.muted,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ],
       ),

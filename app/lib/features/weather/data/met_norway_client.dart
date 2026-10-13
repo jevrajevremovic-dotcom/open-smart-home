@@ -19,6 +19,7 @@ abstract interface class LocationWeatherService {
   Future<WeatherReport> forecast({
     required double latitude,
     required double longitude,
+    WeatherSource source = WeatherSource.device,
   });
 }
 
@@ -41,6 +42,7 @@ class MetNorwayClient implements LocationWeatherService {
   Future<WeatherReport> forecast({
     required double latitude,
     required double longitude,
+    WeatherSource source = WeatherSource.device,
   }) async {
     try {
       final response = await _dio.get<Object?>(
@@ -50,7 +52,11 @@ class MetNorwayClient implements LocationWeatherService {
           'lon': roundCoordinate(longitude),
         },
       );
-      return parseMetForecast(response.data, now: DateTime.now());
+      return parseMetForecast(
+        response.data,
+        now: DateTime.now(),
+        source: source,
+      );
     } on DioException catch (e) {
       throw mapDioException(e);
     }
@@ -59,7 +65,11 @@ class MetNorwayClient implements LocationWeatherService {
 
 /// Converts the `compact` response into current conditions and 5 days.
 @visibleForTesting
-WeatherReport parseMetForecast(Object? json, {required DateTime now}) {
+WeatherReport parseMetForecast(
+  Object? json, {
+  required DateTime now,
+  WeatherSource source = WeatherSource.device,
+}) {
   final properties = json is Map ? json['properties'] : null;
   final series = properties is Map ? properties['timeseries'] : null;
   if (series is! List || series.isEmpty) {
@@ -122,7 +132,7 @@ WeatherReport parseMetForecast(Object? json, {required DateTime now}) {
 
   final daily = <DailyForecast>[];
   final today = DateTime(now.year, now.month, now.day);
-  for (var d = 0; d < 5; d++) {
+  for (var d = 0; d < 7; d++) {
     final day = DateTime(today.year, today.month, today.day + d);
     final dayEntries = entries
         .where((e) => DateTime(e.time.year, e.time.month, e.time.day) == day)
@@ -167,10 +177,25 @@ WeatherReport parseMetForecast(Object? json, {required DateTime now}) {
       ),
     );
   }
+  final fromHour = DateTime(now.year, now.month, now.day, now.hour);
+  final hourly = [
+    for (final e in entries)
+      if (!e.time.isBefore(fromHour) &&
+          e.time.isBefore(fromHour.add(const Duration(hours: 24))) &&
+          e.data['next_1_hours'] != null)
+        HourlyForecast(
+          time: e.time,
+          condition: WeatherCondition.fromMetSymbol(
+            symbol(e.data, ['next_1_hours']),
+          ),
+          temperature: numOf(details(e.data, 'instant'), 'air_temperature'),
+        ),
+  ];
   return WeatherReport(
-    source: WeatherSource.device,
+    source: source,
     now: current,
     daily: daily,
+    hourly: hourly,
     updatedAt: now,
   );
 }

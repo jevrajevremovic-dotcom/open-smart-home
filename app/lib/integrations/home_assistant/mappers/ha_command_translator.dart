@@ -98,6 +98,10 @@ class HaCommandTranslator {
           _ => unsupported(),
         };
 
+      case SelectSource(:final source):
+        if (domain != 'media_player') return unsupported();
+        _requireOption(source, device.limits.sources, 'source');
+        return call('select_source', {'source': source});
       case MediaPlayPause():
         if (domain != 'media_player') return unsupported();
         return call('media_play_pause');

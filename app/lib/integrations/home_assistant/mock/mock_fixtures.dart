@@ -97,8 +97,18 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'media_artist': 'Demo bend',
       'volume_level': 0.35,
       'is_volume_muted': false,
-      // PAUSE | VOLUME_SET | PREVIOUS | NEXT | TURN_ON | TURN_OFF | STOP | PLAY
-      'supported_features': 20917,
+      'source': 'Radio',
+      'source_list': ['Radio', 'Bluetooth', 'AirPlay'],
+      // PAUSE | VOLUME_SET | PREVIOUS | NEXT | TURN_ON | TURN_OFF |
+      // SELECT_SOURCE | STOP | PLAY
+      'supported_features': 22965,
+    }),
+    e('media_player.living_room_tv', 'off', {
+      'friendly_name': 'Televizor',
+      'device_class': 'tv',
+      'source_list': ['TV', 'HDMI 1', 'HDMI 2'],
+      // PAUSE | VOLUME_SET | TURN_ON | TURN_OFF | SELECT_SOURCE | PLAY
+      'supported_features': 18821,
     }),
     e('camera.front_yard', 'idle', {
       'friendly_name': 'Kamera dvorište',

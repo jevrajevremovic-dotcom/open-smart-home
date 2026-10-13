@@ -113,7 +113,16 @@ class HourlyForecast {
   final double? precipitationProbability;
 }
 
-enum WeatherSource { home, device }
+enum WeatherSource {
+  /// Home Assistant weather entity.
+  home,
+
+  /// MET Norway for Home Assistant's home location (opt-in fallback).
+  homeLocation,
+
+  /// MET Norway for the phone's location (opt-in).
+  device,
+}
 
 @immutable
 class WeatherReport {

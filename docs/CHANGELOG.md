@@ -8,6 +8,12 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kontrola muzike i medija: panel „Muzika i mediji” (izbor plejera, uključi/isključi, pusti/pauziraj, prethodna/sledeća, jačina, izvor) sa početnog ekrana i iz kioska; dugme je u kiosku uvek vidljivo pored Assista; komanda `select_source`.
+- Prognoza za lokaciju doma (MET Norway, uz pristanak) kad HA nema `weather` entitet; koordinate iz `/api/config`, zaokružene na ~1 km; 24 h po satima i 7 dana.
+
+### Ispravljeno
+- Kiosk: panel vremena i kalendar više se ne skrivaju kad HA nema entitet za vreme ili kalendare – prikazuju objašnjenje (kalendar i dalje prikazuje mesec).
+- Kiosk: „sada svira” je na užim tabletima bio van ekrana u donjoj traci.
 - „Dodaj uređaj”: Zigbee uparivanje iz aplikacije preko huba (ZHA `zha.permit` ili Zigbee2MQTT preko `mqtt.publish`), odbrojavanje 3 min sa produžavanjem i zaustavljanjem, automatsko zatvaranje pri izlasku, lista novih uređaja i podešavanje imena i prostorije; Wi-Fi/LAN, Matter i Z-Wave označeni kao „uskoro”. Ulaz iz Podešavanja i sa ekrana Sobe (+).
 - Mediji: „sada svira” (naslov, izvođač, omot) na početnom ekranu i u kiosk traci, pusti/pauziraj, prethodna/sledeća, jačina zvuka; komande `media_play_pause`, `media_next_track`, `media_previous_track`.
 - Assist: tekstualne komande i pitanja Home Assistantu (dokumentovani `/api/conversation/process`) sa predlozima, u kiosku (dugme u traci) i u aplikaciji (plutajuće dugme); razgovor se nastavlja u istoj sesiji.

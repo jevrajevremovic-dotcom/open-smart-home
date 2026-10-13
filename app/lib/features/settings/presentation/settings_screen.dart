@@ -101,6 +101,19 @@ class SettingsScreen extends ConsumerWidget {
                                 .read(deviceWeatherEnabledProvider.notifier)
                                 .set(false),
                     ),
+                  SwitchListTile(
+                    key: const Key('homeWeatherSwitch'),
+                    contentPadding: EdgeInsets.zero,
+                    secondary: const Icon(Icons.cloud_outlined),
+                    title: Text(l10n.weatherHomeLocationSetting),
+                    subtitle: Text(l10n.weatherHomeLocationSettingHint),
+                    value: ref.watch(homeLocationWeatherEnabledProvider),
+                    onChanged: (v) => v
+                        ? enableHomeLocationWeather(context, ref)
+                        : ref
+                              .read(homeLocationWeatherEnabledProvider.notifier)
+                              .set(false),
+                  ),
                   OutlinedButton.icon(
                     onPressed: () => _confirmDeleteAll(context, ref),
                     style: OutlinedButton.styleFrom(

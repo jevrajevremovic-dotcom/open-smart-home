@@ -1,3 +1,5 @@
+import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
+import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:open_smart_home/core/config/app_config.dart';
 import 'package:open_smart_home/core/platform/browser_port.dart';
@@ -78,6 +80,7 @@ Future<List<Override>> testOverrides({
   KioskPlatform? kioskPlatform,
   SnapshotCache? snapshotCache,
   Map<String, Object> preferences = const {},
+  MockHomeAssistantServer? server,
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
@@ -93,5 +96,7 @@ Future<List<Override>> testOverrides({
     credentialStoreProvider.overrideWithValue(
       credentials ?? InMemoryCredentialStore(),
     ),
+    if (server != null)
+      mockHomeAssistantServerProvider.overrideWithValue(server),
   ];
 }

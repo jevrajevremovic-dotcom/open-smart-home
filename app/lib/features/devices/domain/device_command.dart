@@ -106,6 +106,14 @@ final class MediaPrevious extends DeviceCommand {
   Capability get requiredCapability => Capability.mediaPrevious;
 }
 
+/// Input / app of a media player (from its source list).
+final class SelectSource extends DeviceCommand {
+  const SelectSource(this.source);
+  final String source;
+  @override
+  Capability get requiredCapability => Capability.sourceSelection;
+}
+
 final class SetVolume extends DeviceCommand {
   const SetVolume(this.percent) : assert(percent >= 0 && percent <= 100);
   final int percent;

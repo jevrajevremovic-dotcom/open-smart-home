@@ -177,6 +177,12 @@ void main() {
         6,
         reason: '6-hour block used when not hourly',
       );
+      expect(
+        [for (final h in r.hourly) h.time.hour],
+        [9, 10, 11],
+        reason: 'hourly entries within the next 24 h only',
+      );
+      expect(r.hourly.last.condition, WeatherCondition.partlyCloudy);
     });
 
     test('rejects malformed responses', () {

@@ -298,6 +298,24 @@ class MediaControls extends ConsumerWidget {
             ],
           ),
         ],
+        if (device.supports(Capability.sourceSelection) &&
+            device.limits.sources.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            key: const Key('mediaSource'),
+            initialValue: device.limits.sources.contains(s.source)
+                ? s.source
+                : null,
+            decoration: InputDecoration(labelText: l10n.mediaSource),
+            items: [
+              for (final src in device.limits.sources)
+                DropdownMenuItem(value: src, child: Text(src)),
+            ],
+            onChanged: on
+                ? (v) => v == null ? null : run(SelectSource(v))
+                : null,
+          ),
+        ],
         if (device.supports(Capability.volume)) ...[
           const SizedBox(height: 16),
           CommandSlider(

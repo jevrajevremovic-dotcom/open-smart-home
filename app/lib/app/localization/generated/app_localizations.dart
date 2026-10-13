@@ -2732,6 +2732,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Name and room can\'t be changed from here. Do it in Home Assistant under Settings, Devices.'**
   String get setUpFailed;
+
+  /// No description provided for @weatherHomeLocationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecast for your home'**
+  String get weatherHomeLocationTitle;
+
+  /// No description provided for @weatherHomeLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no weather entity. Add the Met.no integration in Home Assistant, or turn on the forecast in the app.'**
+  String get weatherHomeLocationHint;
+
+  /// No description provided for @weatherHomeLocationEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on forecast'**
+  String get weatherHomeLocationEnable;
+
+  /// No description provided for @weatherHomeLocationDisclosure.
+  ///
+  /// In en, this message translates to:
+  /// **'The app will send your home\'s approximate location from Home Assistant, rounded to about 1 km, to MET Norway (api.met.no) every 30 minutes. Nothing else is sent. You can turn it off in Settings.'**
+  String get weatherHomeLocationDisclosure;
+
+  /// No description provided for @weatherHomeLocationSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Forecast for the home location (MET Norway)'**
+  String get weatherHomeLocationSetting;
+
+  /// No description provided for @weatherHomeLocationSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only when Home Assistant has no weather entity. Sends the home\'s approximate location.'**
+  String get weatherHomeLocationSettingHint;
+
+  /// No description provided for @weatherNoHomeCoordinates.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no home location set.'**
+  String get weatherNoHomeCoordinates;
+
+  /// No description provided for @kioskWeatherMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'No weather forecast. Turn it on in Settings, Privacy, or add the Met.no integration in Home Assistant.'**
+  String get kioskWeatherMissing;
+
+  /// No description provided for @calendarNoneShort.
+  ///
+  /// In en, this message translates to:
+  /// **'No calendars in Home Assistant'**
+  String get calendarNoneShort;
+
+  /// No description provided for @mediaTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Music and media'**
+  String get mediaTitle;
+
+  /// No description provided for @mediaNoPlayers.
+  ///
+  /// In en, this message translates to:
+  /// **'No media players in Home Assistant.'**
+  String get mediaNoPlayers;
+
+  /// No description provided for @mediaSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get mediaSource;
+
+  /// No description provided for @mediaIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not playing'**
+  String get mediaIdle;
 }
 
 class _AppLocalizationsDelegate

@@ -1542,6 +1542,51 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get setUpFailed =>
       'Ime i prostorija ne mogu da se promene odavde. Uradite to u Home Assistantu, u Podešavanja → Uređaji.';
+
+  @override
+  String get weatherHomeLocationTitle => 'Prognoza za vaš dom';
+
+  @override
+  String get weatherHomeLocationHint =>
+      'Home Assistant nema entitet za vreme. Dodajte integraciju Met.no u Home Assistantu ili uključite prognozu u aplikaciji.';
+
+  @override
+  String get weatherHomeLocationEnable => 'Uključi prognozu';
+
+  @override
+  String get weatherHomeLocationDisclosure =>
+      'Aplikacija će slati približnu lokaciju doma iz Home Assistanta, zaokruženu na oko 1 km, servisu MET Norway (api.met.no) svakih 30 minuta. Ništa drugo se ne šalje. Možete je isključiti u Podešavanjima.';
+
+  @override
+  String get weatherHomeLocationSetting =>
+      'Prognoza za lokaciju doma (MET Norway)';
+
+  @override
+  String get weatherHomeLocationSettingHint =>
+      'Samo kad Home Assistant nema entitet za vreme. Šalje približnu lokaciju doma.';
+
+  @override
+  String get weatherNoHomeCoordinates =>
+      'U Home Assistantu nije podešena lokacija doma.';
+
+  @override
+  String get kioskWeatherMissing =>
+      'Nema vremenske prognoze. Uključite je u Podešavanjima → Privatnost ili dodajte integraciju Met.no u Home Assistantu.';
+
+  @override
+  String get calendarNoneShort => 'U Home Assistantu nema kalendara';
+
+  @override
+  String get mediaTitle => 'Muzika i mediji';
+
+  @override
+  String get mediaNoPlayers => 'U Home Assistantu nema media plejera.';
+
+  @override
+  String get mediaSource => 'Izvor';
+
+  @override
+  String get mediaIdle => 'Ništa ne svira';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

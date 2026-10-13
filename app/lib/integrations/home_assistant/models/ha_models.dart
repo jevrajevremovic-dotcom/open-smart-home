@@ -12,6 +12,8 @@ class HaConfig {
     required this.timeZone,
     required this.temperatureUnit,
     required this.components,
+    this.latitude,
+    this.longitude,
   });
 
   factory HaConfig.fromJson(Object? json) {
@@ -35,6 +37,12 @@ class HaConfig {
         final List<Object?> list => list.whereType<String>().toSet(),
         _ => const <String>{},
       },
+      latitude: map['latitude'] is num
+          ? (map['latitude']! as num).toDouble()
+          : null,
+      longitude: map['longitude'] is num
+          ? (map['longitude']! as num).toDouble()
+          : null,
     );
   }
 
@@ -43,6 +51,11 @@ class HaConfig {
   final String? timeZone;
   final String? temperatureUnit;
   final Set<String> components;
+
+  /// Home location set in Home Assistant (used only for the opt-in MET
+  /// Norway forecast when there is no weather entity).
+  final double? latitude;
+  final double? longitude;
 }
 
 /// One entry of `GET /api/states` or `new_state` of a `state_changed` event.

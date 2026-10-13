@@ -438,5 +438,18 @@
   "deviceNameLabel": "Ime",
   "deviceRoomLabel": "Prostorija",
   "setUpSaved": "Sačuvano.",
-  "setUpFailed": "Ime i prostorija ne mogu da se promene odavde. Uradite to u Home Assistantu, u Podešavanja → Uređaji."
+  "setUpFailed": "Ime i prostorija ne mogu da se promene odavde. Uradite to u Home Assistantu, u Podešavanja → Uređaji.",
+  "weatherHomeLocationTitle": "Prognoza za vaš dom",
+  "weatherHomeLocationHint": "Home Assistant nema entitet za vreme. Dodajte integraciju Met.no u Home Assistantu ili uključite prognozu u aplikaciji.",
+  "weatherHomeLocationEnable": "Uključi prognozu",
+  "weatherHomeLocationDisclosure": "Aplikacija će slati približnu lokaciju doma iz Home Assistanta, zaokruženu na oko 1 km, servisu MET Norway (api.met.no) svakih 30 minuta. Ništa drugo se ne šalje. Možete je isključiti u Podešavanjima.",
+  "weatherHomeLocationSetting": "Prognoza za lokaciju doma (MET Norway)",
+  "weatherHomeLocationSettingHint": "Samo kad Home Assistant nema entitet za vreme. Šalje približnu lokaciju doma.",
+  "weatherNoHomeCoordinates": "U Home Assistantu nije podešena lokacija doma.",
+  "kioskWeatherMissing": "Nema vremenske prognoze. Uključite je u Podešavanjima → Privatnost ili dodajte integraciju Met.no u Home Assistantu.",
+  "calendarNoneShort": "U Home Assistantu nema kalendara",
+  "mediaTitle": "Muzika i mediji",
+  "mediaNoPlayers": "U Home Assistantu nema media plejera.",
+  "mediaSource": "Izvor",
+  "mediaIdle": "Ništa ne svira"
 }

@@ -48,7 +48,7 @@ class MockHomeAssistantServer {
   DateTime now() => _clock();
 
   /// Demo calendars (`GET /api/calendars`).
-  final List<Map<String, Object?>> calendars = const [
+  List<Map<String, Object?>> calendars = [
     {'entity_id': 'calendar.porodica', 'name': 'Porodica'},
     {'entity_id': 'calendar.posao', 'name': 'Posao'},
   ];
@@ -366,6 +366,8 @@ class MockHomeAssistantServer {
     'location_name': 'Demo dom (mock)',
     'version': version,
     'time_zone': 'Europe/Belgrade',
+    'latitude': 44.8125,
+    'longitude': 20.4612,
     'unit_system': {'temperature': '°C'},
     'components': ['light', 'switch', 'sensor', 'climate', 'scene'],
   };
@@ -500,6 +502,12 @@ class MockHomeAssistantServer {
         case ('media_player', 'volume_set'):
           final v = data['volume_level'];
           if (v is num) attrs['volume_level'] = v.toDouble();
+        case ('media_player', 'select_source'):
+          final source = data['source'];
+          if (source is String &&
+              (attrs['source_list'] as List?)?.contains(source) == true) {
+            attrs['source'] = source;
+          }
         case ('media_player', 'turn_off'):
           state = 'off';
         case ('media_player', 'turn_on'):

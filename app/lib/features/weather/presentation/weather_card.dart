@@ -30,14 +30,46 @@ class WeatherSection extends ConsumerWidget {
     final deviceEnabled = ref.watch(deviceWeatherEnabledProvider);
     final offerDevice = allowDeviceLocation && locator.isSupported;
 
+    final noEntity = ref.watch(homeWeatherEntityIdProvider) == null;
+    final homeMetOn = ref.watch(homeLocationWeatherEnabledProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (home == null && noEntity && !homeMetOn) ...[
+          const SizedBox(height: 12),
+          Card(
+            key: const Key('homeWeatherPrompt'),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.weatherHomeLocationTitle,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(l10n.weatherHomeLocationHint),
+                  const SizedBox(height: 12),
+                  FilledButton.tonalIcon(
+                    key: const Key('enableHomeWeather'),
+                    onPressed: () => enableHomeLocationWeather(context, ref),
+                    icon: const Icon(Icons.cloud_outlined),
+                    label: Text(l10n.weatherHomeLocationEnable),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
         if (home != null) ...[
           const SizedBox(height: 12),
           WeatherCard(
             report: home,
             title: l10n.weatherAtHome,
+            attribution: home.source == WeatherSource.homeLocation
+                ? l10n.weatherMetAttribution
+                : null,
             onTap: () => context.push(
               AppRoutes.weatherFor(kiosk: ref.read(kioskActiveProvider)),
             ),
@@ -56,6 +88,38 @@ class WeatherSection extends ConsumerWidget {
           ),
       ],
     );
+  }
+}
+
+/// Asks before the home location is sent to MET Norway.
+Future<void> enableHomeLocationWeather(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (context) {
+      final l10n = context.l10n;
+      return AlertDialog(
+        icon: const Icon(Icons.cloud_outlined),
+        title: Text(l10n.weatherHomeLocationTitle),
+        content: Text(l10n.weatherHomeLocationDisclosure),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            key: const Key('confirmHomeWeather'),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.weatherHomeLocationEnable),
+          ),
+        ],
+      );
+    },
+  );
+  if (ok == true) {
+    await ref.read(homeLocationWeatherEnabledProvider.notifier).set(true);
   }
 }
 

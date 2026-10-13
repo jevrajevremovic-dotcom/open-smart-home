@@ -23,6 +23,7 @@ import '../../devices/domain/capability.dart';
 import '../../favorites/presentation/favorites_screen.dart';
 import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_artwork.dart';
+import '../../media/presentation/media_sheet.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
@@ -656,11 +657,15 @@ class NowPlayingCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final id = ref.watch(nowPlayingIdProvider);
-    final d = id == null ? null : ref.watch(deviceProvider(id));
-    if (d == null) return const SizedBox.shrink();
     final l10n = context.l10n;
-    final playing = d.state.raw == 'playing';
+    final id = ref.watch(nowPlayingIdProvider);
+    final hasPlayers = ref.watch(
+      mediaPlayerIdsProvider.select((ids) => ids.isNotEmpty),
+    );
+    final d = id == null ? null : ref.watch(deviceProvider(id));
+    if (d == null && !hasPlayers) return const SizedBox.shrink();
+    final scheme = Theme.of(context).colorScheme;
+    final playing = d?.state.raw == 'playing';
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: Card(
@@ -668,21 +673,30 @@ class NowPlayingCard extends ConsumerWidget {
         clipBehavior: Clip.antiAlias,
         child: ListTile(
           contentPadding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-          leading: MediaArtwork(deviceId: d.id, size: 48),
+          leading: d != null
+              ? MediaArtwork(deviceId: d.id, size: 48)
+              : CircleAvatar(
+                  radius: 24,
+                  backgroundColor: scheme.secondaryContainer,
+                  child: Icon(
+                    Icons.music_note,
+                    color: scheme.onSecondaryContainer,
+                  ),
+                ),
           title: Text(
-            d.state.mediaTitle ?? d.name,
+            d == null ? l10n.mediaTitle : d.state.mediaTitle ?? d.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            [?d.state.mediaArtist, d.name].join(' · '),
+            d == null
+                ? l10n.mediaIdle
+                : [?d.state.mediaArtist, d.name].join(' · '),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          onTap: () => context.push(
-            AppRoutes.device(d.id, kiosk: ref.read(kioskActiveProvider)),
-          ),
-          trailing: d.supports(Capability.mediaPause)
+          onTap: () => showMediaSheet(context, playerId: d?.id),
+          trailing: d != null && d.supports(Capability.mediaPause)
               ? IconButton.filledTonal(
                   tooltip: l10n.mediaPlayPause,
                   onPressed: () =>
@@ -691,7 +705,7 @@ class NowPlayingCard extends ConsumerWidget {
                     playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
                   ),
                 )
-              : null,
+              : const Icon(Icons.chevron_right),
         ),
       ),
     );

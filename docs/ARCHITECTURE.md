@@ -74,6 +74,22 @@ disconnected → connecting → authenticating → connected
 
 Detalji mapiranja: [DEVICE_CAPABILITIES.md](DEVICE_CAPABILITIES.md).
 
+### Korisnički interfejs (faza 6)
+| Feature | Ekrani |
+|---|---|
+| `dashboard` | `DashboardScreen`; `DashboardSummary`, `RoomSummary`, grupisanje po kategorijama (`home_summaries.dart`) |
+| `rooms` | `RoomsScreen`, `RoomDetailScreen`, `AllDevicesScreen` |
+| `devices/presentation` | `DeviceTile`, `DeviceSliverGrid`, `DeviceDetailScreen`, kontrole po mogućnostima, `DevicePresentation` (ikona/ton/lokalizovan status) |
+| `favorites` | `FavoritesController` (lokalno po serveru), `FavoritesScreen` |
+| `scenes` | `ScenesScreen` (scene, skripte, automatizacije) |
+
+Pravila koja kod sledi:
+- Kontrola postoji samo ako uređaj prijavi mogućnost; nedostupan uređaj ima onemogućene kontrole i jasnu poruku.
+- Sve komande idu kroz `runDeviceCommand` → `DeviceCommandService`: kritične traže potvrdu, a greške se prikazuju kao lokalizovan snackbar.
+- Slajderi šalju komandu tek kad se pusti prst i drže lokalnu vrednost dok uređaj ne potvrdi; termostat grupiše uzastopne +/− u jednu komandu.
+- Izvedeni provideri vraćaju `ValueList` ili klase sa jednakošću po vrednosti, pa se ekran obnavlja samo kad se njegov sadržaj stvarno promeni; kartica uređaja prati samo svoj uređaj.
+- Mreže su lenje (`SliverGrid.builder`), a visina kartica raste sa veličinom teksta.
+
 ### Mock režim
 `MockHomeAssistantServer` je in-memory HA: stanja u HA wire formatu (svetla, prekidači, senzori, klima, roletna, brava, kamera, energija, scena, automatizacija, nedostupan uređaj, slaba baterija), podskup servisa, i WebSocket protokol (`auth_required/auth/auth_ok`, `subscribe_events`, `ping`, `get_states`, `call_service`). Isti `HaWebSocketManager` radi i protiv mock-a, pa se mock režim i testovi ponašaju kao produkcija. Uključuje se sa `--dart-define=SMARTHOME_MOCK=true`, a `AppConfig` ga gasi kad je `kReleaseMode`.
 

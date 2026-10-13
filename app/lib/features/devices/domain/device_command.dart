@@ -79,6 +79,13 @@ final class SetFanMode extends DeviceCommand {
   Capability get requiredCapability => Capability.fanMode;
 }
 
+final class SetVolume extends DeviceCommand {
+  const SetVolume(this.percent) : assert(percent >= 0 && percent <= 100);
+  final int percent;
+  @override
+  Capability get requiredCapability => Capability.volume;
+}
+
 final class OpenCover extends DeviceCommand {
   const OpenCover();
   @override

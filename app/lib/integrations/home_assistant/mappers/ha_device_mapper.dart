@@ -463,7 +463,7 @@ class HaDeviceMapper {
     },
     DeviceState(
       raw: s.state,
-      lockState: known ? _enumByName(LockState.values, s.state) : null,
+      lockState: known ? _enumByName(DoorLockState.values, s.state) : null,
     ),
   );
 

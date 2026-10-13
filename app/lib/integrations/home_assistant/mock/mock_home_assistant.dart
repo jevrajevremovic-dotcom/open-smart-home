@@ -154,6 +154,11 @@ class MockHomeAssistantServer {
     }
     final kelvin = data['color_temp_kelvin'];
     if (kelvin is int) attrs['color_temp_kelvin'] = kelvin;
+    final rgb = data['rgb_color'];
+    if (rgb is List && rgb.length == 3) {
+      attrs['rgb_color'] = List<Object?>.of(rgb);
+      attrs['color_mode'] = 'rgb';
+    }
   }
 
   /// Changes a state and broadcasts `state_changed` (also used by tests).

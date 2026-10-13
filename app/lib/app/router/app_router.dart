@@ -6,8 +6,12 @@ import '../../features/authentication/application/session_controller.dart';
 import '../../features/connection/application/connection_setup_controller.dart';
 import '../../features/connection/presentation/server_address_screen.dart';
 import '../../features/connection/presentation/token_screen.dart';
-import '../../features/home/presentation/home_screen.dart';
+import '../../features/dashboard/presentation/dashboard_screen.dart';
+import '../../features/devices/presentation/device_detail_screen.dart';
+import '../../features/favorites/presentation/favorites_screen.dart';
 import '../../features/onboarding/presentation/welcome_screen.dart';
+import '../../features/rooms/presentation/rooms_screen.dart';
+import '../../features/scenes/presentation/scenes_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import 'app_shell.dart';
 
@@ -17,10 +21,32 @@ abstract final class AppRoutes {
   static const connectServer = '/connect/server';
   static const connectToken = '/connect/token';
   static const home = '/home';
+  static const rooms = '/rooms';
+  static const allDevices = '/devices';
+  static const favorites = '/favorites';
+  static const scenes = '/scenes';
   static const settings = '/settings';
 
-  /// Destinations shown in the bottom bar / navigation rail.
-  static const shellDestinations = [home, settings];
+  /// Path segment used for "devices without a room".
+  static const noRoomId = '_unassigned';
+
+  static String room(String? id) =>
+      '$rooms/${Uri.encodeComponent(id ?? noRoomId)}';
+  static String device(String id) => '/device/${Uri.encodeComponent(id)}';
+
+  /// Destinations shown in the bottom bar / navigation rail, in order.
+  static const shellDestinations = [home, rooms, favorites, scenes, settings];
+
+  /// Which destination is highlighted for a location.
+  static int shellIndexFor(String location) {
+    if (location.startsWith(rooms) ||
+        location.startsWith(allDevices) ||
+        location.startsWith('/device/')) {
+      return 1;
+    }
+    final index = shellDestinations.indexWhere(location.startsWith);
+    return index < 0 ? 0 : index;
+  }
 }
 
 /// Pure redirect rules, separated for unit testing.
@@ -86,7 +112,42 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: AppRoutes.home,
-            pageBuilder: (_, _) => const NoTransitionPage(child: HomeScreen()),
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: DashboardScreen()),
+          ),
+          GoRoute(
+            path: AppRoutes.rooms,
+            pageBuilder: (_, _) => const NoTransitionPage(child: RoomsScreen()),
+            routes: [
+              GoRoute(
+                path: ':roomId',
+                builder: (_, state) {
+                  final id = state.pathParameters['roomId']!;
+                  return RoomDetailScreen(
+                    roomId: id == AppRoutes.noRoomId ? null : id,
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: AppRoutes.allDevices,
+            builder: (_, _) => const AllDevicesScreen(),
+          ),
+          GoRoute(
+            path: '/device/:deviceId',
+            builder: (_, state) =>
+                DeviceDetailScreen(deviceId: state.pathParameters['deviceId']!),
+          ),
+          GoRoute(
+            path: AppRoutes.favorites,
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: FavoritesScreen()),
+          ),
+          GoRoute(
+            path: AppRoutes.scenes,
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: ScenesScreen()),
           ),
           GoRoute(
             path: AppRoutes.settings,

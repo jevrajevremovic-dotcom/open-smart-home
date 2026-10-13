@@ -274,16 +274,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get liveEventsTitle => 'Live state changes';
-
-  @override
-  String get liveEventsEmpty => 'Waiting for changes from Home Assistant…';
-
-  @override
-  String get homeComingSoon =>
-      'Rooms, devices and favorites arrive in the next development phase.';
-
-  @override
   String get settingsTitle => 'Settings';
 
   @override
@@ -370,4 +360,456 @@ class AppLocalizationsEn extends AppLocalizations {
   String dataStaleSince(String time) {
     return 'Offline — showing data last updated at $time. It may not be current.';
   }
+
+  @override
+  String get navRooms => 'Rooms';
+
+  @override
+  String get navFavorites => 'Favorites';
+
+  @override
+  String get navScenes => 'Scenes';
+
+  @override
+  String get stateOn => 'On';
+
+  @override
+  String get stateOff => 'Off';
+
+  @override
+  String get stateUnavailable => 'Unavailable';
+
+  @override
+  String get stateUnknown => 'Unknown';
+
+  @override
+  String stateOnBrightness(int percent) {
+    return 'On · $percent %';
+  }
+
+  @override
+  String get motionDetected => 'Motion detected';
+
+  @override
+  String get motionClear => 'No motion';
+
+  @override
+  String get occupancyDetected => 'Occupied';
+
+  @override
+  String get occupancyClear => 'Clear';
+
+  @override
+  String get contactOpen => 'Open';
+
+  @override
+  String get contactClosed => 'Closed';
+
+  @override
+  String get smokeDetected => 'Smoke detected!';
+
+  @override
+  String get smokeClear => 'No smoke';
+
+  @override
+  String get coDetected => 'CO detected!';
+
+  @override
+  String get coClear => 'No CO';
+
+  @override
+  String get leakDetected => 'Water leak!';
+
+  @override
+  String get leakClear => 'Dry';
+
+  @override
+  String get vibrationDetected => 'Vibration';
+
+  @override
+  String get vibrationClear => 'Still';
+
+  @override
+  String get binaryActive => 'Active';
+
+  @override
+  String get binaryInactive => 'Inactive';
+
+  @override
+  String get coverOpening => 'Opening…';
+
+  @override
+  String get coverClosing => 'Closing…';
+
+  @override
+  String coverOpenPercent(int percent) {
+    return 'Open $percent %';
+  }
+
+  @override
+  String get lockLocked => 'Locked';
+
+  @override
+  String get lockUnlocked => 'Unlocked';
+
+  @override
+  String get lockLocking => 'Locking…';
+
+  @override
+  String get lockUnlocking => 'Unlocking…';
+
+  @override
+  String get lockJammed => 'Jammed!';
+
+  @override
+  String get alarmDisarmed => 'Disarmed';
+
+  @override
+  String get alarmArmed => 'Armed';
+
+  @override
+  String get alarmArming => 'Arming…';
+
+  @override
+  String get alarmPending => 'Pending…';
+
+  @override
+  String get alarmTriggered => 'ALARM!';
+
+  @override
+  String get hvacOff => 'Off';
+
+  @override
+  String get hvacHeat => 'Heat';
+
+  @override
+  String get hvacCool => 'Cool';
+
+  @override
+  String get hvacHeatCool => 'Heat/Cool';
+
+  @override
+  String get hvacAuto => 'Auto';
+
+  @override
+  String get hvacDry => 'Dry';
+
+  @override
+  String get hvacFanOnly => 'Fan only';
+
+  @override
+  String climateStatus(String mode, String temperature) {
+    return '$mode · $temperature';
+  }
+
+  @override
+  String get mediaPlaying => 'Playing';
+
+  @override
+  String get mediaPaused => 'Paused';
+
+  @override
+  String get cameraIdle => 'Ready';
+
+  @override
+  String get cameraStreaming => 'Streaming';
+
+  @override
+  String get cameraRecording => 'Recording';
+
+  @override
+  String get scriptRunning => 'Running';
+
+  @override
+  String get routineReady => 'Ready';
+
+  @override
+  String doorbellLast(String time) {
+    return 'Last ring $time';
+  }
+
+  @override
+  String get lowBattery => 'Low battery';
+
+  @override
+  String batteryLevel(int percent) {
+    return 'Battery $percent %';
+  }
+
+  @override
+  String get protocolCloud => 'Cloud';
+
+  @override
+  String get protocolVirtual => 'Virtual';
+
+  @override
+  String get favoritesEmpty =>
+      'Tap the star on a device\'s page to add it to your favorites.';
+
+  @override
+  String get scenesTitle => 'Scenes';
+
+  @override
+  String get scriptsTitle => 'Scripts';
+
+  @override
+  String get automationsTitle => 'Automations';
+
+  @override
+  String get noScenes => 'No scenes yet.';
+
+  @override
+  String get dashboardAttention => 'Needs attention';
+
+  @override
+  String get summaryTemperature => 'Indoor';
+
+  @override
+  String get summaryHumidity => 'Humidity';
+
+  @override
+  String get summaryLights => 'Lights on';
+
+  @override
+  String get summaryOpenings => 'Doors & windows open';
+
+  @override
+  String get summaryPower => 'Power';
+
+  @override
+  String get summaryAlerts => 'Alerts';
+
+  @override
+  String get valueNotAvailable => 'Not available';
+
+  @override
+  String lightsOnOf(int on, int total) {
+    return '$on of $total';
+  }
+
+  @override
+  String lowBatteryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count low batteries',
+      one: '1 low battery',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unavailableCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unavailable',
+      one: '1 unavailable',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roomNoRoom => 'Unassigned';
+
+  @override
+  String get allDevices => 'All devices';
+
+  @override
+  String roomDevicesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count devices',
+      one: '1 device',
+      zero: 'No devices',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String roomLightsOn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lights on',
+      one: '1 light on',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roomEmpty => 'No devices in this room.';
+
+  @override
+  String get noRoomsYet => 'No rooms are defined in Home Assistant.';
+
+  @override
+  String get groupLights => 'Lights';
+
+  @override
+  String get groupClimate => 'Climate';
+
+  @override
+  String get groupCovers => 'Blinds & doors';
+
+  @override
+  String get groupSwitches => 'Switches & outlets';
+
+  @override
+  String get groupSecurity => 'Security';
+
+  @override
+  String get groupSensors => 'Sensors';
+
+  @override
+  String get groupMedia => 'Media';
+
+  @override
+  String get groupEnergy => 'Energy';
+
+  @override
+  String get groupOther => 'Other';
+
+  @override
+  String get addFavorite => 'Add to favorites';
+
+  @override
+  String get removeFavorite => 'Remove from favorites';
+
+  @override
+  String get brightness => 'Brightness';
+
+  @override
+  String get colorTemperature => 'Color temperature';
+
+  @override
+  String get warm => 'Warm';
+
+  @override
+  String get cool => 'Cool';
+
+  @override
+  String get color => 'Color';
+
+  @override
+  String get targetTemperature => 'Target temperature';
+
+  @override
+  String get currentTemperature => 'Current';
+
+  @override
+  String get increaseTemperature => 'Increase temperature';
+
+  @override
+  String get decreaseTemperature => 'Decrease temperature';
+
+  @override
+  String get mode => 'Mode';
+
+  @override
+  String get fanMode => 'Fan';
+
+  @override
+  String get position => 'Position';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get stop => 'Stop';
+
+  @override
+  String get lock => 'Lock';
+
+  @override
+  String get unlock => 'Unlock';
+
+  @override
+  String confirmUnlockTitle(String name) {
+    return 'Unlock $name?';
+  }
+
+  @override
+  String confirmOpenTitle(String name) {
+    return 'Open $name?';
+  }
+
+  @override
+  String confirmDisarmTitle(String name) {
+    return 'Disarm $name?';
+  }
+
+  @override
+  String get confirmCriticalBody =>
+      'This action affects the security of your home.';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get activate => 'Activate';
+
+  @override
+  String get runNow => 'Run now';
+
+  @override
+  String sceneActivated(String name) {
+    return '$name activated';
+  }
+
+  @override
+  String get automationEnabled => 'Enabled';
+
+  @override
+  String lastTriggered(String time) {
+    return 'Last triggered $time';
+  }
+
+  @override
+  String get neverTriggered => 'Never triggered';
+
+  @override
+  String get volume => 'Volume';
+
+  @override
+  String get detailInfo => 'Information';
+
+  @override
+  String get infoRoom => 'Room';
+
+  @override
+  String get infoManufacturer => 'Manufacturer';
+
+  @override
+  String get infoModel => 'Model';
+
+  @override
+  String get infoProtocol => 'Protocol';
+
+  @override
+  String get infoLastChanged => 'Last changed';
+
+  @override
+  String get infoEntityId => 'Entity ID';
+
+  @override
+  String get infoSignal => 'Signal';
+
+  @override
+  String get infoBattery => 'Battery';
+
+  @override
+  String get deviceNotFound => 'This device no longer exists.';
+
+  @override
+  String get unavailableBanner =>
+      'This device is unavailable. Controls are disabled until it reconnects.';
+
+  @override
+  String get controlsOffline =>
+      'No connection to the server — commands cannot be sent right now.';
 }

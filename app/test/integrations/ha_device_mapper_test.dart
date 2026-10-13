@@ -171,7 +171,7 @@ void main() {
       expect(blinds.kind, DeviceKind.blind);
       expect(blinds.state.position, 100);
       expect(blinds.supports(Capability.tilt), isFalse);
-      expect(devices['lock.front_door']!.state.lockState, LockState.locked);
+      expect(devices['lock.front_door']!.state.lockState, DoorLockState.locked);
       expect(devices['switch.tv_outlet']!.kind, DeviceKind.outlet);
       expect(
         devices['scene.movie_night']!.supports(Capability.trigger),

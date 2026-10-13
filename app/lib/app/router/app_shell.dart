@@ -16,13 +16,14 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final index = AppRoutes.shellDestinations
-        .indexWhere(location.startsWith)
-        .clamp(0, AppRoutes.shellDestinations.length - 1);
+    final index = AppRoutes.shellIndexFor(location);
     void onSelect(int i) => context.go(AppRoutes.shellDestinations[i]);
 
     final destinations = [
       (Icons.home_outlined, Icons.home, l10n.navHome),
+      (Icons.meeting_room_outlined, Icons.meeting_room, l10n.navRooms),
+      (Icons.star_border, Icons.star, l10n.navFavorites),
+      (Icons.palette_outlined, Icons.palette, l10n.navScenes),
       (Icons.settings_outlined, Icons.settings, l10n.navSettings),
     ];
 

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/localization/generated/app_localizations_en.dart';
 import 'package:open_smart_home/app/localization/generated/app_localizations_sr.dart';
+import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/settings/presentation/settings_screen.dart';
 
 import '../helpers.dart';
@@ -57,6 +58,15 @@ Future<void> tapKey(WidgetTester tester, String key) async {
 }
 
 /// Unmounts the app so the WebSocket manager cancels its timers.
+/// Navigates with the app's router, as a deep link would.
+Future<void> goTo(WidgetTester tester, String location) async {
+  final container = ProviderScope.containerOf(
+    tester.element(find.byType(SmartHomeApp)),
+  );
+  container.read(routerProvider).go(location);
+  await settle(tester, 4);
+}
+
 Future<void> unmount(WidgetTester tester) async {
   await tester.pumpWidget(const SizedBox());
   await tester.pump(const Duration(seconds: 1));
@@ -129,7 +139,7 @@ void main() {
 
       expect(find.text('Demo dom (mock)'), findsOneWidget);
       expect(find.text(en.statusConnected), findsOneWidget);
-    expect(find.text(en.devicesInRooms(17, 6)), findsOneWidget);
+      expect(find.text(en.summaryLights), findsOneWidget);
       expect(credentials.values.values.single, 'demo-token');
       await unmount(tester);
     },

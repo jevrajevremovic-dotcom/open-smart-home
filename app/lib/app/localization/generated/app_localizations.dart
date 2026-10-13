@@ -567,24 +567,6 @@ abstract class AppLocalizations {
   /// **'Home Assistant {version}'**
   String serverVersion(String version);
 
-  /// No description provided for @liveEventsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Live state changes'**
-  String get liveEventsTitle;
-
-  /// No description provided for @liveEventsEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'Waiting for changes from Home Assistant…'**
-  String get liveEventsEmpty;
-
-  /// No description provided for @homeComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Rooms, devices and favorites arrive in the next development phase.'**
-  String get homeComingSoon;
-
   /// No description provided for @settingsTitle.
   ///
   /// In en, this message translates to:
@@ -716,6 +698,792 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Offline — showing data last updated at {time}. It may not be current.'**
   String dataStaleSince(String time);
+
+  /// No description provided for @navRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get navRooms;
+
+  /// No description provided for @navFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get navFavorites;
+
+  /// No description provided for @navScenes.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenes'**
+  String get navScenes;
+
+  /// No description provided for @stateOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get stateOn;
+
+  /// No description provided for @stateOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get stateOff;
+
+  /// No description provided for @stateUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable'**
+  String get stateUnavailable;
+
+  /// No description provided for @stateUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get stateUnknown;
+
+  /// No description provided for @stateOnBrightness.
+  ///
+  /// In en, this message translates to:
+  /// **'On · {percent} %'**
+  String stateOnBrightness(int percent);
+
+  /// No description provided for @motionDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion detected'**
+  String get motionDetected;
+
+  /// No description provided for @motionClear.
+  ///
+  /// In en, this message translates to:
+  /// **'No motion'**
+  String get motionClear;
+
+  /// No description provided for @occupancyDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupied'**
+  String get occupancyDetected;
+
+  /// No description provided for @occupancyClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get occupancyClear;
+
+  /// No description provided for @contactOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get contactOpen;
+
+  /// No description provided for @contactClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get contactClosed;
+
+  /// No description provided for @smokeDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke detected!'**
+  String get smokeDetected;
+
+  /// No description provided for @smokeClear.
+  ///
+  /// In en, this message translates to:
+  /// **'No smoke'**
+  String get smokeClear;
+
+  /// No description provided for @coDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'CO detected!'**
+  String get coDetected;
+
+  /// No description provided for @coClear.
+  ///
+  /// In en, this message translates to:
+  /// **'No CO'**
+  String get coClear;
+
+  /// No description provided for @leakDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Water leak!'**
+  String get leakDetected;
+
+  /// No description provided for @leakClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Dry'**
+  String get leakClear;
+
+  /// No description provided for @vibrationDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration'**
+  String get vibrationDetected;
+
+  /// No description provided for @vibrationClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Still'**
+  String get vibrationClear;
+
+  /// No description provided for @binaryActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get binaryActive;
+
+  /// No description provided for @binaryInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get binaryInactive;
+
+  /// No description provided for @coverOpening.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening…'**
+  String get coverOpening;
+
+  /// No description provided for @coverClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing…'**
+  String get coverClosing;
+
+  /// No description provided for @coverOpenPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {percent} %'**
+  String coverOpenPercent(int percent);
+
+  /// No description provided for @lockLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get lockLocked;
+
+  /// No description provided for @lockUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked'**
+  String get lockUnlocked;
+
+  /// No description provided for @lockLocking.
+  ///
+  /// In en, this message translates to:
+  /// **'Locking…'**
+  String get lockLocking;
+
+  /// No description provided for @lockUnlocking.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocking…'**
+  String get lockUnlocking;
+
+  /// No description provided for @lockJammed.
+  ///
+  /// In en, this message translates to:
+  /// **'Jammed!'**
+  String get lockJammed;
+
+  /// No description provided for @alarmDisarmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Disarmed'**
+  String get alarmDisarmed;
+
+  /// No description provided for @alarmArmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Armed'**
+  String get alarmArmed;
+
+  /// No description provided for @alarmArming.
+  ///
+  /// In en, this message translates to:
+  /// **'Arming…'**
+  String get alarmArming;
+
+  /// No description provided for @alarmPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending…'**
+  String get alarmPending;
+
+  /// No description provided for @alarmTriggered.
+  ///
+  /// In en, this message translates to:
+  /// **'ALARM!'**
+  String get alarmTriggered;
+
+  /// No description provided for @hvacOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get hvacOff;
+
+  /// No description provided for @hvacHeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat'**
+  String get hvacHeat;
+
+  /// No description provided for @hvacCool.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool'**
+  String get hvacCool;
+
+  /// No description provided for @hvacHeatCool.
+  ///
+  /// In en, this message translates to:
+  /// **'Heat/Cool'**
+  String get hvacHeatCool;
+
+  /// No description provided for @hvacAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get hvacAuto;
+
+  /// No description provided for @hvacDry.
+  ///
+  /// In en, this message translates to:
+  /// **'Dry'**
+  String get hvacDry;
+
+  /// No description provided for @hvacFanOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan only'**
+  String get hvacFanOnly;
+
+  /// No description provided for @climateStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'{mode} · {temperature}'**
+  String climateStatus(String mode, String temperature);
+
+  /// No description provided for @mediaPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing'**
+  String get mediaPlaying;
+
+  /// No description provided for @mediaPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get mediaPaused;
+
+  /// No description provided for @cameraIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get cameraIdle;
+
+  /// No description provided for @cameraStreaming.
+  ///
+  /// In en, this message translates to:
+  /// **'Streaming'**
+  String get cameraStreaming;
+
+  /// No description provided for @cameraRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording'**
+  String get cameraRecording;
+
+  /// No description provided for @scriptRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get scriptRunning;
+
+  /// No description provided for @routineReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get routineReady;
+
+  /// No description provided for @doorbellLast.
+  ///
+  /// In en, this message translates to:
+  /// **'Last ring {time}'**
+  String doorbellLast(String time);
+
+  /// No description provided for @lowBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Low battery'**
+  String get lowBattery;
+
+  /// No description provided for @batteryLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery {percent} %'**
+  String batteryLevel(int percent);
+
+  /// No description provided for @protocolCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud'**
+  String get protocolCloud;
+
+  /// No description provided for @protocolVirtual.
+  ///
+  /// In en, this message translates to:
+  /// **'Virtual'**
+  String get protocolVirtual;
+
+  /// No description provided for @favoritesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the star on a device\'s page to add it to your favorites.'**
+  String get favoritesEmpty;
+
+  /// No description provided for @scenesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenes'**
+  String get scenesTitle;
+
+  /// No description provided for @scriptsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scripts'**
+  String get scriptsTitle;
+
+  /// No description provided for @automationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automations'**
+  String get automationsTitle;
+
+  /// No description provided for @noScenes.
+  ///
+  /// In en, this message translates to:
+  /// **'No scenes yet.'**
+  String get noScenes;
+
+  /// No description provided for @dashboardAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get dashboardAttention;
+
+  /// No description provided for @summaryTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Indoor'**
+  String get summaryTemperature;
+
+  /// No description provided for @summaryHumidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity'**
+  String get summaryHumidity;
+
+  /// No description provided for @summaryLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights on'**
+  String get summaryLights;
+
+  /// No description provided for @summaryOpenings.
+  ///
+  /// In en, this message translates to:
+  /// **'Doors & windows open'**
+  String get summaryOpenings;
+
+  /// No description provided for @summaryPower.
+  ///
+  /// In en, this message translates to:
+  /// **'Power'**
+  String get summaryPower;
+
+  /// No description provided for @summaryAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts'**
+  String get summaryAlerts;
+
+  /// No description provided for @valueNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get valueNotAvailable;
+
+  /// No description provided for @lightsOnOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{on} of {total}'**
+  String lightsOnOf(int on, int total);
+
+  /// No description provided for @lowBatteryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 low battery} other{{count} low batteries}}'**
+  String lowBatteryCount(int count);
+
+  /// No description provided for @unavailableCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 unavailable} other{{count} unavailable}}'**
+  String unavailableCount(int count);
+
+  /// No description provided for @roomNoRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassigned'**
+  String get roomNoRoom;
+
+  /// No description provided for @allDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'All devices'**
+  String get allDevices;
+
+  /// No description provided for @roomDevicesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No devices} =1{1 device} other{{count} devices}}'**
+  String roomDevicesCount(int count);
+
+  /// No description provided for @roomLightsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 light on} other{{count} lights on}}'**
+  String roomLightsOn(int count);
+
+  /// No description provided for @roomEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No devices in this room.'**
+  String get roomEmpty;
+
+  /// No description provided for @noRoomsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No rooms are defined in Home Assistant.'**
+  String get noRoomsYet;
+
+  /// No description provided for @groupLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights'**
+  String get groupLights;
+
+  /// No description provided for @groupClimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Climate'**
+  String get groupClimate;
+
+  /// No description provided for @groupCovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Blinds & doors'**
+  String get groupCovers;
+
+  /// No description provided for @groupSwitches.
+  ///
+  /// In en, this message translates to:
+  /// **'Switches & outlets'**
+  String get groupSwitches;
+
+  /// No description provided for @groupSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get groupSecurity;
+
+  /// No description provided for @groupSensors.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensors'**
+  String get groupSensors;
+
+  /// No description provided for @groupMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Media'**
+  String get groupMedia;
+
+  /// No description provided for @groupEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy'**
+  String get groupEnergy;
+
+  /// No description provided for @groupOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get groupOther;
+
+  /// No description provided for @addFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to favorites'**
+  String get addFavorite;
+
+  /// No description provided for @removeFavorite.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from favorites'**
+  String get removeFavorite;
+
+  /// No description provided for @brightness.
+  ///
+  /// In en, this message translates to:
+  /// **'Brightness'**
+  String get brightness;
+
+  /// No description provided for @colorTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Color temperature'**
+  String get colorTemperature;
+
+  /// No description provided for @warm.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm'**
+  String get warm;
+
+  /// No description provided for @cool.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool'**
+  String get cool;
+
+  /// No description provided for @color.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get color;
+
+  /// No description provided for @targetTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Target temperature'**
+  String get targetTemperature;
+
+  /// No description provided for @currentTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get currentTemperature;
+
+  /// No description provided for @increaseTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Increase temperature'**
+  String get increaseTemperature;
+
+  /// No description provided for @decreaseTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Decrease temperature'**
+  String get decreaseTemperature;
+
+  /// No description provided for @mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get mode;
+
+  /// No description provided for @fanMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Fan'**
+  String get fanMode;
+
+  /// No description provided for @position.
+  ///
+  /// In en, this message translates to:
+  /// **'Position'**
+  String get position;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @stop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stop;
+
+  /// No description provided for @lock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock'**
+  String get lock;
+
+  /// No description provided for @unlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get unlock;
+
+  /// No description provided for @confirmUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock {name}?'**
+  String confirmUnlockTitle(String name);
+
+  /// No description provided for @confirmOpenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {name}?'**
+  String confirmOpenTitle(String name);
+
+  /// No description provided for @confirmDisarmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disarm {name}?'**
+  String confirmDisarmTitle(String name);
+
+  /// No description provided for @confirmCriticalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This action affects the security of your home.'**
+  String get confirmCriticalBody;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @activate.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get activate;
+
+  /// No description provided for @runNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Run now'**
+  String get runNow;
+
+  /// No description provided for @sceneActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} activated'**
+  String sceneActivated(String name);
+
+  /// No description provided for @automationEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get automationEnabled;
+
+  /// No description provided for @lastTriggered.
+  ///
+  /// In en, this message translates to:
+  /// **'Last triggered {time}'**
+  String lastTriggered(String time);
+
+  /// No description provided for @neverTriggered.
+  ///
+  /// In en, this message translates to:
+  /// **'Never triggered'**
+  String get neverTriggered;
+
+  /// No description provided for @volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get volume;
+
+  /// No description provided for @detailInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Information'**
+  String get detailInfo;
+
+  /// No description provided for @infoRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Room'**
+  String get infoRoom;
+
+  /// No description provided for @infoManufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer'**
+  String get infoManufacturer;
+
+  /// No description provided for @infoModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get infoModel;
+
+  /// No description provided for @infoProtocol.
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol'**
+  String get infoProtocol;
+
+  /// No description provided for @infoLastChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Last changed'**
+  String get infoLastChanged;
+
+  /// No description provided for @infoEntityId.
+  ///
+  /// In en, this message translates to:
+  /// **'Entity ID'**
+  String get infoEntityId;
+
+  /// No description provided for @infoSignal.
+  ///
+  /// In en, this message translates to:
+  /// **'Signal'**
+  String get infoSignal;
+
+  /// No description provided for @infoBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get infoBattery;
+
+  /// No description provided for @deviceNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This device no longer exists.'**
+  String get deviceNotFound;
+
+  /// No description provided for @unavailableBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This device is unavailable. Controls are disabled until it reconnects.'**
+  String get unavailableBanner;
+
+  /// No description provided for @controlsOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection to the server — commands cannot be sent right now.'**
+  String get controlsOffline;
 }
 
 class _AppLocalizationsDelegate

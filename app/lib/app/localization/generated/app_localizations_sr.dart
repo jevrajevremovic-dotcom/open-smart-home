@@ -270,16 +270,6 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
-  String get liveEventsTitle => 'Promene stanja uživo';
-
-  @override
-  String get liveEventsEmpty => 'Čekam promene sa Home Assistanta…';
-
-  @override
-  String get homeComingSoon =>
-      'Prostorije, uređaji i omiljeno stižu u sledećoj fazi razvoja.';
-
-  @override
   String get settingsTitle => 'Podešavanja';
 
   @override
@@ -367,6 +357,462 @@ class AppLocalizationsSr extends AppLocalizations {
   String dataStaleSince(String time) {
     return 'Van mreže — prikazani su podaci poslednji put ažurirani u $time. Možda nisu aktuelni.';
   }
+
+  @override
+  String get navRooms => 'Prostorije';
+
+  @override
+  String get navFavorites => 'Omiljeno';
+
+  @override
+  String get navScenes => 'Scene';
+
+  @override
+  String get stateOn => 'Uključeno';
+
+  @override
+  String get stateOff => 'Isključeno';
+
+  @override
+  String get stateUnavailable => 'Nedostupno';
+
+  @override
+  String get stateUnknown => 'Nepoznato';
+
+  @override
+  String stateOnBrightness(int percent) {
+    return 'Uključeno · $percent %';
+  }
+
+  @override
+  String get motionDetected => 'Detektovan pokret';
+
+  @override
+  String get motionClear => 'Nema pokreta';
+
+  @override
+  String get occupancyDetected => 'Prisutno';
+
+  @override
+  String get occupancyClear => 'Nema prisustva';
+
+  @override
+  String get contactOpen => 'Otvoreno';
+
+  @override
+  String get contactClosed => 'Zatvoreno';
+
+  @override
+  String get smokeDetected => 'Detektovan dim!';
+
+  @override
+  String get smokeClear => 'Nema dima';
+
+  @override
+  String get coDetected => 'Detektovan CO!';
+
+  @override
+  String get coClear => 'Nema CO';
+
+  @override
+  String get leakDetected => 'Curenje vode!';
+
+  @override
+  String get leakClear => 'Suvo';
+
+  @override
+  String get vibrationDetected => 'Vibracija';
+
+  @override
+  String get vibrationClear => 'Mirno';
+
+  @override
+  String get binaryActive => 'Aktivno';
+
+  @override
+  String get binaryInactive => 'Neaktivno';
+
+  @override
+  String get coverOpening => 'Otvara se…';
+
+  @override
+  String get coverClosing => 'Zatvara se…';
+
+  @override
+  String coverOpenPercent(int percent) {
+    return 'Otvoreno $percent %';
+  }
+
+  @override
+  String get lockLocked => 'Zaključano';
+
+  @override
+  String get lockUnlocked => 'Otključano';
+
+  @override
+  String get lockLocking => 'Zaključava se…';
+
+  @override
+  String get lockUnlocking => 'Otključava se…';
+
+  @override
+  String get lockJammed => 'Zaglavljeno!';
+
+  @override
+  String get alarmDisarmed => 'Isključen';
+
+  @override
+  String get alarmArmed => 'Uključen';
+
+  @override
+  String get alarmArming => 'Uključuje se…';
+
+  @override
+  String get alarmPending => 'Odbrojavanje…';
+
+  @override
+  String get alarmTriggered => 'ALARM!';
+
+  @override
+  String get hvacOff => 'Isključeno';
+
+  @override
+  String get hvacHeat => 'Grejanje';
+
+  @override
+  String get hvacCool => 'Hlađenje';
+
+  @override
+  String get hvacHeatCool => 'Grejanje/hlađenje';
+
+  @override
+  String get hvacAuto => 'Automatski';
+
+  @override
+  String get hvacDry => 'Sušenje';
+
+  @override
+  String get hvacFanOnly => 'Samo ventilator';
+
+  @override
+  String climateStatus(String mode, String temperature) {
+    return '$mode · $temperature';
+  }
+
+  @override
+  String get mediaPlaying => 'Reprodukcija';
+
+  @override
+  String get mediaPaused => 'Pauzirano';
+
+  @override
+  String get cameraIdle => 'Spremna';
+
+  @override
+  String get cameraStreaming => 'Prenos';
+
+  @override
+  String get cameraRecording => 'Snimanje';
+
+  @override
+  String get scriptRunning => 'Pokrenuto';
+
+  @override
+  String get routineReady => 'Spremno';
+
+  @override
+  String doorbellLast(String time) {
+    return 'Poslednje zvono $time';
+  }
+
+  @override
+  String get lowBattery => 'Slaba baterija';
+
+  @override
+  String batteryLevel(int percent) {
+    return 'Baterija $percent %';
+  }
+
+  @override
+  String get protocolCloud => 'Cloud';
+
+  @override
+  String get protocolVirtual => 'Virtuelni';
+
+  @override
+  String get favoritesEmpty =>
+      'Dodirnite zvezdicu na stranici uređaja da ga dodate u omiljeno.';
+
+  @override
+  String get scenesTitle => 'Scene';
+
+  @override
+  String get scriptsTitle => 'Skripte';
+
+  @override
+  String get automationsTitle => 'Automatizacije';
+
+  @override
+  String get noScenes => 'Još nema scena.';
+
+  @override
+  String get dashboardAttention => 'Potrebna pažnja';
+
+  @override
+  String get summaryTemperature => 'Unutra';
+
+  @override
+  String get summaryHumidity => 'Vlažnost';
+
+  @override
+  String get summaryLights => 'Upaljena svetla';
+
+  @override
+  String get summaryOpenings => 'Otvorena vrata i prozori';
+
+  @override
+  String get summaryPower => 'Snaga';
+
+  @override
+  String get summaryAlerts => 'Upozorenja';
+
+  @override
+  String get valueNotAvailable => 'Nije dostupno';
+
+  @override
+  String lightsOnOf(int on, int total) {
+    return '$on od $total';
+  }
+
+  @override
+  String lowBatteryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count slabih baterija',
+      few: '$count slabe baterije',
+      one: '$count slaba baterija',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unavailableCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nedostupnih',
+      few: '$count nedostupna',
+      one: '$count nedostupan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roomNoRoom => 'Bez prostorije';
+
+  @override
+  String get allDevices => 'Svi uređaji';
+
+  @override
+  String roomDevicesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count uređaja',
+      few: '$count uređaja',
+      one: '$count uređaj',
+      zero: 'Nema uređaja',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String roomLightsOn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count upaljenih svetala',
+      few: '$count upaljena svetla',
+      one: '$count upaljeno svetlo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get roomEmpty => 'Nema uređaja u ovoj prostoriji.';
+
+  @override
+  String get noRoomsYet => 'U Home Assistantu nisu definisane prostorije.';
+
+  @override
+  String get groupLights => 'Svetla';
+
+  @override
+  String get groupClimate => 'Klima';
+
+  @override
+  String get groupCovers => 'Roletne i vrata';
+
+  @override
+  String get groupSwitches => 'Prekidači i utičnice';
+
+  @override
+  String get groupSecurity => 'Bezbednost';
+
+  @override
+  String get groupSensors => 'Senzori';
+
+  @override
+  String get groupMedia => 'Mediji';
+
+  @override
+  String get groupEnergy => 'Energija';
+
+  @override
+  String get groupOther => 'Ostalo';
+
+  @override
+  String get addFavorite => 'Dodaj u omiljeno';
+
+  @override
+  String get removeFavorite => 'Ukloni iz omiljenog';
+
+  @override
+  String get brightness => 'Jačina svetla';
+
+  @override
+  String get colorTemperature => 'Temperatura boje';
+
+  @override
+  String get warm => 'Toplo';
+
+  @override
+  String get cool => 'Hladno';
+
+  @override
+  String get color => 'Boja';
+
+  @override
+  String get targetTemperature => 'Željena temperatura';
+
+  @override
+  String get currentTemperature => 'Trenutno';
+
+  @override
+  String get increaseTemperature => 'Povećaj temperaturu';
+
+  @override
+  String get decreaseTemperature => 'Smanji temperaturu';
+
+  @override
+  String get mode => 'Režim';
+
+  @override
+  String get fanMode => 'Ventilator';
+
+  @override
+  String get position => 'Položaj';
+
+  @override
+  String get open => 'Otvori';
+
+  @override
+  String get close => 'Zatvori';
+
+  @override
+  String get stop => 'Zaustavi';
+
+  @override
+  String get lock => 'Zaključaj';
+
+  @override
+  String get unlock => 'Otključaj';
+
+  @override
+  String confirmUnlockTitle(String name) {
+    return 'Otključati: $name?';
+  }
+
+  @override
+  String confirmOpenTitle(String name) {
+    return 'Otvoriti: $name?';
+  }
+
+  @override
+  String confirmDisarmTitle(String name) {
+    return 'Isključiti alarm: $name?';
+  }
+
+  @override
+  String get confirmCriticalBody =>
+      'Ova radnja utiče na bezbednost vašeg doma.';
+
+  @override
+  String get confirm => 'Potvrdi';
+
+  @override
+  String get activate => 'Pokreni';
+
+  @override
+  String get runNow => 'Pokreni sada';
+
+  @override
+  String sceneActivated(String name) {
+    return 'Pokrenuto: $name';
+  }
+
+  @override
+  String get automationEnabled => 'Uključena';
+
+  @override
+  String lastTriggered(String time) {
+    return 'Poslednje pokretanje $time';
+  }
+
+  @override
+  String get neverTriggered => 'Nikad pokrenuta';
+
+  @override
+  String get volume => 'Jačina zvuka';
+
+  @override
+  String get detailInfo => 'Informacije';
+
+  @override
+  String get infoRoom => 'Prostorija';
+
+  @override
+  String get infoManufacturer => 'Proizvođač';
+
+  @override
+  String get infoModel => 'Model';
+
+  @override
+  String get infoProtocol => 'Protokol';
+
+  @override
+  String get infoLastChanged => 'Poslednja promena';
+
+  @override
+  String get infoEntityId => 'ID entiteta';
+
+  @override
+  String get infoSignal => 'Signal';
+
+  @override
+  String get infoBattery => 'Baterija';
+
+  @override
+  String get deviceNotFound => 'Ovaj uređaj više ne postoji.';
+
+  @override
+  String get unavailableBanner =>
+      'Uređaj je nedostupan. Kontrole su onemogućene dok se ponovo ne poveže.';
+
+  @override
+  String get controlsOffline =>
+      'Nema veze sa serverom — komande trenutno ne mogu da se pošalju.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

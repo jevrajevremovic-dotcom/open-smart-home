@@ -8,8 +8,8 @@
 | 4 | WebSocket menadžer, auth, `state_changed`, reconnect, backoff | ✅ |
 | — | Web platforma (JS/Wasm), hostovanje iz HA | ✅ |
 | 5 | `SmartHomeDevice`, capability model, mapper (light, switch, sensor, binary_sensor, climate, scene), registri oblasti/uređaja | ✅ |
-| 6 | Dashboard, prostorije, lista i detalji uređaja, favorites, scene | ⏭ sledeće |
-| 7 | Tablet grid, landscape, fullscreen, osnovni kiosk, velike kontrole | |
+| 6 | Dashboard, prostorije, lista i detalji uređaja, favorites, scene | ✅ |
+| 7 | Tablet grid, landscape, fullscreen, osnovni kiosk, velike kontrole | ⏭ sledeće |
 | 8 | Drift cache, poslednja stanja, oznaka zastarelih podataka, sinhronizacija posle reconnect-a | |
 | 9 | Integration testovi, performanse, curenje memorije, dokumentacija, build | |
 

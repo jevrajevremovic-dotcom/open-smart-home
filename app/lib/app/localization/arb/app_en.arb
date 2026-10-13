@@ -99,9 +99,6 @@
       }
     }
   },
-  "liveEventsTitle": "Live state changes",
-  "liveEventsEmpty": "Waiting for changes from Home Assistant…",
-  "homeComingSoon": "Rooms, devices and favorites arrive in the next development phase.",
   "settingsTitle": "Settings",
   "appearance": "Appearance",
   "theme": "Theme",
@@ -140,5 +137,247 @@
         "type": "String"
       }
     }
-  }
+  },
+  "navRooms": "Rooms",
+  "navFavorites": "Favorites",
+  "navScenes": "Scenes",
+  "stateOn": "On",
+  "stateOff": "Off",
+  "stateUnavailable": "Unavailable",
+  "stateUnknown": "Unknown",
+  "stateOnBrightness": "On · {percent} %",
+  "@stateOnBrightness": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "motionDetected": "Motion detected",
+  "motionClear": "No motion",
+  "occupancyDetected": "Occupied",
+  "occupancyClear": "Clear",
+  "contactOpen": "Open",
+  "contactClosed": "Closed",
+  "smokeDetected": "Smoke detected!",
+  "smokeClear": "No smoke",
+  "coDetected": "CO detected!",
+  "coClear": "No CO",
+  "leakDetected": "Water leak!",
+  "leakClear": "Dry",
+  "vibrationDetected": "Vibration",
+  "vibrationClear": "Still",
+  "binaryActive": "Active",
+  "binaryInactive": "Inactive",
+  "coverOpening": "Opening…",
+  "coverClosing": "Closing…",
+  "coverOpenPercent": "Open {percent} %",
+  "@coverOpenPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "lockLocked": "Locked",
+  "lockUnlocked": "Unlocked",
+  "lockLocking": "Locking…",
+  "lockUnlocking": "Unlocking…",
+  "lockJammed": "Jammed!",
+  "alarmDisarmed": "Disarmed",
+  "alarmArmed": "Armed",
+  "alarmArming": "Arming…",
+  "alarmPending": "Pending…",
+  "alarmTriggered": "ALARM!",
+  "hvacOff": "Off",
+  "hvacHeat": "Heat",
+  "hvacCool": "Cool",
+  "hvacHeatCool": "Heat/Cool",
+  "hvacAuto": "Auto",
+  "hvacDry": "Dry",
+  "hvacFanOnly": "Fan only",
+  "climateStatus": "{mode} · {temperature}",
+  "@climateStatus": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      },
+      "temperature": {
+        "type": "String"
+      }
+    }
+  },
+  "mediaPlaying": "Playing",
+  "mediaPaused": "Paused",
+  "cameraIdle": "Ready",
+  "cameraStreaming": "Streaming",
+  "cameraRecording": "Recording",
+  "scriptRunning": "Running",
+  "routineReady": "Ready",
+  "doorbellLast": "Last ring {time}",
+  "@doorbellLast": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "lowBattery": "Low battery",
+  "batteryLevel": "Battery {percent} %",
+  "@batteryLevel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "protocolCloud": "Cloud",
+  "protocolVirtual": "Virtual",
+  "favoritesEmpty": "Tap the star on a device's page to add it to your favorites.",
+  "scenesTitle": "Scenes",
+  "scriptsTitle": "Scripts",
+  "automationsTitle": "Automations",
+  "noScenes": "No scenes yet.",
+  "dashboardAttention": "Needs attention",
+  "summaryTemperature": "Indoor",
+  "summaryHumidity": "Humidity",
+  "summaryLights": "Lights on",
+  "summaryOpenings": "Doors & windows open",
+  "summaryPower": "Power",
+  "summaryAlerts": "Alerts",
+  "valueNotAvailable": "Not available",
+  "lightsOnOf": "{on} of {total}",
+  "@lightsOnOf": {
+    "placeholders": {
+      "on": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "lowBatteryCount": "{count, plural, =1{1 low battery} other{{count} low batteries}}",
+  "@lowBatteryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unavailableCount": "{count, plural, =1{1 unavailable} other{{count} unavailable}}",
+  "@unavailableCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomNoRoom": "Unassigned",
+  "allDevices": "All devices",
+  "roomDevicesCount": "{count, plural, =0{No devices} =1{1 device} other{{count} devices}}",
+  "@roomDevicesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomLightsOn": "{count, plural, =1{1 light on} other{{count} lights on}}",
+  "@roomLightsOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "roomEmpty": "No devices in this room.",
+  "noRoomsYet": "No rooms are defined in Home Assistant.",
+  "groupLights": "Lights",
+  "groupClimate": "Climate",
+  "groupCovers": "Blinds & doors",
+  "groupSwitches": "Switches & outlets",
+  "groupSecurity": "Security",
+  "groupSensors": "Sensors",
+  "groupMedia": "Media",
+  "groupEnergy": "Energy",
+  "groupOther": "Other",
+  "addFavorite": "Add to favorites",
+  "removeFavorite": "Remove from favorites",
+  "brightness": "Brightness",
+  "colorTemperature": "Color temperature",
+  "warm": "Warm",
+  "cool": "Cool",
+  "color": "Color",
+  "targetTemperature": "Target temperature",
+  "currentTemperature": "Current",
+  "increaseTemperature": "Increase temperature",
+  "decreaseTemperature": "Decrease temperature",
+  "mode": "Mode",
+  "fanMode": "Fan",
+  "position": "Position",
+  "open": "Open",
+  "close": "Close",
+  "stop": "Stop",
+  "lock": "Lock",
+  "unlock": "Unlock",
+  "confirmUnlockTitle": "Unlock {name}?",
+  "@confirmUnlockTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmOpenTitle": "Open {name}?",
+  "@confirmOpenTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmDisarmTitle": "Disarm {name}?",
+  "@confirmDisarmTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmCriticalBody": "This action affects the security of your home.",
+  "confirm": "Confirm",
+  "activate": "Activate",
+  "runNow": "Run now",
+  "sceneActivated": "{name} activated",
+  "@sceneActivated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "automationEnabled": "Enabled",
+  "lastTriggered": "Last triggered {time}",
+  "@lastTriggered": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "neverTriggered": "Never triggered",
+  "volume": "Volume",
+  "detailInfo": "Information",
+  "infoRoom": "Room",
+  "infoManufacturer": "Manufacturer",
+  "infoModel": "Model",
+  "infoProtocol": "Protocol",
+  "infoLastChanged": "Last changed",
+  "infoEntityId": "Entity ID",
+  "infoSignal": "Signal",
+  "infoBattery": "Battery",
+  "deviceNotFound": "This device no longer exists.",
+  "unavailableBanner": "This device is unavailable. Controls are disabled until it reconnects.",
+  "controlsOffline": "No connection to the server — commands cannot be sent right now."
 }

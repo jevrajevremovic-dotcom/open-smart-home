@@ -1,0 +1,236 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../../app/localization/l10n.dart';
+import '../../domain/capability.dart';
+import '../../domain/device_command.dart';
+import '../../domain/device_kind.dart';
+import '../../domain/smart_home_device.dart';
+import '../device_actions.dart';
+import '../device_presentation.dart';
+import 'command_slider.dart';
+
+/// Blinds, curtains, garage doors and valves.
+class CoverControls extends ConsumerWidget {
+  const CoverControls({super.key, required this.device});
+
+  final SmartHomeDevice device;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final enabled = device.available;
+    Future<void> send(DeviceCommand c) =>
+        runDeviceCommand(context, ref, device, c);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            if (device.supports(Capability.open))
+              Expanded(
+                child: FilledButton.tonalIcon(
+                  onPressed: enabled ? () => send(const OpenCover()) : null,
+                  icon: const Icon(Icons.keyboard_arrow_up),
+                  label: Text(l10n.open),
+                ),
+              ),
+            if (device.supports(Capability.stop)) ...[
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: enabled ? () => send(const StopCover()) : null,
+                  icon: const Icon(Icons.stop),
+                  label: Text(l10n.stop),
+                ),
+              ),
+            ],
+            if (device.supports(Capability.close)) ...[
+              const SizedBox(width: 8),
+              Expanded(
+                child: FilledButton.tonalIcon(
+                  onPressed: enabled ? () => send(const CloseCover()) : null,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  label: Text(l10n.close),
+                ),
+              ),
+            ],
+          ],
+        ),
+        if (device.supports(Capability.position)) ...[
+          const SizedBox(height: 16),
+          CommandSlider(
+            label: l10n.position,
+            value: device.state.position?.toDouble(),
+            min: 0,
+            max: 100,
+            divisions: 20,
+            enabled: enabled,
+            format: (v) => '${v.round()} %',
+            onCommit: (v) => send(SetCoverPosition(v.round())),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class LockControls extends ConsumerWidget {
+  const LockControls({super.key, required this.device});
+
+  final SmartHomeDevice device;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final enabled = device.available;
+    final locked = device.state.lockState == DoorLockState.locked;
+    return Row(
+      children: [
+        Expanded(
+          child: FilledButton.icon(
+            key: const Key('lockButton'),
+            onPressed: enabled && !locked
+                ? () =>
+                      runDeviceCommand(context, ref, device, const LockDevice())
+                : null,
+            icon: const Icon(Icons.lock),
+            label: Text(l10n.lock),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: OutlinedButton.icon(
+            key: const Key('unlockButton'),
+            onPressed: enabled && locked
+                ? () => runDeviceCommand(
+                    context,
+                    ref,
+                    device,
+                    const UnlockDevice(),
+                  )
+                : null,
+            icon: const Icon(Icons.lock_open),
+            label: Text(l10n.unlock),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Large reading for sensors and meters.
+class SensorReadout extends StatelessWidget {
+  const SensorReadout({super.key, required this.device});
+
+  final SmartHomeDevice device;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Text(
+          DevicePresentation.status(l10n, device),
+          key: const Key('sensorValue'),
+          style: theme.textTheme.displaySmall,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+}
+
+/// Scenes, scripts, buttons and automations.
+class RoutineControls extends ConsumerWidget {
+  const RoutineControls({super.key, required this.device});
+
+  final SmartHomeDevice device;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final enabled = device.available;
+    final isAutomation = device.kind == DeviceKind.automation;
+    final last = device.state.lastTriggered;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (isAutomation) ...[
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l10n.automationEnabled),
+            value: device.state.isOn ?? false,
+            onChanged: enabled
+                ? (v) => runDeviceCommand(
+                    context,
+                    ref,
+                    device,
+                    v ? const TurnOn() : const TurnOff(),
+                  )
+                : null,
+          ),
+          Text(
+            last == null
+                ? l10n.neverTriggered
+                : l10n.lastTriggered(formatDateTime(l10n.localeName, last)),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 12),
+        ],
+        if (device.supports(Capability.trigger))
+          FilledButton.icon(
+            key: const Key('activateButton'),
+            onPressed: enabled
+                ? () async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    final ok = await runDeviceCommand(
+                      context,
+                      ref,
+                      device,
+                      const Activate(),
+                    );
+                    if (ok) {
+                      messenger.showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.sceneActivated(device.name)),
+                        ),
+                      );
+                    }
+                  }
+                : null,
+            icon: const Icon(Icons.play_arrow),
+            label: Text(isAutomation ? l10n.runNow : l10n.activate),
+          ),
+      ],
+    );
+  }
+}
+
+class MediaControls extends ConsumerWidget {
+  const MediaControls({super.key, required this.device});
+
+  final SmartHomeDevice device;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    if (!device.supports(Capability.volume)) return const SizedBox.shrink();
+    return CommandSlider(
+      label: l10n.volume,
+      value: device.state.volumePercent?.toDouble(),
+      min: 0,
+      max: 100,
+      divisions: 20,
+      enabled: device.available && device.state.isOn != false,
+      format: (v) => '${v.round()} %',
+      leading: const Icon(Icons.volume_down),
+      trailing: const Icon(Icons.volume_up),
+      onCommit: (v) =>
+          runDeviceCommand(context, ref, device, SetVolume(v.round())),
+    );
+  }
+}

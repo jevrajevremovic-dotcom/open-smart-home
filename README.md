@@ -2,7 +2,7 @@
 
 Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **MVP – faze 1–5 (osnova, povezivanje, API, WebSocket, model uređaja)**. Dashboard, prostorije, detalji uređaja i omiljeno dolaze u fazi 6. Vidi [ROADMAP](docs/ROADMAP.md).
+> Status: **MVP – faze 1–6**: povezivanje, model uređaja i kompletan osnovni interfejs (dashboard, prostorije, detalji uređaja, omiljeno, scene). Sledi tablet/kiosk (faza 7) i offline cache (faza 8). Vidi [ROADMAP](docs/ROADMAP.md).
 
 ## Mogućnosti (trenutno)
 

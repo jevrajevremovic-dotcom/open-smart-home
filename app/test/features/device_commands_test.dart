@@ -113,6 +113,11 @@ void main() {
       );
     });
 
+    test('media volume is sent as 0–1', () {
+      final tv = device('media_player.tv', 'on', {'supported_features': 4});
+      expect(t.translate(tv, const SetVolume(35)).data['volume_level'], 0.35);
+    });
+
     test('wrong domain is rejected', () {
       expect(
         () => t.translate(lock, const SetBrightness(10)),

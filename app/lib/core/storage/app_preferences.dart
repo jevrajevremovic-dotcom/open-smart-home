@@ -48,6 +48,13 @@ class AppPreferences {
       ? _prefs.remove(_serverProfileKey)
       : _prefs.setString(_serverProfileKey, jsonEncode(json));
 
+  /// Ordered favorite device ids for one server.
+  List<String> favorites(String serverId) =>
+      _prefs.getStringList('favorites::$serverId') ?? const [];
+
+  Future<void> setFavorites(String serverId, List<String> ids) =>
+      _prefs.setStringList('favorites::$serverId', ids);
+
   Future<void> clear() => _prefs.clear();
 }
 

@@ -91,6 +91,10 @@ class HaCommandTranslator {
         _requireOption(mode, device.limits.fanModes, 'fan_mode');
         return call('set_fan_mode', {'fan_mode': mode});
 
+      case SetVolume(:final percent):
+        if (domain != 'media_player') return unsupported();
+        return call('volume_set', {'volume_level': percent / 100});
+
       case OpenCover():
         return switch (domain) {
           'cover' => call('open_cover'),

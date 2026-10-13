@@ -6,6 +6,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../../core/widgets/responsive.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
+import '../../devices/application/device_providers.dart';
 import 'language_selector.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -15,6 +16,11 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final profile = ref.watch(activeProfileProvider);
+    final version = ref.watch(serverConfigProvider).value?.version;
+    final deviceCount = ref.watch(
+      visibleDeviceIdsProvider.select((ids) => ids.length),
+    );
+    final roomCount = ref.watch(roomsProvider.select((r) => r.length));
     final textTheme = Theme.of(context).textTheme;
     final critical = context.statusColors.critical;
 
@@ -45,8 +51,19 @@ class SettingsScreen extends ConsumerWidget {
                   if (profile != null)
                     ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: const Icon(Icons.dns_outlined),
+                      leading: Icon(
+                        profile.address.isSecure
+                            ? Icons.lock_outline
+                            : Icons.dns_outlined,
+                      ),
                       title: Text(profile.address.toString()),
+                      subtitle: Text(
+                        [
+                          if (version != null) l10n.serverVersion(version),
+                          if (deviceCount > 0)
+                            l10n.devicesInRooms(deviceCount, roomCount),
+                        ].join('\n'),
+                      ),
                     ),
                   OutlinedButton.icon(
                     key: const Key('signOutButton'),

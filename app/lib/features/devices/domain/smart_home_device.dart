@@ -5,7 +5,15 @@ import 'device_kind.dart';
 
 enum CoverState { open, closed, opening, closing }
 
-enum LockState { locked, unlocked, locking, unlocking, jammed, open, opening }
+enum DoorLockState {
+  locked,
+  unlocked,
+  locking,
+  unlocking,
+  jammed,
+  open,
+  opening,
+}
 
 enum AlarmState {
   disarmed,
@@ -108,7 +116,7 @@ class DeviceState {
   final int? position;
   final int? tiltPosition;
 
-  final LockState? lockState;
+  final DoorLockState? lockState;
   final AlarmState? alarmState;
 
   /// Binary sensors: `true` = detected / open / wet / …
@@ -260,4 +268,15 @@ class Room {
   /// Material Design Icons name from Home Assistant, e.g. `mdi:sofa`.
   final String? icon;
   final String? picture;
+
+  @override
+  bool operator ==(Object other) =>
+      other is Room &&
+      other.id == id &&
+      other.name == name &&
+      other.icon == icon &&
+      other.picture == picture;
+
+  @override
+  int get hashCode => Object.hash(id, name, icon, picture);
 }

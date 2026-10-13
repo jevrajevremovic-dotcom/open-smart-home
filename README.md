@@ -27,7 +27,7 @@ Telefon / tablet (Flutter)
 Home Assistant Core ── Zigbee2MQTT / Z-Wave JS / Matter Server / OTBR / MQTT / ESPHome / LAN integracije
 ```
 
-Detalji: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · Model uređaja: [docs/DEVICE_CAPABILITIES.md](docs/DEVICE_CAPABILITIES.md) · Bezbednost: [docs/SECURITY.md](docs/SECURITY.md) · Korišćeni HA API-ji: [docs/API_INTEGRATION.md](docs/API_INTEGRATION.md)
+Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · Model uređaja: [docs/DEVICE_CAPABILITIES.md](docs/DEVICE_CAPABILITIES.md) · Bezbednost: [docs/SECURITY.md](docs/SECURITY.md) · Korišćeni HA API-ji: [docs/API_INTEGRATION.md](docs/API_INTEGRATION.md)
 
 ## Tehnologije
 

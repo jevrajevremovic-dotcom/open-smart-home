@@ -13,4 +13,6 @@
 | 8 | Offline keš (snimak HA podataka), poslednja stanja, oznaka zastarelih podataka, sinhronizacija posle reconnect-a | ✅ |
 | 9 | Integration testovi, performanse, curenje memorije, dokumentacija, build | ✅ |
 
-Kasnije: OAuth2 prijava, mDNS otkrivanje servera, energy dashboard, kamere, alarm panel, biometrijska potvrda, multi-home, uloge, instalaterski režim, push, sopstveni backend, vizuelni editor automatizacija, Docker Compose gateway (HA, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR).
+Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR i ESPHome (`gateway/`, [GATEWAY.md](GATEWAY.md)) ✅
+
+Kasnije: OAuth2 prijava, mDNS otkrivanje servera, energy dashboard, kamere, alarm panel, biometrijska potvrda, multi-home, uloge, instalaterski režim, push, sopstveni backend, vizuelni editor automatizacija.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Dodato
+- `gateway/`: Docker Compose za lokalni hub (Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR, ESPHome) sa profilima, named volumenima, health check-ovima, `.env.example`, MQTT lozinkama generisanim iz okruženja i backup/restore skriptama; uputstvo `docs/GATEWAY.md`.
+- Apache-2.0 licenca i NOTICE.
+
 ## [0.1.0] – 2026-10-13 (MVP)
 
 ### Dodato

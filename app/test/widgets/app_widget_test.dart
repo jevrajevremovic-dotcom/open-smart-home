@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/localization/generated/app_localizations_en.dart';
@@ -22,6 +23,7 @@ Future<InMemoryCredentialStore> pumpApp(
   bool signedIn = false,
   Size size = const Size(400, 860),
   MockHomeAssistantServer? server,
+  DeviceAuth? deviceAuth,
 }) async {
   tester.view
     ..physicalSize = size
@@ -36,6 +38,7 @@ Future<InMemoryCredentialStore> pumpApp(
         ? {'connection.activeServerProfile': _profileJson}
         : const {},
     server: server,
+    deviceAuth: deviceAuth,
   );
   await tester.pumpWidget(
     ProviderScope(

@@ -78,6 +78,12 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - URL dobija WS `camera/stream` (`format: hls`): kratkotrajna, potpisana putanja `/api/hls/<token>/…` na istom serveru; prihvata se samo ta putanja.
 - Video plejer koristi mrežni sloj platforme, pa **ne vidi** sertifikat koji je korisnik ručno odobrio (pinning) u aplikaciji: sa samopotpisanim sertifikatom uživo ne radi, a aplikacija nudi snimke. Ništa se ne snima; zvuk je isključen.
 
+## Zaključavanje aplikacije (opciono)
+
+- Podešavanja → Bezbednost (samo kad uređaj ima zaključavanje ekrana ili biometriju): „Zaključaj aplikaciju” traži otisak, lice ili PIN uređaja pri otvaranju i posle 1 min u pozadini; pre uključivanja se jednom proverava da provera radi.
+- „Potvrda za brave i alarm”: posle dijaloga za potvrdu kritičnih komandi (otključavanje, garaža, alarm) traži se i otisak/lice/PIN.
+- Provera ide preko sistema (`local_auth`; Android BiometricPrompt, iOS Face ID/Touch ID); aplikacija ne vidi niti čuva biometrijske podatke. Kiosk koristi svoj PIN i ne zaključava se ovako.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

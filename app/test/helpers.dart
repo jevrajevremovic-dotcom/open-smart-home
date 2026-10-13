@@ -1,3 +1,5 @@
+import 'package:open_smart_home/features/app_lock/application/app_lock.dart';
+import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
 import 'package:open_smart_home/features/assist/application/voice_providers.dart';
 import 'package:open_smart_home/features/assist/data/voice_input.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
@@ -84,6 +86,7 @@ Future<List<Override>> testOverrides({
   Map<String, Object> preferences = const {},
   MockHomeAssistantServer? server,
   VoiceInput? voiceInput,
+  DeviceAuth? deviceAuth,
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
@@ -104,5 +107,6 @@ Future<List<Override>> testOverrides({
     voiceInputProvider.overrideWithValue(
       voiceInput ?? FakeVoiceInput('turn off the lights'),
     ),
+    deviceAuthProvider.overrideWithValue(deviceAuth ?? FakeDeviceAuth()),
   ];
 }

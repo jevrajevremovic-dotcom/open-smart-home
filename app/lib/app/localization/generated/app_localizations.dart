@@ -3362,6 +3362,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Live video isn\'t available for this camera (or the server\'s certificate isn\'t trusted by the video player). Snapshots still work.'**
   String get cameraLiveFailed;
+
+  /// No description provided for @appLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Smart Home is locked'**
+  String get appLockTitle;
+
+  /// No description provided for @appUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get appUnlock;
+
+  /// No description provided for @appLockReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Open Smart Home'**
+  String get appLockReason;
+
+  /// No description provided for @appLockCriticalReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm: {device}'**
+  String appLockCriticalReason(String device);
+
+  /// No description provided for @securitySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get securitySection;
+
+  /// No description provided for @appLockSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock the app'**
+  String get appLockSetting;
+
+  /// No description provided for @appLockSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for fingerprint, face or the device PIN when opening the app (after 1 minute in the background).'**
+  String get appLockSettingHint;
+
+  /// No description provided for @appLockCriticalSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm locks and alarm'**
+  String get appLockCriticalSetting;
+
+  /// No description provided for @appLockCriticalSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Also ask before unlocking doors, opening the garage or disarming the alarm.'**
+  String get appLockCriticalSettingHint;
+
+  /// No description provided for @appLockNoDeviceAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no screen lock or biometrics set up.'**
+  String get appLockNoDeviceAuth;
 }
 
 class _AppLocalizationsDelegate

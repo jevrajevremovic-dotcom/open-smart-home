@@ -1907,4 +1907,39 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cameraLiveFailed =>
       'Live video isn\'t available for this camera (or the server\'s certificate isn\'t trusted by the video player). Snapshots still work.';
+
+  @override
+  String get appLockTitle => 'Open Smart Home is locked';
+
+  @override
+  String get appUnlock => 'Unlock';
+
+  @override
+  String get appLockReason => 'Unlock Open Smart Home';
+
+  @override
+  String appLockCriticalReason(String device) {
+    return 'Confirm: $device';
+  }
+
+  @override
+  String get securitySection => 'Security';
+
+  @override
+  String get appLockSetting => 'Lock the app';
+
+  @override
+  String get appLockSettingHint =>
+      'Ask for fingerprint, face or the device PIN when opening the app (after 1 minute in the background).';
+
+  @override
+  String get appLockCriticalSetting => 'Confirm locks and alarm';
+
+  @override
+  String get appLockCriticalSettingHint =>
+      'Also ask before unlocking doors, opening the garage or disarming the alarm.';
+
+  @override
+  String get appLockNoDeviceAuth =>
+      'This device has no screen lock or biometrics set up.';
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../features/app_lock/application/app_lock.dart';
+import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/authentication/application/session_controller.dart';
 import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
@@ -26,10 +28,16 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
     // Back in the foreground (or a wall panel waking up): reconnect now
     // instead of waiting for the remaining backoff delay.
     _lifecycle = AppLifecycleListener(
-      onResume: () => ref.read(webSocketManagerProvider)?.retryNow(),
+      onResume: () {
+        ref.read(appLockProvider.notifier).onForeground();
+        ref.read(webSocketManagerProvider)?.retryNow();
+      },
       // Persist the offline cache before the OS may suspend or kill us.
       onPause: () => ref.read(homeStateRepositoryProvider)?.flush(),
-      onHide: () => ref.read(homeStateRepositoryProvider)?.flush(),
+      onHide: () {
+        ref.read(appLockProvider.notifier).onBackground();
+        ref.read(homeStateRepositoryProvider)?.flush();
+      },
     );
   }
 
@@ -57,6 +65,8 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
+      builder: (context, child) =>
+          AppLockGate(child: child ?? const SizedBox()),
     );
   }
 }

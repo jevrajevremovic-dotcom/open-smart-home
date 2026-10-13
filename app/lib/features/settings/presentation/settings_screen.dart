@@ -10,6 +10,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
 import '../../kiosk/presentation/kiosk_settings_section.dart';
+import '../../app_lock/application/app_lock.dart';
 import '../../assist/application/voice_providers.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
@@ -87,6 +88,41 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   section(l10n.kioskSection),
                   const KioskSettingsSection(),
+                  if (ref.watch(deviceAuthAvailableProvider).value ??
+                      false) ...[
+                    section(l10n.securitySection),
+                    SwitchListTile(
+                      key: const Key('appLockSwitch'),
+                      contentPadding: EdgeInsets.zero,
+                      secondary: const Icon(Icons.fingerprint),
+                      title: Text(l10n.appLockSetting),
+                      subtitle: Text(l10n.appLockSettingHint),
+                      value: ref.watch(appLockSettingsProvider).lockApp,
+                      onChanged: (v) async {
+                        // Prove it works before relying on it.
+                        if (v &&
+                            !await ref
+                                .read(deviceAuthProvider)
+                                .authenticate(l10n.appLockReason)) {
+                          return;
+                        }
+                        await ref
+                            .read(appLockSettingsProvider.notifier)
+                            .update((s) => s.copyWith(lockApp: v));
+                      },
+                    ),
+                    SwitchListTile(
+                      key: const Key('appLockCriticalSwitch'),
+                      contentPadding: EdgeInsets.zero,
+                      secondary: const Icon(Icons.lock_person_outlined),
+                      title: Text(l10n.appLockCriticalSetting),
+                      subtitle: Text(l10n.appLockCriticalSettingHint),
+                      value: ref.watch(appLockSettingsProvider).confirmCritical,
+                      onChanged: (v) => ref
+                          .read(appLockSettingsProvider.notifier)
+                          .update((s) => s.copyWith(confirmCritical: v)),
+                    ),
+                  ],
                   section(l10n.privacySection),
                   if (ref.watch(deviceLocatorProvider).isSupported)
                     SwitchListTile(

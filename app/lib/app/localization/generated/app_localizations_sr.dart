@@ -1917,6 +1917,41 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get cameraLiveFailed =>
       'Video uživo nije dostupan za ovu kameru (ili video plejer ne veruje sertifikatu servera). Snimci i dalje rade.';
+
+  @override
+  String get appLockTitle => 'Open Smart Home je zaključan';
+
+  @override
+  String get appUnlock => 'Otključaj';
+
+  @override
+  String get appLockReason => 'Otključajte Open Smart Home';
+
+  @override
+  String appLockCriticalReason(String device) {
+    return 'Potvrdite: $device';
+  }
+
+  @override
+  String get securitySection => 'Bezbednost';
+
+  @override
+  String get appLockSetting => 'Zaključaj aplikaciju';
+
+  @override
+  String get appLockSettingHint =>
+      'Traži otisak, lice ili PIN uređaja pri otvaranju aplikacije (posle 1 minuta u pozadini).';
+
+  @override
+  String get appLockCriticalSetting => 'Potvrda za brave i alarm';
+
+  @override
+  String get appLockCriticalSettingHint =>
+      'Traži potvrdu i pre otključavanja vrata, otvaranja garaže ili isključivanja alarma.';
+
+  @override
+  String get appLockNoDeviceAuth =>
+      'Na ovom uređaju nije podešeno zaključavanje ekrana ni biometrija.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -543,5 +543,15 @@
   "cameraSnapshots": "Snimci",
   "cameraLive": "Uživo",
   "cameraLiveHint": "Video uživo iz Home Assistanta dok je ovaj ekran otvoren; zvuk je isključen. Ništa se ne snima.",
-  "cameraLiveFailed": "Video uživo nije dostupan za ovu kameru (ili video plejer ne veruje sertifikatu servera). Snimci i dalje rade."
+  "cameraLiveFailed": "Video uživo nije dostupan za ovu kameru (ili video plejer ne veruje sertifikatu servera). Snimci i dalje rade.",
+  "appLockTitle": "Open Smart Home je zaključan",
+  "appUnlock": "Otključaj",
+  "appLockReason": "Otključajte Open Smart Home",
+  "appLockCriticalReason": "Potvrdite: {device}",
+  "securitySection": "Bezbednost",
+  "appLockSetting": "Zaključaj aplikaciju",
+  "appLockSettingHint": "Traži otisak, lice ili PIN uređaja pri otvaranju aplikacije (posle 1 minuta u pozadini).",
+  "appLockCriticalSetting": "Potvrda za brave i alarm",
+  "appLockCriticalSettingHint": "Traži potvrdu i pre otključavanja vrata, otvaranja garaže ili isključivanja alarma.",
+  "appLockNoDeviceAuth": "Na ovom uređaju nije podešeno zaključavanje ekrana ni biometrija."
 }

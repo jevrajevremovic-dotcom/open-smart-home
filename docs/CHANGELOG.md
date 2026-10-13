@@ -1,8 +1,14 @@
 # Changelog
 
-## [Unreleased] – 0.1.0
+## [0.1.0] – 2026-10-13 (MVP)
 
 ### Dodato
+- Faza 9 – stabilizacija:
+  - integration testovi na pravom uređaju (Keystore, SharedPreferences, keš na disku, wakelock);
+  - performance test sa 2200 entiteta; događaji se spajaju u najviše jedno osvežavanje na 50 ms;
+  - test curenja resursa (soketi i pretplate kroz cikluse prijave i odjave);
+  - CI (format, analiza, testovi, web i Android build), CONTRIBUTING.md, TROUBLESHOOTING.md;
+  - verzija 0.1.0.
 - Faza 8 – offline keš:
   - poslednji snimak doma (stanja, registri, konfiguracija) čuva se u sirovom HA formatu i pri pokretanju se odmah prikazuje;
   - podaci iz keša i podaci tokom prekida veze uvek su označeni trakom sa vremenom poslednjeg potvrđenog ažuriranja;
@@ -40,4 +46,4 @@
 - Home Assistant REST klijent i WebSocket menadžer sa reconnect logikom.
 - Mock režim sa in-memory Home Assistant serverom.
 - Početni ekran sa statusom veze i živim prikazom promena stanja.
-- 154 unit/widget testa, uključujući proveru prelivanja na telefonu sa tekstom od 150 %, PBKDF2 test vektor iz RFC 7914 i pokretanje bez servera sa keširanim podacima.
+- 157 unit/widget/performance testova + 4 integration testa na uređaju.

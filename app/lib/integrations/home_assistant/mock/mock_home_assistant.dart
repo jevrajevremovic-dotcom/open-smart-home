@@ -16,9 +16,20 @@ const String mockInvalidToken = 'invalid';
 /// mock sockets talk to the same instance, so a service call made over REST
 /// produces `state_changed` events on the WebSocket, as on a real server.
 class MockHomeAssistantServer {
-  MockHomeAssistantServer({DateTime Function()? clock})
-    : _clock = clock ?? DateTime.now {
-    for (final s in buildMockStates(_clock())) {
+  /// [states] and [registries] replace the built-in demo home (used by
+  /// performance tests with thousands of entities).
+  MockHomeAssistantServer({
+    DateTime Function()? clock,
+    List<Map<String, Object?>>? states,
+    ({
+      List<Map<String, Object?>> areas,
+      List<Map<String, Object?>> devices,
+      List<Map<String, Object?>> entities,
+    })?
+    registries,
+  }) : _clock = clock ?? DateTime.now,
+       registries = registries ?? buildMockRegistries() {
+    for (final s in states ?? buildMockStates(_clock())) {
       _states[s['entity_id']! as String] = s;
     }
   }
@@ -29,7 +40,12 @@ class MockHomeAssistantServer {
   final Map<String, Map<String, Object?>> _states = {};
   final Set<_MockSocket> _sockets = {};
 
-  final registries = buildMockRegistries();
+  final ({
+    List<Map<String, Object?>> areas,
+    List<Map<String, Object?>> devices,
+    List<Map<String, Object?>> entities,
+  })
+  registries;
 
   /// `GET /api/config` / WS `get_config` payload.
   final Map<String, Object?> config = {
@@ -59,6 +75,13 @@ class MockHomeAssistantServer {
 
   /// When false, new connections fail as if the server were down.
   bool online = true;
+
+  /// Currently open WebSocket connections (leak checks in tests).
+  int get openConnections => _sockets.length;
+
+  /// Event subscriptions held by open connections (leak checks in tests).
+  int get activeSubscriptions =>
+      _sockets.fold(0, (sum, s) => sum + s._subscriptions.length);
 
   bool acceptsToken(String? token) =>
       token != null && token.isNotEmpty && token != mockInvalidToken;

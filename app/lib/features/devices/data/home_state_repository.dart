@@ -100,6 +100,7 @@ class HomeStateRepository {
     this._cache,
     this._serverId,
     this.saveDelay = const Duration(seconds: 3),
+    this.eventCoalescing = const Duration(milliseconds: 50),
   });
 
   final HaWebSocketManager _ws;
@@ -108,6 +109,9 @@ class HomeStateRepository {
   final SnapshotCache? _cache;
   final String? _serverId;
   final Duration saveDelay;
+
+  /// Maximum delay between a state event and its snapshot emission.
+  final Duration eventCoalescing;
   static final _log = AppLogger('HomeState');
 
   static const _registryEvents = [
@@ -134,6 +138,10 @@ class HomeStateRepository {
   bool _dirty = false;
   bool _disposed = false;
   Timer? _saveTimer;
+  Timer? _coalesceTimer;
+
+  /// Devices changed by events but not yet emitted.
+  Map<String, SmartHomeDevice>? _working;
   Map<String, DeviceAuxiliaryInfo> _aux = const {};
 
   /// Non-null while a snapshot is loading; events are queued here.
@@ -172,6 +180,7 @@ class HomeStateRepository {
   Future<void> dispose() async {
     _disposed = true;
     _saveTimer?.cancel();
+    _coalesceTimer?.cancel();
     _registryTimer?.cancel();
     for (final s in _subscriptions) {
       await s.cancel();
@@ -190,6 +199,7 @@ class HomeStateRepository {
       }
     } else if (_snapshot.status == SyncStatus.live ||
         _snapshot.status == SyncStatus.syncing) {
+      _flushWorking(); // keep the last received changes visible
       _syncGeneration++; // abandon an in-flight sync
       _pending = null;
       _emit(
@@ -311,7 +321,9 @@ class HomeStateRepository {
       _aux = _mapper.collectAuxiliaryInfo(_states.values, _registries);
     }
 
-    final devices = Map<String, SmartHomeDevice>.of(_snapshot.devices);
+    final devices = _working ??= Map<String, SmartHomeDevice>.of(
+      _snapshot.devices,
+    );
     if (newState == null) {
       devices.remove(event.entityId);
     }
@@ -323,8 +335,25 @@ class HomeStateRepository {
     for (final state in affected) {
       _mapInto(devices, state);
     }
-    _emit(_snapshot.copyWith(devices: devices, lastSyncedAt: DateTime.now()));
+    // Coalesce bursts (many sensors reporting at once) into one snapshot
+    // per [eventCoalescing] window, bounding UI recomputation.
+    _coalesceTimer ??= Timer(eventCoalescing, _flushWorking);
     _scheduleSave();
+  }
+
+  /// Publishes event changes collected in [_working].
+  void _flushWorking() {
+    _coalesceTimer?.cancel();
+    _coalesceTimer = null;
+    final devices = _working;
+    _working = null;
+    if (devices == null || _disposed) return;
+    _emit(
+      _snapshot.copyWith(
+        devices: Map.unmodifiable(devices),
+        lastSyncedAt: DateTime.now(),
+      ),
+    );
   }
 
   /// Returns `false` when the event is older than what is already known.
@@ -343,6 +372,10 @@ class HomeStateRepository {
   }
 
   void _remapAll({required SyncStatus status, DateTime? syncedAt}) {
+    // A full re-map supersedes pending event changes (they are in _states).
+    _coalesceTimer?.cancel();
+    _coalesceTimer = null;
+    _working = null;
     _aux = _mapper.collectAuxiliaryInfo(_states.values, _registries);
     final devices = _mapper.mapAll(
       _states.values,

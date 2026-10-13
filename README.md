@@ -2,7 +2,7 @@
 
 Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **MVP – faze 1–8**: povezivanje, model uređaja, kompletan interfejs, kiosk režim i offline keš. Sledi stabilizacija (faza 9). Vidi [ROADMAP](docs/ROADMAP.md).
+> Status: **MVP 0.1.0 – faze 1–9 završene**: povezivanje, model uređaja, kompletan interfejs, kiosk režim, offline keš i stabilizacija. Plan dalje: [ROADMAP](docs/ROADMAP.md).
 
 ## Mogućnosti (trenutno)
 
@@ -147,10 +147,31 @@ Aplikacija ne može sama da zabrani izlazak iz operativnog sistema. Za potpuno z
 
 ```bash
 flutter analyze
-flutter test
+flutter test                                  # unit, widget i performance testovi
+flutter test integration_test -d <uređaj>     # na emulatoru ili telefonu
 ```
 
-Pokriveno: parsiranje i validacija adrese, redakcija tajni u logovima, REST klijent (lažni HTTP adapter), mapiranje grešaka, WebSocket menadžer protiv mock servera (auth OK/odbijen, nedostupan server, restart servera i ponovna pretplata, deljene pretplate, ping timeout, disconnect), tok sesije (pogrešan token, čuvanje tokena, obnova sesije, odjava, brisanje podataka), redirect pravila rutera i widget testovi (onboarding do živog početnog ekrana, promena jezika i teme, telefon/tablet raspored, odjava).
+| Vrsta | Šta pokriva |
+|---|---|
+| Unit | validacija adrese, redakcija tajni, REST klijent i mapiranje grešaka, WebSocket menadžer (auth, reconnect, backoff, deljene pretplate, ping timeout), mapper uređaja i komande, sažeci dashboarda, keš (format, atomični upis na disk, prednost živih podataka), kiosk PIN (RFC 7914 vektor, blokada), redirect pravila |
+| Widget | onboarding do živog dashboarda, telefon/tablet raspored, tema i jezik, detalji uređaja po mogućnostima, potvrda otključavanja, omiljeno, scene, kiosk (izlaz PIN-om, neaktivnost, zatamnjenje), pokretanje bez servera sa keširanim podacima, tekst od 150 % bez prelivanja |
+| Performance | dom sa 2200 entiteta: mapiranje, početna sinhronizacija, nalet od 2000 promena (spajanje u jedno osvežavanje) |
+| Curenje resursa | 5 ciklusa prijave i odjave: jedan soket i 4 pretplate po sesiji, a posle odjave nula |
+| Integration (uređaj) | pravi Keystore/Keychain, SharedPreferences, keš na disku i wakelock: prijava → kontrola svetla → odjava briše token i keš; restart bez servera prikazuje keš; kiosk drži i oslobađa wakelock; tema i jezik ostaju posle restarta |
+
+CI (`.github/workflows/ci.yml`) na svaki push i pull request proverava formatiranje, analizu i testove, pa pravi web i Android (debug) build.
+
+**Napomena za Linux:** ako se integration testovi pokreću dok radi Gradle daemon pokrenut iz Android Studija, a `/tmp` nije zajednički (sandbox, različite sesije), postavite `TMPDIR` na folder u home direktorijumu.
+
+## Performanse (izmereno, debug VM)
+
+| Scenario (2200 entiteta, 220 uređaja, 20 prostorija) | Vreme |
+|---|---|
+| Mapiranje svih entiteta | ~25 ms |
+| Početna sinhronizacija preko WebSocket-a | ~110 ms |
+| 2000 promena stanja u naletu | ~80 ms, **1** osvežavanje UI-ja (spajanje 50 ms) |
+
+Kartica uređaja se obnavlja samo kad se promeni njen uređaj, izvedene liste imaju jednakost po vrednosti, a mreže se grade lenjo.
 
 ## Struktura
 
@@ -175,4 +196,4 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 
 ## Doprinos i licenca
 
-Doprinosi su dobrodošli preko pull request-a; pre slanja pokrenite `flutter analyze` i `flutter test`. Licenca još nije izabrana (predlog: Apache-2.0, ista kao Home Assistant) – dodati `LICENSE` pre prvog javnog objavljivanja.
+Doprinosi su dobrodošli – vidi [CONTRIBUTING.md](CONTRIBUTING.md). Problemi i rešenja: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). Licenca još nije izabrana (predlog: Apache-2.0, ista kao Home Assistant) – dodati `LICENSE` pre prvog javnog objavljivanja.

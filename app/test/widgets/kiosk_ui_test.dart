@@ -160,4 +160,53 @@ void main() {
     expect(find.byKey(const Key('kioskRooms')), findsOneWidget);
     await unmount(tester);
   });
+
+  testWidgets('kiosk header: household and chosen status chips', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: tablet);
+    await settle(tester, 10);
+    await goTo(tester, AppRoutes.settings);
+    await tapKey(tester, 'kioskStatusEntities');
+    await settle(tester, 2);
+    await tester.enterText(
+      find.byKey(const Key('statusEntitiesSearch')),
+      'Veš',
+    );
+    await settle(tester, 1);
+    await tester.tap(
+      find.byKey(const ValueKey('status-sensor.washing_machine_status')),
+    );
+    await tapKey(tester, 'statusEntitiesDone');
+    await settle(tester, 2);
+    expect(find.text(en.kioskStatusSelected(1)), findsOneWidget);
+
+    await tapKey(tester, 'startKiosk');
+    await settle(tester, 5);
+    expect(find.byKey(const Key('kioskPeople')), findsOneWidget);
+    expect(find.byTooltip('Marko: ${en.personHome}'), findsOneWidget);
+    expect(find.byTooltip('Jelena: Posao'), findsOneWidget);
+    expect(find.byTooltip('Ana: ${en.personAway}'), findsOneWidget);
+    final chip = find.byKey(
+      const ValueKey('chip-sensor.washing_machine_status'),
+    );
+    expect(chip, findsOneWidget);
+    expect(
+      find.descendant(of: chip, matching: find.textContaining('Završeno')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: chip,
+        matching: find.textContaining(en.timeMinutesAgo(2)),
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const Key('kioskWeather')));
+    await settle(tester, 4);
+    expect(find.text(en.weatherForecastTitle), findsOneWidget);
+    expect(find.byKey(const Key('kioskExit')), findsNothing);
+    await unmount(tester);
+  });
 }

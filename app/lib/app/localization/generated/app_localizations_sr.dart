@@ -1230,6 +1230,109 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get powerToggle => 'Uključi/isključi';
+
+  @override
+  String get personHome => 'Kod kuće';
+
+  @override
+  String get personAway => 'Nije kod kuće';
+
+  @override
+  String get householdTitle => 'Ukućani';
+
+  @override
+  String get kioskStatusEntities => 'Statusi na vrhu ekrana';
+
+  @override
+  String kioskStatusEntitiesHint(int max) {
+    return 'Izaberite do $max uređaja ili senzora koji se prikazuju na vrhu kiosk ekrana, na primer veš mašinu, štampač ili senzor spavanja.';
+  }
+
+  @override
+  String get kioskStatusNone => 'Nijedan';
+
+  @override
+  String kioskStatusSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count izabranih',
+      few: '$count izabrana',
+      one: '$count izabran',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchHint => 'Pretraži';
+
+  @override
+  String get done => 'Gotovo';
+
+  @override
+  String get timeJustNow => 'upravo';
+
+  @override
+  String timeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pre $count minuta',
+      few: 'pre $count minuta',
+      one: 'pre $count minut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pre $count sati',
+      few: 'pre $count sata',
+      one: 'pre $count sat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pre $count dana',
+      few: 'pre $count dana',
+      one: 'pre $count dan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get weatherForecastTitle => 'Vremenska prognoza';
+
+  @override
+  String get weatherHourly => 'Narednih sati';
+
+  @override
+  String get weatherDaily => 'Narednih dana';
+
+  @override
+  String get weatherToday => 'Danas';
+
+  @override
+  String get weatherNow => 'Sada';
+
+  @override
+  String get weatherNoForecast =>
+      'Vaš Home Assistant entitet za vreme ne daje prognozu.';
+
+  @override
+  String get weatherPrecipitation => 'Padavine';
+
+  @override
+  String get weatherFeelsHint =>
+      'Iz vašeg Home Assistant entiteta za vreme. Ništa ne napušta vašu mrežu.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

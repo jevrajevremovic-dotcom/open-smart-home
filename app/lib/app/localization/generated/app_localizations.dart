@@ -2228,6 +2228,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On/off'**
   String get powerToggle;
+
+  /// No description provided for @personHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get personHome;
+
+  /// No description provided for @personAway.
+  ///
+  /// In en, this message translates to:
+  /// **'Away'**
+  String get personAway;
+
+  /// No description provided for @householdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Household'**
+  String get householdTitle;
+
+  /// No description provided for @kioskStatusEntities.
+  ///
+  /// In en, this message translates to:
+  /// **'Status chips at the top'**
+  String get kioskStatusEntities;
+
+  /// No description provided for @kioskStatusEntitiesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up to {max} devices or sensors to show at the top of the kiosk screen, for example the washing machine, a printer or a sleep sensor.'**
+  String kioskStatusEntitiesHint(int max);
+
+  /// No description provided for @kioskStatusNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get kioskStatusNone;
+
+  /// No description provided for @kioskStatusSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 selected} other{{count} selected}}'**
+  String kioskStatusSelected(int count);
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchHint;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @timeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get timeJustNow;
+
+  /// No description provided for @timeMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
+  String timeMinutesAgo(int count);
+
+  /// No description provided for @timeHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour ago} other{{count} hours ago}}'**
+  String timeHoursAgo(int count);
+
+  /// No description provided for @timeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day ago} other{{count} days ago}}'**
+  String timeDaysAgo(int count);
+
+  /// No description provided for @weatherForecastTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather forecast'**
+  String get weatherForecastTitle;
+
+  /// No description provided for @weatherHourly.
+  ///
+  /// In en, this message translates to:
+  /// **'Next hours'**
+  String get weatherHourly;
+
+  /// No description provided for @weatherDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Next days'**
+  String get weatherDaily;
+
+  /// No description provided for @weatherToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get weatherToday;
+
+  /// No description provided for @weatherNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get weatherNow;
+
+  /// No description provided for @weatherNoForecast.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Home Assistant weather entity provides no forecast.'**
+  String get weatherNoForecast;
+
+  /// No description provided for @weatherPrecipitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Precipitation'**
+  String get weatherPrecipitation;
+
+  /// No description provided for @weatherFeelsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From your Home Assistant weather entity. Nothing leaves your network.'**
+  String get weatherFeelsHint;
 }
 
 class _AppLocalizationsDelegate

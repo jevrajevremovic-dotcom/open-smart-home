@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+import 'dart:typed_data';
 import 'dart:async';
 import 'dart:convert';
 
@@ -88,12 +90,49 @@ class MockHomeAssistantServer {
     return result;
   }
 
-  /// Synthetic 5-day forecast (mock `weather.get_forecasts`, type daily).
+  /// Synthetic 24 hours from the current hour (type hourly): a daily
+  /// temperature curve with a rain shower in the afternoon.
+  List<Map<String, Object?>> hourlyForecast() {
+    final now = _clock();
+    final start = DateTime(now.year, now.month, now.day, now.hour);
+    return [
+      for (var i = 0; i < 24; i++)
+        () {
+          final t = start.add(Duration(hours: i));
+          final h = t.hour;
+          final rain = h >= 15 && h <= 17;
+          return {
+            'datetime': t.toUtc().toIso8601String(),
+            'condition': rain
+                ? 'rainy'
+                : h >= 21 || h < 6
+                ? 'clear-night'
+                : h < 10
+                ? 'partlycloudy'
+                : 'sunny',
+            // Coolest around 05:00, warmest around 15:00.
+            'temperature': (13.0 + 5 * math.cos((h - 15) / 24 * 2 * math.pi))
+                .roundToDouble(),
+            'precipitation_probability': rain ? 60.0 : 5.0,
+          };
+        }(),
+    ];
+  }
+
+  /// Synthetic 7-day forecast (mock `weather.get_forecasts`, type daily).
   List<Map<String, Object?>> dailyForecast() {
-    const conditions = ['partlycloudy', 'sunny', 'rainy', 'cloudy', 'sunny'];
+    const conditions = [
+      'partlycloudy',
+      'sunny',
+      'rainy',
+      'cloudy',
+      'sunny',
+      'lightning-rainy',
+      'partlycloudy',
+    ];
     final today = _clock();
     return [
-      for (var i = 0; i < 5; i++)
+      for (var i = 0; i < 7; i++)
         {
           'datetime': DateTime(
             today.year,
@@ -551,10 +590,21 @@ class MockHomeAssistantApi implements HomeAssistantApi {
       );
     }
     final id = data['entity_id'];
+    final hourly = data['type'] == 'hourly';
     // Shape of the documented `weather.get_forecasts` response.
     return {
-      if (id is String) id: {'forecast': server.dailyForecast()},
+      if (id is String)
+        id: {
+          'forecast': hourly ? server.hourlyForecast() : server.dailyForecast(),
+        },
     };
+  }
+
+  @override
+  Future<Uint8List> fetchImage(String path) async {
+    await _requireAuth();
+    // Demo people have no pictures; the UI shows their initials.
+    throw const AppFailure(FailureKind.server, debugMessage: 'no image');
   }
 
   @override

@@ -263,4 +263,46 @@ void main() {
       await unmount(tester);
     },
   );
+
+  test('hourly forecast: past hours dropped, precipitation chance kept', () {
+    final now = DateTime(2026, 10, 14, 10, 30);
+    String at(int h) => DateTime(2026, 10, 14, h).toUtc().toIso8601String();
+    final hours = parseHaHourlyForecast(
+      {
+        'weather.x': {
+          'forecast': [
+            {'datetime': at(9), 'condition': 'sunny', 'temperature': 10},
+            {'datetime': at(10), 'condition': 'sunny', 'temperature': 11},
+            {
+              'datetime': at(11),
+              'condition': 'rainy',
+              'temperature': 12,
+              'precipitation_probability': 70,
+            },
+            {'datetime': 'bad'},
+          ],
+        },
+      },
+      'weather.x',
+      now: now,
+    );
+    expect([for (final h in hours) h.time.hour], [10, 11]);
+    expect(hours.last.precipitationProbability, 70);
+    expect(hours.last.condition, WeatherCondition.rain);
+  });
+
+  testWidgets('weather card opens the full forecast (hours and days)', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 2200));
+    await settle(tester, 12);
+    await tester.tap(find.byKey(const ValueKey('weather-home')));
+    await settle(tester, 4);
+    expect(find.text(en.weatherForecastTitle), findsOneWidget);
+    expect(find.text(en.weatherHourly), findsOneWidget);
+    expect(find.text(en.weatherDaily), findsOneWidget);
+    expect(find.text(en.weatherToday), findsOneWidget);
+    expect(find.text(en.weatherNow), findsOneWidget);
+    await unmount(tester);
+  });
 }

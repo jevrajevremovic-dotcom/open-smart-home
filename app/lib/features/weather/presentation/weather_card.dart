@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+
+import '../../../app/router/app_router.dart';
+import '../../kiosk/application/kiosk_controller.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../core/widgets/status_widgets.dart';
@@ -31,7 +35,13 @@ class WeatherSection extends ConsumerWidget {
       children: [
         if (home != null) ...[
           const SizedBox(height: 12),
-          WeatherCard(report: home, title: l10n.weatherAtHome),
+          WeatherCard(
+            report: home,
+            title: l10n.weatherAtHome,
+            onTap: () => context.push(
+              AppRoutes.weatherFor(kiosk: ref.read(kioskActiveProvider)),
+            ),
+          ),
         ],
         if (offerDevice && deviceEnabled) const _DeviceWeather(),
         if (offerDevice && !deviceEnabled)
@@ -139,11 +149,15 @@ class WeatherCard extends StatelessWidget {
     required this.report,
     required this.title,
     this.attribution,
+    this.onTap,
   });
 
   final WeatherReport report;
   final String title;
   final String? attribution;
+
+  /// Opens the full forecast.
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -163,98 +177,106 @@ class WeatherCard extends StatelessWidget {
 
     return Card.outlined(
       key: ValueKey('weather-${report.source.name}'),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: theme.textTheme.labelLarge),
-            const SizedBox(height: 8),
-            Semantics(
-              label:
-                  '$title: ${weatherConditionLabel(l10n, now.condition)}, $temp',
-              excludeSemantics: true,
-              child: Row(
-                children: [
-                  Icon(
-                    weatherIcon(now.condition),
-                    size: 44,
-                    color: theme.colorScheme.primary,
-                  ),
-                  const SizedBox(width: 12),
-                  Text(temp, style: theme.textTheme.displaySmall),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          weatherConditionLabel(l10n, now.condition),
-                          style: theme.textTheme.titleMedium,
-                        ),
-                        if (details.isNotEmpty)
-                          Text(details, style: theme.textTheme.bodySmall),
-                      ],
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: theme.textTheme.labelLarge),
+              const SizedBox(height: 8),
+              Semantics(
+                label:
+                    '$title: ${weatherConditionLabel(l10n, now.condition)}, $temp',
+                excludeSemantics: true,
+                child: Row(
+                  children: [
+                    Icon(
+                      weatherIcon(now.condition),
+                      size: 44,
+                      color: theme.colorScheme.primary,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            if (report.daily.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  for (final day in report.daily.take(5))
+                    const SizedBox(width: 12),
+                    Text(temp, style: theme.textTheme.displaySmall),
+                    const SizedBox(width: 12),
                     Expanded(
-                      child: Semantics(
-                        label:
-                            '${DateFormat.EEEE(locale).format(day.date)}: ${weatherConditionLabel(l10n, day.condition)}, '
-                            '${day.high == null ? '' : formatNumber(locale, day.high!, unit: '°')} / '
-                            '${day.low == null ? '' : formatNumber(locale, day.low!, unit: '°')}',
-                        excludeSemantics: true,
-                        child: Column(
-                          children: [
-                            Text(
-                              DateFormat.E(locale).format(day.date),
-                              style: theme.textTheme.labelMedium,
-                            ),
-                            const SizedBox(height: 4),
-                            Icon(weatherIcon(day.condition), size: 22),
-                            const SizedBox(height: 4),
-                            // High above low: never truncated in narrow panes.
-                            Text(
-                              day.high == null
-                                  ? '—'
-                                  : formatNumber(locale, day.high!, unit: '°'),
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              day.low == null
-                                  ? ''
-                                  : formatNumber(locale, day.low!, unit: '°'),
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            weatherConditionLabel(l10n, now.condition),
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          if (details.isNotEmpty)
+                            Text(details, style: theme.textTheme.bodySmall),
+                        ],
                       ),
                     ),
-                ],
-              ),
-            ],
-            if (attribution != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                attribution!,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+                  ],
                 ),
               ),
+              if (report.daily.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    for (final day in report.daily.take(5))
+                      Expanded(
+                        child: Semantics(
+                          label:
+                              '${DateFormat.EEEE(locale).format(day.date)}: ${weatherConditionLabel(l10n, day.condition)}, '
+                              '${day.high == null ? '' : formatNumber(locale, day.high!, unit: '°')} / '
+                              '${day.low == null ? '' : formatNumber(locale, day.low!, unit: '°')}',
+                          excludeSemantics: true,
+                          child: Column(
+                            children: [
+                              Text(
+                                DateFormat.E(locale).format(day.date),
+                                style: theme.textTheme.labelMedium,
+                              ),
+                              const SizedBox(height: 4),
+                              Icon(weatherIcon(day.condition), size: 22),
+                              const SizedBox(height: 4),
+                              // High above low: never truncated in narrow panes.
+                              Text(
+                                day.high == null
+                                    ? '—'
+                                    : formatNumber(
+                                        locale,
+                                        day.high!,
+                                        unit: '°',
+                                      ),
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                day.low == null
+                                    ? ''
+                                    : formatNumber(locale, day.low!, unit: '°'),
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+              if (attribution != null) ...[
+                const SizedBox(height: 8),
+                Text(
+                  attribution!,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

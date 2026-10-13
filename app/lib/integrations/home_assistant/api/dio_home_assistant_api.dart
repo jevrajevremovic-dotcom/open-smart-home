@@ -9,6 +9,7 @@ import '../../../core/network/tls_trust.dart';
 import '../models/ha_models.dart';
 import '../transport/transport.dart';
 import 'dio_error_mapper.dart';
+import '../mappers/ha_device_mapper.dart' show localPicturePath;
 import 'home_assistant_api.dart';
 
 typedef AccessTokenReader = Future<String?> Function();
@@ -127,6 +128,47 @@ class DioHomeAssistantApi implements HomeAssistantApi {
       data: data,
     );
     return body is Map ? body['service_response'] : null;
+  }
+
+  /// Pictures larger than this are refused (a profile picture is ~50 kB).
+  static const _maxImageBytes = 5 * 1024 * 1024;
+
+  @override
+  Future<Uint8List> fetchImage(String path) async {
+    if (localPicturePath(path) == null) {
+      throw const AppFailure(
+        FailureKind.validation,
+        debugMessage: 'refusing non-local image path',
+      );
+    }
+    final token = await _readToken();
+    if (token == null || token.isEmpty) {
+      throw const AppFailure(
+        FailureKind.authentication,
+        debugMessage: 'no token stored',
+      );
+    }
+    try {
+      final response = await _dio.get<List<int>>(
+        path,
+        options: Options(
+          responseType: ResponseType.bytes,
+          headers: {'Authorization': 'Bearer $token'},
+        ),
+      );
+      final bytes = response.data ?? const <int>[];
+      if (bytes.isEmpty || bytes.length > _maxImageBytes) {
+        throw const AppFailure(
+          FailureKind.server,
+          debugMessage: 'image empty or too large',
+        );
+      }
+      return Uint8List.fromList(bytes);
+    } on DioException catch (e) {
+      final failure = _map(e);
+      _log.warning('GET image failed', failure);
+      throw failure;
+    }
   }
 
   Future<Object?> _authorized(

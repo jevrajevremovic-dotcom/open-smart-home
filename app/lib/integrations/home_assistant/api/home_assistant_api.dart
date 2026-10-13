@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import '../../../core/network/server_address.dart';
 import '../models/ha_models.dart';
 
@@ -46,6 +48,11 @@ abstract interface class HomeAssistantApi {
     String service, {
     Map<String, Object?> data = const {},
   });
+
+  /// `GET` of an image served by Home Assistant itself (e.g. a person's
+  /// `entity_picture`, `/api/image/serve/...`). Only server-relative
+  /// `/api/` paths are accepted, so the token never goes to another host.
+  Future<Uint8List> fetchImage(String path);
 
   void close();
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,11 +19,19 @@ import '../../favorites/presentation/favorites_screen.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_labels.dart';
+import '../../household/application/household_providers.dart';
+import '../../household/presentation/person_avatar.dart';
+import '../application/kiosk_controller.dart';
 import 'glass.dart';
 
 /// Large clock with small seconds and the date underneath.
 class KioskHeaderClock extends StatefulWidget {
-  const KioskHeaderClock({super.key});
+  const KioskHeaderClock({super.key, this.alignEnd = false, this.subtitle});
+
+  final bool alignEnd;
+
+  /// Shown after the date, e.g. the home's name.
+  final String? subtitle;
 
   @override
   State<KioskHeaderClock> createState() => _KioskHeaderClockState();
@@ -56,7 +65,9 @@ class _KioskHeaderClockState extends State<KioskHeaderClock> {
           '${DateFormat.MMMMEEEEd(locale).format(_now)}',
       excludeSemantics: true,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: widget.alignEnd
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
@@ -84,10 +95,13 @@ class _KioskHeaderClockState extends State<KioskHeaderClock> {
           ),
           const SizedBox(height: 4),
           Text(
-            toBeginningOfSentenceCase(
-              DateFormat.MMMMEEEEd(locale).format(_now),
-              locale,
-            ),
+            [
+              toBeginningOfSentenceCase(
+                DateFormat.MMMMEEEEd(locale).format(_now),
+                locale,
+              ),
+              ?widget.subtitle,
+            ].join(' · '),
             style: theme.textTheme.titleMedium?.copyWith(
               color: GlassColors.muted,
               fontWeight: FontWeight.w500,
@@ -113,95 +127,134 @@ class KioskWeatherPanel extends ConsumerWidget {
     final now = report.now;
     String t(double? v) => v == null ? '—' : formatNumber(locale, v, unit: '°');
     final today = report.daily.isEmpty ? null : report.daily.first;
-    final next = report.daily.skip(1).take(4).toList();
+    final next = report.daily.skip(1).take(5).toList();
+    // Every second hour so six cells cover half a day.
+    final hours = [
+      for (final (i, h) in report.hourly.skip(1).indexed)
+        if (i.isEven) h,
+    ].take(6).toList();
 
-    return GlassPanel(
-      key: const Key('kioskWeather'),
-      child: Semantics(
-        label:
-            '${l10n.weatherAtHome}: ${weatherConditionLabel(l10n, now.condition)}, '
-            '${t(now.temperature)}',
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: ExcludeSemantics(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      weatherIcon(now.condition),
-                      size: 72,
-                      color: const Color(0xFF8CC8FF),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      t(now.temperature),
-                      style: theme.textTheme.displayLarge?.copyWith(
-                        color: GlassColors.text,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: -2,
-                      ),
-                    ),
-                  ],
+    Widget cell(String top, IconData icon, String main, [String? sub]) =>
+        SizedBox(
+          width: 66,
+          child: Column(
+            children: [
+              Text(
+                top,
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: GlassColors.muted,
                 ),
-                const SizedBox(height: 8),
+              ),
+              const SizedBox(height: 6),
+              Icon(icon, color: GlassColors.text, size: 28),
+              const SizedBox(height: 6),
+              Text(
+                main,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: GlassColors.text,
+                ),
+              ),
+              if (sub != null)
                 Text(
-                  weatherConditionLabel(l10n, now.condition),
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    color: GlassColors.text,
+                  sub,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: GlassColors.faint,
                   ),
                 ),
-                if (today != null)
-                  Text(
-                    '↑ ${t(today.high)}   ↓ ${t(today.low)}',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: GlassColors.muted,
-                    ),
-                  ),
-                if (next.isNotEmpty) ...[
-                  const SizedBox(height: 20),
+            ],
+          ),
+        );
+
+    return GestureDetector(
+      key: const Key('kioskWeather'),
+      onTap: () => context.push(AppRoutes.weatherFor(kiosk: true)),
+      child: GlassPanel(
+        child: Semantics(
+          button: true,
+          label:
+              '${l10n.weatherForecastTitle}. ${weatherConditionLabel(l10n, now.condition)}, '
+              '${t(now.temperature)}',
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: ExcludeSemantics(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      for (final day in next)
-                        SizedBox(
-                          width: 76,
-                          child: Column(
-                            children: [
-                              Text(
-                                DateFormat.E(locale).format(day.date),
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  color: GlassColors.muted,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Icon(
-                                weatherIcon(day.condition),
-                                color: GlassColors.text,
-                                size: 28,
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                t(day.high),
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  color: GlassColors.text,
-                                ),
-                              ),
-                              Text(
-                                t(day.low),
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: GlassColors.faint,
-                                ),
-                              ),
-                            ],
-                          ),
+                      Icon(
+                        weatherIcon(now.condition),
+                        size: 72,
+                        color: const Color(0xFF8CC8FF),
+                      ),
+                      const SizedBox(width: 14),
+                      Text(
+                        t(now.temperature),
+                        style: theme.textTheme.displayLarge?.copyWith(
+                          color: GlassColors.text,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -2,
                         ),
+                      ),
+                      const SizedBox(width: 18),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            weatherConditionLabel(l10n, now.condition),
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              color: GlassColors.text,
+                            ),
+                          ),
+                          if (today != null)
+                            Text(
+                              '↑ ${t(today.high)}   ↓ ${t(today.low)}',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: GlassColors.muted,
+                              ),
+                            ),
+                        ],
+                      ),
                     ],
                   ),
+                  if (hours.isNotEmpty) ...[
+                    const SizedBox(height: 18),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (final h in hours)
+                          cell(
+                            DateFormat.Hm(locale).format(h.time),
+                            weatherIcon(h.condition),
+                            t(h.temperature),
+                          ),
+                      ],
+                    ),
+                  ],
+                  if (next.isNotEmpty) ...[
+                    const SizedBox(height: 14),
+                    Container(
+                      width: 66.0 * math.max(hours.length, next.length),
+                      height: 1,
+                      color: GlassColors.border,
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        for (final day in next)
+                          cell(
+                            DateFormat.E(locale).format(day.date),
+                            weatherIcon(day.condition),
+                            t(day.high),
+                            t(day.low),
+                          ),
+                      ],
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),
@@ -730,6 +783,150 @@ class _StatusItem extends StatelessWidget {
                 ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Current time, refreshed every 30 s, for "… minutes ago" labels.
+final kioskNowProvider = Provider<DateTime>((ref) {
+  final timer = Timer(const Duration(seconds: 30), ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
+  return DateTime.now();
+});
+
+/// The entities picked in kiosk settings, as chips: icon, name, state and
+/// when it last changed (e.g. "Washing machine · Finished · 2 min ago").
+class KioskStatusChips extends ConsumerWidget {
+  const KioskStatusChips({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ids = ref.watch(
+      kioskSettingsProvider.select((s) => s.statusEntityIds),
+    );
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (final id in ids)
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: _StatusChip(key: ValueKey('chip-$id'), deviceId: id),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatusChip extends ConsumerWidget {
+  const _StatusChip({super.key, required this.deviceId});
+
+  final String deviceId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final d = ref.watch(deviceProvider(deviceId));
+    if (d == null) return const SizedBox.shrink();
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final now = ref.watch(kioskNowProvider);
+    final tone = DevicePresentation.tone(d);
+    final accents = DeviceAccents.light;
+    final swatch = switch (tone) {
+      DeviceTone.active => accents.of(DevicePresentation.accent(d)),
+      DeviceTone.warning => accents.warning,
+      DeviceTone.critical => accents.critical,
+      _ => null,
+    };
+    final changed = d.metadata.lastChanged;
+    final subtitle = [
+      DevicePresentation.status(l10n, d),
+      if (changed != null)
+        DevicePresentation.relativeTime(l10n, changed.toLocal(), now),
+    ].join(' · ');
+
+    return Semantics(
+      button: true,
+      label: '${d.name}, $subtitle',
+      excludeSemantics: true,
+      child: GestureDetector(
+        onTap: () => context.push(AppRoutes.device(d.id, kiosk: true)),
+        child: GlassPanel(
+          radius: 40,
+          padding: const EdgeInsets.fromLTRB(6, 6, 18, 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: swatch?.container ?? GlassColors.fillStrong,
+                ),
+                child: Icon(
+                  DevicePresentation.icon(d),
+                  size: 22,
+                  color: swatch?.icon ?? GlassColors.text,
+                ),
+              ),
+              const SizedBox(width: 10),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 220),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      d.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: GlassColors.text,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: GlassColors.muted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Household members' avatars.
+class KioskPeople extends ConsumerWidget {
+  const KioskPeople({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ids = ref.watch(peopleIdsProvider);
+    if (ids.isEmpty) return const SizedBox.shrink();
+    return Semantics(
+      container: true,
+      label: context.l10n.householdTitle,
+      child: Row(
+        key: const Key('kioskPeople'),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final id in ids.take(6))
+            Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: PersonAvatar(personId: id, size: 48),
+            ),
         ],
       ),
     );

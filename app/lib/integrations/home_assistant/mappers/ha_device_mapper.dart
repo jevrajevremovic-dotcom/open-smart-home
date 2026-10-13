@@ -158,6 +158,15 @@ class HaDeviceMapper {
           windSpeedUnit: _str(a['wind_speed_unit']),
         ),
       ),
+      'person' => _Mapped(
+        DeviceKind.person,
+        const {},
+        DeviceState(
+          raw: s.state,
+          textValue: known ? s.state : null,
+          isActive: known ? s.state == 'home' : null,
+        ),
+      ),
       'button' || 'input_button' => _Mapped(DeviceKind.button, {
         Capability.trigger,
       }, DeviceState(raw: s.state)),
@@ -212,6 +221,7 @@ class HaDeviceMapper {
         haDeviceClass: deviceClass,
         lastChanged: s.lastChanged,
         lastUpdated: s.lastUpdated,
+        picturePath: localPicturePath(a['entity_picture']),
       ),
       isAuxiliary: (entry?.hidden ?? false) || entry?.entityCategory != null,
     );
@@ -662,4 +672,13 @@ String _snakeToCamel(String s) =>
 
 extension<T extends Object> on T {
   void let(void Function(T value) action) => action(this);
+}
+
+/// Keeps only server-relative API paths such as `/api/image/serve/…`.
+String? localPicturePath(Object? value) {
+  if (value is! String) return null;
+  final uri = Uri.tryParse(value);
+  if (uri == null || uri.hasScheme || uri.hasAuthority) return null;
+  if (!value.startsWith('/api/') || value.contains('..')) return null;
+  return value;
 }

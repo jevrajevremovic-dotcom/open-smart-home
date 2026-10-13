@@ -17,6 +17,7 @@ Home Assistant se oglašava kao `_home-assistant._tcp` (integracija *Zeroconf*, 
 | `GET /api/config` | `fetchConfig()` | naziv lokacije, verzija, vremenska zona, jedinice |
 | `GET /api/states` | `fetchStates()` | početno učitavanje svih entiteta |
 | `POST /api/services/<domain>/<service>` | `callService()` | komande; odgovor je lista promenjenih stanja |
+| `GET <entity_picture>` (npr. `/api/image/serve/<id>/512x512`) | `fetchImage()` | slika ukućana; prihvataju se samo putanje na samom HA serveru koje počinju sa `/api/`, tako da token nikad ne ide drugom hostu; spoljne slike se ne učitavaju (prikazuju se inicijali); najviše 5 MB |
 
 Mapiranje statusa: `401` → authentication, `403` → authorization, `400/405/422` → validation, `404` i `5xx` → server; timeout-i → timeout; socket greške → network; TLS → certificate.
 
@@ -46,7 +47,7 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 ## Vreme
 - Trenutno stanje iz `weather` entiteta (stanje = uslov, atributi `temperature`, `humidity`, `wind_speed`…). Podrazumevano `weather.forecast_home` (integracija Met.no).
-- Prognoza preko dokumentovanog servisa `weather.get_forecasts` (`POST /api/services/weather/get_forecasts?return_response`, `type: daily`); odgovor `service_response.<entity>.forecast`.
+- Prognoza preko dokumentovanog servisa `weather.get_forecasts` (`POST /api/services/weather/get_forecasts?return_response`, `type: daily` i `type: hourly`); odgovor `service_response.<entity>.forecast`. Ako entitet nema prognozu po satima (greška servisa), prikazuje se samo dnevna.
 - Opciono, za lokaciju telefona: MET Norway Locationforecast 2.0 `compact` (User-Agent sa identifikacijom aplikacije, koordinate na 2 decimale, keš 30 min, oznaka CC BY 4.0).
 
 ## Energija

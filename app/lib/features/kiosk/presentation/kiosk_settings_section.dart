@@ -8,6 +8,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'pin_dialog.dart';
+import 'status_entities_picker.dart';
 
 /// Kiosk options inside the settings screen.
 class KioskSettingsSection extends ConsumerWidget {
@@ -70,6 +71,28 @@ class KioskSettingsSection extends ConsumerWidget {
           value: settings.keepScreenOn,
           onChanged: (v) =>
               controller.update((s) => s.copyWith(keepScreenOn: v)),
+        ),
+        ListTile(
+          key: const Key('kioskStatusEntities'),
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.kioskStatusEntities),
+          subtitle: Text(
+            settings.statusEntityIds.isEmpty
+                ? l10n.kioskStatusNone
+                : l10n.kioskStatusSelected(settings.statusEntityIds.length),
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () async {
+            final picked = await showStatusEntitiesPicker(
+              context,
+              settings.statusEntityIds,
+            );
+            if (picked != null) {
+              await controller.update(
+                (s) => s.copyWith(statusEntityIds: picked),
+              );
+            }
+          },
         ),
         ListTile(
           contentPadding: EdgeInsets.zero,

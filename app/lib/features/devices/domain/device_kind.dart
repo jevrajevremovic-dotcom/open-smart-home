@@ -57,6 +57,9 @@ enum DeviceKind {
   /// A Home Assistant weather entity (shown in the weather card, not as
   /// a device).
   weather,
+
+  /// A household member (Home Assistant `person`): home / away / zone.
+  person,
   unknown;
 
   bool get isLight =>

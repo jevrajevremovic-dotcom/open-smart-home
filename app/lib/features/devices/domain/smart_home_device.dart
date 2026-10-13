@@ -188,6 +188,7 @@ class DeviceMetadata {
     this.haDeviceClass,
     this.lastChanged,
     this.lastUpdated,
+    this.picturePath,
   });
 
   /// From a battery sensor of the same physical device, if any.
@@ -202,6 +203,11 @@ class DeviceMetadata {
   final String? haDeviceClass;
   final DateTime? lastChanged;
   final DateTime? lastUpdated;
+
+  /// `entity_picture` when it is a path on the Home Assistant server
+  /// (`/api/...`). External URLs are dropped: the app never sends the
+  /// token to, or loads pictures from, other hosts.
+  final String? picturePath;
 }
 
 /// The protocol-independent device model the whole UI works with.

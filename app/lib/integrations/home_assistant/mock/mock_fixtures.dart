@@ -5,6 +5,7 @@
 /// input. Used only when mock mode is enabled in a non-release build.
 List<Map<String, Object?>> buildMockStates(DateTime now) {
   final ts = now.toUtc().toIso8601String();
+  String ago(Duration d) => now.subtract(d).toUtc().toIso8601String();
   Map<String, Object?> e(String id, String state, Map<String, Object?> attrs) =>
       {
         'entity_id': id,
@@ -114,6 +115,20 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
     e('switch.garage_heater', 'unavailable', {
       'friendly_name': 'Grejalica garaža',
       'restored': true,
+    }),
+    e('person.marko', 'home', {'friendly_name': 'Marko'}),
+    e('person.ana', 'not_home', {'friendly_name': 'Ana'}),
+    e('person.jelena', 'Posao', {'friendly_name': 'Jelena'}),
+    {
+      ...e('sensor.washing_machine_status', 'Završeno', {
+        'friendly_name': 'Veš mašina',
+      }),
+      'last_changed': ago(const Duration(minutes: 2)),
+    },
+    e('sensor.printer_progress', '72', {
+      'friendly_name': 'Štampač',
+      'unit_of_measurement': '%',
+      'state_class': 'measurement',
     }),
     e('weather.forecast_home', 'partlycloudy', {
       'friendly_name': 'Forecast Home',

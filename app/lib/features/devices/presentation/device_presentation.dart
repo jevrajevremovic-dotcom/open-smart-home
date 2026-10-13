@@ -88,6 +88,8 @@ abstract final class DevicePresentation {
       DeviceKind.weather => weatherIcon(
         WeatherCondition.fromHomeAssistant(d.state.raw),
       ),
+      DeviceKind.person =>
+        d.state.isActive == true ? Icons.person : Icons.person_outline,
       DeviceKind.unknown => Icons.device_unknown_outlined,
     };
   }
@@ -244,6 +246,13 @@ abstract final class DevicePresentation {
         l10n,
         WeatherCondition.fromHomeAssistant(s.raw),
       ),
+      DeviceKind.person => switch (s.textValue) {
+        'home' => l10n.personHome,
+        'not_home' => l10n.personAway,
+        null => l10n.stateUnknown,
+        // Any other state is the name of the zone the person is in.
+        final zone => zone,
+      },
       DeviceKind.unknown => s.raw,
       _ when d.kind.isSensor => sensorValue(l10n, s),
       _ => onOff(),
@@ -276,6 +285,15 @@ abstract final class DevicePresentation {
       return formatNumber(l10n.localeName, s.numericValue!, unit: s.unit);
     }
     return s.textValue ?? l10n.stateUnknown;
+  }
+
+  /// "just now", "5 minutes ago", "3 hours ago", "2 days ago".
+  static String relativeTime(AppLocalizations l10n, DateTime t, DateTime now) {
+    final d = now.difference(t);
+    if (d.inMinutes < 1) return l10n.timeJustNow;
+    if (d.inHours < 1) return l10n.timeMinutesAgo(d.inMinutes);
+    if (d.inDays < 1) return l10n.timeHoursAgo(d.inHours);
+    return l10n.timeDaysAgo(d.inDays);
   }
 
   /// Standard Home Assistant preset names; custom ones are shown as-is.

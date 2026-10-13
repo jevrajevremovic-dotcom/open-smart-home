@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/config/app_config.dart';
+import '../../../core/errors/app_failure.dart';
 import '../../../core/storage/app_preferences.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
@@ -48,13 +49,37 @@ final homeForecastProvider = FutureProvider<List<DailyForecast>>((ref) async {
   return parseHaForecast(response, id);
 });
 
+/// Hourly forecast. Not every weather integration offers one; then empty.
+final homeHourlyForecastProvider = FutureProvider<List<HourlyForecast>>((
+  ref,
+) async {
+  final id = ref.watch(homeWeatherEntityIdProvider);
+  final api = ref.watch(homeAssistantApiProvider);
+  final live = ref.watch(syncStatusProvider) == SyncStatus.live;
+  if (id == null || api == null || !live) return const [];
+  final timer = Timer(_refreshEvery, ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
+  try {
+    final response = await api.callServiceForResponse(
+      'weather',
+      'get_forecasts',
+      data: {'entity_id': id, 'type': 'hourly'},
+    );
+    return parseHaHourlyForecast(response, id, now: DateTime.now());
+  } on AppFailure catch (e) {
+    if (e.isTransient) rethrow;
+    return const []; // entity does not support hourly forecasts
+  }
+});
+
 /// Weather at home, from Home Assistant. Nothing leaves the local network.
 final homeWeatherProvider = Provider<WeatherReport?>((ref) {
   final id = ref.watch(homeWeatherEntityIdProvider);
   final device = id == null ? null : ref.watch(deviceProvider(id));
   if (device == null) return null;
   final daily = ref.watch(homeForecastProvider).value ?? const [];
-  return weatherFromEntity(device, daily: daily);
+  final hourly = ref.watch(homeHourlyForecastProvider).value ?? const [];
+  return weatherFromEntity(device, daily: daily, hourly: hourly);
 });
 
 // ---------------------------------------------------------------------------

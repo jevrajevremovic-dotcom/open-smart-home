@@ -8,6 +8,9 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Ukućani: HA `person` entiteti (kod kuće / nije kod kuće / zona) kao avatari sa slikom ili inicijalima u kiosk zaglavlju.
+- Statusi na vrhu kiosk ekrana: do 6 izabranih uređaja ili senzora sa stanjem i vremenom poslednje promene („Veš mašina · Završeno · pre 2 minuta”); izbor u Podešavanjima → Kiosk.
+- Vremenska prognoza: po satima (24 h, kriva temperature, verovatnoća padavina) i za narednih 7 dana (raspon temperatura); poseban ekran koji se otvara dodirom na karticu vremena (i u kiosku). Kiosk panel vremena prikazuje i naredne sate.
 - Vreme na dashboardu: kod kuće iz Home Assistanta (trenutno, 5 dana, pločica „Napolju”), opciono na lokaciji telefona preko MET Norway uz prethodni pristanak; približna lokacija zaokružena na ~1 km.
 - Energy ekran: trenutna snaga uživo, potrošnja danas / ove nedelje / ovog meseca po satima ili danima (grafikon + tabela), mreža, solar, baterija, gas, najveći potrošači, procena troška po lokalno unetoj tarifi. Nekonfigurisani izvori se ne prikazuju; bez veze jasna poruka.
 - Automatsko pronalaženje Home Assistant servera na lokalnoj mreži (mDNS `_home-assistant._tcp`, Android NsdManager / Apple Bonjour), pretraga od 10 s sa ponavljanjem, samo lokalne adrese, IPv4 pre `.local`.

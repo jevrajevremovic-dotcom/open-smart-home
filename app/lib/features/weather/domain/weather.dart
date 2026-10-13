@@ -95,6 +95,24 @@ class DailyForecast {
   final double? precipitation;
 }
 
+/// One hour of an hourly forecast.
+@immutable
+class HourlyForecast {
+  const HourlyForecast({
+    required this.time,
+    required this.condition,
+    this.temperature,
+    this.precipitationProbability,
+  });
+
+  final DateTime time;
+  final WeatherCondition condition;
+  final double? temperature;
+
+  /// 0–100 %.
+  final double? precipitationProbability;
+}
+
 enum WeatherSource { home, device }
 
 @immutable
@@ -103,6 +121,7 @@ class WeatherReport {
     required this.source,
     required this.now,
     this.daily = const [],
+    this.hourly = const [],
     this.title,
     this.updatedAt,
   });
@@ -110,6 +129,7 @@ class WeatherReport {
   final WeatherSource source;
   final WeatherNow now;
   final List<DailyForecast> daily;
+  final List<HourlyForecast> hourly;
 
   /// Home Assistant entity name; `null` for the device location.
   final String? title;

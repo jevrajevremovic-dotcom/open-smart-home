@@ -1227,4 +1227,103 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get powerToggle => 'On/off';
+
+  @override
+  String get personHome => 'Home';
+
+  @override
+  String get personAway => 'Away';
+
+  @override
+  String get householdTitle => 'Household';
+
+  @override
+  String get kioskStatusEntities => 'Status chips at the top';
+
+  @override
+  String kioskStatusEntitiesHint(int max) {
+    return 'Pick up to $max devices or sensors to show at the top of the kiosk screen, for example the washing machine, a printer or a sleep sensor.';
+  }
+
+  @override
+  String get kioskStatusNone => 'None';
+
+  @override
+  String kioskStatusSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selected',
+      one: '1 selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get searchHint => 'Search';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get timeJustNow => 'just now';
+
+  @override
+  String timeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '1 minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '1 hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get weatherForecastTitle => 'Weather forecast';
+
+  @override
+  String get weatherHourly => 'Next hours';
+
+  @override
+  String get weatherDaily => 'Next days';
+
+  @override
+  String get weatherToday => 'Today';
+
+  @override
+  String get weatherNow => 'Now';
+
+  @override
+  String get weatherNoForecast =>
+      'Your Home Assistant weather entity provides no forecast.';
+
+  @override
+  String get weatherPrecipitation => 'Precipitation';
+
+  @override
+  String get weatherFeelsHint =>
+      'From your Home Assistant weather entity. Nothing leaves your network.';
 }

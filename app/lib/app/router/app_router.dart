@@ -13,6 +13,7 @@ import '../../features/favorites/presentation/favorites_screen.dart';
 import '../../features/kiosk/application/kiosk_controller.dart';
 import '../../features/kiosk/presentation/kiosk_dashboard_screen.dart';
 import '../../features/kiosk/presentation/kiosk_shell.dart';
+import '../../features/weather/presentation/weather_screen.dart';
 import '../../features/onboarding/presentation/welcome_screen.dart';
 import '../../features/rooms/presentation/rooms_screen.dart';
 import '../../features/scenes/presentation/scenes_screen.dart';
@@ -31,6 +32,9 @@ abstract final class AppRoutes {
   static const scenes = '/scenes';
   static const settings = '/settings';
   static const energy = '/energy';
+  static const weather = '/weather';
+  static String weatherFor({bool kiosk = false}) =>
+      '${kiosk ? AppRoutes.kiosk : ''}$weather';
 
   /// Path segment used for "devices without a room".
   static const noRoomId = '_unassigned';
@@ -127,6 +131,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                 ),
               ),
               GoRoute(
+                path: 'weather',
+                builder: (_, _) => const KioskScale(child: WeatherScreen()),
+              ),
+              GoRoute(
                 path: 'rooms/:roomId',
                 builder: (_, state) {
                   final id = state.pathParameters['roomId']!;
@@ -185,6 +193,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.energy,
             builder: (_, _) => const EnergyScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.weather,
+            builder: (_, _) => const WeatherScreen(),
           ),
           GoRoute(
             path: AppRoutes.allDevices,

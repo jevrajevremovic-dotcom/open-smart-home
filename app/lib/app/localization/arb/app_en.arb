@@ -562,5 +562,61 @@
   "kioskLiteEffects": "Lighter effects",
   "kioskLiteEffectsHint": "No glass blur, for slower tablets.",
   "thermostatModes": "Modes",
-  "powerToggle": "On/off"
+  "powerToggle": "On/off",
+  "personHome": "Home",
+  "personAway": "Away",
+  "householdTitle": "Household",
+  "kioskStatusEntities": "Status chips at the top",
+  "kioskStatusEntitiesHint": "Pick up to {max} devices or sensors to show at the top of the kiosk screen, for example the washing machine, a printer or a sleep sensor.",
+  "@kioskStatusEntitiesHint": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "kioskStatusNone": "None",
+  "kioskStatusSelected": "{count, plural, =1{1 selected} other{{count} selected}}",
+  "@kioskStatusSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "searchHint": "Search",
+  "done": "Done",
+  "timeJustNow": "just now",
+  "timeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@timeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@timeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weatherForecastTitle": "Weather forecast",
+  "weatherHourly": "Next hours",
+  "weatherDaily": "Next days",
+  "weatherToday": "Today",
+  "weatherNow": "Now",
+  "weatherNoForecast": "Your Home Assistant weather entity provides no forecast.",
+  "weatherPrecipitation": "Precipitation",
+  "weatherFeelsHint": "From your Home Assistant weather entity. Nothing leaves your network."
 }

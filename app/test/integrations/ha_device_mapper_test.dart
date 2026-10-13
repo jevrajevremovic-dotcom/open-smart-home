@@ -181,6 +181,35 @@ void main() {
     });
   });
 
+  test('person: home / away / zone; only local pictures are kept', () {
+    SmartHomeDevice person(String state, [Object? picture]) =>
+        const HaDeviceMapper().map(
+          HaEntityState(
+            entityId: 'person.a',
+            state: state,
+            attributes: {'friendly_name': 'A', 'entity_picture': ?picture},
+          ),
+          HaRegistries.empty,
+        );
+    expect(person('home').kind, DeviceKind.person);
+    expect(person('home').state.isActive, isTrue);
+    expect(person('not_home').state.isActive, isFalse);
+    expect(person('Posao').state.textValue, 'Posao');
+    expect(
+      person('home', '/api/image/serve/abc/512x512').metadata.picturePath,
+      '/api/image/serve/abc/512x512',
+    );
+    for (final bad in [
+      'https://example.com/a.png',
+      '//example.com/a.png',
+      '/local/a.png',
+      '/api/../secret',
+      42,
+    ]) {
+      expect(person('home', bad).metadata.picturePath, isNull, reason: '$bad');
+    }
+  });
+
   group('edge cases', () {
     test(
       'legacy light without color modes is dimmable when brightness exists',

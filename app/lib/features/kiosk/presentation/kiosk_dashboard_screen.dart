@@ -12,6 +12,7 @@ import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/stale_data_banner.dart';
 import '../../weather/application/weather_providers.dart';
+import '../application/kiosk_controller.dart';
 import 'glass.dart';
 import 'kiosk_panels.dart';
 import 'thermostat_dial.dart';
@@ -81,33 +82,36 @@ class _Header extends ConsumerWidget {
         ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
         ref.watch(serverConfigProvider).value?.locationName ??
         l10n.appTitle;
+    final hasChips = ref.watch(
+      kioskSettingsProvider.select((s) => s.statusEntityIds.isNotEmpty),
+    );
+    final connected = ref.watch(
+      connectionStatusProvider.select((s) => s.value?.isConnected ?? false),
+    );
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Expanded(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: FittedBox(fit: BoxFit.scaleDown, child: KioskHeaderClock()),
-          ),
+        // Left: chosen status chips; the clock moves right to make room.
+        Expanded(
+          child: hasChips
+              ? const KioskStatusChips()
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: KioskHeaderClock(subtitle: title),
+                  ),
+                ),
         ),
+        if (hasChips) ...[
+          const SizedBox(width: 16),
+          KioskHeaderClock(alignEnd: true, subtitle: title),
+        ],
+        if (!connected) ...[
+          const SizedBox(width: 12),
+          const ConnectionIndicator(),
+        ],
         const SizedBox(width: 12),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 360),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleLarge
-                    ?.copyWith(color: GlassColors.text),
-              ),
-              const SizedBox(height: 8),
-              const ConnectionIndicator(),
-            ],
-          ),
-        ),
+        const KioskPeople(),
         const SizedBox(width: 4),
         IconButton(
           key: const Key('kioskExit'),

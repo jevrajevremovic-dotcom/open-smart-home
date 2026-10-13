@@ -16,6 +16,7 @@ import '../../devices/domain/device_command.dart';
 import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
+import '../../devices/presentation/stale_data_banner.dart';
 import '../../favorites/presentation/favorites_screen.dart';
 import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
@@ -29,6 +30,7 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final title =
+        ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
         ref.watch(serverConfigProvider).value?.locationName ??
         context.l10n.appTitle;
     return Scaffold(
@@ -110,6 +112,10 @@ class DashboardBody extends ConsumerWidget {
       sliver: SliverToBoxAdapter(child: child),
     );
     return [
+      const SliverPadding(
+        padding: _pad,
+        sliver: SliverToBoxAdapter(child: StaleDataBanner()),
+      ),
       const SliverPadding(
         padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
         sliver: SliverToBoxAdapter(child: ConnectionProblemCard()),
@@ -201,9 +207,6 @@ class ConnectionProblemCard extends ConsumerWidget {
     final l10n = context.l10n;
     final status =
         ref.watch(connectionStatusProvider).value ?? HaConnectionStatus.initial;
-    final snapshot = ref.watch(
-      homeSnapshotProvider.select((s) => (s.status, s.lastSyncedAt)),
-    );
     final connecting =
         status.state == HaConnectionState.connecting ||
         status.state == HaConnectionState.authenticating;
@@ -215,13 +218,7 @@ class ConnectionProblemCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (snapshot.$1 == SyncStatus.stale && snapshot.$2 != null)
-              InlineNotice.warning(
-                l10n.dataStaleSince(
-                  formatDateTime(l10n.localeName, snapshot.$2!),
-                ),
-              )
-            else if (status.failure != null)
+            if (status.failure != null)
               InlineNotice.warning(failureMessage(l10n, status.failure!)),
             const SizedBox(height: 12),
             Align(

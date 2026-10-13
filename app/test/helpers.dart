@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:open_smart_home/core/config/app_config.dart';
 import 'package:open_smart_home/core/storage/app_preferences.dart';
 import 'package:open_smart_home/core/storage/credential_store.dart';
+import 'package:open_smart_home/features/devices/data/cache/snapshot_cache.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +44,7 @@ class FakeKioskPlatform implements KioskPlatform {
 Future<List<Override>> testOverrides({
   InMemoryCredentialStore? credentials,
   KioskPlatform? kioskPlatform,
+  SnapshotCache? snapshotCache,
   Map<String, Object> preferences = const {},
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -50,6 +52,9 @@ Future<List<Override>> testOverrides({
   return [
     appConfigProvider.overrideWithValue(const AppConfig(mockMode: true)),
     sharedPreferencesProvider.overrideWithValue(prefs),
+    snapshotCacheProvider.overrideWithValue(
+      snapshotCache ?? InMemorySnapshotCache(),
+    ),
     kioskPlatformProvider.overrideWithValue(
       kioskPlatform ?? FakeKioskPlatform(),
     ),

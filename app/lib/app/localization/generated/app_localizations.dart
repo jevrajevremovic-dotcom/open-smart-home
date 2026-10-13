@@ -696,7 +696,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataStaleSince.
   ///
   /// In en, this message translates to:
-  /// **'Offline — showing data last updated at {time}. It may not be current.'**
+  /// **'Not connected — showing data last updated {time}. It may not be current.'**
   String dataStaleSince(String time);
 
   /// No description provided for @navRooms.
@@ -1482,7 +1482,7 @@ abstract class AppLocalizations {
   /// No description provided for @controlsOffline.
   ///
   /// In en, this message translates to:
-  /// **'No connection to the server — commands cannot be sent right now.'**
+  /// **'Controls are available again once the connection is restored.'**
   String get controlsOffline;
 
   /// No description provided for @kioskSection.
@@ -1634,6 +1634,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} min'**
   String durationMinutes(int minutes);
+
+  /// No description provided for @dataUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing data from {time} — updating…'**
+  String dataUpdating(String time);
 }
 
 class _AppLocalizationsDelegate

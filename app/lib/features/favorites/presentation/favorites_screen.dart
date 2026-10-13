@@ -6,6 +6,7 @@ import '../../../core/utils/value_list.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/device_grid.dart';
+import '../../devices/presentation/stale_data_banner.dart';
 import '../application/favorites_controller.dart';
 
 /// Favorite ids that still exist on the server, in the user's order.
@@ -32,6 +33,10 @@ class FavoritesScreen extends ConsumerWidget {
       body: MockModeBanner(
         child: CustomScrollView(
           slivers: [
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverToBoxAdapter(child: StaleDataBanner()),
+            ),
             SliverPadding(
               padding: const EdgeInsets.all(16),
               sliver: ids.isEmpty

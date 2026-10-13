@@ -2,7 +2,7 @@
 
 Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **MVP – faze 1–7**: povezivanje, model uređaja, kompletan interfejs i kiosk režim za zidne tablete. Sledi offline cache (faza 8) i stabilizacija (faza 9). Vidi [ROADMAP](docs/ROADMAP.md).
+> Status: **MVP – faze 1–8**: povezivanje, model uređaja, kompletan interfejs, kiosk režim i offline keš. Sledi stabilizacija (faza 9). Vidi [ROADMAP](docs/ROADMAP.md).
 
 ## Mogućnosti (trenutno)
 
@@ -170,7 +170,7 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 - Prijava je trenutno samo pomoću long-lived access tokena. OAuth2 tok je planiran – vidi [SECURITY.md](docs/SECURITY.md#autentifikacija).
 - Automatsko pronalaženje servera (mDNS/zeroconf) još nije implementirano; adresa se unosi ručno.
 - iOS ATS blokira čist HTTP ka javnim **nazivima domena** (IP adrese i `.local` rade). To je namerno; za udaljeni pristup koristite HTTPS.
-- Lokalni cache (offline prikaz) još ne postoji – faza 8.
+- Na webu se keš (kao i token) čuva samo dok je kartica otvorena.
 - Na webu nema trajne prijave ni pinovanja sertifikata (vidi „Web verzija”).
 
 ## Doprinos i licenca

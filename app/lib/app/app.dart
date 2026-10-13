@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/authentication/application/session_controller.dart';
+import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
 import 'localization/app_locales.dart';
 import 'localization/l10n.dart';
@@ -26,6 +27,9 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
     // instead of waiting for the remaining backoff delay.
     _lifecycle = AppLifecycleListener(
       onResume: () => ref.read(webSocketManagerProvider)?.retryNow(),
+      // Persist the offline cache before the OS may suspend or kill us.
+      onPause: () => ref.read(homeStateRepositoryProvider)?.flush(),
+      onHide: () => ref.read(homeStateRepositoryProvider)?.flush(),
     );
   }
 

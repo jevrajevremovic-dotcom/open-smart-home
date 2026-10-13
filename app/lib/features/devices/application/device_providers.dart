@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/value_list.dart';
 import '../../authentication/application/session_controller.dart';
+import '../data/cache/snapshot_cache.dart';
 import '../data/home_state_repository.dart';
 import '../domain/device_kind.dart';
 import '../domain/smart_home_device.dart';
@@ -12,7 +13,11 @@ import '../domain/smart_home_device.dart';
 final homeStateRepositoryProvider = Provider<HomeStateRepository?>((ref) {
   final manager = ref.watch(webSocketManagerProvider);
   if (manager == null) return null;
-  final repository = HomeStateRepository(manager)..start();
+  final repository = HomeStateRepository(
+    manager,
+    cache: ref.watch(snapshotCacheProvider),
+    serverId: ref.watch(activeProfileProvider)?.id,
+  )..start();
   ref.onDispose(() => unawaited(repository.dispose()));
   return repository;
 });

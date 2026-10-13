@@ -358,7 +358,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String dataStaleSince(String time) {
-    return 'Offline — showing data last updated at $time. It may not be current.';
+    return 'Not connected — showing data last updated $time. It may not be current.';
   }
 
   @override
@@ -811,7 +811,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get controlsOffline =>
-      'No connection to the server — commands cannot be sent right now.';
+      'Controls are available again once the connection is restored.';
 
   @override
   String get kioskSection => 'Kiosk mode (wall tablet)';
@@ -893,5 +893,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String durationMinutes(int minutes) {
     return '$minutes min';
+  }
+
+  @override
+  String dataUpdating(String time) {
+    return 'Showing data from $time — updating…';
   }
 }

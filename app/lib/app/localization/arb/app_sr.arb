@@ -99,7 +99,7 @@
   "webSessionNotice": "U pregledaču se token čuva samo dok je ova kartica otvorena. Zatvaranjem kartice se odjavljujete.",
   "failureConfirmationRequired": "Potvrdite ovu radnju.",
   "devicesInRooms": "{devices, plural, one{{devices} uređaj} few{{devices} uređaja} other{{devices} uređaja}} u {rooms, plural, =0{0 prostorija} one{{rooms} prostoriji} other{{rooms} prostorija}}",
-  "dataStaleSince": "Van mreže — prikazani su podaci poslednji put ažurirani u {time}. Možda nisu aktuelni.",
+  "dataStaleSince": "Nema veze — prikazani su podaci poslednji put ažurirani {time}. Možda nisu aktuelni.",
   "navRooms": "Prostorije",
   "navFavorites": "Omiljeno",
   "navScenes": "Scene",
@@ -230,7 +230,7 @@
   "infoBattery": "Baterija",
   "deviceNotFound": "Ovaj uređaj više ne postoji.",
   "unavailableBanner": "Uređaj je nedostupan. Kontrole su onemogućene dok se ponovo ne poveže.",
-  "controlsOffline": "Nema veze sa serverom — komande trenutno ne mogu da se pošalju.",
+  "controlsOffline": "Kontrole će ponovo biti dostupne kada se veza uspostavi.",
   "kioskSection": "Kiosk režim (zidni tablet)",
   "kioskStart": "Pokreni kiosk režim",
   "kioskStartOnLaunch": "Otvori u kiosk režimu pri pokretanju",
@@ -255,5 +255,6 @@
   "kioskOsHint": "Za potpuno zaključan zidni panel koristite i sistemsku kiosk funkciju: Android pinovanje ekrana ili kiosk launcher, iOS Guided Access. One mogu i automatski da pokrenu aplikaciju.",
   "durationNever": "Nikad",
   "durationSeconds": "{seconds} s",
-  "durationMinutes": "{minutes} min"
+  "durationMinutes": "{minutes} min",
+  "dataUpdating": "Prikazani su podaci od {time} — ažuriranje…"
 }

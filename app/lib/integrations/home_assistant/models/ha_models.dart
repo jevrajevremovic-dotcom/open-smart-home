@@ -89,6 +89,15 @@ class HaEntityState {
   final DateTime? lastChanged;
   final DateTime? lastUpdated;
 
+  /// Wire format, used by the offline cache.
+  Map<String, Object?> toJson() => {
+    'entity_id': entityId,
+    'state': state,
+    'attributes': attributes,
+    'last_changed': lastChanged?.toUtc().toIso8601String(),
+    'last_updated': lastUpdated?.toUtc().toIso8601String(),
+  };
+
   String get domain => entityId.substring(0, entityId.indexOf('.'));
   String get friendlyName => _string(attributes['friendly_name']) ?? entityId;
   bool get isUnavailable => state == 'unavailable';

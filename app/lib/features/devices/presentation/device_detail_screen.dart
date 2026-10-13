@@ -15,6 +15,7 @@ import 'controls/climate_controls.dart';
 import 'controls/light_controls.dart';
 import 'controls/other_controls.dart';
 import 'device_presentation.dart';
+import 'stale_data_banner.dart';
 
 /// Details and controls of one device, generated from its capabilities.
 class DeviceDetailScreen extends ConsumerWidget {
@@ -70,12 +71,23 @@ class DeviceDetailScreen extends ConsumerWidget {
                   const SizedBox(height: 12),
                   InlineNotice.warning(l10n.unavailableBanner),
                 ],
-                if (syncStatus == SyncStatus.stale) ...[
-                  const SizedBox(height: 12),
-                  InlineNotice.warning(l10n.controlsOffline),
+                if (syncStatus != SyncStatus.live) ...[
+                  const StaleDataBanner(padding: EdgeInsets.only(top: 12)),
+                  const SizedBox(height: 8),
+                  InlineNotice.info(l10n.controlsOffline),
                 ],
                 const SizedBox(height: 16),
-                ..._controls(device),
+                // Not live: show the last known values, but no controls.
+                IgnorePointer(
+                  ignoring: syncStatus != SyncStatus.live,
+                  child: Opacity(
+                    opacity: syncStatus == SyncStatus.live ? 1 : 0.5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: _controls(device),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 24),
                 _InfoSection(device: device),
               ],

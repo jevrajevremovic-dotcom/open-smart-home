@@ -8,6 +8,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/device_grid.dart';
+import '../../devices/presentation/stale_data_banner.dart';
 import 'room_card.dart';
 
 class RoomsScreen extends ConsumerWidget {
@@ -80,6 +81,10 @@ class RoomDetailScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(name)),
       body: CustomScrollView(
         slivers: [
+          const SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverToBoxAdapter(child: StaleDataBanner()),
+          ),
           if (groups.isEmpty)
             SliverToBoxAdapter(
               child: EmptyHint(

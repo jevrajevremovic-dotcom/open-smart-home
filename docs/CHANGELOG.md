@@ -3,6 +3,14 @@
 ## [Unreleased] – 0.1.0
 
 ### Dodato
+- Faza 8 – offline keš:
+  - poslednji snimak doma (stanja, registri, konfiguracija) čuva se u sirovom HA formatu i pri pokretanju se odmah prikazuje;
+  - podaci iz keša i podaci tokom prekida veze uvek su označeni trakom sa vremenom poslednjeg potvrđenog ažuriranja;
+  - dok podaci nisu aktuelni, kontrole su onemogućene, a servis komandi ih odbija;
+  - posle povezivanja puna sinhronizacija zamenjuje keš, a stari keš nikad ne prepisuje novije žive podatke;
+  - mobilni keš: privatni folder aplikacije, atomični upis, heširan naziv fajla; web keš: samo `sessionStorage` taba;
+  - upis 3 s posle poslednje promene i pri slanju aplikacije u pozadinu; odjava i brisanje podataka brišu keš;
+  - naziv doma se čita iz WS `get_config` i kešira.
 - Faza 7 – tablet i kiosk:
   - kiosk režim: fullscreen dashboard sa satom i datumom, tekst uvećan 20 %, bez standardne navigacije, ekran stalno uključen;
   - izlaz zaključan PIN-om (PBKDF2-HMAC-SHA256 sa solju, blokada 30 s posle 5 pogrešnih pokušaja);
@@ -32,4 +40,4 @@
 - Home Assistant REST klijent i WebSocket menadžer sa reconnect logikom.
 - Mock režim sa in-memory Home Assistant serverom.
 - Početni ekran sa statusom veze i živim prikazom promena stanja.
-- 139 unit/widget testova, uključujući proveru prelivanja na telefonu sa tekstom od 150 % i PBKDF2 test vektor iz RFC 7914.
+- 154 unit/widget testa, uključujući proveru prelivanja na telefonu sa tekstom od 150 %, PBKDF2 test vektor iz RFC 7914 i pokretanje bez servera sa keširanim podacima.

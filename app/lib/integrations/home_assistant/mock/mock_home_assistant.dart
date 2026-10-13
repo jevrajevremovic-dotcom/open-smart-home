@@ -31,6 +31,15 @@ class MockHomeAssistantServer {
 
   final registries = buildMockRegistries();
 
+  /// `GET /api/config` / WS `get_config` payload.
+  final Map<String, Object?> config = {
+    'location_name': 'Demo dom (mock)',
+    'version': version,
+    'time_zone': 'Europe/Belgrade',
+    'unit_system': {'temperature': '°C'},
+    'components': ['light', 'switch', 'sensor', 'climate', 'scene'],
+  };
+
   /// Artificial latency for `get_states`, to exercise events that arrive
   /// while a snapshot is loading.
   Duration getStatesDelay = Duration.zero;
@@ -286,6 +295,8 @@ class _MockSocket implements HaSocket {
             () => _emit(ok(snapshot)),
           );
         }
+      case 'get_config':
+        _emit(ok(_server.config));
       case 'config/area_registry/list':
         _emit(ok(_server.registries.areas));
       case 'config/device_registry/list':
@@ -372,13 +383,7 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   @override
   Future<HaConfig> fetchConfig() async {
     await _requireAuth();
-    return HaConfig.fromJson({
-      'location_name': 'Demo dom (mock)',
-      'version': MockHomeAssistantServer.version,
-      'time_zone': 'Europe/Belgrade',
-      'unit_system': {'temperature': '°C'},
-      'components': ['light', 'switch', 'sensor', 'climate', 'scene'],
-    });
+    return HaConfig.fromJson(server.config);
   }
 
   @override

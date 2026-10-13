@@ -36,7 +36,7 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 ## Sinhronizacija stanja (implementirano, `HomeStateRepository`)
 1. Posle `auth_ok` WebSocket menadžer ponovo šalje `subscribe_events` za `state_changed` i za `area_registry_updated`, `device_registry_updated` i `entity_registry_updated`.
-2. Repozitorijum zatim preko **istog soketa** šalje `config/area_registry/list`, `config/device_registry/list`, `config/entity_registry/list` i `get_states`. HA obrađuje poruke redom, pa je snimak sigurno napravljen posle početka pretplate.
+2. Repozitorijum zatim preko **istog soketa** šalje `config/area_registry/list`, `config/device_registry/list`, `config/entity_registry/list`, `get_states` i `get_config`. HA obrađuje poruke redom, pa je snimak sigurno napravljen posle početka pretplate.
 3. Događaji pristigli dok se snimak učitava čuvaju se u redu i primenjuju posle njega. Događaj stariji (`last_updated`) od poznatog stanja se odbacuje.
 4. Pri gubitku veze podaci ostaju vidljivi sa statusom `stale`; posle reconnect-a ceo postupak se ponavlja.
 5. Događaj o promeni registra pokreće ponovno učitavanje registara (debounce 500 ms).

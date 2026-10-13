@@ -5,7 +5,9 @@ import '../../../core/logging/app_logger.dart';
 import '../../../integrations/home_assistant/api/home_assistant_api.dart';
 import '../../../integrations/home_assistant/mappers/ha_command_translator.dart';
 import '../../authentication/application/session_controller.dart';
+import '../data/home_state_repository.dart';
 import '../domain/device_command.dart';
+import 'device_providers.dart';
 import '../domain/smart_home_device.dart';
 
 /// The single entry point for controlling devices.
@@ -17,10 +19,16 @@ class DeviceCommandService {
   DeviceCommandService(
     this._api, {
     this._translator = const HaCommandTranslator(),
+    this._isOnline,
   });
 
   final HomeAssistantApi _api;
   final HaCommandTranslator _translator;
+
+  /// Whether the shown data is live. Commands are refused while showing
+  /// cached/stale data: the user could not see the real current state, nor
+  /// the result of the command.
+  final bool Function()? _isOnline;
   static final _log = AppLogger('DeviceCommand');
 
   Future<void> execute(
@@ -28,6 +36,12 @@ class DeviceCommandService {
     DeviceCommand command, {
     bool confirmed = false,
   }) async {
+    if (!(_isOnline?.call() ?? true)) {
+      throw const AppFailure(
+        FailureKind.network,
+        debugMessage: 'data not live; command refused',
+      );
+    }
     if (!device.available) {
       throw AppFailure(
         FailureKind.unavailableEntity,
@@ -55,5 +69,10 @@ class DeviceCommandService {
 
 final deviceCommandServiceProvider = Provider<DeviceCommandService?>((ref) {
   final api = ref.watch(homeAssistantApiProvider);
-  return api == null ? null : DeviceCommandService(api);
+  return api == null
+      ? null
+      : DeviceCommandService(
+          api,
+          isOnline: () => ref.read(syncStatusProvider) == SyncStatus.live,
+        );
 });

@@ -97,6 +97,12 @@ Pravila koja kod sledi:
 - Platformski efekti (fullscreen, wakelock) su iza interfejsa `KioskPlatform`, pa testovi ne diraju platformske kanale. Greške na nepodržanim platformama (npr. Wake Lock API na `http://`) samo se loguju.
 - `AppLifecycleListener` u `SmartHomeApp` poziva `retryNow()` kad se aplikacija vrati u prvi plan.
 
+### Offline keš (faza 8)
+- `features/devices/data/cache`: `SnapshotCache` (interfejs), `FileSnapshotCache` (io), `SessionStorageSnapshotCache` (web), `InMemorySnapshotCache` (testovi). Sve operacije su serijalizovane, pa brisanje pri odjavi ne može da pretekne raniji upis.
+- Kešira se **sirov HA format** (`CachedHome`, verzija šeme 1), ne mapirani uređaji. Pri učitavanju podaci prolaze kroz isti mapper, pa poboljšanje mappera ne traži migraciju keša, a nepoznata verzija se jednostavno ignoriše.
+- `HomeStateRepository.start()` učitava keš paralelno sa povezivanjem. Keš se primenjuje samo ako živi podaci još nisu stigli, i to sa statusom `stale`/`syncing` i originalnim vremenom sinhronizacije.
+- Zašto ne Drift ili Isar: snimak je jedan dokument koji se čita i piše u celini, bez upita. Baza bi donela generisanje koda i SQLite/WASM na webu bez koristi. Ako kasnije zatrebaju upiti (istorija, energija), uvodi se tada.
+
 ### Mock režim
 `MockHomeAssistantServer` je in-memory HA: stanja u HA wire formatu (svetla, prekidači, senzori, klima, roletna, brava, kamera, energija, scena, automatizacija, nedostupan uređaj, slaba baterija), podskup servisa, i WebSocket protokol (`auth_required/auth/auth_ok`, `subscribe_events`, `ping`, `get_states`, `call_service`). Isti `HaWebSocketManager` radi i protiv mock-a, pa se mock režim i testovi ponašaju kao produkcija. Uključuje se sa `--dart-define=SMARTHOME_MOCK=true`, a `AppConfig` ga gasi kad je `kReleaseMode`.
 

@@ -355,7 +355,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String dataStaleSince(String time) {
-    return 'Van mreže — prikazani su podaci poslednji put ažurirani u $time. Možda nisu aktuelni.';
+    return 'Nema veze — prikazani su podaci poslednji put ažurirani $time. Možda nisu aktuelni.';
   }
 
   @override
@@ -812,7 +812,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get controlsOffline =>
-      'Nema veze sa serverom — komande trenutno ne mogu da se pošalju.';
+      'Kontrole će ponovo biti dostupne kada se veza uspostavi.';
 
   @override
   String get kioskSection => 'Kiosk režim (zidni tablet)';
@@ -895,6 +895,11 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String durationMinutes(int minutes) {
     return '$minutes min';
+  }
+
+  @override
+  String dataUpdating(String time) {
+    return 'Prikazani su podaci od $time — ažuriranje…';
   }
 }
 

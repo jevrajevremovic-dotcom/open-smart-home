@@ -130,7 +130,7 @@
       }
     }
   },
-  "dataStaleSince": "Offline — showing data last updated at {time}. It may not be current.",
+  "dataStaleSince": "Not connected — showing data last updated {time}. It may not be current.",
   "@dataStaleSince": {
     "placeholders": {
       "time": {
@@ -379,7 +379,7 @@
   "infoBattery": "Battery",
   "deviceNotFound": "This device no longer exists.",
   "unavailableBanner": "This device is unavailable. Controls are disabled until it reconnects.",
-  "controlsOffline": "No connection to the server — commands cannot be sent right now.",
+  "controlsOffline": "Controls are available again once the connection is restored.",
   "kioskSection": "Kiosk mode (wall tablet)",
   "kioskStart": "Start kiosk mode",
   "kioskStartOnLaunch": "Open in kiosk mode on launch",
@@ -423,6 +423,14 @@
     "placeholders": {
       "minutes": {
         "type": "int"
+      }
+    }
+  },
+  "dataUpdating": "Showing data from {time} — updating…",
+  "@dataUpdating": {
+    "placeholders": {
+      "time": {
+        "type": "String"
       }
     }
   }

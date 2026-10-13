@@ -7,6 +7,7 @@ import '../../../app/router/app_router.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../../app/theme/app_theme.dart';
 import '../application/device_providers.dart';
+import '../data/home_state_repository.dart';
 import '../domain/device_command.dart';
 import '../domain/smart_home_device.dart';
 import 'device_actions.dart';
@@ -62,19 +63,20 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
     final highlighted =
         tone == DeviceTone.active || tone == DeviceTone.critical;
 
+    final live = ref.watch(syncStatusProvider) == SyncStatus.live;
     final Widget? action = !device.available
         ? null
         : DevicePresentation.hasQuickToggle(device)
         ? Switch(
             value: device.state.isOn ?? false,
-            onChanged: _busy
+            onChanged: _busy || !live
                 ? null
                 : (on) => _run(on ? const TurnOn() : const TurnOff()),
           )
         : DevicePresentation.hasQuickActivate(device)
         ? IconButton.filledTonal(
             tooltip: l10n.activate,
-            onPressed: _busy ? null : () => _run(const Activate()),
+            onPressed: _busy || !live ? null : () => _run(const Activate()),
             icon: _busy
                 ? const SizedBox.square(
                     dimension: 18,

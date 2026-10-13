@@ -10,6 +10,7 @@ import '../../../integrations/home_assistant/models/ha_registry.dart';
 import '../../../integrations/home_assistant/websocket/connection_status.dart';
 import '../../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
 import '../domain/smart_home_device.dart';
+import 'cache/snapshot_cache.dart';
 
 enum SyncStatus {
   /// Nothing loaded yet.
@@ -33,6 +34,7 @@ class HomeSnapshot {
     this.status = SyncStatus.initial,
     this.lastSyncedAt,
     this.failure,
+    this.locationName,
   });
 
   static const HomeSnapshot empty = HomeSnapshot();
@@ -46,7 +48,13 @@ class HomeSnapshot {
   final DateTime? lastSyncedAt;
   final AppFailure? failure;
 
+  /// Home name from Home Assistant's configuration (cached too).
+  final String? locationName;
+
   bool get hasData => devices.isNotEmpty;
+
+  /// Data is confirmed current; commands may be sent.
+  bool get isLive => status == SyncStatus.live;
 
   HomeSnapshot copyWith({
     Map<String, SmartHomeDevice>? devices,
@@ -54,6 +62,7 @@ class HomeSnapshot {
     SyncStatus? status,
     DateTime? lastSyncedAt,
     AppFailure? failure,
+    String? locationName,
     bool clearFailure = false,
   }) => HomeSnapshot(
     devices: devices ?? this.devices,
@@ -61,6 +70,7 @@ class HomeSnapshot {
     status: status ?? this.status,
     lastSyncedAt: lastSyncedAt ?? this.lastSyncedAt,
     failure: clearFailure ? null : (failure ?? this.failure),
+    locationName: locationName ?? this.locationName,
   );
 }
 
@@ -77,16 +87,27 @@ class HomeSnapshot {
 /// After that each event re-maps only the affected entity (or all entities
 /// of its device when a battery/signal reading changed). Unchanged devices
 /// keep their object identity, so UI widgets watching them do not rebuild.
+///
+/// Offline cache: on start the last saved snapshot (if any) is shown at
+/// once with status [SyncStatus.stale] and its original sync time, until
+/// live data replaces it. Live data is saved [saveDelay] after the last
+/// change and on [flush] (e.g. when the app goes to the background).
 class HomeStateRepository {
   HomeStateRepository(
     this._ws, {
     this._mapper = const HaDeviceMapper(),
     this.registryRefreshDelay = const Duration(milliseconds: 500),
+    this._cache,
+    this._serverId,
+    this.saveDelay = const Duration(seconds: 3),
   });
 
   final HaWebSocketManager _ws;
   final HaDeviceMapper _mapper;
   final Duration registryRefreshDelay;
+  final SnapshotCache? _cache;
+  final String? _serverId;
+  final Duration saveDelay;
   static final _log = AppLogger('HomeState');
 
   static const _registryEvents = [
@@ -101,6 +122,18 @@ class HomeStateRepository {
 
   final Map<String, HaEntityState> _states = {};
   HaRegistries _registries = HaRegistries.empty;
+
+  /// Registry and config responses as received, for the cache.
+  ({Object? areas, Object? devices, Object? entities}) _rawRegistries = (
+    areas: null,
+    devices: null,
+    entities: null,
+  );
+  Object? _rawConfig;
+  bool _hasLiveData = false;
+  bool _dirty = false;
+  bool _disposed = false;
+  Timer? _saveTimer;
   Map<String, DeviceAuxiliaryInfo> _aux = const {};
 
   /// Non-null while a snapshot is loading; events are queued here.
@@ -125,9 +158,20 @@ class HomeStateRepository {
       )
       ..add(_ws.statusStream.listen(_onConnectionStatus));
     _onConnectionStatus(_ws.status);
+    unawaited(_loadCache());
   }
 
+  /// Saves pending changes now (call when the app goes to the background).
+  Future<void> flush() async {
+    _saveTimer?.cancel();
+    if (_dirty) await _save();
+  }
+
+  /// Stops all work. Does not save: on sign-out the cache is deleted right
+  /// after, and a late write must not bring the data back.
   Future<void> dispose() async {
+    _disposed = true;
+    _saveTimer?.cancel();
     _registryTimer?.cancel();
     for (final s in _subscriptions) {
       await s.cancel();
@@ -161,13 +205,15 @@ class HomeStateRepository {
     _pending = [];
     _emit(_snapshot.copyWith(status: SyncStatus.syncing, clearFailure: true));
     try {
-      final (registries, statesJson) = await (
+      final (registries, statesJson, config) = await (
         _loadRegistries(),
         _ws.sendCommand({'type': 'get_states'}),
+        _optional('get_config'),
       ).wait;
       if (generation != _syncGeneration) return;
 
       _registries = registries;
+      _rawConfig = config ?? _rawConfig;
       _states
         ..clear()
         ..addEntries(
@@ -181,7 +227,9 @@ class HomeStateRepository {
       for (final event in queued) {
         _applyToStates(event);
       }
+      _hasLiveData = true;
       _remapAll(status: SyncStatus.live);
+      _scheduleSave();
       _log.info(
         'Synced ${_states.length} entities, ${_registries.areas.length} areas',
       );
@@ -208,25 +256,26 @@ class HomeStateRepository {
   /// Registries are optional: on failure (older server, restricted user)
   /// the app continues without rooms and protocol information.
   Future<HaRegistries> _loadRegistries() async {
-    Future<Object?> list(String type) async {
-      try {
-        return await _ws.sendCommand({'type': type});
-      } on AppFailure catch (e) {
-        _log.warning('$type unavailable', e);
-        return null;
-      }
-    }
-
     final (areas, devices, entities) = await (
-      list('config/area_registry/list'),
-      list('config/device_registry/list'),
-      list('config/entity_registry/list'),
+      _optional('config/area_registry/list'),
+      _optional('config/device_registry/list'),
+      _optional('config/entity_registry/list'),
     ).wait;
+    _rawRegistries = (areas: areas, devices: devices, entities: entities);
     return HaRegistries.parse(
       areas: areas,
       devices: devices,
       entities: entities,
     );
+  }
+
+  Future<Object?> _optional(String type) async {
+    try {
+      return await _ws.sendCommand({'type': type});
+    } on AppFailure catch (e) {
+      _log.warning('$type unavailable', e);
+      return null;
+    }
   }
 
   void _scheduleRegistryRefresh() {
@@ -238,6 +287,7 @@ class HomeStateRepository {
       if (generation != _syncGeneration) return;
       _registries = registries;
       _remapAll(status: SyncStatus.live);
+      _scheduleSave();
     });
   }
 
@@ -274,6 +324,7 @@ class HomeStateRepository {
       _mapInto(devices, state);
     }
     _emit(_snapshot.copyWith(devices: devices, lastSyncedAt: DateTime.now()));
+    _scheduleSave();
   }
 
   /// Returns `false` when the event is older than what is already known.
@@ -291,7 +342,7 @@ class HomeStateRepository {
     return true;
   }
 
-  void _remapAll({required SyncStatus status}) {
+  void _remapAll({required SyncStatus status, DateTime? syncedAt}) {
     _aux = _mapper.collectAuxiliaryInfo(_states.values, _registries);
     final devices = _mapper.mapAll(
       _states.values,
@@ -312,8 +363,91 @@ class HomeStateRepository {
         devices: Map.unmodifiable(devices),
         rooms: Map.unmodifiable(rooms),
         status: status,
-        lastSyncedAt: DateTime.now(),
+        lastSyncedAt: syncedAt ?? DateTime.now(),
+        locationName: _locationName(_rawConfig),
         clearFailure: true,
+      ),
+    );
+  }
+
+  static String? _locationName(Object? config) {
+    if (config == null) return null;
+    try {
+      return HaConfig.fromJson(config).locationName;
+    } on AppFailure {
+      return null;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Offline cache
+
+  Future<void> _loadCache() async {
+    final cache = _cache;
+    final serverId = _serverId;
+    if (cache == null || serverId == null) return;
+    final cached = await cache.load(serverId);
+    // Live data may have arrived while the cache was being read.
+    if (cached == null || _hasLiveData || _disposed) return;
+
+    _registries = HaRegistries.parse(
+      areas: cached.areas,
+      devices: cached.devices,
+      entities: cached.entities,
+    );
+    _rawRegistries = (
+      areas: cached.areas,
+      devices: cached.devices,
+      entities: cached.entities,
+    );
+    _rawConfig = cached.config;
+    _states
+      ..clear()
+      ..addEntries(
+        parseStateList(cached.states).map((s) => MapEntry(s.entityId, s)),
+      );
+    // Keep "syncing" if a sync is already running; the data is not current
+    // either way and is marked with its original sync time.
+    _remapAll(
+      status: _snapshot.status == SyncStatus.syncing
+          ? SyncStatus.syncing
+          : SyncStatus.stale,
+      syncedAt: cached.lastSyncedAt,
+    );
+    _log.info(
+      'Showing cached data from ${cached.lastSyncedAt.toIso8601String()}',
+    );
+  }
+
+  void _scheduleSave() {
+    if (_cache == null || _serverId == null || _disposed) return;
+    _dirty = true;
+    _saveTimer?.cancel();
+    _saveTimer = Timer(saveDelay, () => unawaited(_save()));
+  }
+
+  Future<void> _save() async {
+    final cache = _cache;
+    final serverId = _serverId;
+    final syncedAt = _snapshot.lastSyncedAt;
+    if (cache == null ||
+        serverId == null ||
+        syncedAt == null ||
+        !_hasLiveData ||
+        _disposed) {
+      return;
+    }
+    _dirty = false;
+    await cache.save(
+      serverId,
+      CachedHome(
+        savedAt: DateTime.now(),
+        lastSyncedAt: syncedAt,
+        states: [for (final s in _states.values) s.toJson()],
+        areas: _rawRegistries.areas,
+        devices: _rawRegistries.devices,
+        entities: _rawRegistries.entities,
+        config: _rawConfig,
       ),
     );
   }

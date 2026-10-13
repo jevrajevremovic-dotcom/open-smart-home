@@ -30,6 +30,13 @@ HA podržava OAuth2 (`/auth/authorize`, `/auth/token`, refresh token). Uslov za 
 - **Referrer:** `index.html` postavlja `no-referrer`, da adresa doma ne odlazi trećim stranama.
 - **Glavni rizik je XSS:** sve što se izvrši u istom poreklu može da pročita `sessionStorage`. Zato aplikaciju ne hostujte na istom poreklu sa nepouzdanim sadržajem.
 
+## Offline keš
+- Sadrži poslednje poznato stanje doma (uključujući prisustvo, brave i alarm), ali nikada token.
+- **Mobilni:** privatni folder aplikacije (sandbox), izuzet iz Android backup-a; naziv fajla je heš adrese servera.
+- **Web:** samo `sessionStorage` kartice, pa podaci ne ostaju na deljenom računaru posle zatvaranja.
+- Briše se pri odjavi (za taj server) i pri „Obriši sve lokalne podatke” (sve).
+- Keširani podaci se uvek prikazuju sa oznakom vremena, a komande su blokirane dok se ne potvrde živi podaci.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

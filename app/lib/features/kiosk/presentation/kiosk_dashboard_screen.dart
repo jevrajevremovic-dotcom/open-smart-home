@@ -7,6 +7,7 @@ import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../dashboard/presentation/dashboard_screen.dart';
+import '../../devices/application/device_providers.dart';
 import 'kiosk_shell.dart';
 import 'pin_dialog.dart';
 
@@ -39,7 +40,9 @@ class KioskDashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final title =
-        ref.watch(serverConfigProvider).value?.locationName ?? l10n.appTitle;
+        ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
+        ref.watch(serverConfigProvider).value?.locationName ??
+        l10n.appTitle;
     return Scaffold(
       body: MockModeBanner(
         child: SafeArea(

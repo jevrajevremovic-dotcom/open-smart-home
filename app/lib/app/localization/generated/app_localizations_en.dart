@@ -1744,4 +1744,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanPointCamera => 'Point the camera at the Matter QR code.';
+
+  @override
+  String get zwaveTitle => 'Z-Wave';
+
+  @override
+  String get zwaveIntro =>
+      'Add a Z-Wave device through your Z-Wave JS controller.';
+
+  @override
+  String get zwaveNotAvailable =>
+      'The Z-Wave JS integration isn\'t set up in Home Assistant.';
+
+  @override
+  String get zwaveStart => 'Start inclusion';
+
+  @override
+  String get zwaveStop => 'Stop';
+
+  @override
+  String get zwaveStatusWaiting =>
+      'Put the device into inclusion mode (often three quick presses of its button; see the manual).';
+
+  @override
+  String get zwaveStatusFound => 'Device found…';
+
+  @override
+  String get zwaveStatusInterview =>
+      'Getting to know the device (interview)… battery devices can take a few minutes.';
+
+  @override
+  String get zwaveStatusDone => 'Device added';
+
+  @override
+  String get zwaveStatusFailed =>
+      'Inclusion didn\'t work. Try again closer to the controller.';
+
+  @override
+  String get zwaveStatusStopped => 'Inclusion stopped.';
+
+  @override
+  String get zwaveGrantTitle => 'Security';
+
+  @override
+  String get zwaveGrantBody =>
+      'The device asks for these security levels. Allowing all of them is recommended.';
+
+  @override
+  String get zwaveS2Unauth => 'S2 unauthenticated';
+
+  @override
+  String get zwaveS2Auth => 'S2 authenticated';
+
+  @override
+  String get zwaveS2Access => 'S2 access control (locks, garage doors)';
+
+  @override
+  String get zwaveS0 => 'S0 (legacy)';
+
+  @override
+  String get zwaveGrant => 'Allow';
+
+  @override
+  String get zwavePinTitle => 'PIN from the device';
+
+  @override
+  String zwavePinBody(String dsk) {
+    return 'Enter the first 5 digits of the DSK from the device label or box (usually underlined). The rest of the code: $dsk';
+  }
+
+  @override
+  String get zwavePinLabel => '5 digits';
+
+  @override
+  String get zwavePinInvalid => 'Enter exactly 5 digits.';
+
+  @override
+  String get zwaveSmartStart => 'SmartStart: scan QR';
+
+  @override
+  String get zwaveSmartStartHint =>
+      'Devices with a SmartStart QR code join by themselves once powered on.';
+
+  @override
+  String get zwaveSmartStartDone =>
+      'Device registered. Power it on; it joins by itself within a few minutes.';
+
+  @override
+  String get zwaveSmartStartInvalid => 'That isn\'t a Z-Wave QR code.';
+
+  @override
+  String get scanPointCameraZwave => 'Point the camera at the Z-Wave QR code.';
 }

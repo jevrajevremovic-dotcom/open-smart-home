@@ -803,5 +803,39 @@
   "matterNotAvailable": "The Matter integration isn't set up in Home Assistant. Add it there first.",
   "matterFailed": "The device couldn't be added. Make sure sharing is still on in the other app (the code is valid for a few minutes) and the device is on the same network.",
   "matterAdded": "Device added",
-  "scanPointCamera": "Point the camera at the Matter QR code."
+  "scanPointCamera": "Point the camera at the Matter QR code.",
+  "zwaveTitle": "Z-Wave",
+  "zwaveIntro": "Add a Z-Wave device through your Z-Wave JS controller.",
+  "zwaveNotAvailable": "The Z-Wave JS integration isn't set up in Home Assistant.",
+  "zwaveStart": "Start inclusion",
+  "zwaveStop": "Stop",
+  "zwaveStatusWaiting": "Put the device into inclusion mode (often three quick presses of its button; see the manual).",
+  "zwaveStatusFound": "Device found…",
+  "zwaveStatusInterview": "Getting to know the device (interview)… battery devices can take a few minutes.",
+  "zwaveStatusDone": "Device added",
+  "zwaveStatusFailed": "Inclusion didn't work. Try again closer to the controller.",
+  "zwaveStatusStopped": "Inclusion stopped.",
+  "zwaveGrantTitle": "Security",
+  "zwaveGrantBody": "The device asks for these security levels. Allowing all of them is recommended.",
+  "zwaveS2Unauth": "S2 unauthenticated",
+  "zwaveS2Auth": "S2 authenticated",
+  "zwaveS2Access": "S2 access control (locks, garage doors)",
+  "zwaveS0": "S0 (legacy)",
+  "zwaveGrant": "Allow",
+  "zwavePinTitle": "PIN from the device",
+  "zwavePinBody": "Enter the first 5 digits of the DSK from the device label or box (usually underlined). The rest of the code: {dsk}",
+  "zwavePinLabel": "5 digits",
+  "zwavePinInvalid": "Enter exactly 5 digits.",
+  "zwaveSmartStart": "SmartStart: scan QR",
+  "zwaveSmartStartHint": "Devices with a SmartStart QR code join by themselves once powered on.",
+  "zwaveSmartStartDone": "Device registered. Power it on; it joins by itself within a few minutes.",
+  "zwaveSmartStartInvalid": "That isn't a Z-Wave QR code.",
+  "scanPointCameraZwave": "Point the camera at the Z-Wave QR code.",
+  "@zwavePinBody": {
+    "placeholders": {
+      "dsk": {
+        "type": "String"
+      }
+    }
+  }
 }

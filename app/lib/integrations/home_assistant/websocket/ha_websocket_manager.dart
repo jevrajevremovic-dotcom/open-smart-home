@@ -81,6 +81,10 @@ class HaWebSocketManager {
   final Map<String, _EventSubscription> _subscriptions = {};
   final Map<int, _EventSubscription> _subscriptionsByServerId = {};
 
+  /// Streams of commands that answer with a series of events (e.g.
+  /// `zwave_js/add_node`), by message id.
+  final Map<int, StreamController<Map<String, Object?>>> _commandStreams = {};
+
   HaConnectionStatus get status => _status;
   Stream<HaConnectionStatus> get statusStream => _statusController.stream;
 
@@ -177,6 +181,52 @@ class HaWebSocketManager {
     );
     sub = _EventSubscription(eventType, controller);
     _subscriptions[key] = sub;
+    return controller.stream;
+  }
+
+  /// Sends a command that answers with a stream of events and yields each
+  /// event payload. Cancelling the stream unsubscribes on the server (which
+  /// for most such commands also stops what they started). The stream ends
+  /// with an error if the command fails or the connection drops.
+  Stream<Map<String, Object?>> subscribeCommand(Map<String, Object?> command) {
+    _ensureNotDisposed();
+    late final StreamController<Map<String, Object?>> controller;
+    int? id;
+    controller = StreamController<Map<String, Object?>>(
+      onListen: () async {
+        if (!_status.isConnected) {
+          controller.addError(
+            const AppFailure(
+              FailureKind.webSocket,
+              debugMessage: 'not connected',
+            ),
+          );
+          await controller.close();
+          return;
+        }
+        id = _nextId; // _send assigns this id
+        _commandStreams[id!] = controller;
+        try {
+          await _send(command);
+        } on AppFailure catch (e) {
+          _commandStreams.remove(id);
+          if (!controller.isClosed) {
+            controller.addError(e);
+            await controller.close();
+          }
+        }
+      },
+      onCancel: () async {
+        final subId = id;
+        if (subId == null || _commandStreams.remove(subId) == null) return;
+        if (!_status.isConnected) return;
+        try {
+          await _send({'type': 'unsubscribe_events', 'subscription': subId});
+        } on AppFailure catch (e) {
+          _log.debug('unsubscribe($subId) failed: $e');
+        }
+      },
+    );
     return controller.stream;
   }
 
@@ -334,6 +384,16 @@ class HaWebSocketManager {
         if (id is int) _pending[id]?.complete(null);
       case 'event':
         final id = message['id'];
+        // Owned and closed by subscribeCommand / _closeSocket.
+        // ignore: close_sinks
+        final stream = id is int ? _commandStreams[id] : null;
+        if (stream != null) {
+          final payload = message['event'];
+          if (payload is Map<String, Object?> && !stream.isClosed) {
+            stream.add(payload);
+          }
+          return;
+        }
         final sub = id is int ? _subscriptionsByServerId[id] : null;
         final event = message['event'];
         if (sub == null || event is! Map<String, Object?>) return;
@@ -397,6 +457,18 @@ class HaWebSocketManager {
 
     // Server-side subscriptions do not survive a new connection.
     _subscriptionsByServerId.clear();
+    for (final stream in _commandStreams.values) {
+      if (!stream.isClosed) {
+        stream.addError(
+          const AppFailure(
+            FailureKind.webSocket,
+            debugMessage: 'connection closed',
+          ),
+        );
+        unawaited(stream.close());
+      }
+    }
+    _commandStreams.clear();
     for (final sub in _subscriptions.values) {
       sub.serverId = null;
       if (sub.controller.hasListener) unawaited(_subscribe(sub));

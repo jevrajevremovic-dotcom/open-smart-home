@@ -3086,6 +3086,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Point the camera at the Matter QR code.'**
   String get scanPointCamera;
+
+  /// No description provided for @zwaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Z-Wave'**
+  String get zwaveTitle;
+
+  /// No description provided for @zwaveIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Z-Wave device through your Z-Wave JS controller.'**
+  String get zwaveIntro;
+
+  /// No description provided for @zwaveNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The Z-Wave JS integration isn\'t set up in Home Assistant.'**
+  String get zwaveNotAvailable;
+
+  /// No description provided for @zwaveStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start inclusion'**
+  String get zwaveStart;
+
+  /// No description provided for @zwaveStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get zwaveStop;
+
+  /// No description provided for @zwaveStatusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Put the device into inclusion mode (often three quick presses of its button; see the manual).'**
+  String get zwaveStatusWaiting;
+
+  /// No description provided for @zwaveStatusFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Device found…'**
+  String get zwaveStatusFound;
+
+  /// No description provided for @zwaveStatusInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting to know the device (interview)… battery devices can take a few minutes.'**
+  String get zwaveStatusInterview;
+
+  /// No description provided for @zwaveStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Device added'**
+  String get zwaveStatusDone;
+
+  /// No description provided for @zwaveStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Inclusion didn\'t work. Try again closer to the controller.'**
+  String get zwaveStatusFailed;
+
+  /// No description provided for @zwaveStatusStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Inclusion stopped.'**
+  String get zwaveStatusStopped;
+
+  /// No description provided for @zwaveGrantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get zwaveGrantTitle;
+
+  /// No description provided for @zwaveGrantBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The device asks for these security levels. Allowing all of them is recommended.'**
+  String get zwaveGrantBody;
+
+  /// No description provided for @zwaveS2Unauth.
+  ///
+  /// In en, this message translates to:
+  /// **'S2 unauthenticated'**
+  String get zwaveS2Unauth;
+
+  /// No description provided for @zwaveS2Auth.
+  ///
+  /// In en, this message translates to:
+  /// **'S2 authenticated'**
+  String get zwaveS2Auth;
+
+  /// No description provided for @zwaveS2Access.
+  ///
+  /// In en, this message translates to:
+  /// **'S2 access control (locks, garage doors)'**
+  String get zwaveS2Access;
+
+  /// No description provided for @zwaveS0.
+  ///
+  /// In en, this message translates to:
+  /// **'S0 (legacy)'**
+  String get zwaveS0;
+
+  /// No description provided for @zwaveGrant.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get zwaveGrant;
+
+  /// No description provided for @zwavePinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN from the device'**
+  String get zwavePinTitle;
+
+  /// No description provided for @zwavePinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the first 5 digits of the DSK from the device label or box (usually underlined). The rest of the code: {dsk}'**
+  String zwavePinBody(String dsk);
+
+  /// No description provided for @zwavePinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'5 digits'**
+  String get zwavePinLabel;
+
+  /// No description provided for @zwavePinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter exactly 5 digits.'**
+  String get zwavePinInvalid;
+
+  /// No description provided for @zwaveSmartStart.
+  ///
+  /// In en, this message translates to:
+  /// **'SmartStart: scan QR'**
+  String get zwaveSmartStart;
+
+  /// No description provided for @zwaveSmartStartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices with a SmartStart QR code join by themselves once powered on.'**
+  String get zwaveSmartStartHint;
+
+  /// No description provided for @zwaveSmartStartDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Device registered. Power it on; it joins by itself within a few minutes.'**
+  String get zwaveSmartStartDone;
+
+  /// No description provided for @zwaveSmartStartInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'That isn\'t a Z-Wave QR code.'**
+  String get zwaveSmartStartInvalid;
+
+  /// No description provided for @scanPointCameraZwave.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the Z-Wave QR code.'**
+  String get scanPointCameraZwave;
 }
 
 class _AppLocalizationsDelegate

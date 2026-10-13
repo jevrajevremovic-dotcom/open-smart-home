@@ -80,6 +80,14 @@ Koristi API HA frontenda (nije u developer dokumentaciji, potreban je administra
 - WS `matter/commission` sa `{"code": "<MT:… ili 11/21 cifara>", "network_only": true}` (frontend API, administrator). Kod se pre slanja proverava (QR `MT:` ili ručni kod sa Verhoeff kontrolnom cifrom).
 - QR se skenira kamerom telefona (`mobile_scanner`, ne na webu); slika se ne čuva. Potpuno novi uređaji preko Bluetooth-a zahtevaju nativne Matter API-je (Companion app) – nije u aplikaciji.
 
+## Dodavanje Z-Wave uređaja
+
+Frontend WS komande Z-Wave JS integracije (administrator), opciono:
+- `config_entries/get` (`domain: zwave_js`) – `entry_id` učitane integracije.
+- `zwave_js/add_node` (`inclusion_strategy: 0` = S2 kad uređaj podržava) – pretplata koja šalje događaje (`inclusion started`, `node found`, `grant security classes`, `validate dsk and enter pin`, `interview started/completed/failed`, `device registered`); otkazivanje pretplate zaustavlja uključivanje (i kad se ekran napusti).
+- `zwave_js/grant_security_classes`, `zwave_js/validate_dsk_and_enter_pin` (PIN = prvih 5 cifara DSK-a sa nalepnice), `zwave_js/provision_smart_start_node` (SmartStart QR, počinje sa „90”).
+- `HaWebSocketManager.subscribeCommand()` – opšta podrška za komande koje odgovaraju nizom događaja; `unsubscribe_events` pri otkazivanju; prekid veze završava tok greškom.
+
 ## Dodavanje Zigbee uređaja
 
 - `GET /api/services` (dokumentovano) – otkrivanje: ZHA ako postoji servis `zha.permit`; Zigbee2MQTT ako postoji `mqtt.publish` i poznat je Zigbee2MQTT bridge uređaj.

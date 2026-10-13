@@ -391,6 +391,41 @@ class MockHomeAssistantServer {
 
   void flowAbort(String flowId) => _flows.remove(flowId);
 
+  /// Whether the demo hub has a Z-Wave stick (tests switch it off).
+  bool zwaveAvailable = true;
+
+  void addZwaveDevice() {
+    if (_states.containsKey('sensor.aeotec_multisensor_7_temperature')) return;
+    _addWifiDevice(
+      deviceId: 'd_zwave_ms7',
+      name: 'Aeotec MultiSensor 7',
+      manufacturer: 'Aeotec Ltd.',
+      model: 'ZWA024',
+      platform: 'zwave_js',
+      identifier: ['zwave_js', '3967189138-7'],
+      entities: [
+        (
+          'sensor.aeotec_multisensor_7_temperature',
+          '21.8',
+          {
+            'friendly_name': 'Aeotec MultiSensor 7 temperatura',
+            'device_class': 'temperature',
+            'unit_of_measurement': '°C',
+            'state_class': 'measurement',
+          },
+        ),
+        (
+          'binary_sensor.aeotec_multisensor_7_motion',
+          'off',
+          {
+            'friendly_name': 'Aeotec MultiSensor 7 pokret',
+            'device_class': 'motion',
+          },
+        ),
+      ],
+    );
+  }
+
   /// `matter/commission` for a shared device: any well-formed code works
   /// once; `00000000000`-like codes fail as if the device were unreachable.
   bool commissionMatter(String code) {
@@ -894,6 +929,9 @@ class _MockSocket implements HaSocket {
       case 'subscribe_events':
         _subscriptions[id!] = msg['event_type'] as String?;
         _emit(ok());
+      case 'unsubscribe_events' when msg['subscription'] == _zwaveSub:
+        _stopZwave();
+        _emit(ok());
       case 'unsubscribe_events':
         final known = _subscriptions.containsKey(msg['subscription']);
         _subscriptions.remove(msg['subscription']);
@@ -950,6 +988,64 @@ class _MockSocket implements HaSocket {
         _emit(ok(_server.registries.areas));
       case 'config/device_registry/list':
         _emit(ok(_server.registries.devices));
+      case 'config_entries/get':
+        _emit(
+          ok([
+            if (msg['domain'] == 'zwave_js' && _server.zwaveAvailable)
+              {
+                'entry_id': 'zwavejs01',
+                'domain': 'zwave_js',
+                'title': 'Z-Wave JS',
+                'state': 'loaded',
+              },
+          ]),
+        );
+      case 'zwave_js/add_node':
+        _stopZwave();
+        _zwaveSub = id;
+        _emit(ok());
+        _zwaveAfter(100, {'event': 'inclusion started', 'secure': true});
+        _zwaveAfter(3000, {
+          'event': 'node found',
+          'node': {'node_id': 7},
+        });
+        _zwaveAfter(3500, {
+          'event': 'grant security classes',
+          'requested_grant': {
+            'securityClasses': [1, 0],
+            'clientSideAuth': false,
+          },
+        });
+      case 'zwave_js/grant_security_classes':
+        _emit(ok());
+        final classes = msg['security_classes'];
+        if (classes is List && classes.contains(1)) {
+          _zwaveAfter(500, {
+            'event': 'validate dsk and enter pin',
+            'dsk': '12345-23456-34567-45678-56789-01234-12345-23456',
+          });
+        } else {
+          _zwaveInterview();
+        }
+      case 'zwave_js/validate_dsk_and_enter_pin':
+        _emit(ok());
+        if (msg['pin'] == '12345') {
+          _zwaveInterview();
+        } else {
+          _zwaveAfter(300, {'event': 'inclusion failed'});
+        }
+      case 'zwave_js/provision_smart_start_node':
+        final qr = msg['qr_code_string'];
+        if (qr is String && RegExp(r'^90\d{50,}$').hasMatch(qr)) {
+          _emit(ok());
+        } else {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'invalid_format', 'message': 'Invalid QR code'},
+          });
+        }
       case 'matter/commission':
         final code = msg['code'];
         if (code is String && _server.commissionMatter(code)) {
@@ -1013,7 +1109,46 @@ class _MockSocket implements HaSocket {
     }
   }
 
+  // --- Z-Wave inclusion simulation ---
+  int? _zwaveSub;
+  final List<Timer> _zwaveTimers = [];
+
+  void _zwaveAfter(int ms, Map<String, Object?> event) {
+    final sub = _zwaveSub;
+    _zwaveTimers.add(
+      Timer(Duration(milliseconds: ms), () {
+        if (_zwaveSub == sub && sub != null) {
+          _emit({'id': sub, 'type': 'event', 'event': event});
+        }
+      }),
+    );
+  }
+
+  void _zwaveInterview() {
+    _zwaveAfter(300, {'event': 'interview started'});
+    _zwaveTimers.add(
+      Timer(const Duration(milliseconds: 1800), () {
+        if (_zwaveSub == null) return;
+        _server.addZwaveDevice();
+      }),
+    );
+    _zwaveAfter(2000, {
+      'event': 'device registered',
+      'device': {'name': 'Aeotec MultiSensor 7', 'id': 'd_zwave_ms7'},
+    });
+    _zwaveAfter(2500, {'event': 'interview completed'});
+  }
+
+  void _stopZwave() {
+    for (final t in _zwaveTimers) {
+      t.cancel();
+    }
+    _zwaveTimers.clear();
+    _zwaveSub = null;
+  }
+
   Future<void> _serverClose() async {
+    _stopZwave();
     _server._sockets.remove(this);
     await _out.close();
   }

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
@@ -11,6 +10,7 @@ import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../data/matter_pairing.dart';
+import 'qr_scan_page.dart';
 
 /// Whether Home Assistant has the Matter integration.
 final matterAvailableProvider = Provider.autoDispose<bool?>((ref) {
@@ -45,8 +45,14 @@ class _MatterPairingScreenState extends ConsumerState<MatterPairingScreen> {
   }
 
   Future<void> _scan() async {
-    final scanned = await Navigator.of(context)
-        .push<String>(MaterialPageRoute(builder: (_) => const _QrScanPage()));
+    final scanned = await Navigator.of(context).push<String>(
+      MaterialPageRoute(
+        builder: (context) => QrScanPage(
+          hint: context.l10n.scanPointCamera,
+          accept: (v) => v.toUpperCase().startsWith('MT:'),
+        ),
+      ),
+    );
     if (scanned != null && mounted) {
       _code.text = scanned;
       await _add();
@@ -190,68 +196,6 @@ class _MatterPairingScreenState extends ConsumerState<MatterPairingScreen> {
               ),
             ),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-/// Camera view that returns the first Matter QR payload it sees.
-class _QrScanPage extends StatefulWidget {
-  const _QrScanPage();
-
-  @override
-  State<_QrScanPage> createState() => _QrScanPageState();
-}
-
-class _QrScanPageState extends State<_QrScanPage> {
-  final _controller = MobileScannerController(
-    formats: const [BarcodeFormat.qrCode],
-  );
-  bool _done = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        title: Text(l10n.matterScan),
-      ),
-      body: Stack(
-        children: [
-          MobileScanner(
-            controller: _controller,
-            onDetect: (capture) {
-              if (_done) return;
-              for (final b in capture.barcodes) {
-                final value = b.rawValue;
-                if (value != null && value.toUpperCase().startsWith('MT:')) {
-                  _done = true;
-                  Navigator.of(context).pop(value);
-                  return;
-                }
-              }
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                l10n.scanPointCamera,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
-              ),
-            ),
-          ),
         ],
       ),
     );

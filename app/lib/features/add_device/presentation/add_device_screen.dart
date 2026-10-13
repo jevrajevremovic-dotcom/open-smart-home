@@ -16,6 +16,7 @@ import '../application/add_device_providers.dart';
 import '../data/zigbee_pairing.dart';
 import 'discovered_devices_screen.dart';
 import 'matter_screen.dart';
+import 'zwave_screen.dart';
 
 /// Step 1: what kind of device. Zigbee works today; the others follow.
 class AddDeviceScreen extends ConsumerWidget {
@@ -122,10 +123,14 @@ class AddDeviceScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           option(
             key: const Key('addZwave'),
-            soon: true,
             icon: Icons.settings_input_antenna,
             title: l10n.addDeviceZwave,
-            subtitle: 'S2 / SmartStart',
+            subtitle: '${l10n.zwaveIntro} · S2 / SmartStart',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const ZwaveInclusionScreen(),
+              ),
+            ),
           ),
         ],
       ),

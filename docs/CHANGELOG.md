@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- „Dodaj uređaj → Z-Wave”: uključivanje preko Z-Wave JS sa S2 bezbednošću (izbor nivoa, PIN sa nalepnice), praćenje intervjua i lista novih uređaja; SmartStart prijava skeniranjem QR koda. Uključivanje se zaustavlja pri izlasku sa ekrana.
 - „Dodaj uređaj → Matter”: dodavanje Matter uređaja deljenog iz druge aplikacije (Google Home, Apple Home, SmartThings…) skeniranjem QR koda ili unosom 11-cifrenog koda (provera kontrolne cifre), preko HA Matter integracije.
 - „Dodaj uređaj → Wi-Fi i LAN”: lista uređaja koje je HA pronašao na mreži (Shelly, ESPHome, Hue, Cast…) i vođeno podešavanje u aplikaciji – HA koraci i formulari prikazani na jeziku aplikacije, greške kod polja, na kraju lista novih uređaja.
 - Glasovne komande u Assistu: mikrofon pored polja za unos; govor se pretvara u tekst na telefonu (podrazumevano samo na uređaju; prepoznavanje preko interneta samo uz izričitu dozvolu, pita se jednom i menja u Podešavanjima → Privatnost), tekst ide u HA Assist.

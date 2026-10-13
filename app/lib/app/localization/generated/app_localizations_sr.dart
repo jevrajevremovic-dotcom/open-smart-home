@@ -1753,6 +1753,97 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get scanPointCamera => 'Usmerite kameru na Matter QR kod.';
+
+  @override
+  String get zwaveTitle => 'Z-Wave';
+
+  @override
+  String get zwaveIntro =>
+      'Dodajte Z-Wave uređaj preko vašeg Z-Wave JS kontrolera.';
+
+  @override
+  String get zwaveNotAvailable =>
+      'Z-Wave JS integracija nije podešena u Home Assistantu.';
+
+  @override
+  String get zwaveStart => 'Pokreni uključivanje';
+
+  @override
+  String get zwaveStop => 'Zaustavi';
+
+  @override
+  String get zwaveStatusWaiting =>
+      'Stavite uređaj u režim uključivanja (često tri brza pritiska dugmeta; pogledajte uputstvo).';
+
+  @override
+  String get zwaveStatusFound => 'Uređaj je pronađen…';
+
+  @override
+  String get zwaveStatusInterview =>
+      'Upoznajem uređaj (intervju)… uređajima na bateriju može trebati nekoliko minuta.';
+
+  @override
+  String get zwaveStatusDone => 'Uređaj je dodat';
+
+  @override
+  String get zwaveStatusFailed =>
+      'Uključivanje nije uspelo. Pokušajte ponovo, bliže kontroleru.';
+
+  @override
+  String get zwaveStatusStopped => 'Uključivanje je zaustavljeno.';
+
+  @override
+  String get zwaveGrantTitle => 'Bezbednost';
+
+  @override
+  String get zwaveGrantBody =>
+      'Uređaj traži ove nivoe bezbednosti. Preporučeno je dozvoliti sve.';
+
+  @override
+  String get zwaveS2Unauth => 'S2 bez autentifikacije';
+
+  @override
+  String get zwaveS2Auth => 'S2 sa autentifikacijom';
+
+  @override
+  String get zwaveS2Access => 'S2 kontrola pristupa (brave, garažna vrata)';
+
+  @override
+  String get zwaveS0 => 'S0 (stari način)';
+
+  @override
+  String get zwaveGrant => 'Dozvoli';
+
+  @override
+  String get zwavePinTitle => 'PIN sa uređaja';
+
+  @override
+  String zwavePinBody(String dsk) {
+    return 'Unesite prvih 5 cifara DSK koda sa nalepnice uređaja ili kutije (obično podvučene). Ostatak koda: $dsk';
+  }
+
+  @override
+  String get zwavePinLabel => '5 cifara';
+
+  @override
+  String get zwavePinInvalid => 'Unesite tačno 5 cifara.';
+
+  @override
+  String get zwaveSmartStart => 'SmartStart: skeniraj QR';
+
+  @override
+  String get zwaveSmartStartHint =>
+      'Uređaji sa SmartStart QR kodom se sami pridruže kad ih uključite.';
+
+  @override
+  String get zwaveSmartStartDone =>
+      'Uređaj je prijavljen. Uključite ga; pridružiće se sam za nekoliko minuta.';
+
+  @override
+  String get zwaveSmartStartInvalid => 'To nije Z-Wave QR kod.';
+
+  @override
+  String get scanPointCameraZwave => 'Usmerite kameru na Z-Wave QR kod.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

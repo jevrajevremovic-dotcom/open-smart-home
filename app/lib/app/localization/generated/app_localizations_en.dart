@@ -919,4 +919,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginFailed => 'Sign-in did not complete. Please try again.';
+
+  @override
+  String get discoveryTitle => 'Home Assistant on this network';
+
+  @override
+  String get discoverySearching => 'Searching…';
+
+  @override
+  String get discoveryNothingFound =>
+      'No server found automatically. Enter the address below.';
+
+  @override
+  String get discoverySearchAgain => 'Search again';
 }

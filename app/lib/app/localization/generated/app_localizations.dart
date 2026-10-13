@@ -1676,6 +1676,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign-in did not complete. Please try again.'**
   String get loginFailed;
+
+  /// No description provided for @discoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant on this network'**
+  String get discoveryTitle;
+
+  /// No description provided for @discoverySearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching…'**
+  String get discoverySearching;
+
+  /// No description provided for @discoveryNothingFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No server found automatically. Enter the address below.'**
+  String get discoveryNothingFound;
+
+  /// No description provided for @discoverySearchAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Search again'**
+  String get discoverySearchAgain;
 }
 
 class _AppLocalizationsDelegate

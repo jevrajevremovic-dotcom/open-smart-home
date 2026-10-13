@@ -15,4 +15,6 @@
 
 Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR i ESPHome (`gateway/`, [GATEWAY.md](GATEWAY.md)) ✅
 
-Kasnije: OAuth2 prijava, mDNS otkrivanje servera, energy dashboard, kamere, alarm panel, biometrijska potvrda, multi-home, uloge, instalaterski režim, push, sopstveni backend, vizuelni editor automatizacija.
+Urađeno posle 0.1.0: OAuth2 prijava na webu ✅, mDNS otkrivanje servera ✅
+
+Kasnije: OAuth2 na mobilnom, energy dashboard, kamere, alarm panel, biometrijska potvrda, multi-home, uloge, instalaterski režim, push, sopstveni backend, vizuelni editor automatizacija.

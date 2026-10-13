@@ -8,6 +8,7 @@
 | „Server je odgovorio, ali ne kao Home Assistant” | Na adresi je nešto drugo (ruter, reverse proxy stranica). Proverite port. Reverse proxy mora da prosleđuje `/api/` i `/api/websocket` (WebSocket upgrade). HA ne podržava rad sa podputanje (`/ha`). |
 | „Pristupni token je odbijen” | Token je pogrešno kopiran, obrisan u HA profilu ili je korisnik deaktiviran. Napravite novi u Profil → Security → Long-lived access tokens. |
 | „Problem sa sertifikatom” | HTTPS sa samopotpisanim sertifikatom: aplikacija prikazuje otisak; uporedite ga sa sertifikatom na serveru i potvrdite. Na webu sertifikat mora prihvatiti pregledač. |
+| Server se ne pojavljuje u „Home Assistant na ovoj mreži” | Telefon mora biti na istoj Wi-Fi mreži (ne gost-mreži) i ruter ne sme da blokira multicast (mDNS). U HA mora biti uključena integracija *Zeroconf* (deo `default_config`). Na iPhone-u dozvolite pristup lokalnoj mreži (Podešavanja → Privatnost → Lokalna mreža). Emulator je iza NAT-a i ne vidi kućnu mrežu. Adresu uvek možete uneti ručno. |
 | Android emulator ne vidi HA na istom računaru | Iz emulatora je računar `10.0.2.2`, npr. `http://10.0.2.2:8123`. |
 | Javna `http://` adresa je blokirana | Namerno – token bi putovao nešifrovano. Koristite HTTPS ili potvrdite rizik (npr. VPN). iOS dodatno blokira čist HTTP ka javnim nazivima. |
 

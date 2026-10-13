@@ -5,6 +5,9 @@ Koriste se isključivo dokumentovani API-ji:
 - WebSocket: https://developers.home-assistant.io/docs/api/websocket/
 - Autentifikacija: https://developers.home-assistant.io/docs/auth_api/
 
+## Otkrivanje servera (zeroconf)
+Home Assistant se oglašava kao `_home-assistant._tcp` (integracija *Zeroconf*, deo `default_config`). Iz TXT zapisa se čitaju `location_name`, `version`, `uuid`, `internal_url` i `base_url`. Izbor adrese i pravila (samo lokalne adrese, IPv4 pre `.local`) opisani su u `server_discovery.dart`. Pronađena adresa prolazi kroz istu proveru kao ručno uneta (`GET /api/` → 401).
+
 ## REST
 
 | Poziv | Gde | Svrha |

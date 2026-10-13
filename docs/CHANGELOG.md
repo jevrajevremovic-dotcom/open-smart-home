@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Automatsko pronalaženje Home Assistant servera na lokalnoj mreži (mDNS `_home-assistant._tcp`, Android NsdManager / Apple Bonjour), pretraga od 10 s sa ponavljanjem, samo lokalne adrese, IPv4 pre `.local`.
 - OAuth2 prijava na webu (HA login stranica, automatska obnova tokena, opoziv pri odjavi, „Zapamti me“); kompatibilno sa tokenima sačuvanim u 0.1.0.
 - `gateway/`: Docker Compose za lokalni hub (Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR, ESPHome) sa profilima, named volumenima, health check-ovima, `.env.example`, MQTT lozinkama generisanim iz okruženja i backup/restore skriptama; uputstvo `docs/GATEWAY.md`.
 - Apache-2.0 licenca i NOTICE.

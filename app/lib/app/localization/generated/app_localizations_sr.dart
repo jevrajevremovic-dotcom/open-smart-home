@@ -921,6 +921,19 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get loginFailed => 'Prijava nije završena. Pokušajte ponovo.';
+
+  @override
+  String get discoveryTitle => 'Home Assistant na ovoj mreži';
+
+  @override
+  String get discoverySearching => 'Pretraga…';
+
+  @override
+  String get discoveryNothingFound =>
+      'Server nije automatski pronađen. Unesite adresu ispod.';
+
+  @override
+  String get discoverySearchAgain => 'Traži ponovo';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

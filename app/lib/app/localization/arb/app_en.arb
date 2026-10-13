@@ -439,5 +439,9 @@
   "rememberMe": "Remember me on this device",
   "rememberMeHint": "Stay signed in after the browser is closed. You can revoke access anytime in your Home Assistant profile (Security → Refresh tokens).",
   "orUseToken": "Or use a long-lived access token",
-  "loginFailed": "Sign-in did not complete. Please try again."
+  "loginFailed": "Sign-in did not complete. Please try again.",
+  "discoveryTitle": "Home Assistant on this network",
+  "discoverySearching": "Searching…",
+  "discoveryNothingFound": "No server found automatically. Enter the address below.",
+  "discoverySearchAgain": "Search again"
 }

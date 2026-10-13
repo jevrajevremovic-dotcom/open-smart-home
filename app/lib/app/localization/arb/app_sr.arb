@@ -262,5 +262,9 @@
   "rememberMe": "Zapamti me na ovom uređaju",
   "rememberMeHint": "Ostajete prijavljeni i posle zatvaranja pregledača. Pristup možete opozvati bilo kada u Home Assistant profilu (Security → Refresh tokens).",
   "orUseToken": "Ili koristite dugotrajni pristupni token",
-  "loginFailed": "Prijava nije završena. Pokušajte ponovo."
+  "loginFailed": "Prijava nije završena. Pokušajte ponovo.",
+  "discoveryTitle": "Home Assistant na ovoj mreži",
+  "discoverySearching": "Pretraga…",
+  "discoveryNothingFound": "Server nije automatski pronađen. Unesite adresu ispod.",
+  "discoverySearchAgain": "Traži ponovo"
 }

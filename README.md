@@ -6,7 +6,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 
 ## Mogućnosti (trenutno)
 
-- Onboarding: dobrodošlica → izbor jezika → adresa servera → provera dostupnosti → pristupni token
+- Onboarding: dobrodošlica → izbor jezika → **automatsko pronalaženje servera na mreži (mDNS)** ili ručna adresa → provera dostupnosti → prijava
 - Validacija adrese (IP, DNS, `.local`, HTTPS domen), procena rizika (lokalno / javno / javno bez HTTPS-a)
 - Samopotpisani sertifikat se prihvata **samo** eksplicitnim pinovanjem SHA-256 otiska, nikad automatski
 - Token u Keychain-u / Android Keystore-u (`flutter_secure_storage`), nikad u logovima ni u SharedPreferences
@@ -37,7 +37,8 @@ Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji:
 | `go_router` | navigacija, redirect na osnovu sesije |
 | `dio` | REST klijent: timeout-i, mapiranje grešaka, prilagođen `HttpClient` za TLS pinovanje |
 | `web_socket_channel` | WebSocket transport (`IOWebSocketChannel` sa istim TLS pravilima; u pregledaču browser WebSocket) |
-| `web` | pristup `sessionStorage` za token u web verziji |
+| `web` | pristup `sessionStorage`/`localStorage` u web verziji |
+| `nsd` | mDNS/zeroconf pretraga (`_home-assistant._tcp`) preko sistemskih servisa: Android NsdManager, Apple Bonjour |
 | `flutter_secure_storage` | Keychain / Keystore za pristupni token |
 | `shared_preferences` | samo netajna podešavanja (tema, jezik, adresa servera) |
 | `crypto` | SHA-256 otisak sertifikata |
@@ -189,7 +190,7 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 ## Poznata ograničenja
 
 - Mobilni koristi long-lived token; OAuth2 je za sada samo na webu – vidi [SECURITY.md](docs/SECURITY.md#autentifikacija).
-- Automatsko pronalaženje servera (mDNS/zeroconf) još nije implementirano; adresa se unosi ručno.
+- Automatsko pronalaženje servera radi na Androidu i iOS-u; na webu nije moguće (pregledači ne podržavaju mDNS), pa se predlaže adresa stranice.
 - iOS ATS blokira čist HTTP ka javnim **nazivima domena** (IP adrese i `.local` rade). To je namerno; za udaljeni pristup koristite HTTPS.
 - Na webu se keš (kao i token) čuva samo dok je kartica otvorena.
 - Na webu nema pinovanja sertifikata (vidi „Web verzija”).

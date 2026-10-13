@@ -72,6 +72,10 @@
 		<true/>
 	</dict>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Used to connect to your Home Assistant server on the local network.</string>
+	<string>Used to find and connect to your Home Assistant server on the local network.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_home-assistant._tcp</string>
+	</array>
 </dict>
 </plist>

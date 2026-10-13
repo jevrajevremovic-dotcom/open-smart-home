@@ -11,6 +11,8 @@ import '../../../core/network/server_address.dart';
 import '../../../core/widgets/responsive.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../application/connection_setup_controller.dart';
+import '../application/discovery_controller.dart';
+import '../data/server_discovery.dart';
 import 'certificate_dialog.dart';
 
 class ServerAddressScreen extends ConsumerStatefulWidget {
@@ -36,6 +38,18 @@ class _ServerAddressScreenState extends ConsumerState<ServerAddressScreen> {
   void initState() {
     super.initState();
     _updatePreview(_controller.text);
+    // Look for servers on the network unless an address is already known.
+    if (_controller.text.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.read(discoveryControllerProvider.notifier).start();
+      });
+    }
+  }
+
+  Future<void> _useDiscovered(DiscoveredServer server) async {
+    _controller.text = server.address.toString();
+    _updatePreview(_controller.text);
+    await _check();
   }
 
   @override
@@ -91,7 +105,9 @@ class _ServerAddressScreenState extends ConsumerState<ServerAddressScreen> {
                     l10n.serverAddressIntro,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
+                  _DiscoveredServers(onSelected: _useDiscovered),
+                  const SizedBox(height: 16),
                   TextField(
                     key: const Key('serverAddressField'),
                     controller: _controller,
@@ -211,3 +227,66 @@ String addressErrorMessage(AppLocalizations l10n, ServerAddressError error) =>
       ServerAddressError.invalidPort => l10n.addressErrorPort,
       ServerAddressError.blockedMixedContent => l10n.addressErrorMixedContent,
     };
+
+/// Servers found on the local network via mDNS; tap one to use it.
+class _DiscoveredServers extends ConsumerWidget {
+  const _DiscoveredServers({required this.onSelected});
+
+  final ValueChanged<DiscoveredServer> onSelected;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(discoveryControllerProvider.notifier);
+    if (!controller.isSupported) return const SizedBox.shrink();
+    final l10n = context.l10n;
+    final state = ref.watch(discoveryControllerProvider);
+    final theme = Theme.of(context);
+
+    return Card.outlined(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ListTile(
+            title: Text(l10n.discoveryTitle, style: theme.textTheme.titleSmall),
+            trailing: state.searching
+                ? const SizedBox.square(
+                    dimension: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : TextButton(
+                    key: const Key('discoveryRetry'),
+                    onPressed: controller.start,
+                    child: Text(l10n.discoverySearchAgain),
+                  ),
+          ),
+          for (final server in state.servers)
+            ListTile(
+              key: ValueKey('discovered-${server.key}'),
+              leading: const Icon(Icons.home_outlined),
+              title: Text(server.name),
+              subtitle: Text(
+                [
+                  server.address.toString(),
+                  if (server.version != null)
+                    l10n.serverVersion(server.version!),
+                ].join(' · '),
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => onSelected(server),
+            ),
+          if (state.servers.isEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: Text(
+                state.searching
+                    ? l10n.discoverySearching
+                    : l10n.discoveryNothingFound,
+                style: theme.textTheme.bodySmall,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

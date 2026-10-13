@@ -2,23 +2,36 @@
 
 Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **MVP 0.1.0 – faze 1–9 završene**: povezivanje, model uređaja, kompletan interfejs, kiosk režim, offline keš i stabilizacija. Plan dalje: [ROADMAP](docs/ROADMAP.md).
+> Status: **MVP 0.1.0 + razvoj posle MVP-a**: kompletna aplikacija za telefon, tablet, web i zidni panel. Šta je urađeno po verzijama: [CHANGELOG](docs/CHANGELOG.md) · plan: [ROADMAP](docs/ROADMAP.md).
 
-## Mogućnosti (trenutno)
+## Mogućnosti
 
-- Onboarding: dobrodošlica → izbor jezika → **automatsko pronalaženje servera na mreži (mDNS)** ili ručna adresa → provera dostupnosti → prijava
-- Validacija adrese (IP, DNS, `.local`, HTTPS domen), procena rizika (lokalno / javno / javno bez HTTPS-a)
-- Samopotpisani sertifikat se prihvata **samo** eksplicitnim pinovanjem SHA-256 otiska, nikad automatski
-- Token u Keychain-u / Android Keystore-u (`flutter_secure_storage`), nikad u logovima ni u SharedPreferences
-- WebSocket menadžer: autentifikacija, deljene pretplate, ping/pong heartbeat, exponential backoff sa jitter-om, ponovna pretplata nakon reconnect-a, prekid pokušaja kod odbijenog tokena
-- Status veze u realnom vremenu, živi prikaz `state_changed` događaja
-- Material 3, svetla/tamna/sistemska tema, srpski (latinica) i engleski
-- Responsive raspored: `NavigationBar` na telefonu, `NavigationRail` na tabletu
-- Mock režim sa in-memory Home Assistant serverom (REST + WebSocket protokol)
-- Web verzija (JS i WebAssembly build), koja se može hostovati direktno iz Home Assistanta
-- Vreme: kod kuće iz Home Assistanta (trenutno + 5 dana, ništa ne napušta mrežu) i, ako ga uključite, na lokaciji telefona (MET Norway, približna lokacija)
-- Energy: trenutna snaga, potrošnja danas / ove nedelje / ovog meseca, mreža, solar, baterija, gas, najveći potrošači i procena troška po vašoj tarifi (podaci iz HA Energy podešavanja i statistike)
-- Odjava i brisanje svih lokalnih podataka
+**Povezivanje i bezbednost**
+- Automatsko pronalaženje Home Assistanta na mreži (mDNS) ili ručna adresa; provera adrese i rizika (lokalno / javno / bez HTTPS-a)
+- Prijava long-lived tokenom ili OAuth2 (web); samopotpisani sertifikat samo uz eksplicitno pinovanje otiska
+- Token u Keychain-u / Android Keystore-u, nikad u logovima; zaključavanje aplikacije otiskom/licem/PIN-om i potvrda pre otključavanja brava i alarma
+- **Više domova** (više HA servera) sa prebacivanjem
+
+**Upravljanje uređajima**
+- Uređaji grupisani po sobama i vrstama, omiljeni (sa redosledom), pretraga, scene, skripte, automatizacije
+- Svetla (jačina, boja, temperatura boje), klima i termostati (režimi, preset), roletne, brave, alarm (režimi, tastatura za kod), mediji (pesma, omot, jačina, izvor), ventilatori, ovlaživači, usisivači, pomoćnici „izbor” i „broj”, senzori
+- Istorija uređaja: grafikon za senzore i vremenska traka sa aktivnošću
+- Kamere: snimci (osvežavanje na 2 s samo dok se gledaju) i video uživo (HLS)
+- Izmena imena i prostorije uređaja iz aplikacije
+
+**Dodavanje uređaja (preko huba)**
+- Zigbee (ZHA ili Zigbee2MQTT) sa odbrojavanjem; Wi-Fi/LAN uređaji koje je HA pronašao, sa vođenim podešavanjem; Matter deljen iz druge aplikacije (QR ili kod); Z-Wave sa S2 bezbednošću i SmartStart QR
+
+**Početni ekran i kiosk (zidni tablet)**
+- Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”
+- Kiosk: stakleni paneli preko gradijenta, sat, ukućani, statusi po izboru, kamera, vreme, termostat, sobe, prečice, kalendar, mediji i Assist; PIN za izlaz, čuvar ekrana, povratak na početak
+- Assist: tekstualne i glasovne komande (govor se podrazumevano prepoznaje samo na uređaju)
+- Energija: snaga uživo, potrošnja po satima/danima, solar, baterija, gas, najveći potrošači, procena troška
+
+**Ostalo**
+- Srpski (latinica) i engleski, pristupačnost (čitači ekrana, krupan tekst do 150 %)
+- Offline keš poslednjeg stanja, automatsko ponovno povezivanje
+- Mock režim (demo kuća bez pravog HA), web verzija, lokalni gateway (Docker Compose)
 
 ## Arhitektura ukratko
 
@@ -46,9 +59,14 @@ Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji:
 | `shared_preferences` | samo netajna podešavanja (tema, jezik, adresa servera) |
 | `crypto` | SHA-256 otisak sertifikata |
 | `intl`, `flutter_localizations` | lokalizacija (ARB + `gen-l10n`), formatiranje datuma |
+| `speech_to_text` | glasovne komande (podrazumevano prepoznavanje na uređaju) |
+| `mobile_scanner` | skeniranje Matter i Z-Wave QR kodova |
+| `video_player` | video uživo sa kamera (HLS) |
+| `local_auth` | zaključavanje aplikacije otiskom / licem / PIN-om uređaja |
+| `wakelock_plus` | ekran ostaje uključen u kiosku |
 | `mocktail` (dev) | mock-ovi u testovima |
 
-Namerno **nisu** dodati u ovoj fazi: Drift (lokalni cache – faza 8), freezed/json_serializable (modeli su mali i parsiraju se ručno, defanzivno), QR skener, notifikacije, kiosk paketi. Svaka zavisnost se dodaje tek kada ima konkretnu ulogu.
+Namerno **nisu** dodati: Drift (offline keš je jednostavan JSON snimak), freezed/json_serializable (modeli su mali i parsiraju se ručno, defanzivno), grafikon biblioteke (grafikoni su crtani ručno, `CustomPainter`). Svaka zavisnost se dodaje tek kada ima konkretnu ulogu.
 
 ## Preduslovi
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../app/router/app_router.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/widgets/responsive.dart';
@@ -68,6 +70,14 @@ class SettingsScreen extends ConsumerWidget {
                         ].join('\n'),
                       ),
                     ),
+                  ListTile(
+                    key: const Key('settingsAddDevice'),
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.add_circle_outline),
+                    title: Text(l10n.addDeviceTitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push(AppRoutes.addDevice),
+                  ),
                   OutlinedButton.icon(
                     key: const Key('signOutButton'),
                     onPressed: () => _confirmSignOut(context, ref),

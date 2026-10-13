@@ -50,6 +50,11 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Samo približna lokacija (Android `ACCESS_COARSE_LOCATION`, `LocationAccuracy.low`), dodatno zaokružena na 2 decimale (~1 km) pre slanja servisu MET Norway; ništa drugo se ne šalje. Osvežavanje na 30 min dok je aplikacija otvorena.
 - Samo na mobilnom; na webu i u kiosku se ne nudi.
 
+## Dodavanje uređaja
+
+- Zigbee mreža se otvara samo na zahtev, najviše 3 minuta (protokolski maksimum 254 s), i zatvara se kad korisnik napusti ekran ili pritisne „Zaustavi”.
+- Za uparivanje i promenu imena/prostorije HA obično traži administratorski nalog; bez njega aplikacija prikazuje grešku i ništa ne menja.
+
 ## Assist
 
 - Tekst se šalje samo na korisnikov HA (`/api/conversation/process`) i izvršava se sa ovlašćenjima prijavljenog naloga; aplikacija ga ne čuva ni ne loguje.

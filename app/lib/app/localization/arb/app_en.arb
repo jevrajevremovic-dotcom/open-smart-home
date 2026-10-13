@@ -666,5 +666,48 @@
   "mediaPlayPause": "Play or pause",
   "mediaNext": "Next",
   "mediaPrevious": "Previous",
-  "mediaNowPlaying": "Now playing"
+  "mediaNowPlaying": "Now playing",
+  "addDeviceTitle": "Add device",
+  "addDeviceIntro": "New devices pair with your Home Assistant hub, which has the Zigbee or Z-Wave radio, not with this phone. The app guides you through it.",
+  "addDeviceZigbee": "Zigbee",
+  "addDeviceZigbeeSubtitle": "Sensors, bulbs, plugs, switches",
+  "addDeviceWifi": "Wi-Fi and LAN",
+  "addDeviceMatter": "Matter",
+  "addDeviceZwave": "Z-Wave",
+  "addDeviceSoon": "Coming soon",
+  "zigbeeViaZha": "Via ZHA",
+  "zigbeeViaZ2m": "Via Zigbee2MQTT",
+  "zigbeeNotFound": "Neither ZHA nor Zigbee2MQTT was found in Home Assistant. Add a Zigbee coordinator there first.",
+  "zigbeeStep1": "Start pairing with the button below.",
+  "zigbeeStep2": "Reset the device or put it in pairing mode. Usually you hold its button for about 5 seconds until it blinks; check the device's manual.",
+  "zigbeeStep3": "Keep the device near the hub until it shows up in the list.",
+  "pairingStart": "Start pairing",
+  "pairingStop": "Stop",
+  "pairingExtend": "Extend",
+  "pairingOpen": "Pairing is on",
+  "pairingRemaining": "{time} left",
+  "@pairingRemaining": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "pairingClosed": "Pairing is off",
+  "pairingWaiting": "Waiting for new devices…",
+  "pairingFound": "New devices",
+  "pairingFailed": "Pairing couldn't be started. {reason}",
+  "@pairingFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "newDeviceSetUp": "Set up",
+  "setUpDeviceTitle": "Name and room",
+  "deviceNameLabel": "Name",
+  "deviceRoomLabel": "Room",
+  "setUpSaved": "Saved.",
+  "setUpFailed": "Name and room can't be changed from here. Do it in Home Assistant under Settings, Devices."
 }

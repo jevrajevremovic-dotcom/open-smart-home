@@ -1437,4 +1437,100 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mediaNowPlaying => 'Now playing';
+
+  @override
+  String get addDeviceTitle => 'Add device';
+
+  @override
+  String get addDeviceIntro =>
+      'New devices pair with your Home Assistant hub, which has the Zigbee or Z-Wave radio, not with this phone. The app guides you through it.';
+
+  @override
+  String get addDeviceZigbee => 'Zigbee';
+
+  @override
+  String get addDeviceZigbeeSubtitle => 'Sensors, bulbs, plugs, switches';
+
+  @override
+  String get addDeviceWifi => 'Wi-Fi and LAN';
+
+  @override
+  String get addDeviceMatter => 'Matter';
+
+  @override
+  String get addDeviceZwave => 'Z-Wave';
+
+  @override
+  String get addDeviceSoon => 'Coming soon';
+
+  @override
+  String get zigbeeViaZha => 'Via ZHA';
+
+  @override
+  String get zigbeeViaZ2m => 'Via Zigbee2MQTT';
+
+  @override
+  String get zigbeeNotFound =>
+      'Neither ZHA nor Zigbee2MQTT was found in Home Assistant. Add a Zigbee coordinator there first.';
+
+  @override
+  String get zigbeeStep1 => 'Start pairing with the button below.';
+
+  @override
+  String get zigbeeStep2 =>
+      'Reset the device or put it in pairing mode. Usually you hold its button for about 5 seconds until it blinks; check the device\'s manual.';
+
+  @override
+  String get zigbeeStep3 =>
+      'Keep the device near the hub until it shows up in the list.';
+
+  @override
+  String get pairingStart => 'Start pairing';
+
+  @override
+  String get pairingStop => 'Stop';
+
+  @override
+  String get pairingExtend => 'Extend';
+
+  @override
+  String get pairingOpen => 'Pairing is on';
+
+  @override
+  String pairingRemaining(String time) {
+    return '$time left';
+  }
+
+  @override
+  String get pairingClosed => 'Pairing is off';
+
+  @override
+  String get pairingWaiting => 'Waiting for new devices…';
+
+  @override
+  String get pairingFound => 'New devices';
+
+  @override
+  String pairingFailed(String reason) {
+    return 'Pairing couldn\'t be started. $reason';
+  }
+
+  @override
+  String get newDeviceSetUp => 'Set up';
+
+  @override
+  String get setUpDeviceTitle => 'Name and room';
+
+  @override
+  String get deviceNameLabel => 'Name';
+
+  @override
+  String get deviceRoomLabel => 'Room';
+
+  @override
+  String get setUpSaved => 'Saved.';
+
+  @override
+  String get setUpFailed =>
+      'Name and room can\'t be changed from here. Do it in Home Assistant under Settings, Devices.';
 }

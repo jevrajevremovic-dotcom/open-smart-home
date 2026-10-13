@@ -31,6 +31,12 @@ class RoomsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.navRooms),
         actions: [
+          IconButton(
+            key: const Key('openAddDevice'),
+            tooltip: l10n.addDeviceTitle,
+            onPressed: () => context.push(AppRoutes.addDevice),
+            icon: const Icon(Icons.add),
+          ),
           TextButton.icon(
             onPressed: () => context.push(AppRoutes.allDevices),
             icon: const Icon(Icons.list),

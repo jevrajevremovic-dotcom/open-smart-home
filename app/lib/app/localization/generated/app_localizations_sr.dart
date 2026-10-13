@@ -1445,6 +1445,103 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get mediaNowPlaying => 'Sada svira';
+
+  @override
+  String get addDeviceTitle => 'Dodaj uređaj';
+
+  @override
+  String get addDeviceIntro =>
+      'Novi uređaji se uparuju sa vašim Home Assistant hubom, koji ima Zigbee ili Z-Wave radio, a ne sa ovim telefonom. Aplikacija vas vodi kroz postupak.';
+
+  @override
+  String get addDeviceZigbee => 'Zigbee';
+
+  @override
+  String get addDeviceZigbeeSubtitle =>
+      'Senzori, sijalice, utičnice, prekidači';
+
+  @override
+  String get addDeviceWifi => 'Wi-Fi i LAN';
+
+  @override
+  String get addDeviceMatter => 'Matter';
+
+  @override
+  String get addDeviceZwave => 'Z-Wave';
+
+  @override
+  String get addDeviceSoon => 'Uskoro';
+
+  @override
+  String get zigbeeViaZha => 'Preko ZHA';
+
+  @override
+  String get zigbeeViaZ2m => 'Preko Zigbee2MQTT';
+
+  @override
+  String get zigbeeNotFound =>
+      'U Home Assistantu nije pronađen ni ZHA ni Zigbee2MQTT. Prvo tamo dodajte Zigbee koordinator.';
+
+  @override
+  String get zigbeeStep1 => 'Pokrenite uparivanje dugmetom ispod.';
+
+  @override
+  String get zigbeeStep2 =>
+      'Resetujte uređaj ili ga stavite u režim uparivanja. Obično držite njegovo dugme oko 5 sekundi dok ne zatrepće; pogledajte uputstvo uređaja.';
+
+  @override
+  String get zigbeeStep3 =>
+      'Držite uređaj blizu huba dok se ne pojavi na listi.';
+
+  @override
+  String get pairingStart => 'Pokreni uparivanje';
+
+  @override
+  String get pairingStop => 'Zaustavi';
+
+  @override
+  String get pairingExtend => 'Produži';
+
+  @override
+  String get pairingOpen => 'Uparivanje je uključeno';
+
+  @override
+  String pairingRemaining(String time) {
+    return 'Još $time';
+  }
+
+  @override
+  String get pairingClosed => 'Uparivanje je isključeno';
+
+  @override
+  String get pairingWaiting => 'Čekam nove uređaje…';
+
+  @override
+  String get pairingFound => 'Novi uređaji';
+
+  @override
+  String pairingFailed(String reason) {
+    return 'Uparivanje nije pokrenuto. $reason';
+  }
+
+  @override
+  String get newDeviceSetUp => 'Podesi';
+
+  @override
+  String get setUpDeviceTitle => 'Ime i prostorija';
+
+  @override
+  String get deviceNameLabel => 'Ime';
+
+  @override
+  String get deviceRoomLabel => 'Prostorija';
+
+  @override
+  String get setUpSaved => 'Sačuvano.';
+
+  @override
+  String get setUpFailed =>
+      'Ime i prostorija ne mogu da se promene odavde. Uradite to u Home Assistantu, u Podešavanja → Uređaji.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

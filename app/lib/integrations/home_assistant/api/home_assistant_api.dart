@@ -51,6 +51,10 @@ abstract interface class HomeAssistantApi {
     Map<String, Object?> data = const {},
   });
 
+  /// `GET /api/services` – available services per domain
+  /// (`{"zha": {"permit", …}, "mqtt": {"publish", …}}`).
+  Future<Map<String, Set<String>>> fetchServices();
+
   /// `GET /api/calendars` – calendar entities.
   Future<List<HaCalendar>> fetchCalendars();
 
@@ -77,3 +81,14 @@ abstract interface class HomeAssistantApi {
 
   void close();
 }
+
+/// Parses the `GET /api/services` response.
+Map<String, Set<String>> parseServiceList(Object? json) => {
+  if (json is List)
+    for (final d in json)
+      if (d is Map && d['domain'] is String)
+        d['domain']! as String: {
+          if (d['services'] case final Map<Object?, Object?> services)
+            ...services.keys.whereType<String>(),
+        },
+};

@@ -97,6 +97,161 @@ class MockHomeAssistantServer {
       '${d.month.toString().padLeft(2, '0')}-'
       '${d.day.toString().padLeft(2, '0')}';
 
+  /// `GET /api/services` payload (only the parts the app looks at).
+  List<Map<String, Object?>> get serviceList => [
+    for (final (domain, services) in [
+      ('light', ['turn_on', 'turn_off', 'toggle']),
+      ('switch', ['turn_on', 'turn_off', 'toggle']),
+      ('climate', ['set_temperature', 'set_hvac_mode', 'set_preset_mode']),
+      if (zhaAvailable) ('zha', ['permit', 'remove']),
+      ('mqtt', ['publish']),
+    ])
+      {
+        'domain': domain,
+        'services': {for (final s in services) s: <String, Object?>{}},
+      },
+  ];
+
+  /// Whether the demo hub runs ZHA (tests switch it off).
+  bool zhaAvailable = true;
+
+  /// Last `mqtt.publish` call (topic, payload), for tests.
+  (String, String)? lastMqttPublish;
+
+  /// Remaining permit-join time as last requested (seconds; 0 = closed).
+  int permitJoinSeconds = 0;
+  final List<Timer> _pairingTimers = [];
+
+  /// Devices that "join" while pairing is open, one after another.
+  static const _joiningDevices = [
+    (
+      deviceId: 'd_new_door',
+      name: 'Aqara senzor vrata',
+      manufacturer: 'LUMI',
+      model: 'MCCGQ11LM',
+      ieee: '00:15:8d:00:0a:bc:de:01',
+      entityId: 'binary_sensor.lumi_mccgq11lm_opening',
+      state: 'off',
+      attributes: {
+        'friendly_name': 'Aqara senzor vrata',
+        'device_class': 'door',
+      },
+    ),
+    (
+      deviceId: 'd_new_bulb',
+      name: 'IKEA sijalica',
+      manufacturer: 'IKEA of Sweden',
+      model: 'TRADFRI bulb E27 WW 806lm',
+      ieee: '00:0d:6f:ff:fe:12:34:56',
+      entityId: 'light.ikea_tradfri_bulb',
+      state: 'on',
+      attributes: {
+        'friendly_name': 'IKEA sijalica',
+        'supported_color_modes': ['brightness'],
+        'color_mode': 'brightness',
+        'brightness': 200,
+        'supported_features': 32,
+      },
+    ),
+  ];
+
+  void _permitJoin(int seconds) {
+    permitJoinSeconds = seconds;
+    for (final t in _pairingTimers) {
+      t.cancel();
+    }
+    _pairingTimers.clear();
+    if (seconds <= 0) return;
+    for (final (i, d) in _joiningDevices.indexed) {
+      if (_states.containsKey(d.entityId)) continue;
+      _pairingTimers.add(Timer(Duration(seconds: 5 + i * 6), () => _join(d)));
+    }
+  }
+
+  void _join(
+    ({
+      String deviceId,
+      String name,
+      String manufacturer,
+      String model,
+      String ieee,
+      String entityId,
+      String state,
+      Map<String, Object?> attributes,
+    })
+    d,
+  ) {
+    if (permitJoinSeconds <= 0 || _states.containsKey(d.entityId)) return;
+    registries.devices.add({
+      'id': d.deviceId,
+      'name': d.name,
+      'name_by_user': null,
+      'manufacturer': d.manufacturer,
+      'model': d.model,
+      'area_id': null,
+      'identifiers': [
+        ['zha', d.ieee],
+      ],
+      'connections': [
+        ['zigbee', d.ieee],
+      ],
+      'via_device_id': null,
+      'disabled_by': null,
+    });
+    registries.entities.add({
+      'entity_id': d.entityId,
+      'platform': 'zha',
+      'device_id': d.deviceId,
+      'area_id': null,
+      'entity_category': null,
+      'hidden_by': null,
+      'disabled_by': null,
+    });
+    fireEvent('device_registry_updated', {
+      'action': 'create',
+      'device_id': d.deviceId,
+    });
+    fireEvent('entity_registry_updated', {
+      'action': 'create',
+      'entity_id': d.entityId,
+    });
+    _setState(d.entityId, d.state, Map.of(d.attributes));
+  }
+
+  /// `config/device_registry/update` (frontend API) for name and area.
+  Map<String, Object?>? updateDevice(
+    String deviceId, {
+    Object? nameByUser,
+    Object? areaId,
+    bool setName = false,
+    bool setArea = false,
+  }) {
+    final device = registries.devices
+        .where((d) => d['id'] == deviceId)
+        .firstOrNull;
+    if (device == null) return null;
+    if (setName) device['name_by_user'] = nameByUser;
+    if (setArea) device['area_id'] = areaId;
+    // Entities named after their device follow the new name.
+    if (setName && nameByUser is String) {
+      for (final e in registries.entities) {
+        if (e['device_id'] != deviceId) continue;
+        final id = e['entity_id']! as String;
+        final s = _states[id];
+        if (s == null) continue;
+        _setState(id, s['state']! as String, {
+          ...s['attributes']! as Map<String, Object?>,
+          'friendly_name': nameByUser,
+        });
+      }
+    }
+    fireEvent('device_registry_updated', {
+      'action': 'update',
+      'device_id': deviceId,
+    });
+    return device;
+  }
+
   /// Camera snapshots served so far (lets tests check polling stops).
   int cameraRequests = 0;
   final Set<_MockSocket> _sockets = {};
@@ -290,6 +445,19 @@ class MockHomeAssistantServer {
     String service,
     Map<String, Object?> data,
   ) {
+    if (domain == 'zha' && service == 'permit' && zhaAvailable) {
+      final d = data['duration'];
+      _permitJoin(d is num ? d.toInt() : 60);
+      return const [];
+    }
+    if (domain == 'mqtt' && service == 'publish') {
+      final topic = data['topic'];
+      final payload = data['payload'];
+      if (topic is String) {
+        lastMqttPublish = (topic, payload is String ? payload : '');
+      }
+      return const [];
+    }
     final ids = switch (data['entity_id']) {
       final String id => [id],
       final List<Object?> list => list.whereType<String>().toList(),
@@ -548,6 +716,24 @@ class _MockSocket implements HaSocket {
         _emit(ok(_server.registries.areas));
       case 'config/device_registry/list':
         _emit(ok(_server.registries.devices));
+      case 'config/device_registry/update':
+        final device = _server.updateDevice(
+          msg['device_id'] as String? ?? '',
+          nameByUser: msg['name_by_user'],
+          areaId: msg['area_id'],
+          setName: msg.containsKey('name_by_user'),
+          setArea: msg.containsKey('area_id'),
+        );
+        if (device == null) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'not_found', 'message': 'Device not found'},
+          });
+        } else {
+          _emit(ok(device));
+        }
       case 'config/entity_registry/list':
         _emit(ok(_server.registries.entities));
       case 'call_service':
@@ -671,6 +857,12 @@ class MockHomeAssistantApi implements HomeAssistantApi {
           'forecast': hourly ? server.hourlyForecast() : server.dailyForecast(),
         },
     };
+  }
+
+  @override
+  Future<Map<String, Set<String>>> fetchServices() async {
+    await _requireAuth();
+    return parseServiceList(server.serviceList);
   }
 
   @override

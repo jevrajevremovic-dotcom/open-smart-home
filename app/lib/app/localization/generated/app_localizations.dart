@@ -2558,6 +2558,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Now playing'**
   String get mediaNowPlaying;
+
+  /// No description provided for @addDeviceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add device'**
+  String get addDeviceTitle;
+
+  /// No description provided for @addDeviceIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'New devices pair with your Home Assistant hub, which has the Zigbee or Z-Wave radio, not with this phone. The app guides you through it.'**
+  String get addDeviceIntro;
+
+  /// No description provided for @addDeviceZigbee.
+  ///
+  /// In en, this message translates to:
+  /// **'Zigbee'**
+  String get addDeviceZigbee;
+
+  /// No description provided for @addDeviceZigbeeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensors, bulbs, plugs, switches'**
+  String get addDeviceZigbeeSubtitle;
+
+  /// No description provided for @addDeviceWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi and LAN'**
+  String get addDeviceWifi;
+
+  /// No description provided for @addDeviceMatter.
+  ///
+  /// In en, this message translates to:
+  /// **'Matter'**
+  String get addDeviceMatter;
+
+  /// No description provided for @addDeviceZwave.
+  ///
+  /// In en, this message translates to:
+  /// **'Z-Wave'**
+  String get addDeviceZwave;
+
+  /// No description provided for @addDeviceSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get addDeviceSoon;
+
+  /// No description provided for @zigbeeViaZha.
+  ///
+  /// In en, this message translates to:
+  /// **'Via ZHA'**
+  String get zigbeeViaZha;
+
+  /// No description provided for @zigbeeViaZ2m.
+  ///
+  /// In en, this message translates to:
+  /// **'Via Zigbee2MQTT'**
+  String get zigbeeViaZ2m;
+
+  /// No description provided for @zigbeeNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Neither ZHA nor Zigbee2MQTT was found in Home Assistant. Add a Zigbee coordinator there first.'**
+  String get zigbeeNotFound;
+
+  /// No description provided for @zigbeeStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start pairing with the button below.'**
+  String get zigbeeStep1;
+
+  /// No description provided for @zigbeeStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset the device or put it in pairing mode. Usually you hold its button for about 5 seconds until it blinks; check the device\'s manual.'**
+  String get zigbeeStep2;
+
+  /// No description provided for @zigbeeStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the device near the hub until it shows up in the list.'**
+  String get zigbeeStep3;
+
+  /// No description provided for @pairingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start pairing'**
+  String get pairingStart;
+
+  /// No description provided for @pairingStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get pairingStop;
+
+  /// No description provided for @pairingExtend.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend'**
+  String get pairingExtend;
+
+  /// No description provided for @pairingOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Pairing is on'**
+  String get pairingOpen;
+
+  /// No description provided for @pairingRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} left'**
+  String pairingRemaining(String time);
+
+  /// No description provided for @pairingClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pairing is off'**
+  String get pairingClosed;
+
+  /// No description provided for @pairingWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for new devices…'**
+  String get pairingWaiting;
+
+  /// No description provided for @pairingFound.
+  ///
+  /// In en, this message translates to:
+  /// **'New devices'**
+  String get pairingFound;
+
+  /// No description provided for @pairingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pairing couldn\'t be started. {reason}'**
+  String pairingFailed(String reason);
+
+  /// No description provided for @newDeviceSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up'**
+  String get newDeviceSetUp;
+
+  /// No description provided for @setUpDeviceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Name and room'**
+  String get setUpDeviceTitle;
+
+  /// No description provided for @deviceNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get deviceNameLabel;
+
+  /// No description provided for @deviceRoomLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room'**
+  String get deviceRoomLabel;
+
+  /// No description provided for @setUpSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved.'**
+  String get setUpSaved;
+
+  /// No description provided for @setUpFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Name and room can\'t be changed from here. Do it in Home Assistant under Settings, Devices.'**
+  String get setUpFailed;
 }
 
 class _AppLocalizationsDelegate

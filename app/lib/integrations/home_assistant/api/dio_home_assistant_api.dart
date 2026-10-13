@@ -132,6 +132,10 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     return body is Map ? body['service_response'] : null;
   }
 
+  @override
+  Future<Map<String, Set<String>>> fetchServices() async =>
+      parseServiceList(await _authorized('GET', '/api/services'));
+
   static final _calendarId = RegExp(r'^calendar\.[a-z0-9_]+$');
 
   @override

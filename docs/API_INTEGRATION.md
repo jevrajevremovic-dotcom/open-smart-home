@@ -17,6 +17,7 @@ Home Assistant se oglašava kao `_home-assistant._tcp` (integracija *Zeroconf*, 
 | `GET /api/config` | `fetchConfig()` | naziv lokacije, verzija, vremenska zona, jedinice |
 | `GET /api/states` | `fetchStates()` | početno učitavanje svih entiteta |
 | `POST /api/services/<domain>/<service>` | `callService()` | komande; odgovor je lista promenjenih stanja |
+| `GET /api/services` | `fetchServices()` | dostupni servisi po domenu (otkrivanje ZHA/Zigbee2MQTT) |
 | `POST /api/conversation/process` | `processConversation()` | Assist: tekstualna komanda/pitanje (`text`, `language`, `conversation_id`); odgovor `response.speech.plain.speech`, `response_type` |
 | `GET /api/calendars` | `fetchCalendars()` | lista kalendara (Google, CalDAV, Local Calendar…) |
 | `GET /api/calendars/<entity_id>?start=&end=` | `fetchCalendarEvents()` | događaji u opsegu (ponavljajući već razvijeni); `start`/`end` kao `dateTime` ili `date` (ceo dan, kraj isključiv); ID se proverava (`calendar.[a-z0-9_]+`) |
@@ -62,5 +63,14 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 ## Registri
 `config/area_registry/list`, `config/device_registry/list` i `config/entity_registry/list` koristi zvanični HA frontend, ali nisu opisane na stranici developer dokumentacije. Zato su opcione: ako komanda ne uspe (npr. stariji server ili korisnik bez prava), aplikacija radi dalje bez prostorija i informacija o proizvođaču i protokolu. Iz odgovora se čitaju samo polja `area_id`, `name`, `icon`, `picture` / `id`, `name`, `name_by_user`, `manufacturer`, `model`, `area_id`, `identifiers`, `connections`, `via_device_id` / `entity_id`, `device_id`, `area_id`, `platform`, `entity_category`, `hidden_by`, `disabled_by`.
+
+`config/device_registry/update` (`device_id`, `name_by_user`, `area_id`) takođe koristi frontend i nije u developer dokumentaciji; aplikacija ga koristi samo u koraku „Dodaj uređaj → Podesi” (ime i prostorija novog uređaja). Ako ne uspe (npr. korisnik nije administrator), poruka upućuje na HA podešavanja.
+
+## Dodavanje Zigbee uređaja
+
+- `GET /api/services` (dokumentovano) – otkrivanje: ZHA ako postoji servis `zha.permit`; Zigbee2MQTT ako postoji `mqtt.publish` i poznat je Zigbee2MQTT bridge uređaj.
+- ZHA: `POST /api/services/zha/permit` sa `{"duration": 180}` (0 zatvara; najviše 254 s).
+- Zigbee2MQTT: `POST /api/services/mqtt/publish` na temu `<base_topic>/bridge/request/permit_join` sa `{"value": true, "time": 180}` (Z2M 2.x koristi `time`, 1.x `value`; šalju se oba). Tema se proverava (`[A-Za-z0-9_-/]`).
+- Uparivanje se zatvara kad istekne vreme, na „Zaustavi” i kad se ekran napusti. Novi uređaji se prepoznaju po HA uređajima/entitetima koji nisu postojali kad je uparivanje počelo (registri se osvežavaju na `device_registry_updated`).
 
 Komande uređajima se šalju preko REST-a (`POST /api/services/<domain>/<service>`), vidi [DEVICE_CAPABILITIES.md](DEVICE_CAPABILITIES.md#komande).

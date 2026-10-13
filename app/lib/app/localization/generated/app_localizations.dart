@@ -1484,6 +1484,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No connection to the server — commands cannot be sent right now.'**
   String get controlsOffline;
+
+  /// No description provided for @kioskSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Kiosk mode (wall tablet)'**
+  String get kioskSection;
+
+  /// No description provided for @kioskStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start kiosk mode'**
+  String get kioskStart;
+
+  /// No description provided for @kioskStartOnLaunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in kiosk mode on launch'**
+  String get kioskStartOnLaunch;
+
+  /// No description provided for @kioskKeepAwake.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep screen on'**
+  String get kioskKeepAwake;
+
+  /// No description provided for @kioskDimAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Dim screen after'**
+  String get kioskDimAfter;
+
+  /// No description provided for @kioskReturnAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to dashboard after'**
+  String get kioskReturnAfter;
+
+  /// No description provided for @kioskPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit PIN'**
+  String get kioskPin;
+
+  /// No description provided for @kioskPinSet.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN is set'**
+  String get kioskPinSet;
+
+  /// No description provided for @kioskPinNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'No PIN — anyone can leave kiosk mode'**
+  String get kioskPinNotSet;
+
+  /// No description provided for @kioskSetPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Set PIN'**
+  String get kioskSetPin;
+
+  /// No description provided for @kioskChangePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get kioskChangePin;
+
+  /// No description provided for @kioskRemovePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove PIN'**
+  String get kioskRemovePin;
+
+  /// No description provided for @kioskPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'4–8 digits'**
+  String get kioskPinHint;
+
+  /// No description provided for @kioskPinConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat PIN'**
+  String get kioskPinConfirm;
+
+  /// No description provided for @kioskPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The PINs do not match.'**
+  String get kioskPinMismatch;
+
+  /// No description provided for @kioskPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 4–8 digits.'**
+  String get kioskPinInvalid;
+
+  /// No description provided for @kioskExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit kiosk mode'**
+  String get kioskExit;
+
+  /// No description provided for @kioskEnterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN'**
+  String get kioskEnterPin;
+
+  /// No description provided for @kioskWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN.'**
+  String get kioskWrongPin;
+
+  /// No description provided for @kioskLockedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {seconds} s.'**
+  String kioskLockedOut(int seconds);
+
+  /// No description provided for @kioskTapToWake.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to wake'**
+  String get kioskTapToWake;
+
+  /// No description provided for @kioskOsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For a fully locked wall panel also use the system\'s kiosk feature: Android screen pinning or a kiosk launcher, iOS Guided Access. They can also start the app automatically.'**
+  String get kioskOsHint;
+
+  /// No description provided for @durationNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get durationNever;
+
+  /// No description provided for @durationSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} s'**
+  String durationSeconds(int seconds);
+
+  /// No description provided for @durationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String durationMinutes(int minutes);
 }
 
 class _AppLocalizationsDelegate

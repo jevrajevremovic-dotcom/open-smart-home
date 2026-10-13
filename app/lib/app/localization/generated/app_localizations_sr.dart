@@ -813,6 +813,89 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get controlsOffline =>
       'Nema veze sa serverom — komande trenutno ne mogu da se pošalju.';
+
+  @override
+  String get kioskSection => 'Kiosk režim (zidni tablet)';
+
+  @override
+  String get kioskStart => 'Pokreni kiosk režim';
+
+  @override
+  String get kioskStartOnLaunch => 'Otvori u kiosk režimu pri pokretanju';
+
+  @override
+  String get kioskKeepAwake => 'Drži ekran uključen';
+
+  @override
+  String get kioskDimAfter => 'Zatamni ekran posle';
+
+  @override
+  String get kioskReturnAfter => 'Vrati na početni ekran posle';
+
+  @override
+  String get kioskPin => 'PIN za izlaz';
+
+  @override
+  String get kioskPinSet => 'PIN je postavljen';
+
+  @override
+  String get kioskPinNotSet =>
+      'Nema PIN-a — svako može da izađe iz kiosk režima';
+
+  @override
+  String get kioskSetPin => 'Postavi PIN';
+
+  @override
+  String get kioskChangePin => 'Promeni PIN';
+
+  @override
+  String get kioskRemovePin => 'Ukloni PIN';
+
+  @override
+  String get kioskPinHint => '4–8 cifara';
+
+  @override
+  String get kioskPinConfirm => 'Ponovite PIN';
+
+  @override
+  String get kioskPinMismatch => 'PIN-ovi se ne poklapaju.';
+
+  @override
+  String get kioskPinInvalid => 'Koristite 4–8 cifara.';
+
+  @override
+  String get kioskExit => 'Izađi iz kiosk režima';
+
+  @override
+  String get kioskEnterPin => 'Unesite PIN';
+
+  @override
+  String get kioskWrongPin => 'Pogrešan PIN.';
+
+  @override
+  String kioskLockedOut(int seconds) {
+    return 'Previše pokušaja. Pokušajte ponovo za $seconds s.';
+  }
+
+  @override
+  String get kioskTapToWake => 'Dodirnite za buđenje';
+
+  @override
+  String get kioskOsHint =>
+      'Za potpuno zaključan zidni panel koristite i sistemsku kiosk funkciju: Android pinovanje ekrana ili kiosk launcher, iOS Guided Access. One mogu i automatski da pokrenu aplikaciju.';
+
+  @override
+  String get durationNever => 'Nikad';
+
+  @override
+  String durationSeconds(int seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String durationMinutes(int minutes) {
+    return '$minutes min';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -3,6 +3,14 @@
 ## [Unreleased] – 0.1.0
 
 ### Dodato
+- Faza 7 – tablet i kiosk:
+  - kiosk režim: fullscreen dashboard sa satom i datumom, tekst uvećan 20 %, bez standardne navigacije, ekran stalno uključen;
+  - izlaz zaključan PIN-om (PBKDF2-HMAC-SHA256 sa solju, blokada 30 s posle 5 pogrešnih pokušaja);
+  - dok je kiosk aktivan, ruter preusmerava svaku drugu rutu nazad u kiosk, a „back” je blokiran;
+  - povratak na kiosk dashboard i zatamnjenje sa satom posle neaktivnosti (podesivo), buđenje dodirom;
+  - opcija „otvori u kiosk režimu pri pokretanju”; odjava uvek izlazi iz kioska;
+  - dashboard na širokim i landscape ekranima prikazuje dva panela;
+  - ponovno povezivanje odmah kad se aplikacija vrati u prvi plan.
 - Faza 6 – korisnički interfejs: navigacija Početna / Prostorije / Omiljeno / Scene / Podešavanja.
 - Dashboard generisan iz uređaja: temperatura, vlažnost, upaljena svetla, otvorena vrata i prozori, snaga, upozorenja, omiljeno, scene, prostorije i „potrebna pažnja” (slabe baterije, nedostupni uređaji). Nedostupni podaci prikazuju se kao „—”, nikad izmišljeni.
 - Prostorije (temperatura, broj upaljenih svetala, upozorenja) i uređaji grupisani po kategorijama.
@@ -24,4 +32,4 @@
 - Home Assistant REST klijent i WebSocket menadžer sa reconnect logikom.
 - Mock režim sa in-memory Home Assistant serverom.
 - Početni ekran sa statusom veze i živim prikazom promena stanja.
-- 123 unit/widget testa, uključujući proveru prelivanja na telefonu sa tekstom od 150 %.
+- 139 unit/widget testova, uključujući proveru prelivanja na telefonu sa tekstom od 150 % i PBKDF2 test vektor iz RFC 7914.

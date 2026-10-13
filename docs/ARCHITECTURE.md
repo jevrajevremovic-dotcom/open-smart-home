@@ -90,6 +90,13 @@ Pravila koja kod sledi:
 - Izvedeni provideri vraćaju `ValueList` ili klase sa jednakošću po vrednosti, pa se ekran obnavlja samo kad se njegov sadržaj stvarno promeni; kartica uređaja prati samo svoj uređaj.
 - Mreže su lenje (`SliverGrid.builder`), a visina kartica raste sa veličinom teksta.
 
+### Tablet i kiosk (faza 7)
+- `DashboardBody` je zajednički sadržaj običnog i kiosk dashboarda. Na širini ≥ 1200 dp, ili na landscape ekranu ≥ 840 dp, prelazi u dva panela: status levo, omiljeno i prostorije desno.
+- `features/kiosk`: `KioskSettings` (lokalno, PIN samo kao heš), `KioskSettingsController`, `KioskSessionController` (da li je kiosk aktivan, provera PIN-a i blokada), `KioskShell` (fullscreen, wakelock, blokiran „back”, tajmeri neaktivnosti, zatamnjenje), `KioskDashboardScreen`.
+- Kiosk rute (`/kiosk`, `/kiosk/device/:id`, `/kiosk/rooms/:id`) imaju sopstveni `ShellRoute` bez navigacije. `resolveRedirect(kioskActive: true)` dozvoljava samo njih. Kartice biraju kiosk ili običnu rutu preko `AppRoutes.device(id, kiosk: …)`.
+- Platformski efekti (fullscreen, wakelock) su iza interfejsa `KioskPlatform`, pa testovi ne diraju platformske kanale. Greške na nepodržanim platformama (npr. Wake Lock API na `http://`) samo se loguju.
+- `AppLifecycleListener` u `SmartHomeApp` poziva `retryNow()` kad se aplikacija vrati u prvi plan.
+
 ### Mock režim
 `MockHomeAssistantServer` je in-memory HA: stanja u HA wire formatu (svetla, prekidači, senzori, klima, roletna, brava, kamera, energija, scena, automatizacija, nedostupan uređaj, slaba baterija), podskup servisa, i WebSocket protokol (`auth_required/auth/auth_ok`, `subscribe_events`, `ping`, `get_states`, `call_service`). Isti `HaWebSocketManager` radi i protiv mock-a, pa se mock režim i testovi ponašaju kao produkcija. Uključuje se sa `--dart-define=SMARTHOME_MOCK=true`, a `AppConfig` ga gasi kad je `kReleaseMode`.
 

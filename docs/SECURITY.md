@@ -30,6 +30,13 @@ HA podržava OAuth2 (`/auth/authorize`, `/auth/token`, refresh token). Uslov za 
 - **Referrer:** `index.html` postavlja `no-referrer`, da adresa doma ne odlazi trećim stranama.
 - **Glavni rizik je XSS:** sve što se izvrši u istom poreklu može da pročita `sessionStorage`. Zato aplikaciju ne hostujte na istom poreklu sa nepouzdanim sadržajem.
 
+## Kiosk PIN
+- PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
+- Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.
+- Posle 5 pogrešnih pokušaja unos je blokiran 30 s.
+- Dok je kiosk aktivan, ruter ne dozvoljava nijednu rutu van kioska (ni duboke linkove ni „back”). Odjava uvek izlazi iz kioska.
+- Aplikacija ne može da spreči izlazak u sistem (Home dugme, notifikacije); za to služe Android App pinning i iOS Guided Access.
+
 ## Logovanje
 - `AppLogger` propušta svaku poruku i grešku kroz `Redactor` (Bearer tokeni, JWT, `access_token`/`password`/`token` u JSON-u i query-ju).
 - HTTP logovi sadrže samo metodu, putanju i status – nikad zaglavlja ni telo.

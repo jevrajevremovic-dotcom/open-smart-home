@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
+import '../../kiosk/application/kiosk_controller.dart';
 import '../../../app/theme/app_theme.dart';
 import '../application/device_providers.dart';
 import '../domain/device_command.dart';
@@ -95,7 +96,9 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
             ? theme.colorScheme.primaryContainer.withValues(alpha: 0.45)
             : null,
         child: InkWell(
-          onTap: () => context.push(AppRoutes.device(device.id)),
+          onTap: () => context.push(
+            AppRoutes.device(device.id, kiosk: ref.read(kioskActiveProvider)),
+          ),
           child: Opacity(
             opacity: device.available ? 1 : 0.6,
             child: Padding(

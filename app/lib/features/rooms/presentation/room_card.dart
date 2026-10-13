@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
+import '../../kiosk/application/kiosk_controller.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/presentation/device_presentation.dart';
@@ -70,7 +71,9 @@ class RoomCard extends ConsumerWidget {
     return Card.outlined(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => context.push(AppRoutes.room(roomId)),
+        onTap: () => context.push(
+          AppRoutes.room(roomId, kiosk: ref.read(kioskActiveProvider)),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(

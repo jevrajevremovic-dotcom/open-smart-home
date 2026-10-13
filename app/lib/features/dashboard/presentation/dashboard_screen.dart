@@ -18,6 +18,7 @@ import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../favorites/presentation/favorites_screen.dart';
 import '../../rooms/presentation/room_card.dart';
+import '../../kiosk/application/kiosk_controller.dart';
 import '../application/home_summaries.dart';
 
 /// Default home screen, generated from the available devices: summary,
@@ -27,120 +28,162 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
     final title =
-        ref.watch(serverConfigProvider).value?.locationName ?? l10n.appTitle;
-    final favorites = ref.watch(existingFavoritesProvider);
-    final rooms = ref.watch(roomsProvider);
-    final hasUnassigned = ref.watch(
-      deviceIdsByRoomProvider.select((m) => m.containsKey(null)),
-    );
-    final sync = ref.watch(syncStatusProvider);
-    final sceneIds = ref.watch(
-      dashboardSummaryProvider.select((s) => s.sceneIds),
-    );
-
-    const pad = EdgeInsets.symmetric(horizontal: 16);
+        ref.watch(serverConfigProvider).value?.locationName ??
+        context.l10n.appTitle;
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 12),
-            child: _ConnectionIndicator(),
+            child: ConnectionIndicator(),
           ),
         ],
       ),
-      body: MockModeBanner(
-        child: RefreshIndicator(
-          onRefresh: () async => ref.read(webSocketManagerProvider)?.retryNow(),
-          child: CustomScrollView(
-            slivers: [
-              const SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-                sliver: SliverToBoxAdapter(child: _ConnectionProblem()),
-              ),
-              if (sync == SyncStatus.syncing &&
-                  rooms.isEmpty &&
-                  favorites.isEmpty)
-                const SliverToBoxAdapter(child: LinearProgressIndicator()),
-              const SliverPadding(
-                padding: pad,
-                sliver: SliverToBoxAdapter(child: _SummaryRow()),
-              ),
-              const SliverPadding(
-                padding: pad,
-                sliver: SliverToBoxAdapter(child: _CriticalAlerts()),
-              ),
-              SliverPadding(
-                padding: pad,
-                sliver: SliverToBoxAdapter(
-                  child: SectionHeader(l10n.navFavorites),
-                ),
-              ),
-              SliverPadding(
-                padding: pad,
-                sliver: favorites.isEmpty
-                    ? SliverToBoxAdapter(
-                        child: EmptyHint(
-                          icon: Icons.star_border,
-                          text: l10n.favoritesEmpty,
-                        ),
-                      )
-                    : DeviceSliverGrid(deviceIds: favorites),
-              ),
-              if (sceneIds.isNotEmpty) ...[
-                SliverPadding(
-                  padding: pad,
-                  sliver: SliverToBoxAdapter(
-                    child: SectionHeader(l10n.scenesTitle),
-                  ),
-                ),
-                SliverPadding(
-                  padding: pad,
-                  sliver: SliverToBoxAdapter(
-                    child: _SceneButtons(sceneIds: sceneIds),
-                  ),
-                ),
-              ],
-              if (rooms.isNotEmpty || hasUnassigned) ...[
-                SliverPadding(
-                  padding: pad,
-                  sliver: SliverToBoxAdapter(
-                    child: SectionHeader(
-                      l10n.navRooms,
-                      trailing: TextButton(
-                        onPressed: () => context.go(AppRoutes.rooms),
-                        child: Text(l10n.allDevices),
-                      ),
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: pad,
-                  sliver: RoomSliverGrid(
-                    rooms: [
-                      for (final r in rooms) (r.id, r.name, r.icon),
-                      if (hasUnassigned) (null, l10n.roomNoRoom, null),
-                    ],
-                  ),
-                ),
-              ],
-              const SliverPadding(
-                padding: pad,
-                sliver: SliverToBoxAdapter(child: _AttentionSection()),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 32)),
-            ],
-          ),
-        ),
-      ),
+      body: const MockModeBanner(child: DashboardBody()),
     );
   }
 }
 
-class _ConnectionIndicator extends ConsumerWidget {
-  const _ConnectionIndicator();
+/// Dashboard content, shared by the normal and the kiosk dashboard.
+///
+/// Narrow or portrait screens get one scrolling column. Large screens and
+/// landscape tablets get two panes: status on the left, favorites and rooms
+/// on the right, so a wall panel shows everything without scrolling much.
+class DashboardBody extends ConsumerWidget {
+  const DashboardBody({super.key, this.kiosk = false});
+
+  /// Kiosk mode hides links that leave the kiosk routes.
+  final bool kiosk;
+
+  static const _pad = EdgeInsets.symmetric(horizontal: 16);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final twoPanes =
+            width >= Breakpoints.large ||
+            (width >= Breakpoints.expanded && width > constraints.maxHeight);
+        final refresh = ref.read(webSocketManagerProvider)?.retryNow;
+        if (!twoPanes) {
+          return RefreshIndicator(
+            onRefresh: () async => refresh?.call(),
+            child: CustomScrollView(
+              slivers: [
+                ..._statusSlivers(ref),
+                ..._contentSlivers(context, ref),
+              ],
+            ),
+          );
+        }
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: width >= Breakpoints.large ? 400 : 340,
+              child: CustomScrollView(slivers: _statusSlivers(ref)),
+            ),
+            const VerticalDivider(width: 1),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async => refresh?.call(),
+                child: CustomScrollView(slivers: _contentSlivers(context, ref)),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Connection, summary, alerts, scenes, attention.
+  List<Widget> _statusSlivers(WidgetRef ref) {
+    final sceneIds = ref.watch(
+      dashboardSummaryProvider.select((s) => s.sceneIds),
+    );
+    final syncing = ref.watch(syncStatusProvider) == SyncStatus.syncing;
+    Widget box(Widget child) => SliverPadding(
+      padding: _pad,
+      sliver: SliverToBoxAdapter(child: child),
+    );
+    return [
+      const SliverPadding(
+        padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
+        sliver: SliverToBoxAdapter(child: ConnectionProblemCard()),
+      ),
+      if (syncing) const SliverToBoxAdapter(child: LinearProgressIndicator()),
+      box(const DashboardSummaryRow()),
+      box(const CriticalAlertsBanner()),
+      if (sceneIds.isNotEmpty) ...[
+        box(
+          Consumer(
+            builder: (context, _, _) => SectionHeader(context.l10n.scenesTitle),
+          ),
+        ),
+        box(SceneButtons(sceneIds: sceneIds)),
+      ],
+      box(const AttentionSection()),
+      const SliverToBoxAdapter(child: SizedBox(height: 24)),
+    ];
+  }
+
+  /// Favorites and rooms.
+  List<Widget> _contentSlivers(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final favorites = ref.watch(existingFavoritesProvider);
+    final rooms = ref.watch(roomsProvider);
+    final hasUnassigned = ref.watch(
+      deviceIdsByRoomProvider.select((m) => m.containsKey(null)),
+    );
+    Widget box(Widget child) => SliverPadding(
+      padding: _pad,
+      sliver: SliverToBoxAdapter(child: child),
+    );
+    return [
+      box(SectionHeader(l10n.navFavorites)),
+      SliverPadding(
+        padding: _pad,
+        sliver: favorites.isEmpty
+            ? SliverToBoxAdapter(
+                child: EmptyHint(
+                  icon: Icons.star_border,
+                  text: l10n.favoritesEmpty,
+                ),
+              )
+            : DeviceSliverGrid(deviceIds: favorites),
+      ),
+      if (rooms.isNotEmpty || hasUnassigned) ...[
+        box(
+          SectionHeader(
+            l10n.navRooms,
+            trailing: kiosk
+                ? null
+                : TextButton(
+                    onPressed: () => context.go(AppRoutes.rooms),
+                    child: Text(l10n.allDevices),
+                  ),
+          ),
+        ),
+        SliverPadding(
+          padding: _pad,
+          sliver: RoomSliverGrid(
+            rooms: [
+              for (final r in rooms) (r.id, r.name, r.icon),
+              if (hasUnassigned) (null, l10n.roomNoRoom, null),
+            ],
+          ),
+        ),
+      ],
+      const SliverToBoxAdapter(child: SizedBox(height: 32)),
+    ];
+  }
+}
+
+class ConnectionIndicator extends ConsumerWidget {
+  const ConnectionIndicator({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => ConnectionStatusChip(
@@ -150,8 +193,8 @@ class _ConnectionIndicator extends ConsumerWidget {
 }
 
 /// Shown only when something is wrong with the connection.
-class _ConnectionProblem extends ConsumerWidget {
-  const _ConnectionProblem();
+class ConnectionProblemCard extends ConsumerWidget {
+  const ConnectionProblemCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -205,8 +248,8 @@ class _ConnectionProblem extends ConsumerWidget {
   }
 }
 
-class _SummaryRow extends ConsumerWidget {
-  const _SummaryRow();
+class DashboardSummaryRow extends ConsumerWidget {
+  const DashboardSummaryRow({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -343,8 +386,8 @@ class _SummaryCard extends StatelessWidget {
   }
 }
 
-class _CriticalAlerts extends ConsumerWidget {
-  const _CriticalAlerts();
+class CriticalAlertsBanner extends ConsumerWidget {
+  const CriticalAlertsBanner({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -380,7 +423,12 @@ class _CriticalAlerts extends ConsumerWidget {
                       DevicePresentation.status(context.l10n, d),
                       style: TextStyle(color: colors.onCritical),
                     ),
-                    onTap: () => context.push(AppRoutes.device(id)),
+                    onTap: () => context.push(
+                      AppRoutes.device(
+                        id,
+                        kiosk: ref.read(kioskActiveProvider),
+                      ),
+                    ),
                   );
                 },
               ),
@@ -391,8 +439,8 @@ class _CriticalAlerts extends ConsumerWidget {
   }
 }
 
-class _SceneButtons extends ConsumerWidget {
-  const _SceneButtons({required this.sceneIds});
+class SceneButtons extends ConsumerWidget {
+  const SceneButtons({super.key, required this.sceneIds});
 
   final List<String> sceneIds;
 
@@ -436,8 +484,8 @@ class _SceneButtons extends ConsumerWidget {
   }
 }
 
-class _AttentionSection extends ConsumerWidget {
-  const _AttentionSection();
+class AttentionSection extends ConsumerWidget {
+  const AttentionSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -479,7 +527,12 @@ class _AttentionSection extends ConsumerWidget {
                           ? l10n.batteryLevel(d.metadata.batteryPercent!)
                           : DevicePresentation.status(l10n, d),
                     ),
-                    onTap: () => context.push(AppRoutes.device(id)),
+                    onTap: () => context.push(
+                      AppRoutes.device(
+                        id,
+                        kiosk: ref.read(kioskActiveProvider),
+                      ),
+                    ),
                   );
                 },
               ),

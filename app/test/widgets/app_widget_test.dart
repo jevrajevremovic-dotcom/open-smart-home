@@ -54,6 +54,7 @@ Future<void> settle(WidgetTester tester, [int steps = 10]) async {
 Future<void> tapKey(WidgetTester tester, String key) async {
   final finder = find.byKey(Key(key));
   await tester.ensureVisible(finder);
+  await tester.pump(); // apply the scroll before hit-testing
   await tester.tap(finder);
 }
 

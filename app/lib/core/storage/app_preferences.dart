@@ -48,6 +48,23 @@ class AppPreferences {
       ? _prefs.remove(_serverProfileKey)
       : _prefs.setString(_serverProfileKey, jsonEncode(json));
 
+  Map<String, Object?>? get kioskSettingsJson => _readJson('kiosk.settings');
+
+  Future<void> setKioskSettingsJson(Map<String, Object?> json) =>
+      _prefs.setString('kiosk.settings', jsonEncode(json));
+
+  Map<String, Object?>? _readJson(String key) {
+    final raw = _prefs.getString(key);
+    if (raw == null) return null;
+    try {
+      final decoded = jsonDecode(raw);
+      return decoded is Map<String, Object?> ? decoded : null;
+    } on FormatException catch (e) {
+      _log.warning('Stored $key is corrupt, ignoring', e);
+      return null;
+    }
+  }
+
   /// Ordered favorite device ids for one server.
   List<String> favorites(String serverId) =>
       _prefs.getStringList('favorites::$serverId') ?? const [];

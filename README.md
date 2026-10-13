@@ -2,7 +2,7 @@
 
 Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **MVP – faze 1–6**: povezivanje, model uređaja i kompletan osnovni interfejs (dashboard, prostorije, detalji uređaja, omiljeno, scene). Sledi tablet/kiosk (faza 7) i offline cache (faza 8). Vidi [ROADMAP](docs/ROADMAP.md).
+> Status: **MVP – faze 1–7**: povezivanje, model uređaja, kompletan interfejs i kiosk režim za zidne tablete. Sledi offline cache (faza 8) i stabilizacija (faza 9). Vidi [ROADMAP](docs/ROADMAP.md).
 
 ## Mogućnosti (trenutno)
 
@@ -127,6 +127,21 @@ flutter run -d chrome --dart-define=SMARTHOME_MOCK=true
 - TLS obrađuje pregledač: samopotpisani sertifikat morate prihvatiti u pregledaču, pinovanje u aplikaciji nije moguće.
 - Pregledač ne otkriva uzrok mrežne greške (CORS, mixed content, sertifikat, DNS), pa aplikacija prikazuje objašnjenje mogućih uzroka.
 - Rute koriste `#` (npr. `/#/home`), pa statičkom serveru ne treba posebno podešavanje.
+
+## Zidni tablet (kiosk režim)
+
+Podešavanja → **Kiosk režim** → *Pokreni kiosk režim*. Preporučeno je i da postavite **PIN za izlaz**.
+
+- Fullscreen dashboard sa satom, krupnijim tekstom i kontrolama, bez standardne navigacije.
+- Posle neaktivnosti vraća se na kiosk dashboard, a zatim zatamnjuje ekran i prikazuje sat; dodir ga budi. Oba vremena su podesiva.
+- Ekran ostaje uključen dok je kiosk aktivan (može da se isključi).
+- *Otvori u kiosk režimu pri pokretanju* vraća panel u kiosk i posle restarta aplikacije.
+- Veza sa serverom se obnavlja sama (backoff) i odmah kad se aplikacija vrati u prvi plan.
+
+Aplikacija ne može sama da zabrani izlazak iz operativnog sistema. Za potpuno zaključan panel koristite i sistemsku funkciju:
+- **Android:** *Settings → Security → App pinning*, ili poseban kiosk launcher (npr. Fully Kiosk Browser / launcher MDM) koji pokreće aplikaciju pri paljenju uređaja.
+- **iOS/iPadOS:** *Settings → Accessibility → Guided Access*.
+- **Web:** pregledač u kiosk modu (npr. `chromium --kiosk http://homeassistant.local:8123/local/opensmarthome/`).
 
 ## Testovi
 

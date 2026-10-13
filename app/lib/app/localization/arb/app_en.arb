@@ -379,5 +379,51 @@
   "infoBattery": "Battery",
   "deviceNotFound": "This device no longer exists.",
   "unavailableBanner": "This device is unavailable. Controls are disabled until it reconnects.",
-  "controlsOffline": "No connection to the server — commands cannot be sent right now."
+  "controlsOffline": "No connection to the server — commands cannot be sent right now.",
+  "kioskSection": "Kiosk mode (wall tablet)",
+  "kioskStart": "Start kiosk mode",
+  "kioskStartOnLaunch": "Open in kiosk mode on launch",
+  "kioskKeepAwake": "Keep screen on",
+  "kioskDimAfter": "Dim screen after",
+  "kioskReturnAfter": "Return to dashboard after",
+  "kioskPin": "Exit PIN",
+  "kioskPinSet": "PIN is set",
+  "kioskPinNotSet": "No PIN — anyone can leave kiosk mode",
+  "kioskSetPin": "Set PIN",
+  "kioskChangePin": "Change PIN",
+  "kioskRemovePin": "Remove PIN",
+  "kioskPinHint": "4–8 digits",
+  "kioskPinConfirm": "Repeat PIN",
+  "kioskPinMismatch": "The PINs do not match.",
+  "kioskPinInvalid": "Use 4–8 digits.",
+  "kioskExit": "Exit kiosk mode",
+  "kioskEnterPin": "Enter PIN",
+  "kioskWrongPin": "Wrong PIN.",
+  "kioskLockedOut": "Too many attempts. Try again in {seconds} s.",
+  "@kioskLockedOut": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "kioskTapToWake": "Tap to wake",
+  "kioskOsHint": "For a fully locked wall panel also use the system's kiosk feature: Android screen pinning or a kiosk launcher, iOS Guided Access. They can also start the app automatically.",
+  "durationNever": "Never",
+  "durationSeconds": "{seconds} s",
+  "@durationSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutes": "{minutes} min",
+  "@durationMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  }
 }

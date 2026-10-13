@@ -812,4 +812,86 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get controlsOffline =>
       'No connection to the server — commands cannot be sent right now.';
+
+  @override
+  String get kioskSection => 'Kiosk mode (wall tablet)';
+
+  @override
+  String get kioskStart => 'Start kiosk mode';
+
+  @override
+  String get kioskStartOnLaunch => 'Open in kiosk mode on launch';
+
+  @override
+  String get kioskKeepAwake => 'Keep screen on';
+
+  @override
+  String get kioskDimAfter => 'Dim screen after';
+
+  @override
+  String get kioskReturnAfter => 'Return to dashboard after';
+
+  @override
+  String get kioskPin => 'Exit PIN';
+
+  @override
+  String get kioskPinSet => 'PIN is set';
+
+  @override
+  String get kioskPinNotSet => 'No PIN — anyone can leave kiosk mode';
+
+  @override
+  String get kioskSetPin => 'Set PIN';
+
+  @override
+  String get kioskChangePin => 'Change PIN';
+
+  @override
+  String get kioskRemovePin => 'Remove PIN';
+
+  @override
+  String get kioskPinHint => '4–8 digits';
+
+  @override
+  String get kioskPinConfirm => 'Repeat PIN';
+
+  @override
+  String get kioskPinMismatch => 'The PINs do not match.';
+
+  @override
+  String get kioskPinInvalid => 'Use 4–8 digits.';
+
+  @override
+  String get kioskExit => 'Exit kiosk mode';
+
+  @override
+  String get kioskEnterPin => 'Enter PIN';
+
+  @override
+  String get kioskWrongPin => 'Wrong PIN.';
+
+  @override
+  String kioskLockedOut(int seconds) {
+    return 'Too many attempts. Try again in $seconds s.';
+  }
+
+  @override
+  String get kioskTapToWake => 'Tap to wake';
+
+  @override
+  String get kioskOsHint =>
+      'For a fully locked wall panel also use the system\'s kiosk feature: Android screen pinning or a kiosk launcher, iOS Guided Access. They can also start the app automatically.';
+
+  @override
+  String get durationNever => 'Never';
+
+  @override
+  String durationSeconds(int seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String durationMinutes(int minutes) {
+    return '$minutes min';
+  }
 }

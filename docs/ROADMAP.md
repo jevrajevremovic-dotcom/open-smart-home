@@ -9,8 +9,8 @@
 | — | Web platforma (JS/Wasm), hostovanje iz HA | ✅ |
 | 5 | `SmartHomeDevice`, capability model, mapper (light, switch, sensor, binary_sensor, climate, scene), registri oblasti/uređaja | ✅ |
 | 6 | Dashboard, prostorije, lista i detalji uređaja, favorites, scene | ✅ |
-| 7 | Tablet grid, landscape, fullscreen, osnovni kiosk, velike kontrole | ⏭ sledeće |
-| 8 | Drift cache, poslednja stanja, oznaka zastarelih podataka, sinhronizacija posle reconnect-a | |
+| 7 | Tablet grid, landscape, fullscreen, osnovni kiosk, velike kontrole | ✅ |
+| 8 | Drift cache, poslednja stanja, oznaka zastarelih podataka, sinhronizacija posle reconnect-a | ⏭ sledeće |
 | 9 | Integration testovi, performanse, curenje memorije, dokumentacija, build | |
 
 Kasnije: OAuth2 prijava, mDNS otkrivanje servera, energy dashboard, kamere, alarm panel, biometrijska potvrda, multi-home, uloge, instalaterski režim, push, sopstveni backend, vizuelni editor automatizacija, Docker Compose gateway (HA, Mosquitto, Zigbee2MQTT, Z-Wave JS UI, Matter Server, OTBR).

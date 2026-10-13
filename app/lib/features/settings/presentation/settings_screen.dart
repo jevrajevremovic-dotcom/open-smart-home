@@ -7,6 +7,7 @@ import '../../../core/widgets/responsive.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
+import '../../kiosk/presentation/kiosk_settings_section.dart';
 import 'language_selector.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -71,6 +72,8 @@ class SettingsScreen extends ConsumerWidget {
                     icon: const Icon(Icons.logout),
                     label: Text(l10n.signOut),
                   ),
+                  section(l10n.kioskSection),
+                  const KioskSettingsSection(),
                   section(l10n.privacySection),
                   OutlinedButton.icon(
                     onPressed: () => _confirmDeleteAll(context, ref),

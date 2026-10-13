@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:open_smart_home/core/config/app_config.dart';
 import 'package:open_smart_home/core/storage/app_preferences.dart';
 import 'package:open_smart_home/core/storage/credential_store.dart';
+import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// In-memory replacement for the platform keychain/keystore.
@@ -23,9 +24,25 @@ class InMemoryCredentialStore implements CredentialStore {
   Future<void> deleteAll() async => values.clear();
 }
 
+/// Records kiosk platform calls instead of touching platform channels.
+class FakeKioskPlatform implements KioskPlatform {
+  bool fullscreen = false;
+  bool screenOn = false;
+
+  @override
+  Future<void> enterFullscreen() async => fullscreen = true;
+
+  @override
+  Future<void> exitFullscreen() async => fullscreen = false;
+
+  @override
+  Future<void> keepScreenOn(bool on) async => screenOn = on;
+}
+
 /// Overrides for running the app against the in-memory mock server.
 Future<List<Override>> testOverrides({
   InMemoryCredentialStore? credentials,
+  KioskPlatform? kioskPlatform,
   Map<String, Object> preferences = const {},
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -33,6 +50,9 @@ Future<List<Override>> testOverrides({
   return [
     appConfigProvider.overrideWithValue(const AppConfig(mockMode: true)),
     sharedPreferencesProvider.overrideWithValue(prefs),
+    kioskPlatformProvider.overrideWithValue(
+      kioskPlatform ?? FakeKioskPlatform(),
+    ),
     credentialStoreProvider.overrideWithValue(
       credentials ?? InMemoryCredentialStore(),
     ),

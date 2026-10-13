@@ -165,8 +165,17 @@ sealed class DeviceWeatherState {
 }
 
 final class DeviceWeatherReady extends DeviceWeatherState {
-  const DeviceWeatherReady(this.report);
+  const DeviceWeatherReady(this.report, {this.kmFromHome});
   final WeatherReport report;
+
+  /// Distance to Home Assistant's home location, when both are known.
+  final double? kmFromHome;
+
+  /// Within this distance the device is "at home" and its own forecast
+  /// would only duplicate the home card.
+  static const atHomeKm = 10.0;
+
+  bool get atHome => kmFromHome != null && kmFromHome! < atHomeKm;
 }
 
 final class DeviceWeatherNoLocation extends DeviceWeatherState {
@@ -187,7 +196,16 @@ final deviceWeatherProvider = FutureProvider<DeviceWeatherState?>((ref) async {
   final report = await ref
       .read(locationWeatherServiceProvider)
       .forecast(latitude: location.latitude, longitude: location.longitude);
-  return DeviceWeatherReady(report);
+  final config = ref.read(serverConfigProvider).value;
+  final km = config?.latitude == null || config?.longitude == null
+      ? null
+      : distanceKm(
+          location.latitude,
+          location.longitude,
+          config!.latitude!,
+          config.longitude!,
+        );
+  return DeviceWeatherReady(report, kmFromHome: km);
 });
 
 class _MockLocator implements DeviceLocator {

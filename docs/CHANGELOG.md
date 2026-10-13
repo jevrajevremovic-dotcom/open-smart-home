@@ -12,6 +12,8 @@
 - Prognoza za lokaciju doma (MET Norway, uz pristanak) kad HA nema `weather` entitet; koordinate iz `/api/config`, zaokružene na ~1 km; 24 h po satima i 7 dana.
 
 ### Ispravljeno
+- Dve kartice za vreme kad su uključene i prognoza za dom i „Vreme na mojoj lokaciji”: kartica za lokaciju uređaja se sada prikazuje samo kad je uređaj dalje od 10 km od doma; ako je lokacija doma u HA daleko (> 50 km), aplikacija upozorava da je proverite.
+- „Muzika i mediji” je uvek vidljivo (početni ekran i kiosk); bez media plejera objašnjava šta treba dodati u Home Assistantu.
 - Kiosk: panel vremena i kalendar više se ne skrivaju kad HA nema entitet za vreme ili kalendare – prikazuju objašnjenje (kalendar i dalje prikazuje mesec).
 - Kiosk: „sada svira” je na užim tabletima bio van ekrana u donjoj traci.
 - „Dodaj uređaj”: Zigbee uparivanje iz aplikacije preko huba (ZHA `zha.permit` ili Zigbee2MQTT preko `mqtt.publish`), odbrojavanje 3 min sa produžavanjem i zaustavljanjem, automatsko zatvaranje pri izlasku, lista novih uređaja i podešavanje imena i prostorije; Wi-Fi/LAN, Matter i Z-Wave označeni kao „uskoro”. Ulaz iz Podešavanja i sa ekrana Sobe (+).

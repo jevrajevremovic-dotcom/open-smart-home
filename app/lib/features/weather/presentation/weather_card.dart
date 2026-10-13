@@ -159,15 +159,36 @@ class _DeviceWeather extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final state = ref.watch(deviceWeatherProvider);
+    final hasHomeWeather = ref.watch(
+      homeWeatherProvider.select((w) => w != null),
+    );
     Widget notice(Widget child) =>
         Padding(padding: const EdgeInsets.only(top: 12), child: child);
     return switch (state) {
-      AsyncData(value: DeviceWeatherReady(:final report)) => Padding(
+      // At home the home card already says it all.
+      AsyncData(value: final DeviceWeatherReady ready)
+          when ready.atHome && hasHomeWeather =>
+        const SizedBox.shrink(),
+      AsyncData(value: final DeviceWeatherReady ready) => Padding(
         padding: const EdgeInsets.only(top: 12),
-        child: WeatherCard(
-          report: report,
-          title: l10n.weatherAtMyLocation,
-          attribution: l10n.weatherMetAttribution,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            WeatherCard(
+              report: ready.report,
+              title: l10n.weatherAtMyLocation,
+              attribution: l10n.weatherMetAttribution,
+            ),
+            // A home location hundreds of km away is usually HA's default,
+            // never changed – worth pointing out.
+            if (hasHomeWeather && (ready.kmFromHome ?? 0) > 50)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: InlineNotice.info(
+                  l10n.weatherHomeLocationFar(ready.kmFromHome!.round()),
+                ),
+              ),
+          ],
         ),
       ),
       AsyncData(

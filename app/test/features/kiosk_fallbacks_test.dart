@@ -117,4 +117,32 @@ void main() {
     );
     await unmount(tester);
   });
+
+  testWidgets('music card is there even without media players and explains', (
+    tester,
+  ) async {
+    final server = MockHomeAssistantServer(
+      states: [
+        for (final s in buildMockStates(DateTime.now()))
+          if (!(s['entity_id']! as String).startsWith('media_player.')) s,
+      ],
+    );
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: const Size(800, 1600),
+      server: server,
+    );
+    await settle(tester, 10);
+    final card = find.byKey(const Key('nowPlayingCard'));
+    expect(card, findsOneWidget);
+    expect(
+      find.descendant(of: card, matching: find.text(en.mediaNoPlayersShort)),
+      findsOneWidget,
+    );
+    await tester.tap(card);
+    await settle(tester, 3);
+    expect(find.text(en.mediaNoPlayers), findsOneWidget);
+    await unmount(tester);
+  });
 }

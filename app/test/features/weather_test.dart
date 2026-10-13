@@ -253,8 +253,11 @@ void main() {
       expect(find.text(en.weatherDeviceDisclosure), findsOneWidget);
       await tapKey(tester, 'confirmDeviceWeather');
       await settle(tester, 6);
-      expect(find.byKey(const ValueKey('weather-device')), findsOneWidget);
-      expect(find.text(en.weatherMetAttribution), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('weather-device')),
+        findsNothing,
+        reason: 'the demo tablet is at home: one weather card is enough',
+      );
 
       await goTo(tester, '/settings');
       await tester.ensureVisible(find.byKey(const Key('deviceWeatherSwitch')));
@@ -310,5 +313,18 @@ void main() {
     expect(find.text(en.weatherToday), findsOneWidget);
     expect(find.text(en.weatherNow), findsOneWidget);
     await unmount(tester);
+  });
+
+  test('distance to home decides whether the device card is shown', () {
+    final belgradeToNoviSad = distanceKm(44.8125, 20.4612, 45.2671, 19.8335);
+    expect(belgradeToNoviSad, closeTo(70, 3));
+    expect(distanceKm(44.81, 20.46, 44.82, 20.47), lessThan(2));
+    const report = WeatherReport(
+      source: WeatherSource.device,
+      now: WeatherNow(condition: WeatherCondition.clearDay),
+    );
+    expect(const DeviceWeatherReady(report, kmFromHome: 3).atHome, isTrue);
+    expect(const DeviceWeatherReady(report, kmFromHome: 70).atHome, isFalse);
+    expect(const DeviceWeatherReady(report).atHome, isFalse);
   });
 }

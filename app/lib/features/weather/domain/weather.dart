@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 
 /// Weather conditions, shared by Home Assistant and MET Norway.
@@ -143,4 +145,18 @@ class WeatherReport {
   /// Home Assistant entity name; `null` for the device location.
   final String? title;
   final DateTime? updatedAt;
+}
+
+/// Great-circle distance in kilometres (haversine).
+double distanceKm(double lat1, double lon1, double lat2, double lon2) {
+  const r = 6371.0;
+  double rad(double d) => d * math.pi / 180;
+  final dLat = rad(lat2 - lat1);
+  final dLon = rad(lon2 - lon1);
+  final a =
+      math.pow(math.sin(dLat / 2), 2) +
+      math.cos(rad(lat1)) *
+          math.cos(rad(lat2)) *
+          math.pow(math.sin(dLon / 2), 2);
+  return 2 * r * math.asin(math.sqrt(a));
 }

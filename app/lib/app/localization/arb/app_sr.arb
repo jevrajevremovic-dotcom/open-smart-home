@@ -449,7 +449,9 @@
   "kioskWeatherMissing": "Nema vremenske prognoze. Uključite je u Podešavanjima → Privatnost ili dodajte integraciju Met.no u Home Assistantu.",
   "calendarNoneShort": "U Home Assistantu nema kalendara",
   "mediaTitle": "Muzika i mediji",
-  "mediaNoPlayers": "U Home Assistantu nema media plejera.",
+  "mediaNoPlayers": "U Home Assistantu još nema media plejera. Dodajte ga tamo, na primer Spotify, Google Cast, Sonos, DLNA, Kodi ili integraciju vašeg smart TV-a, i pojaviće se ovde.",
   "mediaSource": "Izvor",
-  "mediaIdle": "Ništa ne svira"
+  "mediaIdle": "Ništa ne svira",
+  "weatherHomeLocationFar": "Lokacija doma u Home Assistantu je oko {km} km od ovog uređaja. Ako to nije tačno, podesite je u Home Assistantu (Podešavanja → Sistem → Opšte); prognoza za dom koristi tu lokaciju.",
+  "mediaNoPlayersShort": "Još nema media plejera"
 }

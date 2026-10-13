@@ -805,18 +805,16 @@ class KioskStatusBar extends ConsumerWidget {
     // Media stays next to Assist on the right, always visible.
     final media = playing != null
         ? _NowPlayingPill(key: const Key('kioskNowPlaying'), deviceId: playing)
-        : hasPlayers
-        ? GestureDetector(
+        : GestureDetector(
             key: const Key('kioskMedia'),
             onTap: () => showMediaSheet(context),
             child: _StatusItem(
               icon: Icons.music_note,
               disc: const Color(0xFFB065E8),
               title: l10n.mediaTitle,
-              subtitle: l10n.mediaIdle,
+              subtitle: hasPlayers ? l10n.mediaIdle : l10n.mediaNoPlayersShort,
             ),
-          )
-        : null;
+          );
     return Row(
       children: [
         Expanded(
@@ -832,10 +830,8 @@ class KioskStatusBar extends ConsumerWidget {
             ),
           ),
         ),
-        if (media != null) ...[
-          const SizedBox(width: 12),
-          Flexible(child: media),
-        ],
+        const SizedBox(width: 12),
+        Flexible(child: media),
         const SizedBox(width: 12),
         Semantics(
           button: true,

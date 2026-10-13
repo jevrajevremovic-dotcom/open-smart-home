@@ -1571,11 +1571,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mediaTitle => 'Music and media';
 
   @override
-  String get mediaNoPlayers => 'No media players in Home Assistant.';
+  String get mediaNoPlayers =>
+      'Home Assistant has no media players yet. Add one there, for example Spotify, Google Cast, Sonos, DLNA, Kodi or your smart TV\'s integration, and it shows up here.';
 
   @override
   String get mediaSource => 'Source';
 
   @override
   String get mediaIdle => 'Not playing';
+
+  @override
+  String weatherHomeLocationFar(int km) {
+    return 'Home Assistant\'s home location is about $km km from this device. If that\'s wrong, set it in Home Assistant under Settings, System, General; the home forecast uses it.';
+  }
+
+  @override
+  String get mediaNoPlayersShort => 'No media players yet';
 }

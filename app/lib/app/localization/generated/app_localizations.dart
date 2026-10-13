@@ -2796,7 +2796,7 @@ abstract class AppLocalizations {
   /// No description provided for @mediaNoPlayers.
   ///
   /// In en, this message translates to:
-  /// **'No media players in Home Assistant.'**
+  /// **'Home Assistant has no media players yet. Add one there, for example Spotify, Google Cast, Sonos, DLNA, Kodi or your smart TV\'s integration, and it shows up here.'**
   String get mediaNoPlayers;
 
   /// No description provided for @mediaSource.
@@ -2810,6 +2810,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not playing'**
   String get mediaIdle;
+
+  /// No description provided for @weatherHomeLocationFar.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant\'s home location is about {km} km from this device. If that\'s wrong, set it in Home Assistant under Settings, System, General; the home forecast uses it.'**
+  String weatherHomeLocationFar(int km);
+
+  /// No description provided for @mediaNoPlayersShort.
+  ///
+  /// In en, this message translates to:
+  /// **'No media players yet'**
+  String get mediaNoPlayersShort;
 }
 
 class _AppLocalizationsDelegate

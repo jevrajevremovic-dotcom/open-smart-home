@@ -1580,13 +1580,22 @@ class AppLocalizationsSr extends AppLocalizations {
   String get mediaTitle => 'Muzika i mediji';
 
   @override
-  String get mediaNoPlayers => 'U Home Assistantu nema media plejera.';
+  String get mediaNoPlayers =>
+      'U Home Assistantu još nema media plejera. Dodajte ga tamo, na primer Spotify, Google Cast, Sonos, DLNA, Kodi ili integraciju vašeg smart TV-a, i pojaviće se ovde.';
 
   @override
   String get mediaSource => 'Izvor';
 
   @override
   String get mediaIdle => 'Ništa ne svira';
+
+  @override
+  String weatherHomeLocationFar(int km) {
+    return 'Lokacija doma u Home Assistantu je oko $km km od ovog uređaja. Ako to nije tačno, podesite je u Home Assistantu (Podešavanja → Sistem → Opšte); prognoza za dom koristi tu lokaciju.';
+  }
+
+  @override
+  String get mediaNoPlayersShort => 'Još nema media plejera';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

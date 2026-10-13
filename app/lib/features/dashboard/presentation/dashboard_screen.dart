@@ -663,7 +663,8 @@ class NowPlayingCard extends ConsumerWidget {
       mediaPlayerIdsProvider.select((ids) => ids.isNotEmpty),
     );
     final d = id == null ? null : ref.watch(deviceProvider(id));
-    if (d == null && !hasPlayers) return const SizedBox.shrink();
+    // Always present, so it's clear where music lives; without players
+    // the sheet explains what to add in Home Assistant.
     final scheme = Theme.of(context).colorScheme;
     final playing = d?.state.raw == 'playing';
     return Padding(
@@ -690,7 +691,7 @@ class NowPlayingCard extends ConsumerWidget {
           ),
           subtitle: Text(
             d == null
-                ? l10n.mediaIdle
+                ? (hasPlayers ? l10n.mediaIdle : l10n.mediaNoPlayersShort)
                 : [?d.state.mediaArtist, d.name].join(' · '),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

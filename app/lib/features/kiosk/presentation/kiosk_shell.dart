@@ -52,8 +52,13 @@ class _KioskShellState extends ConsumerState<KioskShell> {
     if (old.location != widget.location) _restartTimers();
   }
 
+  void _setDimmed(bool dimmed) {
+    setState(() => _dimmed = dimmed);
+    ref.read(kioskDimmedProvider.notifier).set(dimmed);
+  }
+
   void _onInteraction() {
-    if (_dimmed) setState(() => _dimmed = false);
+    if (_dimmed) _setDimmed(false);
     _restartTimers();
   }
 
@@ -69,7 +74,7 @@ class _KioskShellState extends ConsumerState<KioskShell> {
     }
     if (settings.dimAfter > Duration.zero) {
       _dimTimer = Timer(settings.dimAfter, () {
-        if (mounted) setState(() => _dimmed = true);
+        if (mounted) _setDimmed(true);
       });
     }
   }

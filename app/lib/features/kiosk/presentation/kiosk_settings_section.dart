@@ -118,6 +118,15 @@ class KioskSettingsSection extends ConsumerWidget {
           ),
         ),
         SwitchListTile(
+          key: const Key('kioskShowCameras'),
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.kioskShowCameras),
+          subtitle: Text(l10n.kioskShowCamerasHint),
+          value: settings.showCameras,
+          onChanged: (v) =>
+              controller.update((s) => s.copyWith(showCameras: v)),
+        ),
+        SwitchListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(l10n.kioskLiteEffects),
           subtitle: Text(l10n.kioskLiteEffectsHint),

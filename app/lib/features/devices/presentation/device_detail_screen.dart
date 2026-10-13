@@ -5,6 +5,7 @@ import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/widgets/responsive.dart';
 import '../../../core/widgets/status_widgets.dart';
+import '../../cameras/presentation/camera_view.dart';
 import '../../favorites/application/favorites_controller.dart';
 import '../application/device_providers.dart';
 import '../data/home_state_repository.dart';
@@ -117,6 +118,7 @@ class DeviceDetailScreen extends ConsumerWidget {
         _ when d.kind.isRoutine || d.kind == DeviceKind.button => [
           RoutineControls(device: d),
         ],
+        DeviceKind.camera => [CameraDetail(device: d)],
         _ when d.kind.isSensor => [SensorReadout(device: d)],
         _ => const <Widget>[],
       },

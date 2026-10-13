@@ -1333,6 +1333,35 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get weatherFeelsHint =>
       'Iz vašeg Home Assistant entiteta za vreme. Ništa ne napušta vašu mrežu.';
+
+  @override
+  String get camerasTitle => 'Kamere';
+
+  @override
+  String get cameraUnavailable => 'Kamera trenutno ne šalje sliku.';
+
+  @override
+  String cameraSnapshotAt(String time) {
+    return 'Snimak $time';
+  }
+
+  @override
+  String cameraRefreshHint(int seconds) {
+    return 'Slika se osvežava svake $seconds s dok je ovaj ekran otvoren. Ništa se ne snima niti čuva.';
+  }
+
+  @override
+  String get cameraFullscreen => 'Ceo ekran';
+
+  @override
+  String get cameraLoading => 'Učitavam kameru…';
+
+  @override
+  String get kioskShowCameras => 'Prikaži kamere';
+
+  @override
+  String get kioskShowCamerasHint =>
+      'Sliku kamera vidi svako ko gleda u zidni tablet.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

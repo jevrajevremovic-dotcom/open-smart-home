@@ -618,5 +618,27 @@
   "weatherNow": "Now",
   "weatherNoForecast": "Your Home Assistant weather entity provides no forecast.",
   "weatherPrecipitation": "Precipitation",
-  "weatherFeelsHint": "From your Home Assistant weather entity. Nothing leaves your network."
+  "weatherFeelsHint": "From your Home Assistant weather entity. Nothing leaves your network.",
+  "camerasTitle": "Cameras",
+  "cameraUnavailable": "The camera isn't sending images right now.",
+  "cameraSnapshotAt": "Snapshot {time}",
+  "@cameraSnapshotAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cameraRefreshHint": "The picture refreshes every {seconds} s while this screen is open. Nothing is recorded or stored.",
+  "@cameraRefreshHint": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "cameraFullscreen": "Full screen",
+  "cameraLoading": "Loading the camera…",
+  "kioskShowCameras": "Show cameras",
+  "kioskShowCamerasHint": "Camera pictures are visible to anyone looking at the wall tablet."
 }

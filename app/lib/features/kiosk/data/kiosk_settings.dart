@@ -17,6 +17,7 @@ class KioskSettings {
     this.background = KioskBackground.aurora,
     this.liteEffects = false,
     this.statusEntityIds = const [],
+    this.showCameras = true,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -37,6 +38,7 @@ class KioskSettings {
         orElse: () => d.background,
       ),
       liteEffects: json['liteEffects'] == true,
+      showCameras: json['showCameras'] != false,
       statusEntityIds: [
         if (json['statusEntityIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(maxStatusEntities)) id,
@@ -63,6 +65,9 @@ class KioskSettings {
   /// Entities shown as chips at the top of the kiosk dashboard.
   final List<String> statusEntityIds;
   static const maxStatusEntities = 6;
+
+  /// Camera panel on the kiosk dashboard (visible to anyone in the room).
+  final bool showCameras;
 
   bool get hasPin => pinHash != null && pinSalt != null;
 
@@ -94,7 +99,9 @@ class KioskSettings {
     KioskBackground? background,
     bool? liteEffects,
     List<String>? statusEntityIds,
+    bool? showCameras,
   }) => KioskSettings(
+    showCameras: showCameras ?? this.showCameras,
     statusEntityIds: statusEntityIds ?? this.statusEntityIds,
     background: background ?? this.background,
     liteEffects: liteEffects ?? this.liteEffects,
@@ -116,5 +123,6 @@ class KioskSettings {
     'background': background.name,
     'liteEffects': liteEffects,
     'statusEntityIds': statusEntityIds,
+    'showCameras': showCameras,
   };
 }

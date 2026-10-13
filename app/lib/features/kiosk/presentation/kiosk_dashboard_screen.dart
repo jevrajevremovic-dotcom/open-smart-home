@@ -13,7 +13,9 @@ import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/stale_data_banner.dart';
 import '../../weather/application/weather_providers.dart';
 import '../application/kiosk_controller.dart';
+import '../../cameras/application/camera_providers.dart';
 import 'glass.dart';
+import 'kiosk_camera_panel.dart';
 import 'kiosk_panels.dart';
 import 'thermostat_dial.dart';
 import 'pin_dialog.dart';
@@ -157,14 +159,21 @@ class _GridLayout extends ConsumerWidget {
       dashboardSummaryProvider.select((s) => s.sceneIds),
     );
 
+    final cameras =
+        ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
+        ref.watch(cameraIdsProvider.select((ids) => ids.isNotEmpty));
+
+    // With cameras the picture takes the top-left, rooms move down.
     final top = <Widget>[
+      if (cameras) const Expanded(flex: 6, child: KioskCameraPanel()),
       if (hasWeather) const Expanded(flex: 4, child: KioskWeatherPanel()),
       if (thermostat != null)
         Expanded(flex: 4, child: KioskThermostatPanel(deviceId: thermostat)),
-      const Expanded(flex: 4, child: KioskRoomsPanel()),
+      if (!cameras) const Expanded(flex: 4, child: KioskRoomsPanel()),
     ];
     final bottom = <Widget>[
-      const Expanded(flex: 8, child: KioskShortcutsPanel()),
+      if (cameras) const Expanded(flex: 4, child: KioskRoomsPanel()),
+      Expanded(flex: cameras ? 6 : 8, child: const KioskShortcutsPanel()),
       if (scenes.isNotEmpty)
         Expanded(flex: 4, child: KioskScenesPanel(sceneIds: scenes)),
     ];
@@ -216,6 +225,9 @@ class _ColumnLayout extends ConsumerWidget {
       dashboardSummaryProvider.select((s) => s.sceneIds),
     );
     final hasWeather = ref.watch(homeWeatherProvider.select((w) => w != null));
+    final cameras =
+        ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
+        ref.watch(cameraIdsProvider.select((ids) => ids.isNotEmpty));
     final refresh = ref.read(webSocketManagerProvider)?.retryNow;
     const gap = SizedBox(height: 16);
     return RefreshIndicator(
@@ -227,6 +239,10 @@ class _ColumnLayout extends ConsumerWidget {
           const _Problems(),
           gap,
           const KioskStatusBar(),
+          if (cameras) ...[
+            gap,
+            const SizedBox(height: 300, child: KioskCameraPanel()),
+          ],
           if (hasWeather) ...[gap, const KioskWeatherPanel()],
           if (thermostat != null) ...[
             gap,

@@ -9,6 +9,7 @@ import '../api/home_assistant_api.dart';
 import '../auth/ha_auth_client.dart';
 import '../models/ha_models.dart';
 import '../websocket/ha_socket.dart';
+import 'mock_camera_image.dart';
 import 'mock_fixtures.dart';
 
 /// Token that the mock server rejects, to exercise the auth-failure path.
@@ -41,6 +42,11 @@ class MockHomeAssistantServer {
 
   final DateTime Function() _clock;
   final Map<String, Map<String, Object?>> _states = {};
+
+  DateTime now() => _clock();
+
+  /// Camera snapshots served so far (lets tests check polling stops).
+  int cameraRequests = 0;
   final Set<_MockSocket> _sockets = {};
 
   final ({
@@ -603,6 +609,21 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   @override
   Future<Uint8List> fetchImage(String path) async {
     await _requireAuth();
+    const proxy = '/api/camera_proxy/';
+    if (path.startsWith(proxy)) {
+      final id = Uri.decodeComponent(path.substring(proxy.length));
+      final cameras = [
+        for (final s in server.states)
+          if ((s['entity_id']! as String).startsWith('camera.'))
+            s['entity_id']! as String,
+      ];
+      final index = cameras.indexOf(id);
+      if (index >= 0) {
+        server.cameraRequests++;
+        await _latency();
+        return mockCameraFrame(index, server.now());
+      }
+    }
     // Demo people have no pictures; the UI shows their initials.
     throw const AppFailure(FailureKind.server, debugMessage: 'no image');
   }

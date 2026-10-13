@@ -375,5 +375,13 @@
   "weatherNow": "Sada",
   "weatherNoForecast": "Vaš Home Assistant entitet za vreme ne daje prognozu.",
   "weatherPrecipitation": "Padavine",
-  "weatherFeelsHint": "Iz vašeg Home Assistant entiteta za vreme. Ništa ne napušta vašu mrežu."
+  "weatherFeelsHint": "Iz vašeg Home Assistant entiteta za vreme. Ništa ne napušta vašu mrežu.",
+  "camerasTitle": "Kamere",
+  "cameraUnavailable": "Kamera trenutno ne šalje sliku.",
+  "cameraSnapshotAt": "Snimak {time}",
+  "cameraRefreshHint": "Slika se osvežava svake {seconds} s dok je ovaj ekran otvoren. Ništa se ne snima niti čuva.",
+  "cameraFullscreen": "Ceo ekran",
+  "cameraLoading": "Učitavam kameru…",
+  "kioskShowCameras": "Prikaži kamere",
+  "kioskShowCamerasHint": "Sliku kamera vidi svako ko gleda u zidni tablet."
 }

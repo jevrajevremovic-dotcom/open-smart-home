@@ -17,6 +17,7 @@ Home Assistant se oglašava kao `_home-assistant._tcp` (integracija *Zeroconf*, 
 | `GET /api/config` | `fetchConfig()` | naziv lokacije, verzija, vremenska zona, jedinice |
 | `GET /api/states` | `fetchStates()` | početno učitavanje svih entiteta |
 | `POST /api/services/<domain>/<service>` | `callService()` | komande; odgovor je lista promenjenih stanja |
+| `GET /api/camera_proxy/<entity_id>` | `fetchImage()` | snimak kamere (JPEG/PNG); osvežava se svake 2 s samo dok je kamera prikazana |
 | `GET <entity_picture>` (npr. `/api/image/serve/<id>/512x512`) | `fetchImage()` | slika ukućana; prihvataju se samo putanje na samom HA serveru koje počinju sa `/api/`, tako da token nikad ne ide drugom hostu; spoljne slike se ne učitavaju (prikazuju se inicijali); najviše 5 MB |
 
 Mapiranje statusa: `401` → authentication, `403` → authorization, `400/405/422` → validation, `404` i `5xx` → server; timeout-i → timeout; socket greške → network; TLS → certificate.

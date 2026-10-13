@@ -111,6 +111,20 @@ final kioskActiveProvider = NotifierProvider<KioskSessionController, bool>(
   KioskSessionController.new,
 );
 
+/// `true` while the kiosk screensaver covers the screen; cameras stop
+/// refreshing then.
+final kioskDimmedProvider = NotifierProvider<KioskDimmedController, bool>(
+  KioskDimmedController.new,
+);
+
+class KioskDimmedController extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  // ignore: use_setters_to_change_properties
+  void set(bool dimmed) => state = dimmed;
+}
+
 /// Platform side effects of kiosk mode, behind an interface so widget tests
 /// do not touch platform channels.
 abstract interface class KioskPlatform {

@@ -50,6 +50,12 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Samo približna lokacija (Android `ACCESS_COARSE_LOCATION`, `LocationAccuracy.low`), dodatno zaokružena na 2 decimale (~1 km) pre slanja servisu MET Norway; ništa drugo se ne šalje. Osvežavanje na 30 min dok je aplikacija otvorena.
 - Samo na mobilnom; na webu i u kiosku se ne nudi.
 
+## Kamere
+
+- Slika se uzima preko dokumentovanog `GET /api/camera_proxy/<entity_id>` sa `Authorization` zaglavljem; token se nikad ne stavlja u URL (ne koristi se `access_token` iz `entity_picture`).
+- Snimci se osvežavaju (svake 2 s) **samo dok je kamera na ekranu**; kad se ekran zatvori ili kiosk pređe u čuvar ekrana, preuzimanje staje. Ništa se ne snima, ne kešira na disk i ne šalje dalje.
+- Na zidnom tabletu kamere vidi svako u prostoriji, pa se panel može isključiti (Podešavanja → Kiosk → Prikaži kamere).
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

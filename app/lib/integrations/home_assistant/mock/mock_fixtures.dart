@@ -94,6 +94,14 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Kamera dvorište',
       'supported_features': 0,
     }),
+    e('camera.driveway', 'streaming', {
+      'friendly_name': 'Kamera prilaz',
+      'supported_features': 2, // STREAM
+    }),
+    e('camera.backyard', 'idle', {
+      'friendly_name': 'Kamera bašta',
+      'supported_features': 0,
+    }),
     e('sensor.house_power', '742', {
       'friendly_name': 'Trenutna snaga',
       'device_class': 'power',

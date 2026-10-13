@@ -2354,6 +2354,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From your Home Assistant weather entity. Nothing leaves your network.'**
   String get weatherFeelsHint;
+
+  /// No description provided for @camerasTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cameras'**
+  String get camerasTitle;
+
+  /// No description provided for @cameraUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The camera isn\'t sending images right now.'**
+  String get cameraUnavailable;
+
+  /// No description provided for @cameraSnapshotAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot {time}'**
+  String cameraSnapshotAt(String time);
+
+  /// No description provided for @cameraRefreshHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The picture refreshes every {seconds} s while this screen is open. Nothing is recorded or stored.'**
+  String cameraRefreshHint(int seconds);
+
+  /// No description provided for @cameraFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Full screen'**
+  String get cameraFullscreen;
+
+  /// No description provided for @cameraLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading the camera…'**
+  String get cameraLoading;
+
+  /// No description provided for @kioskShowCameras.
+  ///
+  /// In en, this message translates to:
+  /// **'Show cameras'**
+  String get kioskShowCameras;
+
+  /// No description provided for @kioskShowCamerasHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera pictures are visible to anyone looking at the wall tablet.'**
+  String get kioskShowCamerasHint;
 }
 
 class _AppLocalizationsDelegate

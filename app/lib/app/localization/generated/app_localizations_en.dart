@@ -1326,4 +1326,33 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get weatherFeelsHint =>
       'From your Home Assistant weather entity. Nothing leaves your network.';
+
+  @override
+  String get camerasTitle => 'Cameras';
+
+  @override
+  String get cameraUnavailable => 'The camera isn\'t sending images right now.';
+
+  @override
+  String cameraSnapshotAt(String time) {
+    return 'Snapshot $time';
+  }
+
+  @override
+  String cameraRefreshHint(int seconds) {
+    return 'The picture refreshes every $seconds s while this screen is open. Nothing is recorded or stored.';
+  }
+
+  @override
+  String get cameraFullscreen => 'Full screen';
+
+  @override
+  String get cameraLoading => 'Loading the camera…';
+
+  @override
+  String get kioskShowCameras => 'Show cameras';
+
+  @override
+  String get kioskShowCamerasHint =>
+      'Camera pictures are visible to anyone looking at the wall tablet.';
 }

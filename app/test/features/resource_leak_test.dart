@@ -52,8 +52,8 @@ void main() {
         );
         expect(
           server.activeSubscriptions,
-          4,
-          reason: 'state_changed + 3 registry events, no duplicates',
+          5,
+          reason: 'state_changed + 4 registry events, no duplicates',
         );
 
         await c.read(sessionControllerProvider.notifier).signOut();

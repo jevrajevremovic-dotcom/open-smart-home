@@ -8,7 +8,13 @@ import 'package:flutter/foundation.dart';
 
 @immutable
 class HaArea {
-  const HaArea({required this.id, required this.name, this.icon, this.picture});
+  const HaArea({
+    required this.id,
+    required this.name,
+    this.icon,
+    this.picture,
+    this.floorId,
+  });
 
   static HaArea? tryParse(Object? json) {
     if (json is! Map) return null;
@@ -20,6 +26,7 @@ class HaArea {
       name: name,
       icon: _str(json['icon']),
       picture: _str(json['picture']),
+      floorId: _str(json['floor_id']),
     );
   }
 
@@ -27,6 +34,31 @@ class HaArea {
   final String name;
   final String? icon;
   final String? picture;
+  final String? floorId;
+}
+
+/// Entry of `config/floor_registry/list` (HA 2024.4+).
+@immutable
+class HaFloor {
+  const HaFloor({required this.id, required this.name, this.level});
+
+  static HaFloor? tryParse(Object? json) {
+    if (json is! Map) return null;
+    final id = json['floor_id'];
+    final name = json['name'];
+    if (id is! String || name is! String) return null;
+    return HaFloor(
+      id: id,
+      name: name,
+      level: json['level'] is int ? json['level']! as int : null,
+    );
+  }
+
+  final String id;
+  final String name;
+
+  /// Storey number (0 = ground floor); `null` when not set.
+  final int? level;
 }
 
 @immutable
@@ -123,6 +155,7 @@ class HaRegistries {
     this.areas = const {},
     this.devices = const {},
     this.entities = const {},
+    this.floors = const {},
   });
 
   static const HaRegistries empty = HaRegistries();
@@ -131,6 +164,7 @@ class HaRegistries {
     required Object? areas,
     required Object? devices,
     required Object? entities,
+    Object? floors,
   }) {
     Map<String, T> index<T>(
       Object? list,
@@ -147,12 +181,14 @@ class HaRegistries {
       areas: index(areas, HaArea.tryParse, (a) => a.id),
       devices: index(devices, HaDeviceEntry.tryParse, (d) => d.id),
       entities: index(entities, HaEntityEntry.tryParse, (e) => e.entityId),
+      floors: index(floors, HaFloor.tryParse, (f) => f.id),
     );
   }
 
   final Map<String, HaArea> areas;
   final Map<String, HaDeviceEntry> devices;
   final Map<String, HaEntityEntry> entities;
+  final Map<String, HaFloor> floors;
 
   bool get isEmpty => areas.isEmpty && devices.isEmpty && entities.isEmpty;
 }

@@ -3848,6 +3848,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All lights in the home'**
   String get allLightsTitle;
+
+  /// No description provided for @floorOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get floorOther;
 }
 
 class _AppLocalizationsDelegate

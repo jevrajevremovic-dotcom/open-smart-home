@@ -624,5 +624,6 @@
   "svc_activate": "Aktiviraj",
   "allLightsOn": "Upali sva",
   "allLightsOff": "Ugasi sva",
-  "allLightsTitle": "Sva svetla u kući"
+  "allLightsTitle": "Sva svetla u kući",
+  "floorOther": "Ostalo"
 }

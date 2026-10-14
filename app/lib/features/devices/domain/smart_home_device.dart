@@ -314,7 +314,18 @@ class SmartHomeDevice {
 /// An area / room.
 @immutable
 class Room {
-  const Room({required this.id, required this.name, this.icon, this.picture});
+  const Room({
+    required this.id,
+    required this.name,
+    this.icon,
+    this.picture,
+    this.floorName,
+    this.floorLevel,
+  });
+
+  /// Floor the room is on (HA floor registry), if set.
+  final String? floorName;
+  final int? floorLevel;
 
   final String id;
   final String name;
@@ -329,8 +340,11 @@ class Room {
       other.id == id &&
       other.name == name &&
       other.icon == icon &&
-      other.picture == picture;
+      other.picture == picture &&
+      other.floorName == floorName &&
+      other.floorLevel == floorLevel;
 
   @override
-  int get hashCode => Object.hash(id, name, icon, picture);
+  int get hashCode =>
+      Object.hash(id, name, icon, picture, floorName, floorLevel);
 }

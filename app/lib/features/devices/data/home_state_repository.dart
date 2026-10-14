@@ -118,6 +118,7 @@ class HomeStateRepository {
     'area_registry_updated',
     'device_registry_updated',
     'entity_registry_updated',
+    'floor_registry_updated',
   ];
 
   final StreamController<HomeSnapshot> _controller =
@@ -128,11 +129,8 @@ class HomeStateRepository {
   HaRegistries _registries = HaRegistries.empty;
 
   /// Registry and config responses as received, for the cache.
-  ({Object? areas, Object? devices, Object? entities}) _rawRegistries = (
-    areas: null,
-    devices: null,
-    entities: null,
-  );
+  ({Object? areas, Object? devices, Object? entities, Object? floors})
+  _rawRegistries = (areas: null, devices: null, entities: null, floors: null);
   Object? _rawConfig;
   bool _hasLiveData = false;
   bool _dirty = false;
@@ -266,16 +264,23 @@ class HomeStateRepository {
   /// Registries are optional: on failure (older server, restricted user)
   /// the app continues without rooms and protocol information.
   Future<HaRegistries> _loadRegistries() async {
-    final (areas, devices, entities) = await (
+    final (areas, devices, entities, floors) = await (
       _optional('config/area_registry/list'),
       _optional('config/device_registry/list'),
       _optional('config/entity_registry/list'),
+      _optional('config/floor_registry/list'),
     ).wait;
-    _rawRegistries = (areas: areas, devices: devices, entities: entities);
+    _rawRegistries = (
+      areas: areas,
+      devices: devices,
+      entities: entities,
+      floors: floors,
+    );
     return HaRegistries.parse(
       areas: areas,
       devices: devices,
       entities: entities,
+      floors: floors,
     );
   }
 
@@ -389,6 +394,8 @@ class HomeStateRepository {
           name: area.name,
           icon: area.icon,
           picture: area.picture,
+          floorName: _registries.floors[area.floorId]?.name,
+          floorLevel: _registries.floors[area.floorId]?.level,
         ),
     };
     _emit(
@@ -427,11 +434,13 @@ class HomeStateRepository {
       areas: cached.areas,
       devices: cached.devices,
       entities: cached.entities,
+      floors: cached.floors,
     );
     _rawRegistries = (
       areas: cached.areas,
       devices: cached.devices,
       entities: cached.entities,
+      floors: cached.floors,
     );
     _rawConfig = cached.config;
     _states
@@ -480,6 +489,7 @@ class HomeStateRepository {
         areas: _rawRegistries.areas,
         devices: _rawRegistries.devices,
         entities: _rawRegistries.entities,
+        floors: _rawRegistries.floors,
         config: _rawConfig,
       ),
     );

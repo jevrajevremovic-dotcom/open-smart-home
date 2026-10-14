@@ -2168,4 +2168,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allLightsTitle => 'All lights in the home';
+
+  @override
+  String get floorOther => 'Other';
 }

@@ -979,5 +979,6 @@
   },
   "allLightsOn": "All on",
   "allLightsOff": "All off",
-  "allLightsTitle": "All lights in the home"
+  "allLightsTitle": "All lights in the home",
+  "floorOther": "Other"
 }

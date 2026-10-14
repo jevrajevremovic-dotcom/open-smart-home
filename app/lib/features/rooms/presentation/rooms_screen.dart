@@ -8,6 +8,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/all_lights.dart';
+import '../../restricted/application/restricted_mode.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../devices/presentation/stale_data_banner.dart';
@@ -29,16 +30,47 @@ class RoomsScreen extends ConsumerWidget {
       if (hasUnassigned) (null, l10n.roomNoRoom, null),
     ];
 
+    // With floors set up in HA: one section per floor, lowest first.
+    final floors = <String, int?>{
+      for (final r in rooms)
+        if (r.floorName != null) r.floorName!: r.floorLevel,
+    };
+    final floorOrder = floors.keys.toList()
+      ..sort((a, b) {
+        final la = floors[a] ?? 1 << 20;
+        final lb = floors[b] ?? 1 << 20;
+        return la != lb ? la.compareTo(lb) : a.compareTo(b);
+      });
+    final sections = <(String?, List<(String?, String, String?)>)>[
+      for (final f in floorOrder)
+        (
+          f,
+          [
+            for (final r in rooms)
+              if (r.floorName == f) (r.id, r.name, r.icon),
+          ],
+        ),
+      (
+        floorOrder.isEmpty ? null : l10n.floorOther,
+        [
+          for (final r in rooms)
+            if (r.floorName == null) (r.id, r.name, r.icon),
+          if (hasUnassigned) (null, l10n.roomNoRoom, null),
+        ],
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.navRooms),
         actions: [
-          IconButton(
-            key: const Key('openAddDevice'),
-            tooltip: l10n.addDeviceTitle,
-            onPressed: () => context.push(AppRoutes.addDevice),
-            icon: const Icon(Icons.add),
-          ),
+          if (!ref.watch(restrictedModeProvider).enabled)
+            IconButton(
+              key: const Key('openAddDevice'),
+              tooltip: l10n.addDeviceTitle,
+              onPressed: () => context.push(AppRoutes.addDevice),
+              icon: const Icon(Icons.add),
+            ),
           TextButton.icon(
             onPressed: () => context.push(AppRoutes.allDevices),
             icon: const Icon(Icons.list),
@@ -49,17 +81,34 @@ class RoomsScreen extends ConsumerWidget {
       body: MockModeBanner(
         child: CustomScrollView(
           slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.all(16),
-              sliver: entries.isEmpty
-                  ? SliverToBoxAdapter(
-                      child: EmptyHint(
-                        icon: Icons.meeting_room_outlined,
-                        text: l10n.noRoomsYet,
+            if (entries.isEmpty)
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverToBoxAdapter(
+                  child: EmptyHint(
+                    icon: Icons.meeting_room_outlined,
+                    text: l10n.noRoomsYet,
+                  ),
+                ),
+              )
+            else
+              for (final (title, list) in sections)
+                if (list.isNotEmpty) ...[
+                  if (title != null)
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      sliver: SliverToBoxAdapter(
+                        child: SectionHeader(
+                          title,
+                          key: ValueKey('floor-$title'),
+                        ),
                       ),
-                    )
-                  : RoomSliverGrid(rooms: entries),
-            ),
+                    ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    sliver: RoomSliverGrid(rooms: list),
+                  ),
+                ],
           ],
         ),
       ),

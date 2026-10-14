@@ -1297,6 +1297,8 @@ class _MockSocket implements HaSocket {
         } else {
           _emit(ok(device));
         }
+      case 'config/floor_registry/list':
+        _emit(ok(buildMockFloors()));
       case 'config/entity_registry/list':
         _emit(ok(_server.registries.entities));
       case 'call_service':

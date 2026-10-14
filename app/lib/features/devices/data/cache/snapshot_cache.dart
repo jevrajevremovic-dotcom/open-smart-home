@@ -18,6 +18,7 @@ class CachedHome {
     this.areas,
     this.devices,
     this.entities,
+    this.floors,
     this.config,
   });
 
@@ -45,6 +46,7 @@ class CachedHome {
       areas: reg['areas'],
       devices: reg['devices'],
       entities: reg['entities'],
+      floors: reg['floors'],
       config: json['config'],
     );
   }
@@ -57,6 +59,7 @@ class CachedHome {
   final Object? areas;
   final Object? devices;
   final Object? entities;
+  final Object? floors;
   final Object? config;
 
   Map<String, Object?> toJson() => {
@@ -64,7 +67,12 @@ class CachedHome {
     'savedAt': savedAt.toUtc().toIso8601String(),
     'lastSyncedAt': lastSyncedAt.toUtc().toIso8601String(),
     'states': states,
-    'registries': {'areas': areas, 'devices': devices, 'entities': entities},
+    'registries': {
+      'areas': areas,
+      'devices': devices,
+      'entities': entities,
+      'floors': floors,
+    },
     'config': config,
   };
 }

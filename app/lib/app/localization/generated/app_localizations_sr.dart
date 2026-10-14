@@ -2178,6 +2178,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get allLightsTitle => 'Sva svetla u kući';
+
+  @override
+  String get floorOther => 'Ostalo';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

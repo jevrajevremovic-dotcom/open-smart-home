@@ -231,12 +231,17 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
   List<Map<String, Object?>> entities,
 })
 buildMockRegistries() {
-  Map<String, Object?> area(String id, String name, String icon) => {
+  Map<String, Object?> area(
+    String id,
+    String name,
+    String icon, [
+    String? floor,
+  ]) => {
     'area_id': id,
     'name': name,
     'icon': icon,
     'picture': null,
-    'floor_id': null,
+    'floor_id': floor,
     'aliases': <String>[],
   };
   Map<String, Object?> device(
@@ -276,11 +281,11 @@ buildMockRegistries() {
 
   return (
     areas: [
-      area('living_room', 'Dnevna soba', 'mdi:sofa'),
-      area('bedroom', 'Spavaća soba', 'mdi:bed'),
-      area('hallway', 'Hodnik', 'mdi:door'),
-      area('kitchen', 'Kuhinja', 'mdi:countertop'),
-      area('garage', 'Garaža', 'mdi:garage'),
+      area('living_room', 'Dnevna soba', 'mdi:sofa', 'ground'),
+      area('bedroom', 'Spavaća soba', 'mdi:bed', 'first'),
+      area('hallway', 'Hodnik', 'mdi:door', 'ground'),
+      area('kitchen', 'Kuhinja', 'mdi:countertop', 'ground'),
+      area('garage', 'Garaža', 'mdi:garage', 'ground'),
       area('yard', 'Dvorište', 'mdi:tree'),
     ],
     devices: [
@@ -469,3 +474,9 @@ double mockHourlyEnergy(String statisticId, DateTime hour) {
 }
 
 double _bell(double x) => x <= 0 || x >= 1 ? 0 : 4 * x * (1 - x);
+
+/// `config/floor_registry/list` payload of the demo home.
+List<Map<String, Object?>> buildMockFloors() => [
+  {'floor_id': 'ground', 'name': 'Prizemlje', 'level': 0, 'icon': null},
+  {'floor_id': 'first', 'name': 'Sprat', 'level': 1, 'icon': null},
+];

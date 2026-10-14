@@ -73,4 +73,20 @@ void main() {
     expect(container.read(favoritesProvider).first, 'lock.front_door');
     await unmount(tester);
   });
+
+  testWidgets('rooms are grouped by floor when HA has floors', (tester) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await settle(tester, 10);
+    await goTo(tester, AppRoutes.rooms);
+    await settle(tester, 4);
+    final ground = tester.getTopLeft(
+      find.byKey(const ValueKey('floor-Prizemlje')),
+    );
+    final first = tester.getTopLeft(find.byKey(const ValueKey('floor-Sprat')));
+    final other = tester.getTopLeft(
+      find.byKey(ValueKey('floor-${en.floorOther}')),
+    );
+    expect(ground.dy < first.dy && first.dy < other.dy, isTrue);
+    await unmount(tester);
+  });
 }

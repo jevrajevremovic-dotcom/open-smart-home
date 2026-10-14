@@ -33,4 +33,22 @@ void main() {
     expect(DevicePresentation.fanModeLabel(l10n, 'auto'), l10n.hvacAuto);
     expect(DevicePresentation.fanModeLabel(l10n, 'Turbo 3'), 'Turbo 3');
   });
+
+  test('room name in front of a device name is dropped in its room', () {
+    expect(
+      DevicePresentation.shortName(
+        'Dnevna soba – glavno svetlo',
+        'Dnevna soba',
+      ),
+      'Glavno svetlo',
+    );
+    expect(DevicePresentation.shortName('Hodnik svetlo', 'Hodnik'), 'Svetlo');
+    expect(DevicePresentation.shortName('Hodnik', 'Hodnik'), 'Hodnik');
+    expect(
+      DevicePresentation.shortName('Hodnikovo svetlo', 'Hodnik'),
+      'Hodnikovo svetlo',
+    );
+    expect(DevicePresentation.shortName('Lampa', 'Hodnik'), 'Lampa');
+    expect(DevicePresentation.shortName('Lampa', null), 'Lampa');
+  });
 }

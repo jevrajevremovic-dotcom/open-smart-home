@@ -181,7 +181,7 @@ class RoomDetailScreen extends ConsumerWidget {
               ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: DeviceSliverGrid(deviceIds: ids),
+              sliver: DeviceSliverGrid(deviceIds: ids, withoutRoomName: true),
             ),
           ],
           const SliverToBoxAdapter(child: SizedBox(height: 24)),

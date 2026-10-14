@@ -30,6 +30,22 @@ enum DeviceTone {
 /// Icon, tone and localized status text for a device. Pure functions of the
 /// device model, so every screen describes devices the same way.
 abstract final class DevicePresentation {
+  /// [name] without a leading room name, as Home Assistant's own tiles do:
+  /// "Dnevna soba – glavno svetlo" in "Dnevna soba" → "Glavno svetlo".
+  /// Unchanged when nothing meaningful would remain.
+  static String shortName(String name, String? roomName) {
+    if (roomName == null || roomName.isEmpty) return name;
+    if (!name.toLowerCase().startsWith(roomName.toLowerCase())) return name;
+    final rest = name
+        .substring(roomName.length)
+        .replaceFirst(RegExp(r'^[\s\-–—:,|/]+'), '');
+    // "Hodnik" in "Hodnik", or "Kuhinjski…" in "Kuhinja": keep it.
+    if (rest.isEmpty || rest.length == name.length - roomName.length) {
+      return name;
+    }
+    return rest[0].toUpperCase() + rest.substring(1);
+  }
+
   static IconData icon(SmartHomeDevice d) {
     final on = d.state.isOn == true;
     final active = d.state.isActive == true;

@@ -8,9 +8,16 @@ import 'device_tile.dart';
 /// Tile width adapts to the screen (wider on tablets and wall panels); tile
 /// height grows with the user's text scale so labels never get clipped.
 class DeviceSliverGrid extends StatelessWidget {
-  const DeviceSliverGrid({super.key, required this.deviceIds});
+  const DeviceSliverGrid({
+    super.key,
+    required this.deviceIds,
+    this.withoutRoomName = false,
+  });
 
   final List<String> deviceIds;
+
+  /// See [DeviceTile.withoutRoomName].
+  final bool withoutRoomName;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +35,11 @@ class DeviceSliverGrid extends StatelessWidget {
         crossAxisSpacing: 12,
       ),
       itemCount: deviceIds.length,
-      itemBuilder: (context, i) =>
-          DeviceTile(key: ValueKey(deviceIds[i]), deviceId: deviceIds[i]),
+      itemBuilder: (context, i) => DeviceTile(
+        key: ValueKey(deviceIds[i]),
+        deviceId: deviceIds[i],
+        withoutRoomName: withoutRoomName,
+      ),
     );
   }
 }

@@ -510,7 +510,7 @@ class KioskShortcutsPanel extends ConsumerWidget {
     final ids = ref.watch(existingFavoritesProvider);
     const delegate = SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 200,
-      mainAxisExtent: 108,
+      mainAxisExtent: 136,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
     );
@@ -558,7 +558,9 @@ class KioskShortcutsPanel extends ConsumerWidget {
           ],
           if (scrollable)
             Expanded(
-              child: ids.isEmpty ? SingleChildScrollView(child: body) : body,
+              child: EdgeFade(
+                child: ids.isEmpty ? SingleChildScrollView(child: body) : body,
+              ),
             )
           else
             body,
@@ -652,7 +654,7 @@ class _ShortcutTileState extends ConsumerState<_ShortcutTile> {
                     const Spacer(),
                     Text(
                       d.name,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: swatch?.onContainer ?? GlassColors.text,

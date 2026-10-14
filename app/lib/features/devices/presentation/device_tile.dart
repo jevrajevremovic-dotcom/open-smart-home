@@ -16,22 +16,38 @@ import 'device_presentation.dart';
 /// Compact card for one device. Watches only its own device, so a state
 /// change elsewhere in the home does not rebuild it.
 class DeviceTile extends ConsumerWidget {
-  const DeviceTile({super.key, required this.deviceId});
+  const DeviceTile({
+    super.key,
+    required this.deviceId,
+    this.withoutRoomName = false,
+  });
 
   final String deviceId;
+
+  /// Inside a room's own screen the room name in front is redundant.
+  final bool withoutRoomName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final device = ref.watch(deviceProvider(deviceId));
     if (device == null) return const SizedBox.shrink();
-    return _DeviceCard(device: device);
+    final roomName = withoutRoomName
+        ? ref.watch(
+            homeSnapshotProvider.select((s) => s.rooms[device.roomId]?.name),
+          )
+        : null;
+    return _DeviceCard(
+      device: device,
+      name: DevicePresentation.shortName(device.name, roomName),
+    );
   }
 }
 
 class _DeviceCard extends ConsumerStatefulWidget {
-  const _DeviceCard({required this.device});
+  const _DeviceCard({required this.device, required this.name});
 
   final SmartHomeDevice device;
+  final String name;
 
   @override
   ConsumerState<_DeviceCard> createState() => _DeviceCardState();
@@ -99,7 +115,7 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
         : null;
 
     return Semantics(
-      label: '${device.name}, $statusText',
+      label: '${widget.name}, $statusText',
       button: true,
       excludeSemantics: action == null,
       child: AnimatedContainer(
@@ -156,7 +172,7 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
                     ),
                     const Spacer(),
                     Text(
-                      device.name,
+                      widget.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleSmall?.copyWith(

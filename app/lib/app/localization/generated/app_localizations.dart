@@ -3908,6 +3908,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scene {time}'**
   String sceneDefaultName(String time);
+
+  /// No description provided for @energyPrevDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday: {value}'**
+  String energyPrevDay(String value);
+
+  /// No description provided for @energyPrevWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Last week: {value}'**
+  String energyPrevWeek(String value);
+
+  /// No description provided for @energyPrevMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month: {value}'**
+  String energyPrevMonth(String value);
 }
 
 class _AppLocalizationsDelegate

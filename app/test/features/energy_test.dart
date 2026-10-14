@@ -200,6 +200,10 @@ void main() {
         await settle(tester, 6);
 
         expect(find.text(en.energyConsumption), findsOneWidget);
+        expect(
+          find.textContaining(en.energyPrevDay('').trim()),
+          findsOneWidget,
+        );
         expect(find.text(en.energySolar), findsOneWidget);
         expect(
           find.text(en.energyGas),
@@ -231,6 +235,11 @@ void main() {
       await tester.tap(find.text(en.energyMonth));
       await settle(tester, 6);
       expect(find.text(en.energyPerDay), findsOneWidget);
+      expect(
+        find.textContaining(en.energyPrevMonth('').trim()),
+        findsOneWidget,
+        reason: 'previous month shown for comparison',
+      );
       await unmount(tester);
     });
   });

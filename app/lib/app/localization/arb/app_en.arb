@@ -996,5 +996,29 @@
         "type": "String"
       }
     }
+  },
+  "energyPrevDay": "Yesterday: {value}",
+  "energyPrevWeek": "Last week: {value}",
+  "energyPrevMonth": "Last month: {value}",
+  "@energyPrevDay": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@energyPrevWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@energyPrevMonth": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -180,9 +180,18 @@ class _Report extends ConsumerWidget {
           children: [
             if (report.consumption != null)
               _StatTile(
+                key: const Key('energyConsumptionTile'),
                 icon: Icons.home_outlined,
                 label: l10n.energyConsumption,
                 value: kwh(report.consumption!),
+                detail: switch (ref.watch(previousConsumptionProvider).value) {
+                  final double prev => switch (report.range) {
+                    EnergyRange.today => l10n.energyPrevDay(kwh(prev)),
+                    EnergyRange.week => l10n.energyPrevWeek(kwh(prev)),
+                    EnergyRange.month => l10n.energyPrevMonth(kwh(prev)),
+                  },
+                  _ => null,
+                },
               ),
             if (report.gridImport != null)
               _StatTile(
@@ -350,12 +359,16 @@ class _StatTile extends StatelessWidget {
     required this.label,
     required this.value,
     this.onTap,
+    this.detail,
   });
 
   final IconData icon;
   final String label;
   final String value;
   final VoidCallback? onTap;
+
+  /// Small line under the value (e.g. the previous period).
+  final String? detail;
 
   @override
   Widget build(BuildContext context) {
@@ -384,6 +397,13 @@ class _StatTile extends StatelessWidget {
                         maxLines: 2,
                       ),
                       Text(value, style: theme.textTheme.titleLarge),
+                      if (detail != null)
+                        Text(
+                          detail!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
                     ],
                   ),
                 ),

@@ -2211,6 +2211,21 @@ class AppLocalizationsSr extends AppLocalizations {
   String sceneDefaultName(String time) {
     return 'Scena $time';
   }
+
+  @override
+  String energyPrevDay(String value) {
+    return 'Juče: $value';
+  }
+
+  @override
+  String energyPrevWeek(String value) {
+    return 'Prošle nedelje: $value';
+  }
+
+  @override
+  String energyPrevMonth(String value) {
+    return 'Prošlog meseca: $value';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

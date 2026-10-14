@@ -634,5 +634,8 @@
   "sceneSaved": "Scena je sačuvana u Home Assistantu.",
   "sceneNeedDevice": "Izaberite bar jedan uređaj.",
   "sceneDelete": "Obriši scenu",
-  "sceneDefaultName": "Scena {time}"
+  "sceneDefaultName": "Scena {time}",
+  "energyPrevDay": "Juče: {value}",
+  "energyPrevWeek": "Prošle nedelje: {value}",
+  "energyPrevMonth": "Prošlog meseca: {value}"
 }

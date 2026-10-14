@@ -53,6 +53,24 @@ final energyReportProvider = FutureProvider<EnergyReport?>((ref) async {
   );
 });
 
+/// Total consumption of the previous full period (yesterday, last week,
+/// last month), shown next to the current one for comparison.
+final previousConsumptionProvider = FutureProvider<double?>((ref) async {
+  final prefs = await ref.watch(energyPrefsProvider.future);
+  final repository = ref.watch(energyRepositoryProvider);
+  if (prefs == null || repository == null || !prefs.hasElectricity) {
+    return null;
+  }
+  final range = ref.watch(energyRangeProvider);
+  final (start, _) = range.bounds(DateTime.now());
+  final previous = await repository.loadReport(
+    prefs,
+    range,
+    now: start.subtract(const Duration(minutes: 1)),
+  );
+  return previous.consumption;
+});
+
 class TariffController extends Notifier<Tariff?> {
   String? get _key {
     final profile = ref.read(activeProfileProvider);

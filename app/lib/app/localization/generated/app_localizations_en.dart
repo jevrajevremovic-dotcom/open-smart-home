@@ -2201,4 +2201,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String sceneDefaultName(String time) {
     return 'Scene $time';
   }
+
+  @override
+  String energyPrevDay(String value) {
+    return 'Yesterday: $value';
+  }
+
+  @override
+  String energyPrevWeek(String value) {
+    return 'Last week: $value';
+  }
+
+  @override
+  String energyPrevMonth(String value) {
+    return 'Last month: $value';
+  }
 }

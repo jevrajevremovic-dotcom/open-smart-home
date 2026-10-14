@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Energija: ukupna potrošnja prethodnog perioda (juče / prošle nedelje / prošlog meseca) ispod trenutne, radi poređenja.
 - Scene od trenutnog stanja (Scene → +): izaberete uređaje (podrazumevano uključeni), aplikacija sačuva stanje, jačinu, boju, položaj roletni i temperaturu kao HA scenu; brisanje UI scena.
 - Spratovi: ako su u HA podešeni (registar spratova, HA 2024.4+), sobe se na ekranu Sobe grupišu po spratovima (od najnižeg), ostale pod „Ostalo”.
 - „Upali sva / Ugasi sva” svetla u sobi i u celoj kući (dodir na karticu svetala na početnom ekranu ili u kiosku), jednim `light.turn_on/off` pozivom.

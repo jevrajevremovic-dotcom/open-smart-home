@@ -237,6 +237,18 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     await _authorized('DELETE', _automationPath(id));
   }
 
+  @override
+  Future<void> saveScene(String id, Map<String, Object?> config) async {
+    _automationPath(id); // same id rules
+    await _authorized('POST', '/api/config/scene/config/$id', data: config);
+  }
+
+  @override
+  Future<void> deleteScene(String id) async {
+    _automationPath(id);
+    await _authorized('DELETE', '/api/config/scene/config/$id');
+  }
+
   static final _calendarId = RegExp(r'^calendar\.[a-z0-9_]+$');
 
   @override

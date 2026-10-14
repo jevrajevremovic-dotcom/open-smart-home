@@ -625,5 +625,14 @@
   "allLightsOn": "Upali sva",
   "allLightsOff": "Ugasi sva",
   "allLightsTitle": "Sva svetla u kući",
-  "floorOther": "Ostalo"
+  "floorOther": "Ostalo",
+  "sceneNew": "Nova scena od trenutnog stanja",
+  "sceneHint": "Čuva kako su izabrani uređaji podešeni sada (uključeno/isključeno, jačina, boja, roletne, temperatura) kao Home Assistant scenu.",
+  "sceneName": "Ime scene",
+  "sceneDevices": "Uređaji",
+  "sceneSave": "Sačuvaj scenu",
+  "sceneSaved": "Scena je sačuvana u Home Assistantu.",
+  "sceneNeedDevice": "Izaberite bar jedan uređaj.",
+  "sceneDelete": "Obriši scenu",
+  "sceneDefaultName": "Scena {time}"
 }

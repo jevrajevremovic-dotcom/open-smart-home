@@ -980,5 +980,21 @@
   "allLightsOn": "All on",
   "allLightsOff": "All off",
   "allLightsTitle": "All lights in the home",
-  "floorOther": "Other"
+  "floorOther": "Other",
+  "sceneNew": "New scene from now",
+  "sceneHint": "Saves how the chosen devices are right now (on/off, brightness, colour, blinds, temperature) as a Home Assistant scene.",
+  "sceneName": "Scene name",
+  "sceneDevices": "Devices",
+  "sceneSave": "Save scene",
+  "sceneSaved": "Scene saved in Home Assistant.",
+  "sceneNeedDevice": "Choose at least one device.",
+  "sceneDelete": "Delete scene",
+  "sceneDefaultName": "Scene {time}",
+  "@sceneDefaultName": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -160,7 +160,9 @@ Future<void> _deleteAutomation(
   final ok = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text(l10n.autoDelete),
+      title: Text(
+        device.kind == DeviceKind.scene ? l10n.sceneDelete : l10n.autoDelete,
+      ),
       content: Text(l10n.autoDeleteConfirm(device.name)),
       actions: [
         TextButton(
@@ -178,7 +180,10 @@ Future<void> _deleteAutomation(
   if (ok != true) return;
   final api = ref.read(homeAssistantApiProvider);
   try {
-    await api?.deleteAutomation(device.metadata.configId!);
+    final id = device.metadata.configId!;
+    await (device.kind == DeviceKind.scene
+        ? api?.deleteScene(id)
+        : api?.deleteAutomation(id));
     if (navigator.canPop()) navigator.pop();
   } on Object {
     messenger.showSnackBar(SnackBar(content: Text(l10n.autoSaveFailed)));
@@ -246,7 +251,7 @@ class RoutineControls extends ConsumerWidget {
             label: Text(isAutomation ? l10n.runNow : l10n.activate),
           ),
         // UI-made automations can be deleted (not in kiosk / child mode).
-        if (isAutomation &&
+        if ((isAutomation || device.kind == DeviceKind.scene) &&
             device.metadata.configId != null &&
             !ref.watch(kioskActiveProvider) &&
             !ref.watch(restrictedModeProvider).enabled) ...[
@@ -258,7 +263,7 @@ class RoutineControls extends ConsumerWidget {
             ),
             onPressed: () => _deleteAutomation(context, ref, device),
             icon: const Icon(Icons.delete_outline),
-            label: Text(l10n.autoDelete),
+            label: Text(isAutomation ? l10n.autoDelete : l10n.sceneDelete),
           ),
         ],
       ],

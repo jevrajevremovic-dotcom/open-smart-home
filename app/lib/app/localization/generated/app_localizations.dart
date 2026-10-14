@@ -3854,6 +3854,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get floorOther;
+
+  /// No description provided for @sceneNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New scene from now'**
+  String get sceneNew;
+
+  /// No description provided for @sceneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saves how the chosen devices are right now (on/off, brightness, colour, blinds, temperature) as a Home Assistant scene.'**
+  String get sceneHint;
+
+  /// No description provided for @sceneName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scene name'**
+  String get sceneName;
+
+  /// No description provided for @sceneDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get sceneDevices;
+
+  /// No description provided for @sceneSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save scene'**
+  String get sceneSave;
+
+  /// No description provided for @sceneSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Scene saved in Home Assistant.'**
+  String get sceneSaved;
+
+  /// No description provided for @sceneNeedDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose at least one device.'**
+  String get sceneNeedDevice;
+
+  /// No description provided for @sceneDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete scene'**
+  String get sceneDelete;
+
+  /// No description provided for @sceneDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scene {time}'**
+  String sceneDefaultName(String time);
 }
 
 class _AppLocalizationsDelegate

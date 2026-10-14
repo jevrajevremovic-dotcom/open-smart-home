@@ -181,16 +181,54 @@ class MockHomeAssistantServer {
   void saveAutomation(String id, Map<String, Object?> config) {
     automations[id] = config;
     final alias = config['alias'] as String? ?? id;
-    final slug = alias
-        .toLowerCase()
-        .replaceAll(RegExp('[^a-z0-9]+'), '_')
-        .replaceAll(RegExp(r'^_+|_+$'), '');
+    final slug = _slug(alias);
     final entityId = 'automation.${slug.isEmpty ? id : slug}';
     _setState(entityId, 'on', {
       'friendly_name': alias,
       'id': id,
       'last_triggered': null,
     });
+  }
+
+  /// Like HA's `slugify`: transliterate, lower-case, `_` between words.
+  static String _slug(String text) {
+    const map = {'č': 'c', 'ć': 'c', 'š': 's', 'ž': 'z', 'đ': 'dj'};
+    final ascii = text.toLowerCase().split('').map((c) => map[c] ?? c).join();
+    return ascii
+        .replaceAll(RegExp('[^a-z0-9]+'), '_')
+        .replaceAll(RegExp(r'^_+|_+$'), '');
+  }
+
+  /// UI scenes saved through the app (id → config).
+  final Map<String, Map<String, Object?>> scenes = {};
+
+  void saveScene(String id, Map<String, Object?> config) {
+    scenes[id] = config;
+    final name = config['name'] as String? ?? id;
+    final slug = _slug(name);
+    _setState('scene.${slug.isEmpty ? id : slug}', 'unknown', {
+      'friendly_name': name,
+      'id': id,
+      'entity_id': [...(config['entities'] as Map? ?? const {}).keys],
+    });
+  }
+
+  /// Applies a saved scene (lights, switches and covers).
+  void _applyScene(String sceneEntityId) {
+    final id = (_states[sceneEntityId]?['attributes'] as Map?)?['id'];
+    final config = scenes[id];
+    final entities = config?['entities'];
+    if (entities is! Map) return;
+    for (final MapEntry(:key, :value) in entities.entries) {
+      final current = _states[key];
+      if (current == null || value is! Map) continue;
+      final attrs = {
+        ...current['attributes']! as Map<String, Object?>,
+        for (final e in value.entries)
+          if (e.key != 'state') '${e.key}': e.value,
+      };
+      _setState(key as String, value['state'] as String? ?? 'on', attrs);
+    }
   }
 
   void deleteAutomation(String id) {
@@ -972,6 +1010,7 @@ class MockHomeAssistantServer {
           state = 'unlocked';
         case ('scene', 'turn_on'):
           state = _clock().toUtc().toIso8601String();
+          scheduleMicrotask(() => _applyScene(id));
         default:
           continue;
       }
@@ -1554,6 +1593,21 @@ class MockHomeAssistantApi implements HomeAssistantApi {
     await _requireAuth();
     await _latency();
     server.deleteAutomation(id);
+  }
+
+  @override
+  Future<void> saveScene(String id, Map<String, Object?> config) async {
+    await _requireAuth();
+    await _latency();
+    server.saveScene(id, config);
+  }
+
+  @override
+  Future<void> deleteScene(String id) async {
+    await _requireAuth();
+    await _latency();
+    server.deleteAutomation(id); // removes the entity with this config id
+    server.scenes.remove(id);
   }
 
   @override

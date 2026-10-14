@@ -2171,4 +2171,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get floorOther => 'Other';
+
+  @override
+  String get sceneNew => 'New scene from now';
+
+  @override
+  String get sceneHint =>
+      'Saves how the chosen devices are right now (on/off, brightness, colour, blinds, temperature) as a Home Assistant scene.';
+
+  @override
+  String get sceneName => 'Scene name';
+
+  @override
+  String get sceneDevices => 'Devices';
+
+  @override
+  String get sceneSave => 'Save scene';
+
+  @override
+  String get sceneSaved => 'Scene saved in Home Assistant.';
+
+  @override
+  String get sceneNeedDevice => 'Choose at least one device.';
+
+  @override
+  String get sceneDelete => 'Delete scene';
+
+  @override
+  String sceneDefaultName(String time) {
+    return 'Scene $time';
+  }
 }

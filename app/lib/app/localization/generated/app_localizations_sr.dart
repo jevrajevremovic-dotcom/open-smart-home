@@ -2181,6 +2181,36 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get floorOther => 'Ostalo';
+
+  @override
+  String get sceneNew => 'Nova scena od trenutnog stanja';
+
+  @override
+  String get sceneHint =>
+      'Čuva kako su izabrani uređaji podešeni sada (uključeno/isključeno, jačina, boja, roletne, temperatura) kao Home Assistant scenu.';
+
+  @override
+  String get sceneName => 'Ime scene';
+
+  @override
+  String get sceneDevices => 'Uređaji';
+
+  @override
+  String get sceneSave => 'Sačuvaj scenu';
+
+  @override
+  String get sceneSaved => 'Scena je sačuvana u Home Assistantu.';
+
+  @override
+  String get sceneNeedDevice => 'Izaberite bar jedan uređaj.';
+
+  @override
+  String get sceneDelete => 'Obriši scenu';
+
+  @override
+  String sceneDefaultName(String time) {
+    return 'Scena $time';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

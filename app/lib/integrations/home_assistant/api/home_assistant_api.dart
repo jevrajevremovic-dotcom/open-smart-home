@@ -103,6 +103,10 @@ abstract interface class HomeAssistantApi {
   Future<void> saveAutomation(String id, Map<String, Object?> config);
   Future<void> deleteAutomation(String id);
 
+  /// Creates / deletes a UI scene (`/api/config/scene/config/<id>`).
+  Future<void> saveScene(String id, Map<String, Object?> config);
+  Future<void> deleteScene(String id);
+
   /// `GET` of an image served by Home Assistant itself (e.g. a person's
   /// `entity_picture`, `/api/image/serve/...`). Only server-relative
   /// `/api/` paths are accepted, so the token never goes to another host.

@@ -1,4 +1,5 @@
 import '../../automations/presentation/automation_editor_screen.dart';
+import '../../automations/presentation/scene_editor_screen.dart';
 import '../../restricted/application/restricted_mode.dart';
 
 import 'package:flutter/material.dart';
@@ -50,7 +51,21 @@ class ScenesScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SectionHeader(l10n.scenesTitle),
+                  SectionHeader(
+                    l10n.scenesTitle,
+                    trailing: ref.watch(restrictedModeProvider).enabled
+                        ? null
+                        : IconButton.filledTonal(
+                            key: const Key('newScene'),
+                            tooltip: l10n.sceneNew,
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const SceneEditorScreen(),
+                              ),
+                            ),
+                            icon: const Icon(Icons.add),
+                          ),
+                  ),
                   if (scenes.isEmpty)
                     EmptyHint(
                       icon: Icons.palette_outlined,

@@ -74,6 +74,10 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 - Format 2024.10+: `triggers` (`time` / `state` / `sun` sa `offset`), `conditions` (dani u nedelji: `condition: time`, `weekday`), `actions` (`action: <domen>.<servis>`, `target.entity_id`).
 - Iz aplikacije se ne mogu napraviti radnje otključavanja ni isključivanja alarma; brisanje samo za UI automatizacije (atribut `id`).
 
+## Scene
+
+- REST HA frontenda `POST` / `DELETE /api/config/scene/config/<id>` (administrator): `{"id", "name", "entities": {"<entity_id>": {"state", "brightness", "rgb_color" | "color_temp_kelvin", "current_position", "temperature", "percentage"}}}`.
+
 ## Obaveštenja
 
 - WS `persistent_notification/subscribe` (frontend; pretplata – događaji `current` / `added` / `updated` / `removed`); ako nije dostupno, kartica se ne prikazuje.

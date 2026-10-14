@@ -1,3 +1,6 @@
+import 'package:open_smart_home/features/devices/presentation/device_history.dart';
+import 'package:open_smart_home/features/devices/domain/device_kind.dart';
+import 'package:open_smart_home/app/localization/generated/app_localizations_sr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
@@ -8,6 +11,21 @@ import '../widgets/app_widget_test.dart'
     show en, goTo, pumpApp, settle, unmount;
 
 void main() {
+  test('sensor states read as what they mean', () {
+    final l10n = AppLocalizationsSrLatn();
+    expect(
+      historyStateLabel(l10n, 'on', DeviceKind.contactSensor),
+      l10n.contactOpen,
+    );
+    expect(
+      historyStateLabel(l10n, 'off', DeviceKind.motionSensor),
+      l10n.motionClear,
+    );
+    expect(historyStateLabel(l10n, 'on', DeviceKind.light), l10n.stateOn);
+    expect(historyStateLabel(l10n, 'on'), l10n.stateOn);
+    expect(historyStateLabel(l10n, 'locked'), l10n.lockLocked);
+  });
+
   test('history and logbook parsing', () {
     final h = HaHistoryPoint.parse([
       [

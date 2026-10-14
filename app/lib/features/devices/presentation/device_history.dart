@@ -48,20 +48,47 @@ bool hasHistory(SmartHomeDevice d) =>
     d.kind != DeviceKind.weather &&
     d.kind != DeviceKind.unknown;
 
-/// Localised label for a raw Home Assistant state in history/activity.
-String historyStateLabel(AppLocalizations l10n, String state) =>
-    switch (state) {
-      'on' => l10n.stateOn,
-      'off' => l10n.stateOff,
-      'open' => l10n.contactOpen,
-      'closed' => l10n.contactClosed,
-      'locked' => l10n.lockLocked,
-      'unlocked' => l10n.lockUnlocked,
-      'home' => l10n.personHome,
-      'not_home' => l10n.personAway,
-      'unavailable' => l10n.stateUnavailable,
-      _ => state,
+/// Localised label for a raw Home Assistant state in history/activity;
+/// with [kind], `on`/`off` of a sensor read as "Open", "Motion detected"…
+String historyStateLabel(
+  AppLocalizations l10n,
+  String state, [
+  DeviceKind? kind,
+]) {
+  if (state == 'on' || state == 'off') {
+    final on = state == 'on';
+    final pair = switch (kind) {
+      DeviceKind.contactSensor => (l10n.contactOpen, l10n.contactClosed),
+      DeviceKind.motionSensor => (l10n.motionDetected, l10n.motionClear),
+      DeviceKind.occupancySensor => (
+        l10n.occupancyDetected,
+        l10n.occupancyClear,
+      ),
+      DeviceKind.smokeSensor => (l10n.smokeDetected, l10n.smokeClear),
+      DeviceKind.coSensor => (l10n.coDetected, l10n.coClear),
+      DeviceKind.waterLeakSensor => (l10n.leakDetected, l10n.leakClear),
+      DeviceKind.vibrationSensor => (
+        l10n.vibrationDetected,
+        l10n.vibrationClear,
+      ),
+      DeviceKind.binarySensor => (l10n.binaryActive, l10n.binaryInactive),
+      _ => null,
     };
+    if (pair != null) return on ? pair.$1 : pair.$2;
+  }
+  return switch (state) {
+    'on' => l10n.stateOn,
+    'off' => l10n.stateOff,
+    'open' => l10n.contactOpen,
+    'closed' => l10n.contactClosed,
+    'locked' => l10n.lockLocked,
+    'unlocked' => l10n.lockUnlocked,
+    'home' => l10n.personHome,
+    'not_home' => l10n.personAway,
+    'unavailable' => l10n.stateUnavailable,
+    _ => state,
+  };
+}
 
 /// History chart (numbers) or timeline (states), plus recent activity.
 class DeviceHistorySection extends ConsumerStatefulWidget {
@@ -150,7 +177,7 @@ class _DeviceHistorySectionState extends ConsumerState<DeviceHistorySection> {
           const SizedBox(height: 16),
           Text(l10n.activityTitle, style: theme.textTheme.titleMedium),
           const SizedBox(height: 8),
-          _Activity(entityId: d.id),
+          _Activity(entityId: d.id, kind: d.kind),
         ],
       ],
     );
@@ -158,9 +185,10 @@ class _DeviceHistorySectionState extends ConsumerState<DeviceHistorySection> {
 }
 
 class _Activity extends ConsumerWidget {
-  const _Activity({required this.entityId});
+  const _Activity({required this.entityId, required this.kind});
 
   final String entityId;
+  final DeviceKind kind;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -186,7 +214,7 @@ class _Activity extends ConsumerWidget {
                 ),
                 title: Text(
                   e.state != null
-                      ? historyStateLabel(l10n, e.state!)
+                      ? historyStateLabel(l10n, e.state!, kind)
                       : (e.message ?? ''),
                 ),
                 trailing: e.byUser

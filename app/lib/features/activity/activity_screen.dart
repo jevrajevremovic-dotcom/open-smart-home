@@ -71,7 +71,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
 
     String label(ActivityFilter f) => switch (f) {
       ActivityFilter.all => l10n.activityAll,
-      ActivityFilter.lights => l10n.summaryLights,
+      ActivityFilter.lights => l10n.groupLights,
       ActivityFilter.security => l10n.activitySecurity,
       ActivityFilter.people => l10n.activityPeople,
     };
@@ -173,7 +173,7 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
               ? time.format(e.when)
               : '${day.format(e.when)} ${time.format(e.when)}';
           final what = e.state != null
-              ? historyStateLabel(l10n, e.state!)
+              ? historyStateLabel(l10n, e.state!, d?.kind)
               : (e.message ?? '');
           return ListTile(
             key: ValueKey('activity-$i'),

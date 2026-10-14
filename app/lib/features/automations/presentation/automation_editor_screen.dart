@@ -183,7 +183,7 @@ class _AutomationEditorScreenState
             SimpleDialogOption(
               key: ValueKey('condState-$st'),
               onPressed: () => Navigator.of(context).pop(st),
-              child: Text(historyStateLabel(l10n, st)),
+              child: Text(historyStateLabel(l10n, st, d.kind)),
             ),
         ],
       ),
@@ -438,6 +438,9 @@ IconData triggerIcon(AutomationTrigger t) => switch (t) {
   SunTrigger() => Icons.wb_sunny_outlined,
 };
 
+DeviceKind? _kind(WidgetRef ref, String id) =>
+    ref.read(deviceProvider(id))?.kind;
+
 String _deviceName(WidgetRef ref, String id) =>
     ref.read(deviceProvider(id))?.name ?? id;
 
@@ -447,7 +450,8 @@ String triggerLabel(BuildContext context, WidgetRef ref, AutomationTrigger t) {
   return switch (t) {
     TimeTrigger(:final hour, :final minute) => _clock(context, hour, minute),
     DeviceTrigger(:final entityId, :final toState) =>
-      '${_deviceName(ref, entityId)} → ${historyStateLabel(l10n, toState)}',
+      '${_deviceName(ref, entityId)} → '
+          '${historyStateLabel(l10n, toState, _kind(ref, entityId))}',
     NumericTrigger(:final entityId, :final above, :final threshold) =>
       '${_deviceName(ref, entityId)} ${above ? '>' : '<'} ${_num(threshold)}'
           '${switch (ref.read(deviceProvider(entityId))?.state.unit) {
@@ -475,7 +479,7 @@ String conditionLabel(
       '${clock(after)} – ${clock(before)}',
     StateCondition(:final entityId, :final state) =>
       '${_deviceName(ref, entityId)} ${l10n.autoIs} '
-          '${historyStateLabel(l10n, state)}',
+          '${historyStateLabel(l10n, state, _kind(ref, entityId))}',
     SunCondition(:final dark) => dark ? l10n.autoCondDark : l10n.autoCondLight,
   };
 }
@@ -594,6 +598,7 @@ class _TriggerDialogState extends ConsumerState<_TriggerDialog> {
                   ])
                     ChoiceChip(
                       key: ValueKey('trigKind-${k.name}'),
+                      showCheckmark: false,
                       avatar: Icon(icon, size: 18),
                       label: Text(label),
                       selected: _kind == k,
@@ -649,7 +654,9 @@ class _TriggerDialogState extends ConsumerState<_TriggerDialog> {
                         for (final st in triggerStatesFor(device))
                           ChoiceChip(
                             key: ValueKey('autoState-$st'),
-                            label: Text(historyStateLabel(l10n, st)),
+                            label: Text(
+                              historyStateLabel(l10n, st, device.kind),
+                            ),
                             selected: _state == st,
                             onSelected: (_) => setState(() => _state = st),
                           ),

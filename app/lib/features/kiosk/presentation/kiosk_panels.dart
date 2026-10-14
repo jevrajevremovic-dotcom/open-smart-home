@@ -336,7 +336,9 @@ class KioskRoomsPanel extends ConsumerWidget {
           GlassTitle(l10n.navRooms),
           if (scrollable)
             Expanded(
-              child: ListView(padding: EdgeInsets.zero, children: rows),
+              child: EdgeFade(
+                child: ListView(padding: EdgeInsets.zero, children: rows),
+              ),
             )
           else
             ...rows,
@@ -538,16 +540,18 @@ class KioskShortcutsPanel extends ConsumerWidget {
         children: [
           GlassTitle(l10n.kioskShortcuts),
           if (sceneIds.isNotEmpty) ...[
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  for (final id in sceneIds)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: KioskSceneChip(sceneId: id),
-                    ),
-                ],
+            EdgeFade(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (final id in sceneIds)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: KioskSceneChip(sceneId: id),
+                      ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 12),

@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
 
+# A newer push makes older runs on the same branch pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest

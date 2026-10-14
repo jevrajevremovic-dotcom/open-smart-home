@@ -2354,4 +2354,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fanDiffuse => 'Diffuse';
+
+  @override
+  String get allCoversOpen => 'Open all';
+
+  @override
+  String get allCoversClose => 'Close all';
 }

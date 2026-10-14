@@ -680,5 +680,7 @@
   "fanHigh": "Jako",
   "fanTop": "Najjače",
   "fanFocus": "Usmereno",
-  "fanDiffuse": "Raspršeno"
+  "fanDiffuse": "Raspršeno",
+  "allCoversOpen": "Podigni sve",
+  "allCoversClose": "Spusti sve"
 }

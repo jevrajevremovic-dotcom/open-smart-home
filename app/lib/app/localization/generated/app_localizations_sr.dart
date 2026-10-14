@@ -2363,6 +2363,12 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get fanDiffuse => 'Raspršeno';
+
+  @override
+  String get allCoversOpen => 'Podigni sve';
+
+  @override
+  String get allCoversClose => 'Spusti sve';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -1092,6 +1092,8 @@ class MockHomeAssistantServer {
     return next;
   }
 
+  String? stateForTest(String id) => _states[id]?['state'] as String?;
+
   void setStateForTest(String id, String state) {
     final current = _states[id];
     if (current == null) return;

@@ -8,6 +8,8 @@ import '../../authentication/application/session_controller.dart';
 import '../data/home_state_repository.dart';
 import '../domain/device_command.dart';
 import 'device_providers.dart';
+import '../domain/capability.dart';
+import '../domain/device_kind.dart';
 import '../domain/smart_home_device.dart';
 
 /// The single entry point for controlling devices.
@@ -89,7 +91,40 @@ class DeviceCommandService {
       data: {'entity_id': ids},
     );
   }
+
+  /// Opens or closes all [covers] (blinds, curtains) in one documented
+  /// `cover.open_cover/close_cover` call. Garage doors are never included:
+  /// opening one needs its own confirmation.
+  Future<void> setCovers(
+    Iterable<SmartHomeDevice> covers, {
+    required bool open,
+  }) async {
+    if (!(_isOnline?.call() ?? true)) {
+      throw const AppFailure(
+        FailureKind.network,
+        debugMessage: 'data not live; command refused',
+      );
+    }
+    final ids = [
+      for (final d in covers)
+        if (d.available &&
+            isGroupCover(d) &&
+            d.supports(open ? Capability.open : Capability.close))
+          d.sourceId,
+    ];
+    if (ids.isEmpty) return;
+    _log.info('→ cover.${open ? 'open_cover' : 'close_cover'} (${ids.length})');
+    await _api.callService(
+      'cover',
+      open ? 'open_cover' : 'close_cover',
+      data: {'entity_id': ids},
+    );
+  }
 }
+
+/// Blinds and curtains, the covers that may be moved together.
+bool isGroupCover(SmartHomeDevice d) =>
+    d.kind == DeviceKind.blind || d.kind == DeviceKind.curtain;
 
 final deviceCommandServiceProvider = Provider<DeviceCommandService?>((ref) {
   final api = ref.watch(homeAssistantApiProvider);

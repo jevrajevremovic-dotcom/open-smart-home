@@ -4184,6 +4184,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Diffuse'**
   String get fanDiffuse;
+
+  /// No description provided for @allCoversOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open all'**
+  String get allCoversOpen;
+
+  /// No description provided for @allCoversClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close all'**
+  String get allCoversClose;
 }
 
 class _AppLocalizationsDelegate

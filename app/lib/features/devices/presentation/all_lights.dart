@@ -74,6 +74,58 @@ class AllLightsButtons extends ConsumerWidget {
   }
 }
 
+/// Opens or closes every blind and curtain in [roomId].
+Future<void> setAllCovers(
+  BuildContext context,
+  WidgetRef ref, {
+  required bool open,
+  String? roomId,
+}) async {
+  final l10n = context.l10n;
+  final messenger = ScaffoldMessenger.maybeOf(context);
+  final covers = [
+    for (final d in ref.read(homeSnapshotProvider).devices.values)
+      if (isGroupCover(d) && !d.isAuxiliary && d.roomId == roomId) d,
+  ];
+  try {
+    await ref.read(deviceCommandServiceProvider)?.setCovers(covers, open: open);
+  } on AppFailure catch (e) {
+    messenger?.showSnackBar(SnackBar(content: Text(failureMessage(l10n, e))));
+  }
+}
+
+/// "Open all / close all" for a room's blinds and curtains.
+class AllCoversButtons extends ConsumerWidget {
+  const AllCoversButtons({super.key, this.roomId});
+
+  final String? roomId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        FilledButton.tonalIcon(
+          key: const Key('allCoversOpen'),
+          onPressed: () =>
+              setAllCovers(context, ref, open: true, roomId: roomId),
+          icon: const Icon(Icons.blinds),
+          label: Text(l10n.allCoversOpen),
+        ),
+        OutlinedButton.icon(
+          key: const Key('allCoversClose'),
+          onPressed: () =>
+              setAllCovers(context, ref, open: false, roomId: roomId),
+          icon: const Icon(Icons.blinds_closed),
+          label: Text(l10n.allCoversClose),
+        ),
+      ],
+    );
+  }
+}
+
 /// Small sheet with the whole-home buttons (from the lights summary).
 Future<void> showAllLightsSheet(BuildContext context) =>
     showModalBottomSheet<void>(

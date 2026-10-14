@@ -6,6 +6,8 @@ import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../dashboard/application/home_summaries.dart';
+import '../../devices/application/device_command_service.dart'
+    show isGroupCover;
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/all_lights.dart';
 import '../../restricted/application/restricted_mode.dart';
@@ -163,6 +165,20 @@ class RoomDetailScreen extends ConsumerWidget {
                   child: AllLightsButtons(roomId: roomId),
                 ),
               ),
+            if (group == DeviceGroup.covers &&
+                ref
+                        .watch(homeSnapshotProvider)
+                        .devices
+                        .values
+                        .where((d) => ids.contains(d.id) && isGroupCover(d))
+                        .length >
+                    1)
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                sliver: SliverToBoxAdapter(
+                  child: AllCoversButtons(roomId: roomId),
+                ),
+              ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: DeviceSliverGrid(deviceIds: ids),
@@ -175,7 +191,6 @@ class RoomDetailScreen extends ConsumerWidget {
   }
 }
 
-/// Every visible device, alphabetically.
 /// Every device, with a search over names, rooms and types.
 class AllDevicesScreen extends ConsumerStatefulWidget {
   const AllDevicesScreen({super.key});

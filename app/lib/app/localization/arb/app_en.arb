@@ -1063,5 +1063,7 @@
   "fanHigh": "High",
   "fanTop": "Top",
   "fanFocus": "Focused",
-  "fanDiffuse": "Diffuse"
+  "fanDiffuse": "Diffuse",
+  "allCoversOpen": "Open all",
+  "allCoversClose": "Close all"
 }

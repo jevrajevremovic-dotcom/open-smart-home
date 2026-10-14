@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Warm theme of the app (light). -->
+    <color name="widget_background">#FFF7F1EA</color>
+    <color name="widget_button">#FFF2DCC8</color>
+    <color name="widget_text">#FF3A2A1E</color>
+
+    <style name="SceneWidgetButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/widget_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:textColor">@color/widget_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <string name="scenes_widget_label">Scenes</string>
+    <string name="scenes_widget_description">Run your favourite scenes from the home screen</string>
+    <string name="scenes_widget_empty">Open Smart Home</string>
+    <string name="scenes_widget_sample_1">Movie night</string>
+    <string name="scenes_widget_sample_2">Good morning</string>
+    <string name="scenes_widget_sample_3">Leaving home</string>
+</resources>

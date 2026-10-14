@@ -100,6 +100,13 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Samo iz podataka uživo (ne iz offline keša), da staro upozorenje ne izazove lažnu uzbunu; rešeno upozorenje se uklanja.
 - Na zaključanom ekranu Android prikazuje samo da postoji upozorenje (`visibility: private`), bez imena uređaja.
 
+## Widget za početni ekran (Android)
+
+- U widget se upisuju samo ID-jevi i imena scena (lokalno, u podacima aplikacije); nema tokena ni adrese servera.
+- Dodir samo otvara aplikaciju sa linkom `opensmarthome://scene?id=scene.…`; aplikacija prihvata isključivo `scene.*` ID-jeve i scenu pokreće tek kada je prijavljena i podaci su uživo. Brave, alarm i slično se ne mogu pokrenuti iz widgeta.
+- Posle odjave widget prikazuje samo poziv na prijavu.
+- Flutter deep linking je isključen (`flutter_deeplinking_enabled=false`): spoljni linkovi ne mogu da otvore proizvoljan ekran aplikacije.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

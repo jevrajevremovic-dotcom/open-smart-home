@@ -13,7 +13,10 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - **Više domova** (više HA servera) sa prebacivanjem
 
 **Upravljanje uređajima**
-- Uređaji grupisani po sobama i vrstama, omiljeni (sa redosledom), pretraga, scene, skripte, automatizacije
+- Uređaji grupisani po sobama i vrstama, omiljeni (sa redosledom), pretraga, scene, skripte
+- „Upali/ugasi sva” svetla i „podigni/spusti sve” roletne u sobi
+- Editor automatizacija: više okidača (vreme, uređaj, vrednost senzora, sunce), uslovi „samo ako” (dani, vremenski prozor, stanje uređaja, mrak/dan); čuva se kao obična HA automatizacija
+- Aktivnost doma (HA dnevnik, 24 h) sa filterima
 - Svetla (jačina, boja, temperatura boje), klima i termostati (režimi, preset), roletne, brave, alarm (režimi, tastatura za kod), mediji (pesma, omot, jačina, izvor), ventilatori, ovlaživači, usisivači, pomoćnici „izbor” i „broj”, senzori
 - Istorija uređaja: grafikon za senzore i vremenska traka sa aktivnošću
 - Kamere: snimci (osvežavanje na 2 s samo dok se gledaju) i video uživo (HLS)
@@ -26,6 +29,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”
 - Kiosk: stakleni paneli preko gradijenta, sat, ukućani, statusi po izboru, kamera, vreme, termostat, sobe, prečice, kalendar, mediji i Assist; PIN za izlaz, čuvar ekrana, povratak na početak
 - Assist: tekstualne i glasovne komande (govor se podrazumevano prepoznaje samo na uređaju)
+- Android: widget „Scene” na početnom ekranu, prečice na ikonici, opciona obaveštenja o kritičnim upozorenjima (dim, CO, curenje vode, alarm) dok aplikacija radi
 - Energija: snaga uživo, potrošnja po satima/danima, solar, baterija, gas, najveći potrošači, procena troška
 
 **Ostalo**
@@ -175,6 +179,9 @@ flutter analyze
 flutter test                                  # unit, widget i performance testovi
 flutter test integration_test -d <uređaj>     # na emulatoru ili telefonu
 ```
+
+Test obaveštenja u `integration_test` traži dozvolu za obaveštenja; na Androidu je dajte čim se aplikacija instalira:
+`adb shell pm grant org.opensmarthome.open_smart_home android.permission.POST_NOTIFICATIONS`.
 
 | Vrsta | Šta pokriva |
 |---|---|

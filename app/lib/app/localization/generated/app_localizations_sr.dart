@@ -2369,6 +2369,12 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get allCoversClose => 'Spusti sve';
+
+  @override
+  String get widgetNoScenes => 'Još nema scena: napravite ih u aplikaciji';
+
+  @override
+  String get widgetSignedOut => 'Prijavite se u Open Smart Home';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

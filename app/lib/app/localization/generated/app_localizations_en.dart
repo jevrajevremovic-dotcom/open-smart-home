@@ -2360,4 +2360,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allCoversClose => 'Close all';
+
+  @override
+  String get widgetNoScenes => 'No scenes yet: create one in the app';
+
+  @override
+  String get widgetSignedOut => 'Sign in to Open Smart Home';
 }

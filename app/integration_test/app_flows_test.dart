@@ -4,7 +4,10 @@
 //
 //   flutter test integration_test -d <device-id>
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -215,4 +218,39 @@ void main() {
     final context = tester.element(find.text('Početna').first);
     expect(Theme.of(context).brightness, Brightness.dark);
   });
+
+  // Needs the notification permission granted beforehand, e.g.
+  //   adb shell pm grant org.opensmarthome.open_smart_home android.permission.POST_NOTIFICATIONS
+  testWidgets(
+    'a critical alert becomes a system notification and clears itself',
+    (tester) async {
+      final server = MockHomeAssistantServer();
+      await startApp(tester, server);
+      await signIn(tester);
+      await go(tester, AppRoutes.settings);
+      await tap(tester, find.byKey(const Key('alertNotifySwitch')));
+      await tester.pump(const Duration(seconds: 1));
+
+      final android = FlutterLocalNotificationsPlugin()
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()!;
+      Future<List<String?>> titles() async => [
+        for (final n in await android.getActiveNotifications()) n.title,
+      ];
+
+      server.setStateForTest('lock.front_door', 'jammed');
+      final end = DateTime.now().add(const Duration(seconds: 10));
+      while (!(await titles()).contains('Brava ulazna vrata') &&
+          DateTime.now().isBefore(end)) {
+        await tester.pump(const Duration(milliseconds: 200));
+      }
+      expect(await titles(), contains('Brava ulazna vrata'));
+
+      server.setStateForTest('lock.front_door', 'locked');
+      await tester.pump(const Duration(seconds: 2));
+      expect(await titles(), isNot(contains('Brava ulazna vrata')));
+    },
+    skip: !Platform.isAndroid,
+  );
 }

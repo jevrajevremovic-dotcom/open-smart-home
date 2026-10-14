@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/app_lock/application/app_lock.dart';
@@ -91,6 +94,7 @@ Future<List<Override>> testOverrides({
   DeviceAuth? deviceAuth,
   AppShortcutsPlatform? shortcuts,
   AlertNotifier? alerts,
+  HomeScreenWidgetPlatform? homeWidget,
   List<Override> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -115,6 +119,9 @@ Future<List<Override>> testOverrides({
     deviceAuthProvider.overrideWithValue(deviceAuth ?? FakeDeviceAuth()),
     appShortcutsPlatformProvider.overrideWithValue(
       shortcuts ?? FakeShortcuts(supported: false),
+    ),
+    homeScreenWidgetProvider.overrideWithValue(
+      homeWidget ?? FakeHomeScreenWidget(supported: false),
     ),
     alertNotifierProvider.overrideWithValue(
       alerts ?? FakeAlertNotifier(supported: false),
@@ -167,4 +174,35 @@ class FakeShortcuts implements AppShortcutsPlatform {
       this.items = items;
 
   void tap(String type) => _onAction?.call(type);
+}
+
+/// Records what the home screen widget would show; lets tests tap it.
+class FakeHomeScreenWidget implements HomeScreenWidgetPlatform {
+  FakeHomeScreenWidget({this.supported = true, this.launchedWith});
+
+  @override
+  final bool supported;
+  final Uri? launchedWith;
+  final _clicks = StreamController<Uri?>.broadcast();
+  List<(String, String)> scenes = const [];
+  String emptyText = '';
+  int updates = 0;
+
+  @override
+  Future<void> setScenes(
+    List<(String, String)> scenes,
+    String emptyText,
+  ) async {
+    this.scenes = scenes;
+    this.emptyText = emptyText;
+    updates++;
+  }
+
+  @override
+  Future<Uri?> initialUri() async => launchedWith;
+
+  @override
+  Stream<Uri?> get clicks => _clicks.stream;
+
+  void tap(Uri uri) => _clicks.add(uri);
 }

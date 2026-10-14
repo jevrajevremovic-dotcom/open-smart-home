@@ -4196,6 +4196,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close all'**
   String get allCoversClose;
+
+  /// No description provided for @widgetNoScenes.
+  ///
+  /// In en, this message translates to:
+  /// **'No scenes yet: create one in the app'**
+  String get widgetNoScenes;
+
+  /// No description provided for @widgetSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to Open Smart Home'**
+  String get widgetSignedOut;
 }
 
 class _AppLocalizationsDelegate

@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Android widget za početni ekran „Scene”: do četiri scene (omiljene prve) kao dugmad; dodir otvara aplikaciju i pokreće scenu čim su podaci uživo, uz poruku „Pokrenuto: …” (i za prečice sa ikonice). Napravljen bez dodatnog plugina (sopstveni kanal u `MainActivity`), pa nema upozorenja o Kotlin Gradle Plugin-u. Widget sadrži samo imena i ID-jeve scena, nikad token; prati svetlu/tamnu temu sistema.
 - „Podigni sve / Spusti sve” za roletne i zavese u sobi (kad ih ima bar dve), jednim `cover.open_cover/close_cover` pozivom; garažna vrata nikad nisu uključena jer otvaranje traži posebnu potvrdu.
 - Opciona obaveštenja o kritičnim upozorenjima (dim, CO, curenje vode, aktiviran alarm, zaglavljena brava) kao sistemsko obaveštenje telefona, dok aplikacija radi; dodir otvara uređaj, rešeno upozorenje nestaje. Bez push servera i clouda. Android build sada koristi core library desugaring.
 - Ekran „Aktivnost” (početni ekran → Aktivnost): šta se desilo u domu u poslednja 24 h iz HA dnevnika – svetla, vrata i bezbednost, ukućani – sa oznakom kada je promenu napravila osoba; dodir otvara uređaj. U režimu za decu i goste skriveni uređaji se ne prikazuju ni ovde.
@@ -30,6 +31,7 @@
 - Više domova: Podešavanja → „Dodaj još jedan dom” (prijava na drugi HA server bez odjave sa prvog), lista domova i prebacivanje (i dodirom na ime doma na početnom ekranu); svaki dom ima svoj token, keš i omiljene; odjava sa jednog prelazi na drugi.
 
 ### Ispravljeno
+- Nepoznata adresa u aplikaciji vodi na početni ekran umesto stranice sa greškom rutera; Android linkovi se ne prosleđuju ruteru (Flutter deep linking isključen), čita ih samo kanal widgeta.
 - Energija: prva i poslednja oznaka vremena na grafikonu više nisu odsečene.
 - Ikonica klime/termostata prati režim (plamen za grejanje, pahulja za hlađenje, kapljica za sušenje…); standardni režimi ventilatora klime su prevedeni (Slabo, Srednje, Jako, Automatski…), prilagođeni ostaju kako ih integracija prijavi.
 - Kiosk: statusni čipovi koriste celu širinu (media čip više ne uzima pola reda), a skriveni čipovi i događaji u kalendaru blago blede na ivici umesto da budu odsečeni.

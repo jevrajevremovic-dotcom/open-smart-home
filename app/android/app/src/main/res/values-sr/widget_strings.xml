@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scenes_widget_label">Scene</string>
+    <string name="scenes_widget_description">Pokrenite omiljene scene sa početnog ekrana</string>
+    <string name="scenes_widget_sample_1">Filmsko veče</string>
+    <string name="scenes_widget_sample_2">Dobro jutro</string>
+    <string name="scenes_widget_sample_3">Odlazak</string>
+</resources>

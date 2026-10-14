@@ -122,6 +122,9 @@ final routerProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
     initialLocation: AppRoutes.splash,
     refreshListenable: refresh,
+    // An unknown location (old link, typo) goes home instead of showing
+    // an error page with router internals.
+    onException: (_, _, router) => router.go(AppRoutes.home),
     redirect: (context, state) {
       final session = ref.read(sessionControllerProvider);
       return resolveRedirect(

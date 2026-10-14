@@ -682,5 +682,7 @@
   "fanFocus": "Usmereno",
   "fanDiffuse": "Raspršeno",
   "allCoversOpen": "Podigni sve",
-  "allCoversClose": "Spusti sve"
+  "allCoversClose": "Spusti sve",
+  "widgetNoScenes": "Još nema scena: napravite ih u aplikaciji",
+  "widgetSignedOut": "Prijavite se u Open Smart Home"
 }

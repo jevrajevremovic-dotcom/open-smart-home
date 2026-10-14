@@ -1065,5 +1065,7 @@
   "fanFocus": "Focused",
   "fanDiffuse": "Diffuse",
   "allCoversOpen": "Open all",
-  "allCoversClose": "Close all"
+  "allCoversClose": "Close all",
+  "widgetNoScenes": "No scenes yet: create one in the app",
+  "widgetSignedOut": "Sign in to Open Smart Home"
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_actions/quick_actions.dart';
 
@@ -17,6 +17,7 @@ import '../devices/domain/device_kind.dart';
 import '../devices/application/device_command_service.dart';
 import '../favorites/application/favorites_controller.dart';
 import '../restricted/application/restricted_mode.dart';
+import 'home_screen_widget.dart';
 
 /// Long-press shortcuts on the app icon (Android / iOS).
 abstract interface class AppShortcutsPlatform {
@@ -64,8 +65,8 @@ final pendingShortcutProvider =
       PendingShortcutController.new,
     );
 
-/// Scenes offered as shortcuts: favourite scenes first, at most two.
-final shortcutScenesProvider = Provider<List<(String, String)>>((ref) {
+/// Scenes as (id, name): favourite scenes first, then by name.
+final favoriteFirstScenesProvider = Provider<List<(String, String)>>((ref) {
   final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
   final favorites = ref.watch(favoritesProvider);
   final scenes =
@@ -80,8 +81,18 @@ final shortcutScenesProvider = Provider<List<(String, String)>>((ref) {
           }
           return a.name.compareTo(b.name);
         });
-  return [for (final s in scenes.take(2)) (s.id, s.name)];
+  return [for (final s in scenes) (s.id, s.name)];
 });
+
+/// Scenes offered as shortcuts: at most two.
+final shortcutScenesProvider = Provider<List<(String, String)>>(
+  (ref) => ref.watch(favoriteFirstScenesProvider).take(2).toList(),
+);
+
+/// Scenes on the Android home screen widget: at most four.
+final widgetScenesProvider = Provider<List<(String, String)>>(
+  (ref) => ref.watch(favoriteFirstScenesProvider).take(4).toList(),
+);
 
 /// Keeps the launcher shortcuts in sync and runs scene shortcuts once the
 /// home is live. Kiosk and Assist shortcuts are handled by the screens.
@@ -90,8 +101,15 @@ class AppShortcutsBinder {
 
   final WidgetRef ref;
   bool _initialized = false;
+  bool _widgetInitialized = false;
+
+  // Last values sent, so a state change elsewhere in the home does not
+  // re-send identical items over the platform channel.
+  List<(String, String, String)>? _lastItems;
+  (List<(String, String)>, String)? _lastWidget;
 
   void bind(AppLocalizations l10n) {
+    _bindWidget(l10n);
     final platform = ref.read(appShortcutsPlatformProvider);
     if (!platform.supported) return;
     if (!_initialized) {
@@ -102,28 +120,61 @@ class AppShortcutsBinder {
     }
     final restricted = ref.read(restrictedModeProvider).enabled;
     final scenes = ref.read(shortcutScenesProvider);
-    unawaited(
-      platform.setItems([
-        for (final (id, name) in scenes) ('scene:$id', name, 'ic_scene'),
-        if (!restricted) ('assist', l10n.assistTitle, 'ic_assist'),
-        if (!restricted) ('kiosk', l10n.kioskStart, 'ic_kiosk'),
-      ]),
-    );
+    final items = [
+      for (final (id, name) in scenes) ('scene:$id', name, 'ic_scene'),
+      if (!restricted) ('assist', l10n.assistTitle, 'ic_assist'),
+      if (!restricted) ('kiosk', l10n.kioskStart, 'ic_kiosk'),
+    ];
+    if (_lastItems != null && listEquals(_lastItems, items)) return;
+    _lastItems = items;
+    unawaited(platform.setItems(items));
+  }
+
+  void _bindWidget(AppLocalizations l10n) {
+    final widget = ref.read(homeScreenWidgetProvider);
+    if (!widget.supported) return;
+    if (!_widgetInitialized) {
+      _widgetInitialized = true;
+      void open(Uri? uri) {
+        final id = sceneIdFromWidgetUri(uri);
+        if (id != null) {
+          ref.read(pendingShortcutProvider.notifier).set('scene:$id');
+        }
+      }
+
+      unawaited(widget.initialUri().then(open));
+      widget.clicks.listen(open);
+    }
+    final signedIn = ref.read(activeProfileProvider) != null;
+    final scenes = signedIn
+        ? ref.read(widgetScenesProvider)
+        : const <(String, String)>[];
+    final empty = signedIn ? l10n.widgetNoScenes : l10n.widgetSignedOut;
+    final last = _lastWidget;
+    if (last != null && listEquals(last.$1, scenes) && last.$2 == empty) {
+      return;
+    }
+    _lastWidget = (scenes, empty);
+    unawaited(widget.setScenes(scenes, empty));
   }
 
   /// Activates a pending scene shortcut once data is live.
-  Future<void> runPendingScene() async {
+  /// Returns the scene's name when it ran, so the caller can confirm it
+  /// (a scene has no visible state of its own).
+  Future<String?> runPendingScene() async {
     final type = ref.read(pendingShortcutProvider);
-    if (type == null || !type.startsWith('scene:')) return;
-    if (ref.read(syncStatusProvider) != SyncStatus.live) return;
+    if (type == null || !type.startsWith('scene:')) return null;
+    if (ref.read(syncStatusProvider) != SyncStatus.live) return null;
     ref.read(pendingShortcutProvider.notifier).set(null);
     final device = ref.read(deviceProvider(type.substring(6)));
     final service = ref.read(deviceCommandServiceProvider);
-    if (device == null || service == null) return;
+    if (device == null || service == null) return null;
     try {
       await service.execute(device, const Activate());
+      return device.name;
     } on Object {
       // Shown nowhere: the user sees the result in the home itself.
+      return null;
     }
   }
 }
@@ -140,6 +191,20 @@ class ShortcutsHost extends ConsumerStatefulWidget {
 
 class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
   late final AppShortcutsBinder _binder = AppShortcutsBinder(ref);
+
+  Future<void> _runScene() async {
+    final name = await _binder.runPendingScene();
+    if (name == null || !mounted) return;
+    final ctx = ref
+        .read(routerProvider)
+        .routerDelegate
+        .navigatorKey
+        .currentContext;
+    if (ctx == null || !ctx.mounted) return;
+    ScaffoldMessenger.maybeOf(ctx)
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(ctx.l10n.sceneActivated(name))));
+  }
 
   void _handle(String? type) {
     if (type == null) return;
@@ -159,7 +224,7 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
           if (ctx != null) showAssist(ctx);
         });
       default:
-        unawaited(_binder.runPendingScene());
+        unawaited(_runScene());
     }
   }
 
@@ -168,13 +233,15 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
     final l10n = context.l10n;
     ref
       ..listen(shortcutScenesProvider, (_, _) => _binder.bind(l10n))
+      ..listen(widgetScenesProvider, (_, _) => _binder.bind(l10n))
+      ..listen(activeProfileProvider, (_, _) => _binder.bind(l10n))
       ..listen(
         restrictedModeProvider.select((s) => s.enabled),
         (_, _) => _binder.bind(l10n),
       )
       ..listen(pendingShortcutProvider, (_, next) => _handle(next))
       ..listen(syncStatusProvider, (_, s) {
-        if (s == SyncStatus.live) unawaited(_binder.runPendingScene());
+        if (s == SyncStatus.live) unawaited(_runScene());
       });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _binder.bind(l10n);

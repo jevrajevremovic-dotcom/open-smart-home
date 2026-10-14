@@ -2322,4 +2322,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get activityHint =>
       'From Home Assistant\'s logbook for the last 24 hours. Sensors that measure continuously (temperature, power) aren\'t listed.';
+
+  @override
+  String get alertsSetting => 'Notify about critical alerts';
+
+  @override
+  String get alertsSettingHint =>
+      'Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. Only while the app is running; for alerts when it\'s closed, use Home Assistant\'s own notifications.';
+
+  @override
+  String get alertsPermissionDenied =>
+      'Notifications are turned off for this app in the phone\'s settings.';
 }

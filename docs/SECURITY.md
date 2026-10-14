@@ -93,6 +93,13 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 
 - Izvoz u međuspremnik sadrži samo temu, jezik, omiljene i kiosk raspored. Bez tokena, adresa sa tajnama, PIN heševa, fotografije i pristanaka (lokacija, glas); pri uvozu se PIN i fotografija na uređaju zadržavaju.
 
+## Obaveštenja o upozorenjima (opciono)
+
+- Isključeno dok ih korisnik ne uključi (Podešavanja → Bezbednost); dozvolu za obaveštenja sistem traži tek tada.
+- Obaveštenja pravi sam uređaj iz podataka koje već prima od HA – nema push servera ni clouda; zato rade samo dok aplikacija radi.
+- Samo iz podataka uživo (ne iz offline keša), da staro upozorenje ne izazove lažnu uzbunu; rešeno upozorenje se uklanja.
+- Na zaključanom ekranu Android prikazuje samo da postoji upozorenje (`visibility: private`), bez imena uređaja.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

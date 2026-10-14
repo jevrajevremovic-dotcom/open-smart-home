@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../alerts/alert_notifications.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
@@ -141,6 +142,33 @@ class SettingsScreen extends ConsumerWidget {
                   if (!(ref.watch(deviceAuthAvailableProvider).value ?? false))
                     section(l10n.securitySection),
                   const RestrictedSettingsTile(),
+                  if (ref.watch(alertNotifierProvider).supported)
+                    SwitchListTile(
+                      key: const Key('alertNotifySwitch'),
+                      contentPadding: EdgeInsets.zero,
+                      secondary: const Icon(
+                        Icons.notifications_active_outlined,
+                      ),
+                      title: Text(l10n.alertsSetting),
+                      subtitle: Text(l10n.alertsSettingHint),
+                      value: ref.watch(alertNotificationsProvider),
+                      onChanged: (v) async {
+                        final alerts = ref.read(
+                          alertNotificationsProvider.notifier,
+                        );
+                        if (!v) return alerts.disable();
+                        final messenger = ScaffoldMessenger.of(context);
+                        if (!await alerts.enable()) {
+                          messenger
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(
+                              SnackBar(
+                                content: Text(l10n.alertsPermissionDenied),
+                              ),
+                            );
+                        }
+                      },
+                    ),
                   section(l10n.backupSection),
                   Text(l10n.backupHint, style: textTheme.bodySmall),
                   const SizedBox(height: 8),

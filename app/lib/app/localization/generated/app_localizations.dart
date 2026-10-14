@@ -4124,6 +4124,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From Home Assistant\'s logbook for the last 24 hours. Sensors that measure continuously (temperature, power) aren\'t listed.'**
   String get activityHint;
+
+  /// No description provided for @alertsSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify about critical alerts'**
+  String get alertsSetting;
+
+  /// No description provided for @alertsSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. Only while the app is running; for alerts when it\'s closed, use Home Assistant\'s own notifications.'**
+  String get alertsSettingHint;
+
+  /// No description provided for @alertsPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are turned off for this app in the phone\'s settings.'**
+  String get alertsPermissionDenied;
 }
 
 class _AppLocalizationsDelegate

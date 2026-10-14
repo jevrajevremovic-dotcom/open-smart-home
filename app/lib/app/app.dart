@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../features/alerts/alert_notifications.dart';
 import '../features/app_lock/application/app_lock.dart';
 import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/authentication/application/session_controller.dart';
@@ -77,8 +78,11 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
-      builder: (context, child) =>
-          ShortcutsHost(child: AppLockGate(child: child ?? const SizedBox())),
+      builder: (context, child) => AlertNotificationsHost(
+        child: ShortcutsHost(
+          child: AppLockGate(child: child ?? const SizedBox()),
+        ),
+      ),
     );
   }
 }

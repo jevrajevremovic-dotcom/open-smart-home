@@ -1,3 +1,4 @@
+import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/app_lock/application/app_lock.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
@@ -89,6 +90,7 @@ Future<List<Override>> testOverrides({
   VoiceInput? voiceInput,
   DeviceAuth? deviceAuth,
   AppShortcutsPlatform? shortcuts,
+  AlertNotifier? alerts,
   List<Override> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -114,8 +116,38 @@ Future<List<Override>> testOverrides({
     appShortcutsPlatformProvider.overrideWithValue(
       shortcuts ?? FakeShortcuts(supported: false),
     ),
+    alertNotifierProvider.overrideWithValue(
+      alerts ?? FakeAlertNotifier(supported: false),
+    ),
     ...overrides,
   ];
+}
+
+/// Records alert notifications instead of showing them.
+class FakeAlertNotifier implements AlertNotifier {
+  FakeAlertNotifier({this.supported = true, this.permission = true});
+
+  @override
+  final bool supported;
+  bool permission;
+  final Map<String, (String, String)> shown = {};
+  void Function(String)? _onTap;
+
+  @override
+  Future<void> initialize(void Function(String deviceId) onTap) async =>
+      _onTap = onTap;
+
+  @override
+  Future<bool> requestPermission() async => permission;
+
+  @override
+  Future<void> show(String deviceId, String title, String body) async =>
+      shown[deviceId] = (title, body);
+
+  @override
+  Future<void> cancel(String deviceId) async => shown.remove(deviceId);
+
+  void tap(String deviceId) => _onTap?.call(deviceId);
 }
 
 /// Records launcher shortcuts and lets tests "tap" one.

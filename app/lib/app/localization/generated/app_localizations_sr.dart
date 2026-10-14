@@ -2331,6 +2331,17 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get activityHint =>
       'Iz dnevnika Home Assistanta za poslednja 24 sata. Senzori koji mere neprekidno (temperatura, snaga) se ne prikazuju.';
+
+  @override
+  String get alertsSetting => 'Obaveštenja o kritičnim upozorenjima';
+
+  @override
+  String get alertsSettingHint =>
+      'Dim, CO, curenje vode, aktiviran alarm ili zaglavljena brava kao obaveštenje na telefonu, koje prikazuje sam uređaj. Samo dok aplikacija radi; za upozorenja kad je zatvorena koristite obaveštenja samog Home Assistanta.';
+
+  @override
+  String get alertsPermissionDenied =>
+      'Obaveštenja su isključena za ovu aplikaciju u podešavanjima telefona.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

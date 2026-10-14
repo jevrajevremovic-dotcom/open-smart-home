@@ -670,5 +670,8 @@
   "activityAll": "Sve",
   "activitySecurity": "Vrata i bezbednost",
   "activityPeople": "Ukućani",
-  "activityHint": "Iz dnevnika Home Assistanta za poslednja 24 sata. Senzori koji mere neprekidno (temperatura, snaga) se ne prikazuju."
+  "activityHint": "Iz dnevnika Home Assistanta za poslednja 24 sata. Senzori koji mere neprekidno (temperatura, snaga) se ne prikazuju.",
+  "alertsSetting": "Obaveštenja o kritičnim upozorenjima",
+  "alertsSettingHint": "Dim, CO, curenje vode, aktiviran alarm ili zaglavljena brava kao obaveštenje na telefonu, koje prikazuje sam uređaj. Samo dok aplikacija radi; za upozorenja kad je zatvorena koristite obaveštenja samog Home Assistanta.",
+  "alertsPermissionDenied": "Obaveštenja su isključena za ovu aplikaciju u podešavanjima telefona."
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +15,7 @@ import '../../app_lock/application/app_lock.dart';
 import '../../assist/application/voice_providers.dart';
 import '../../restricted/application/restricted_mode.dart';
 import '../../restricted/presentation/restricted_settings.dart';
+import '../data/settings_backup.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
 import 'language_selector.dart';
@@ -139,6 +141,53 @@ class SettingsScreen extends ConsumerWidget {
                   if (!(ref.watch(deviceAuthAvailableProvider).value ?? false))
                     section(l10n.securitySection),
                   const RestrictedSettingsTile(),
+                  section(l10n.backupSection),
+                  Text(l10n.backupHint, style: textTheme.bodySmall),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      OutlinedButton.icon(
+                        key: const Key('backupCopy'),
+                        onPressed: () async {
+                          final messenger = ScaffoldMessenger.of(context);
+                          await Clipboard.setData(
+                            ClipboardData(text: SettingsBackup.export(ref)),
+                          );
+                          messenger
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(
+                              SnackBar(content: Text(l10n.backupCopied)),
+                            );
+                        },
+                        icon: const Icon(Icons.copy),
+                        label: Text(l10n.backupCopy),
+                      ),
+                      OutlinedButton.icon(
+                        key: const Key('backupPaste'),
+                        onPressed: () async {
+                          final messenger = ScaffoldMessenger.of(context);
+                          final text = (await Clipboard.getData('text/plain'))
+                              ?.text;
+                          final ok =
+                              text != null &&
+                              await SettingsBackup.import(ref, text);
+                          messenger
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  ok ? l10n.backupImported : l10n.backupInvalid,
+                                ),
+                              ),
+                            );
+                        },
+                        icon: const Icon(Icons.paste),
+                        label: Text(l10n.backupPaste),
+                      ),
+                    ],
+                  ),
                   section(l10n.privacySection),
                   if (ref.watch(deviceLocatorProvider).isSupported)
                     SwitchListTile(

@@ -3962,6 +3962,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove photo'**
   String get kioskPhotoRemove;
+
+  /// No description provided for @backupSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to another device'**
+  String get backupSection;
+
+  /// No description provided for @backupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Copies theme, language, favourites and kiosk layout as text, to paste in the app on another phone or tablet. Tokens, PINs and privacy choices are never included.'**
+  String get backupHint;
+
+  /// No description provided for @backupCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy settings'**
+  String get backupCopy;
+
+  /// No description provided for @backupPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste settings'**
+  String get backupPaste;
+
+  /// No description provided for @backupCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings copied. Paste them in the app on the other device.'**
+  String get backupCopied;
+
+  /// No description provided for @backupImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings applied.'**
+  String get backupImported;
+
+  /// No description provided for @backupInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The clipboard doesn\'t contain Open Smart Home settings.'**
+  String get backupInvalid;
 }
 
 class _AppLocalizationsDelegate

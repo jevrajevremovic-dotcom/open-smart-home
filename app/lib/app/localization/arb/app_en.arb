@@ -1026,5 +1026,12 @@
   "kioskPhoto": "Own background photo",
   "kioskPhotoHint": "Shown darkened behind the panels. Stays on this device only.",
   "kioskPhotoPick": "Choose photo",
-  "kioskPhotoRemove": "Remove photo"
+  "kioskPhotoRemove": "Remove photo",
+  "backupSection": "Move to another device",
+  "backupHint": "Copies theme, language, favourites and kiosk layout as text, to paste in the app on another phone or tablet. Tokens, PINs and privacy choices are never included.",
+  "backupCopy": "Copy settings",
+  "backupPaste": "Paste settings",
+  "backupCopied": "Settings copied. Paste them in the app on the other device.",
+  "backupImported": "Settings applied.",
+  "backupInvalid": "The clipboard doesn't contain Open Smart Home settings."
 }

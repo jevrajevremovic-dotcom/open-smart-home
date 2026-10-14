@@ -2246,6 +2246,30 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskPhotoRemove => 'Ukloni sliku';
+
+  @override
+  String get backupSection => 'Prenos na drugi uređaj';
+
+  @override
+  String get backupHint =>
+      'Kopira temu, jezik, omiljene i kiosk raspored kao tekst, koji nalepite u aplikaciju na drugom telefonu ili tabletu. Tokeni, PIN-ovi i izbori privatnosti se nikad ne kopiraju.';
+
+  @override
+  String get backupCopy => 'Kopiraj podešavanja';
+
+  @override
+  String get backupPaste => 'Nalepi podešavanja';
+
+  @override
+  String get backupCopied =>
+      'Podešavanja su kopirana. Nalepite ih u aplikaciju na drugom uređaju.';
+
+  @override
+  String get backupImported => 'Podešavanja su primenjena.';
+
+  @override
+  String get backupInvalid =>
+      'U međuspremniku nisu Open Smart Home podešavanja.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -89,6 +89,10 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Lokalno ograničenje interfejsa (skriveni osetljivi uređaji, zaključana podešavanja i dodavanje uređaja, bez Assista); PIN se čuva kao PBKDF2 heš kao kiosk PIN.
 - Nije zamena za HA ovlašćenja: token i dalje ima prava naloga. Za prava ograničenja treba poseban HA korisnik (ne-administrator).
 
+## Prenos podešavanja
+
+- Izvoz u međuspremnik sadrži samo temu, jezik, omiljene i kiosk raspored. Bez tokena, adresa sa tajnama, PIN heševa, fotografije i pristanaka (lokacija, glas); pri uvozu se PIN i fotografija na uređaju zadržavaju.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

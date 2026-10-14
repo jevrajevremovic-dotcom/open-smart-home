@@ -643,5 +643,12 @@
   "kioskPhoto": "Sopstvena slika pozadine",
   "kioskPhotoHint": "Prikazuje se zatamnjena iza panela. Ostaje samo na ovom uređaju.",
   "kioskPhotoPick": "Izaberi sliku",
-  "kioskPhotoRemove": "Ukloni sliku"
+  "kioskPhotoRemove": "Ukloni sliku",
+  "backupSection": "Prenos na drugi uređaj",
+  "backupHint": "Kopira temu, jezik, omiljene i kiosk raspored kao tekst, koji nalepite u aplikaciju na drugom telefonu ili tabletu. Tokeni, PIN-ovi i izbori privatnosti se nikad ne kopiraju.",
+  "backupCopy": "Kopiraj podešavanja",
+  "backupPaste": "Nalepi podešavanja",
+  "backupCopied": "Podešavanja su kopirana. Nalepite ih u aplikaciju na drugom uređaju.",
+  "backupImported": "Podešavanja su primenjena.",
+  "backupInvalid": "U međuspremniku nisu Open Smart Home podešavanja."
 }

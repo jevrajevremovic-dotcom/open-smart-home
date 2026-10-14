@@ -2236,4 +2236,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskPhotoRemove => 'Remove photo';
+
+  @override
+  String get backupSection => 'Move to another device';
+
+  @override
+  String get backupHint =>
+      'Copies theme, language, favourites and kiosk layout as text, to paste in the app on another phone or tablet. Tokens, PINs and privacy choices are never included.';
+
+  @override
+  String get backupCopy => 'Copy settings';
+
+  @override
+  String get backupPaste => 'Paste settings';
+
+  @override
+  String get backupCopied =>
+      'Settings copied. Paste them in the app on the other device.';
+
+  @override
+  String get backupImported => 'Settings applied.';
+
+  @override
+  String get backupInvalid =>
+      'The clipboard doesn\'t contain Open Smart Home settings.';
 }

@@ -650,5 +650,21 @@
   "backupPaste": "Nalepi podešavanja",
   "backupCopied": "Podešavanja su kopirana. Nalepite ih u aplikaciju na drugom uređaju.",
   "backupImported": "Podešavanja su primenjena.",
-  "backupInvalid": "U međuspremniku nisu Open Smart Home podešavanja."
+  "backupInvalid": "U međuspremniku nisu Open Smart Home podešavanja.",
+  "autoAddTrigger": "Dodaj okidač",
+  "autoAnyTrigger": "Pokreće se kad se desi bilo šta od ovoga.",
+  "autoOnlyIf": "Samo ako",
+  "autoOnlyIfHint": "Opciono. Sve ovo mora da važi kada se pokrene.",
+  "autoAddCondition": "Dodaj uslov",
+  "autoTriggerValue": "Vrednost",
+  "autoAbove": "Poraste iznad",
+  "autoBelow": "Padne ispod",
+  "autoThreshold": "Granica",
+  "autoCondTime": "Između dva vremena",
+  "autoCondAfter": "Od",
+  "autoCondBefore": "Do",
+  "autoCondDevice": "Uređaj je u stanju",
+  "autoCondDark": "Samo kad je mrak",
+  "autoCondLight": "Samo kad je dan",
+  "autoIs": "je"
 }

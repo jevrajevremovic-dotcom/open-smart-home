@@ -2270,6 +2270,54 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get backupInvalid =>
       'U međuspremniku nisu Open Smart Home podešavanja.';
+
+  @override
+  String get autoAddTrigger => 'Dodaj okidač';
+
+  @override
+  String get autoAnyTrigger => 'Pokreće se kad se desi bilo šta od ovoga.';
+
+  @override
+  String get autoOnlyIf => 'Samo ako';
+
+  @override
+  String get autoOnlyIfHint => 'Opciono. Sve ovo mora da važi kada se pokrene.';
+
+  @override
+  String get autoAddCondition => 'Dodaj uslov';
+
+  @override
+  String get autoTriggerValue => 'Vrednost';
+
+  @override
+  String get autoAbove => 'Poraste iznad';
+
+  @override
+  String get autoBelow => 'Padne ispod';
+
+  @override
+  String get autoThreshold => 'Granica';
+
+  @override
+  String get autoCondTime => 'Između dva vremena';
+
+  @override
+  String get autoCondAfter => 'Od';
+
+  @override
+  String get autoCondBefore => 'Do';
+
+  @override
+  String get autoCondDevice => 'Uređaj je u stanju';
+
+  @override
+  String get autoCondDark => 'Samo kad je mrak';
+
+  @override
+  String get autoCondLight => 'Samo kad je dan';
+
+  @override
+  String get autoIs => 'je';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

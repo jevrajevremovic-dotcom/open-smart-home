@@ -2260,4 +2260,53 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get backupInvalid =>
       'The clipboard doesn\'t contain Open Smart Home settings.';
+
+  @override
+  String get autoAddTrigger => 'Add a trigger';
+
+  @override
+  String get autoAnyTrigger => 'Runs when any of these happens.';
+
+  @override
+  String get autoOnlyIf => 'Only if';
+
+  @override
+  String get autoOnlyIfHint =>
+      'Optional. All of these must be true when it starts.';
+
+  @override
+  String get autoAddCondition => 'Add a condition';
+
+  @override
+  String get autoTriggerValue => 'Value';
+
+  @override
+  String get autoAbove => 'Rises above';
+
+  @override
+  String get autoBelow => 'Falls below';
+
+  @override
+  String get autoThreshold => 'Threshold';
+
+  @override
+  String get autoCondTime => 'Between two times';
+
+  @override
+  String get autoCondAfter => 'From';
+
+  @override
+  String get autoCondBefore => 'Until';
+
+  @override
+  String get autoCondDevice => 'A device is in a state';
+
+  @override
+  String get autoCondDark => 'Only when it\'s dark';
+
+  @override
+  String get autoCondLight => 'Only when it\'s light';
+
+  @override
+  String get autoIs => 'is';
 }

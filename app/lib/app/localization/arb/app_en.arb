@@ -1033,5 +1033,21 @@
   "backupPaste": "Paste settings",
   "backupCopied": "Settings copied. Paste them in the app on the other device.",
   "backupImported": "Settings applied.",
-  "backupInvalid": "The clipboard doesn't contain Open Smart Home settings."
+  "backupInvalid": "The clipboard doesn't contain Open Smart Home settings.",
+  "autoAddTrigger": "Add a trigger",
+  "autoAnyTrigger": "Runs when any of these happens.",
+  "autoOnlyIf": "Only if",
+  "autoOnlyIfHint": "Optional. All of these must be true when it starts.",
+  "autoAddCondition": "Add a condition",
+  "autoTriggerValue": "Value",
+  "autoAbove": "Rises above",
+  "autoBelow": "Falls below",
+  "autoThreshold": "Threshold",
+  "autoCondTime": "Between two times",
+  "autoCondAfter": "From",
+  "autoCondBefore": "Until",
+  "autoCondDevice": "A device is in a state",
+  "autoCondDark": "Only when it's dark",
+  "autoCondLight": "Only when it's light",
+  "autoIs": "is"
 }

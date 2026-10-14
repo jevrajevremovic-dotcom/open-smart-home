@@ -13,7 +13,10 @@ void main() {
   test('config in the current HA format', () {
     final config = const SimpleAutomation(
       alias: 'Morning',
-      trigger: TimeTrigger(7, 5, weekdays: {5, 1}),
+      triggers: [TimeTrigger(7, 5)],
+      conditions: [
+        WeekdayCondition({5, 1}),
+      ],
       actions: [AutomationAction('light.hall', 'turn_on')],
     ).toConfig('123');
     expect(config['triggers'], [
@@ -33,7 +36,7 @@ void main() {
     ]);
     final sun = const SimpleAutomation(
       alias: 'x',
-      trigger: SunTrigger(sunset: true, offsetMinutes: -30),
+      triggers: [SunTrigger(sunset: true, offsetMinutes: -30)],
       actions: [],
     ).toConfig('1');
     expect((sun['triggers']! as List).single, {
@@ -62,8 +65,10 @@ void main() {
     expect(find.text(en.autoIncomplete), findsOneWidget);
 
     await tester.enterText(find.byKey(const Key('autoName')), 'Ulaz noću');
-    await tester.tap(find.text(en.autoTriggerDevice));
-    await settle(tester, 2);
+    await tapKey(tester, 'autoAddTrigger');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const ValueKey('trigKind-device')));
+    await settle(tester, 1);
     await tapKey(tester, 'autoTriggerDevice');
     await settle(tester, 2);
     await tester.enterText(find.byKey(const Key('pickSearch')), 'Ulazna');
@@ -74,6 +79,8 @@ void main() {
     await settle(tester, 2);
     await tester.tap(find.byKey(const ValueKey('autoState-on')));
     await settle(tester, 1);
+    await tester.tap(find.byKey(const Key('trigOk')));
+    await settle(tester, 3);
 
     await tapKey(tester, 'autoAddAction');
     await settle(tester, 2);
@@ -111,17 +118,31 @@ void main() {
     for (final a in const [
       SimpleAutomation(
         alias: 'A',
-        trigger: TimeTrigger(6, 30, weekdays: {1, 2}),
+        triggers: [TimeTrigger(6, 30)],
+        conditions: [
+          WeekdayCondition({1, 2}),
+        ],
         actions: [AutomationAction('light.a', 'turn_on')],
       ),
       SimpleAutomation(
         alias: 'B',
-        trigger: DeviceTrigger('binary_sensor.d', 'on'),
+        triggers: [
+          DeviceTrigger('binary_sensor.d', 'on'),
+          NumericTrigger('sensor.t', above: true, threshold: 25.5),
+        ],
+        conditions: [
+          TimeWindowCondition(
+            after: ClockTime(22, 0),
+            before: ClockTime(6, 30),
+          ),
+          StateCondition('person.ana', 'home'),
+          SunCondition(dark: true),
+        ],
         actions: [AutomationAction('cover.c', 'close_cover')],
       ),
       SimpleAutomation(
         alias: 'C',
-        trigger: SunTrigger(sunset: false, offsetMinutes: -45),
+        triggers: [SunTrigger(sunset: false, offsetMinutes: -45)],
         actions: [AutomationAction('scene.s', 'turn_on')],
       ),
     ]) {
@@ -145,7 +166,7 @@ void main() {
       SimpleAutomation.tryParse({
         'triggers': [
           {'trigger': 'time', 'at': '08:00:00'},
-          {'trigger': 'time', 'at': '09:00:00'},
+          {'trigger': 'template', 'value_template': '{{ true }}'},
         ],
         'actions': [
           {
@@ -155,7 +176,7 @@ void main() {
         ],
       }),
       isNull,
-      reason: 'two triggers',
+      reason: 'template trigger',
     );
   });
 
@@ -169,7 +190,7 @@ void main() {
       '42',
       const SimpleAutomation(
         alias: 'Jutro',
-        trigger: TimeTrigger(7, 0),
+        triggers: [TimeTrigger(7, 0)],
         actions: [AutomationAction('light.hallway', 'turn_on')],
       ).toConfig('42'),
     );
@@ -193,6 +214,135 @@ void main() {
         'weekday': ['mon'],
       },
     ]);
+    await unmount(tester);
+  });
+
+  test('one HA time condition with weekdays and a window is split', () {
+    final a = SimpleAutomation.tryParse({
+      'triggers': [
+        {'trigger': 'time', 'at': '08:00:00'},
+      ],
+      'conditions': [
+        {
+          'condition': 'time',
+          'after': '07:00:00',
+          'before': '09:00:00',
+          'weekday': 'sat',
+        },
+      ],
+      'actions': [
+        {'action': 'light.turn_on', 'entity_id': 'light.x'},
+      ],
+    })!;
+    expect(a.conditions, hasLength(2));
+    expect((a.conditions.first as WeekdayCondition).weekdays, {6});
+    expect(
+      (a.conditions.last as TimeWindowCondition).after,
+      const ClockTime(7, 0),
+    );
+    // Things the editor would silently drop are left to HA.
+    expect(
+      SimpleAutomation.tryParse({
+        'triggers': [
+          {'trigger': 'state', 'entity_id': 'light.x', 'to': 'on', 'for': 5},
+        ],
+        'actions': [
+          {'action': 'light.turn_on', 'entity_id': 'light.x'},
+        ],
+      }),
+      isNull,
+    );
+    expect(
+      SimpleAutomation.tryParse({
+        'triggers': [
+          {'trigger': 'time', 'at': '08:00:00'},
+        ],
+        'actions': [
+          {
+            'action': 'light.turn_on',
+            'target': {'entity_id': 'light.x'},
+            'data': {'brightness': 10},
+          },
+        ],
+      }),
+      isNull,
+    );
+  });
+
+  testWidgets('two triggers, a value threshold and "only when dark"', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await settle(tester, 10);
+    final server = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    ).read(mockHomeAssistantServerProvider);
+
+    await goTo(tester, AppRoutes.scenes);
+    await tapKey(tester, 'newAutomation');
+    await settle(tester, 4);
+    await tester.enterText(find.byKey(const Key('autoName')), 'Toplo');
+
+    // Trigger 1: a time (default 07:00).
+    await tapKey(tester, 'autoAddTrigger');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const Key('trigOk')));
+    await settle(tester, 3);
+
+    // Trigger 2: temperature rises above 25.
+    await tapKey(tester, 'autoAddTrigger');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const ValueKey('trigKind-value')));
+    await settle(tester, 1);
+    expect(
+      tester.widget<FilledButton>(find.byKey(const Key('trigOk'))).onPressed,
+      isNull,
+      reason: 'no sensor yet',
+    );
+    await tester.tap(find.byKey(const Key('autoTriggerSensor')));
+    await settle(tester, 2);
+    await tester.enterText(find.byKey(const Key('pickSearch')), 'dnevna');
+    await settle(tester, 1);
+    await tester.tap(
+      find.byKey(const ValueKey('pick-sensor.living_room_temperature')),
+    );
+    await settle(tester, 2);
+    await tester.enterText(find.byKey(const Key('autoThreshold')), '25,5');
+    await settle(tester, 1);
+    await tester.tap(find.byKey(const Key('trigOk')));
+    await settle(tester, 3);
+    expect(find.text(en.autoAnyTrigger), findsOneWidget);
+
+    await tapKey(tester, 'autoAddCondition');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const ValueKey('cond-dark')));
+    await settle(tester, 3);
+    expect(find.text(en.autoCondDark), findsOneWidget);
+
+    await tapKey(tester, 'autoAddAction');
+    await settle(tester, 2);
+    await tester.enterText(find.byKey(const Key('pickSearch')), 'Hodnik');
+    await settle(tester, 1);
+    await tester.tap(find.byKey(const ValueKey('pick-light.hallway')));
+    await settle(tester, 2);
+    await tester.tap(find.byKey(const ValueKey('svc-turn_on')));
+    await settle(tester, 2);
+
+    await tapKey(tester, 'autoSave');
+    await settle(tester, 8);
+    final config = server.automations.values.single;
+    expect(config['triggers'], [
+      {'trigger': 'time', 'at': '07:00:00'},
+      {
+        'trigger': 'numeric_state',
+        'entity_id': 'sensor.living_room_temperature',
+        'above': 25.5,
+      },
+    ]);
+    expect(config['conditions'], [
+      {'condition': 'state', 'entity_id': 'sun.sun', 'state': 'below_horizon'},
+    ]);
+    expect(SimpleAutomation.tryParse(config), isNotNull, reason: 'editable');
     await unmount(tester);
   });
 }

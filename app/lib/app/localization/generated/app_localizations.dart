@@ -4004,6 +4004,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The clipboard doesn\'t contain Open Smart Home settings.'**
   String get backupInvalid;
+
+  /// No description provided for @autoAddTrigger.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a trigger'**
+  String get autoAddTrigger;
+
+  /// No description provided for @autoAnyTrigger.
+  ///
+  /// In en, this message translates to:
+  /// **'Runs when any of these happens.'**
+  String get autoAnyTrigger;
+
+  /// No description provided for @autoOnlyIf.
+  ///
+  /// In en, this message translates to:
+  /// **'Only if'**
+  String get autoOnlyIf;
+
+  /// No description provided for @autoOnlyIfHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. All of these must be true when it starts.'**
+  String get autoOnlyIfHint;
+
+  /// No description provided for @autoAddCondition.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a condition'**
+  String get autoAddCondition;
+
+  /// No description provided for @autoTriggerValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get autoTriggerValue;
+
+  /// No description provided for @autoAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'Rises above'**
+  String get autoAbove;
+
+  /// No description provided for @autoBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'Falls below'**
+  String get autoBelow;
+
+  /// No description provided for @autoThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Threshold'**
+  String get autoThreshold;
+
+  /// No description provided for @autoCondTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Between two times'**
+  String get autoCondTime;
+
+  /// No description provided for @autoCondAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get autoCondAfter;
+
+  /// No description provided for @autoCondBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Until'**
+  String get autoCondBefore;
+
+  /// No description provided for @autoCondDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'A device is in a state'**
+  String get autoCondDevice;
+
+  /// No description provided for @autoCondDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Only when it\'s dark'**
+  String get autoCondDark;
+
+  /// No description provided for @autoCondLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Only when it\'s light'**
+  String get autoCondLight;
+
+  /// No description provided for @autoIs.
+  ///
+  /// In en, this message translates to:
+  /// **'is'**
+  String get autoIs;
 }
 
 class _AppLocalizationsDelegate

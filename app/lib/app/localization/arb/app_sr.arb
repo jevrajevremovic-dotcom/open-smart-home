@@ -639,5 +639,9 @@
   "energyPrevWeek": "Prošle nedelje: {value}",
   "energyPrevMonth": "Prošlog meseca: {value}",
   "autoEdit": "Izmeni automatizaciju",
-  "autoTooComplex": "Ova automatizacija radi više nego što editor u aplikaciji može da prikaže. Izmenite je u Home Assistantu."
+  "autoTooComplex": "Ova automatizacija radi više nego što editor u aplikaciji može da prikaže. Izmenite je u Home Assistantu.",
+  "kioskPhoto": "Sopstvena slika pozadine",
+  "kioskPhotoHint": "Prikazuje se zatamnjena iza panela. Ostaje samo na ovom uređaju.",
+  "kioskPhotoPick": "Izaberi sliku",
+  "kioskPhotoRemove": "Ukloni sliku"
 }

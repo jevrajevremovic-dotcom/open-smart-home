@@ -89,6 +89,7 @@ Future<List<Override>> testOverrides({
   VoiceInput? voiceInput,
   DeviceAuth? deviceAuth,
   AppShortcutsPlatform? shortcuts,
+  List<Override> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
@@ -113,6 +114,7 @@ Future<List<Override>> testOverrides({
     appShortcutsPlatformProvider.overrideWithValue(
       shortcuts ?? FakeShortcuts(supported: false),
     ),
+    ...overrides,
   ];
 }
 

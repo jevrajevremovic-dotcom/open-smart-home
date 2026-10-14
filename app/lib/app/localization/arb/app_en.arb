@@ -1022,5 +1022,9 @@
     }
   },
   "autoEdit": "Edit automation",
-  "autoTooComplex": "This automation does more than the app's editor can show. Change it in Home Assistant."
+  "autoTooComplex": "This automation does more than the app's editor can show. Change it in Home Assistant.",
+  "kioskPhoto": "Own background photo",
+  "kioskPhotoHint": "Shown darkened behind the panels. Stays on this device only.",
+  "kioskPhotoPick": "Choose photo",
+  "kioskPhotoRemove": "Remove photo"
 }

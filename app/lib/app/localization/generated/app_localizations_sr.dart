@@ -2233,6 +2233,19 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get autoTooComplex =>
       'Ova automatizacija radi više nego što editor u aplikaciji može da prikaže. Izmenite je u Home Assistantu.';
+
+  @override
+  String get kioskPhoto => 'Sopstvena slika pozadine';
+
+  @override
+  String get kioskPhotoHint =>
+      'Prikazuje se zatamnjena iza panela. Ostaje samo na ovom uređaju.';
+
+  @override
+  String get kioskPhotoPick => 'Izaberi sliku';
+
+  @override
+  String get kioskPhotoRemove => 'Ukloni sliku';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -2223,4 +2223,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get autoTooComplex =>
       'This automation does more than the app\'s editor can show. Change it in Home Assistant.';
+
+  @override
+  String get kioskPhoto => 'Own background photo';
+
+  @override
+  String get kioskPhotoHint =>
+      'Shown darkened behind the panels. Stays on this device only.';
+
+  @override
+  String get kioskPhotoPick => 'Choose photo';
+
+  @override
+  String get kioskPhotoRemove => 'Remove photo';
 }

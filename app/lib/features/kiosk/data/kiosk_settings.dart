@@ -19,6 +19,7 @@ class KioskSettings {
     this.statusEntityIds = const [],
     this.showCameras = true,
     this.showCalendar = true,
+    this.photoPath,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -41,6 +42,9 @@ class KioskSettings {
       liteEffects: json['liteEffects'] == true,
       showCameras: json['showCameras'] != false,
       showCalendar: json['showCalendar'] != false,
+      photoPath: json['photoPath'] is String
+          ? json['photoPath']! as String
+          : null,
       statusEntityIds: [
         if (json['statusEntityIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(maxStatusEntities)) id,
@@ -74,6 +78,10 @@ class KioskSettings {
   /// Calendar panel on the kiosk dashboard.
   final bool showCalendar;
 
+  /// Own background photo (file on this device), shown instead of the
+  /// gradient.
+  final String? photoPath;
+
   bool get hasPin => pinHash != null && pinSalt != null;
 
   /// Choices offered in settings.
@@ -106,7 +114,10 @@ class KioskSettings {
     List<String>? statusEntityIds,
     bool? showCameras,
     bool? showCalendar,
+    String? photoPath,
+    bool clearPhoto = false,
   }) => KioskSettings(
+    photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
     statusEntityIds: statusEntityIds ?? this.statusEntityIds,
@@ -132,5 +143,6 @@ class KioskSettings {
     'statusEntityIds': statusEntityIds,
     'showCameras': showCameras,
     'showCalendar': showCalendar,
+    'photoPath': photoPath,
   };
 }

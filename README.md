@@ -64,6 +64,7 @@ Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji:
 | `video_player` | video uživo sa kamera (HLS) |
 | `local_auth` | zaključavanje aplikacije otiskom / licem / PIN-om uređaja |
 | `wakelock_plus` | ekran ostaje uključen u kiosku |
+| `image_picker` | izbor fotografije za pozadinu kioska |
 | `quick_actions` | prečice na ikonici aplikacije (scene, Assist, Kiosk) |
 | `mocktail` (dev) | mock-ovi u testovima |
 

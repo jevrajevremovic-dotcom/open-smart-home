@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
@@ -26,6 +27,7 @@ Future<InMemoryCredentialStore> pumpApp(
   MockHomeAssistantServer? server,
   DeviceAuth? deviceAuth,
   AppShortcutsPlatform? shortcuts,
+  List<Override> overrides = const [],
 }) async {
   tester.view
     ..physicalSize = size
@@ -34,7 +36,7 @@ Future<InMemoryCredentialStore> pumpApp(
 
   final credentials = InMemoryCredentialStore();
   if (signedIn) credentials.values['http://homeassistant.local:8123'] = 'token';
-  final overrides = await testOverrides(
+  final all = await testOverrides(
     credentials: credentials,
     preferences: signedIn
         ? {'connection.activeServerProfile': _profileJson}
@@ -42,10 +44,11 @@ Future<InMemoryCredentialStore> pumpApp(
     server: server,
     deviceAuth: deviceAuth,
     shortcuts: shortcuts,
+    overrides: overrides,
   );
   await tester.pumpWidget(
     ProviderScope(
-      overrides: overrides,
+      overrides: all,
       retry: (_, _) => null,
       child: const SmartHomeApp(),
     ),

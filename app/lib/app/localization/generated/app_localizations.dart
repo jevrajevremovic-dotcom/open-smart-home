@@ -3938,6 +3938,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This automation does more than the app\'s editor can show. Change it in Home Assistant.'**
   String get autoTooComplex;
+
+  /// No description provided for @kioskPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Own background photo'**
+  String get kioskPhoto;
+
+  /// No description provided for @kioskPhotoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown darkened behind the panels. Stays on this device only.'**
+  String get kioskPhotoHint;
+
+  /// No description provided for @kioskPhotoPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose photo'**
+  String get kioskPhotoPick;
+
+  /// No description provided for @kioskPhotoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get kioskPhotoRemove;
 }
 
 class _AppLocalizationsDelegate

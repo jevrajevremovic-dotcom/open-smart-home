@@ -1,12 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
+import 'glass.dart';
 import 'pin_dialog.dart';
 import 'status_entities_picker.dart';
 
@@ -117,6 +121,30 @@ class KioskSettingsSection extends ConsumerWidget {
                 : controller.update((s) => s.copyWith(background: v)),
           ),
         ),
+        if (ref.watch(kioskPhotoStoreProvider).supported)
+          ListTile(
+            key: const Key('kioskPhoto'),
+            contentPadding: EdgeInsets.zero,
+            title: Text(l10n.kioskPhoto),
+            subtitle: Text(l10n.kioskPhotoHint),
+            trailing: settings.photoPath == null
+                ? TextButton(
+                    key: const Key('kioskPhotoPick'),
+                    onPressed: () => _pickPhoto(ref),
+                    child: Text(l10n.kioskPhotoPick),
+                  )
+                : TextButton(
+                    key: const Key('kioskPhotoRemove'),
+                    onPressed: () async {
+                      final path = settings.photoPath!;
+                      await controller.update(
+                        (s) => s.copyWith(clearPhoto: true),
+                      );
+                      await ref.read(kioskPhotoStoreProvider).delete(path);
+                    },
+                    child: Text(l10n.kioskPhotoRemove),
+                  ),
+          ),
         SwitchListTile(
           key: const Key('kioskShowCameras'),
           contentPadding: EdgeInsets.zero,
@@ -190,4 +218,29 @@ class KioskSettingsSection extends ConsumerWidget {
       ],
     );
   }
+}
+
+/// Lets tests replace the system photo picker.
+final kioskPhotoPickerProvider = Provider<Future<Uint8List?> Function()>(
+  (ref) => () async {
+    final file = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 2560,
+      maxHeight: 2560,
+      imageQuality: 85,
+    );
+    return file?.readAsBytes();
+  },
+);
+
+Future<void> _pickPhoto(WidgetRef ref) async {
+  final bytes = await ref.read(kioskPhotoPickerProvider)();
+  if (bytes == null) return;
+  final store = ref.read(kioskPhotoStoreProvider);
+  final path = await store.save(bytes);
+  final old = ref.read(kioskSettingsProvider).photoPath;
+  await ref
+      .read(kioskSettingsProvider.notifier)
+      .update((s) => s.copyWith(photoPath: path));
+  if (old != null) await store.delete(old);
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/kiosk_controller.dart';
+import '../data/kiosk_photo.dart';
 import '../data/kiosk_settings.dart';
 
 /// Colours of one kiosk background: a diagonal base gradient and two soft
@@ -50,6 +51,10 @@ class KioskPalette {
   };
 }
 
+final kioskPhotoStoreProvider = Provider<KioskPhotoStore>(
+  (ref) => PlatformKioskPhotoStore(),
+);
+
 /// Full-screen gradient with two blurred light spots behind the panels.
 class KioskBackdrop extends ConsumerWidget {
   const KioskBackdrop({super.key, required this.child});
@@ -61,6 +66,30 @@ class KioskBackdrop extends ConsumerWidget {
     final palette = KioskPalette.of(
       ref.watch(kioskSettingsProvider.select((s) => s.background)),
     );
+    final photoPath = ref.watch(
+      kioskSettingsProvider.select((s) => s.photoPath),
+    );
+    final photo = photoPath == null
+        ? null
+        : ref.watch(kioskPhotoStoreProvider).image(photoPath);
+    if (photo != null) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: photo, fit: BoxFit.cover),
+        ),
+        // Darkened so white text stays readable on any photo.
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0x99000000), Color(0x73000000), Color(0xB3000000)],
+            ),
+          ),
+          child: child,
+        ),
+      );
+    }
     Widget glow(Color color, Alignment at, double size) => Align(
       alignment: at,
       child: FractionallySizedBox(

@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kiosk: sopstvena fotografija kao pozadina (zatamnjena radi čitljivosti), čuva se samo na uređaju; nije dostupno na webu.
 - Izmena postojećih automatizacija u editoru aplikacije (učitava se konfiguracija iz HA; složenije automatizacije se menjaju u HA). Razume i stari format (`platform`/`service`).
 - Prečice na ikonici aplikacije (dugi pritisak, Android/iOS): do dve scene (omiljene prve), Assist i Kiosk; scena se pokreće čim su podaci uživo.
 - Energija: ukupna potrošnja prethodnog perioda (juče / prošle nedelje / prošlog meseca) ispod trenutne, radi poređenja.

@@ -1068,5 +1068,12 @@
   "allCoversClose": "Close all",
   "widgetNoScenes": "No scenes yet: create one in the app",
   "widgetSignedOut": "Sign in to Open Smart Home",
-  "riskVpnTunnel": "Tailscale VPN address: the connection is encrypted and also works away from home."
+  "riskVpnTunnel": "Tailscale VPN address: the connection is encrypted and also works away from home.",
+  "remoteTitle": "Address away from home",
+  "remoteNotSet": "Not set: only the home address is used",
+  "remoteInUse": "In use now (the home address does not answer)",
+  "remoteHint": "The same Home Assistant as reached from outside: a Home Assistant Cloud (Nabu Casa) address, your own domain with HTTPS, or a Tailscale address. At home the app uses the home address; when it doesn't answer, it switches to this one. The same token is used.",
+  "remoteSameAsLocal": "This is already the home address.",
+  "remoteNeedsHttps": "A public address needs HTTPS (or use Tailscale), otherwise the token would cross the internet unencrypted.",
+  "remoteRemove": "Remove"
 }

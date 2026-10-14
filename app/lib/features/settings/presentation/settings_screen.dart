@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../alerts/alert_notifications.dart';
+import '../../connection/presentation/remote_address.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
@@ -87,6 +88,7 @@ class SettingsScreen extends ConsumerWidget {
                         ].join('\n'),
                       ),
                     ),
+                  const RemoteAddressTile(),
                   ListTile(
                     key: const Key('settingsAddDevice'),
                     contentPadding: EdgeInsets.zero,

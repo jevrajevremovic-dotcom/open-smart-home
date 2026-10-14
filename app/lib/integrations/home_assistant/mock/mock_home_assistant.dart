@@ -831,6 +831,11 @@ class MockHomeAssistantServer {
   /// When false, new connections fail as if the server were down.
   bool online = true;
 
+  /// Hosts the "phone" cannot reach, e.g. the home address while away.
+  final Set<String> unreachableHosts = {};
+
+  bool reachable(String host) => online && !unreachableHosts.contains(host);
+
   // --- OAuth2 (see MockHaAuthClient) ---
   // Codes and refresh tokens are recognised by their format, so they stay
   // valid across a page reload (which recreates this in-memory server in
@@ -859,7 +864,7 @@ class MockHomeAssistantServer {
 
   Future<HaSocket> connect(Uri uri) async {
     await Future<void>.delayed(const Duration(milliseconds: 50));
-    if (!online) {
+    if (!reachable(uri.host)) {
       throw const AppFailure(
         FailureKind.network,
         debugMessage: 'mock server offline',
@@ -1475,7 +1480,7 @@ class MockHomeAssistantApi implements HomeAssistantApi {
 
   Future<void> _requireAuth() async {
     await _latency();
-    if (!server.online) {
+    if (!server.reachable(address.host)) {
       throw const AppFailure(
         FailureKind.network,
         debugMessage: 'mock server offline',
@@ -1489,7 +1494,7 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   @override
   Future<ServerProbeResult> probe() async {
     await _latency();
-    if (!server.online) {
+    if (!server.reachable(address.host)) {
       throw const AppFailure(
         FailureKind.network,
         debugMessage: 'mock server offline',

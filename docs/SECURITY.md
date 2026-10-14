@@ -29,6 +29,13 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - `SharedPreferences` sadrži samo adresu servera, pin sertifikata (javna informacija), temu i jezik. Test proverava da token nikad ne dospe tamo.
 - Polje za token je skriveno, bez autocorrect/autofill sugestija; kontroler se briše pri napuštanju ekrana.
 
+## Adresa van kuće
+
+- Opciona druga adresa istog doma; token i ključ za skladište ostaju vezani za kućnu adresu.
+- Javna spoljna adresa mora biti `https://` (ili Tailscale): nešifrovani `http://` preko interneta se odbija već pri unosu.
+- Pinovani samopotpisani sertifikat važi samo za kućnu adresu; spoljna mora imati važeći sertifikat.
+- Izbor adrese: kratka provera `GET /api/` bez tokena (odgovor 401 = server je tu); token se šalje tek izabranoj adresi.
+
 ## Web verzija
 - **Token:** samo u `sessionStorage` kartice (`credential_store_web.dart`). Pregledač nema hardverski zaštićeno skladište. Šifrovanje u `localStorage` ne bi pomoglo, jer bi ključ stajao pored podataka, a Web Crypto ne radi na `http://` adresama. Token zato ne preživljava zatvaranje kartice. U `localStorage` je samo netajni profil servera.
 - **TLS:** obrađuje ga pregledač; pinovanje sertifikata nije moguće i ne nudi se.

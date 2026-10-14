@@ -78,6 +78,17 @@ class SessionRepository {
     ];
   }
 
+  /// Stores changed non-secret details (e.g. a remote address) of a home.
+  Future<void> update(ServerProfile profile) async {
+    final active = ServerProfile.tryFromJson(_preferences.serverProfileJson);
+    if (active?.id == profile.id) {
+      await _preferences.setServerProfileJson(profile.toJson());
+    }
+    if (_saved().any((p) => p.id == profile.id) || active?.id == profile.id) {
+      await _remember(profile);
+    }
+  }
+
   /// Makes a saved home the active one.
   Future<void> activate(ServerProfile profile) =>
       _preferences.setServerProfileJson(profile.toJson());

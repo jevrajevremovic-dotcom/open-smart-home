@@ -158,7 +158,7 @@ class _ServerAddressScreenState extends ConsumerState<ServerAddressScreen> {
                     ),
                     const SizedBox(height: 16),
                     if (shown != null) ...[
-                      _RiskNotice(address: shown),
+                      RiskNotice(address: shown),
                       const SizedBox(height: 8),
                     ],
                     if (shown?.risk == ConnectionRisk.insecureRemote)
@@ -219,8 +219,8 @@ class _ServerAddressScreenState extends ConsumerState<ServerAddressScreen> {
   }
 }
 
-class _RiskNotice extends StatelessWidget {
-  const _RiskNotice({required this.address});
+class RiskNotice extends StatelessWidget {
+  const RiskNotice({super.key, required this.address});
 
   final ServerAddress address;
 

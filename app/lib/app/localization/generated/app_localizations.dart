@@ -4214,6 +4214,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tailscale VPN address: the connection is encrypted and also works away from home.'**
   String get riskVpnTunnel;
+
+  /// No description provided for @remoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Address away from home'**
+  String get remoteTitle;
+
+  /// No description provided for @remoteNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set: only the home address is used'**
+  String get remoteNotSet;
+
+  /// No description provided for @remoteInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'In use now (the home address does not answer)'**
+  String get remoteInUse;
+
+  /// No description provided for @remoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The same Home Assistant as reached from outside: a Home Assistant Cloud (Nabu Casa) address, your own domain with HTTPS, or a Tailscale address. At home the app uses the home address; when it doesn\'t answer, it switches to this one. The same token is used.'**
+  String get remoteHint;
+
+  /// No description provided for @remoteSameAsLocal.
+  ///
+  /// In en, this message translates to:
+  /// **'This is already the home address.'**
+  String get remoteSameAsLocal;
+
+  /// No description provided for @remoteNeedsHttps.
+  ///
+  /// In en, this message translates to:
+  /// **'A public address needs HTTPS (or use Tailscale), otherwise the token would cross the internet unencrypted.'**
+  String get remoteNeedsHttps;
+
+  /// No description provided for @remoteRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remoteRemove;
 }
 
 class _AppLocalizationsDelegate

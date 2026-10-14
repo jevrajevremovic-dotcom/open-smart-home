@@ -2379,6 +2379,29 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get riskVpnTunnel =>
       'Tailscale VPN adresa: veza je šifrovana i radi i van kuće.';
+
+  @override
+  String get remoteTitle => 'Adresa van kuće';
+
+  @override
+  String get remoteNotSet => 'Nije podešena: koristi se samo kućna adresa';
+
+  @override
+  String get remoteInUse => 'Sada se koristi (kućna adresa ne odgovara)';
+
+  @override
+  String get remoteHint =>
+      'Isti Home Assistant, dostupan spolja: adresa Home Assistant Cloud-a (Nabu Casa), sopstveni domen sa HTTPS-om ili Tailscale adresa. Kod kuće aplikacija koristi kućnu adresu; kada ona ne odgovara, prelazi na ovu. Koristi se isti token.';
+
+  @override
+  String get remoteSameAsLocal => 'Ovo je već kućna adresa.';
+
+  @override
+  String get remoteNeedsHttps =>
+      'Za javnu adresu potreban je HTTPS (ili Tailscale), inače bi token putovao internetom nešifrovan.';
+
+  @override
+  String get remoteRemove => 'Ukloni';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

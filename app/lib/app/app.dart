@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import '../features/alerts/alert_notifications.dart';
 import '../features/app_lock/application/app_lock.dart';
 import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/authentication/application/session_controller.dart';
+import '../features/connection/application/connection_route.dart';
 import '../features/authentication/data/session_repository.dart';
 import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
@@ -34,6 +37,8 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
       onResume: () {
         ref.read(appLockProvider.notifier).onForeground();
         ref.read(webSocketManagerProvider)?.retryNow();
+        // Maybe home again, or just left: pick the address that answers.
+        unawaited(ref.read(connectionRouteProvider.notifier).reevaluate());
       },
       // Persist the offline cache before the OS may suspend or kill us.
       onPause: () => ref.read(homeStateRepositoryProvider)?.flush(),
@@ -61,6 +66,13 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
           .read(sessionRepositoryProvider)
           .setHomeName(profile.id, name)
           .then((_) => ref.invalidate(savedHomesProvider));
+    });
+    // The address in use stopped answering: try the home's other one.
+    ref.listen(connectionStatusProvider, (_, next) {
+      final s = next.value;
+      if (s != null && !s.isConnected && !s.isTerminal && s.attempt >= 1) {
+        unawaited(ref.read(connectionRouteProvider.notifier).reevaluate());
+      }
     });
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appTitle,

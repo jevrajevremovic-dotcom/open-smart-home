@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/app_failure.dart';
 import '../../../core/logging/app_logger.dart';
+import '../../../core/network/server_address.dart';
 import '../../../core/storage/credential_store.dart';
 import '../../../integrations/home_assistant/api/home_assistant_api.dart';
 import '../../../integrations/home_assistant/home_assistant_providers.dart';
 import '../../../integrations/home_assistant/models/ha_models.dart';
 import '../../../integrations/home_assistant/websocket/connection_status.dart';
 import '../../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
+import '../../connection/application/connection_route.dart';
 import '../data/server_profile.dart';
 import '../data/session_repository.dart';
 import '../domain/stored_credential.dart';
@@ -66,6 +68,15 @@ class SessionController extends AsyncNotifier<Session?> {
     _log.info('Signed in to ${profile.address.host}');
     ref.read(addingHomeProvider.notifier).set(false);
     state = AsyncData(Session(profile));
+  }
+
+  /// Sets or clears the active home's address for use away from home.
+  Future<void> setRemoteAddress(ServerAddress? remote) async {
+    final profile = state.value?.profile;
+    if (profile == null || profile.remoteAddress == remote) return;
+    final updated = profile.withRemoteAddress(remote);
+    await _repository.update(updated);
+    state = AsyncData(Session(updated));
   }
 
   /// Switches to another saved home (its credential is already stored).
@@ -149,9 +160,20 @@ final accessTokenManagerProvider = Provider<AccessTokenManager?>((ref) {
   );
 });
 
+/// The active profile as reached right now: through its home address or,
+/// away from home, through its remote one (see [connectionRouteProvider]).
+final effectiveProfileProvider = Provider<ServerProfile?>((ref) {
+  final profile = ref.watch(activeProfileProvider);
+  final remote = profile?.remoteAddress;
+  if (profile == null || remote == null) return profile;
+  return ref.watch(connectionRouteProvider) == ConnectionRoute.remote
+      ? profile.via(remote)
+      : profile;
+});
+
 /// REST client for the active session.
 final homeAssistantApiProvider = Provider<HomeAssistantApi?>((ref) {
-  final profile = ref.watch(activeProfileProvider);
+  final profile = ref.watch(effectiveProfileProvider);
   final tokens = ref.watch(accessTokenManagerProvider);
   if (profile == null || tokens == null) return null;
   final api = ref.watch(homeAssistantApiFactoryProvider)(
@@ -164,7 +186,7 @@ final homeAssistantApiProvider = Provider<HomeAssistantApi?>((ref) {
 
 /// The WebSocket manager lives exactly as long as the session.
 final webSocketManagerProvider = Provider<HaWebSocketManager?>((ref) {
-  final profile = ref.watch(activeProfileProvider);
+  final profile = ref.watch(effectiveProfileProvider);
   final tokens = ref.watch(accessTokenManagerProvider);
   if (profile == null || tokens == null) return null;
   final manager = HaWebSocketManager(

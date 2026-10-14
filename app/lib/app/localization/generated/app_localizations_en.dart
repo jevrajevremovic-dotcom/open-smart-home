@@ -2370,4 +2370,27 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get riskVpnTunnel =>
       'Tailscale VPN address: the connection is encrypted and also works away from home.';
+
+  @override
+  String get remoteTitle => 'Address away from home';
+
+  @override
+  String get remoteNotSet => 'Not set: only the home address is used';
+
+  @override
+  String get remoteInUse => 'In use now (the home address does not answer)';
+
+  @override
+  String get remoteHint =>
+      'The same Home Assistant as reached from outside: a Home Assistant Cloud (Nabu Casa) address, your own domain with HTTPS, or a Tailscale address. At home the app uses the home address; when it doesn\'t answer, it switches to this one. The same token is used.';
+
+  @override
+  String get remoteSameAsLocal => 'This is already the home address.';
+
+  @override
+  String get remoteNeedsHttps =>
+      'A public address needs HTTPS (or use Tailscale), otherwise the token would cross the internet unencrypted.';
+
+  @override
+  String get remoteRemove => 'Remove';
 }

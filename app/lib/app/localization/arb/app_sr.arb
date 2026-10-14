@@ -685,5 +685,12 @@
   "allCoversClose": "Spusti sve",
   "widgetNoScenes": "Još nema scena: napravite ih u aplikaciji",
   "widgetSignedOut": "Prijavite se u Open Smart Home",
-  "riskVpnTunnel": "Tailscale VPN adresa: veza je šifrovana i radi i van kuće."
+  "riskVpnTunnel": "Tailscale VPN adresa: veza je šifrovana i radi i van kuće.",
+  "remoteTitle": "Adresa van kuće",
+  "remoteNotSet": "Nije podešena: koristi se samo kućna adresa",
+  "remoteInUse": "Sada se koristi (kućna adresa ne odgovara)",
+  "remoteHint": "Isti Home Assistant, dostupan spolja: adresa Home Assistant Cloud-a (Nabu Casa), sopstveni domen sa HTTPS-om ili Tailscale adresa. Kod kuće aplikacija koristi kućnu adresu; kada ona ne odgovara, prelazi na ovu. Koristi se isti token.",
+  "remoteSameAsLocal": "Ovo je već kućna adresa.",
+  "remoteNeedsHttps": "Za javnu adresu potreban je HTTPS (ili Tailscale), inače bi token putovao internetom nešifrovan.",
+  "remoteRemove": "Ukloni"
 }

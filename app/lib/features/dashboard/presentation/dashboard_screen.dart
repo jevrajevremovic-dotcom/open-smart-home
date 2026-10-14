@@ -14,6 +14,7 @@ import '../../authentication/application/session_controller.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/data/home_state_repository.dart';
 import '../../devices/domain/device_command.dart';
+import '../../devices/presentation/all_lights.dart';
 import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
@@ -441,10 +442,12 @@ class DashboardSummaryRow extends ConsumerWidget {
               ),
               if (s.lightsTotal > 0)
                 _SummaryCard(
+                  key: const Key('summaryLights'),
                   width: cardWidth,
                   icon: Icons.lightbulb_outline,
                   label: l10n.summaryLights,
                   value: l10n.lightsOnOf(s.lightsOn, s.lightsTotal),
+                  onTap: () => showAllLightsSheet(context),
                 ),
               _SummaryCard(
                 width: cardWidth,
@@ -478,6 +481,8 @@ class DashboardSummaryRow extends ConsumerWidget {
 
 class _SummaryCard extends StatelessWidget {
   const _SummaryCard({
+    super.key,
+    this.onTap,
     this.width,
     required this.icon,
     required this.label,
@@ -494,6 +499,7 @@ class _SummaryCard extends StatelessWidget {
   final String? value;
   final Color? color;
   final String? tooltip;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -502,45 +508,51 @@ class _SummaryCard extends StatelessWidget {
     final accent = color ?? theme.colorScheme.primary;
     final card = Card(
       margin: EdgeInsets.zero,
-      child: ConstrainedBox(
-        // Bounded width so long labels wrap instead of overflowing.
-        constraints: width != null
-            ? BoxConstraints.tightFor(width: width)
-            : const BoxConstraints(minWidth: 150, maxWidth: 220),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: accent.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: ConstrainedBox(
+          // Bounded width so long labels wrap instead of overflowing.
+          constraints: width != null
+              ? BoxConstraints.tightFor(width: width)
+              : const BoxConstraints(minWidth: 150, maxWidth: 220),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    color: accent.withValues(alpha: 0.12),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, size: 20, color: accent),
                 ),
-                child: Icon(icon, size: 20, color: accent),
-              ),
-              const SizedBox(width: 12),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      label,
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                const SizedBox(width: 12),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       ),
-                    ),
-                    Text(
-                      value ?? '—',
-                      semanticsLabel: value ?? l10n.valueNotAvailable,
-                      style: theme.textTheme.titleLarge?.copyWith(color: color),
-                    ),
-                  ],
+                      Text(
+                        value ?? '—',
+                        semanticsLabel: value ?? l10n.valueNotAvailable,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: color,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

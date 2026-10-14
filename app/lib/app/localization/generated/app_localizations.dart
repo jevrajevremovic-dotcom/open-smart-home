@@ -3830,6 +3830,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Activate'**
   String get svc_activate;
+
+  /// No description provided for @allLightsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'All on'**
+  String get allLightsOn;
+
+  /// No description provided for @allLightsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'All off'**
+  String get allLightsOff;
+
+  /// No description provided for @allLightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All lights in the home'**
+  String get allLightsTitle;
 }
 
 class _AppLocalizationsDelegate

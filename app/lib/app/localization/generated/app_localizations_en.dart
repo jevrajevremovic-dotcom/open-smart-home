@@ -2159,4 +2159,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get svc_activate => 'Activate';
+
+  @override
+  String get allLightsOn => 'All on';
+
+  @override
+  String get allLightsOff => 'All off';
+
+  @override
+  String get allLightsTitle => 'All lights in the home';
 }

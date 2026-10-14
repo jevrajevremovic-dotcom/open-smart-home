@@ -65,6 +65,30 @@ class DeviceCommandService {
     _log.info('→ $call'); // entity id and service only; never the payload
     await _api.callService(call.domain, call.service, data: call.data);
   }
+
+  /// All [lights] on or off in one documented `light.turn_on/off` call.
+  Future<void> setLights(
+    Iterable<SmartHomeDevice> lights, {
+    required bool on,
+  }) async {
+    if (!(_isOnline?.call() ?? true)) {
+      throw const AppFailure(
+        FailureKind.network,
+        debugMessage: 'data not live; command refused',
+      );
+    }
+    final ids = [
+      for (final d in lights)
+        if (d.available && d.kind.isLight) d.sourceId,
+    ];
+    if (ids.isEmpty) return;
+    _log.info('→ light.${on ? 'turn_on' : 'turn_off'} (${ids.length})');
+    await _api.callService(
+      'light',
+      on ? 'turn_on' : 'turn_off',
+      data: {'entity_id': ids},
+    );
+  }
 }
 
 final deviceCommandServiceProvider = Provider<DeviceCommandService?>((ref) {

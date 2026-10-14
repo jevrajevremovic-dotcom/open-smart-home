@@ -7,6 +7,7 @@ import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
+import '../../devices/presentation/all_lights.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../devices/presentation/stale_data_banner.dart';
@@ -106,6 +107,13 @@ class RoomDetailScreen extends ConsumerWidget {
                 child: SectionHeader(groupLabel(l10n, group)),
               ),
             ),
+            if (group == DeviceGroup.lights && ids.length > 1)
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                sliver: SliverToBoxAdapter(
+                  child: AllLightsButtons(roomId: roomId),
+                ),
+              ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: DeviceSliverGrid(deviceIds: ids),

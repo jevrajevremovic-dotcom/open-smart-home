@@ -30,6 +30,7 @@ import '../../devices/domain/capability.dart';
 import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_artwork.dart';
 import '../../media/presentation/media_sheet.dart';
+import '../../devices/presentation/all_lights.dart';
 import 'glass.dart';
 
 /// Large clock with small seconds and the date underneath.
@@ -760,12 +761,16 @@ class KioskStatusBar extends ConsumerWidget {
 
     final items = <Widget>[
       if (s.lightsTotal > 0)
-        _StatusItem(
-          icon: Icons.lightbulb,
-          disc: s.lightsOn > 0
-              ? accents.of(DeviceAccent.light).icon
-              : GlassColors.fillStrong,
-          title: l10n.kioskLightsOn(s.lightsOn),
+        GestureDetector(
+          key: const Key('kioskLights'),
+          onTap: () => showAllLightsSheet(context),
+          child: _StatusItem(
+            icon: Icons.lightbulb,
+            disc: s.lightsOn > 0
+                ? accents.of(DeviceAccent.light).icon
+                : GlassColors.fillStrong,
+            title: l10n.kioskLightsOn(s.lightsOn),
+          ),
         ),
       if (s.averageTemperature != null)
         _StatusItem(

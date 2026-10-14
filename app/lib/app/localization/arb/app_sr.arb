@@ -621,5 +621,8 @@
   "svc_return_to_base": "Na punjač",
   "svc_media_play": "Pusti",
   "svc_media_pause": "Pauziraj",
-  "svc_activate": "Aktiviraj"
+  "svc_activate": "Aktiviraj",
+  "allLightsOn": "Upali sva",
+  "allLightsOff": "Ugasi sva",
+  "allLightsTitle": "Sva svetla u kući"
 }

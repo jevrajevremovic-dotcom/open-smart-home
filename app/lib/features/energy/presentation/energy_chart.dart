@@ -194,6 +194,8 @@ class _BarsPainter extends CustomPainter {
 }
 
 /// A few evenly spaced labels (first, quarters, last) – never one per bar.
+const double _labelWidth = 56;
+
 class _AxisLabels extends StatelessWidget {
   const _AxisLabels({required this.labels});
 
@@ -218,14 +220,25 @@ class _AxisLabels extends StatelessWidget {
           child: Stack(
             children: [
               for (final i in picks)
+                // Centred under its bar, but kept inside the chart so the
+                // first and last labels are not cut off.
                 Positioned(
-                  left: (i + 0.5) / n * c.maxWidth - 20,
-                  width: 40,
+                  left: ((i + 0.5) / n * c.maxWidth - _labelWidth / 2).clamp(
+                    0.0,
+                    math.max(0.0, c.maxWidth - _labelWidth),
+                  ),
+                  width: _labelWidth,
                   child: Text(
                     labels[i],
                     style: style,
-                    textAlign: TextAlign.center,
+                    textAlign: i == 0
+                        ? TextAlign.start
+                        : i == n - 1
+                        ? TextAlign.end
+                        : TextAlign.center,
                     maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.visible,
                   ),
                 ),
             ],

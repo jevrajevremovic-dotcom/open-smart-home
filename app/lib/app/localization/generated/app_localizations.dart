@@ -4142,6 +4142,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications are turned off for this app in the phone\'s settings.'**
   String get alertsPermissionDenied;
+
+  /// No description provided for @fanLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get fanLow;
+
+  /// No description provided for @fanMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get fanMedium;
+
+  /// No description provided for @fanMiddle.
+  ///
+  /// In en, this message translates to:
+  /// **'Middle'**
+  String get fanMiddle;
+
+  /// No description provided for @fanHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get fanHigh;
+
+  /// No description provided for @fanTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Top'**
+  String get fanTop;
+
+  /// No description provided for @fanFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Focused'**
+  String get fanFocus;
+
+  /// No description provided for @fanDiffuse.
+  ///
+  /// In en, this message translates to:
+  /// **'Diffuse'**
+  String get fanDiffuse;
 }
 
 class _AppLocalizationsDelegate

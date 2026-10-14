@@ -2333,4 +2333,25 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get alertsPermissionDenied =>
       'Notifications are turned off for this app in the phone\'s settings.';
+
+  @override
+  String get fanLow => 'Low';
+
+  @override
+  String get fanMedium => 'Medium';
+
+  @override
+  String get fanMiddle => 'Middle';
+
+  @override
+  String get fanHigh => 'High';
+
+  @override
+  String get fanTop => 'Top';
+
+  @override
+  String get fanFocus => 'Focused';
+
+  @override
+  String get fanDiffuse => 'Diffuse';
 }

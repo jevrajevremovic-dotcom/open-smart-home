@@ -2342,6 +2342,27 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get alertsPermissionDenied =>
       'Obaveštenja su isključena za ovu aplikaciju u podešavanjima telefona.';
+
+  @override
+  String get fanLow => 'Slabo';
+
+  @override
+  String get fanMedium => 'Srednje';
+
+  @override
+  String get fanMiddle => 'Srednje';
+
+  @override
+  String get fanHigh => 'Jako';
+
+  @override
+  String get fanTop => 'Najjače';
+
+  @override
+  String get fanFocus => 'Usmereno';
+
+  @override
+  String get fanDiffuse => 'Raspršeno';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

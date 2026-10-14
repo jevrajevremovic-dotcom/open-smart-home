@@ -58,8 +58,15 @@ abstract final class DevicePresentation {
       DeviceKind.batterySensor => Icons.battery_std,
       DeviceKind.sensor => Icons.sensors,
       DeviceKind.binarySensor => Icons.radio_button_checked,
-      DeviceKind.thermostat => Icons.thermostat_auto,
-      DeviceKind.climate => Icons.ac_unit,
+      // The icon follows what the unit is doing, not just what it is.
+      DeviceKind.thermostat || DeviceKind.climate => switch (d.state.hvacMode) {
+        'heat' => Icons.local_fire_department_outlined,
+        'cool' => Icons.ac_unit,
+        'dry' => Icons.water_drop_outlined,
+        'fan_only' => Icons.air,
+        'heat_cool' || 'auto' => Icons.thermostat_auto,
+        _ => d.kind == DeviceKind.climate ? Icons.ac_unit : Icons.thermostat,
+      },
       DeviceKind.lock => switch (d.state.lockState) {
         DoorLockState.unlocked || DoorLockState.open => Icons.lock_open,
         _ => Icons.lock_outline,
@@ -338,6 +345,22 @@ abstract final class DevicePresentation {
         'boost' => l10n.presetBoost,
         'activity' => l10n.presetActivity,
         _ => preset,
+      };
+
+  /// Standard Home Assistant climate fan modes; custom ones as-is.
+  static String fanModeLabel(AppLocalizations l10n, String mode) =>
+      switch (mode) {
+        'on' => l10n.stateOn,
+        'off' => l10n.stateOff,
+        'auto' => l10n.hvacAuto,
+        'low' => l10n.fanLow,
+        'medium' => l10n.fanMedium,
+        'middle' => l10n.fanMiddle,
+        'high' => l10n.fanHigh,
+        'top' => l10n.fanTop,
+        'focus' => l10n.fanFocus,
+        'diffuse' => l10n.fanDiffuse,
+        _ => mode,
       };
 
   static String hvacModeLabel(AppLocalizations l10n, String? mode) =>

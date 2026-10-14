@@ -170,8 +170,7 @@ class _ClimateControlsState extends ConsumerState<ClimateControls> {
             children: [
               for (final mode in d.limits.fanModes)
                 ChoiceChip(
-                  // Fan mode names are integration-defined and not translated.
-                  label: Text(mode),
+                  label: Text(DevicePresentation.fanModeLabel(l10n, mode)),
                   selected: s.fanMode == mode,
                   onSelected: enabled
                       ? (_) =>

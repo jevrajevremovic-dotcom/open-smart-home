@@ -4100,6 +4100,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'is'**
   String get autoIs;
+
+  /// No description provided for @activityAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get activityAll;
+
+  /// No description provided for @activitySecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Doors & security'**
+  String get activitySecurity;
+
+  /// No description provided for @activityPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get activityPeople;
+
+  /// No description provided for @activityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From Home Assistant\'s logbook for the last 24 hours. Sensors that measure continuously (temperature, power) aren\'t listed.'**
+  String get activityHint;
 }
 
 class _AppLocalizationsDelegate

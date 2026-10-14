@@ -171,12 +171,12 @@ class DioHomeAssistantApi implements HomeAssistantApi {
 
   String _periodPath(
     String base,
-    String entityId,
+    String? entityId,
     DateTime start,
     DateTime end, {
     bool history = false,
   }) {
-    if (!_entityId.hasMatch(entityId)) {
+    if (entityId != null && !_entityId.hasMatch(entityId)) {
       throw const AppFailure(
         FailureKind.validation,
         debugMessage: 'invalid entity id',
@@ -184,7 +184,8 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     }
     final query = Uri(
       queryParameters: {
-        if (history) 'filter_entity_id': entityId else 'entity': entityId,
+        if (entityId != null)
+          if (history) 'filter_entity_id': entityId else 'entity': entityId,
         'end_time': end.toUtc().toIso8601String(),
       },
     ).query;
@@ -208,7 +209,7 @@ class DioHomeAssistantApi implements HomeAssistantApi {
 
   @override
   Future<List<HaLogbookEntry>> fetchLogbook(
-    String entityId,
+    String? entityId,
     DateTime start,
     DateTime end,
   ) async => HaLogbookEntry.parse(

@@ -31,12 +31,18 @@ class HaHistoryPoint {
 class HaLogbookEntry {
   const HaLogbookEntry({
     required this.when,
+    this.entityId,
+    this.name,
     this.state,
     this.message,
     this.byUser = false,
   });
 
   final DateTime when;
+  final String? entityId;
+
+  /// Friendly name HA had for the entity at the time.
+  final String? name;
   final String? state;
   final String? message;
 
@@ -51,6 +57,10 @@ class HaLogbookEntry {
             DateTime.tryParse(e['when']! as String) != null)
           HaLogbookEntry(
             when: DateTime.parse(e['when']! as String).toLocal(),
+            entityId: e['entity_id'] is String
+                ? e['entity_id']! as String
+                : null,
+            name: e['name'] is String ? e['name']! as String : null,
             state: e['state'] is String ? e['state']! as String : null,
             message: e['message'] is String ? e['message']! as String : null,
             byUser: e['context_user_id'] is String,

@@ -65,9 +65,10 @@ abstract interface class HomeAssistantApi {
     DateTime end,
   );
 
-  /// `GET /api/logbook/<start>` for one entity (documented).
+  /// `GET /api/logbook/<start>` for one entity, or the whole home when
+  /// [entityId] is null (documented).
   Future<List<HaLogbookEntry>> fetchLogbook(
-    String entityId,
+    String? entityId,
     DateTime start,
     DateTime end,
   );

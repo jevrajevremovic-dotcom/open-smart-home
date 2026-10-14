@@ -2318,6 +2318,19 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get autoIs => 'je';
+
+  @override
+  String get activityAll => 'Sve';
+
+  @override
+  String get activitySecurity => 'Vrata i bezbednost';
+
+  @override
+  String get activityPeople => 'Ukućani';
+
+  @override
+  String get activityHint =>
+      'Iz dnevnika Home Assistanta za poslednja 24 sata. Senzori koji mere neprekidno (temperatura, snaga) se ne prikazuju.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

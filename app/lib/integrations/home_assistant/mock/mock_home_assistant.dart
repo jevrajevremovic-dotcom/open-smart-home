@@ -126,7 +126,12 @@ class MockHomeAssistantServer {
       }
       return out;
     }
-    const pair = {'on': 'off', 'off': 'on'};
+    const pair = {
+      'on': 'off',
+      'off': 'on',
+      'locked': 'unlocked',
+      'unlocked': 'locked',
+    };
     final other = pair[state];
     if (other == null) {
       return [
@@ -140,6 +145,26 @@ class MockHomeAssistantServer {
     }
     return out;
   }
+
+  /// Entities with on/off-like history, for the whole-home logbook.
+  List<String> logbookEntityIds() => [
+    for (final MapEntry(:key, :value) in _states.entries)
+      if (const {
+            'light',
+            'switch',
+            'binary_sensor',
+            'lock',
+            'cover',
+            'fan',
+          }.contains(key.split('.').first) &&
+          const {'on', 'off', 'locked', 'unlocked'}.contains(value['state']))
+        key,
+  ];
+
+  String? friendlyName(String entityId) => switch (_states[entityId]) {
+    {'attributes': {'friendly_name': final String name}} => name,
+    _ => null,
+  };
 
   /// Persistent notifications (`persistent_notification/subscribe`).
   final Map<String, Map<String, Object?>> notifications = {
@@ -1563,22 +1588,25 @@ class MockHomeAssistantApi implements HomeAssistantApi {
 
   @override
   Future<List<HaLogbookEntry>> fetchLogbook(
-    String entityId,
+    String? entityId,
     DateTime start,
     DateTime end,
   ) async {
     await _requireAuth();
     await _latency();
-    final points = server.history(entityId, start, end);
+    // Like HA, the whole-home logbook leaves out continuous sensors.
+    final ids = entityId != null ? [entityId] : server.logbookEntityIds();
     return HaLogbookEntry.parse([
-      for (final (i, p) in points.indexed)
-        if (i > 0)
-          {
-            'when': p['last_changed'],
-            'state': p['state'],
-            'entity_id': entityId,
-            if (i.isEven) 'context_user_id': 'mock-user',
-          },
+      for (final id in ids)
+        for (final (i, p) in server.history(id, start, end).indexed)
+          if (i > 0)
+            {
+              'when': p['last_changed'],
+              'state': p['state'],
+              'entity_id': id,
+              'name': server.friendlyName(id),
+              if (i.isEven) 'context_user_id': 'mock-user',
+            },
     ]);
   }
 

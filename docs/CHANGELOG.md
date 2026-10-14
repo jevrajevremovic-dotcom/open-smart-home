@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Ekran „Aktivnost” (početni ekran → Aktivnost): šta se desilo u domu u poslednja 24 h iz HA dnevnika – svetla, vrata i bezbednost, ukućani – sa oznakom kada je promenu napravila osoba; dodir otvara uređaj. U režimu za decu i goste skriveni uređaji se ne prikazuju ni ovde.
 - Napredniji editor automatizacija: više okidača (pokreće se na bilo koji), novi okidač „vrednost senzora poraste iznad / padne ispod”, i uslovi „samo ako” – dani u nedelji, vremenski prozor (i preko ponoći), uređaj u određenom stanju, samo kad je mrak / dan. Automatizacije koje koriste nešto što editor ne ume da prikaže (npr. `for:`, `data:` u radnji, šabloni) i dalje se ne menjaju u aplikaciji, da se ništa tiho ne izgubi.
 - Prenos podešavanja na drugi uređaj (Podešavanja → Prenos): tema, jezik, omiljeni i kiosk raspored se kopiraju kao tekst i nalepe na drugom uređaju; tokeni, PIN-ovi, fotografija i izbori privatnosti se nikad ne kopiraju.
 - Kiosk: sopstvena fotografija kao pozadina (zatamnjena radi čitljivosti), čuva se samo na uređaju; nije dostupno na webu.

@@ -260,6 +260,12 @@ class DashboardBody extends ConsumerWidget {
                       icon: const Icon(Icons.calendar_month_outlined),
                       label: Text(context.l10n.calendarTitle),
                     ),
+                    FilledButton.tonalIcon(
+                      key: const Key('openActivity'),
+                      onPressed: () => context.push(AppRoutes.activity),
+                      icon: const Icon(Icons.history),
+                      label: Text(context.l10n.activityTitle),
+                    ),
                   ],
                 ),
               ),

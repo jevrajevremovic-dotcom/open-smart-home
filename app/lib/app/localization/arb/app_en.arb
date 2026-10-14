@@ -1049,5 +1049,9 @@
   "autoCondDevice": "A device is in a state",
   "autoCondDark": "Only when it's dark",
   "autoCondLight": "Only when it's light",
-  "autoIs": "is"
+  "autoIs": "is",
+  "activityAll": "All",
+  "activitySecurity": "Doors & security",
+  "activityPeople": "People",
+  "activityHint": "From Home Assistant's logbook for the last 24 hours. Sensors that measure continuously (temperature, power) aren't listed."
 }

@@ -2309,4 +2309,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get autoIs => 'is';
+
+  @override
+  String get activityAll => 'All';
+
+  @override
+  String get activitySecurity => 'Doors & security';
+
+  @override
+  String get activityPeople => 'People';
+
+  @override
+  String get activityHint =>
+      'From Home Assistant\'s logbook for the last 24 hours. Sensors that measure continuously (temperature, power) aren\'t listed.';
 }

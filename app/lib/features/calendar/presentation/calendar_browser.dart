@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/widgets/edge_fade.dart';
 import '../../../app/localization/l10n.dart';
 import '../application/calendar_providers.dart';
 import 'calendar_widgets.dart';
@@ -92,7 +93,7 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
         ?widget.header,
         if (events.isLoading && !events.hasValue)
           LinearProgressIndicator(color: p.accent, minHeight: 2),
-        if (widget.wide) Expanded(child: agenda) else agenda,
+        if (widget.wide) Expanded(child: EdgeFade(child: agenda)) else agenda,
       ],
     );
 

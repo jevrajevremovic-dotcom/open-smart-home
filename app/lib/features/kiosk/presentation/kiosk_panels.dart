@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/widgets/edge_fade.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
@@ -823,20 +824,27 @@ class KioskStatusBar extends ConsumerWidget {
     return Row(
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (final (i, w) in row.indexed) ...[
-                  if (i > 0) const SizedBox(width: 12),
-                  w,
+          child: EdgeFade(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (final (i, w) in row.indexed) ...[
+                    if (i > 0) const SizedBox(width: 12),
+                    w,
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),
         const SizedBox(width: 12),
-        Flexible(child: media),
+        // Only as wide as it needs (up to a limit); the rest goes to the
+        // status chips instead of being split evenly and left empty.
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 320),
+          child: media,
+        ),
         const SizedBox(width: 12),
         Semantics(
           button: true,

@@ -29,6 +29,7 @@
 - Više domova: Podešavanja → „Dodaj još jedan dom” (prijava na drugi HA server bez odjave sa prvog), lista domova i prebacivanje (i dodirom na ime doma na početnom ekranu); svaki dom ima svoj token, keš i omiljene; odjava sa jednog prelazi na drugi.
 
 ### Ispravljeno
+- Kiosk: statusni čipovi koriste celu širinu (media čip više ne uzima pola reda), a skriveni čipovi i događaji u kalendaru blago blede na ivici umesto da budu odsečeni.
 - Senzori u istoriji, Aktivnosti i editoru automatizacija sada pišu šta stanje znači („Otvoreno/Zatvoreno”, „Pokret/Nema pokreta”, „Dim!”…) umesto „Uključeno/Isključeno”; filter „Svetla” u Aktivnosti; kvačica više ne prekriva ikonicu vrste okidača.
 - Android build više ne prijavljuje upozorenje o Kotlin Gradle Plugin-u: pretraga HA na mreži na Androidu ide kroz sopstveni kanal ka NsdManager-u (paket `nsd_android` je uklonjen); pretraga se gasi i kada Android uništi aktivnost.
 - Sistemsko „nazad” na ekranu „Dodaj još jedan dom” vraća na trenutni dom umesto da zatvori aplikaciju.

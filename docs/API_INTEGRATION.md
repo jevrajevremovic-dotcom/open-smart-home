@@ -71,7 +71,7 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 ## Automatizacije (jednostavan editor)
 
 - REST HA frontenda `GET` / `POST` / `DELETE /api/config/automation/config/<id>` (administrator; ID se proverava `[A-Za-z0-9_]`). HA posle čuvanja sam ponovo učitava automatizacije.
-- Format 2024.10+: `triggers` (`time` / `state` / `sun` sa `offset`), `conditions` (dani u nedelji: `condition: time`, `weekday`), `actions` (`action: <domen>.<servis>`, `target.entity_id`).
+- Format 2024.10+: `triggers` (jedan ili više: `time` / `state` / `numeric_state` sa `above` ili `below` / `sun` sa `offset`), `conditions` (`condition: time` sa `weekday` i/ili `after`/`before`; `condition: state` za uređaj; `sun.sun` `below_horizon`/`above_horizon` za mrak/dan), `actions` (`action: <domen>.<servis>`, `target.entity_id`).
 - Iz aplikacije se ne mogu napraviti radnje otključavanja ni isključivanja alarma; brisanje samo za UI automatizacije (atribut `id`).
 
 ## Scene

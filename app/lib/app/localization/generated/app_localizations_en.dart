@@ -2366,4 +2366,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get widgetSignedOut => 'Sign in to Open Smart Home';
+
+  @override
+  String get riskVpnTunnel =>
+      'Tailscale VPN address: the connection is encrypted and also works away from home.';
 }

@@ -28,6 +28,10 @@ enum ConnectionRisk {
   /// HTTP to a public address: the token would travel unencrypted over the
   /// internet. Requires an explicit acknowledgement (e.g. a VPN is in use).
   insecureRemote,
+
+  /// A Tailscale address: reachable away from home, and WireGuard encrypts
+  /// the traffic even over plain HTTP.
+  vpnTunnel,
 }
 
 /// Result of [ServerAddress.parse].
@@ -74,7 +78,12 @@ class ServerAddress {
   /// `.home.arpa`, and single-label host names.
   bool get isLocalNetwork => isLocalHost(baseUri.host);
 
+  /// Tailscale: 100.64.0.0/10, fd7a:115c:a1e0::/48 or a `*.ts.net` name.
+  bool get isTailscale => isTailscaleHost(baseUri.host);
+
   ConnectionRisk get risk {
+    // Before the local check: Tailscale's IPv6 range sits inside fc00::/7.
+    if (isTailscale) return ConnectionRisk.vpnTunnel;
     if (isLocalNetwork) return ConnectionRisk.none;
     return isSecure
         ? ConnectionRisk.remoteExposure
@@ -181,6 +190,22 @@ class ServerAddress {
     '.localdomain',
     '.localhost',
   ];
+
+  /// Whether [host] is a Tailscale (VPN) address.
+  @visibleForTesting
+  static bool isTailscaleHost(String host) {
+    final lower = host.toLowerCase();
+    if (lower.endsWith('.ts.net')) return true;
+    final ip = _parseIp(lower);
+    if (ip == null) return false;
+    if (ip.length == 4) return ip[0] == 100 && (ip[1] & 0xc0) == 64;
+    return ip[0] == 0xfd &&
+        ip[1] == 0x7a &&
+        ip[2] == 0x11 &&
+        ip[3] == 0x5c &&
+        ip[4] == 0xa1 &&
+        ip[5] == 0xe0;
+  }
 
   /// Whether [host] is very likely only reachable inside the local network.
   @visibleForTesting

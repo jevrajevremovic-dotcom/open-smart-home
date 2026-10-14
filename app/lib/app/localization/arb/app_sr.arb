@@ -684,5 +684,6 @@
   "allCoversOpen": "Podigni sve",
   "allCoversClose": "Spusti sve",
   "widgetNoScenes": "Još nema scena: napravite ih u aplikaciji",
-  "widgetSignedOut": "Prijavite se u Open Smart Home"
+  "widgetSignedOut": "Prijavite se u Open Smart Home",
+  "riskVpnTunnel": "Tailscale VPN adresa: veza je šifrovana i radi i van kuće."
 }

@@ -2375,6 +2375,10 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get widgetSignedOut => 'Prijavite se u Open Smart Home';
+
+  @override
+  String get riskVpnTunnel =>
+      'Tailscale VPN adresa: veza je šifrovana i radi i van kuće.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

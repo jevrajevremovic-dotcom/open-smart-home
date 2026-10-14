@@ -122,6 +122,25 @@ void main() {
       }
     });
 
+    test('Tailscale addresses are a VPN, not the open internet', () {
+      for (final a in [
+        'http://100.101.102.103:8123',
+        'http://homeassistant.tail1234.ts.net:8123',
+        'http://[fd7a:115c:a1e0::1]:8123',
+      ]) {
+        expect(valid(a).risk, ConnectionRisk.vpnTunnel, reason: a);
+      }
+      // Just outside 100.64.0.0/10.
+      expect(
+        valid('http://100.128.0.1:8123').risk,
+        ConnectionRisk.insecureRemote,
+      );
+      expect(
+        valid('http://100.63.255.1:8123').risk,
+        ConnectionRisk.insecureRemote,
+      );
+    });
+
     test('risk classification', () {
       expect(valid('http://192.168.1.2:8123').risk, ConnectionRisk.none);
       expect(

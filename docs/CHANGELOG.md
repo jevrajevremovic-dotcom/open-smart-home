@@ -8,6 +8,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Tailscale adrese (`100.64.0.0/10`, `fd7a:115c:a1e0::/48`, `*.ts.net`) se prepoznaju kao VPN: nema lažnog upozorenja da token putuje nešifrovano preko interneta kada se koristi `http://` kroz Tailscale.
 - Android widget za početni ekran „Scene”: do četiri scene (omiljene prve) kao dugmad; dodir otvara aplikaciju i pokreće scenu čim su podaci uživo, uz poruku „Pokrenuto: …” (i za prečice sa ikonice). Napravljen bez dodatnog plugina (sopstveni kanal u `MainActivity`), pa nema upozorenja o Kotlin Gradle Plugin-u. Widget sadrži samo imena i ID-jeve scena, nikad token; prati svetlu/tamnu temu sistema.
 - „Podigni sve / Spusti sve” za roletne i zavese u sobi (kad ih ima bar dve), jednim `cover.open_cover/close_cover` pozivom; garažna vrata nikad nisu uključena jer otvaranje traži posebnu potvrdu.
 - Opciona obaveštenja o kritičnim upozorenjima (dim, CO, curenje vode, aktiviran alarm, zaglavljena brava) kao sistemsko obaveštenje telefona, dok aplikacija radi; dodir otvara uređaj, rešeno upozorenje nestaje. Bez push servera i clouda. Android build sada koristi core library desugaring.

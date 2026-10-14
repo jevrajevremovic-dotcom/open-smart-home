@@ -4208,6 +4208,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in to Open Smart Home'**
   String get widgetSignedOut;
+
+  /// No description provided for @riskVpnTunnel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tailscale VPN address: the connection is encrypted and also works away from home.'**
+  String get riskVpnTunnel;
 }
 
 class _AppLocalizationsDelegate

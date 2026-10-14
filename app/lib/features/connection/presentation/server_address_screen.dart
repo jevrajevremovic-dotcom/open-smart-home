@@ -238,6 +238,7 @@ class _RiskNotice extends StatelessWidget {
       ConnectionRisk.insecureRemote => InlineNotice.warning(
         l10n.riskInsecureRemote,
       ),
+      ConnectionRisk.vpnTunnel => InlineNotice.info(l10n.riskVpnTunnel),
     };
   }
 }

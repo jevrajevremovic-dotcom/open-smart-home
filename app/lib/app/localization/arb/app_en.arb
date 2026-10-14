@@ -1067,5 +1067,6 @@
   "allCoversOpen": "Open all",
   "allCoversClose": "Close all",
   "widgetNoScenes": "No scenes yet: create one in the app",
-  "widgetSignedOut": "Sign in to Open Smart Home"
+  "widgetSignedOut": "Sign in to Open Smart Home",
+  "riskVpnTunnel": "Tailscale VPN address: the connection is encrypted and also works away from home."
 }

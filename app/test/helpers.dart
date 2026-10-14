@@ -1,3 +1,4 @@
+import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/app_lock/application/app_lock.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
 import 'package:open_smart_home/features/assist/application/voice_providers.dart';
@@ -87,6 +88,7 @@ Future<List<Override>> testOverrides({
   MockHomeAssistantServer? server,
   VoiceInput? voiceInput,
   DeviceAuth? deviceAuth,
+  AppShortcutsPlatform? shortcuts,
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
@@ -108,5 +110,27 @@ Future<List<Override>> testOverrides({
       voiceInput ?? FakeVoiceInput('turn off the lights'),
     ),
     deviceAuthProvider.overrideWithValue(deviceAuth ?? FakeDeviceAuth()),
+    appShortcutsPlatformProvider.overrideWithValue(
+      shortcuts ?? FakeShortcuts(supported: false),
+    ),
   ];
+}
+
+/// Records launcher shortcuts and lets tests "tap" one.
+class FakeShortcuts implements AppShortcutsPlatform {
+  FakeShortcuts({this.supported = true});
+
+  @override
+  final bool supported;
+  void Function(String)? _onAction;
+  List<(String, String, String)> items = const [];
+
+  @override
+  void initialize(void Function(String type) onAction) => _onAction = onAction;
+
+  @override
+  Future<void> setItems(List<(String, String, String)> items) async =>
+      this.items = items;
+
+  void tap(String type) => _onAction?.call(type);
 }

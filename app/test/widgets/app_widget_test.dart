@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
 import 'package:open_smart_home/app/app.dart';
@@ -24,6 +25,7 @@ Future<InMemoryCredentialStore> pumpApp(
   Size size = const Size(400, 860),
   MockHomeAssistantServer? server,
   DeviceAuth? deviceAuth,
+  AppShortcutsPlatform? shortcuts,
 }) async {
   tester.view
     ..physicalSize = size
@@ -39,6 +41,7 @@ Future<InMemoryCredentialStore> pumpApp(
         : const {},
     server: server,
     deviceAuth: deviceAuth,
+    shortcuts: shortcuts,
   );
   await tester.pumpWidget(
     ProviderScope(

@@ -8,6 +8,7 @@ import '../features/authentication/application/session_controller.dart';
 import '../features/authentication/data/session_repository.dart';
 import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
+import '../features/shortcuts/app_shortcuts.dart';
 import 'localization/app_locales.dart';
 import 'localization/l10n.dart';
 import 'router/app_router.dart';
@@ -77,7 +78,7 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
       ],
       routerConfig: ref.watch(routerProvider),
       builder: (context, child) =>
-          AppLockGate(child: child ?? const SizedBox()),
+          ShortcutsHost(child: AppLockGate(child: child ?? const SizedBox())),
     );
   }
 }

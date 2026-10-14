@@ -64,6 +64,7 @@ Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji:
 | `video_player` | video uživo sa kamera (HLS) |
 | `local_auth` | zaključavanje aplikacije otiskom / licem / PIN-om uređaja |
 | `wakelock_plus` | ekran ostaje uključen u kiosku |
+| `quick_actions` | prečice na ikonici aplikacije (scene, Assist, Kiosk) |
 | `mocktail` (dev) | mock-ovi u testovima |
 
 Namerno **nisu** dodati: Drift (offline keš je jednostavan JSON snimak), freezed/json_serializable (modeli su mali i parsiraju se ručno, defanzivno), grafikon biblioteke (grafikoni su crtani ručno, `CustomPainter`). Svaka zavisnost se dodaje tek kada ima konkretnu ulogu.

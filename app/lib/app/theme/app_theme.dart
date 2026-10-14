@@ -372,8 +372,13 @@ abstract final class AppTheme {
         height: 72,
         indicatorColor: scheme.primaryContainer,
         indicatorShape: pill,
+        // No extra letter spacing: "Podešavanja" must fit one line on a
+        // 360 dp phone.
         labelTextStyle: WidgetStatePropertyAll(
-          text.labelMedium?.copyWith(fontWeight: FontWeight.w600),
+          text.labelMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0,
+          ),
         ),
       ),
       navigationRailTheme: NavigationRailThemeData(

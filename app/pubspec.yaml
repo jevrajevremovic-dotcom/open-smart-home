@@ -46,7 +46,12 @@ dependencies:
   web: ^1.1.1
   wakelock_plus: ^1.8.1
   path_provider: ^2.1.6
-  nsd: ^5.0.1
+  # The `nsd` plugin without its Android part (that one applies the Kotlin
+  # Gradle Plugin); Android discovery is in the app (NsdDiscoveryHandler.kt).
+  nsd_platform_interface: ^2.2.0
+  nsd_ios: ^3.0.1
+  nsd_macos: ^3.0.1
+  nsd_windows: ^3.0.1
   geolocator: ^14.0.1
   speech_to_text: ^7.5.0
   mobile_scanner: ^7.4.2

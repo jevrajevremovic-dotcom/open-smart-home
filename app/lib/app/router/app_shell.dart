@@ -33,17 +33,22 @@ class AppShell extends StatelessWidget {
         if (!size.usesNavigationRail) {
           return Scaffold(
             body: child,
-            bottomNavigationBar: NavigationBar(
-              selectedIndex: index,
-              onDestinationSelected: onSelect,
-              destinations: [
-                for (final (icon, selected, label) in destinations)
-                  NavigationDestination(
-                    icon: Icon(icon),
-                    selectedIcon: Icon(selected),
-                    label: label,
-                  ),
-              ],
+            // Labels grow with the font size only so far that they still
+            // fit; the icons and tooltips carry the rest.
+            bottomNavigationBar: MediaQuery.withClampedTextScaling(
+              maxScaleFactor: 1.15,
+              child: NavigationBar(
+                selectedIndex: index,
+                onDestinationSelected: onSelect,
+                destinations: [
+                  for (final (icon, selected, label) in destinations)
+                    NavigationDestination(
+                      icon: Icon(icon),
+                      selectedIcon: Icon(selected),
+                      label: label,
+                    ),
+                ],
+              ),
             ),
           );
         }

@@ -54,7 +54,7 @@ Lokalni gateway (Docker Compose): [docs/GATEWAY.md](docs/GATEWAY.md) · Detalji:
 | `web_socket_channel` | WebSocket transport (`IOWebSocketChannel` sa istim TLS pravilima; u pregledaču browser WebSocket) |
 | `web` | pristup `sessionStorage`/`localStorage` u web verziji |
 | `geolocator` | približna lokacija telefona, samo za opciono „Vreme na mojoj lokaciji” |
-| `nsd` | mDNS/zeroconf pretraga (`_home-assistant._tcp`) preko sistemskih servisa: Android NsdManager, Apple Bonjour |
+| `nsd_ios`, `nsd_macos`, `nsd_windows` | mDNS/zeroconf pretraga (`_home-assistant._tcp`) preko Apple Bonjour / Windows; na Androidu sopstveni kanal ka NsdManager-u (`NsdDiscoveryHandler.kt`) |
 | `flutter_secure_storage` | Keychain / Keystore za pristupni token |
 | `shared_preferences` | samo netajna podešavanja (tema, jezik, adresa servera) |
 | `crypto` | SHA-256 otisak sertifikata |

@@ -43,6 +43,15 @@ void main() {
     await settle(tester, 4);
     expect(container().read(activeProfileProvider), first);
 
+    // Android back does the same instead of closing the app.
+    await goTo(tester, AppRoutes.settings);
+    await tapKey(tester, 'addHome');
+    await settle(tester, 4);
+    await tester.binding.handlePopRoute();
+    await settle(tester, 4);
+    expect(find.byKey(const Key('cancelAddHome')), findsNothing);
+    expect(container().read(addingHomeProvider), isFalse);
+
     await goTo(tester, AppRoutes.settings);
     await tapKey(tester, 'addHome');
     await settle(tester, 4);

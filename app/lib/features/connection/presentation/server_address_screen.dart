@@ -93,112 +93,123 @@ class _ServerAddressScreenState extends ConsumerState<ServerAddressScreen> {
     final state = ref.watch(connectionSetupControllerProvider);
     final checking = state.probeStatus == ProbeStatus.checking;
     final shown = _preview;
+    final adding = ref.watch(addingHomeProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.serverAddressTitle),
-        // Adding a second home from Settings: a way back to the first.
-        leading: ref.watch(addingHomeProvider)
-            ? IconButton(
-                key: const Key('cancelAddHome'),
-                tooltip: l10n.cancel,
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  ref.read(addingHomeProvider.notifier).set(false);
-                  context.go(AppRoutes.home);
-                },
-              )
-            : null,
-      ),
-      body: MockModeBanner(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: ConstrainedContent(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    l10n.serverAddressIntro,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  const SizedBox(height: 16),
-                  _DiscoveredServers(onSelected: _useDiscovered),
-                  const SizedBox(height: 16),
-                  TextField(
-                    key: const Key('serverAddressField'),
-                    controller: _controller,
-                    enabled: !checking,
-                    keyboardType: TextInputType.url,
-                    autocorrect: false,
-                    enableSuggestions: false,
-                    textInputAction: TextInputAction.go,
-                    autofillHints: const [AutofillHints.url],
-                    decoration: InputDecoration(
-                      labelText: l10n.serverAddressLabel,
-                      hintText: l10n.serverAddressHint,
-                      prefixIcon: const Icon(Icons.dns_outlined),
-                      errorText: state.addressError == null
-                          ? null
-                          : addressErrorMessage(l10n, state.addressError!),
-                      errorMaxLines: 3,
+    void cancelAdding() {
+      ref.read(addingHomeProvider.notifier).set(false);
+      context.go(AppRoutes.home);
+    }
+
+    // Android back while adding a home returns to the current one
+    // instead of closing the app.
+    return PopScope(
+      canPop: !adding,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && adding) cancelAdding();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(l10n.serverAddressTitle),
+          // Adding a second home from Settings: a way back to the first.
+          leading: adding
+              ? IconButton(
+                  key: const Key('cancelAddHome'),
+                  tooltip: l10n.cancel,
+                  icon: const Icon(Icons.close),
+                  onPressed: cancelAdding,
+                )
+              : null,
+        ),
+        body: MockModeBanner(
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: ConstrainedContent(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      l10n.serverAddressIntro,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    onChanged: _updatePreview,
-                    onSubmitted: (_) => _check(),
-                  ),
-                  const SizedBox(height: 16),
-                  if (shown != null) ...[
-                    _RiskNotice(address: shown),
-                    const SizedBox(height: 8),
-                  ],
-                  if (shown?.risk == ConnectionRisk.insecureRemote)
-                    CheckboxListTile(
-                      contentPadding: EdgeInsets.zero,
-                      controlAffinity: ListTileControlAffinity.leading,
-                      value: state.insecureAcknowledged,
-                      onChanged: (v) => ref
-                          .read(connectionSetupControllerProvider.notifier)
-                          .setInsecureAcknowledged(v ?? false),
-                      title: Text(l10n.insecureAcknowledge),
+                    const SizedBox(height: 16),
+                    _DiscoveredServers(onSelected: _useDiscovered),
+                    const SizedBox(height: 16),
+                    TextField(
+                      key: const Key('serverAddressField'),
+                      controller: _controller,
+                      enabled: !checking,
+                      keyboardType: TextInputType.url,
+                      autocorrect: false,
+                      enableSuggestions: false,
+                      textInputAction: TextInputAction.go,
+                      autofillHints: const [AutofillHints.url],
+                      decoration: InputDecoration(
+                        labelText: l10n.serverAddressLabel,
+                        hintText: l10n.serverAddressHint,
+                        prefixIcon: const Icon(Icons.dns_outlined),
+                        errorText: state.addressError == null
+                            ? null
+                            : addressErrorMessage(l10n, state.addressError!),
+                        errorMaxLines: 3,
+                      ),
+                      onChanged: _updatePreview,
+                      onSubmitted: (_) => _check(),
                     ),
-                  if (state.failure != null) ...[
-                    const SizedBox(height: 8),
-                    InlineNotice.error(failureMessage(l10n, state.failure!)),
-                    // Browsers report CORS and mixed-content blocks as a
-                    // generic network error, so explain the likely causes.
-                    if (state.failure!.kind == FailureKind.network &&
-                        ref.watch(platformInfoProvider).isWeb) ...[
+                    const SizedBox(height: 16),
+                    if (shown != null) ...[
+                      _RiskNotice(address: shown),
                       const SizedBox(height: 8),
-                      InlineNotice.info(l10n.webConnectionHint),
                     ],
-                  ],
-                  if (state.probeStatus == ProbeStatus.reachable &&
-                      state.address != null) ...[
-                    const SizedBox(height: 8),
-                    InlineNotice.success(
-                      l10n.serverReachable(state.address.toString()),
+                    if (shown?.risk == ConnectionRisk.insecureRemote)
+                      CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: state.insecureAcknowledged,
+                        onChanged: (v) => ref
+                            .read(connectionSetupControllerProvider.notifier)
+                            .setInsecureAcknowledged(v ?? false),
+                        title: Text(l10n.insecureAcknowledge),
+                      ),
+                    if (state.failure != null) ...[
+                      const SizedBox(height: 8),
+                      InlineNotice.error(failureMessage(l10n, state.failure!)),
+                      // Browsers report CORS and mixed-content blocks as a
+                      // generic network error, so explain the likely causes.
+                      if (state.failure!.kind == FailureKind.network &&
+                          ref.watch(platformInfoProvider).isWeb) ...[
+                        const SizedBox(height: 8),
+                        InlineNotice.info(l10n.webConnectionHint),
+                      ],
+                    ],
+                    if (state.probeStatus == ProbeStatus.reachable &&
+                        state.address != null) ...[
+                      const SizedBox(height: 8),
+                      InlineNotice.success(
+                        l10n.serverReachable(state.address.toString()),
+                      ),
+                    ],
+                    const SizedBox(height: 24),
+                    FilledButton.icon(
+                      key: const Key('checkServerButton'),
+                      onPressed:
+                          checking ||
+                              (shown?.risk == ConnectionRisk.insecureRemote &&
+                                  !state.insecureAcknowledged)
+                          ? null
+                          : _check,
+                      icon: checking
+                          ? const SizedBox.square(
+                              dimension: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.wifi_find),
+                      label: Text(
+                        checking ? l10n.checking : l10n.checkConnection,
+                      ),
                     ),
                   ],
-                  const SizedBox(height: 24),
-                  FilledButton.icon(
-                    key: const Key('checkServerButton'),
-                    onPressed:
-                        checking ||
-                            (shown?.risk == ConnectionRisk.insecureRemote &&
-                                !state.insecureAcknowledged)
-                        ? null
-                        : _check,
-                    icon: checking
-                        ? const SizedBox.square(
-                            dimension: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.wifi_find),
-                    label: Text(
-                      checking ? l10n.checking : l10n.checkConnection,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

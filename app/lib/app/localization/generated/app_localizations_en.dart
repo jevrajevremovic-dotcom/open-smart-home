@@ -2051,4 +2051,112 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restrictedHidden => 'Not available in child / guest mode.';
+
+  @override
+  String get autoNew => 'New automation';
+
+  @override
+  String get autoWhen => 'When';
+
+  @override
+  String get autoThen => 'Then';
+
+  @override
+  String get autoName => 'Name';
+
+  @override
+  String get autoTriggerTime => 'Time';
+
+  @override
+  String get autoTriggerDevice => 'Device';
+
+  @override
+  String get autoTriggerSun => 'Sun';
+
+  @override
+  String get autoEveryDay => 'Every day';
+
+  @override
+  String get autoSunrise => 'Sunrise';
+
+  @override
+  String get autoSunset => 'Sunset';
+
+  @override
+  String autoOffset(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes min',
+      zero: 'Exactly at the time',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get autoPickDevice => 'Choose a device';
+
+  @override
+  String get autoAddAction => 'Add an action';
+
+  @override
+  String get autoSave => 'Save to Home Assistant';
+
+  @override
+  String get autoSaved => 'Automation saved in Home Assistant.';
+
+  @override
+  String get autoSaveFailed =>
+      'The automation wasn\'t saved. This needs an administrator account in Home Assistant.';
+
+  @override
+  String get autoDelete => 'Delete automation';
+
+  @override
+  String autoDeleteConfirm(String name) {
+    return 'Delete \"$name\"? This can\'t be undone.';
+  }
+
+  @override
+  String get autoIncomplete => 'Choose when it runs and at least one action.';
+
+  @override
+  String get autoChangesTo => 'changes to';
+
+  @override
+  String get autoNameHint => 'For example: Hallway light at night';
+
+  @override
+  String get autoHint =>
+      'Saved as a normal Home Assistant automation, so it runs even when this phone is off. You can change it later in Home Assistant too.';
+
+  @override
+  String get svc_turn_on => 'Turn on';
+
+  @override
+  String get svc_turn_off => 'Turn off';
+
+  @override
+  String get svc_open_cover => 'Open';
+
+  @override
+  String get svc_close_cover => 'Close';
+
+  @override
+  String get svc_lock => 'Lock';
+
+  @override
+  String get svc_start => 'Start';
+
+  @override
+  String get svc_return_to_base => 'Back to dock';
+
+  @override
+  String get svc_media_play => 'Play';
+
+  @override
+  String get svc_media_pause => 'Pause';
+
+  @override
+  String get svc_activate => 'Activate';
 }

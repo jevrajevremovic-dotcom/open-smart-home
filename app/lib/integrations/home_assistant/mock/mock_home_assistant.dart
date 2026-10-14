@@ -175,6 +175,43 @@ class MockHomeAssistantServer {
     }
   }
 
+  /// UI automations saved through the app (id → config).
+  final Map<String, Map<String, Object?>> automations = {};
+
+  void saveAutomation(String id, Map<String, Object?> config) {
+    automations[id] = config;
+    final alias = config['alias'] as String? ?? id;
+    final slug = alias
+        .toLowerCase()
+        .replaceAll(RegExp('[^a-z0-9]+'), '_')
+        .replaceAll(RegExp(r'^_+|_+$'), '');
+    final entityId = 'automation.${slug.isEmpty ? id : slug}';
+    _setState(entityId, 'on', {
+      'friendly_name': alias,
+      'id': id,
+      'last_triggered': null,
+    });
+  }
+
+  void deleteAutomation(String id) {
+    automations.remove(id);
+    final entityId = _states.entries
+        .where((e) => (e.value['attributes'] as Map?)?['id'] == id)
+        .map((e) => e.key)
+        .firstOrNull;
+    if (entityId == null) return;
+    final old = _states.remove(entityId);
+    final event = {
+      'event_type': 'state_changed',
+      'data': {'entity_id': entityId, 'old_state': old, 'new_state': null},
+      'origin': 'LOCAL',
+      'time_fired': _clock().toUtc().toIso8601String(),
+    };
+    for (final socket in _sockets) {
+      socket._dispatchEvent(event);
+    }
+  }
+
   /// `GET /api/services` payload (only the parts the app looks at).
   List<Map<String, Object?>> get serviceList => [
     for (final (domain, services) in [
@@ -1501,6 +1538,20 @@ class MockHomeAssistantApi implements HomeAssistantApi {
             if (i.isEven) 'context_user_id': 'mock-user',
           },
     ]);
+  }
+
+  @override
+  Future<void> saveAutomation(String id, Map<String, Object?> config) async {
+    await _requireAuth();
+    await _latency();
+    server.saveAutomation(id, config);
+  }
+
+  @override
+  Future<void> deleteAutomation(String id) async {
+    await _requireAuth();
+    await _latency();
+    server.deleteAutomation(id);
   }
 
   @override

@@ -1,3 +1,6 @@
+import '../../automations/presentation/automation_editor_screen.dart';
+import '../../restricted/application/restricted_mode.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,10 +61,23 @@ class ScenesScreen extends ConsumerWidget {
                     SectionHeader(l10n.scriptsTitle),
                     for (final id in scripts) _RoutineTile(deviceId: id),
                   ],
-                  if (automations.isNotEmpty) ...[
-                    SectionHeader(l10n.automationsTitle),
-                    for (final id in automations) _AutomationTile(deviceId: id),
-                  ],
+                  SectionHeader(
+                    l10n.automationsTitle,
+                    // Not for children / guests.
+                    trailing: ref.watch(restrictedModeProvider).enabled
+                        ? null
+                        : IconButton.filledTonal(
+                            key: const Key('newAutomation'),
+                            tooltip: l10n.autoNew,
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const AutomationEditorScreen(),
+                              ),
+                            ),
+                            icon: const Icon(Icons.add),
+                          ),
+                  ),
+                  for (final id in automations) _AutomationTile(deviceId: id),
                 ],
               ),
             ),

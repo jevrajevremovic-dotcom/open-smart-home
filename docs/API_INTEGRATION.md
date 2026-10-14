@@ -68,6 +68,12 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 `config/entity_registry/update` (`entity_id`, `name`, `area_id`) i `config/device_registry/update` (`device_id`, `name_by_user`, `area_id`) takođe koristi frontend i nije u developer dokumentaciji; aplikacija ga koristi samo u koraku „Dodaj uređaj → Podesi” (ime i prostorija novog uređaja). Ako ne uspe (npr. korisnik nije administrator), poruka upućuje na HA podešavanja.
 
+## Automatizacije (jednostavan editor)
+
+- REST HA frontenda `POST` / `DELETE /api/config/automation/config/<id>` (administrator; ID se proverava `[A-Za-z0-9_]`). HA posle čuvanja sam ponovo učitava automatizacije.
+- Format 2024.10+: `triggers` (`time` / `state` / `sun` sa `offset`), `conditions` (dani u nedelji: `condition: time`, `weekday`), `actions` (`action: <domen>.<servis>`, `target.entity_id`).
+- Iz aplikacije se ne mogu napraviti radnje otključavanja ni isključivanja alarma; brisanje samo za UI automatizacije (atribut `id`).
+
 ## Obaveštenja
 
 - WS `persistent_notification/subscribe` (frontend; pretplata – događaji `current` / `added` / `updated` / `removed`); ako nije dostupno, kartica se ne prikazuje.

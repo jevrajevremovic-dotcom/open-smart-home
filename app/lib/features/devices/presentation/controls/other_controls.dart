@@ -6,6 +6,9 @@ import '../../domain/capability.dart';
 import '../../domain/device_command.dart';
 import '../../domain/device_kind.dart';
 import '../../domain/smart_home_device.dart';
+import '../../../authentication/application/session_controller.dart';
+import '../../../kiosk/application/kiosk_controller.dart';
+import '../../../restricted/application/restricted_mode.dart';
 import '../../../media/presentation/media_artwork.dart';
 import '../device_actions.dart';
 import '../device_presentation.dart';
@@ -146,6 +149,42 @@ class SensorReadout extends StatelessWidget {
 }
 
 /// Scenes, scripts, buttons and automations.
+Future<void> _deleteAutomation(
+  BuildContext context,
+  WidgetRef ref,
+  SmartHomeDevice device,
+) async {
+  final l10n = context.l10n;
+  final messenger = ScaffoldMessenger.of(context);
+  final navigator = Navigator.of(context);
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(l10n.autoDelete),
+      content: Text(l10n.autoDeleteConfirm(device.name)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          key: const Key('confirmDeleteAutomation'),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(l10n.autoDelete),
+        ),
+      ],
+    ),
+  );
+  if (ok != true) return;
+  final api = ref.read(homeAssistantApiProvider);
+  try {
+    await api?.deleteAutomation(device.metadata.configId!);
+    if (navigator.canPop()) navigator.pop();
+  } on Object {
+    messenger.showSnackBar(SnackBar(content: Text(l10n.autoSaveFailed)));
+  }
+}
+
 class RoutineControls extends ConsumerWidget {
   const RoutineControls({super.key, required this.device});
 
@@ -206,6 +245,22 @@ class RoutineControls extends ConsumerWidget {
             icon: const Icon(Icons.play_arrow),
             label: Text(isAutomation ? l10n.runNow : l10n.activate),
           ),
+        // UI-made automations can be deleted (not in kiosk / child mode).
+        if (isAutomation &&
+            device.metadata.configId != null &&
+            !ref.watch(kioskActiveProvider) &&
+            !ref.watch(restrictedModeProvider).enabled) ...[
+          const SizedBox(height: 12),
+          TextButton.icon(
+            key: const Key('deleteAutomation'),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => _deleteAutomation(context, ref, device),
+            icon: const Icon(Icons.delete_outline),
+            label: Text(l10n.autoDelete),
+          ),
+        ],
       ],
     );
   }

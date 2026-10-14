@@ -23,11 +23,11 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Dodavanje uređaja: Zigbee, Wi-Fi/LAN (HA config flow), Matter (deljeni), Z-Wave (S2, SmartStart) ✅
 - Istorija uređaja, obaveštenja, alarmni panel, ventilator/ovlaživač/usisivač/izbor/broj ✅
 - Zaključavanje aplikacije i biometrijska potvrda kritičnih komandi, više domova ✅
-- Izmena imena/prostorije, pretraga, redosled omiljenih ✅
+- Izmena imena/prostorije, pretraga, redosled omiljenih, režim za decu i goste, jednostavan editor automatizacija ✅
 
 ## Sledeće
 
 - OAuth2 na mobilnom (zahteva hostovanu `client_id` stranicu sa redirect URI-jem aplikacije)
 - Matter za potpuno nove uređaje preko Bluetooth-a (nativni Google/Apple Matter API)
 - Zamena `nsd` paketa sopstvenim kodom (upozorenje o Kotlin Gradle Plugin-u)
-- Uloge (dete/gost/instalater), push obaveštenja, vizuelni editor automatizacija, Android widget za početni ekran
+- Napredni editor automatizacija (uslovi, više okidača, izmena postojećih), uloge (instalater), push obaveštenja, Android widget za početni ekran

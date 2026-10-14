@@ -2061,6 +2061,114 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get restrictedHidden => 'Nije dostupno u režimu za decu i goste.';
+
+  @override
+  String get autoNew => 'Nova automatizacija';
+
+  @override
+  String get autoWhen => 'Kada';
+
+  @override
+  String get autoThen => 'Uradi';
+
+  @override
+  String get autoName => 'Ime';
+
+  @override
+  String get autoTriggerTime => 'Vreme';
+
+  @override
+  String get autoTriggerDevice => 'Uređaj';
+
+  @override
+  String get autoTriggerSun => 'Sunce';
+
+  @override
+  String get autoEveryDay => 'Svaki dan';
+
+  @override
+  String get autoSunrise => 'Izlazak sunca';
+
+  @override
+  String get autoSunset => 'Zalazak sunca';
+
+  @override
+  String autoOffset(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes min',
+      zero: 'Tačno u to vreme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get autoPickDevice => 'Izaberi uređaj';
+
+  @override
+  String get autoAddAction => 'Dodaj radnju';
+
+  @override
+  String get autoSave => 'Sačuvaj u Home Assistant';
+
+  @override
+  String get autoSaved => 'Automatizacija je sačuvana u Home Assistantu.';
+
+  @override
+  String get autoSaveFailed =>
+      'Automatizacija nije sačuvana. Za to je potreban administratorski nalog u Home Assistantu.';
+
+  @override
+  String get autoDelete => 'Obriši automatizaciju';
+
+  @override
+  String autoDeleteConfirm(String name) {
+    return 'Obrisati „$name”? Ovo se ne može poništiti.';
+  }
+
+  @override
+  String get autoIncomplete => 'Izaberite kada se pokreće i bar jednu radnju.';
+
+  @override
+  String get autoChangesTo => 'pređe u';
+
+  @override
+  String get autoNameHint => 'Na primer: Svetlo u hodniku noću';
+
+  @override
+  String get autoHint =>
+      'Čuva se kao obična Home Assistant automatizacija, pa radi i kad je ovaj telefon isključen. Kasnije je možete menjati i u Home Assistantu.';
+
+  @override
+  String get svc_turn_on => 'Uključi';
+
+  @override
+  String get svc_turn_off => 'Isključi';
+
+  @override
+  String get svc_open_cover => 'Otvori';
+
+  @override
+  String get svc_close_cover => 'Zatvori';
+
+  @override
+  String get svc_lock => 'Zaključaj';
+
+  @override
+  String get svc_start => 'Pokreni';
+
+  @override
+  String get svc_return_to_base => 'Na punjač';
+
+  @override
+  String get svc_media_play => 'Pusti';
+
+  @override
+  String get svc_media_pause => 'Pauziraj';
+
+  @override
+  String get svc_activate => 'Aktiviraj';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

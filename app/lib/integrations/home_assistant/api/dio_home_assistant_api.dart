@@ -215,6 +215,28 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     await _authorized('GET', _periodPath('/api/logbook', entityId, start, end)),
   );
 
+  static final _automationId = RegExp(r'^[A-Za-z0-9_]{1,64}$');
+
+  String _automationPath(String id) {
+    if (!_automationId.hasMatch(id)) {
+      throw const AppFailure(
+        FailureKind.validation,
+        debugMessage: 'invalid automation id',
+      );
+    }
+    return '/api/config/automation/config/$id';
+  }
+
+  @override
+  Future<void> saveAutomation(String id, Map<String, Object?> config) async {
+    await _authorized('POST', _automationPath(id), data: config);
+  }
+
+  @override
+  Future<void> deleteAutomation(String id) async {
+    await _authorized('DELETE', _automationPath(id));
+  }
+
   static final _calendarId = RegExp(r'^calendar\.[a-z0-9_]+$');
 
   @override

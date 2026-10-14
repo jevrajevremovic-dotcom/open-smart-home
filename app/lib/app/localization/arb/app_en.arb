@@ -930,5 +930,51 @@
   "restrictedEnable": "Turn on (set a PIN)",
   "restrictedActive": "Child / guest mode is on",
   "restrictedDisable": "Turn off (PIN)",
-  "restrictedHidden": "Not available in child / guest mode."
+  "restrictedHidden": "Not available in child / guest mode.",
+  "autoNew": "New automation",
+  "autoWhen": "When",
+  "autoThen": "Then",
+  "autoName": "Name",
+  "autoTriggerTime": "Time",
+  "autoTriggerDevice": "Device",
+  "autoTriggerSun": "Sun",
+  "autoEveryDay": "Every day",
+  "autoSunrise": "Sunrise",
+  "autoSunset": "Sunset",
+  "autoOffset": "{minutes, plural, =0{Exactly at the time} other{{minutes} min}}",
+  "autoPickDevice": "Choose a device",
+  "autoAddAction": "Add an action",
+  "autoSave": "Save to Home Assistant",
+  "autoSaved": "Automation saved in Home Assistant.",
+  "autoSaveFailed": "The automation wasn't saved. This needs an administrator account in Home Assistant.",
+  "autoDelete": "Delete automation",
+  "autoDeleteConfirm": "Delete \"{name}\"? This can't be undone.",
+  "autoIncomplete": "Choose when it runs and at least one action.",
+  "autoChangesTo": "changes to",
+  "autoNameHint": "For example: Hallway light at night",
+  "autoHint": "Saved as a normal Home Assistant automation, so it runs even when this phone is off. You can change it later in Home Assistant too.",
+  "svc_turn_on": "Turn on",
+  "svc_turn_off": "Turn off",
+  "svc_open_cover": "Open",
+  "svc_close_cover": "Close",
+  "svc_lock": "Lock",
+  "svc_start": "Start",
+  "svc_return_to_base": "Back to dock",
+  "svc_media_play": "Play",
+  "svc_media_pause": "Pause",
+  "svc_activate": "Activate",
+  "@autoOffset": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@autoDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -226,6 +226,7 @@ class DeviceMetadata {
     this.lastChanged,
     this.lastUpdated,
     this.picturePath,
+    this.configId,
   });
 
   /// From a battery sensor of the same physical device, if any.
@@ -245,6 +246,10 @@ class DeviceMetadata {
   /// (`/api/...`). External URLs are dropped: the app never sends the
   /// token to, or loads pictures from, other hosts.
   final String? picturePath;
+
+  /// Id of a UI-managed automation/script (attribute `id`), needed to
+  /// delete it.
+  final String? configId;
 }
 
 /// The protocol-independent device model the whole UI works with.

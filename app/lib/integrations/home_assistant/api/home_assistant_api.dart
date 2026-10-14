@@ -98,6 +98,11 @@ abstract interface class HomeAssistantApi {
   Future<HaFlowStep> configFlowSubmit(String flowId, Map<String, Object?> data);
   Future<void> configFlowAbort(String flowId);
 
+  /// Creates or replaces a UI automation (frontend REST API
+  /// `/api/config/automation/config/<id>`; admin only).
+  Future<void> saveAutomation(String id, Map<String, Object?> config);
+  Future<void> deleteAutomation(String id);
+
   /// `GET` of an image served by Home Assistant itself (e.g. a person's
   /// `entity_picture`, `/api/image/serve/...`). Only server-relative
   /// `/api/` paths are accepted, so the token never goes to another host.

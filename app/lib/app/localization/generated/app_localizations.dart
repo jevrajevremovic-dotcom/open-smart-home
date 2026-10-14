@@ -3638,6 +3638,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not available in child / guest mode.'**
   String get restrictedHidden;
+
+  /// No description provided for @autoNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New automation'**
+  String get autoNew;
+
+  /// No description provided for @autoWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get autoWhen;
+
+  /// No description provided for @autoThen.
+  ///
+  /// In en, this message translates to:
+  /// **'Then'**
+  String get autoThen;
+
+  /// No description provided for @autoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get autoName;
+
+  /// No description provided for @autoTriggerTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get autoTriggerTime;
+
+  /// No description provided for @autoTriggerDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get autoTriggerDevice;
+
+  /// No description provided for @autoTriggerSun.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get autoTriggerSun;
+
+  /// No description provided for @autoEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get autoEveryDay;
+
+  /// No description provided for @autoSunrise.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise'**
+  String get autoSunrise;
+
+  /// No description provided for @autoSunset.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunset'**
+  String get autoSunset;
+
+  /// No description provided for @autoOffset.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =0{Exactly at the time} other{{minutes} min}}'**
+  String autoOffset(int minutes);
+
+  /// No description provided for @autoPickDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a device'**
+  String get autoPickDevice;
+
+  /// No description provided for @autoAddAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an action'**
+  String get autoAddAction;
+
+  /// No description provided for @autoSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Home Assistant'**
+  String get autoSave;
+
+  /// No description provided for @autoSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Automation saved in Home Assistant.'**
+  String get autoSaved;
+
+  /// No description provided for @autoSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The automation wasn\'t saved. This needs an administrator account in Home Assistant.'**
+  String get autoSaveFailed;
+
+  /// No description provided for @autoDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete automation'**
+  String get autoDelete;
+
+  /// No description provided for @autoDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"? This can\'t be undone.'**
+  String autoDeleteConfirm(String name);
+
+  /// No description provided for @autoIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose when it runs and at least one action.'**
+  String get autoIncomplete;
+
+  /// No description provided for @autoChangesTo.
+  ///
+  /// In en, this message translates to:
+  /// **'changes to'**
+  String get autoChangesTo;
+
+  /// No description provided for @autoNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: Hallway light at night'**
+  String get autoNameHint;
+
+  /// No description provided for @autoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as a normal Home Assistant automation, so it runs even when this phone is off. You can change it later in Home Assistant too.'**
+  String get autoHint;
+
+  /// No description provided for @svc_turn_on.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get svc_turn_on;
+
+  /// No description provided for @svc_turn_off.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get svc_turn_off;
+
+  /// No description provided for @svc_open_cover.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get svc_open_cover;
+
+  /// No description provided for @svc_close_cover.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get svc_close_cover;
+
+  /// No description provided for @svc_lock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock'**
+  String get svc_lock;
+
+  /// No description provided for @svc_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get svc_start;
+
+  /// No description provided for @svc_return_to_base.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to dock'**
+  String get svc_return_to_base;
+
+  /// No description provided for @svc_media_play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get svc_media_play;
+
+  /// No description provided for @svc_media_pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get svc_media_pause;
+
+  /// No description provided for @svc_activate.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get svc_activate;
 }
 
 class _AppLocalizationsDelegate

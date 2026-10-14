@@ -254,6 +254,7 @@ class HaDeviceMapper {
         lastChanged: s.lastChanged,
         lastUpdated: s.lastUpdated,
         picturePath: localPicturePath(a['entity_picture']),
+        configId: s.domain == 'automation' ? _str(a['id']) : null,
       ),
       isAuxiliary: (entry?.hidden ?? false) || entry?.entityCategory != null,
     );

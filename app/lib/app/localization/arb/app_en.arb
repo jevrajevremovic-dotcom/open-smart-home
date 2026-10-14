@@ -1020,5 +1020,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "autoEdit": "Edit automation",
+  "autoTooComplex": "This automation does more than the app's editor can show. Change it in Home Assistant."
 }

@@ -2226,6 +2226,13 @@ class AppLocalizationsSr extends AppLocalizations {
   String energyPrevMonth(String value) {
     return 'Prošlog meseca: $value';
   }
+
+  @override
+  String get autoEdit => 'Izmeni automatizaciju';
+
+  @override
+  String get autoTooComplex =>
+      'Ova automatizacija radi više nego što editor u aplikaciji može da prikaže. Izmenite je u Home Assistantu.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

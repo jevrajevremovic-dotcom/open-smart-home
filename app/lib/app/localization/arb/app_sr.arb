@@ -637,5 +637,7 @@
   "sceneDefaultName": "Scena {time}",
   "energyPrevDay": "Juče: {value}",
   "energyPrevWeek": "Prošle nedelje: {value}",
-  "energyPrevMonth": "Prošlog meseca: {value}"
+  "energyPrevMonth": "Prošlog meseca: {value}",
+  "autoEdit": "Izmeni automatizaciju",
+  "autoTooComplex": "Ova automatizacija radi više nego što editor u aplikaciji može da prikaže. Izmenite je u Home Assistantu."
 }

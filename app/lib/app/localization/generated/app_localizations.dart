@@ -3926,6 +3926,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last month: {value}'**
   String energyPrevMonth(String value);
+
+  /// No description provided for @autoEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit automation'**
+  String get autoEdit;
+
+  /// No description provided for @autoTooComplex.
+  ///
+  /// In en, this message translates to:
+  /// **'This automation does more than the app\'s editor can show. Change it in Home Assistant.'**
+  String get autoTooComplex;
 }
 
 class _AppLocalizationsDelegate

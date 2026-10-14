@@ -179,6 +179,7 @@ class MockHomeAssistantServer {
   final Map<String, Map<String, Object?>> automations = {};
 
   void saveAutomation(String id, Map<String, Object?> config) {
+    if (automations.containsKey(id)) deleteAutomation(id);
     automations[id] = config;
     final alias = config['alias'] as String? ?? id;
     final slug = _slug(alias);
@@ -1593,6 +1594,17 @@ class MockHomeAssistantApi implements HomeAssistantApi {
     await _requireAuth();
     await _latency();
     server.deleteAutomation(id);
+  }
+
+  @override
+  Future<Map<String, Object?>> fetchAutomation(String id) async {
+    await _requireAuth();
+    await _latency();
+    final config = server.automations[id];
+    if (config == null) {
+      throw const AppFailure(FailureKind.server, statusCode: 404);
+    }
+    return config;
   }
 
   @override

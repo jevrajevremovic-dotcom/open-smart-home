@@ -111,6 +111,88 @@ class SimpleAutomation {
     };
   }
 
+  /// Reads a config back if it has the simple shape this editor makes:
+  /// one time/state/sun trigger, optional weekday condition, and actions
+  /// that call a service on entity targets. `null` = edit in HA instead.
+  static SimpleAutomation? tryParse(Map<String, Object?> config) {
+    List<Object?> list(String plural, String singular) =>
+        switch (config[plural] ?? config[singular]) {
+          final List<Object?> l => l,
+          final Map<Object?, Object?> m => [m],
+          _ => const [],
+        };
+    final triggers = list('triggers', 'trigger');
+    final conditions = list('conditions', 'condition');
+    final actions = list('actions', 'action');
+    if (triggers.length != 1 || triggers.first is! Map) return null;
+    final t = triggers.first! as Map;
+    final kind = t['trigger'] ?? t['platform'];
+
+    var weekdays = <int>{};
+    for (final c in conditions) {
+      if (c is Map && c['condition'] == 'time' && c['weekday'] is List) {
+        weekdays = {
+          for (final d in c['weekday'] as List)
+            if (_days.indexOf('$d') case final i when i >= 0) i + 1,
+        };
+      } else {
+        return null;
+      }
+    }
+
+    final AutomationTrigger trigger;
+    switch (kind) {
+      case 'time':
+        final at = RegExp(r'^(\d{1,2}):(\d{2})').firstMatch('${t['at']}');
+        if (at == null) return null;
+        trigger = TimeTrigger(
+          int.parse(at[1]!),
+          int.parse(at[2]!),
+          weekdays: weekdays,
+        );
+      case 'state':
+        final id = t['entity_id'];
+        final to = t['to'];
+        final entity = id is List && id.length == 1 ? id.first : id;
+        if (entity is! String || to is! String) return null;
+        trigger = DeviceTrigger(entity, to);
+      case 'sun':
+        final m = RegExp(r'^(-?)(\d{1,2}):(\d{2})')
+            .firstMatch('${t['offset'] ?? '00:00:00'}');
+        final minutes = m == null
+            ? 0
+            : (int.parse(m[2]!) * 60 + int.parse(m[3]!)) *
+                  (m[1] == '-' ? -1 : 1);
+        trigger = SunTrigger(
+          sunset: t['event'] == 'sunset',
+          offsetMinutes: minutes,
+        );
+      default:
+        return null;
+    }
+    if (kind != 'time' && weekdays.isNotEmpty) return null;
+
+    final parsed = <AutomationAction>[];
+    for (final a in actions) {
+      if (a is! Map) return null;
+      final service = (a['action'] ?? a['service']);
+      final target = a['target'];
+      final id = target is Map ? target['entity_id'] : a['entity_id'];
+      final ids = id is List ? id : [id];
+      if (service is! String || !service.contains('.')) return null;
+      for (final e in ids) {
+        if (e is! String) return null;
+        parsed.add(AutomationAction(e, service.split('.').last));
+      }
+    }
+    if (parsed.isEmpty) return null;
+    return SimpleAutomation(
+      alias: config['alias'] is String ? config['alias']! as String : '',
+      trigger: trigger,
+      actions: parsed,
+    );
+  }
+
   static String _offset(int minutes) {
     final sign = minutes < 0 ? '-' : '';
     final m = minutes.abs();

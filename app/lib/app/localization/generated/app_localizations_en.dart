@@ -2216,4 +2216,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String energyPrevMonth(String value) {
     return 'Last month: $value';
   }
+
+  @override
+  String get autoEdit => 'Edit automation';
+
+  @override
+  String get autoTooComplex =>
+      'This automation does more than the app\'s editor can show. Change it in Home Assistant.';
 }

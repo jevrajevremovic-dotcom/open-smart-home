@@ -102,6 +102,7 @@ abstract interface class HomeAssistantApi {
   /// `/api/config/automation/config/<id>`; admin only).
   Future<void> saveAutomation(String id, Map<String, Object?> config);
   Future<void> deleteAutomation(String id);
+  Future<Map<String, Object?>> fetchAutomation(String id);
 
   /// Creates / deletes a UI scene (`/api/config/scene/config/<id>`).
   Future<void> saveScene(String id, Map<String, Object?> config);

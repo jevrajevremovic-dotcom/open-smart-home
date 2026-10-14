@@ -7,6 +7,8 @@ import '../../domain/device_command.dart';
 import '../../domain/device_kind.dart';
 import '../../domain/smart_home_device.dart';
 import '../../../authentication/application/session_controller.dart';
+import '../../../automations/domain/simple_automation.dart';
+import '../../../automations/presentation/automation_editor_screen.dart';
 import '../../../kiosk/application/kiosk_controller.dart';
 import '../../../restricted/application/restricted_mode.dart';
 import '../../../media/presentation/media_artwork.dart';
@@ -149,6 +151,34 @@ class SensorReadout extends StatelessWidget {
 }
 
 /// Scenes, scripts, buttons and automations.
+Future<void> _editAutomation(
+  BuildContext context,
+  WidgetRef ref,
+  SmartHomeDevice device,
+) async {
+  final l10n = context.l10n;
+  final messenger = ScaffoldMessenger.of(context);
+  final navigator = Navigator.of(context);
+  final id = device.metadata.configId!;
+  try {
+    final config = await ref
+        .read(homeAssistantApiProvider)!
+        .fetchAutomation(id);
+    final simple = SimpleAutomation.tryParse(config);
+    if (simple == null) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.autoTooComplex)));
+      return;
+    }
+    await navigator.push(
+      MaterialPageRoute<void>(
+        builder: (_) => AutomationEditorScreen(existingId: id, initial: simple),
+      ),
+    );
+  } on Object {
+    messenger.showSnackBar(SnackBar(content: Text(l10n.autoSaveFailed)));
+  }
+}
+
 Future<void> _deleteAutomation(
   BuildContext context,
   WidgetRef ref,
@@ -256,6 +286,13 @@ class RoutineControls extends ConsumerWidget {
             !ref.watch(kioskActiveProvider) &&
             !ref.watch(restrictedModeProvider).enabled) ...[
           const SizedBox(height: 12),
+          if (isAutomation)
+            OutlinedButton.icon(
+              key: const Key('editAutomation'),
+              onPressed: () => _editAutomation(context, ref, device),
+              icon: const Icon(Icons.edit_outlined),
+              label: Text(l10n.autoEdit),
+            ),
           TextButton.icon(
             key: const Key('deleteAutomation'),
             style: TextButton.styleFrom(

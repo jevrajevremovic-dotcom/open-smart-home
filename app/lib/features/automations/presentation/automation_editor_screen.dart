@@ -31,7 +31,11 @@ String serviceLabel(AppLocalizations l10n, SmartHomeDevice? d, String svc) =>
 
 /// Builds a simple "when … then …" automation and saves it in HA.
 class AutomationEditorScreen extends ConsumerStatefulWidget {
-  const AutomationEditorScreen({super.key});
+  const AutomationEditorScreen({super.key, this.existingId, this.initial});
+
+  /// Editing: the automation's config id and its parsed content.
+  final String? existingId;
+  final SimpleAutomation? initial;
 
   @override
   ConsumerState<AutomationEditorScreen> createState() =>
@@ -51,6 +55,29 @@ class _AutomationEditorScreenState
   final List<AutomationAction> _actions = [];
   bool _saving = false;
   String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    final a = widget.initial;
+    if (a == null) return;
+    _name.text = a.alias;
+    _actions.addAll(a.actions);
+    switch (a.trigger) {
+      case TimeTrigger(:final hour, :final minute, :final weekdays):
+        _kind = _TriggerKind.time;
+        _time = TimeOfDay(hour: hour, minute: minute);
+        _weekdays.addAll(weekdays);
+      case DeviceTrigger(:final entityId, :final toState):
+        _kind = _TriggerKind.device;
+        _triggerDevice = entityId;
+        _triggerState = toState;
+      case SunTrigger(:final sunset, :final offsetMinutes):
+        _kind = _TriggerKind.sun;
+        _sunset = sunset;
+        _offset = offsetMinutes.clamp(-120, 120);
+    }
+  }
 
   @override
   void dispose() {
@@ -119,7 +146,8 @@ class _AutomationEditorScreenState
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     try {
-      final id = DateTime.now().millisecondsSinceEpoch.toString();
+      final id =
+          widget.existingId ?? DateTime.now().millisecondsSinceEpoch.toString();
       await api.saveAutomation(
         id,
         SimpleAutomation(
@@ -170,7 +198,9 @@ class _AutomationEditorScreenState
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.autoNew)),
+      appBar: AppBar(
+        title: Text(widget.existingId == null ? l10n.autoNew : l10n.autoEdit),
+      ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [

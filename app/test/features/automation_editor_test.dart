@@ -106,4 +106,93 @@ void main() {
     expect(find.text('Ulaz noću'), findsNothing);
     await unmount(tester);
   });
+
+  test('simple configs read back; complex ones are left to HA', () {
+    for (final a in const [
+      SimpleAutomation(
+        alias: 'A',
+        trigger: TimeTrigger(6, 30, weekdays: {1, 2}),
+        actions: [AutomationAction('light.a', 'turn_on')],
+      ),
+      SimpleAutomation(
+        alias: 'B',
+        trigger: DeviceTrigger('binary_sensor.d', 'on'),
+        actions: [AutomationAction('cover.c', 'close_cover')],
+      ),
+      SimpleAutomation(
+        alias: 'C',
+        trigger: SunTrigger(sunset: false, offsetMinutes: -45),
+        actions: [AutomationAction('scene.s', 'turn_on')],
+      ),
+    ]) {
+      final back = SimpleAutomation.tryParse(a.toConfig('1'))!;
+      expect(back.toConfig('1'), a.toConfig('1'), reason: a.alias);
+    }
+    // Legacy format (platform/service) is understood too.
+    expect(
+      SimpleAutomation.tryParse({
+        'alias': 'Old',
+        'trigger': [
+          {'platform': 'time', 'at': '08:00:00'},
+        ],
+        'action': [
+          {'service': 'light.turn_off', 'entity_id': 'light.x'},
+        ],
+      }),
+      isNotNull,
+    );
+    expect(
+      SimpleAutomation.tryParse({
+        'triggers': [
+          {'trigger': 'time', 'at': '08:00:00'},
+          {'trigger': 'time', 'at': '09:00:00'},
+        ],
+        'actions': [
+          {
+            'action': 'light.turn_on',
+            'target': {'entity_id': 'light.x'},
+          },
+        ],
+      }),
+      isNull,
+      reason: 'two triggers',
+    );
+  });
+
+  testWidgets('edit an automation made in the app', (tester) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await settle(tester, 10);
+    final server = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    ).read(mockHomeAssistantServerProvider);
+    server.saveAutomation(
+      '42',
+      const SimpleAutomation(
+        alias: 'Jutro',
+        trigger: TimeTrigger(7, 0),
+        actions: [AutomationAction('light.hallway', 'turn_on')],
+      ).toConfig('42'),
+    );
+    await settle(tester, 4);
+    await goTo(tester, AppRoutes.device('automation.jutro'));
+    await settle(tester, 4);
+    await tapKey(tester, 'editAutomation');
+    await settle(tester, 6);
+    expect(find.text(en.autoEdit), findsWidgets);
+    expect(find.byKey(const Key('autoSave')), findsOneWidget);
+    await tester.enterText(find.byKey(const Key('autoName')), 'Rano jutro');
+    await tester.tap(find.byKey(const ValueKey('autoDay-1')));
+    await settle(tester, 1);
+    await tapKey(tester, 'autoSave');
+    await settle(tester, 8);
+    final config = server.automations['42']!;
+    expect(config['alias'], 'Rano jutro');
+    expect(config['conditions'], [
+      {
+        'condition': 'time',
+        'weekday': ['mon'],
+      },
+    ]);
+    await unmount(tester);
+  });
 }

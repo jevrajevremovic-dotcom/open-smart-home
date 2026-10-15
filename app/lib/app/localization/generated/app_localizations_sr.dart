@@ -2402,6 +2402,53 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get remoteRemove => 'Ukloni';
+
+  @override
+  String get clapSetting => 'Dvostruki pljesak';
+
+  @override
+  String get clapSettingHint =>
+      'Dva pljeska nešto uključe ili isključe. Samo dok je kiosk na ekranu.';
+
+  @override
+  String get clapPrivacyTitle => 'Da aplikacija sluša pljesak?';
+
+  @override
+  String get clapPrivacyBody =>
+      'Dok je kiosk na ekranu mikrofon je uključen, i Android prikazuje oznaku mikrofona. Aplikacija samo meri koliko je glasno, 50 puta u sekundi, na ovom tabletu: zvuk se ne snima, ne čuva i nigde ne šalje. Isključite ovde kad god želite.';
+
+  @override
+  String get clapAllow => 'Uključi';
+
+  @override
+  String get clapPermissionDenied =>
+      'Mikrofon nije dozvoljen ovoj aplikaciji u podešavanjima sistema.';
+
+  @override
+  String get clapTarget => 'Šta radi dvostruki pljesak';
+
+  @override
+  String get clapTargetNone => 'Još ništa nije izabrano';
+
+  @override
+  String get clapToggle => 'uključi/isključi';
+
+  @override
+  String get clapSensitivity => 'Osetljivost';
+
+  @override
+  String get clapLow => 'Niska';
+
+  @override
+  String get clapMedium => 'Srednja';
+
+  @override
+  String get clapHigh => 'Visoka';
+
+  @override
+  String clapSwitched(String name, String state) {
+    return '$name: $state';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

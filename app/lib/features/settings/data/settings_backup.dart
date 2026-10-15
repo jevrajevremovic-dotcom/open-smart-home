@@ -77,6 +77,10 @@ abstract final class SettingsBackup {
               pinSalt: current.pinSalt,
               photoPath: current.photoPath,
               startInKiosk: current.startInKiosk,
+              // Microphone use is this device's own choice.
+              clapEnabled: current.clapEnabled,
+              clapTargetId: current.clapTargetId,
+              clapSensitivity: current.clapSensitivity,
             ),
           );
     }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:open_smart_home/features/clap/clap_platform.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
@@ -95,6 +96,7 @@ Future<List<Override>> testOverrides({
   AppShortcutsPlatform? shortcuts,
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
+  ClapPlatform? clap,
   List<Override> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -119,6 +121,9 @@ Future<List<Override>> testOverrides({
     deviceAuthProvider.overrideWithValue(deviceAuth ?? FakeDeviceAuth()),
     appShortcutsPlatformProvider.overrideWithValue(
       shortcuts ?? FakeShortcuts(supported: false),
+    ),
+    clapPlatformProvider.overrideWithValue(
+      clap ?? FakeClapPlatform(supported: false),
     ),
     homeScreenWidgetProvider.overrideWithValue(
       homeWidget ?? FakeHomeScreenWidget(supported: false),
@@ -205,4 +210,38 @@ class FakeHomeScreenWidget implements HomeScreenWidgetPlatform {
   Stream<Uri?> get clicks => _clicks.stream;
 
   void tap(Uri uri) => _clicks.add(uri);
+}
+
+/// Microphone levels driven by the test.
+class FakeClapPlatform implements ClapPlatform {
+  FakeClapPlatform({this.supported = true, this.permission = true});
+
+  @override
+  final bool supported;
+  bool permission;
+  // ignore: close_sinks, lives as long as the test
+  final _levels = StreamController<double>.broadcast();
+  int listeners = 0;
+
+  @override
+  Future<bool> requestPermission() async => permission;
+
+  @override
+  Stream<double> levels() {
+    // ignore: close_sinks, closed by its listener's cancel
+    late final StreamController<double> c;
+    c = StreamController<double>(
+      onListen: () {
+        listeners++;
+        final sub = _levels.stream.listen(c.add);
+        c.onCancel = () {
+          listeners--;
+          return sub.cancel();
+        };
+      },
+    );
+    return c.stream;
+  }
+
+  void emit(Iterable<double> levels) => levels.forEach(_levels.add);
 }

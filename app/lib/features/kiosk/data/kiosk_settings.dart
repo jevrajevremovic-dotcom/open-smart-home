@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../../clap/clap_detector.dart';
+
 /// Gradient behind the kiosk dashboard's glass panels.
 enum KioskBackground { aurora, ocean, dusk, forest }
 
@@ -20,6 +22,9 @@ class KioskSettings {
     this.showCameras = true,
     this.showCalendar = true,
     this.photoPath,
+    this.clapEnabled = false,
+    this.clapTargetId,
+    this.clapSensitivity = ClapSensitivity.medium,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -45,6 +50,14 @@ class KioskSettings {
       photoPath: json['photoPath'] is String
           ? json['photoPath']! as String
           : null,
+      clapEnabled: json['clapEnabled'] == true,
+      clapTargetId: json['clapTargetId'] is String
+          ? json['clapTargetId']! as String
+          : null,
+      clapSensitivity: ClapSensitivity.values.firstWhere(
+        (s) => s.name == json['clapSensitivity'],
+        orElse: () => d.clapSensitivity,
+      ),
       statusEntityIds: [
         if (json['statusEntityIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(maxStatusEntities)) id,
@@ -82,6 +95,12 @@ class KioskSettings {
   /// gradient.
   final String? photoPath;
 
+  /// Double clap toggles [clapTargetId] while the kiosk is shown. Opt-in:
+  /// the microphone listens (levels only, nothing recorded) meanwhile.
+  final bool clapEnabled;
+  final String? clapTargetId;
+  final ClapSensitivity clapSensitivity;
+
   bool get hasPin => pinHash != null && pinSalt != null;
 
   /// Choices offered in settings.
@@ -116,7 +135,13 @@ class KioskSettings {
     bool? showCalendar,
     String? photoPath,
     bool clearPhoto = false,
+    bool? clapEnabled,
+    String? clapTargetId,
+    ClapSensitivity? clapSensitivity,
   }) => KioskSettings(
+    clapEnabled: clapEnabled ?? this.clapEnabled,
+    clapTargetId: clapTargetId ?? this.clapTargetId,
+    clapSensitivity: clapSensitivity ?? this.clapSensitivity,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
@@ -144,5 +169,8 @@ class KioskSettings {
     'showCameras': showCameras,
     'showCalendar': showCalendar,
     'photoPath': photoPath,
+    'clapEnabled': clapEnabled,
+    'clapTargetId': clapTargetId,
+    'clapSensitivity': clapSensitivity.name,
   };
 }

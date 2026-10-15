@@ -1075,5 +1075,29 @@
   "remoteHint": "The same Home Assistant as reached from outside: a Home Assistant Cloud (Nabu Casa) address, your own domain with HTTPS, or a Tailscale address. At home the app uses the home address; when it doesn't answer, it switches to this one. The same token is used.",
   "remoteSameAsLocal": "This is already the home address.",
   "remoteNeedsHttps": "A public address needs HTTPS (or use Tailscale), otherwise the token would cross the internet unencrypted.",
-  "remoteRemove": "Remove"
+  "remoteRemove": "Remove",
+  "clapSetting": "Double clap",
+  "clapSettingHint": "Clap twice to switch something. Only while the kiosk is shown.",
+  "clapPrivacyTitle": "Listen for claps?",
+  "clapPrivacyBody": "While the kiosk is on screen the microphone stays on, and Android shows its microphone indicator. The app only measures how loud it is, 50 times a second, on this tablet: no sound is recorded, stored or sent anywhere. Turn it off here at any time.",
+  "clapAllow": "Turn on",
+  "clapPermissionDenied": "The microphone is not allowed for this app in the system settings.",
+  "clapTarget": "What a double clap does",
+  "clapTargetNone": "Nothing chosen yet",
+  "clapToggle": "switch on/off",
+  "clapSensitivity": "Sensitivity",
+  "clapLow": "Low",
+  "clapMedium": "Medium",
+  "clapHigh": "High",
+  "clapSwitched": "{name}: {state}",
+  "@clapSwitched": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "state": {
+        "type": "String"
+      }
+    }
+  }
 }

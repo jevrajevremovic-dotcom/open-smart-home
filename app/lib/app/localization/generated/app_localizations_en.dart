@@ -2393,4 +2393,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remoteRemove => 'Remove';
+
+  @override
+  String get clapSetting => 'Double clap';
+
+  @override
+  String get clapSettingHint =>
+      'Clap twice to switch something. Only while the kiosk is shown.';
+
+  @override
+  String get clapPrivacyTitle => 'Listen for claps?';
+
+  @override
+  String get clapPrivacyBody =>
+      'While the kiosk is on screen the microphone stays on, and Android shows its microphone indicator. The app only measures how loud it is, 50 times a second, on this tablet: no sound is recorded, stored or sent anywhere. Turn it off here at any time.';
+
+  @override
+  String get clapAllow => 'Turn on';
+
+  @override
+  String get clapPermissionDenied =>
+      'The microphone is not allowed for this app in the system settings.';
+
+  @override
+  String get clapTarget => 'What a double clap does';
+
+  @override
+  String get clapTargetNone => 'Nothing chosen yet';
+
+  @override
+  String get clapToggle => 'switch on/off';
+
+  @override
+  String get clapSensitivity => 'Sensitivity';
+
+  @override
+  String get clapLow => 'Low';
+
+  @override
+  String get clapMedium => 'Medium';
+
+  @override
+  String get clapHigh => 'High';
+
+  @override
+  String clapSwitched(String name, String state) {
+    return '$name: $state';
+  }
 }

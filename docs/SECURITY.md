@@ -114,6 +114,14 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Posle odjave widget prikazuje samo poziv na prijavu.
 - Flutter deep linking je isključen (`flutter_deeplinking_enabled=false`): spoljni linkovi ne mogu da otvore proizvoljan ekran aplikacije.
 
+## Dvostruki pljesak (kiosk, Android)
+
+- Isključen dok ga korisnik ne uključi; pre toga dijalog objašnjava da je mikrofon uključen dok je kiosk na ekranu, a sistem traži dozvolu za mikrofon.
+- `AudioLevelHandler.kt` čita mikrofon u okvirima od 20 ms i iz svakog šalje samo najglasniji uzorak (jedan broj); uzorci se odmah odbacuju. Zvuk se ne snima, ne čuva i ne šalje nigde — ni HA-u.
+- Sluša samo dok je kiosk na ekranu, aplikacija u prvom planu i ništa ga ne prekriva; Android pritom prikazuje oznaku mikrofona.
+- Cilj može biti samo svetlo, prekidač, utičnica, ventilator, prečišćivač/ovlaživač ili scena/skripta — nikad brava, alarm, garažna vrata, roletne ili sirena.
+- Podešavanje se ne prenosi „Prenosom podešavanja” na drugi uređaj.
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

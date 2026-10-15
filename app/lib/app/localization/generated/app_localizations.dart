@@ -4256,6 +4256,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove'**
   String get remoteRemove;
+
+  /// No description provided for @clapSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Double clap'**
+  String get clapSetting;
+
+  /// No description provided for @clapSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Clap twice to switch something. Only while the kiosk is shown.'**
+  String get clapSettingHint;
+
+  /// No description provided for @clapPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen for claps?'**
+  String get clapPrivacyTitle;
+
+  /// No description provided for @clapPrivacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'While the kiosk is on screen the microphone stays on, and Android shows its microphone indicator. The app only measures how loud it is, 50 times a second, on this tablet: no sound is recorded, stored or sent anywhere. Turn it off here at any time.'**
+  String get clapPrivacyBody;
+
+  /// No description provided for @clapAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get clapAllow;
+
+  /// No description provided for @clapPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'The microphone is not allowed for this app in the system settings.'**
+  String get clapPermissionDenied;
+
+  /// No description provided for @clapTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'What a double clap does'**
+  String get clapTarget;
+
+  /// No description provided for @clapTargetNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing chosen yet'**
+  String get clapTargetNone;
+
+  /// No description provided for @clapToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'switch on/off'**
+  String get clapToggle;
+
+  /// No description provided for @clapSensitivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitivity'**
+  String get clapSensitivity;
+
+  /// No description provided for @clapLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get clapLow;
+
+  /// No description provided for @clapMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get clapMedium;
+
+  /// No description provided for @clapHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get clapHigh;
+
+  /// No description provided for @clapSwitched.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {state}'**
+  String clapSwitched(String name, String state);
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
+import 'package:open_smart_home/features/clap/clap_platform.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
@@ -31,6 +32,7 @@ Future<InMemoryCredentialStore> pumpApp(
   AppShortcutsPlatform? shortcuts,
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
+  ClapPlatform? clap,
   List<Override> overrides = const [],
 }) async {
   tester.view
@@ -50,6 +52,7 @@ Future<InMemoryCredentialStore> pumpApp(
     shortcuts: shortcuts,
     alerts: alerts,
     homeWidget: homeWidget,
+    clap: clap,
     overrides: overrides,
   );
   await tester.pumpWidget(

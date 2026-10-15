@@ -1,6 +1,10 @@
 package org.opensmarthome.open_smart_home
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -10,6 +14,8 @@ import io.flutter.plugin.common.MethodChannel
 class MainActivity : FlutterFragmentActivity() {
     private var nsd: NsdDiscoveryHandler? = null
     private var widget: MethodChannel? = null
+    private var audio: AudioLevelHandler? = null
+    private var micResult: MethodChannel.Result? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -17,6 +23,16 @@ class MainActivity : FlutterFragmentActivity() {
         val handler = NsdDiscoveryHandler(applicationContext)
         nsd = handler
         EventChannel(messenger, "org.opensmarthome/nsd").setStreamHandler(handler)
+
+        val levels = AudioLevelHandler(applicationContext)
+        audio = levels
+        EventChannel(messenger, "org.opensmarthome/audio_level").setStreamHandler(levels)
+        MethodChannel(messenger, "org.opensmarthome/microphone").setMethodCallHandler { call, result ->
+            when (call.method) {
+                "request" -> requestMicrophone(result)
+                else -> result.notImplemented()
+            }
+        }
 
         widget = MethodChannel(messenger, "org.opensmarthome/widget").apply {
             setMethodCallHandler { call, result ->
@@ -49,11 +65,41 @@ class MainActivity : FlutterFragmentActivity() {
     override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
         nsd?.stop()
         nsd = null
+        audio?.stop()
+        audio = null
         widget?.setMethodCallHandler(null)
         widget = null
         super.cleanUpFlutterEngine(flutterEngine)
     }
 
+    private fun requestMicrophone(result: MethodChannel.Result) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            result.success(true)
+            return
+        }
+        micResult?.success(false)
+        micResult = result
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), MIC_REQUEST)
+    }
+
+    @Deprecated("Still the callback for ActivityCompat.requestPermissions")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode != MIC_REQUEST) return
+        micResult?.success(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED)
+        micResult = null
+    }
+
     private fun widgetLink(intent: Intent?): String? =
         intent?.data?.takeIf { it.scheme == "opensmarthome" }?.toString()
+
+    companion object {
+        private const val MIC_REQUEST = 4711
+    }
 }

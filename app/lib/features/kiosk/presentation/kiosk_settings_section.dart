@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
+import '../../clap/clap_settings.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'glass.dart';
@@ -163,6 +164,7 @@ class KioskSettingsSection extends ConsumerWidget {
           onChanged: (v) =>
               controller.update((s) => s.copyWith(showCalendar: v)),
         ),
+        const ClapSettings(),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(l10n.kioskLiteEffects),

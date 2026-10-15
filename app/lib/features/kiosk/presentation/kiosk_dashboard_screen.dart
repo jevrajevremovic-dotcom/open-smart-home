@@ -8,6 +8,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../dashboard/presentation/dashboard_screen.dart';
 import '../../../app/theme/app_theme.dart';
+import '../../clap/clap_listener.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/presentation/stale_data_banner.dart';
@@ -55,16 +56,18 @@ class KioskDashboardScreen extends ConsumerWidget {
       data: AppTheme.dark(),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: KioskBackdrop(
-          child: MockModeBanner(
-            child: SafeArea(
-              child: KioskScale(
-                child: LayoutBuilder(
-                  builder: (context, c) {
-                    final grid =
-                        c.maxWidth >= 1000 && c.maxWidth > c.maxHeight * 1.15;
-                    return grid ? const _GridLayout() : const _ColumnLayout();
-                  },
+        body: KioskClapListener(
+          child: KioskBackdrop(
+            child: MockModeBanner(
+              child: SafeArea(
+                child: KioskScale(
+                  child: LayoutBuilder(
+                    builder: (context, c) {
+                      final grid =
+                          c.maxWidth >= 1000 && c.maxWidth > c.maxHeight * 1.15;
+                      return grid ? const _GridLayout() : const _ColumnLayout();
+                    },
+                  ),
                 ),
               ),
             ),

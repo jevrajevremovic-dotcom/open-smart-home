@@ -692,5 +692,19 @@
   "remoteHint": "Isti Home Assistant, dostupan spolja: adresa Home Assistant Cloud-a (Nabu Casa), sopstveni domen sa HTTPS-om ili Tailscale adresa. Kod kuće aplikacija koristi kućnu adresu; kada ona ne odgovara, prelazi na ovu. Koristi se isti token.",
   "remoteSameAsLocal": "Ovo je već kućna adresa.",
   "remoteNeedsHttps": "Za javnu adresu potreban je HTTPS (ili Tailscale), inače bi token putovao internetom nešifrovan.",
-  "remoteRemove": "Ukloni"
+  "remoteRemove": "Ukloni",
+  "clapSetting": "Dvostruki pljesak",
+  "clapSettingHint": "Dva pljeska nešto uključe ili isključe. Samo dok je kiosk na ekranu.",
+  "clapPrivacyTitle": "Da aplikacija sluša pljesak?",
+  "clapPrivacyBody": "Dok je kiosk na ekranu mikrofon je uključen, i Android prikazuje oznaku mikrofona. Aplikacija samo meri koliko je glasno, 50 puta u sekundi, na ovom tabletu: zvuk se ne snima, ne čuva i nigde ne šalje. Isključite ovde kad god želite.",
+  "clapAllow": "Uključi",
+  "clapPermissionDenied": "Mikrofon nije dozvoljen ovoj aplikaciji u podešavanjima sistema.",
+  "clapTarget": "Šta radi dvostruki pljesak",
+  "clapTargetNone": "Još ništa nije izabrano",
+  "clapToggle": "uključi/isključi",
+  "clapSensitivity": "Osetljivost",
+  "clapLow": "Niska",
+  "clapMedium": "Srednja",
+  "clapHigh": "Visoka",
+  "clapSwitched": "{name}: {state}"
 }

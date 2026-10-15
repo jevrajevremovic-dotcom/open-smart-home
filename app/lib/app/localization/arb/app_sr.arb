@@ -775,5 +775,6 @@
   "timerRunning": "Tajmer je uključen",
   "timerTurnsOffAt": "Isključuje se u {time}",
   "timerTurnsOnAt": "Uključuje se u {time}",
-  "timerNeedsAdmin": "Za tajmer je potreban administratorski nalog u Home Assistantu."
+  "timerNeedsAdmin": "Za tajmer je potreban administratorski nalog u Home Assistantu.",
+  "energyShareOfHome": "{percent} % doma"
 }

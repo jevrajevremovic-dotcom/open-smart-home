@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/features/energy/presentation/energy_chart.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/energy/data/energy_repository.dart';
 import 'package:open_smart_home/features/energy/data/tariff.dart';
@@ -226,6 +227,30 @@ void main() {
         await unmount(tester);
       },
     );
+
+    testWidgets('a top consumer opens its own chart', (tester) async {
+      await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+      await settle(tester, 10);
+      await goTo(tester, AppRoutes.energy);
+      await settle(tester, 6);
+      await tapKey(tester, 'energyDevice-sensor.ac_energy');
+      await settle(tester, 4);
+      final sheet = find.byKey(const Key('energyDeviceSheet'));
+      expect(sheet, findsOneWidget);
+      expect(
+        find.descendant(of: sheet, matching: find.text('Klima dnevna soba')),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: sheet, matching: find.byType(ConsumptionChart)),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(of: sheet, matching: find.textContaining('%')),
+        findsWidgets,
+      );
+      await unmount(tester);
+    });
 
     testWidgets('week and month ranges load', (tester) async {
       await pumpApp(tester, signedIn: true, size: const Size(800, 1600));

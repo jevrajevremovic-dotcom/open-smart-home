@@ -4754,6 +4754,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Timers need an administrator account in Home Assistant.'**
   String get timerNeedsAdmin;
+
+  /// No description provided for @energyShareOfHome.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} % of the home'**
+  String energyShareOfHome(int percent);
 }
 
 class _AppLocalizationsDelegate

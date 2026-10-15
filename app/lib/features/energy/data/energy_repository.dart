@@ -58,11 +58,15 @@ class DeviceEnergy {
     required this.statisticId,
     required this.name,
     required this.kwh,
+    this.buckets = const [],
   });
 
   final String statisticId;
   final String name;
   final double kwh;
+
+  /// The device's own consumption per slot of the range (`null` = no data).
+  final List<EnergyBucket> buckets;
 }
 
 /// Totals for one range. A `null` total means that source is not configured
@@ -193,6 +197,13 @@ class EnergyRepository {
               .fold<double>(0, (a, b) => a + b)
         : null;
 
+    List<EnergyBucket> series(String statisticId) {
+      final perSlot = bySlot([statisticId]);
+      return [
+        for (final slot in range.slots(now)) EnergyBucket(slot, perSlot[slot]),
+      ];
+    }
+
     final devices = [
       for (final d in prefs.devices)
         if (stats[d.statisticId] case final rows? when rows.isNotEmpty)
@@ -200,6 +211,7 @@ class EnergyRepository {
             statisticId: d.statisticId,
             name: d.name ?? nameOf?.call(d.statisticId) ?? d.statisticId,
             kwh: rows.fold<double>(0, (a, r) => a + r.change),
+            buckets: series(d.statisticId),
           ),
     ]..sort((a, b) => b.kwh.compareTo(a.kwh));
 

@@ -290,62 +290,99 @@ class _TopConsumers extends StatelessWidget {
         child: Column(
           children: [
             for (final d in report.devices.take(8))
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            d.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+              InkWell(
+                key: ValueKey('energyDevice-${d.statisticId}'),
+                borderRadius: BorderRadius.circular(8),
+                onTap: () => _showDevice(context, d),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              d.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                        Text(
-                          [
-                            formatKwh(l10n.localeName, d.kwh),
-                            if (total != null && total > 0)
-                              '${(d.kwh / total * 100).round()} %',
-                          ].join(' · '),
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    ExcludeSemantics(
-                      // Name and value are read from the row above.
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: SizedBox(
-                          height: 8,
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              ColoredBox(
-                                color:
-                                    theme.colorScheme.surfaceContainerHighest,
-                              ),
-                              FractionallySizedBox(
-                                alignment: Alignment.centerLeft,
-                                widthFactor: max > 0
-                                    ? (d.kwh / max).clamp(0.0, 1.0)
-                                    : 0,
-                                child: ColoredBox(
-                                  color: theme.colorScheme.primary,
+                          Text(
+                            [
+                              formatKwh(l10n.localeName, d.kwh),
+                              if (total != null && total > 0)
+                                '${(d.kwh / total * 100).round()} %',
+                            ].join(' · '),
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      ExcludeSemantics(
+                        // Name and value are read from the row above.
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: SizedBox(
+                            height: 8,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                ColoredBox(
+                                  color:
+                                      theme.colorScheme.surfaceContainerHighest,
                                 ),
-                              ),
-                            ],
+                                FractionallySizedBox(
+                                  alignment: Alignment.centerLeft,
+                                  widthFactor: max > 0
+                                      ? (d.kwh / max).clamp(0.0, 1.0)
+                                      : 0,
+                                  child: ColoredBox(
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showDevice(BuildContext context, DeviceEnergy d) {
+    final l10n = context.l10n;
+    final total = report.consumption;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => SafeArea(
+        child: Padding(
+          key: const Key('energyDeviceSheet'),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(d.name, style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 4),
+              Text(
+                [
+                  formatKwh(l10n.localeName, d.kwh),
+                  if (total != null && total > 0)
+                    l10n.energyShareOfHome((d.kwh / total * 100).round()),
+                ].join(' · '),
+              ),
+              const SizedBox(height: 16),
+              ConsumptionChart(report: report, buckets: d.buckets),
+            ],
+          ),
         ),
       ),
     );

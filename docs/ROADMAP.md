@@ -39,7 +39,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Prilagodljiv početni ekran (izbor i redosled kartica) ✅
 - Video uživo u iskačućoj kameri ✅
 - Tajmer na uređaju („ugasi za 30 min”), izvršava HA ✅
-- Istorija potrošnje po uređaju
+- Istorija potrošnje po uređaju ✅
 - Matter za potpuno nove uređaje preko Bluetooth-a (treba pravi uređaj za proveru)
 - Uloge (instalater) — treba definisati šta tačno obuhvata
 - Release potpisivanje pravim ključem (ključ pravi i čuva vlasnik, nikad u repozitorijumu)

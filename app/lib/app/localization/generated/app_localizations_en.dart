@@ -2691,4 +2691,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get timerNeedsAdmin =>
       'Timers need an administrator account in Home Assistant.';
+
+  @override
+  String energyShareOfHome(int percent) {
+    return '$percent % of the home';
+  }
 }

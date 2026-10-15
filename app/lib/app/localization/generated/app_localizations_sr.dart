@@ -2701,6 +2701,11 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get timerNeedsAdmin =>
       'Za tajmer je potreban administratorski nalog u Home Assistantu.';
+
+  @override
+  String energyShareOfHome(int percent) {
+    return '$percent % doma';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

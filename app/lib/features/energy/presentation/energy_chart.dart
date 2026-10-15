@@ -13,9 +13,12 @@ import 'energy_format.dart';
 /// the baseline with a gap between them, recessive axis, a value label on
 /// tap, and a table view for screen readers and exact values.
 class ConsumptionChart extends StatefulWidget {
-  const ConsumptionChart({super.key, required this.report});
+  const ConsumptionChart({super.key, required this.report, this.buckets});
 
   final EnergyReport report;
+
+  /// Another series over the same range (one device); default: the home.
+  final List<EnergyBucket>? buckets;
 
   @override
   State<ConsumptionChart> createState() => _ConsumptionChartState();
@@ -49,7 +52,7 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
     final l10n = context.l10n;
     final locale = l10n.localeName;
     final theme = Theme.of(context);
-    final buckets = widget.report.buckets;
+    final buckets = widget.buckets ?? widget.report.buckets;
     final values = [for (final b in buckets) b.consumption];
     final known = values.whereType<double>().toList();
     final maxValue = known.isEmpty ? 0.0 : known.reduce(math.max);

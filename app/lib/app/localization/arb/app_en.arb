@@ -1251,5 +1251,13 @@
       }
     }
   },
-  "timerNeedsAdmin": "Timers need an administrator account in Home Assistant."
+  "timerNeedsAdmin": "Timers need an administrator account in Home Assistant.",
+  "energyShareOfHome": "{percent} % of the home",
+  "@energyShareOfHome": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  }
 }

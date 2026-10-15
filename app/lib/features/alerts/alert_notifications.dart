@@ -16,12 +16,25 @@ import '../devices/data/home_state_repository.dart';
 import '../devices/presentation/device_presentation.dart';
 import '../kiosk/application/kiosk_controller.dart';
 
+/// A tapped notification or one of its buttons ([actionId]).
+@immutable
+class NotificationTap {
+  const NotificationTap(this.payload, [this.actionId]);
+
+  /// A device id (alerts) or a JSON object (messages from Home Assistant).
+  final String payload;
+  final String? actionId;
+}
+
 /// System notifications for critical alerts, shown by the phone itself.
 abstract interface class AlertNotifier {
   bool get supported;
 
-  /// [onTap] gets the device id of a tapped notification.
-  Future<void> initialize(void Function(String deviceId) onTap);
+  Future<void> initialize();
+
+  /// Taps on notifications and their buttons, also the one that opened
+  /// the app.
+  Stream<NotificationTap> get taps;
 
   /// Asks the OS for permission; `true` when notifications may be shown.
   Future<bool> requestPermission();
@@ -29,8 +42,15 @@ abstract interface class AlertNotifier {
   Future<void> show(String deviceId, String title, String body);
 
   /// A message sent by a Home Assistant automation (`notify.mobile_app_…`),
-  /// on its own, less intrusive channel.
-  Future<void> showMessage(String key, String? title, String body);
+  /// on its own, less intrusive channel; [actions] become buttons
+  /// (id, label). [key] replaces an earlier message with the same key.
+  Future<void> showMessage(
+    String key,
+    String? title,
+    String body, {
+    List<(String, String)> actions = const [],
+    String? payload,
+  });
 
   Future<void> cancel(String deviceId);
 }
@@ -49,11 +69,20 @@ class LocalAlertNotifier implements AlertNotifier {
   static int _id(String deviceId) => deviceId.hashCode & 0x7fffffff;
 
   bool _initialized = false;
-  void Function(String deviceId)? _onTap;
+  final _taps = StreamController<NotificationTap>.broadcast();
 
   @override
-  Future<void> initialize(void Function(String deviceId) onTap) async {
-    _onTap = onTap;
+  Stream<NotificationTap> get taps => _taps.stream;
+
+  void _respond(NotificationResponse r) {
+    final payload = r.payload;
+    if (payload != null && payload.isNotEmpty) {
+      _taps.add(NotificationTap(payload, r.actionId));
+    }
+  }
+
+  @override
+  Future<void> initialize() async {
     if (_initialized) return;
     _initialized = true;
     try {
@@ -67,11 +96,15 @@ class LocalAlertNotifier implements AlertNotifier {
             requestSoundPermission: false,
           ),
         ),
-        onDidReceiveNotificationResponse: (r) {
-          final id = r.payload;
-          if (id != null && id.isNotEmpty) _onTap?.call(id);
-        },
+        onDidReceiveNotificationResponse: _respond,
       );
+      // A tap that started the app (after it had been closed).
+      final launch = await _plugin.getNotificationAppLaunchDetails();
+      final response = launch?.notificationResponse;
+      if ((launch?.didNotificationLaunchApp ?? false) && response != null) {
+        // After the listeners are attached.
+        Timer.run(() => _respond(response));
+      }
     } on Object catch (e) {
       _log.warning('notifications unavailable', e.runtimeType);
     }
@@ -128,13 +161,20 @@ class LocalAlertNotifier implements AlertNotifier {
   }
 
   @override
-  Future<void> showMessage(String key, String? title, String body) async {
+  Future<void> showMessage(
+    String key,
+    String? title,
+    String body, {
+    List<(String, String)> actions = const [],
+    String? payload,
+  }) async {
     try {
       await _plugin.show(
         id: _id(key),
         title: title,
         body: body,
-        notificationDetails: const NotificationDetails(
+        payload: payload,
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             'ha_messages',
             'Home Assistant',
@@ -142,8 +182,14 @@ class LocalAlertNotifier implements AlertNotifier {
             importance: Importance.high,
             priority: Priority.high,
             visibility: NotificationVisibility.private,
+            styleInformation: BigTextStyleInformation(body),
+            actions: [
+              for (final (id, label) in actions.take(3))
+                // Opens the app, whose main code answers Home Assistant.
+                AndroidNotificationAction(id, label, showsUserInterface: true),
+            ],
           ),
-          iOS: DarwinNotificationDetails(),
+          iOS: const DarwinNotificationDetails(),
         ),
       );
     } on Object catch (e) {
@@ -211,10 +257,20 @@ class _AlertNotificationsHostState
     extends ConsumerState<AlertNotificationsHost> {
   final Set<String> _shown = {};
   bool _initialized = false;
+  StreamSubscription<NotificationTap>? _tapSub;
 
   AlertNotifier get _notifier => ref.read(alertNotifierProvider);
 
-  void _onTap(String deviceId) {
+  @override
+  void dispose() {
+    unawaited(_tapSub?.cancel());
+    super.dispose();
+  }
+
+  void _onTap(NotificationTap tap) {
+    // Messages from Home Assistant carry JSON; alerts a device id.
+    if (tap.payload.startsWith('{')) return;
+    final deviceId = tap.payload;
     if (ref.read(activeProfileProvider) == null) return;
     if (ref.read(deviceProvider(deviceId)) == null) return;
     ref
@@ -228,7 +284,8 @@ class _AlertNotificationsHostState
     final enabled = ref.read(alertNotificationsProvider);
     if (enabled && !_initialized) {
       _initialized = true;
-      unawaited(notifier.initialize(_onTap));
+      _tapSub = notifier.taps.listen(_onTap);
+      unawaited(notifier.initialize());
     }
     final live = ref.read(syncStatusProvider) == SyncStatus.live;
     final ids = ref.read(dashboardSummaryProvider).criticalIds.toSet();

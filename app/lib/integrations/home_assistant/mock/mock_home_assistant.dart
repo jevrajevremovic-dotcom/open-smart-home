@@ -203,6 +203,9 @@ class MockHomeAssistantServer {
   /// `mobile_app` registrations by webhook id (native app API).
   final Map<String, Map<String, Object?>> mobileApps = {};
 
+  /// Events the app fired through its webhook (`fire_event`).
+  final List<Map<String, Object?>> firedEvents = [];
+
   /// Notifications confirmed by the app (`hass_confirm_id`s).
   final List<String> confirmedPushes = [];
   int _nextPush = 1;
@@ -1313,6 +1316,30 @@ class _MockSocket implements HaSocket {
         } else {
           _pushSubs[webhook] = id!;
           _emit(ok());
+        }
+      case 'webhook/handle':
+        final webhook = msg['webhook_id'];
+        final body = msg['body'];
+        if (webhook is! String || !_server.mobileApps.containsKey(webhook)) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': true,
+            'result': {'status': 410, 'body': null},
+          });
+        } else {
+          final json = body is String ? jsonDecode(body) : null;
+          if (json is Map && json['type'] == 'fire_event') {
+            _server.firedEvents.add(
+              Map<String, Object?>.from(json['data'] as Map),
+            );
+          }
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': true,
+            'result': {'status': 200, 'body': '{}'},
+          });
         }
       case 'mobile_app/push_notification_confirm':
         final confirmId = msg['confirm_id'];

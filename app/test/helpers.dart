@@ -148,11 +148,13 @@ class FakeAlertNotifier implements AlertNotifier {
   final bool supported;
   bool permission;
   final Map<String, (String, String)> shown = {};
-  void Function(String)? _onTap;
+  final _taps = StreamController<NotificationTap>.broadcast();
 
   @override
-  Future<void> initialize(void Function(String deviceId) onTap) async =>
-      _onTap = onTap;
+  Future<void> initialize() async {}
+
+  @override
+  Stream<NotificationTap> get taps => _taps.stream;
 
   @override
   Future<bool> requestPermission() async => permission;
@@ -164,13 +166,28 @@ class FakeAlertNotifier implements AlertNotifier {
   @override
   Future<void> cancel(String deviceId) async => shown.remove(deviceId);
 
-  void tap(String deviceId) => _onTap?.call(deviceId);
+  void tap(String deviceId) => _taps.add(NotificationTap(deviceId));
 
+  /// Shown messages as (title, body); details in [messageDetails].
   final List<(String?, String)> messages = [];
+  final List<({String key, List<(String, String)> actions, String? payload})>
+  messageDetails = [];
 
   @override
-  Future<void> showMessage(String key, String? title, String body) async =>
-      messages.add((title, body));
+  Future<void> showMessage(
+    String key,
+    String? title,
+    String body, {
+    List<(String, String)> actions = const [],
+    String? payload,
+  }) async {
+    messages.add((title, body));
+    messageDetails.add((key: key, actions: actions, payload: payload));
+  }
+
+  /// Taps the last message, or one of its buttons.
+  void tapMessage([String? actionId]) =>
+      _taps.add(NotificationTap(messageDetails.last.payload!, actionId));
 }
 
 /// Records launcher shortcuts and lets tests "tap" one.

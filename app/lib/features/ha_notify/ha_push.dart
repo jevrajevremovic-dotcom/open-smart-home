@@ -12,6 +12,10 @@ import '../../core/errors/app_failure.dart';
 import '../../core/logging/app_logger.dart';
 import '../../core/storage/app_preferences.dart';
 import '../../core/storage/credential_store.dart';
+import '../../app/router/app_router.dart';
+import '../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
+import '../devices/application/device_providers.dart';
+import '../kiosk/application/kiosk_controller.dart';
 import '../alerts/alert_notifications.dart';
 import '../authentication/application/session_controller.dart';
 
@@ -246,6 +250,10 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
     final connected =
         ref.read(connectionStatusProvider).value?.isConnected ?? false;
     final notifier = ref.read(alertNotifierProvider);
+    if (notifier.supported && _tapSub == null) {
+      _tapSub = notifier.taps.listen(_onTap);
+      unawaited(notifier.initialize());
+    }
     if (registration == null ||
         manager == null ||
         !connected ||
@@ -253,10 +261,10 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
       if (registration == null || manager == null) _stop();
       return;
     }
+    _flushAnswers(manager, registration);
     if (_sub != null && _webhook == registration.webhookId) return;
     if (_refused) return;
     _stop();
-    unawaited(notifier.initialize((_) {}));
     _webhook = registration.webhookId;
     _sub = manager
         .subscribeCommand({
@@ -266,16 +274,7 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
         })
         .listen(
           (event) {
-            final message = event['message'];
-            if (message is! String) return;
-            final title = event['title'];
-            unawaited(
-              notifier.showMessage(
-                'ha-${_counter++}',
-                title is String ? title : null,
-                message,
-              ),
-            );
+            _show(notifier, event);
             final confirm = event['hass_confirm_id'];
             if (confirm is String) {
               // Tells Home Assistant it arrived (no cloud fallback needed).
@@ -317,6 +316,111 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
         );
   }
 
+  StreamSubscription<NotificationTap>? _tapSub;
+
+  /// Button presses waiting for the connection, as (action, tag).
+  final List<(String, String?)> _answers = [];
+
+  /// One message, following the data keys Home Assistant's own apps use:
+  /// `tag` (replace), `clear_notification` (remove), `actions` (buttons),
+  /// plus `entity_id` here (a tap opens that device).
+  void _show(AlertNotifier notifier, Map<String, Object?> event) {
+    final message = event['message'];
+    if (message is! String) return;
+    final data = switch (event['data']) {
+      final Map<Object?, Object?> m => m,
+      _ => const <Object?, Object?>{},
+    };
+    final tag = data['tag'] is String ? data['tag']! as String : null;
+    final key = tag != null ? 'ha-tag-$tag' : 'ha-${_counter++}';
+    if (message == 'clear_notification') {
+      if (tag != null) unawaited(notifier.cancel(key));
+      return;
+    }
+    final title = event['title'];
+    final entity = data['entity_id'];
+    unawaited(
+      notifier.showMessage(
+        key,
+        title is String ? title : null,
+        message,
+        actions: [
+          if (data['actions'] case final List<Object?> list)
+            for (final a in list)
+              if (a is Map &&
+                  a['action'] is String &&
+                  a['title'] is String &&
+                  // Reply fields and links are features of the HA apps.
+                  a['action'] != 'REPLY' &&
+                  a['action'] != 'URI')
+                (a['action']! as String, a['title']! as String),
+        ].take(3).toList(),
+        payload: jsonEncode({
+          'ha': true,
+          'tag': tag,
+          'entity': entity is String ? entity : null,
+        }),
+      ),
+    );
+  }
+
+  void _onTap(NotificationTap tap) {
+    if (!tap.payload.startsWith('{')) return; // an alert, not a message
+    final Object? json;
+    try {
+      json = jsonDecode(tap.payload);
+    } on FormatException {
+      return;
+    }
+    if (json is! Map || json['ha'] != true) return;
+    final action = tap.actionId;
+    if (action != null && action.isNotEmpty) {
+      _answers.add((action, json['tag'] as String?));
+      _sync();
+      return;
+    }
+    final entity = json['entity'];
+    if (entity is String &&
+        ref.read(activeProfileProvider) != null &&
+        ref.read(deviceProvider(entity)) != null) {
+      ref
+          .read(routerProvider)
+          .push(AppRoutes.device(entity, kiosk: ref.read(kioskActiveProvider)));
+    }
+  }
+
+  /// Sends pressed buttons to Home Assistant as the same event its own apps
+  /// fire, `mobile_app_notification_action`, so automations and blueprints
+  /// written for them work unchanged.
+  void _flushAnswers(
+    HaWebSocketManager manager,
+    MobileAppRegistration registration,
+  ) {
+    while (_answers.isNotEmpty) {
+      final (action, tag) = _answers.removeAt(0);
+      unawaited(
+        manager
+            .sendCommand({
+              'type': 'webhook/handle',
+              'webhook_id': registration.webhookId,
+              'method': 'POST',
+              'headers': {'Content-Type': 'application/json'},
+              'body': jsonEncode({
+                'type': 'fire_event',
+                'data': {
+                  'event_type': 'mobile_app_notification_action',
+                  'event_data': {'action': action, 'tag': ?tag},
+                },
+              }),
+            })
+            .catchError((Object e) {
+              _log.warning('answer not sent', e.runtimeType);
+              return null;
+            }),
+      );
+    }
+  }
+
   /// The channel ended (usually a dropped connection). The connection may
   /// already be back by now, so check again instead of waiting for the
   /// next status change.
@@ -341,6 +445,7 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
 
   @override
   void dispose() {
+    unawaited(_tapSub?.cancel());
     _retry?.cancel();
     _stop();
     super.dispose();

@@ -142,4 +142,69 @@ void main() {
       await unmount(tester);
     },
   );
+
+  testWidgets('buttons answer Home Assistant; tag replaces and clears', (
+    tester,
+  ) async {
+    final notifier = FakeAlertNotifier();
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: const Size(800, 1600),
+      alerts: notifier,
+    );
+    await settle(tester, 10);
+    final server = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    ).read(mockHomeAssistantServerProvider);
+    await goTo(tester, AppRoutes.settings);
+    await tapKey(tester, 'haPushTile');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const Key('haPushRegister')));
+    await settle(tester, 8);
+    final webhook = server.mobileApps.keys.single;
+
+    server.sendPush(
+      webhook,
+      title: 'Ulazna vrata',
+      message: 'Neko zvoni.',
+      data: {
+        'tag': 'door',
+        'entity_id': 'lock.front_door',
+        'actions': [
+          {'action': 'OPEN_DOOR', 'title': 'Otvori'},
+          {'action': 'IGNORE', 'title': 'Ignoriši'},
+          {'action': 'REPLY', 'title': 'Odgovori'},
+        ],
+      },
+    );
+    await settle(tester, 4);
+    final shown = notifier.messageDetails.last;
+    expect(shown.key, 'ha-tag-door');
+    expect(shown.actions, [('OPEN_DOOR', 'Otvori'), ('IGNORE', 'Ignoriši')]);
+
+    notifier.tapMessage('IGNORE');
+    await settle(tester, 4);
+    expect(server.firedEvents, [
+      {
+        'event_type': 'mobile_app_notification_action',
+        'event_data': {'action': 'IGNORE', 'tag': 'door'},
+      },
+    ]);
+
+    // A plain tap opens the device the message is about.
+    notifier.tapMessage();
+    await settle(tester, 6);
+    expect(find.text('Brava ulazna vrata'), findsWidgets);
+
+    notifier.shown['ha-tag-door'] = ('x', 'y');
+    server.sendPush(
+      webhook,
+      message: 'clear_notification',
+      data: {'tag': 'door'},
+    );
+    await settle(tester, 4);
+    expect(notifier.shown.containsKey('ha-tag-door'), isFalse);
+    await unmount(tester);
+  });
 }

@@ -2475,4 +2475,49 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get oauthPageFailed =>
       'Home Assistant\'s login page did not load. Check the connection, or sign in with a token below. (A self-signed certificate works only with a token.)';
+
+  @override
+  String get haPushTitle => 'Messages from Home Assistant';
+
+  @override
+  String get haPushHint =>
+      'Let Home Assistant automations send notifications to this device';
+
+  @override
+  String get haPushExplain =>
+      'This device is added to Home Assistant (Mobile App integration). Automations can then send it messages with a notify service. They arrive over the local connection while the app is running, without any cloud service.';
+
+  @override
+  String get haPushName => 'Device name in Home Assistant';
+
+  @override
+  String get haPushDefaultName => 'Open Smart Home';
+
+  @override
+  String get haPushRegister => 'Add to Home Assistant';
+
+  @override
+  String haPushReady(String service) {
+    return 'Automations send messages with $service';
+  }
+
+  @override
+  String get haPushCopy => 'Copy the service name';
+
+  @override
+  String get haPushCopied => 'Service name copied.';
+
+  @override
+  String get haPushTest => 'Send a test message';
+
+  @override
+  String get haPushTestMessage =>
+      'Messages from Home Assistant arrive on this device.';
+
+  @override
+  String get haPushForget => 'Stop messages';
+
+  @override
+  String get haPushForgetHint =>
+      'The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App.';
 }

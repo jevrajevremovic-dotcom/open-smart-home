@@ -200,6 +200,36 @@ class MockHomeAssistantServer {
     }
   }
 
+  /// `mobile_app` registrations by webhook id (native app API).
+  final Map<String, Map<String, Object?>> mobileApps = {};
+
+  /// Notifications confirmed by the app (`hass_confirm_id`s).
+  final List<String> confirmedPushes = [];
+  int _nextPush = 1;
+
+  Map<String, Object?> registerMobileApp(Map<String, Object?> body) {
+    final webhookId = 'mock-webhook-${mobileApps.length + 1}';
+    mobileApps[webhookId] = body;
+    return {'webhook_id': webhookId, 'cloudhook_url': null};
+  }
+
+  /// What `notify.mobile_app_<name>` does: delivers to the app's channel.
+  void sendPush(
+    String webhookId, {
+    required String message,
+    String? title,
+    Map<String, Object?>? data,
+  }) {
+    for (final socket in _sockets) {
+      socket._push(webhookId, {
+        'message': message,
+        'title': ?title,
+        'data': ?data,
+        'hass_confirm_id': 'push-${_nextPush++}',
+      });
+    }
+  }
+
   /// UI automations saved through the app (id → config).
   final Map<String, Map<String, Object?>> automations = {};
 
@@ -1169,6 +1199,10 @@ class _MockSocket implements HaSocket {
       case 'subscribe_events':
         _subscriptions[id!] = msg['event_type'] as String?;
         _emit(ok());
+      case 'unsubscribe_events'
+          when _pushSubs.containsValue(msg['subscription']):
+        _pushSubs.removeWhere((_, v) => v == msg['subscription']);
+        _emit(ok());
       case 'unsubscribe_events' when msg['subscription'] == _notificationSub:
         _notificationSub = null;
         _emit(ok());
@@ -1253,6 +1287,23 @@ class _MockSocket implements HaSocket {
             'message': 'Demo cameras have no live stream',
           },
         });
+      case 'mobile_app/push_notification_channel':
+        final webhook = msg['webhook_id'];
+        if (webhook is! String || !_server.mobileApps.containsKey(webhook)) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'not_found', 'message': 'Webhook ID not found'},
+          });
+        } else {
+          _pushSubs[webhook] = id!;
+          _emit(ok());
+        }
+      case 'mobile_app/push_notification_confirm':
+        final confirmId = msg['confirm_id'];
+        if (confirmId is String) _server.confirmedPushes.add(confirmId);
+        _emit(ok());
       case 'persistent_notification/subscribe':
         _notificationSub = id;
         _emit(ok());
@@ -1398,6 +1449,17 @@ class _MockSocket implements HaSocket {
   }
 
   int? _notificationSub;
+
+  /// Push channels by webhook id → subscription id.
+  final Map<String, int> _pushSubs = {};
+
+  void _push(String webhookId, Map<String, Object?> event) {
+    final sub = _pushSubs[webhookId];
+    if (sub == null) return;
+    scheduleMicrotask(
+      () => _emit({'id': sub, 'type': 'event', 'event': event}),
+    );
+  }
 
   void _notifyNotifications(
     String type,
@@ -1615,6 +1677,14 @@ class MockHomeAssistantApi implements HomeAssistantApi {
               if (i.isEven) 'context_user_id': 'mock-user',
             },
     ]);
+  }
+
+  @override
+  Future<Map<String, Object?>> registerMobileApp(
+    Map<String, Object?> body,
+  ) async {
+    await _requireAuth();
+    return server.registerMobileApp(body);
   }
 
   @override

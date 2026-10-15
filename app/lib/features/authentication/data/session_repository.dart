@@ -111,6 +111,8 @@ class SessionRepository {
   Future<ServerProfile?> signOut(ServerProfile? profile) async {
     if (profile != null) {
       await _credentials.deleteCredential(profile.id);
+      // The mobile_app webhook id of this home is a secret as well.
+      await _credentials.deleteCredential('mobile_app::${profile.id}');
       await _cache.clear(profile.id);
       await _writeSaved(_saved()..removeWhere((p) => p.id == profile.id));
       final names = homeNames()..remove(profile.id);

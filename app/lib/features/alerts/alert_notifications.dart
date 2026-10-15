@@ -28,6 +28,10 @@ abstract interface class AlertNotifier {
 
   Future<void> show(String deviceId, String title, String body);
 
+  /// A message sent by a Home Assistant automation (`notify.mobile_app_…`),
+  /// on its own, less intrusive channel.
+  Future<void> showMessage(String key, String? title, String body);
+
   Future<void> cancel(String deviceId);
 }
 
@@ -44,8 +48,14 @@ class LocalAlertNotifier implements AlertNotifier {
   // Stable per device, so an alert is replaced rather than repeated.
   static int _id(String deviceId) => deviceId.hashCode & 0x7fffffff;
 
+  bool _initialized = false;
+  void Function(String deviceId)? _onTap;
+
   @override
   Future<void> initialize(void Function(String deviceId) onTap) async {
+    _onTap = onTap;
+    if (_initialized) return;
+    _initialized = true;
     try {
       await _plugin.initialize(
         settings: const InitializationSettings(
@@ -59,7 +69,7 @@ class LocalAlertNotifier implements AlertNotifier {
         ),
         onDidReceiveNotificationResponse: (r) {
           final id = r.payload;
-          if (id != null && id.isNotEmpty) onTap(id);
+          if (id != null && id.isNotEmpty) _onTap?.call(id);
         },
       );
     } on Object catch (e) {
@@ -114,6 +124,30 @@ class LocalAlertNotifier implements AlertNotifier {
       );
     } on Object catch (e) {
       _log.warning('show failed', e.runtimeType);
+    }
+  }
+
+  @override
+  Future<void> showMessage(String key, String? title, String body) async {
+    try {
+      await _plugin.show(
+        id: _id(key),
+        title: title,
+        body: body,
+        notificationDetails: const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'ha_messages',
+            'Home Assistant',
+            channelDescription: 'Messages from Home Assistant automations',
+            importance: Importance.high,
+            priority: Priority.high,
+            visibility: NotificationVisibility.private,
+          ),
+          iOS: DarwinNotificationDetails(),
+        ),
+      );
+    } on Object catch (e) {
+      _log.warning('message failed', e.runtimeType);
     }
   }
 

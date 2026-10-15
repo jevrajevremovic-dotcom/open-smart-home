@@ -2484,6 +2484,51 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get oauthPageFailed =>
       'Stranica za prijavu Home Assistanta se nije učitala. Proverite vezu ili se prijavite tokenom ispod. (Sa samopotpisanim sertifikatom radi samo prijava tokenom.)';
+
+  @override
+  String get haPushTitle => 'Poruke iz Home Assistanta';
+
+  @override
+  String get haPushHint =>
+      'Neka HA automatizacije šalju obaveštenja na ovaj uređaj';
+
+  @override
+  String get haPushExplain =>
+      'Ovaj uređaj se dodaje u Home Assistant (integracija Mobile App). Automatizacije mu tada mogu slati poruke preko notify servisa. Stižu preko lokalne veze dok aplikacija radi, bez ikakvog cloud servisa.';
+
+  @override
+  String get haPushName => 'Ime uređaja u Home Assistantu';
+
+  @override
+  String get haPushDefaultName => 'Open Smart Home';
+
+  @override
+  String get haPushRegister => 'Dodaj u Home Assistant';
+
+  @override
+  String haPushReady(String service) {
+    return 'Automatizacije šalju poruke servisom $service';
+  }
+
+  @override
+  String get haPushCopy => 'Kopiraj ime servisa';
+
+  @override
+  String get haPushCopied => 'Ime servisa je kopirano.';
+
+  @override
+  String get haPushTest => 'Pošalji probnu poruku';
+
+  @override
+  String get haPushTestMessage =>
+      'Poruke iz Home Assistanta stižu na ovaj uređaj.';
+
+  @override
+  String get haPushForget => 'Prestani da primaš poruke';
+
+  @override
+  String get haPushForgetHint =>
+      'Aplikacija prestaje da sluša poruke. Da biste uređaj potpuno uklonili, obrišite ga u Home Assistantu: Podešavanja → Uređaji i servisi → Mobile App.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

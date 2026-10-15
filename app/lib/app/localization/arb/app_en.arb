@@ -1116,5 +1116,25 @@
   "clapOpenScreen": "opens its screen",
   "clapSearch": "Search devices",
   "oauthHintNative": "Sign in on your Home Assistant's own login page with your user name and password. The app receives only a one-time code and keeps no password; no long-lived token is needed.",
-  "oauthPageFailed": "Home Assistant's login page did not load. Check the connection, or sign in with a token below. (A self-signed certificate works only with a token.)"
+  "oauthPageFailed": "Home Assistant's login page did not load. Check the connection, or sign in with a token below. (A self-signed certificate works only with a token.)",
+  "haPushTitle": "Messages from Home Assistant",
+  "haPushHint": "Let Home Assistant automations send notifications to this device",
+  "haPushExplain": "This device is added to Home Assistant (Mobile App integration). Automations can then send it messages with a notify service. They arrive over the local connection while the app is running, without any cloud service.",
+  "haPushName": "Device name in Home Assistant",
+  "haPushDefaultName": "Open Smart Home",
+  "haPushRegister": "Add to Home Assistant",
+  "haPushReady": "Automations send messages with {service}",
+  "@haPushReady": {
+    "placeholders": {
+      "service": {
+        "type": "String"
+      }
+    }
+  },
+  "haPushCopy": "Copy the service name",
+  "haPushCopied": "Service name copied.",
+  "haPushTest": "Send a test message",
+  "haPushTestMessage": "Messages from Home Assistant arrive on this device.",
+  "haPushForget": "Stop messages",
+  "haPushForgetHint": "The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App."
 }

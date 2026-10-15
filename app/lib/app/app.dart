@@ -9,6 +9,7 @@ import '../features/app_lock/application/app_lock.dart';
 import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/authentication/application/session_controller.dart';
 import '../features/connection/application/connection_route.dart';
+import '../features/ha_notify/ha_push.dart';
 import '../features/authentication/data/session_repository.dart';
 import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
@@ -90,9 +91,11 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
-      builder: (context, child) => AlertNotificationsHost(
-        child: ShortcutsHost(
-          child: AppLockGate(child: child ?? const SizedBox()),
+      builder: (context, child) => HaPushHost(
+        child: AlertNotificationsHost(
+          child: ShortcutsHost(
+            child: AppLockGate(child: child ?? const SizedBox()),
+          ),
         ),
       ),
     );

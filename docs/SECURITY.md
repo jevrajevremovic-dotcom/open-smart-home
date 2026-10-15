@@ -126,6 +126,13 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Cilj može biti bilo koji uređaj (izbor korisnika). Kritične radnje — otključavanje, otvaranje garaže, isključivanje alarma — idu istim putem kao dodir: potvrda na ekranu (i opciono otisak/lice), pa zvuk spolja ili sa TV-a sam ne može da otključa vrata.
 - Podešavanje se ne prenosi „Prenosom podešavanja” na drugi uređaj.
 
+## Poruke iz Home Assistanta (mobile_app)
+
+- Po želji: korisnik imenuje uređaj i dodaje ga u HA; tek tada sistem traži dozvolu za obaveštenja.
+- `webhook_id` iz odgovora je tajna (preko njega se šalju podaci HA-u bez prijave), pa se čuva u Keystore/Keychain zajedno sa tokenom i briše pri odjavi. Aplikacija sama ne šalje ništa na webhook.
+- `supports_encryption: false`, bez senzora i lokacije: registracija služi samo za `notify`; poruke stižu preko već autentifikovane WebSocket veze (`push_websocket_channel`), ne preko clouda.
+- „Prestani da primaš poruke” briše lokalnu registraciju; sam uređaj se uklanja u HA (Mobile App integracija).
+
 ## Kiosk PIN
 - PIN (4–8 cifara) štiti samo izlazak iz kiosk režima na tom uređaju; nije pristupni podatak za server.
 - Čuva se isključivo kao PBKDF2-HMAC-SHA256 heš (20 000 iteracija, nasumična so od 16 bajtova), a poredi se u konstantnom vremenu.

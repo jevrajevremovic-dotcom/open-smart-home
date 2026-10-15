@@ -229,6 +229,25 @@ class DioHomeAssistantApi implements HomeAssistantApi {
   }
 
   @override
+  Future<Map<String, Object?>> registerMobileApp(
+    Map<String, Object?> body,
+  ) async {
+    final response = await _authorized(
+      'POST',
+      '/api/mobile_app/registrations',
+      data: body,
+    );
+    if (response is! Map<String, Object?> ||
+        response['webhook_id'] is! String) {
+      throw const AppFailure(
+        FailureKind.parsing,
+        debugMessage: 'registration answer without webhook_id',
+      );
+    }
+    return response;
+  }
+
+  @override
   Future<void> saveAutomation(String id, Map<String, Object?> config) async {
     await _authorized('POST', _automationPath(id), data: config);
   }

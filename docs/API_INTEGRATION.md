@@ -68,6 +68,12 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 `config/entity_registry/update` (`entity_id`, `name`, `area_id`) i `config/device_registry/update` (`device_id`, `name_by_user`, `area_id`) takođe koristi frontend i nije u developer dokumentaciji; aplikacija ga koristi samo u koraku „Dodaj uređaj → Podesi” (ime i prostorija novog uređaja). Ako ne uspe (npr. korisnik nije administrator), poruka upućuje na HA podešavanja.
 
+## Poruke iz HA (mobile_app, dokumentovani native app API)
+
+- `POST /api/mobile_app/registrations` sa `app_data: {push_websocket_channel: true}` → `webhook_id` (tajna, Keystore/Keychain).
+- WebSocket `mobile_app/push_notification_channel` (`webhook_id`, `support_confirm: true`) → događaji `{message, title?, data?, hass_confirm_id}`; potvrda `mobile_app/push_notification_confirm`. Posle prekida veze pretplata se obnavlja.
+- Automatizacije: `notify.mobile_app_<slug imena uređaja>`.
+
 ## Automatizacije (jednostavan editor)
 
 - REST HA frontenda `GET` / `POST` / `DELETE /api/config/automation/config/<id>` (administrator; ID se proverava `[A-Za-z0-9_]`). HA posle čuvanja sam ponovo učitava automatizacije.

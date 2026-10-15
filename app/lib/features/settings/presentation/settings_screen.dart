@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../alerts/alert_notifications.dart';
 import '../../connection/presentation/remote_address.dart';
+import '../../ha_notify/ha_push_tile.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
@@ -144,6 +145,7 @@ class SettingsScreen extends ConsumerWidget {
                   if (!(ref.watch(deviceAuthAvailableProvider).value ?? false))
                     section(l10n.securitySection),
                   const RestrictedSettingsTile(),
+                  const HaPushTile(),
                   if (ref.watch(alertNotifierProvider).supported)
                     SwitchListTile(
                       key: const Key('alertNotifySwitch'),

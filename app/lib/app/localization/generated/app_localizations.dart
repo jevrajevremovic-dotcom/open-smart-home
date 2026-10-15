@@ -4400,6 +4400,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home Assistant\'s login page did not load. Check the connection, or sign in with a token below. (A self-signed certificate works only with a token.)'**
   String get oauthPageFailed;
+
+  /// No description provided for @haPushTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages from Home Assistant'**
+  String get haPushTitle;
+
+  /// No description provided for @haPushHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Let Home Assistant automations send notifications to this device'**
+  String get haPushHint;
+
+  /// No description provided for @haPushExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'This device is added to Home Assistant (Mobile App integration). Automations can then send it messages with a notify service. They arrive over the local connection while the app is running, without any cloud service.'**
+  String get haPushExplain;
+
+  /// No description provided for @haPushName.
+  ///
+  /// In en, this message translates to:
+  /// **'Device name in Home Assistant'**
+  String get haPushName;
+
+  /// No description provided for @haPushDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Smart Home'**
+  String get haPushDefaultName;
+
+  /// No description provided for @haPushRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Home Assistant'**
+  String get haPushRegister;
+
+  /// No description provided for @haPushReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Automations send messages with {service}'**
+  String haPushReady(String service);
+
+  /// No description provided for @haPushCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy the service name'**
+  String get haPushCopy;
+
+  /// No description provided for @haPushCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Service name copied.'**
+  String get haPushCopied;
+
+  /// No description provided for @haPushTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a test message'**
+  String get haPushTest;
+
+  /// No description provided for @haPushTestMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages from Home Assistant arrive on this device.'**
+  String get haPushTestMessage;
+
+  /// No description provided for @haPushForget.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop messages'**
+  String get haPushForget;
+
+  /// No description provided for @haPushForgetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App.'**
+  String get haPushForgetHint;
 }
 
 class _AppLocalizationsDelegate

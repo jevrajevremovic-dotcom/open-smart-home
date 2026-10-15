@@ -99,6 +99,10 @@ abstract interface class HomeAssistantApi {
   Future<HaFlowStep> configFlowSubmit(String flowId, Map<String, Object?> data);
   Future<void> configFlowAbort(String flowId);
 
+  /// `POST /api/mobile_app/registrations` (documented native app API):
+  /// registers this app; the answer holds `webhook_id`, a secret.
+  Future<Map<String, Object?>> registerMobileApp(Map<String, Object?> body);
+
   /// Creates or replaces a UI automation (frontend REST API
   /// `/api/config/automation/config/<id>`; admin only).
   Future<void> saveAutomation(String id, Map<String, Object?> config);

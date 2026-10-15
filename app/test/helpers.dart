@@ -160,6 +160,12 @@ class FakeAlertNotifier implements AlertNotifier {
   Future<void> cancel(String deviceId) async => shown.remove(deviceId);
 
   void tap(String deviceId) => _onTap?.call(deviceId);
+
+  final List<(String?, String)> messages = [];
+
+  @override
+  Future<void> showMessage(String key, String? title, String body) async =>
+      messages.add((title, body));
 }
 
 /// Records launcher shortcuts and lets tests "tap" one.

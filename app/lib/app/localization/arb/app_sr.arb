@@ -764,5 +764,7 @@
   "dashCardMedia": "Sada svira",
   "dashCardNotifications": "Obaveštenja iz Home Assistanta",
   "dashCardShortcuts": "Energija, kalendar, aktivnost",
-  "dashCardAttention": "Potrebna pažnja (baterije, nedostupni)"
+  "dashCardAttention": "Potrebna pažnja (baterije, nedostupni)",
+  "kioskPopupLive": "Video uživo",
+  "kioskPopupLiveHint": "Kad kamera nudi stream; dok se ne pokrene, ili ako ne može, prikazuju se snimci."
 }

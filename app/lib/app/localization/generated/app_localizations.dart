@@ -4688,6 +4688,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Needs attention (batteries, unavailable)'**
   String get dashCardAttention;
+
+  /// No description provided for @kioskPopupLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Live video'**
+  String get kioskPopupLive;
+
+  /// No description provided for @kioskPopupLiveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When the camera offers a stream; until it starts, and otherwise, snapshots are shown.'**
+  String get kioskPopupLiveHint;
 }
 
 class _AppLocalizationsDelegate

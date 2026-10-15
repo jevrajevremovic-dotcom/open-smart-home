@@ -33,9 +33,13 @@ final cameraStreamUrlProvider = FutureProvider.autoDispose.family<Uri, String>((
 bool get liveVideoSupported => !kIsWeb;
 
 class LiveCameraView extends ConsumerStatefulWidget {
-  const LiveCameraView({super.key, required this.cameraId});
+  const LiveCameraView({super.key, required this.cameraId, this.fallback});
 
   final String cameraId;
+
+  /// Shown while the video starts and instead of the error when it cannot
+  /// play (e.g. snapshots), so the screen is never empty.
+  final Widget? fallback;
 
   @override
   ConsumerState<LiveCameraView> createState() => _LiveCameraViewState();
@@ -83,6 +87,14 @@ class _LiveCameraViewState extends ConsumerState<LiveCameraView> {
     final url = ref.watch(cameraStreamUrlProvider(widget.cameraId));
     final controller = _controller;
     final failed = _failed || url.hasError;
+    final playing = controller != null && controller.value.isInitialized;
+    final fallback = widget.fallback;
+    if (fallback != null && (failed || !playing)) {
+      return KeyedSubtree(
+        key: const Key('cameraLiveFallback'),
+        child: fallback,
+      );
+    }
     return ColoredBox(
       color: Colors.black,
       child: failed

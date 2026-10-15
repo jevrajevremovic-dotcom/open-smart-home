@@ -2659,6 +2659,13 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get dashCardAttention => 'Potrebna pažnja (baterije, nedostupni)';
+
+  @override
+  String get kioskPopupLive => 'Video uživo';
+
+  @override
+  String get kioskPopupLiveHint =>
+      'Kad kamera nudi stream; dok se ne pokrene, ili ako ne može, prikazuju se snimci.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

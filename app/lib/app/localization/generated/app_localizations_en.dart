@@ -2649,4 +2649,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashCardAttention => 'Needs attention (batteries, unavailable)';
+
+  @override
+  String get kioskPopupLive => 'Live video';
+
+  @override
+  String get kioskPopupLiveHint =>
+      'When the camera offers a stream; until it starts, and otherwise, snapshots are shown.';
 }

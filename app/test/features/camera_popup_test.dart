@@ -56,6 +56,8 @@ void main() {
     await settle(tester, 4);
     expect(find.byKey(const Key('kioskCameraPopup')), findsOneWidget);
     expect(find.text('Ulazna vrata'), findsWidgets);
+    // The mock offers no stream: snapshots stand in for the live video.
+    expect(find.byKey(const Key('cameraLiveFallback')), findsOneWidget);
     await tester.tap(find.byKey(const Key('kioskPopupClose')));
     await settle(tester, 2);
     expect(find.byKey(const Key('kioskCameraPopup')), findsNothing);

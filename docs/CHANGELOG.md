@@ -9,6 +9,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Iskačuća kamera prikazuje video uživo (HLS, kad kamera nudi stream), a dok se video pokreće ili ako ne može, snimke — ekran nikad nije prazan; prekidač „Video uživo” u podešavanjima.
 - Prilagodljiv početni ekran (Podešavanja → Izgled → Početni ekran): skrivanje i redosled kartica (pregled, vreme, muzika, obaveštenja, prečice, scene, pažnja, omiljeni, prostorije) prevlačenjem ili strelicom; upozorenja uvek ostaju na vrhu; prenosi se „Prenosom podešavanja”.
 - Kiosk: osvetljenost ekrana — čuvar ekrana spušta osvetljenje na minimum (podrazumevano uključeno), a „Tamnije noću” u zadato vreme (i preko ponoći) postavlja izabrani nivo. Menja se samo prozor aplikacije, nikad sistemsko podešavanje; po izlasku iz kioska vraća se sistemska osvetljenost.
 - Kiosk: iskačuća kamera — kad se oglasi izabrano zvono (HA `event` doorbell), senzor pokreta/prisustva ili kontakt vrata/kapije, kiosk se probudi iz zatamnjenja i prikaže izabranu kameru preko celog ekrana na 30 s – 5 min (zatvara se i dodirom). Reaguje samo na promene uživo, ne na stanje iz keša pri pokretanju.

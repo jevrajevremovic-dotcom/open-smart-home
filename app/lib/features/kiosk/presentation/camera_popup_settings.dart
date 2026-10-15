@@ -51,6 +51,7 @@ class _CameraPopupDialogState extends ConsumerState<_CameraPopupDialog> {
   late String? _camera = _initial.popupCameraId;
   late final Set<String> _triggers = {..._initial.popupTriggerIds};
   late int _seconds = _initial.popupSeconds;
+  late bool _live = _initial.popupLive;
 
   Future<void> _save() async {
     final navigator = Navigator.of(context);
@@ -62,6 +63,7 @@ class _CameraPopupDialogState extends ConsumerState<_CameraPopupDialog> {
             clearPopupCamera: _camera == null,
             popupTriggerIds: _triggers.toList(),
             popupSeconds: _seconds,
+            popupLive: _live,
           ),
         );
     navigator.pop();
@@ -120,7 +122,15 @@ class _CameraPopupDialogState extends ConsumerState<_CameraPopupDialog> {
               ],
               onChanged: (v) => setState(() => _seconds = v ?? _seconds),
             ),
-            const SizedBox(height: 16),
+            SwitchListTile(
+              key: const Key('kioskPopupLive'),
+              contentPadding: EdgeInsets.zero,
+              title: Text(l10n.kioskPopupLive),
+              subtitle: Text(l10n.kioskPopupLiveHint),
+              value: _live,
+              onChanged: (v) => setState(() => _live = v),
+            ),
+            const SizedBox(height: 8),
             Text(l10n.kioskPopupTriggers, style: theme.textTheme.titleSmall),
             for (final d in triggers)
               CheckboxListTile(

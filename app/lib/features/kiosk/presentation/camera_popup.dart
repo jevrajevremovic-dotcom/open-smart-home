@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../cameras/presentation/camera_view.dart';
+import '../../cameras/presentation/live_camera.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/data/home_state_repository.dart';
 import '../../devices/domain/device_kind.dart';
@@ -159,10 +160,18 @@ class _KioskCameraPopupState extends ConsumerState<KioskCameraPopup> {
                       child: Center(
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
-                          child: CameraPicture(
-                            cameraId: cameraId,
-                            fit: BoxFit.contain,
-                          ),
+                          child: settings.popupLive && liveVideoSupported
+                              ? LiveCameraView(
+                                  cameraId: cameraId,
+                                  fallback: CameraPicture(
+                                    cameraId: cameraId,
+                                    fit: BoxFit.contain,
+                                  ),
+                                )
+                              : CameraPicture(
+                                  cameraId: cameraId,
+                                  fit: BoxFit.contain,
+                                ),
                         ),
                       ),
                     ),

@@ -1219,5 +1219,7 @@
   "dashCardMedia": "Now playing",
   "dashCardNotifications": "Notifications from Home Assistant",
   "dashCardShortcuts": "Energy, calendar, activity",
-  "dashCardAttention": "Needs attention (batteries, unavailable)"
+  "dashCardAttention": "Needs attention (batteries, unavailable)",
+  "kioskPopupLive": "Live video",
+  "kioskPopupLiveHint": "When the camera offers a stream; until it starts, and otherwise, snapshots are shown."
 }

@@ -28,6 +28,7 @@ class KioskSettings {
     this.popupTriggerIds = const [],
     this.popupCameraId,
     this.popupSeconds = 60,
+    this.popupLive = true,
     this.nightBrightness = false,
     this.nightFrom = 22 * 60,
     this.nightTo = 7 * 60,
@@ -81,6 +82,7 @@ class KioskSettings {
       popupCameraId: json['popupCameraId'] is String
           ? json['popupCameraId']! as String
           : null,
+      popupLive: json['popupLive'] != false,
       popupSeconds: switch (json['popupSeconds']) {
         final int s when popupOptions.contains(s) => s,
         _ => d.popupSeconds,
@@ -133,6 +135,9 @@ class KioskSettings {
   final List<String> popupTriggerIds;
   final String? popupCameraId;
   final int popupSeconds;
+
+  /// Live video in the pop-up when the camera offers it (else snapshots).
+  final bool popupLive;
   static const popupOptions = [30, 60, 120, 300];
 
   bool get hasPopup => popupCameraId != null && popupTriggerIds.isNotEmpty;
@@ -207,6 +212,7 @@ class KioskSettings {
     String? popupCameraId,
     bool clearPopupCamera = false,
     int? popupSeconds,
+    bool? popupLive,
     bool? nightBrightness,
     int? nightFrom,
     int? nightTo,
@@ -223,6 +229,7 @@ class KioskSettings {
         ? null
         : (popupCameraId ?? this.popupCameraId),
     popupSeconds: popupSeconds ?? this.popupSeconds,
+    popupLive: popupLive ?? this.popupLive,
     clapEnabled: clapEnabled ?? this.clapEnabled,
     clapTargetId: clapTargetId ?? this.clapTargetId,
     clapSensitivity: clapSensitivity ?? this.clapSensitivity,
@@ -259,6 +266,7 @@ class KioskSettings {
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,
+    'popupLive': popupLive,
     'nightBrightness': nightBrightness,
     'nightFrom': nightFrom,
     'nightTo': nightTo,

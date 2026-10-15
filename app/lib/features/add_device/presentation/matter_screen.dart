@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,6 +34,7 @@ enum _Phase { input, adding, done, failed }
 class _MatterPairingScreenState extends ConsumerState<MatterPairingScreen> {
   final _code = TextEditingController();
   String? _codeError;
+  String? _newError;
   _Phase _phase = _Phase.input;
   late final Set<String> _known = {
     for (final d in ref.read(homeSnapshotProvider).devices.values) d.id,
@@ -56,6 +58,32 @@ class _MatterPairingScreenState extends ConsumerState<MatterPairingScreen> {
     if (scanned != null && mounted) {
       _code.text = scanned;
       await _add();
+    }
+  }
+
+  Future<void> _addNew() async {
+    final l10n = context.l10n;
+    final ws = ref.read(webSocketManagerProvider);
+    if (ws == null) return;
+    final platform = ref.read(matterNewDeviceProvider);
+    platform.onCommissionRequest(
+      (pin, ip) => MatterCommissioner(ws).commissionOnNetwork(pin, ip),
+    );
+    setState(() {
+      _newError = null;
+      _phase = _Phase.adding;
+    });
+    try {
+      final added = await platform.commissionNewDevice();
+      if (mounted) setState(() => _phase = added ? _Phase.done : _Phase.input);
+    } on PlatformException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _phase = _Phase.input;
+        _newError = e.code == 'unavailable'
+            ? l10n.matterNoPlayServices
+            : l10n.matterNewFailed;
+      });
     }
   }
 
@@ -100,6 +128,26 @@ class _MatterPairingScreenState extends ConsumerState<MatterPairingScreen> {
           if (available == false)
             InlineNotice.warning(l10n.matterNotAvailable)
           else ...[
+            if (ref.watch(matterNewDeviceProvider).supported &&
+                _phase != _Phase.done) ...[
+              Text(l10n.matterNewTitle, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 6),
+              Text(l10n.matterNewHint),
+              const SizedBox(height: 12),
+              FilledButton.icon(
+                key: const Key('matterNewDevice'),
+                onPressed: _phase == _Phase.adding ? null : _addNew,
+                icon: const Icon(Icons.bluetooth_searching),
+                label: Text(l10n.matterNewButton),
+              ),
+              if (_newError != null) ...[
+                const SizedBox(height: 12),
+                InlineNotice.error(_newError!),
+              ],
+              const Divider(height: 40),
+              Text(l10n.matterSharedTitle, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 6),
+            ],
             Text(l10n.matterIntro, style: theme.textTheme.bodyLarge),
             const SizedBox(height: 16),
             for (final (i, s) in steps.indexed)
@@ -188,13 +236,15 @@ class _MatterPairingScreenState extends ConsumerState<MatterPairingScreen> {
                 ),
               ),
             ],
-            const SizedBox(height: 24),
-            Text(
-              l10n.matterNewDeviceNote,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+            if (!ref.watch(matterNewDeviceProvider).supported) ...[
+              const SizedBox(height: 24),
+              Text(
+                l10n.matterNewDeviceNote,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
+            ],
           ],
         ],
       ),

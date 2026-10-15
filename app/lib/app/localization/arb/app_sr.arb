@@ -488,7 +488,7 @@
   "matterStep1": "U toj aplikaciji otvorite uređaj i izaberite da ga podelite sa drugom aplikacijom ili kontrolerom („Povezane Matter aplikacije”, „Uključi režim uparivanja”).",
   "matterStep2": "Skenirajte QR kod koji se prikaže ili unesite 11-cifreni kod.",
   "matterStep3": "Home Assistant tada dodaje uređaj preko vaše mreže; obe aplikacije mogu da ga kontrolišu.",
-  "matterNewDeviceNote": "Potpuno novi Matter uređaji koji se uparuju preko Bluetooth-a za sada zahtevaju Home Assistant Companion aplikaciju.",
+  "matterNewDeviceNote": "Potpuno novi Matter uređaji preko Bluetooth-a dodaju se iz Android aplikacije.",
   "matterCodeLabel": "Kod za uparivanje",
   "matterCodeHint": "1234-567-8901 ili MT:…",
   "matterInvalidCode": "To nije ispravan Matter kod. Proverite cifre.",
@@ -776,5 +776,11 @@
   "timerTurnsOffAt": "Isključuje se u {time}",
   "timerTurnsOnAt": "Uključuje se u {time}",
   "timerNeedsAdmin": "Za tajmer je potreban administratorski nalog u Home Assistantu.",
-  "energyShareOfHome": "{percent} % doma"
+  "energyShareOfHome": "{percent} % doma",
+  "matterNewTitle": "Novi Matter uređaj",
+  "matterNewHint": "Potpuno nov, sa QR kodom na sebi ili kutiji. Google Play services ga podešava preko Bluetooth-a i dodaje na vašu Wi-Fi ili Thread mrežu, a zatim ga preuzima Home Assistant. Držite telefon blizu uređaja.",
+  "matterNewButton": "Dodaj novi Matter uređaj",
+  "matterNoPlayServices": "Novi Matter uređaji se na Androidu dodaju preko Google Play services, koji ovde nisu dostupni (npr. emulator ili telefon bez Google servisa). Koristite zvaničnu Home Assistant aplikaciju ili podelite uređaj iz druge Matter aplikacije ispod.",
+  "matterNewFailed": "Uređaj nije dodat. Resetujte ga (vidi uputstvo) i pokušajte ponovo blizu telefona. Thread uređajima treba i Thread border router poznat ovom telefonu.",
+  "matterSharedTitle": "Uređaj je već u drugoj aplikaciji"
 }

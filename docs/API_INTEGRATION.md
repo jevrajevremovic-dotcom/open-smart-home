@@ -102,6 +102,12 @@ actions:
       entity_id: light.hallway
 ```
 
+## Matter preko Bluetooth-a (Android)
+
+- Google Play services: `Matter.getCommissioningClient(activity).commissionDevice(CommissioningRequest{commissioningService = MatterCommissioningService})` → Googleovi ekrani (QR, BLE, Wi-Fi/Thread).
+- `MatterCommissioningService.onCommissioningRequested(metadata)` → Flutter → WS `matter/commission_on_network` (`pin` = `metadata.passcode`, `ip_addr` = adresa uređaja; link-local/scoped IPv6 se izostavlja pa ga server sam pronalazi) → `sendCommissioningComplete` ili `sendCommissioningError(OTHER)`.
+- Zahteva administratorski nalog u HA i Matter integraciju; Thread uređajima treba Thread border router poznat telefonu.
+
 ## Tajmer uređaja
 
 - `POST /api/config/script/config/osh_timer_<entity>` (frontend API, admin): `mode: restart`, `sequence: [delay {minutes: "{{ minutes | int(0) }}"}, choose (service == 'turn_on') → homeassistant.turn_on, inače homeassistant.turn_off]`, cilj = entitet uređaja.

@@ -24,7 +24,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Izmena imena i prostorije uređaja iz aplikacije
 
 **Dodavanje uređaja (preko huba)**
-- Zigbee (ZHA ili Zigbee2MQTT) sa odbrojavanjem; Wi-Fi/LAN uređaji koje je HA pronašao, sa vođenim podešavanjem; Matter deljen iz druge aplikacije (QR ili kod); Z-Wave sa S2 bezbednošću i SmartStart QR
+- Zigbee (ZHA ili Zigbee2MQTT) sa odbrojavanjem; Wi-Fi/LAN uređaji koje je HA pronašao, sa vođenim podešavanjem; Matter: novi uređaji preko Bluetooth-a (Android, Google Play services) ili deljeni iz druge aplikacije (QR ili kod); Z-Wave sa S2 bezbednošću i SmartStart QR
 
 **Početni ekran i kiosk (zidni tablet)**
 - Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”

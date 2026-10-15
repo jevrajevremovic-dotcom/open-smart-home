@@ -1,3 +1,7 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
+
 import '../../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
 
 /// Matter setup codes: the QR payload (`MT:…`) or the 11/21-digit manual
@@ -75,4 +79,62 @@ class MatterCommissioner {
     'code': code,
     'network_only': true,
   });
+
+  /// A new device Google Play services just brought onto the network:
+  /// its commissioning window is open with [pin]. A link-local or scoped
+  /// IPv6 [ip] means nothing to the server, which then finds it itself.
+  Future<void> commissionOnNetwork(int pin, String? ip) => _ws.sendCommand({
+    'type': 'matter/commission_on_network',
+    'pin': pin,
+    if (ip != null &&
+        ip.isNotEmpty &&
+        !ip.contains('%') &&
+        !ip.toLowerCase().startsWith('fe80'))
+      'ip_addr': ip,
+  });
 }
+
+/// Adding a brand-new Matter device over Bluetooth (Android): Google Play
+/// services runs the setup screens, then hands the device to the app
+/// (MatterCommissioningService.kt), which asks Home Assistant to take it.
+abstract interface class MatterNewDevicePlatform {
+  bool get supported;
+
+  /// Runs Google's setup screens; `true` when the device was added.
+  Future<bool> commissionNewDevice();
+
+  /// Called by Google's hand-over with the device's pin and address.
+  void onCommissionRequest(Future<void> Function(int pin, String? ip) handler);
+}
+
+class AndroidMatterNewDevice implements MatterNewDevicePlatform {
+  static const _channel = MethodChannel('org.opensmarthome/matter');
+
+  @override
+  bool get supported =>
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
+  @override
+  Future<bool> commissionNewDevice() async =>
+      await _channel.invokeMethod<bool>('commissionNewDevice') ?? false;
+
+  @override
+  void onCommissionRequest(
+    Future<void> Function(int pin, String? ip) handler,
+  ) => _channel.setMethodCallHandler((call) async {
+    if (call.method != 'commissionOnNetwork') return null;
+    final args = call.arguments;
+    final map = args is Map ? args : const <Object?, Object?>{};
+    final pin = map['pin'];
+    if (pin is! int) {
+      throw PlatformException(code: 'bad_args', message: 'pin missing');
+    }
+    final ip = map['ip'];
+    await handler(pin, ip is String ? ip : null);
+    return true;
+  });
+}
+
+final matterNewDeviceProvider = Provider<MatterNewDevicePlatform>(
+  (ref) => AndroidMatterNewDevice(),
+);

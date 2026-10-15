@@ -702,6 +702,9 @@ class MockHomeAssistantServer {
 
   /// `matter/commission` for a shared device: any well-formed code works
   /// once; `00000000000`-like codes fail as if the device were unreachable.
+  /// `ip_addr` of the last `matter/commission_on_network` (tests).
+  String? lastMatterIp;
+
   bool commissionMatter(String code) {
     if (code.startsWith('0000') || _states.containsKey('switch.eve_energy')) {
       return false;
@@ -1475,6 +1478,22 @@ class _MockSocket implements HaSocket {
       case 'matter/commission':
         final code = msg['code'];
         if (code is String && _server.commissionMatter(code)) {
+          _emit(ok(null));
+        } else {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {
+              'code': 'unknown_error',
+              'message': 'Commissioning failed',
+            },
+          });
+        }
+      case 'matter/commission_on_network':
+        final pin = msg['pin'];
+        _server.lastMatterIp = msg['ip_addr'] as String?;
+        if (pin is int && _server.commissionMatter('$pin')) {
           _emit(ok(null));
         } else {
           _emit({

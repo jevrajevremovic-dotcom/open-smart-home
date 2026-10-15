@@ -1,5 +1,8 @@
+import 'package:flutter/services.dart';
+
 import 'dart:async';
 
+import 'package:open_smart_home/features/add_device/data/matter_pairing.dart';
 import 'package:open_smart_home/features/clap/clap_platform.dart';
 import 'package:open_smart_home/features/ha_notify/ha_push.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
@@ -105,6 +108,7 @@ Future<List<Override>> testOverrides({
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
   BackgroundConnectionPlatform? background,
+  MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -129,6 +133,9 @@ Future<List<Override>> testOverrides({
     deviceAuthProvider.overrideWithValue(deviceAuth ?? FakeDeviceAuth()),
     appShortcutsPlatformProvider.overrideWithValue(
       shortcuts ?? FakeShortcuts(supported: false),
+    ),
+    matterNewDeviceProvider.overrideWithValue(
+      matter ?? FakeMatterNewDevice(supported: false),
     ),
     backgroundConnectionProvider.overrideWithValue(
       background ?? FakeBackgroundConnection(supported: false),
@@ -297,4 +304,33 @@ class FakeBackgroundConnection implements BackgroundConnectionPlatform {
 
   @override
   Future<void> stop() async => running = false;
+}
+
+/// Plays Google's part of adding a new Matter device: hands over [pin].
+class FakeMatterNewDevice implements MatterNewDevicePlatform {
+  FakeMatterNewDevice({this.supported = true, this.pin = 20202021, this.error});
+
+  @override
+  final bool supported;
+  final int pin;
+
+  /// Platform error code to throw instead (e.g. `unavailable`).
+  final String? error;
+  Future<void> Function(int pin, String? ip)? _handler;
+
+  @override
+  void onCommissionRequest(
+    Future<void> Function(int pin, String? ip) handler,
+  ) => _handler = handler;
+
+  @override
+  Future<bool> commissionNewDevice() async {
+    if (error != null) throw PlatformException(code: error!);
+    try {
+      await _handler!(pin, 'fe80::1%wlan0');
+      return true;
+    } on Object {
+      return false;
+    }
+  }
 }

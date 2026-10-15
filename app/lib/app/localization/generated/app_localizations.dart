@@ -3030,7 +3030,7 @@ abstract class AppLocalizations {
   /// No description provided for @matterNewDeviceNote.
   ///
   /// In en, this message translates to:
-  /// **'Brand-new Matter devices that pair over Bluetooth need Home Assistant\'s Companion app for now.'**
+  /// **'Brand-new Matter devices over Bluetooth can be added from the Android app.'**
   String get matterNewDeviceNote;
 
   /// No description provided for @matterCodeLabel.
@@ -4760,6 +4760,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{percent} % of the home'**
   String energyShareOfHome(int percent);
+
+  /// No description provided for @matterNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Matter device'**
+  String get matterNewTitle;
+
+  /// No description provided for @matterNewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of the box, with a QR code on it or its box. Google Play services sets it up over Bluetooth and puts it on your Wi-Fi or Thread network, then Home Assistant adds it. Keep the phone close to the device.'**
+  String get matterNewHint;
+
+  /// No description provided for @matterNewButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new Matter device'**
+  String get matterNewButton;
+
+  /// No description provided for @matterNoPlayServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding new Matter devices on Android goes through Google Play services, which are not available here (for example an emulator, or a phone without Google services). Use Home Assistant\'s own app, or share the device from another Matter app below.'**
+  String get matterNoPlayServices;
+
+  /// No description provided for @matterNewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The device was not added. Reset it (see its manual) and try again close to the phone. Thread devices also need a Thread border router known to this phone.'**
+  String get matterNewFailed;
+
+  /// No description provided for @matterSharedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Device already in another app'**
+  String get matterSharedTitle;
 }
 
 class _AppLocalizationsDelegate

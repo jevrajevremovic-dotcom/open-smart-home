@@ -1722,7 +1722,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get matterNewDeviceNote =>
-      'Potpuno novi Matter uređaji koji se uparuju preko Bluetooth-a za sada zahtevaju Home Assistant Companion aplikaciju.';
+      'Potpuno novi Matter uređaji preko Bluetooth-a dodaju se iz Android aplikacije.';
 
   @override
   String get matterCodeLabel => 'Kod za uparivanje';
@@ -2706,6 +2706,27 @@ class AppLocalizationsSr extends AppLocalizations {
   String energyShareOfHome(int percent) {
     return '$percent % doma';
   }
+
+  @override
+  String get matterNewTitle => 'Novi Matter uređaj';
+
+  @override
+  String get matterNewHint =>
+      'Potpuno nov, sa QR kodom na sebi ili kutiji. Google Play services ga podešava preko Bluetooth-a i dodaje na vašu Wi-Fi ili Thread mrežu, a zatim ga preuzima Home Assistant. Držite telefon blizu uređaja.';
+
+  @override
+  String get matterNewButton => 'Dodaj novi Matter uređaj';
+
+  @override
+  String get matterNoPlayServices =>
+      'Novi Matter uređaji se na Androidu dodaju preko Google Play services, koji ovde nisu dostupni (npr. emulator ili telefon bez Google servisa). Koristite zvaničnu Home Assistant aplikaciju ili podelite uređaj iz druge Matter aplikacije ispod.';
+
+  @override
+  String get matterNewFailed =>
+      'Uređaj nije dodat. Resetujte ga (vidi uputstvo) i pokušajte ponovo blizu telefona. Thread uređajima treba i Thread border router poznat ovom telefonu.';
+
+  @override
+  String get matterSharedTitle => 'Uređaj je već u drugoj aplikaciji';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -43,6 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Google Play services hands new Matter devices to this service. -->
+        <service
+            android:name=".MatterCommissioningService"
+            android:exported="true" />
         <service
             android:name=".ConnectionService"
             android:exported="false"

@@ -1713,7 +1713,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get matterNewDeviceNote =>
-      'Brand-new Matter devices that pair over Bluetooth need Home Assistant\'s Companion app for now.';
+      'Brand-new Matter devices over Bluetooth can be added from the Android app.';
 
   @override
   String get matterCodeLabel => 'Setup code';
@@ -2696,4 +2696,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String energyShareOfHome(int percent) {
     return '$percent % of the home';
   }
+
+  @override
+  String get matterNewTitle => 'New Matter device';
+
+  @override
+  String get matterNewHint =>
+      'Out of the box, with a QR code on it or its box. Google Play services sets it up over Bluetooth and puts it on your Wi-Fi or Thread network, then Home Assistant adds it. Keep the phone close to the device.';
+
+  @override
+  String get matterNewButton => 'Add a new Matter device';
+
+  @override
+  String get matterNoPlayServices =>
+      'Adding new Matter devices on Android goes through Google Play services, which are not available here (for example an emulator, or a phone without Google services). Use Home Assistant\'s own app, or share the device from another Matter app below.';
+
+  @override
+  String get matterNewFailed =>
+      'The device was not added. Reset it (see its manual) and try again close to the phone. Thread devices also need a Thread border router known to this phone.';
+
+  @override
+  String get matterSharedTitle => 'Device already in another app';
 }

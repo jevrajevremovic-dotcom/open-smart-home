@@ -1,6 +1,11 @@
 package org.opensmarthome.open_smart_home
 
 import android.Manifest
+import android.content.ComponentName
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.home.matter.Matter
+import com.google.android.gms.home.matter.commissioning.CommissioningRequest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.view.WindowManager
@@ -17,6 +22,14 @@ class MainActivity : FlutterFragmentActivity() {
     private var widget: MethodChannel? = null
     private var audio: AudioLevelHandler? = null
     private var micResult: MethodChannel.Result? = null
+    private var matterResult: MethodChannel.Result? = null
+
+    // Google's Matter screens (scan, Bluetooth, network) return here.
+    private val matterLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            matterResult?.success(result.resultCode == RESULT_OK)
+            matterResult = null
+        }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -50,6 +63,29 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
             result.success(null)
+        }
+
+        MethodChannel(messenger, MatterCommissioningService.CHANNEL).setMethodCallHandler { call, result ->
+            if (call.method != "commissionNewDevice") {
+                result.notImplemented()
+                return@setMethodCallHandler
+            }
+            val request = CommissioningRequest.builder()
+                .setCommissioningService(ComponentName(this, MatterCommissioningService::class.java))
+                .build()
+            Matter.getCommissioningClient(this)
+                .commissionDevice(request)
+                .addOnSuccessListener { sender ->
+                    matterResult?.success(false)
+                    matterResult = result
+                    matterLauncher.launch(IntentSenderRequest.Builder(sender).build())
+                }
+                // No Google Play services (or too old): the app says so.
+                .addOnFailureListener { e ->
+                    val status = (e as? com.google.android.gms.common.api.ApiException)?.statusCode
+                    android.util.Log.w("OpenSmartHome", "Matter commissioning unavailable: status=$status ${e.message}")
+                    result.error("unavailable", e.message, status)
+                }
         }
 
         MethodChannel(messenger, "org.opensmarthome/background").setMethodCallHandler { call, result ->

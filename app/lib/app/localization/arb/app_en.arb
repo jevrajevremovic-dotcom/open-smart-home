@@ -794,7 +794,7 @@
   "matterStep1": "In that app, open the device and choose to share it with another app or controller (\"Linked Matter apps\", \"Turn on pairing mode\").",
   "matterStep2": "Scan the QR code it shows, or type the 11-digit code.",
   "matterStep3": "Home Assistant then adds the device over your network; both apps can control it.",
-  "matterNewDeviceNote": "Brand-new Matter devices that pair over Bluetooth need Home Assistant's Companion app for now.",
+  "matterNewDeviceNote": "Brand-new Matter devices over Bluetooth can be added from the Android app.",
   "matterCodeLabel": "Setup code",
   "matterCodeHint": "1234-567-8901 or MT:…",
   "matterInvalidCode": "That isn't a valid Matter code. Check the digits.",
@@ -1259,5 +1259,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "matterNewTitle": "New Matter device",
+  "matterNewHint": "Out of the box, with a QR code on it or its box. Google Play services sets it up over Bluetooth and puts it on your Wi-Fi or Thread network, then Home Assistant adds it. Keep the phone close to the device.",
+  "matterNewButton": "Add a new Matter device",
+  "matterNoPlayServices": "Adding new Matter devices on Android goes through Google Play services, which are not available here (for example an emulator, or a phone without Google services). Use Home Assistant's own app, or share the device from another Matter app below.",
+  "matterNewFailed": "The device was not added. Reset it (see its manual) and try again close to the phone. Thread devices also need a Thread border router known to this phone.",
+  "matterSharedTitle": "Device already in another app"
 }

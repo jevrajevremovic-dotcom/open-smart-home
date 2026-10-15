@@ -25,6 +25,9 @@ class KioskShell extends ConsumerStatefulWidget {
 class _KioskShellState extends ConsumerState<KioskShell> {
   Timer? _returnTimer;
   Timer? _dimTimer;
+  Timer? _clock;
+  double? _brightness;
+  bool _brightnessSet = false;
   bool _dimmed = false;
   late final KioskPlatform _platform = ref.read(kioskPlatformProvider);
 
@@ -36,10 +39,28 @@ class _KioskShellState extends ConsumerState<KioskShell> {
       _platform.keepScreenOn(ref.read(kioskSettingsProvider).keepScreenOn),
     );
     _restartTimers();
+    // Night starts and ends while nobody touches the panel.
+    _clock = Timer.periodic(
+      const Duration(minutes: 1),
+      (_) => _applyBrightness(),
+    );
+    _applyBrightness();
+  }
+
+  void _applyBrightness() {
+    final level = ref
+        .read(kioskSettingsProvider)
+        .brightnessAt(DateTime.now(), dimmed: _dimmed);
+    if (_brightnessSet && level == _brightness) return;
+    _brightnessSet = true;
+    _brightness = level;
+    unawaited(_platform.setBrightness(level));
   }
 
   @override
   void dispose() {
+    _clock?.cancel();
+    if (_brightness != null) unawaited(_platform.setBrightness(null));
     _returnTimer?.cancel();
     _dimTimer?.cancel();
     unawaited(_platform.exitFullscreen());
@@ -56,6 +77,7 @@ class _KioskShellState extends ConsumerState<KioskShell> {
   void _setDimmed(bool dimmed) {
     setState(() => _dimmed = dimmed);
     ref.read(kioskDimmedProvider.notifier).set(dimmed);
+    _applyBrightness();
   }
 
   void _onInteraction() {
@@ -85,6 +107,7 @@ class _KioskShellState extends ConsumerState<KioskShell> {
     ref.listen(kioskSettingsProvider, (_, next) {
       unawaited(_platform.keepScreenOn(next.keepScreenOn));
       _restartTimers();
+      _applyBrightness();
     });
     return PopScope(
       // Android back may only navigate within kiosk, never out of it.

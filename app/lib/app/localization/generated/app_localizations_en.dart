@@ -2576,4 +2576,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String kioskPopupClosesIn(int seconds) {
     return 'closes in $seconds s';
   }
+
+  @override
+  String get kioskDarkScreensaver => 'Screensaver turns the screen down';
+
+  @override
+  String get kioskDarkScreensaverHint =>
+      'Lowest backlight while the screensaver shows; saves power and lights up nothing at night.';
+
+  @override
+  String get kioskNight => 'Darker at night';
+
+  @override
+  String get kioskNightHint => 'Lower brightness on a schedule';
+
+  @override
+  String kioskNightRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String kioskNightFrom(String time) {
+    return 'From $time';
+  }
+
+  @override
+  String kioskNightTo(String time) {
+    return 'Until $time';
+  }
+
+  @override
+  String get kioskNightFromHelp => 'Night starts at';
+
+  @override
+  String get kioskNightToHelp => 'Night ends at';
+
+  @override
+  String kioskNightLevel(int percent) {
+    return 'Night brightness: $percent %';
+  }
 }

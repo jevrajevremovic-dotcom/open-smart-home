@@ -28,6 +28,11 @@ class KioskSettings {
     this.popupTriggerIds = const [],
     this.popupCameraId,
     this.popupSeconds = 60,
+    this.nightBrightness = false,
+    this.nightFrom = 22 * 60,
+    this.nightTo = 7 * 60,
+    this.nightLevel = 0.15,
+    this.darkScreensaver = true,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -61,6 +66,14 @@ class KioskSettings {
         (s) => s.name == json['clapSensitivity'],
         orElse: () => d.clapSensitivity,
       ),
+      nightBrightness: json['nightBrightness'] == true,
+      nightFrom: _minutes(json['nightFrom']) ?? d.nightFrom,
+      nightTo: _minutes(json['nightTo']) ?? d.nightTo,
+      nightLevel: switch (json['nightLevel']) {
+        final num v => v.toDouble().clamp(0.02, 1.0),
+        _ => d.nightLevel,
+      },
+      darkScreensaver: json['darkScreensaver'] != false,
       popupTriggerIds: [
         if (json['popupTriggerIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(10)) id,
@@ -124,6 +137,35 @@ class KioskSettings {
 
   bool get hasPopup => popupCameraId != null && popupTriggerIds.isNotEmpty;
 
+  /// Lower screen brightness between [nightFrom] and [nightTo] (minutes
+  /// after midnight; the window may cross midnight).
+  final bool nightBrightness;
+  final int nightFrom;
+  final int nightTo;
+
+  /// 0…1 of full brightness at night.
+  final double nightLevel;
+
+  /// The screensaver also turns the backlight down to its minimum.
+  final bool darkScreensaver;
+
+  static int? _minutes(Object? v) =>
+      v is int && v >= 0 && v < 24 * 60 ? v : null;
+
+  bool isNight(DateTime now) {
+    final m = now.hour * 60 + now.minute;
+    return nightFrom <= nightTo
+        ? m >= nightFrom && m < nightTo
+        : m >= nightFrom || m < nightTo;
+  }
+
+  /// Brightness the kiosk asks for; `null` = leave it to the system.
+  double? brightnessAt(DateTime now, {required bool dimmed}) {
+    if (dimmed && darkScreensaver) return 0.01;
+    if (nightBrightness && isNight(now)) return nightLevel;
+    return null;
+  }
+
   bool get hasPin => pinHash != null && pinSalt != null;
 
   /// Choices offered in settings.
@@ -165,7 +207,17 @@ class KioskSettings {
     String? popupCameraId,
     bool clearPopupCamera = false,
     int? popupSeconds,
+    bool? nightBrightness,
+    int? nightFrom,
+    int? nightTo,
+    double? nightLevel,
+    bool? darkScreensaver,
   }) => KioskSettings(
+    nightBrightness: nightBrightness ?? this.nightBrightness,
+    nightFrom: nightFrom ?? this.nightFrom,
+    nightTo: nightTo ?? this.nightTo,
+    nightLevel: nightLevel ?? this.nightLevel,
+    darkScreensaver: darkScreensaver ?? this.darkScreensaver,
     popupTriggerIds: popupTriggerIds ?? this.popupTriggerIds,
     popupCameraId: clearPopupCamera
         ? null
@@ -207,5 +259,10 @@ class KioskSettings {
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,
+    'nightBrightness': nightBrightness,
+    'nightFrom': nightFrom,
+    'nightTo': nightTo,
+    'nightLevel': nightLevel,
+    'darkScreensaver': darkScreensaver,
   };
 }

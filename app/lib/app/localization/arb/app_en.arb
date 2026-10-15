@@ -1167,5 +1167,46 @@
         "type": "int"
       }
     }
+  },
+  "kioskDarkScreensaver": "Screensaver turns the screen down",
+  "kioskDarkScreensaverHint": "Lowest backlight while the screensaver shows; saves power and lights up nothing at night.",
+  "kioskNight": "Darker at night",
+  "kioskNightHint": "Lower brightness on a schedule",
+  "kioskNightRange": "{from} – {to}",
+  "@kioskNightRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "kioskNightFrom": "From {time}",
+  "@kioskNightFrom": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "kioskNightTo": "Until {time}",
+  "@kioskNightTo": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "kioskNightFromHelp": "Night starts at",
+  "kioskNightToHelp": "Night ends at",
+  "kioskNightLevel": "Night brightness: {percent} %",
+  "@kioskNightLevel": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
   }
 }

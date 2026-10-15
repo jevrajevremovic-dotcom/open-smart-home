@@ -4562,6 +4562,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'closes in {seconds} s'**
   String kioskPopupClosesIn(int seconds);
+
+  /// No description provided for @kioskDarkScreensaver.
+  ///
+  /// In en, this message translates to:
+  /// **'Screensaver turns the screen down'**
+  String get kioskDarkScreensaver;
+
+  /// No description provided for @kioskDarkScreensaverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest backlight while the screensaver shows; saves power and lights up nothing at night.'**
+  String get kioskDarkScreensaverHint;
+
+  /// No description provided for @kioskNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Darker at night'**
+  String get kioskNight;
+
+  /// No description provided for @kioskNightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower brightness on a schedule'**
+  String get kioskNightHint;
+
+  /// No description provided for @kioskNightRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String kioskNightRange(String from, String to);
+
+  /// No description provided for @kioskNightFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {time}'**
+  String kioskNightFrom(String time);
+
+  /// No description provided for @kioskNightTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {time}'**
+  String kioskNightTo(String time);
+
+  /// No description provided for @kioskNightFromHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Night starts at'**
+  String get kioskNightFromHelp;
+
+  /// No description provided for @kioskNightToHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Night ends at'**
+  String get kioskNightToHelp;
+
+  /// No description provided for @kioskNightLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Night brightness: {percent} %'**
+  String kioskNightLevel(int percent);
 }
 
 class _AppLocalizationsDelegate

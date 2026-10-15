@@ -2586,6 +2586,45 @@ class AppLocalizationsSr extends AppLocalizations {
   String kioskPopupClosesIn(int seconds) {
     return 'zatvara se za $seconds s';
   }
+
+  @override
+  String get kioskDarkScreensaver => 'Čuvar ekrana gasi osvetljenje';
+
+  @override
+  String get kioskDarkScreensaverHint =>
+      'Najniža osvetljenost dok je čuvar ekrana uključen; štedi struju i ne svetli noću.';
+
+  @override
+  String get kioskNight => 'Tamnije noću';
+
+  @override
+  String get kioskNightHint => 'Niža osvetljenost u zadato vreme';
+
+  @override
+  String kioskNightRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String kioskNightFrom(String time) {
+    return 'Od $time';
+  }
+
+  @override
+  String kioskNightTo(String time) {
+    return 'Do $time';
+  }
+
+  @override
+  String get kioskNightFromHelp => 'Noć počinje u';
+
+  @override
+  String get kioskNightToHelp => 'Noć se završava u';
+
+  @override
+  String kioskNightLevel(int percent) {
+    return 'Noćna osvetljenost: $percent %';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -743,5 +743,15 @@
   "kioskPopupOff": "Isključeno",
   "kioskPopupDuration": "Prikazuj",
   "kioskPopupTriggers": "Okidači",
-  "kioskPopupClosesIn": "zatvara se za {seconds} s"
+  "kioskPopupClosesIn": "zatvara se za {seconds} s",
+  "kioskDarkScreensaver": "Čuvar ekrana gasi osvetljenje",
+  "kioskDarkScreensaverHint": "Najniža osvetljenost dok je čuvar ekrana uključen; štedi struju i ne svetli noću.",
+  "kioskNight": "Tamnije noću",
+  "kioskNightHint": "Niža osvetljenost u zadato vreme",
+  "kioskNightRange": "{from} – {to}",
+  "kioskNightFrom": "Od {time}",
+  "kioskNightTo": "Do {time}",
+  "kioskNightFromHelp": "Noć počinje u",
+  "kioskNightToHelp": "Noć se završava u",
+  "kioskNightLevel": "Noćna osvetljenost: {percent} %"
 }

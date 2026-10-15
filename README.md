@@ -28,6 +28,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 
 **Početni ekran i kiosk (zidni tablet)**
 - Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”
+- Kiosk: tamnije noću i najniža osvetljenost na čuvaru ekrana
 - Kiosk: iskačuća kamera kad neko pozvoni ili se pomeri ispred vrata
 - Kiosk: dvostruki pljesak za bilo koji uređaj ili scenu (Android, po želji, samo jačina zvuka na uređaju; otključavanje i sl. uz potvrdu)
 - Kiosk: stakleni paneli preko gradijenta, sat, ukućani, statusi po izboru, kamera, vreme, termostat, sobe, prečice, kalendar, mediji i Assist; PIN za izlaz, čuvar ekrana, povratak na početak

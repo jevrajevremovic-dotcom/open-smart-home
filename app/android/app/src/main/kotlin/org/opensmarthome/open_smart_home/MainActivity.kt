@@ -3,6 +3,7 @@ package org.opensmarthome.open_smart_home
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import io.flutter.embedding.android.FlutterFragmentActivity
@@ -32,6 +33,23 @@ class MainActivity : FlutterFragmentActivity() {
                 "request" -> requestMicrophone(result)
                 else -> result.notImplemented()
             }
+        }
+
+        // Kiosk night brightness: this window only, never the system setting.
+        MethodChannel(messenger, "org.opensmarthome/brightness").setMethodCallHandler { call, result ->
+            if (call.method != "set") {
+                result.notImplemented()
+                return@setMethodCallHandler
+            }
+            val level = call.argument<Double>("level") ?: -1.0
+            window.attributes = window.attributes.apply {
+                screenBrightness = if (level < 0) {
+                    WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
+                } else {
+                    level.toFloat().coerceIn(0.01f, 1f)
+                }
+            }
+            result.success(null)
         }
 
         MethodChannel(messenger, "org.opensmarthome/background").setMethodCallHandler { call, result ->

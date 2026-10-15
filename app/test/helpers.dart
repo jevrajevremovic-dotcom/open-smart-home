@@ -83,6 +83,12 @@ class FakeKioskPlatform implements KioskPlatform {
 
   @override
   Future<void> keepScreenOn(bool on) async => screenOn = on;
+
+  /// `null` = system brightness.
+  double? brightness;
+
+  @override
+  Future<void> setBrightness(double? level) async => brightness = level;
 }
 
 /// Overrides for running the app against the in-memory mock server.

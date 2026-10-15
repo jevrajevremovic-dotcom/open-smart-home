@@ -131,6 +131,9 @@ abstract interface class KioskPlatform {
   Future<void> enterFullscreen();
   Future<void> exitFullscreen();
   Future<void> keepScreenOn(bool on);
+
+  /// Screen brightness for this app's window, 0…1; `null` = the system's.
+  Future<void> setBrightness(double? level);
 }
 
 class DefaultKioskPlatform implements KioskPlatform {
@@ -151,6 +154,14 @@ class DefaultKioskPlatform implements KioskPlatform {
   @override
   Future<void> keepScreenOn(bool on) =>
       _safe('wakelock', () => WakelockPlus.toggle(enable: on));
+
+  static const _brightness = MethodChannel('org.opensmarthome/brightness');
+
+  @override
+  Future<void> setBrightness(double? level) => _safe(
+    'brightness',
+    () => _brightness.invokeMethod<void>('set', {'level': level ?? -1.0}),
+  );
 
   // Unsupported platforms (e.g. web on plain HTTP has no Wake Lock API)
   // must not break kiosk mode.

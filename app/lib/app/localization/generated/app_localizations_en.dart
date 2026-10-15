@@ -2615,4 +2615,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String kioskNightLevel(int percent) {
     return 'Night brightness: $percent %';
   }
+
+  @override
+  String get dashLayoutTitle => 'Home screen';
+
+  @override
+  String get dashLayoutSubtitle => 'Choose and order the cards';
+
+  @override
+  String get dashLayoutHint =>
+      'Drag or use the arrow to change the order; the switch shows or hides a card. Warnings (connection, critical alerts) always stay on top. On tablets favorites and rooms are in the right column.';
+
+  @override
+  String get dashLayoutReset => 'Default';
+
+  @override
+  String get dashMoveUp => 'Move up';
+
+  @override
+  String get dashCardSummary => 'Summary (temperature, lights, power…)';
+
+  @override
+  String get dashCardWeather => 'Weather';
+
+  @override
+  String get dashCardMedia => 'Now playing';
+
+  @override
+  String get dashCardNotifications => 'Notifications from Home Assistant';
+
+  @override
+  String get dashCardShortcuts => 'Energy, calendar, activity';
+
+  @override
+  String get dashCardAttention => 'Needs attention (batteries, unavailable)';
 }

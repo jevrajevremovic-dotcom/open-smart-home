@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/app_locales.dart';
 import '../../favorites/application/favorites_controller.dart';
+import '../../dashboard/application/dashboard_layout.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../kiosk/data/kiosk_settings.dart';
 import '../application/appearance_controllers.dart';
@@ -27,6 +28,7 @@ abstract final class SettingsBackup {
       'theme': ref.read(themeModeProvider).name,
       'language': locale == null ? null : AppLocales.toTag(locale),
       'favorites': ref.read(favoritesProvider),
+      'homeLayout': ref.read(dashboardLayoutProvider).toJson(),
       'kiosk': {
         'background': kiosk.background.name,
         'liteEffects': kiosk.liteEffects,
@@ -66,6 +68,18 @@ abstract final class SettingsBackup {
     if (theme != null) await ref.read(themeModeProvider.notifier).set(theme);
     if (json['language'] case final String tag) {
       await ref.read(localeProvider.notifier).set(AppLocales.fromTag(tag));
+    }
+    if (json['homeLayout'] case final Map<String, Object?> layout) {
+      final parsed = DashboardLayout.fromJson(layout);
+      final controller = ref.read(dashboardLayoutProvider.notifier);
+      await controller.reset();
+      for (final (i, card) in parsed.order.indexed) {
+        final from = ref.read(dashboardLayoutProvider).order.indexOf(card);
+        if (from != i) await controller.move(from, i);
+      }
+      for (final card in parsed.hidden) {
+        await controller.setVisible(card, false);
+      }
     }
     if (json['favorites'] case final List<Object?> favorites) {
       await ref.read(favoritesProvider.notifier).setOrder([

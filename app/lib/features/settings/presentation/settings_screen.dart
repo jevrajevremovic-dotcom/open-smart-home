@@ -71,6 +71,16 @@ class SettingsScreen extends ConsumerWidget {
                   Text(l10n.language, style: textTheme.labelLarge),
                   const SizedBox(height: 8),
                   const LanguageSelector(),
+                  const SizedBox(height: 8),
+                  ListTile(
+                    key: const Key('settingsHomeLayout'),
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.dashboard_customize_outlined),
+                    title: Text(l10n.dashLayoutTitle),
+                    subtitle: Text(l10n.dashLayoutSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push(AppRoutes.dashboardLayout),
+                  ),
                   section(l10n.serverSection),
                   if (profile != null)
                     ListTile(

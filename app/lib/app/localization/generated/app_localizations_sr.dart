@@ -2625,6 +2625,40 @@ class AppLocalizationsSr extends AppLocalizations {
   String kioskNightLevel(int percent) {
     return 'Noćna osvetljenost: $percent %';
   }
+
+  @override
+  String get dashLayoutTitle => 'Početni ekran';
+
+  @override
+  String get dashLayoutSubtitle => 'Izaberite kartice i njihov redosled';
+
+  @override
+  String get dashLayoutHint =>
+      'Prevucite ili koristite strelicu za redosled; prekidač prikazuje ili skriva karticu. Upozorenja (veza, kritična upozorenja) uvek ostaju na vrhu. Na tabletu su omiljeni i prostorije u desnoj koloni.';
+
+  @override
+  String get dashLayoutReset => 'Podrazumevano';
+
+  @override
+  String get dashMoveUp => 'Pomeri gore';
+
+  @override
+  String get dashCardSummary => 'Pregled (temperatura, svetla, snaga…)';
+
+  @override
+  String get dashCardWeather => 'Vreme';
+
+  @override
+  String get dashCardMedia => 'Sada svira';
+
+  @override
+  String get dashCardNotifications => 'Obaveštenja iz Home Assistanta';
+
+  @override
+  String get dashCardShortcuts => 'Energija, kalendar, aktivnost';
+
+  @override
+  String get dashCardAttention => 'Potrebna pažnja (baterije, nedostupni)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

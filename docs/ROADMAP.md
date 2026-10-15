@@ -36,7 +36,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Poruke sa dugmićima (`mobile_app_notification_action`), `tag`, `clear_notification` ✅
 - Kiosk: iskačuća kamera (zvono, pokret, vrata) ✅, tamnije noću i minimum na čuvaru ekrana ✅
 - Prijava korisničkim imenom i lozinkom na telefonu ✅, Tailscale adrese ✅
-- Prilagodljiv početni ekran (izbor i redosled kartica)
+- Prilagodljiv početni ekran (izbor i redosled kartica) ✅
 - Video uživo u iskačućoj kameri
 - Tajmer na uređaju („ugasi za 30 min”), izvršava HA
 - Istorija potrošnje po uređaju

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../application/dashboard_layout.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
@@ -186,8 +187,9 @@ class DashboardBody extends ConsumerWidget {
             onRefresh: () async => refresh?.call(),
             child: CustomScrollView(
               slivers: [
-                ..._statusSlivers(ref),
-                ..._contentSlivers(context, ref),
+                ..._fixedSlivers(ref),
+                ..._cards(context, ref),
+                const SliverToBoxAdapter(child: SizedBox(height: 32)),
               ],
             ),
           );
@@ -198,12 +200,23 @@ class DashboardBody extends ConsumerWidget {
             SizedBox(
               key: const Key('dashboardStatusPane'),
               width: width >= Breakpoints.large ? 400 : 340,
-              child: CustomScrollView(slivers: _statusSlivers(ref)),
+              child: CustomScrollView(
+                slivers: [
+                  ..._fixedSlivers(ref),
+                  ..._cards(context, ref, content: false),
+                  const SliverToBoxAdapter(child: SizedBox(height: 24)),
+                ],
+              ),
             ),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async => refresh?.call(),
-                child: CustomScrollView(slivers: _contentSlivers(context, ref)),
+                child: CustomScrollView(
+                  slivers: [
+                    ..._cards(context, ref, content: true),
+                    const SliverToBoxAdapter(child: SizedBox(height: 32)),
+                  ],
+                ),
               ),
             ),
           ],
@@ -212,16 +225,9 @@ class DashboardBody extends ConsumerWidget {
     );
   }
 
-  /// Connection, summary, alerts, scenes, attention.
-  List<Widget> _statusSlivers(WidgetRef ref) {
-    final sceneIds = ref.watch(
-      dashboardSummaryProvider.select((s) => s.sceneIds),
-    );
+  /// Warnings that always stay on top, whatever the layout.
+  List<Widget> _fixedSlivers(WidgetRef ref) {
     final syncing = ref.watch(syncStatusProvider) == SyncStatus.syncing;
-    Widget box(Widget child) => SliverPadding(
-      padding: _pad,
-      sliver: SliverToBoxAdapter(child: child),
-    );
     return [
       const SliverPadding(
         padding: _pad,
@@ -232,15 +238,34 @@ class DashboardBody extends ConsumerWidget {
         sliver: SliverToBoxAdapter(child: ConnectionProblemCard()),
       ),
       if (syncing) const SliverToBoxAdapter(child: LinearProgressIndicator()),
-      box(const DashboardSummaryRow()),
-      box(WeatherSection(allowDeviceLocation: !kiosk)),
-      box(const NowPlayingCard()),
-      box(const CriticalAlertsBanner()),
-      box(const NotificationsBanner()),
-      if (!kiosk)
-        box(
-          Consumer(
-            builder: (context, _, _) => Padding(
+      const SliverPadding(
+        padding: _pad,
+        sliver: SliverToBoxAdapter(child: CriticalAlertsBanner()),
+      ),
+    ];
+  }
+
+  /// The slivers of one [card] of the user's layout.
+  List<Widget> _card(BuildContext context, WidgetRef ref, DashboardCard card) {
+    final l10n = context.l10n;
+    Widget box(Widget child) => SliverPadding(
+      padding: _pad,
+      sliver: SliverToBoxAdapter(child: child),
+    );
+    switch (card) {
+      case DashboardCard.summary:
+        return [box(const DashboardSummaryRow())];
+      case DashboardCard.weather:
+        return [box(WeatherSection(allowDeviceLocation: !kiosk))];
+      case DashboardCard.media:
+        return [box(const NowPlayingCard())];
+      case DashboardCard.notifications:
+        return [box(const NotificationsBanner())];
+      case DashboardCard.shortcuts:
+        if (kiosk) return const [];
+        return [
+          box(
+            Padding(
               padding: const EdgeInsets.only(top: 12),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -252,87 +277,92 @@ class DashboardBody extends ConsumerWidget {
                       key: const Key('openEnergy'),
                       onPressed: () => context.push(AppRoutes.energy),
                       icon: const Icon(Icons.bolt),
-                      label: Text(context.l10n.energyTitle),
+                      label: Text(l10n.energyTitle),
                     ),
                     FilledButton.tonalIcon(
                       key: const Key('openCalendar'),
                       onPressed: () => context.push(AppRoutes.calendar),
                       icon: const Icon(Icons.calendar_month_outlined),
-                      label: Text(context.l10n.calendarTitle),
+                      label: Text(l10n.calendarTitle),
                     ),
                     FilledButton.tonalIcon(
                       key: const Key('openActivity'),
                       onPressed: () => context.push(AppRoutes.activity),
                       icon: const Icon(Icons.history),
-                      label: Text(context.l10n.activityTitle),
+                      label: Text(l10n.activityTitle),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-        ),
-      if (sceneIds.isNotEmpty) ...[
-        box(
-          Consumer(
-            builder: (context, _, _) => SectionHeader(context.l10n.scenesTitle),
+        ];
+      case DashboardCard.scenes:
+        final sceneIds = ref.watch(
+          dashboardSummaryProvider.select((s) => s.sceneIds),
+        );
+        if (sceneIds.isEmpty) return const [];
+        return [
+          box(SectionHeader(l10n.scenesTitle)),
+          box(SceneButtons(sceneIds: sceneIds)),
+        ];
+      case DashboardCard.attention:
+        return [box(const AttentionSection())];
+      case DashboardCard.favorites:
+        final favorites = ref.watch(existingFavoritesProvider);
+        return [
+          box(SectionHeader(l10n.navFavorites)),
+          SliverPadding(
+            padding: _pad,
+            sliver: favorites.isEmpty
+                ? SliverToBoxAdapter(
+                    child: EmptyHint(
+                      icon: Icons.star_border,
+                      text: l10n.favoritesEmpty,
+                    ),
+                  )
+                : DeviceSliverGrid(deviceIds: favorites),
           ),
-        ),
-        box(SceneButtons(sceneIds: sceneIds)),
-      ],
-      box(const AttentionSection()),
-      const SliverToBoxAdapter(child: SizedBox(height: 24)),
-    ];
+        ];
+      case DashboardCard.rooms:
+        final rooms = ref.watch(roomsProvider);
+        final hasUnassigned = ref.watch(
+          deviceIdsByRoomProvider.select((m) => m.containsKey(null)),
+        );
+        if (rooms.isEmpty && !hasUnassigned) return const [];
+        return [
+          box(
+            SectionHeader(
+              l10n.navRooms,
+              trailing: kiosk
+                  ? null
+                  : TextButton(
+                      onPressed: () => context.go(AppRoutes.rooms),
+                      child: Text(l10n.allDevices),
+                    ),
+            ),
+          ),
+          SliverPadding(
+            padding: _pad,
+            sliver: RoomSliverGrid(
+              rooms: [
+                for (final r in rooms) (r.id, r.name, r.icon),
+                if (hasUnassigned) (null, l10n.roomNoRoom, null),
+              ],
+            ),
+          ),
+        ];
+    }
   }
 
-  /// Favorites and rooms.
-  List<Widget> _contentSlivers(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
-    final favorites = ref.watch(existingFavoritesProvider);
-    final rooms = ref.watch(roomsProvider);
-    final hasUnassigned = ref.watch(
-      deviceIdsByRoomProvider.select((m) => m.containsKey(null)),
-    );
-    Widget box(Widget child) => SliverPadding(
-      padding: _pad,
-      sliver: SliverToBoxAdapter(child: child),
-    );
+  /// Cards in the user's order; [content] limits them to one side of the
+  /// two-pane layout (`null` = all, one column).
+  List<Widget> _cards(BuildContext context, WidgetRef ref, {bool? content}) {
+    final layout = ref.watch(dashboardLayoutProvider);
     return [
-      box(SectionHeader(l10n.navFavorites)),
-      SliverPadding(
-        padding: _pad,
-        sliver: favorites.isEmpty
-            ? SliverToBoxAdapter(
-                child: EmptyHint(
-                  icon: Icons.star_border,
-                  text: l10n.favoritesEmpty,
-                ),
-              )
-            : DeviceSliverGrid(deviceIds: favorites),
-      ),
-      if (rooms.isNotEmpty || hasUnassigned) ...[
-        box(
-          SectionHeader(
-            l10n.navRooms,
-            trailing: kiosk
-                ? null
-                : TextButton(
-                    onPressed: () => context.go(AppRoutes.rooms),
-                    child: Text(l10n.allDevices),
-                  ),
-          ),
-        ),
-        SliverPadding(
-          padding: _pad,
-          sliver: RoomSliverGrid(
-            rooms: [
-              for (final r in rooms) (r.id, r.name, r.icon),
-              if (hasUnassigned) (null, l10n.roomNoRoom, null),
-            ],
-          ),
-        ),
-      ],
-      const SliverToBoxAdapter(child: SizedBox(height: 32)),
+      for (final card in layout.visible)
+        if (content == null || card.contentPane == content)
+          ..._card(context, ref, card),
     ];
   }
 }

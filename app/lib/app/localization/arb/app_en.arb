@@ -1208,5 +1208,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "dashLayoutTitle": "Home screen",
+  "dashLayoutSubtitle": "Choose and order the cards",
+  "dashLayoutHint": "Drag or use the arrow to change the order; the switch shows or hides a card. Warnings (connection, critical alerts) always stay on top. On tablets favorites and rooms are in the right column.",
+  "dashLayoutReset": "Default",
+  "dashMoveUp": "Move up",
+  "dashCardSummary": "Summary (temperature, lights, power…)",
+  "dashCardWeather": "Weather",
+  "dashCardMedia": "Now playing",
+  "dashCardNotifications": "Notifications from Home Assistant",
+  "dashCardShortcuts": "Energy, calendar, activity",
+  "dashCardAttention": "Needs attention (batteries, unavailable)"
 }

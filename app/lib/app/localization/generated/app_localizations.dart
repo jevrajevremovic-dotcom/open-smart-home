@@ -4622,6 +4622,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Night brightness: {percent} %'**
   String kioskNightLevel(int percent);
+
+  /// No description provided for @dashLayoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen'**
+  String get dashLayoutTitle;
+
+  /// No description provided for @dashLayoutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose and order the cards'**
+  String get dashLayoutSubtitle;
+
+  /// No description provided for @dashLayoutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag or use the arrow to change the order; the switch shows or hides a card. Warnings (connection, critical alerts) always stay on top. On tablets favorites and rooms are in the right column.'**
+  String get dashLayoutHint;
+
+  /// No description provided for @dashLayoutReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get dashLayoutReset;
+
+  /// No description provided for @dashMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get dashMoveUp;
+
+  /// No description provided for @dashCardSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary (temperature, lights, power…)'**
+  String get dashCardSummary;
+
+  /// No description provided for @dashCardWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'Weather'**
+  String get dashCardWeather;
+
+  /// No description provided for @dashCardMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Now playing'**
+  String get dashCardMedia;
+
+  /// No description provided for @dashCardNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications from Home Assistant'**
+  String get dashCardNotifications;
+
+  /// No description provided for @dashCardShortcuts.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy, calendar, activity'**
+  String get dashCardShortcuts;
+
+  /// No description provided for @dashCardAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention (batteries, unavailable)'**
+  String get dashCardAttention;
 }
 
 class _AppLocalizationsDelegate

@@ -753,5 +753,16 @@
   "kioskNightTo": "Do {time}",
   "kioskNightFromHelp": "Noć počinje u",
   "kioskNightToHelp": "Noć se završava u",
-  "kioskNightLevel": "Noćna osvetljenost: {percent} %"
+  "kioskNightLevel": "Noćna osvetljenost: {percent} %",
+  "dashLayoutTitle": "Početni ekran",
+  "dashLayoutSubtitle": "Izaberite kartice i njihov redosled",
+  "dashLayoutHint": "Prevucite ili koristite strelicu za redosled; prekidač prikazuje ili skriva karticu. Upozorenja (veza, kritična upozorenja) uvek ostaju na vrhu. Na tabletu su omiljeni i prostorije u desnoj koloni.",
+  "dashLayoutReset": "Podrazumevano",
+  "dashMoveUp": "Pomeri gore",
+  "dashCardSummary": "Pregled (temperatura, svetla, snaga…)",
+  "dashCardWeather": "Vreme",
+  "dashCardMedia": "Sada svira",
+  "dashCardNotifications": "Obaveštenja iz Home Assistanta",
+  "dashCardShortcuts": "Energija, kalendar, aktivnost",
+  "dashCardAttention": "Potrebna pažnja (baterije, nedostupni)"
 }

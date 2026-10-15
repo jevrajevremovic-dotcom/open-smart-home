@@ -169,6 +169,57 @@ class ConnectionSetupController extends Notifier<ConnectionSetupState> {
     ref.read(webLoginServiceProvider).start(profile, remember: remember);
   }
 
+  /// Shows a sign-in error that happened outside this controller.
+  void reportAuthFailure(AppFailure failure) =>
+      state = state.copyWith(authenticating: false, authFailure: failure);
+
+  /// Finishes the in-app OAuth2 sign-in: exchanges [code] for tokens,
+  /// checks they work, and signs in. The refresh token is bound to
+  /// [clientId] and revoked again on sign-out.
+  Future<bool> signInWithCode(String code, String clientId) async {
+    final profile = state.profile;
+    if (profile == null) return false;
+    state = state.copyWith(authenticating: true, clearAuthFailure: true);
+    try {
+      final response = await ref
+          .read(haAuthClientFactoryProvider)(profile)
+          .exchangeCode(code: code, clientId: clientId);
+      final refresh = response.refreshToken;
+      if (refresh == null) {
+        throw const AppFailure(
+          FailureKind.parsing,
+          debugMessage: 'no refresh token in code exchange',
+        );
+      }
+      final api = ref.read(homeAssistantApiFactoryProvider)(
+        profile,
+        () async => response.accessToken,
+      );
+      try {
+        final config = await api.fetchConfig(); // proves it really is HA
+        _log.info('Signed in with OAuth2 to Home Assistant ${config.version}');
+      } finally {
+        api.close();
+      }
+      await ref
+          .read(sessionControllerProvider.notifier)
+          .signIn(
+            profile,
+            OAuthTokens(
+              accessToken: response.accessToken,
+              refreshToken: refresh,
+              clientId: clientId,
+              expiresAt: DateTime.now().add(response.expiresIn),
+            ),
+          );
+      state = const ConnectionSetupState();
+      return true;
+    } on AppFailure catch (e) {
+      state = state.copyWith(authenticating: false, authFailure: e);
+      return false;
+    }
+  }
+
   /// Verifies [rawToken] against the server and, on success, signs in.
   Future<bool> authenticate(String rawToken) async {
     final profile = state.profile;

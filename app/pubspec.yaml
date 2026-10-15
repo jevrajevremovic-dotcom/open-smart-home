@@ -60,6 +60,7 @@ dependencies:
   quick_actions: ^1.1.1
   image_picker: ^1.2.4
   flutter_local_notifications: ^22.3.2
+  webview_flutter: ^4.14.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -20,8 +20,12 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Odjava opoziva refresh token (`/auth/revoke`, best effort).
 - „Zapamti me“: tokeni u `localStorage` (kao HA frontend); bez toga u `sessionStorage`.
 
-### OAuth2 na mobilnom (planirano)
-Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA sa pristupom internetu; do tada mobilni koristi long-lived token.
+### OAuth2 na telefonu i tabletu (implementirano)
+- Ekran za token nudi i „Prijavi se preko Home Assistanta”: HA-ova stranica za prijavu otvara se u aplikaciji (WebView, kao u zvaničnim HA aplikacijama); dugotrajni token nije potreban.
+- `client_id` = `http://open-smart-home.localhost/`, `redirect_uri` = `http://open-smart-home.localhost/auth-callback`: isti host, pa ga HA prihvata bez preuzimanja ičega (radi na LAN-u bez interneta). Aplikacija preusmerenje presreće pre učitavanja; ta adresa se nikad ne otvara.
+- `state` iz `Random.secure()` se proverava (zaštita od login CSRF-a); aplikacija dobija jednokratni kod i lozinku ne čuva. Kolačići WebView-a se brišu posle prijave.
+- Tokeni (access + refresh, vezan za `client_id`) idu u Keystore/Keychain kao i na webu; refresh token se opoziva pri odjavi.
+- Sa samopotpisanim (pinovanim) sertifikatom WebView ne može da otvori stranicu: tada se koristi token.
 
 ## Čuvanje tajni
 - Token: `flutter_secure_storage` – iOS Keychain (`first_unlock_this_device`: dostupan zidnom tabletu posle restarta, ne prenosi se u backup), Android Keystore.

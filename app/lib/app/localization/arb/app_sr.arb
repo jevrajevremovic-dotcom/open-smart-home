@@ -714,5 +714,7 @@
   "clapVacuumAction": "pokreni / vrati na punjač",
   "clapMediaAction": "pusti / pauziraj",
   "clapOpenScreen": "otvara ekran uređaja",
-  "clapSearch": "Pretraži uređaje"
+  "clapSearch": "Pretraži uređaje",
+  "oauthHintNative": "Prijavite se na stranici za prijavu vašeg Home Assistanta korisničkim imenom i lozinkom. Aplikacija dobija samo jednokratni kod i ne čuva lozinku; dugotrajni token nije potreban.",
+  "oauthPageFailed": "Stranica za prijavu Home Assistanta se nije učitala. Proverite vezu ili se prijavite tokenom ispod. (Sa samopotpisanim sertifikatom radi samo prijava tokenom.)"
 }

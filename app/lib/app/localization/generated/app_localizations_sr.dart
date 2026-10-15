@@ -2476,6 +2476,14 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get clapSearch => 'Pretraži uređaje';
+
+  @override
+  String get oauthHintNative =>
+      'Prijavite se na stranici za prijavu vašeg Home Assistanta korisničkim imenom i lozinkom. Aplikacija dobija samo jednokratni kod i ne čuva lozinku; dugotrajni token nije potreban.';
+
+  @override
+  String get oauthPageFailed =>
+      'Stranica za prijavu Home Assistanta se nije učitala. Proverite vezu ili se prijavite tokenom ispod. (Sa samopotpisanim sertifikatom radi samo prijava tokenom.)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

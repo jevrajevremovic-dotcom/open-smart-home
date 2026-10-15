@@ -4388,6 +4388,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search devices'**
   String get clapSearch;
+
+  /// No description provided for @oauthHintNative.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in on your Home Assistant\'s own login page with your user name and password. The app receives only a one-time code and keeps no password; no long-lived token is needed.'**
+  String get oauthHintNative;
+
+  /// No description provided for @oauthPageFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant\'s login page did not load. Check the connection, or sign in with a token below. (A self-signed certificate works only with a token.)'**
+  String get oauthPageFailed;
 }
 
 class _AppLocalizationsDelegate

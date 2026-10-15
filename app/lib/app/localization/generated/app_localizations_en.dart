@@ -2467,4 +2467,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clapSearch => 'Search devices';
+
+  @override
+  String get oauthHintNative =>
+      'Sign in on your Home Assistant\'s own login page with your user name and password. The app receives only a one-time code and keeps no password; no long-lived token is needed.';
+
+  @override
+  String get oauthPageFailed =>
+      'Home Assistant\'s login page did not load. Check the connection, or sign in with a token below. (A self-signed certificate works only with a token.)';
 }

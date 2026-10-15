@@ -8,7 +8,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 
 **Povezivanje i bezbednost**
 - Automatsko pronalaženje Home Assistanta na mreži (mDNS) ili ručna adresa; provera adrese i rizika (lokalno / javno / bez HTTPS-a)
-- Prijava long-lived tokenom ili OAuth2 (web); samopotpisani sertifikat samo uz eksplicitno pinovanje otiska
+- Prijava korisničkim imenom i lozinkom na HA stranici (OAuth2, web i telefon) ili long-lived tokenom; samopotpisani sertifikat samo uz eksplicitno pinovanje otiska
 - Token u Keychain-u / Android Keystore-u, nikad u logovima; zaključavanje aplikacije otiskom/licem/PIN-om i potvrda pre otključavanja brava i alarma
 - **Više domova** (više HA servera) sa prebacivanjem
 - **Van kuće**: uz kućnu i spoljna adresa (Nabu Casa, HTTPS domen, Tailscale) sa automatskim prebacivanjem; Tailscale adrese se prepoznaju kao VPN

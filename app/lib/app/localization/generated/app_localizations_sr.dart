@@ -2546,6 +2546,46 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get haPushRemovedInHa =>
       'Ovaj uređaj je obrisan u Home Assistantu (Mobile App). Dodajte ga ponovo da biste primali poruke.';
+
+  @override
+  String get kioskPopup => 'Iskačuća kamera';
+
+  @override
+  String get kioskPopupHint =>
+      'Prikaži kameru kad neko pozvoni ili se pomeri ispred vrata';
+
+  @override
+  String kioskPopupSummary(String camera, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count okidača',
+      few: '$count okidača',
+      one: '1 okidač',
+    );
+    return '$camera · $_temp0';
+  }
+
+  @override
+  String get kioskPopupExplain =>
+      'Kad se oglasi neki od izabranih uređaja — zvono, pokret, otvaranje vrata ili kapije — kiosk se probudi i prikaže kameru preko celog ekrana.';
+
+  @override
+  String get kioskPopupCamera => 'Kamera';
+
+  @override
+  String get kioskPopupOff => 'Isključeno';
+
+  @override
+  String get kioskPopupDuration => 'Prikazuj';
+
+  @override
+  String get kioskPopupTriggers => 'Okidači';
+
+  @override
+  String kioskPopupClosesIn(int seconds) {
+    return 'zatvara se za $seconds s';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

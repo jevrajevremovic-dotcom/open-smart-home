@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../application/kiosk_controller.dart';
+import 'camera_popup.dart';
 
 /// Wraps every kiosk route: fullscreen, screen kept on, back button
 /// blocked, return to the kiosk dashboard and dimming after inactivity.
@@ -96,12 +97,15 @@ class _KioskShellState extends ConsumerState<KioskShell> {
       child: Listener(
         behavior: HitTestBehavior.translucent,
         onPointerDown: (_) => _onInteraction(),
-        child: Stack(
-          children: [
-            widget.child,
-            if (_dimmed)
-              Positioned.fill(child: _Screensaver(onWake: _onInteraction)),
-          ],
+        child: KioskCameraPopup(
+          onShow: _onInteraction,
+          child: Stack(
+            children: [
+              widget.child,
+              if (_dimmed)
+                Positioned.fill(child: _Screensaver(onWake: _onInteraction)),
+            ],
+          ),
         ),
       ),
     );

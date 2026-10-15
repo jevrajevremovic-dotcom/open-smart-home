@@ -25,6 +25,9 @@ class KioskSettings {
     this.clapEnabled = false,
     this.clapTargetId,
     this.clapSensitivity = ClapSensitivity.medium,
+    this.popupTriggerIds = const [],
+    this.popupCameraId,
+    this.popupSeconds = 60,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -58,6 +61,17 @@ class KioskSettings {
         (s) => s.name == json['clapSensitivity'],
         orElse: () => d.clapSensitivity,
       ),
+      popupTriggerIds: [
+        if (json['popupTriggerIds'] case final List<Object?> ids)
+          for (final id in ids.whereType<String>().take(10)) id,
+      ],
+      popupCameraId: json['popupCameraId'] is String
+          ? json['popupCameraId']! as String
+          : null,
+      popupSeconds: switch (json['popupSeconds']) {
+        final int s when popupOptions.contains(s) => s,
+        _ => d.popupSeconds,
+      },
       statusEntityIds: [
         if (json['statusEntityIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(maxStatusEntities)) id,
@@ -101,6 +115,15 @@ class KioskSettings {
   final String? clapTargetId;
   final ClapSensitivity clapSensitivity;
 
+  /// A doorbell, motion or contact sensor that wakes the screen and shows
+  /// [popupCameraId] full screen for [popupSeconds].
+  final List<String> popupTriggerIds;
+  final String? popupCameraId;
+  final int popupSeconds;
+  static const popupOptions = [30, 60, 120, 300];
+
+  bool get hasPopup => popupCameraId != null && popupTriggerIds.isNotEmpty;
+
   bool get hasPin => pinHash != null && pinSalt != null;
 
   /// Choices offered in settings.
@@ -138,7 +161,16 @@ class KioskSettings {
     bool? clapEnabled,
     String? clapTargetId,
     ClapSensitivity? clapSensitivity,
+    List<String>? popupTriggerIds,
+    String? popupCameraId,
+    bool clearPopupCamera = false,
+    int? popupSeconds,
   }) => KioskSettings(
+    popupTriggerIds: popupTriggerIds ?? this.popupTriggerIds,
+    popupCameraId: clearPopupCamera
+        ? null
+        : (popupCameraId ?? this.popupCameraId),
+    popupSeconds: popupSeconds ?? this.popupSeconds,
     clapEnabled: clapEnabled ?? this.clapEnabled,
     clapTargetId: clapTargetId ?? this.clapTargetId,
     clapSensitivity: clapSensitivity ?? this.clapSensitivity,
@@ -172,5 +204,8 @@ class KioskSettings {
     'clapEnabled': clapEnabled,
     'clapTargetId': clapTargetId,
     'clapSensitivity': clapSensitivity.name,
+    'popupTriggerIds': popupTriggerIds,
+    'popupCameraId': popupCameraId,
+    'popupSeconds': popupSeconds,
   };
 }

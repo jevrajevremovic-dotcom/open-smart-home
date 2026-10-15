@@ -4508,6 +4508,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This device was removed in Home Assistant (Mobile App). Add it again to receive messages.'**
   String get haPushRemovedInHa;
+
+  /// No description provided for @kioskPopup.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera pop-up'**
+  String get kioskPopup;
+
+  /// No description provided for @kioskPopupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Show a camera when someone rings or moves at the door'**
+  String get kioskPopupHint;
+
+  /// No description provided for @kioskPopupSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{camera} · {count, plural, =1{1 trigger} other{{count} triggers}}'**
+  String kioskPopupSummary(String camera, int count);
+
+  /// No description provided for @kioskPopupExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'When one of the chosen devices fires — a doorbell press, motion, a door or gate opening — the kiosk wakes up and shows the camera full screen.'**
+  String get kioskPopupExplain;
+
+  /// No description provided for @kioskPopupCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get kioskPopupCamera;
+
+  /// No description provided for @kioskPopupOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get kioskPopupOff;
+
+  /// No description provided for @kioskPopupDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Show for'**
+  String get kioskPopupDuration;
+
+  /// No description provided for @kioskPopupTriggers.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggered by'**
+  String get kioskPopupTriggers;
+
+  /// No description provided for @kioskPopupClosesIn.
+  ///
+  /// In en, this message translates to:
+  /// **'closes in {seconds} s'**
+  String kioskPopupClosesIn(int seconds);
 }
 
 class _AppLocalizationsDelegate

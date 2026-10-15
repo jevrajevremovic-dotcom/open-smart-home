@@ -734,5 +734,14 @@
   "haPushBackgroundHint": "Drži vezu otvorenom u pozadini, i posle restarta telefona. Android tada prikazuje tiho, stalno obaveštenje; troši malo više baterije.",
   "haPushServiceTitle": "Povezano sa Home Assistantom",
   "haPushServiceText": "Čeka poruke vaših automatizacija",
-  "haPushRemovedInHa": "Ovaj uređaj je obrisan u Home Assistantu (Mobile App). Dodajte ga ponovo da biste primali poruke."
+  "haPushRemovedInHa": "Ovaj uređaj je obrisan u Home Assistantu (Mobile App). Dodajte ga ponovo da biste primali poruke.",
+  "kioskPopup": "Iskačuća kamera",
+  "kioskPopupHint": "Prikaži kameru kad neko pozvoni ili se pomeri ispred vrata",
+  "kioskPopupSummary": "{camera} · {count, plural, =1{1 okidač} few{{count} okidača} other{{count} okidača}}",
+  "kioskPopupExplain": "Kad se oglasi neki od izabranih uređaja — zvono, pokret, otvaranje vrata ili kapije — kiosk se probudi i prikaže kameru preko celog ekrana.",
+  "kioskPopupCamera": "Kamera",
+  "kioskPopupOff": "Isključeno",
+  "kioskPopupDuration": "Prikazuj",
+  "kioskPopupTriggers": "Okidači",
+  "kioskPopupClosesIn": "zatvara se za {seconds} s"
 }

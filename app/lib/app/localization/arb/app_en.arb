@@ -1141,5 +1141,31 @@
   "haPushBackgroundHint": "Keeps the connection open in the background, also after a restart. Android then shows a quiet, permanent notification; uses a little more battery.",
   "haPushServiceTitle": "Connected to Home Assistant",
   "haPushServiceText": "Waiting for messages from your automations",
-  "haPushRemovedInHa": "This device was removed in Home Assistant (Mobile App). Add it again to receive messages."
+  "haPushRemovedInHa": "This device was removed in Home Assistant (Mobile App). Add it again to receive messages.",
+  "kioskPopup": "Camera pop-up",
+  "kioskPopupHint": "Show a camera when someone rings or moves at the door",
+  "kioskPopupSummary": "{camera} · {count, plural, =1{1 trigger} other{{count} triggers}}",
+  "@kioskPopupSummary": {
+    "placeholders": {
+      "camera": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "kioskPopupExplain": "When one of the chosen devices fires — a doorbell press, motion, a door or gate opening — the kiosk wakes up and shows the camera full screen.",
+  "kioskPopupCamera": "Camera",
+  "kioskPopupOff": "Off",
+  "kioskPopupDuration": "Show for",
+  "kioskPopupTriggers": "Triggered by",
+  "kioskPopupClosesIn": "closes in {seconds} s",
+  "@kioskPopupClosesIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  }
 }

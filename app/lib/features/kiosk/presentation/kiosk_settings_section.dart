@@ -11,6 +11,7 @@ import '../../../core/widgets/status_widgets.dart';
 import '../../clap/clap_settings.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
+import 'camera_popup_settings.dart';
 import 'glass.dart';
 import 'pin_dialog.dart';
 import 'status_entities_picker.dart';
@@ -164,6 +165,7 @@ class KioskSettingsSection extends ConsumerWidget {
           onChanged: (v) =>
               controller.update((s) => s.copyWith(showCalendar: v)),
         ),
+        const CameraPopupSettingsTile(),
         const ClapSettings(),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,

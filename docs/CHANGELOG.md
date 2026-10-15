@@ -9,6 +9,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kiosk: iskačuća kamera — kad se oglasi izabrano zvono (HA `event` doorbell), senzor pokreta/prisustva ili kontakt vrata/kapije, kiosk se probudi iz zatamnjenja i prikaže izabranu kameru preko celog ekrana na 30 s – 5 min (zatvara se i dodirom). Reaguje samo na promene uživo, ne na stanje iz keša pri pokretanju.
 - Poruke iz HA sa dugmićima (`data.actions`, do 3): izbor se vraća u HA kao događaj `mobile_app_notification_action` (isti kao kod zvaničnih HA aplikacija, pa postojeći primeri i blueprintovi rade); `data.tag` zamenjuje poruku, `clear_notification` je briše, `data.entity_id` otvara uređaj na dodir.
 - „I kad je aplikacija zatvorena” (Android, uz Poruke iz HA): servis u prvom planu (`remoteMessaging`, tiho stalno obaveštenje) drži aplikaciju i vezu sa HA živim i kad se aplikacija zatvori ili prevuče iz skorašnjih, i posle restarta telefona (pokreće se bez ekrana). Poruke i kritična upozorenja stižu stalno. Ponovno otvaranje je trenutno jer Flutter deo ostaje živ.
 ### Ispravljeno

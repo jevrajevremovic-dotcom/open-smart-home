@@ -2537,4 +2537,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get haPushRemovedInHa =>
       'This device was removed in Home Assistant (Mobile App). Add it again to receive messages.';
+
+  @override
+  String get kioskPopup => 'Camera pop-up';
+
+  @override
+  String get kioskPopupHint =>
+      'Show a camera when someone rings or moves at the door';
+
+  @override
+  String kioskPopupSummary(String camera, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count triggers',
+      one: '1 trigger',
+    );
+    return '$camera · $_temp0';
+  }
+
+  @override
+  String get kioskPopupExplain =>
+      'When one of the chosen devices fires — a doorbell press, motion, a door or gate opening — the kiosk wakes up and shows the camera full screen.';
+
+  @override
+  String get kioskPopupCamera => 'Camera';
+
+  @override
+  String get kioskPopupOff => 'Off';
+
+  @override
+  String get kioskPopupDuration => 'Show for';
+
+  @override
+  String get kioskPopupTriggers => 'Triggered by';
+
+  @override
+  String kioskPopupClosesIn(int seconds) {
+    return 'closes in $seconds s';
+  }
 }

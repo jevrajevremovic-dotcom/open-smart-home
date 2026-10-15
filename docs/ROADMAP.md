@@ -28,10 +28,18 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 ## Sledeće
 
 - OAuth2 na mobilnom ✅ (HA stranica u aplikaciji, `client_id` na `*.localhost`, bez hostovane stranice)
-- Matter za potpuno nove uređaje preko Bluetooth-a (nativni Google/Apple Matter API)
 - Zamena `nsd` paketa sopstvenim kodom na Androidu (upozorenje o Kotlin Gradle Plugin-u) ✅
 - Napredni editor automatizacija ✅ (uslovi, više okidača, numerički okidač, izmena postojećih)
 - Android widget za početni ekran ✅, lokalna obaveštenja o kritičnim upozorenjima ✅, adresa van kuće ✅, dvostruki pljesak u kiosku ✅
 - Poruke iz HA automatizacija (mobile_app, lokalno) ✅
 - Poruke i kad je aplikacija zatvorena (Android servis u prvom planu, i posle restarta) ✅
-- Uloge (instalater)
+- Poruke sa dugmićima (`mobile_app_notification_action`), `tag`, `clear_notification` ✅
+- Kiosk: iskačuća kamera (zvono, pokret, vrata) ✅, tamnije noću i minimum na čuvaru ekrana ✅
+- Prijava korisničkim imenom i lozinkom na telefonu ✅, Tailscale adrese ✅
+- Prilagodljiv početni ekran (izbor i redosled kartica)
+- Video uživo u iskačućoj kameri
+- Tajmer na uređaju („ugasi za 30 min”), izvršava HA
+- Istorija potrošnje po uređaju
+- Matter za potpuno nove uređaje preko Bluetooth-a (treba pravi uređaj za proveru)
+- Uloge (instalater) — treba definisati šta tačno obuhvata
+- Release potpisivanje pravim ključem (ključ pravi i čuva vlasnik, nikad u repozitorijumu)

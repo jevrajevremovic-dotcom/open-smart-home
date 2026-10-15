@@ -34,6 +34,24 @@ class MainActivity : FlutterFragmentActivity() {
             }
         }
 
+        MethodChannel(messenger, "org.opensmarthome/background").setMethodCallHandler { call, result ->
+            when (call.method) {
+                "start" -> {
+                    ConnectionService.start(
+                        applicationContext,
+                        call.argument<String>("title") ?: "Open Smart Home",
+                        call.argument<String>("text") ?: "",
+                    )
+                    result.success(null)
+                }
+                "stop" -> {
+                    ConnectionService.stop(applicationContext)
+                    result.success(null)
+                }
+                else -> result.notImplemented()
+            }
+        }
+
         widget = MethodChannel(messenger, "org.opensmarthome/widget").apply {
             setMethodCallHandler { call, result ->
                 when (call.method) {
@@ -54,6 +72,20 @@ class MainActivity : FlutterFragmentActivity() {
                 }
             }
         }
+    }
+
+    // The engine outlives this screen (see Engines): while the connection
+    // service runs, closing the app keeps it connected to Home Assistant.
+    override fun getCachedEngineId(): String {
+        Engines.ensure(this)
+        return Engines.MAIN
+    }
+
+    override fun shouldDestroyEngineWithHost(): Boolean = false
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFinishing && !ConnectionService.running) Engines.destroy()
     }
 
     override fun onNewIntent(intent: Intent) {

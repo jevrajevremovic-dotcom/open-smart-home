@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/clap/clap_platform.dart';
+import 'package:open_smart_home/features/ha_notify/ha_push.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
@@ -33,6 +34,7 @@ Future<InMemoryCredentialStore> pumpApp(
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
+  BackgroundConnectionPlatform? background,
   List<Override> overrides = const [],
 }) async {
   tester.view
@@ -53,6 +55,7 @@ Future<InMemoryCredentialStore> pumpApp(
     alerts: alerts,
     homeWidget: homeWidget,
     clap: clap,
+    background: background,
     overrides: overrides,
   );
   await tester.pumpWidget(

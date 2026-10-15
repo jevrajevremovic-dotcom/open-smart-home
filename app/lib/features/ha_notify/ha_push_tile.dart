@@ -47,7 +47,11 @@ class HaPushTile extends ConsumerWidget {
         contentPadding: EdgeInsets.zero,
         leading: const Icon(Icons.campaign_outlined),
         title: Text(l10n.haPushTitle),
-        subtitle: Text(l10n.haPushHint),
+        subtitle: Text(
+          ref.watch(haPushRemovedProvider)
+              ? l10n.haPushRemovedInHa
+              : l10n.haPushHint,
+        ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () => _register(context, ref),
       );
@@ -75,6 +79,16 @@ class HaPushTile extends ConsumerWidget {
             },
           ),
         ),
+        if (ref.watch(backgroundConnectionProvider).supported)
+          SwitchListTile(
+            key: const Key('haPushBackground'),
+            contentPadding: const EdgeInsets.only(left: 40),
+            title: Text(l10n.haPushBackground),
+            subtitle: Text(l10n.haPushBackgroundHint),
+            value: ref.watch(haPushBackgroundProvider),
+            onChanged: (v) =>
+                ref.read(haPushBackgroundProvider.notifier).set(v),
+          ),
         Wrap(
           spacing: 8,
           runSpacing: 8,

@@ -4134,7 +4134,7 @@ abstract class AppLocalizations {
   /// No description provided for @alertsSettingHint.
   ///
   /// In en, this message translates to:
-  /// **'Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. Only while the app is running; for alerts when it\'s closed, use Home Assistant\'s own notifications.'**
+  /// **'Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. While the app runs — or always, with “Also when the app is closed” under Messages from Home Assistant.'**
   String get alertsSettingHint;
 
   /// No description provided for @alertsPermissionDenied.
@@ -4478,6 +4478,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App.'**
   String get haPushForgetHint;
+
+  /// No description provided for @haPushBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Also when the app is closed'**
+  String get haPushBackground;
+
+  /// No description provided for @haPushBackgroundHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeps the connection open in the background, also after a restart. Android then shows a quiet, permanent notification; uses a little more battery.'**
+  String get haPushBackgroundHint;
+
+  /// No description provided for @haPushServiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to Home Assistant'**
+  String get haPushServiceTitle;
+
+  /// No description provided for @haPushServiceText.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for messages from your automations'**
+  String get haPushServiceText;
+
+  /// No description provided for @haPushRemovedInHa.
+  ///
+  /// In en, this message translates to:
+  /// **'This device was removed in Home Assistant (Mobile App). Add it again to receive messages.'**
+  String get haPushRemovedInHa;
 }
 
 class _AppLocalizationsDelegate

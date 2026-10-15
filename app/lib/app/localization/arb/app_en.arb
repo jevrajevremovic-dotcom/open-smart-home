@@ -1055,7 +1055,7 @@
   "activityPeople": "People",
   "activityHint": "From Home Assistant's logbook for the last 24 hours. Sensors that measure continuously (temperature, power) aren't listed.",
   "alertsSetting": "Notify about critical alerts",
-  "alertsSettingHint": "Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. Only while the app is running; for alerts when it's closed, use Home Assistant's own notifications.",
+  "alertsSettingHint": "Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. While the app runs — or always, with “Also when the app is closed” under Messages from Home Assistant.",
   "alertsPermissionDenied": "Notifications are turned off for this app in the phone's settings.",
   "fanLow": "Low",
   "fanMedium": "Medium",
@@ -1136,5 +1136,10 @@
   "haPushTest": "Send a test message",
   "haPushTestMessage": "Messages from Home Assistant arrive on this device.",
   "haPushForget": "Stop messages",
-  "haPushForgetHint": "The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App."
+  "haPushForgetHint": "The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App.",
+  "haPushBackground": "Also when the app is closed",
+  "haPushBackgroundHint": "Keeps the connection open in the background, also after a restart. Android then shows a quiet, permanent notification; uses a little more battery.",
+  "haPushServiceTitle": "Connected to Home Assistant",
+  "haPushServiceText": "Waiting for messages from your automations",
+  "haPushRemovedInHa": "This device was removed in Home Assistant (Mobile App). Add it again to receive messages."
 }

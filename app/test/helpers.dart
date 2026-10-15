@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:open_smart_home/features/clap/clap_platform.dart';
+import 'package:open_smart_home/features/ha_notify/ha_push.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
@@ -97,6 +98,7 @@ Future<List<Override>> testOverrides({
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
+  BackgroundConnectionPlatform? background,
   List<Override> overrides = const [],
 }) async {
   SharedPreferences.setMockInitialValues(preferences);
@@ -121,6 +123,9 @@ Future<List<Override>> testOverrides({
     deviceAuthProvider.overrideWithValue(deviceAuth ?? FakeDeviceAuth()),
     appShortcutsPlatformProvider.overrideWithValue(
       shortcuts ?? FakeShortcuts(supported: false),
+    ),
+    backgroundConnectionProvider.overrideWithValue(
+      background ?? FakeBackgroundConnection(supported: false),
     ),
     clapPlatformProvider.overrideWithValue(
       clap ?? FakeClapPlatform(supported: false),
@@ -250,4 +255,23 @@ class FakeClapPlatform implements ClapPlatform {
   }
 
   void emit(Iterable<double> levels) => levels.forEach(_levels.add);
+}
+
+/// Records whether the connection service would run.
+class FakeBackgroundConnection implements BackgroundConnectionPlatform {
+  FakeBackgroundConnection({this.supported = true});
+
+  @override
+  final bool supported;
+  bool running = false;
+  String? text;
+
+  @override
+  Future<void> start({required String title, required String text}) async {
+    running = true;
+    this.text = text;
+  }
+
+  @override
+  Future<void> stop() async => running = false;
 }

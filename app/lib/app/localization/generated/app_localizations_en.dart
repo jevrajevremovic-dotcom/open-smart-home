@@ -2328,7 +2328,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alertsSettingHint =>
-      'Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. Only while the app is running; for alerts when it\'s closed, use Home Assistant\'s own notifications.';
+      'Smoke, CO, water leak, a triggered alarm or a jammed lock as a phone notification, shown by this device. While the app runs — or always, with “Also when the app is closed” under Messages from Home Assistant.';
 
   @override
   String get alertsPermissionDenied =>
@@ -2520,4 +2520,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get haPushForgetHint =>
       'The app stops listening for messages. To remove the device completely, delete it in Home Assistant: Settings → Devices & services → Mobile App.';
+
+  @override
+  String get haPushBackground => 'Also when the app is closed';
+
+  @override
+  String get haPushBackgroundHint =>
+      'Keeps the connection open in the background, also after a restart. Android then shows a quiet, permanent notification; uses a little more battery.';
+
+  @override
+  String get haPushServiceTitle => 'Connected to Home Assistant';
+
+  @override
+  String get haPushServiceText => 'Waiting for messages from your automations';
+
+  @override
+  String get haPushRemovedInHa =>
+      'This device was removed in Home Assistant (Mobile App). Add it again to receive messages.';
 }

@@ -672,7 +672,7 @@
   "activityPeople": "Ukućani",
   "activityHint": "Iz dnevnika Home Assistanta za poslednja 24 sata. Senzori koji mere neprekidno (temperatura, snaga) se ne prikazuju.",
   "alertsSetting": "Obaveštenja o kritičnim upozorenjima",
-  "alertsSettingHint": "Dim, CO, curenje vode, aktiviran alarm ili zaglavljena brava kao obaveštenje na telefonu, koje prikazuje sam uređaj. Samo dok aplikacija radi; za upozorenja kad je zatvorena koristite obaveštenja samog Home Assistanta.",
+  "alertsSettingHint": "Dim, CO, curenje vode, aktiviran alarm ili zaglavljena brava kao obaveštenje na telefonu, koje prikazuje sam uređaj. Dok aplikacija radi — ili stalno, uz „I kad je aplikacija zatvorena” kod Poruka iz Home Assistanta.",
   "alertsPermissionDenied": "Obaveštenja su isključena za ovu aplikaciju u podešavanjima telefona.",
   "fanLow": "Slabo",
   "fanMedium": "Srednje",
@@ -729,5 +729,10 @@
   "haPushTest": "Pošalji probnu poruku",
   "haPushTestMessage": "Poruke iz Home Assistanta stižu na ovaj uređaj.",
   "haPushForget": "Prestani da primaš poruke",
-  "haPushForgetHint": "Aplikacija prestaje da sluša poruke. Da biste uređaj potpuno uklonili, obrišite ga u Home Assistantu: Podešavanja → Uređaji i servisi → Mobile App."
+  "haPushForgetHint": "Aplikacija prestaje da sluša poruke. Da biste uređaj potpuno uklonili, obrišite ga u Home Assistantu: Podešavanja → Uređaji i servisi → Mobile App.",
+  "haPushBackground": "I kad je aplikacija zatvorena",
+  "haPushBackgroundHint": "Drži vezu otvorenom u pozadini, i posle restarta telefona. Android tada prikazuje tiho, stalno obaveštenje; troši malo više baterije.",
+  "haPushServiceTitle": "Povezano sa Home Assistantom",
+  "haPushServiceText": "Čeka poruke vaših automatizacija",
+  "haPushRemovedInHa": "Ovaj uređaj je obrisan u Home Assistantu (Mobile App). Dodajte ga ponovo da biste primali poruke."
 }

@@ -921,6 +921,20 @@ class MockHomeAssistantServer {
     String service,
     Map<String, Object?> data,
   ) {
+    // notify.mobile_app_<device name>, as Home Assistant creates it.
+    if (domain == 'notify' && service.startsWith('mobile_app_')) {
+      for (final MapEntry(:key, :value) in mobileApps.entries) {
+        if ('mobile_app_${_slug('${value['device_name']}')}' == service) {
+          final message = data['message'];
+          sendPush(
+            key,
+            message: message is String ? message : '',
+            title: data['title'] is String ? data['title']! as String : null,
+          );
+        }
+      }
+      return const [];
+    }
     if (domain == 'zha' && service == 'permit' && zhaAvailable) {
       final d = data['duration'];
       _permitJoin(d is num ? d.toInt() : 60);

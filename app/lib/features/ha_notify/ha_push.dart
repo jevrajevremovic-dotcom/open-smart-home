@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/localization/l10n.dart';
+import '../../core/errors/app_failure.dart';
 import '../../core/logging/app_logger.dart';
 import '../../core/storage/app_preferences.dart';
 import '../../core/storage/credential_store.dart';
@@ -124,8 +127,10 @@ class HaPushController extends AsyncNotifier<MobileAppRegistration?> {
   }
 
   /// Forgets the registration here; the device itself is removed in Home
-  /// Assistant (Settings → Devices → Mobile App).
-  Future<void> forget() async {
+  /// Assistant (Settings → Devices → Mobile App). [removedInHa]: Home
+  /// Assistant already removed it, which settings then explain.
+  Future<void> forget({bool removedInHa = false}) async {
+    ref.read(haPushRemovedProvider.notifier).set(removedInHa);
     final key = _key;
     if (key != null) {
       await ref.read(credentialStoreProvider).deleteCredential(key);
@@ -133,6 +138,84 @@ class HaPushController extends AsyncNotifier<MobileAppRegistration?> {
     state = const AsyncData(null);
   }
 }
+
+/// Android connection service (ConnectionService.kt) that keeps the app
+/// running after it is closed, so messages still arrive.
+abstract interface class BackgroundConnectionPlatform {
+  bool get supported;
+  Future<void> start({required String title, required String text});
+  Future<void> stop();
+}
+
+class AndroidBackgroundConnection implements BackgroundConnectionPlatform {
+  static const _channel = MethodChannel('org.opensmarthome/background');
+
+  @override
+  bool get supported =>
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
+  @override
+  Future<void> start({required String title, required String text}) async {
+    try {
+      await _channel.invokeMethod<void>('start', {
+        'title': title,
+        'text': text,
+      });
+    } on PlatformException catch (e) {
+      AppLogger('HaPush').warning('service not started', e.code);
+    }
+  }
+
+  @override
+  Future<void> stop() async {
+    try {
+      await _channel.invokeMethod<void>('stop');
+    } on Object {
+      // No screen attached right now: the service stops with the app.
+    }
+  }
+}
+
+final backgroundConnectionProvider = Provider<BackgroundConnectionPlatform>(
+  (ref) => AndroidBackgroundConnection(),
+);
+
+/// Opt-in: messages also when the app is closed (permanent notification).
+class HaPushBackgroundController extends Notifier<bool> {
+  static const _key = 'haPush.background';
+
+  @override
+  bool build() =>
+      ref.watch(appPreferencesProvider).readJson(_key)?['enabled'] == true;
+
+  Future<void> set(bool enabled) async {
+    state = enabled;
+    await ref
+        .read(appPreferencesProvider)
+        .writeJson(_key, enabled ? {'enabled': true} : null);
+  }
+}
+
+final haPushBackgroundProvider =
+    NotifierProvider<HaPushBackgroundController, bool>(
+      HaPushBackgroundController.new,
+    );
+
+/// The last registration was removed in Home Assistant itself.
+class HaPushRemovedController extends Notifier<bool> {
+  @override
+  bool build() {
+    ref.watch(activeProfileProvider);
+    return false;
+  }
+
+  // ignore: use_setters_to_change_properties
+  void set(bool removed) => state = removed;
+}
+
+final haPushRemovedProvider = NotifierProvider<HaPushRemovedController, bool>(
+  HaPushRemovedController.new,
+);
 
 final haPushProvider =
     AsyncNotifierProvider<HaPushController, MobileAppRegistration?>(
@@ -155,6 +238,8 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
   String? _webhook;
   int _counter = 0;
 
+  bool _refused = false;
+
   void _sync() {
     final registration = ref.read(haPushProvider).value;
     final manager = ref.read(webSocketManagerProvider);
@@ -169,6 +254,7 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
       return;
     }
     if (_sub != null && _webhook == registration.webhookId) return;
+    if (_refused) return;
     _stop();
     unawaited(notifier.initialize((_) {}));
     _webhook = registration.webhookId;
@@ -204,10 +290,27 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
               );
             }
           },
-          // The connection dropped: subscribe again once it is back.
           onError: (Object e) {
-            _log.debug('push channel closed: ${e.runtimeType}');
-            _closed();
+            final kind = e is AppFailure ? e.kind : null;
+            if (kind == FailureKind.webSocket) {
+              // The connection dropped: subscribe again once it is back.
+              _closed();
+            } else if (kind == FailureKind.unavailableEntity) {
+              // Home Assistant no longer knows this device (it was removed
+              // under Mobile App): forget it here too, never retry.
+              _log.info('registration removed in Home Assistant');
+              _sub = null;
+              _webhook = null;
+              unawaited(
+                ref.read(haPushProvider.notifier).forget(removedInHa: true),
+              );
+            } else {
+              // Refused for another reason: try again only after the next
+              // reconnect, never in a tight loop.
+              _log.warning('push channel refused', kind);
+              _sub = null;
+              _refused = true;
+            }
           },
           onDone: _closed,
           cancelOnError: true,
@@ -220,10 +323,15 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
   void _closed() {
     _sub = null;
     _webhook = null;
-    scheduleMicrotask(() {
+    // A timer, not a microtask: lets the connection status catch up and
+    // can never spin without giving the rest of the app a turn.
+    _retry?.cancel();
+    _retry = Timer(const Duration(seconds: 1), () {
       if (mounted) _sync();
     });
   }
+
+  Timer? _retry;
 
   void _stop() {
     unawaited(_sub?.cancel());
@@ -233,15 +341,50 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
 
   @override
   void dispose() {
+    _retry?.cancel();
     _stop();
     super.dispose();
   }
 
+  bool? _serviceWanted;
+
+  /// Starts or stops the connection service to match the settings.
+  void _syncService() {
+    final platform = ref.read(backgroundConnectionProvider);
+    if (!platform.supported) return;
+    final wanted =
+        ref.read(haPushBackgroundProvider) &&
+        ref.read(haPushProvider).value != null;
+    if (wanted == _serviceWanted) return;
+    _serviceWanted = wanted;
+    if (wanted) {
+      final l10n = context.l10n;
+      unawaited(
+        platform.start(
+          title: l10n.haPushServiceTitle,
+          text: l10n.haPushServiceText,
+        ),
+      );
+    } else {
+      unawaited(platform.stop());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _syncService();
+    });
     ref
-      ..listen(haPushProvider, (_, _) => _sync())
-      ..listen(connectionStatusProvider, (_, _) => _sync())
+      ..listen(haPushBackgroundProvider, (_, _) => _syncService())
+      ..listen(haPushProvider, (_, _) {
+        _sync();
+        _syncService();
+      })
+      ..listen(connectionStatusProvider, (_, next) {
+        if (next.value?.isConnected != true) _refused = false;
+        _sync();
+      })
       ..listen(webSocketManagerProvider, (_, _) {
         _stop();
         _sync();

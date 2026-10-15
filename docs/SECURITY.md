@@ -131,6 +131,7 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Po želji: korisnik imenuje uređaj i dodaje ga u HA; tek tada sistem traži dozvolu za obaveštenja.
 - `webhook_id` iz odgovora je tajna (preko njega se šalju podaci HA-u bez prijave), pa se čuva u Keystore/Keychain zajedno sa tokenom i briše pri odjavi. Aplikacija sama ne šalje ništa na webhook.
 - `supports_encryption: false`, bez senzora i lokacije: registracija služi samo za `notify`; poruke stižu preko već autentifikovane WebSocket veze (`push_websocket_channel`), ne preko clouda.
+- „I kad je aplikacija zatvorena” (Android): po želji; servis u prvom planu samo drži proces živim (sam ne komunicira), Android prikazuje stalno obaveštenje; isključuje se istim prekidačem, odjavom ili brisanjem registracije.
 - „Prestani da primaš poruke” briše lokalnu registraciju; sam uređaj se uklanja u HA (Mobile App integracija).
 
 ## Kiosk PIN

@@ -2337,7 +2337,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get alertsSettingHint =>
-      'Dim, CO, curenje vode, aktiviran alarm ili zaglavljena brava kao obaveštenje na telefonu, koje prikazuje sam uređaj. Samo dok aplikacija radi; za upozorenja kad je zatvorena koristite obaveštenja samog Home Assistanta.';
+      'Dim, CO, curenje vode, aktiviran alarm ili zaglavljena brava kao obaveštenje na telefonu, koje prikazuje sam uređaj. Dok aplikacija radi — ili stalno, uz „I kad je aplikacija zatvorena” kod Poruka iz Home Assistanta.';
 
   @override
   String get alertsPermissionDenied =>
@@ -2529,6 +2529,23 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get haPushForgetHint =>
       'Aplikacija prestaje da sluša poruke. Da biste uređaj potpuno uklonili, obrišite ga u Home Assistantu: Podešavanja → Uređaji i servisi → Mobile App.';
+
+  @override
+  String get haPushBackground => 'I kad je aplikacija zatvorena';
+
+  @override
+  String get haPushBackgroundHint =>
+      'Drži vezu otvorenom u pozadini, i posle restarta telefona. Android tada prikazuje tiho, stalno obaveštenje; troši malo više baterije.';
+
+  @override
+  String get haPushServiceTitle => 'Povezano sa Home Assistantom';
+
+  @override
+  String get haPushServiceText => 'Čeka poruke vaših automatizacija';
+
+  @override
+  String get haPushRemovedInHa =>
+      'Ovaj uređaj je obrisan u Home Assistantu (Mobile App). Dodajte ga ponovo da biste primali poruke.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

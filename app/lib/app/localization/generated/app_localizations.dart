@@ -4340,6 +4340,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name}: {state}'**
   String clapSwitched(String name, String state);
+
+  /// No description provided for @clapDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: done'**
+  String clapDone(String name);
+
+  /// No description provided for @clapLockAction.
+  ///
+  /// In en, this message translates to:
+  /// **'lock / unlock (unlocking asks for confirmation)'**
+  String get clapLockAction;
+
+  /// No description provided for @clapGarageAction.
+  ///
+  /// In en, this message translates to:
+  /// **'open (asks for confirmation) / close'**
+  String get clapGarageAction;
+
+  /// No description provided for @clapCoverAction.
+  ///
+  /// In en, this message translates to:
+  /// **'open / close'**
+  String get clapCoverAction;
+
+  /// No description provided for @clapVacuumAction.
+  ///
+  /// In en, this message translates to:
+  /// **'start / back to dock'**
+  String get clapVacuumAction;
+
+  /// No description provided for @clapMediaAction.
+  ///
+  /// In en, this message translates to:
+  /// **'play / pause'**
+  String get clapMediaAction;
+
+  /// No description provided for @clapOpenScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'opens its screen'**
+  String get clapOpenScreen;
+
+  /// No description provided for @clapSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search devices'**
+  String get clapSearch;
 }
 
 class _AppLocalizationsDelegate

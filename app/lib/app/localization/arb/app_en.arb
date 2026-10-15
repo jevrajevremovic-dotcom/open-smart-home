@@ -1099,5 +1099,20 @@
         "type": "String"
       }
     }
-  }
+  },
+  "clapDone": "{name}: done",
+  "@clapDone": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clapLockAction": "lock / unlock (unlocking asks for confirmation)",
+  "clapGarageAction": "open (asks for confirmation) / close",
+  "clapCoverAction": "open / close",
+  "clapVacuumAction": "start / back to dock",
+  "clapMediaAction": "play / pause",
+  "clapOpenScreen": "opens its screen",
+  "clapSearch": "Search devices"
 }

@@ -117,30 +117,62 @@ class ClapSettings extends ConsumerWidget {
   }
 }
 
-class _ClapTargetPicker extends ConsumerWidget {
+class _ClapTargetPicker extends ConsumerStatefulWidget {
   const _ClapTargetPicker();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_ClapTargetPicker> createState() => _ClapTargetPickerState();
+}
+
+class _ClapTargetPickerState extends ConsumerState<_ClapTargetPicker> {
+  String _query = '';
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = context.l10n;
     final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
-    final list = devices.values.where(isClapTarget).toList()
-      ..sort((a, b) => a.name.compareTo(b.name));
+    final q = _query.trim().toLowerCase();
+    final list =
+        devices.values
+            .where((d) => isClapTarget(d) && d.name.toLowerCase().contains(q))
+            .toList()
+          ..sort((a, b) => a.name.compareTo(b.name));
     return AlertDialog(
       title: Text(l10n.clapTarget),
       contentPadding: const EdgeInsets.fromLTRB(8, 12, 8, 0),
       content: SizedBox(
-        width: 420,
-        height: 420,
-        child: ListView(
+        width: 440,
+        height: 460,
+        child: Column(
           children: [
-            for (final d in list)
-              ListTile(
-                key: ValueKey('clapPick-${d.id}'),
-                leading: Icon(clapTargetIcon(d)),
-                title: Text(d.name),
-                onTap: () => Navigator.of(context).pop(d.id),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: TextField(
+                key: const Key('clapSearch'),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: l10n.clapSearch,
+                ),
+                onChanged: (v) => setState(() => _query = v),
               ),
+            ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView(
+                children: [
+                  for (final d in list)
+                    ListTile(
+                      key: ValueKey('clapPick-${d.id}'),
+                      leading: Icon(clapTargetIcon(d)),
+                      title: Text(d.name),
+                      subtitle: Text(
+                        clapTargetLabel(l10n, d).substring(d.name.length + 3),
+                      ),
+                      onTap: () => Navigator.of(context).pop(d.id),
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

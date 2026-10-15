@@ -2440,4 +2440,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String clapSwitched(String name, String state) {
     return '$name: $state';
   }
+
+  @override
+  String clapDone(String name) {
+    return '$name: done';
+  }
+
+  @override
+  String get clapLockAction =>
+      'lock / unlock (unlocking asks for confirmation)';
+
+  @override
+  String get clapGarageAction => 'open (asks for confirmation) / close';
+
+  @override
+  String get clapCoverAction => 'open / close';
+
+  @override
+  String get clapVacuumAction => 'start / back to dock';
+
+  @override
+  String get clapMediaAction => 'play / pause';
+
+  @override
+  String get clapOpenScreen => 'opens its screen';
+
+  @override
+  String get clapSearch => 'Search devices';
 }

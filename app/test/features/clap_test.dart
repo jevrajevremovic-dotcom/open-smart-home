@@ -42,20 +42,10 @@ void main() {
     await settle(tester, 3);
     await tapKey(tester, 'clapTarget');
     await settle(tester, 3);
-    await tester.scrollUntilVisible(
-      find.byKey(const ValueKey('clapPick-light.hallway')),
-      200,
-      scrollable: find.descendant(
-        of: find.byType(AlertDialog),
-        matching: find.byType(Scrollable),
-      ),
-    );
+    await tester.enterText(find.byKey(const Key('clapSearch')), 'Hodnik');
+    await settle(tester, 2);
     await tester.tap(find.byKey(const ValueKey('clapPick-light.hallway')));
     await settle(tester, 3);
-    expect(
-      find.byKey(const ValueKey('clapPick-lock.front_door')),
-      findsNothing,
-    );
     expect(mic.listeners, 0, reason: 'only listens inside the kiosk');
 
     await tapKey(tester, 'startKiosk');
@@ -96,6 +86,51 @@ void main() {
     await settle(tester, 3);
     expect(find.text(en.clapPermissionDenied), findsOneWidget);
     expect(find.byKey(const Key('clapTarget')), findsNothing);
+    await unmount(tester);
+  });
+
+  testWidgets('any device can be chosen; unlocking still asks first', (
+    tester,
+  ) async {
+    final mic = FakeClapPlatform();
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: const Size(800, 1600),
+      clap: mic,
+    );
+    await settle(tester, 10);
+    final server = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    ).read(mockHomeAssistantServerProvider);
+    expect(server.stateForTest('lock.front_door'), 'locked');
+
+    await goTo(tester, AppRoutes.settings);
+    await tapKey(tester, 'clapSwitch');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const Key('clapAllow')));
+    await settle(tester, 3);
+    await tapKey(tester, 'clapTarget');
+    await settle(tester, 3);
+    await tester.enterText(find.byKey(const Key('clapSearch')), 'Brava');
+    await settle(tester, 2);
+    expect(find.text(en.clapLockAction), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('clapPick-lock.front_door')));
+    await settle(tester, 3);
+
+    await tapKey(tester, 'startKiosk');
+    await settle(tester, 8);
+    mic.emit(doubleClap());
+    await settle(tester, 8);
+    expect(
+      server.stateForTest('lock.front_door'),
+      'locked',
+      reason: 'not without confirmation',
+    );
+    expect(find.byKey(const Key('confirmCriticalAction')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('confirmCriticalAction')));
+    await settle(tester, 8);
+    expect(server.stateForTest('lock.front_door'), 'unlocked');
     await unmount(tester);
   });
 }

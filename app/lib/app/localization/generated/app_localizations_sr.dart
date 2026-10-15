@@ -2449,6 +2449,33 @@ class AppLocalizationsSr extends AppLocalizations {
   String clapSwitched(String name, String state) {
     return '$name: $state';
   }
+
+  @override
+  String clapDone(String name) {
+    return '$name: urađeno';
+  }
+
+  @override
+  String get clapLockAction =>
+      'zaključaj / otključaj (otključavanje uz potvrdu)';
+
+  @override
+  String get clapGarageAction => 'otvori (uz potvrdu) / zatvori';
+
+  @override
+  String get clapCoverAction => 'otvori / zatvori';
+
+  @override
+  String get clapVacuumAction => 'pokreni / vrati na punjač';
+
+  @override
+  String get clapMediaAction => 'pusti / pauziraj';
+
+  @override
+  String get clapOpenScreen => 'otvara ekran uređaja';
+
+  @override
+  String get clapSearch => 'Pretraži uređaje';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

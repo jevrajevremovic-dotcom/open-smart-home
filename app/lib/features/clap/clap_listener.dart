@@ -2,33 +2,67 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/localization/l10n.dart';
+import '../../app/router/app_router.dart';
 import '../../core/logging/app_logger.dart';
-import '../devices/application/device_command_service.dart';
 import '../devices/application/device_providers.dart';
+import '../devices/domain/capability.dart';
 import '../devices/domain/device_command.dart';
 import '../devices/domain/device_kind.dart';
 import '../devices/domain/smart_home_device.dart';
+import '../devices/presentation/device_actions.dart';
 import '../devices/presentation/device_presentation.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import 'clap_detector.dart';
 import 'clap_platform.dart';
 
-/// What a double clap may control: things that are harmless to switch by
-/// sound. Locks, alarms, garage doors and covers are left out on purpose.
+/// Any real device can be chosen; what a clap does depends on its kind
+/// (see [clapCommandFor]).
 bool isClapTarget(SmartHomeDevice d) =>
-    !d.isAuxiliary &&
-    (d.kind.isLight ||
-        d.kind.isRoutine && d.kind != DeviceKind.automation ||
-        const {
-          DeviceKind.switchDevice,
-          DeviceKind.outlet,
-          DeviceKind.fan,
-          DeviceKind.airPurifier,
-          DeviceKind.humidifier,
-          DeviceKind.dehumidifier,
-        }.contains(d.kind));
+    !d.isAuxiliary && d.kind != DeviceKind.unknown;
+
+/// The command a double clap sends to [d], or `null` when the device has no
+/// simple action (a sensor, a camera, an alarm panel needing a mode or a
+/// code): then the clap opens its screen instead.
+///
+/// Unlocking, opening a garage door and disarming are critical commands:
+/// they still ask for confirmation on the screen, as when tapped.
+DeviceCommand? clapCommandFor(SmartHomeDevice d) {
+  final s = d.state;
+  bool can(Capability c) => d.supports(c);
+  if (d.kind.isRoutine || d.kind == DeviceKind.button) {
+    return can(Capability.trigger) ? const Activate() : null;
+  }
+  if (d.kind == DeviceKind.lock) {
+    return switch (s.lockState) {
+      DoorLockState.locked when can(Capability.unlock) => const UnlockDevice(),
+      DoorLockState.unlocked ||
+      DoorLockState.open when can(Capability.lock) => const LockDevice(),
+      _ => null,
+    };
+  }
+  if (can(Capability.open) && can(Capability.close)) {
+    final closed =
+        s.coverState == CoverState.closed ||
+        s.coverState == CoverState.closing ||
+        s.position == 0;
+    return closed ? const OpenCover() : const CloseCover();
+  }
+  if (d.kind == DeviceKind.vacuum) {
+    return s.raw == 'cleaning'
+        ? (can(Capability.vacuumReturnHome) ? const VacuumReturnHome() : null)
+        : (can(Capability.vacuumStart) ? const VacuumStart() : null);
+  }
+  if (can(Capability.mediaPlay) || can(Capability.mediaPause)) {
+    return const MediaPlayPause();
+  }
+  if (can(Capability.power)) {
+    return s.isOn == true ? const TurnOff() : const TurnOn();
+  }
+  return null;
+}
 
 /// Listens for a double clap while the kiosk dashboard is on screen (and
 /// nothing covers it, so Assist can use the microphone) and runs the
@@ -103,32 +137,31 @@ class _KioskClapListenerState extends ConsumerState<KioskClapListener> {
     final messenger = ScaffoldMessenger.maybeOf(context);
     final id = ref.read(kioskSettingsProvider).clapTargetId;
     final device = id == null ? null : ref.read(deviceProvider(id));
-    final service = ref.read(deviceCommandServiceProvider);
-    if (device == null || service == null || !isClapTarget(device)) return;
-    final DeviceCommand command = device.kind.isRoutine
-        ? const Activate()
-        : device.state.isOn == true
-        ? const TurnOff()
-        : const TurnOn();
-    try {
-      await service.execute(device, command);
-      messenger
-        ?..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              device.kind.isRoutine
-                  ? l10n.sceneActivated(device.name)
-                  : l10n.clapSwitched(
-                      device.name,
-                      command is TurnOn ? l10n.stateOn : l10n.stateOff,
-                    ),
-            ),
-          ),
-        );
-    } on Object catch (e) {
-      _log.warning('clap action failed', e.runtimeType);
+    if (device == null || !isClapTarget(device)) return;
+    final command = clapCommandFor(device);
+    if (command == null) {
+      // Nothing simple to switch: show the device instead.
+      unawaited(context.push(AppRoutes.device(device.id, kiosk: true)));
+      return;
     }
+    // Same path as a tap: critical commands ask for confirmation first.
+    if (!await runDeviceCommand(context, ref, device, command)) return;
+    messenger
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            command is Activate
+                ? l10n.sceneActivated(device.name)
+                : command is TurnOn || command is TurnOff
+                ? l10n.clapSwitched(
+                    device.name,
+                    command is TurnOn ? l10n.stateOn : l10n.stateOff,
+                  )
+                : l10n.clapDone(device.name),
+          ),
+        ),
+      );
   }
 
   @override
@@ -149,10 +182,25 @@ class _KioskClapListenerState extends ConsumerState<KioskClapListener> {
   }
 }
 
-/// Short description of a clap target for settings.
-String clapTargetLabel(AppLocalizations l10n, SmartHomeDevice? d) => d == null
-    ? l10n.clapTargetNone
-    : '${d.name} · ${d.kind.isRoutine ? l10n.svc_activate : l10n.clapToggle}';
+/// Short description of what a clap does to [d], for settings.
+String clapTargetLabel(AppLocalizations l10n, SmartHomeDevice? d) {
+  if (d == null) return l10n.clapTargetNone;
+  final action = switch (d) {
+    _ when d.kind.isRoutine || d.kind == DeviceKind.button => l10n.svc_activate,
+    _ when d.kind == DeviceKind.lock => l10n.clapLockAction,
+    _ when d.kind == DeviceKind.garageDoor => l10n.clapGarageAction,
+    _ when d.supports(Capability.open) && d.supports(Capability.close) =>
+      l10n.clapCoverAction,
+    _ when d.kind == DeviceKind.vacuum => l10n.clapVacuumAction,
+    _
+        when d.supports(Capability.mediaPlay) ||
+            d.supports(Capability.mediaPause) =>
+      l10n.clapMediaAction,
+    _ when d.supports(Capability.power) => l10n.clapToggle,
+    _ => l10n.clapOpenScreen,
+  };
+  return '${d.name} · $action';
+}
 
 IconData clapTargetIcon(SmartHomeDevice? d) =>
     d == null ? Icons.touch_app_outlined : DevicePresentation.icon(d);

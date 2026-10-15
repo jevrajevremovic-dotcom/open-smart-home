@@ -119,7 +119,7 @@ Zahteva javno hostovanu `client_id` stranicu sa `<link rel="redirect_uri">` i HA
 - Isključen dok ga korisnik ne uključi; pre toga dijalog objašnjava da je mikrofon uključen dok je kiosk na ekranu, a sistem traži dozvolu za mikrofon.
 - `AudioLevelHandler.kt` čita mikrofon u okvirima od 20 ms i iz svakog šalje samo najglasniji uzorak (jedan broj); uzorci se odmah odbacuju. Zvuk se ne snima, ne čuva i ne šalje nigde — ni HA-u.
 - Sluša samo dok je kiosk na ekranu, aplikacija u prvom planu i ništa ga ne prekriva; Android pritom prikazuje oznaku mikrofona.
-- Cilj može biti samo svetlo, prekidač, utičnica, ventilator, prečišćivač/ovlaživač ili scena/skripta — nikad brava, alarm, garažna vrata, roletne ili sirena.
+- Cilj može biti bilo koji uređaj (izbor korisnika). Kritične radnje — otključavanje, otvaranje garaže, isključivanje alarma — idu istim putem kao dodir: potvrda na ekranu (i opciono otisak/lice), pa zvuk spolja ili sa TV-a sam ne može da otključa vrata.
 - Podešavanje se ne prenosi „Prenosom podešavanja” na drugi uređaj.
 
 ## Kiosk PIN

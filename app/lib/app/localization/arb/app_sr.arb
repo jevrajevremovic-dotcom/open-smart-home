@@ -706,5 +706,13 @@
   "clapLow": "Niska",
   "clapMedium": "Srednja",
   "clapHigh": "Visoka",
-  "clapSwitched": "{name}: {state}"
+  "clapSwitched": "{name}: {state}",
+  "clapDone": "{name}: urađeno",
+  "clapLockAction": "zaključaj / otključaj (otključavanje uz potvrdu)",
+  "clapGarageAction": "otvori (uz potvrdu) / zatvori",
+  "clapCoverAction": "otvori / zatvori",
+  "clapVacuumAction": "pokreni / vrati na punjač",
+  "clapMediaAction": "pusti / pauziraj",
+  "clapOpenScreen": "otvara ekran uređaja",
+  "clapSearch": "Pretraži uređaje"
 }

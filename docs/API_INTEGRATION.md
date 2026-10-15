@@ -72,7 +72,35 @@ client: {"id":3,"type":"unsubscribe_events","subscription":1}
 
 - `POST /api/mobile_app/registrations` sa `app_data: {push_websocket_channel: true}` → `webhook_id` (tajna, Keystore/Keychain).
 - WebSocket `mobile_app/push_notification_channel` (`webhook_id`, `support_confirm: true`) → događaji `{message, title?, data?, hass_confirm_id}`; potvrda `mobile_app/push_notification_confirm`. Posle prekida veze pretplata se obnavlja.
-- Automatizacije: `notify.mobile_app_<slug imena uređaja>`.
+- Automatizacije: `notify.mobile_app_<slug imena uređaja>`. Podržani `data` ključevi: `tag`, `actions` (`action`/`title`, do 3; `REPLY` i `URI` se ignorišu), `entity_id` (dodir otvara uređaj); poruka `clear_notification` sa `tag` briše obaveštenje.
+- Dugme → WebSocket `webhook/handle` (`webhook_id`, `method: POST`, `body` = `{"type":"fire_event","data":{"event_type":"mobile_app_notification_action","event_data":{"action":…,"tag":…}}}`), dokumentovani mobile_app webhook.
+
+Primer automatizacije:
+
+```yaml
+actions:
+  - action: notify.mobile_app_zidni_tablet
+    data:
+      title: Ulazna vrata
+      message: Neko zvoni.
+      data:
+        tag: vrata
+        entity_id: camera.front_yard
+        actions:
+          - action: UPALI_SVETLO
+            title: Upali svetlo
+          - action: IGNORISI
+            title: Ignoriši
+  - wait_for_trigger:
+      - trigger: event
+        event_type: mobile_app_notification_action
+        event_data:
+          action: UPALI_SVETLO
+    timeout: "00:02:00"
+  - action: light.turn_on
+    target:
+      entity_id: light.hallway
+```
 
 ## Automatizacije (jednostavan editor)
 

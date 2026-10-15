@@ -4700,6 +4700,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When the camera offers a stream; until it starts, and otherwise, snapshots are shown.'**
   String get kioskPopupLiveHint;
+
+  /// No description provided for @timerSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get timerSet;
+
+  /// No description provided for @timerTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get timerTurnOff;
+
+  /// No description provided for @timerTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get timerTurnOn;
+
+  /// No description provided for @timerHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h'**
+  String timerHours(int hours);
+
+  /// No description provided for @timerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant counts down, so it also works when this phone is off. It creates a small script for this device (visible in Home Assistant); this needs an administrator account.'**
+  String get timerHint;
+
+  /// No description provided for @timerRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer is running'**
+  String get timerRunning;
+
+  /// No description provided for @timerTurnsOffAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Turns off at {time}'**
+  String timerTurnsOffAt(String time);
+
+  /// No description provided for @timerTurnsOnAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Turns on at {time}'**
+  String timerTurnsOnAt(String time);
+
+  /// No description provided for @timerNeedsAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Timers need an administrator account in Home Assistant.'**
+  String get timerNeedsAdmin;
 }
 
 class _AppLocalizationsDelegate

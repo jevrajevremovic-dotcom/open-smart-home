@@ -264,6 +264,12 @@ class DioHomeAssistantApi implements HomeAssistantApi {
   }
 
   @override
+  Future<void> saveScript(String id, Map<String, Object?> config) async {
+    _automationPath(id); // same id rules
+    await _authorized('POST', '/api/config/script/config/$id', data: config);
+  }
+
+  @override
   Future<void> saveScene(String id, Map<String, Object?> config) async {
     _automationPath(id); // same id rules
     await _authorized('POST', '/api/config/scene/config/$id', data: config);

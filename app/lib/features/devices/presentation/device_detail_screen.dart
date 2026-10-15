@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../timers/device_timer.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/widgets/responsive.dart';
@@ -109,6 +110,10 @@ class DeviceDetailScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                if (supportsTimer(device) && syncStatus == SyncStatus.live) ...[
+                  const SizedBox(height: 16),
+                  DeviceTimerSection(device: device),
+                ],
                 if (hasHistory(device)) ...[
                   const SizedBox(height: 24),
                   DeviceHistorySection(device: device),

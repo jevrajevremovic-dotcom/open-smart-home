@@ -2656,4 +2656,39 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kioskPopupLiveHint =>
       'When the camera offers a stream; until it starts, and otherwise, snapshots are shown.';
+
+  @override
+  String get timerSet => 'Timer';
+
+  @override
+  String get timerTurnOff => 'Turn off';
+
+  @override
+  String get timerTurnOn => 'Turn on';
+
+  @override
+  String timerHours(int hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get timerHint =>
+      'Home Assistant counts down, so it also works when this phone is off. It creates a small script for this device (visible in Home Assistant); this needs an administrator account.';
+
+  @override
+  String get timerRunning => 'Timer is running';
+
+  @override
+  String timerTurnsOffAt(String time) {
+    return 'Turns off at $time';
+  }
+
+  @override
+  String timerTurnsOnAt(String time) {
+    return 'Turns on at $time';
+  }
+
+  @override
+  String get timerNeedsAdmin =>
+      'Timers need an administrator account in Home Assistant.';
 }

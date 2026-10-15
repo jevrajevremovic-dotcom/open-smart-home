@@ -766,5 +766,14 @@
   "dashCardShortcuts": "Energija, kalendar, aktivnost",
   "dashCardAttention": "Potrebna pažnja (baterije, nedostupni)",
   "kioskPopupLive": "Video uživo",
-  "kioskPopupLiveHint": "Kad kamera nudi stream; dok se ne pokrene, ili ako ne može, prikazuju se snimci."
+  "kioskPopupLiveHint": "Kad kamera nudi stream; dok se ne pokrene, ili ako ne može, prikazuju se snimci.",
+  "timerSet": "Tajmer",
+  "timerTurnOff": "Isključi",
+  "timerTurnOn": "Uključi",
+  "timerHours": "{hours} h",
+  "timerHint": "Odbrojava Home Assistant, pa radi i kad je ovaj telefon ugašen. Za ovaj uređaj pravi malu skriptu (vidi se u Home Assistantu); potreban je administratorski nalog.",
+  "timerRunning": "Tajmer je uključen",
+  "timerTurnsOffAt": "Isključuje se u {time}",
+  "timerTurnsOnAt": "Uključuje se u {time}",
+  "timerNeedsAdmin": "Za tajmer je potreban administratorski nalog u Home Assistantu."
 }

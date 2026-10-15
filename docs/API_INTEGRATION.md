@@ -102,6 +102,11 @@ actions:
       entity_id: light.hallway
 ```
 
+## Tajmer uređaja
+
+- `POST /api/config/script/config/osh_timer_<entity>` (frontend API, admin): `mode: restart`, `sequence: [delay {minutes: "{{ minutes | int(0) }}"}, choose (service == 'turn_on') → homeassistant.turn_on, inače homeassistant.turn_off]`, cilj = entitet uređaja.
+- Pokretanje: `script.turn_on` sa `variables: {minutes, service}`; otkazivanje: `script.turn_off`. Da li tajmer radi, vidi se po stanju `script.osh_timer_…` (`on`).
+
 ## Automatizacije (jednostavan editor)
 
 - REST HA frontenda `GET` / `POST` / `DELETE /api/config/automation/config/<id>` (administrator; ID se proverava `[A-Za-z0-9_]`). HA posle čuvanja sam ponovo učitava automatizacije.

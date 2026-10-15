@@ -258,6 +258,69 @@ class MockHomeAssistantServer {
         .replaceAll(RegExp(r'^_+|_+$'), '');
   }
 
+  /// UI scripts saved through the app (id → config), entity `script.<id>`.
+  final Map<String, Map<String, Object?>> scripts = {};
+  final Map<String, Timer> _scriptRuns = {};
+
+  void saveScript(String id, Map<String, Object?> config) {
+    scripts[id] = config;
+    _setState('script.$id', 'off', {
+      'friendly_name': config['alias'] as String? ?? id,
+    });
+  }
+
+  /// Runs a timer script made by the app: `delay` of `minutes`, then
+  /// `service` on its target (mode restart: a new run replaces the old).
+  void _runScript(String entityId, Map<String, Object?> variables) {
+    final config = scripts[entityId.substring('script.'.length)];
+    if (config == null) return;
+    final minutes = variables['minutes'];
+    final service = variables['service'];
+    final target = _firstTarget(config['sequence']);
+    if (minutes is! num || service is! String || target is! String) return;
+    _scriptRuns.remove(entityId)?.cancel();
+    _setState(entityId, 'on', _attrs(entityId));
+    _scriptRuns[entityId] = Timer(
+      Duration(seconds: (minutes * 60).round()),
+      () {
+        _scriptRuns.remove(entityId);
+        callService(target.split('.').first, service, {'entity_id': target});
+        _setState(entityId, 'off', _attrs(entityId));
+      },
+    );
+  }
+
+  /// The first `target.entity_id` anywhere in a script sequence.
+  static String? _firstTarget(Object? node) {
+    if (node is Map) {
+      final target = node['target'];
+      if (target is Map && target['entity_id'] is String) {
+        return target['entity_id']! as String;
+      }
+      for (final v in node.values) {
+        final found = _firstTarget(v);
+        if (found != null) return found;
+      }
+    } else if (node is List) {
+      for (final v in node) {
+        final found = _firstTarget(v);
+        if (found != null) return found;
+      }
+    }
+    return null;
+  }
+
+  void _stopScript(String entityId) {
+    _scriptRuns.remove(entityId)?.cancel();
+    if (_states.containsKey(entityId)) {
+      _setState(entityId, 'off', _attrs(entityId));
+    }
+  }
+
+  Map<String, Object?> _attrs(String id) => Map<String, Object?>.of(
+    (_states[id]?['attributes'] as Map<String, Object?>?) ?? const {},
+  );
+
   /// UI scenes saved through the app (id → config).
   final Map<String, Map<String, Object?>> scenes = {};
 
@@ -960,6 +1023,20 @@ class MockHomeAssistantServer {
         _dismissNotifications(notifications.keys.toList());
       }
       return const [];
+    }
+    if (domain == 'script' && (service == 'turn_on' || service == 'turn_off')) {
+      final id = data['entity_id'];
+      if (id is String && scripts.containsKey(id.substring('script.'.length))) {
+        if (service == 'turn_on') {
+          _runScript(id, switch (data['variables']) {
+            final Map<String, Object?> v => v,
+            _ => const {},
+          });
+        } else {
+          _stopScript(id);
+        }
+        return const [];
+      }
     }
     if (domain == 'mqtt' && service == 'publish') {
       final topic = data['topic'];
@@ -1751,6 +1828,13 @@ class MockHomeAssistantApi implements HomeAssistantApi {
       throw const AppFailure(FailureKind.server, statusCode: 404);
     }
     return config;
+  }
+
+  @override
+  Future<void> saveScript(String id, Map<String, Object?> config) async {
+    await _requireAuth();
+    await _latency();
+    server.saveScript(id, config);
   }
 
   @override

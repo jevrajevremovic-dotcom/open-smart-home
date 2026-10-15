@@ -2666,6 +2666,41 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get kioskPopupLiveHint =>
       'Kad kamera nudi stream; dok se ne pokrene, ili ako ne može, prikazuju se snimci.';
+
+  @override
+  String get timerSet => 'Tajmer';
+
+  @override
+  String get timerTurnOff => 'Isključi';
+
+  @override
+  String get timerTurnOn => 'Uključi';
+
+  @override
+  String timerHours(int hours) {
+    return '$hours h';
+  }
+
+  @override
+  String get timerHint =>
+      'Odbrojava Home Assistant, pa radi i kad je ovaj telefon ugašen. Za ovaj uređaj pravi malu skriptu (vidi se u Home Assistantu); potreban je administratorski nalog.';
+
+  @override
+  String get timerRunning => 'Tajmer je uključen';
+
+  @override
+  String timerTurnsOffAt(String time) {
+    return 'Isključuje se u $time';
+  }
+
+  @override
+  String timerTurnsOnAt(String time) {
+    return 'Uključuje se u $time';
+  }
+
+  @override
+  String get timerNeedsAdmin =>
+      'Za tajmer je potreban administratorski nalog u Home Assistantu.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

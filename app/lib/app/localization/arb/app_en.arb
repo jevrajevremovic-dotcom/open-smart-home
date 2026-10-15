@@ -1221,5 +1221,35 @@
   "dashCardShortcuts": "Energy, calendar, activity",
   "dashCardAttention": "Needs attention (batteries, unavailable)",
   "kioskPopupLive": "Live video",
-  "kioskPopupLiveHint": "When the camera offers a stream; until it starts, and otherwise, snapshots are shown."
+  "kioskPopupLiveHint": "When the camera offers a stream; until it starts, and otherwise, snapshots are shown.",
+  "timerSet": "Timer",
+  "timerTurnOff": "Turn off",
+  "timerTurnOn": "Turn on",
+  "timerHours": "{hours} h",
+  "@timerHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "timerHint": "Home Assistant counts down, so it also works when this phone is off. It creates a small script for this device (visible in Home Assistant); this needs an administrator account.",
+  "timerRunning": "Timer is running",
+  "timerTurnsOffAt": "Turns off at {time}",
+  "@timerTurnsOffAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timerTurnsOnAt": "Turns on at {time}",
+  "@timerTurnsOnAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "timerNeedsAdmin": "Timers need an administrator account in Home Assistant."
 }

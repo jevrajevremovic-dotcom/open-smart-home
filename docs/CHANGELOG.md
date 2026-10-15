@@ -9,6 +9,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Tajmer na uređaju („Isključi/Uključi za 5 min – 4 h”) na ekranu svakog uređaja koji se pali i gasi. Odbrojava Home Assistant (skripta `script.osh_timer_<uređaj>`, `mode: restart`, sa `delay` i `choose`), pa radi i kad je telefon ugašen; prikazuje vreme završetka i može da se otkaže. Skripte tajmera se ne prikazuju među rutinama. Potreban je administratorski nalog.
 - Iskačuća kamera prikazuje video uživo (HLS, kad kamera nudi stream), a dok se video pokreće ili ako ne može, snimke — ekran nikad nije prazan; prekidač „Video uživo” u podešavanjima.
 - Prilagodljiv početni ekran (Podešavanja → Izgled → Početni ekran): skrivanje i redosled kartica (pregled, vreme, muzika, obaveštenja, prečice, scene, pažnja, omiljeni, prostorije) prevlačenjem ili strelicom; upozorenja uvek ostaju na vrhu; prenosi se „Prenosom podešavanja”.
 - Kiosk: osvetljenost ekrana — čuvar ekrana spušta osvetljenje na minimum (podrazumevano uključeno), a „Tamnije noću” u zadato vreme (i preko ponoći) postavlja izabrani nivo. Menja se samo prozor aplikacije, nikad sistemsko podešavanje; po izlasku iz kioska vraća se sistemska osvetljenost.

@@ -258,7 +258,11 @@ class HaDeviceMapper {
             ? _str(a['id'])
             : null,
       ),
-      isAuxiliary: (entry?.hidden ?? false) || entry?.entityCategory != null,
+      isAuxiliary:
+          (entry?.hidden ?? false) ||
+          entry?.entityCategory != null ||
+          // The app's own device-timer scripts are plumbing, not routines.
+          s.entityId.startsWith('script.osh_timer_'),
     );
   }
 

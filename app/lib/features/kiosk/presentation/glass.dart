@@ -99,7 +99,7 @@ class KioskBackdrop extends ConsumerWidget {
           decoration: BoxDecoration(
             gradient: RadialGradient(
               colors: [
-                color.withValues(alpha: 0.45),
+                color.withValues(alpha: 0.30),
                 color.withValues(alpha: 0),
               ],
             ),
@@ -134,8 +134,10 @@ class KioskBackdrop extends ConsumerWidget {
 /// Text and icon colours on glass.
 abstract final class GlassColors {
   static const Color text = Colors.white;
-  static const Color muted = Color(0xC7FFFFFF); // 78 %
-  static const Color faint = Color(0x8AFFFFFF); // 54 %
+  // Measured against the brightest glow under the darkened glass:
+  // white ≥ 6.5:1, muted ≥ 5:1, faint ≥ 4.3:1 (WCAG contrast).
+  static const Color muted = Color(0xD9FFFFFF); // 85 %
+  static const Color faint = Color(0xB8FFFFFF); // 72 %
   static const Color fill = Color(0x1AFFFFFF);
   static const Color fillStrong = Color(0x2EFFFFFF);
   static const Color border = Color(0x29FFFFFF);
@@ -168,9 +170,17 @@ class GlassPanel extends ConsumerWidget {
             ? LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
+                // Darkened glass with a faint sheen: keeps white text
+                // readable over the bright glows of the backdrop.
                 colors: [
-                  Colors.white.withValues(alpha: lite ? 0.16 : 0.14),
-                  Colors.white.withValues(alpha: lite ? 0.08 : 0.05),
+                  Color.alphaBlend(
+                    Colors.white.withValues(alpha: 0.08),
+                    Colors.black.withValues(alpha: 0.30),
+                  ),
+                  Color.alphaBlend(
+                    Colors.white.withValues(alpha: 0.03),
+                    Colors.black.withValues(alpha: 0.30),
+                  ),
                 ],
               )
             : null,

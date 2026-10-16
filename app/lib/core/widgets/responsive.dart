@@ -65,3 +65,42 @@ class ConstrainedContent extends StatelessWidget {
     ),
   );
 }
+
+/// Stat tiles: two equal columns on phones (an odd last tile takes the whole
+/// row), natural widths on larger screens.
+class TileWrap extends StatelessWidget {
+  const TileWrap({super.key, required this.children, this.spacing = 12});
+
+  final List<Widget> children;
+  final double spacing;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        if (WindowSize.fromWidth(width) != WindowSize.compact) {
+          return Wrap(
+            spacing: spacing,
+            runSpacing: spacing,
+            children: children,
+          );
+        }
+        final half = (width - spacing) / 2;
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: [
+            for (final (i, child) in children.indexed)
+              SizedBox(
+                width: children.length.isOdd && i == children.length - 1
+                    ? width
+                    : half,
+                child: child,
+              ),
+          ],
+        );
+      },
+    );
+  }
+}

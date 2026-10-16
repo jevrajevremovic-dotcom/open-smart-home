@@ -85,18 +85,21 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
               sliver: SliverToBoxAdapter(
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    for (final f in ActivityFilter.values)
-                      ChoiceChip(
-                        key: ValueKey('activityFilter-${f.name}'),
-                        label: Text(label(f)),
-                        selected: _filter == f,
-                        onSelected: (_) => setState(() => _filter = f),
-                      ),
-                  ],
+                // One row that scrolls sideways, like other filter rows.
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    spacing: 8,
+                    children: [
+                      for (final f in ActivityFilter.values)
+                        ChoiceChip(
+                          key: ValueKey('activityFilter-${f.name}'),
+                          label: Text(label(f)),
+                          selected: _filter == f,
+                          onSelected: (_) => setState(() => _filter = f),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

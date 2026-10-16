@@ -104,9 +104,7 @@ class _CurrentPower extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionHeader(l10n.energyCurrentPower),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
+        TileWrap(
           children: [
             for (final m in meters.take(4))
               _StatTile(
@@ -174,9 +172,7 @@ class _Report extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 8),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
+        TileWrap(
           children: [
             if (report.consumption != null)
               _StatTile(

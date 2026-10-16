@@ -2717,4 +2717,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get matterSharedTitle => 'Device already in another app';
+
+  @override
+  String get kioskPanelThermostat => 'Thermostat';
+
+  @override
+  String get kioskPanelDevice => 'Device';
+
+  @override
+  String get kioskLayoutEmpty => 'No panels. Edit the layout to add some.';
+
+  @override
+  String kioskPanelUnavailable(String panel) {
+    return '$panel: nothing to show right now';
+  }
+
+  @override
+  String get kioskPanelEarlier => 'Move earlier';
+
+  @override
+  String get kioskPanelLater => 'Move later';
+
+  @override
+  String get kioskPanelNarrower => 'Narrower';
+
+  @override
+  String get kioskPanelWider => 'Wider';
+
+  @override
+  String get kioskPanelHeight => 'Normal / tall';
+
+  @override
+  String get kioskPanelChooseDevice => 'Choose device';
+
+  @override
+  String get kioskPanelRemove => 'Remove panel';
+
+  @override
+  String get kioskEditHint =>
+      'Hold a panel and drag it onto another to move it; buttons change its size.';
+
+  @override
+  String get kioskAddPanel => 'Add panel';
+
+  @override
+  String get kioskEditLayout => 'Edit layout';
+
+  @override
+  String get kioskEditLayoutHint =>
+      'Arrange, resize, add and remove panels by dragging on the tablet';
 }

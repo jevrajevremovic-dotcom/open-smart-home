@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../clap/clap_detector.dart';
+import 'kiosk_layout.dart';
 
 /// Gradient behind the kiosk dashboard's glass panels.
 enum KioskBackground { aurora, ocean, dusk, forest }
@@ -34,6 +35,7 @@ class KioskSettings {
     this.nightTo = 7 * 60,
     this.nightLevel = 0.15,
     this.darkScreensaver = true,
+    this.layout,
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -75,6 +77,7 @@ class KioskSettings {
         _ => d.nightLevel,
       },
       darkScreensaver: json['darkScreensaver'] != false,
+      layout: KioskLayout.tryParse(json['layout']),
       popupTriggerIds: [
         if (json['popupTriggerIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(10)) id,
@@ -154,6 +157,11 @@ class KioskSettings {
   /// The screensaver also turns the backlight down to its minimum.
   final bool darkScreensaver;
 
+  /// Panels arranged on the tablet; `null` = [KioskLayout.standard].
+  final KioskLayout? layout;
+
+  KioskLayout get effectiveLayout => layout ?? KioskLayout.standard;
+
   static int? _minutes(Object? v) =>
       v is int && v >= 0 && v < 24 * 60 ? v : null;
 
@@ -218,7 +226,10 @@ class KioskSettings {
     int? nightTo,
     double? nightLevel,
     bool? darkScreensaver,
+    KioskLayout? layout,
+    bool resetLayout = false,
   }) => KioskSettings(
+    layout: resetLayout ? null : (layout ?? this.layout),
     nightBrightness: nightBrightness ?? this.nightBrightness,
     nightFrom: nightFrom ?? this.nightFrom,
     nightTo: nightTo ?? this.nightTo,
@@ -272,5 +283,6 @@ class KioskSettings {
     'nightTo': nightTo,
     'nightLevel': nightLevel,
     'darkScreensaver': darkScreensaver,
+    'layout': layout?.toJson(),
   };
 }

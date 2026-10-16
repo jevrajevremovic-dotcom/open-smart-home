@@ -80,7 +80,14 @@ class KioskSessionController extends Notifier<bool> {
   }
 
   /// Leaves kiosk mode when [pin] matches (or no PIN is configured).
-  Future<PinCheck> tryExit(String pin) async {
+  /// Checks the PIN and leaves kiosk mode when it matches.
+  Future<PinCheck> tryExit(String pin) => _check(pin, exit: true);
+
+  /// Checks the PIN (with the same lockout), e.g. before editing the
+  /// layout, without leaving kiosk mode.
+  Future<PinCheck> verifyPin(String pin) => _check(pin, exit: false);
+
+  Future<PinCheck> _check(String pin, {required bool exit}) async {
     if (remainingLockout != null) return PinCheck.lockedOut;
     final settings = ref.read(kioskSettingsProvider);
     final ok =
@@ -89,8 +96,10 @@ class KioskSessionController extends Notifier<bool> {
     if (ok) {
       _failures = 0;
       _lockedUntil = null;
-      state = false;
-      _log.info('Left kiosk mode');
+      if (exit) {
+        state = false;
+        _log.info('Left kiosk mode');
+      }
       return PinCheck.accepted;
     }
     _failures++;

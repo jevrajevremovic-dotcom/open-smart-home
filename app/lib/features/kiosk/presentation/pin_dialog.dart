@@ -33,6 +33,30 @@ Future<bool> showKioskExitDialog(BuildContext context, WidgetRef ref) async {
   return ok ?? false;
 }
 
+/// Asks for the kiosk PIN (when one is set) before the layout may be
+/// edited; does not leave kiosk mode. Returns `true` when allowed.
+Future<bool> unlockKioskEditing(BuildContext context, WidgetRef ref) async {
+  if (!ref.read(kioskSettingsProvider).hasPin) return true;
+  final controller = ref.read(kioskActiveProvider.notifier);
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (_) => PinEntryDialog(
+      title: context.l10n.kioskEnterPin,
+      onSubmit: (pin) async {
+        final l10n = context.l10n;
+        return switch (await controller.verifyPin(pin)) {
+          PinCheck.accepted => null,
+          PinCheck.wrong => l10n.kioskWrongPin,
+          PinCheck.lockedOut => l10n.kioskLockedOut(
+            controller.remainingLockout?.inSeconds ?? 30,
+          ),
+        };
+      },
+    ),
+  );
+  return ok ?? false;
+}
+
 /// Asks for a new PIN twice and stores it. Returns `true` when saved.
 Future<bool> showSetPinDialog(BuildContext context, WidgetRef ref) async {
   final l10n = context.l10n;

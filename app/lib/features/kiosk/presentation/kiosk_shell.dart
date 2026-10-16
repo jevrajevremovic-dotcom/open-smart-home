@@ -9,6 +9,7 @@ import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../application/kiosk_controller.dart';
 import 'camera_popup.dart';
+import 'kiosk_layout_view.dart';
 
 /// Wraps every kiosk route: fullscreen, screen kept on, back button
 /// blocked, return to the kiosk dashboard and dimming after inactivity.
@@ -95,7 +96,8 @@ class _KioskShellState extends ConsumerState<KioskShell> {
         if (mounted) context.go(AppRoutes.kiosk);
       });
     }
-    if (settings.dimAfter > Duration.zero) {
+    // No screensaver while the layout is being edited.
+    if (settings.dimAfter > Duration.zero && !ref.read(kioskEditingProvider)) {
       _dimTimer = Timer(settings.dimAfter, () {
         if (mounted) _setDimmed(true);
       });
@@ -104,6 +106,7 @@ class _KioskShellState extends ConsumerState<KioskShell> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(kioskEditingProvider, (_, _) => _restartTimers());
     ref.listen(kioskSettingsProvider, (_, next) {
       unawaited(_platform.keepScreenOn(next.keepScreenOn));
       _restartTimers();

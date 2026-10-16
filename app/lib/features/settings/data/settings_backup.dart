@@ -39,6 +39,7 @@ abstract final class SettingsBackup {
         'popupCameraId': kiosk.popupCameraId,
         'popupSeconds': kiosk.popupSeconds,
         'popupLive': kiosk.popupLive,
+        'layout': kiosk.layout?.toJson(),
         'nightBrightness': kiosk.nightBrightness,
         'nightFrom': kiosk.nightFrom,
         'nightTo': kiosk.nightTo,

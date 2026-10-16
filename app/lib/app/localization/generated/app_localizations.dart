@@ -4796,6 +4796,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Device already in another app'**
   String get matterSharedTitle;
+
+  /// No description provided for @kioskPanelThermostat.
+  ///
+  /// In en, this message translates to:
+  /// **'Thermostat'**
+  String get kioskPanelThermostat;
+
+  /// No description provided for @kioskPanelDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get kioskPanelDevice;
+
+  /// No description provided for @kioskLayoutEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No panels. Edit the layout to add some.'**
+  String get kioskLayoutEmpty;
+
+  /// No description provided for @kioskPanelUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'{panel}: nothing to show right now'**
+  String kioskPanelUnavailable(String panel);
+
+  /// No description provided for @kioskPanelEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Move earlier'**
+  String get kioskPanelEarlier;
+
+  /// No description provided for @kioskPanelLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Move later'**
+  String get kioskPanelLater;
+
+  /// No description provided for @kioskPanelNarrower.
+  ///
+  /// In en, this message translates to:
+  /// **'Narrower'**
+  String get kioskPanelNarrower;
+
+  /// No description provided for @kioskPanelWider.
+  ///
+  /// In en, this message translates to:
+  /// **'Wider'**
+  String get kioskPanelWider;
+
+  /// No description provided for @kioskPanelHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal / tall'**
+  String get kioskPanelHeight;
+
+  /// No description provided for @kioskPanelChooseDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose device'**
+  String get kioskPanelChooseDevice;
+
+  /// No description provided for @kioskPanelRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove panel'**
+  String get kioskPanelRemove;
+
+  /// No description provided for @kioskEditHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold a panel and drag it onto another to move it; buttons change its size.'**
+  String get kioskEditHint;
+
+  /// No description provided for @kioskAddPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add panel'**
+  String get kioskAddPanel;
+
+  /// No description provided for @kioskEditLayout.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit layout'**
+  String get kioskEditLayout;
+
+  /// No description provided for @kioskEditLayoutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Arrange, resize, add and remove panels by dragging on the tablet'**
+  String get kioskEditLayoutHint;
 }
 
 class _AppLocalizationsDelegate

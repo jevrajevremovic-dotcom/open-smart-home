@@ -782,5 +782,20 @@
   "matterNewButton": "Dodaj novi Matter uređaj",
   "matterNoPlayServices": "Novi Matter uređaji se na Androidu dodaju preko Google Play services, koji ovde nisu dostupni (npr. emulator ili telefon bez Google servisa). Koristite zvaničnu Home Assistant aplikaciju ili podelite uređaj iz druge Matter aplikacije ispod.",
   "matterNewFailed": "Uređaj nije dodat. Resetujte ga (vidi uputstvo) i pokušajte ponovo blizu telefona. Thread uređajima treba i Thread border router poznat ovom telefonu.",
-  "matterSharedTitle": "Uređaj je već u drugoj aplikaciji"
+  "matterSharedTitle": "Uređaj je već u drugoj aplikaciji",
+  "kioskPanelThermostat": "Termostat",
+  "kioskPanelDevice": "Uređaj",
+  "kioskLayoutEmpty": "Nema panela. Uredite raspored da biste ih dodali.",
+  "kioskPanelUnavailable": "{panel}: trenutno nema šta da se prikaže",
+  "kioskPanelEarlier": "Pomeri ranije",
+  "kioskPanelLater": "Pomeri kasnije",
+  "kioskPanelNarrower": "Uže",
+  "kioskPanelWider": "Šire",
+  "kioskPanelHeight": "Normalno / visoko",
+  "kioskPanelChooseDevice": "Izaberi uređaj",
+  "kioskPanelRemove": "Ukloni panel",
+  "kioskEditHint": "Držite panel i prevucite ga na drugi da biste ga pomerili; dugmad menjaju veličinu.",
+  "kioskAddPanel": "Dodaj panel",
+  "kioskEditLayout": "Uredi raspored",
+  "kioskEditLayoutHint": "Slaganje, veličina, dodavanje i uklanjanje panela prevlačenjem na tabletu"
 }

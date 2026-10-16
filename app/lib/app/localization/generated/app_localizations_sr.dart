@@ -2727,6 +2727,56 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get matterSharedTitle => 'Uređaj je već u drugoj aplikaciji';
+
+  @override
+  String get kioskPanelThermostat => 'Termostat';
+
+  @override
+  String get kioskPanelDevice => 'Uređaj';
+
+  @override
+  String get kioskLayoutEmpty =>
+      'Nema panela. Uredite raspored da biste ih dodali.';
+
+  @override
+  String kioskPanelUnavailable(String panel) {
+    return '$panel: trenutno nema šta da se prikaže';
+  }
+
+  @override
+  String get kioskPanelEarlier => 'Pomeri ranije';
+
+  @override
+  String get kioskPanelLater => 'Pomeri kasnije';
+
+  @override
+  String get kioskPanelNarrower => 'Uže';
+
+  @override
+  String get kioskPanelWider => 'Šire';
+
+  @override
+  String get kioskPanelHeight => 'Normalno / visoko';
+
+  @override
+  String get kioskPanelChooseDevice => 'Izaberi uređaj';
+
+  @override
+  String get kioskPanelRemove => 'Ukloni panel';
+
+  @override
+  String get kioskEditHint =>
+      'Držite panel i prevucite ga na drugi da biste ga pomerili; dugmad menjaju veličinu.';
+
+  @override
+  String get kioskAddPanel => 'Dodaj panel';
+
+  @override
+  String get kioskEditLayout => 'Uredi raspored';
+
+  @override
+  String get kioskEditLayoutHint =>
+      'Slaganje, veličina, dodavanje i uklanjanje panela prevlačenjem na tabletu';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

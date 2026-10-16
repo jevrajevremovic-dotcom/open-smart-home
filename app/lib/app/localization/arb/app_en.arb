@@ -1265,5 +1265,27 @@
   "matterNewButton": "Add a new Matter device",
   "matterNoPlayServices": "Adding new Matter devices on Android goes through Google Play services, which are not available here (for example an emulator, or a phone without Google services). Use Home Assistant's own app, or share the device from another Matter app below.",
   "matterNewFailed": "The device was not added. Reset it (see its manual) and try again close to the phone. Thread devices also need a Thread border router known to this phone.",
-  "matterSharedTitle": "Device already in another app"
+  "matterSharedTitle": "Device already in another app",
+  "kioskPanelThermostat": "Thermostat",
+  "kioskPanelDevice": "Device",
+  "kioskLayoutEmpty": "No panels. Edit the layout to add some.",
+  "kioskPanelUnavailable": "{panel}: nothing to show right now",
+  "@kioskPanelUnavailable": {
+    "placeholders": {
+      "panel": {
+        "type": "String"
+      }
+    }
+  },
+  "kioskPanelEarlier": "Move earlier",
+  "kioskPanelLater": "Move later",
+  "kioskPanelNarrower": "Narrower",
+  "kioskPanelWider": "Wider",
+  "kioskPanelHeight": "Normal / tall",
+  "kioskPanelChooseDevice": "Choose device",
+  "kioskPanelRemove": "Remove panel",
+  "kioskEditHint": "Hold a panel and drag it onto another to move it; buttons change its size.",
+  "kioskAddPanel": "Add panel",
+  "kioskEditLayout": "Edit layout",
+  "kioskEditLayoutHint": "Arrange, resize, add and remove panels by dragging on the tablet"
 }

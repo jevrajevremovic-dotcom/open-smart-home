@@ -13,6 +13,7 @@ import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'camera_popup_settings.dart';
 import 'glass.dart';
+import 'kiosk_layout_view.dart';
 import 'night_brightness_settings.dart';
 import 'pin_dialog.dart';
 import 'status_entities_picker.dart';
@@ -64,6 +65,19 @@ class KioskSettingsSection extends ConsumerWidget {
           },
           icon: const Icon(Icons.tablet_outlined),
           label: Text(l10n.kioskStart),
+        ),
+        ListTile(
+          key: const Key('kioskEditLayoutTile'),
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.dashboard_customize_outlined),
+          title: Text(l10n.kioskEditLayout),
+          subtitle: Text(l10n.kioskEditLayoutHint),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () {
+            ref.read(kioskActiveProvider.notifier).enter();
+            ref.read(kioskEditingProvider.notifier).set(true);
+            context.go(AppRoutes.kiosk);
+          },
         ),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,

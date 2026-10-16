@@ -28,6 +28,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 
 **Početni ekran i kiosk (zidni tablet)**
 - Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”
+- Kiosk: raspored po želji — prevlačenje, veličina, dodavanje i uklanjanje panela
 - Kiosk: tamnije noću i najniža osvetljenost na čuvaru ekrana
 - Kiosk: iskačuća kamera kad neko pozvoni ili se pomeri ispred vrata
 - Kiosk: dvostruki pljesak za bilo koji uređaj ili scenu (Android, po želji, samo jačina zvuka na uređaju; otključavanje i sl. uz potvrdu)
@@ -166,6 +167,7 @@ flutter run -d chrome --dart-define=SMARTHOME_MOCK=true
 Podešavanja → **Kiosk režim** → *Pokreni kiosk režim*. Preporučeno je i da postavite **PIN za izlaz**.
 
 - Fullscreen dashboard sa satom, krupnijim tekstom i kontrolama, bez standardne navigacije.
+- Raspored panela se menja na samom tabletu: ikonica u zaglavlju (ili Podešavanja → Kiosk → *Uredi raspored*), pa držite i prevucite panel; dugmad menjaju širinu, visinu i uređaj, a *Dodaj panel* dodaje nove.
 - Posle neaktivnosti vraća se na kiosk dashboard, a zatim zatamnjuje ekran i prikazuje sat; dodir ga budi. Oba vremena su podesiva.
 - Ekran ostaje uključen dok je kiosk aktivan (može da se isključi).
 - *Otvori u kiosk režimu pri pokretanju* vraća panel u kiosk i posle restarta aplikacije.

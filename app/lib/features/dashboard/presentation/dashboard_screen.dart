@@ -707,13 +707,22 @@ class _SummaryCard extends StatelessWidget {
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      Text(
-                        value ?? '—',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        semanticsLabel: value ?? l10n.valueNotAvailable,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: color,
+                      // A changed value fades in rather than jumping.
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        layoutBuilder: (current, previous) => Stack(
+                          alignment: Alignment.centerLeft,
+                          children: [...previous, ?current],
+                        ),
+                        child: Text(
+                          value ?? '—',
+                          key: ValueKey(value),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          semanticsLabel: value ?? l10n.valueNotAvailable,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            color: color,
+                          ),
                         ),
                       ),
                     ],

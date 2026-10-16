@@ -38,7 +38,7 @@ void main() {
   ) async {
     await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('security'));
     await tapKey(tester, 'restrictedSettings');
     await settle(tester, 4);
     await tapKey(tester, 'restrictedEnable');
@@ -51,7 +51,7 @@ void main() {
     await settle(tester, 6);
 
     // Settings are closed; Assist is gone; the lock is hidden.
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('security'));
     await settle(tester, 2);
     expect(find.byKey(const Key('restrictedActive')), findsOneWidget);
     expect(find.byKey(const Key('signOutButton')), findsNothing);
@@ -65,7 +65,7 @@ void main() {
     await settle(tester, 2);
     expect(find.text(en.addDeviceTitle), findsNothing);
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('security'));
     await settle(tester, 2);
     await tapKey(tester, 'restrictedDisable');
     await settle(tester, 2);
@@ -76,7 +76,8 @@ void main() {
     await tester.enterText(find.byKey(const Key('pinField')), '2468');
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await settle(tester, 6);
-    expect(find.byKey(const Key('signOutButton')), findsOneWidget);
+    // Settings are open again.
+    expect(find.byKey(const Key('restrictedSettings')), findsOneWidget);
     await unmount(tester);
   });
 }

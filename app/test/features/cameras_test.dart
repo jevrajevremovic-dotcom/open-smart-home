@@ -67,7 +67,7 @@ void main() {
   ) async {
     await pumpApp(tester, signedIn: true, size: const Size(1280, 800));
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 5);
     expect(find.byKey(const Key('kioskCameras')), findsOneWidget);

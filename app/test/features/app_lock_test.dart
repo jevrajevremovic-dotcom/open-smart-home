@@ -32,7 +32,7 @@ void main() {
       deviceAuth: auth,
     );
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('security'));
     await tapKey(tester, 'appLockSwitch');
     await settle(tester, 2);
     expect(auth.prompts, 1, reason: 'proves it works before enabling');
@@ -63,7 +63,7 @@ void main() {
       deviceAuth: auth,
     );
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('security'));
     await tapKey(tester, 'appLockCriticalSwitch');
     await settle(tester, 2);
     await goTo(tester, AppRoutes.device('lock.front_door'));

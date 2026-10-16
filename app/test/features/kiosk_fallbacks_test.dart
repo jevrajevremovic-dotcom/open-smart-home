@@ -21,7 +21,7 @@ MockHomeAssistantServer bareServer() => MockHomeAssistantServer(
 )..calendars = [];
 
 Future<void> startKiosk(WidgetTester tester) async {
-  await goTo(tester, AppRoutes.settings);
+  await goTo(tester, AppRoutes.settingsSection('kiosk'));
   await tapKey(tester, 'startKiosk');
   await settle(tester, 20);
 }
@@ -74,7 +74,7 @@ void main() {
       server: bareServer(),
     );
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('privacy'));
     await tapKey(tester, 'homeWeatherSwitch');
     await settle(tester, 2);
     expect(find.text(en.weatherHomeLocationDisclosure), findsOneWidget);

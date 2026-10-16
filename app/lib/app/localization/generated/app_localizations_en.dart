@@ -2774,4 +2774,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kioskEditLayoutHint =>
       'Arrange, resize, add and remove panels by dragging on the tablet';
+
+  @override
+  String get settingsNotificationsSection => 'Notifications';
+
+  @override
+  String get settingsAppearanceHint => 'Theme, language, home screen';
+
+  @override
+  String get settingsServerHint => 'Address, away address, homes, sign out';
+
+  @override
+  String get settingsKioskHint =>
+      'Wall tablet: layout, PIN, screensaver, camera';
+
+  @override
+  String get settingsNotificationsHint =>
+      'Messages from Home Assistant, alerts';
+
+  @override
+  String get settingsSecurityHint => 'App lock, kids and guests mode';
+
+  @override
+  String get settingsPrivacyHint => 'Location, voice, deleting data';
+
+  @override
+  String get settingsBackupHint => 'Copy settings to another phone or tablet';
 }

@@ -38,7 +38,7 @@ void main() {
       tester.element(find.byType(SmartHomeApp)),
     ).read(mockHomeAssistantServerProvider);
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('notifications'));
     await tapKey(tester, 'haPushTile');
     await settle(tester, 3);
     await tester.enterText(find.byKey(const Key('haPushName')), 'Zidni tablet');
@@ -72,7 +72,7 @@ void main() {
     await settle(tester, 4);
     expect(notifier.messages.last, (null, 'Ponovo tu'));
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('server'));
     await tapKey(tester, 'signOutButton');
     await settle(tester, 3);
     await tapKey(tester, 'confirmDialogAction');
@@ -93,7 +93,7 @@ void main() {
       background: background,
     );
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('notifications'));
     await tapKey(tester, 'haPushTile');
     await settle(tester, 3);
     await tester.tap(find.byKey(const Key('haPushRegister')));
@@ -127,7 +127,7 @@ void main() {
       final server = ProviderScope.containerOf(
         tester.element(find.byType(SmartHomeApp)),
       ).read(mockHomeAssistantServerProvider);
-      await goTo(tester, AppRoutes.settings);
+      await goTo(tester, AppRoutes.settingsSection('notifications'));
       await tapKey(tester, 'haPushTile');
       await settle(tester, 3);
       await tester.tap(find.byKey(const Key('haPushRegister')));
@@ -157,7 +157,7 @@ void main() {
     final server = ProviderScope.containerOf(
       tester.element(find.byType(SmartHomeApp)),
     ).read(mockHomeAssistantServerProvider);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('notifications'));
     await tapKey(tester, 'haPushTile');
     await settle(tester, 3);
     await tester.tap(find.byKey(const Key('haPushRegister')));

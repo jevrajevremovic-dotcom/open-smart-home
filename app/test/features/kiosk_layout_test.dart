@@ -52,7 +52,7 @@ void main() {
         container.read(kioskSettingsProvider).effectiveLayout;
     final server = container.read(mockHomeAssistantServerProvider);
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'kioskEditLayoutTile');
     await settle(tester, 8);
     expect(find.byKey(const Key('kioskLayoutDone')), findsOneWidget);
@@ -105,7 +105,7 @@ void main() {
       tester.element(find.byType(SmartHomeApp)),
     );
     await container.read(kioskSettingsProvider.notifier).setPin('2468');
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 8);
 

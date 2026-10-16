@@ -95,7 +95,7 @@ void main() {
       await pumpApp(tester, signedIn: true, size: const Size(800, 1400));
       await settle(tester, 10);
       final server = serverOf(tester);
-      await goTo(tester, AppRoutes.settings);
+      await goTo(tester, AppRoutes.settingsSection('server'));
       await tapKey(tester, 'settingsAddDevice');
       await settle(tester, 4);
       expect(find.text(en.addDeviceTitle), findsWidgets);

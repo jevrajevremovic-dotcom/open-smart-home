@@ -30,7 +30,7 @@ void main() {
     await settle(tester, 4);
     expect(alerts.shown, isEmpty, reason: 'off until the user opts in');
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('notifications'));
     await tapKey(tester, 'alertNotifySwitch');
     await settle(tester, 4);
     expect(alerts.shown.keys, ['lock.front_door']);
@@ -55,7 +55,7 @@ void main() {
       alerts: alerts,
     );
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('notifications'));
     await tapKey(tester, 'alertNotifySwitch');
     await settle(tester, 4);
     expect(find.text(en.alertsPermissionDenied), findsOneWidget);

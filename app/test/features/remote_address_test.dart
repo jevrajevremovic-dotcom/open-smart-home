@@ -46,7 +46,7 @@ void main() {
         ProviderScope.containerOf(tester.element(find.byType(SmartHomeApp)));
     final server = c().read(mockHomeAssistantServerProvider);
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('server'));
     expect(find.text(en.remoteNotSet), findsOneWidget);
     await tapKey(tester, 'remoteAddressTile');
     await settle(tester, 3);

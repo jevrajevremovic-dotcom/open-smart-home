@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/weather/application/weather_providers.dart';
 import 'package:open_smart_home/features/weather/data/device_location.dart';
 import 'package:open_smart_home/features/weather/data/ha_weather.dart';
@@ -259,7 +260,7 @@ void main() {
         reason: 'the demo tablet is at home: one weather card is enough',
       );
 
-      await goTo(tester, '/settings');
+      await goTo(tester, AppRoutes.settingsSection('privacy'));
       await tester.ensureVisible(find.byKey(const Key('deviceWeatherSwitch')));
       expect(
         tester

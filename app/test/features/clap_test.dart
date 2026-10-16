@@ -34,7 +34,7 @@ void main() {
     ).read(mockHomeAssistantServerProvider);
     expect(server.stateForTest('light.hallway'), 'off');
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'clapSwitch');
     await settle(tester, 3);
     expect(find.text(en.clapPrivacyTitle), findsOneWidget);
@@ -79,7 +79,7 @@ void main() {
       clap: mic,
     );
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'clapSwitch');
     await settle(tester, 3);
     await tester.tap(find.byKey(const Key('clapAllow')));
@@ -105,7 +105,7 @@ void main() {
     ).read(mockHomeAssistantServerProvider);
     expect(server.stateForTest('lock.front_door'), 'locked');
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'clapSwitch');
     await settle(tester, 3);
     await tester.tap(find.byKey(const Key('clapAllow')));

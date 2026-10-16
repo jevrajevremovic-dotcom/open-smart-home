@@ -2785,6 +2785,34 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get kioskEditLayoutHint =>
       'Slaganje, veličina, dodavanje i uklanjanje panela prevlačenjem na tabletu';
+
+  @override
+  String get settingsNotificationsSection => 'Obaveštenja';
+
+  @override
+  String get settingsAppearanceHint => 'Tema, jezik, početni ekran';
+
+  @override
+  String get settingsServerHint => 'Adresa, adresa van kuće, domovi, odjava';
+
+  @override
+  String get settingsKioskHint =>
+      'Zidni tablet: raspored, PIN, čuvar ekrana, kamera';
+
+  @override
+  String get settingsNotificationsHint =>
+      'Poruke iz Home Assistanta, upozorenja';
+
+  @override
+  String get settingsSecurityHint =>
+      'Zaključavanje aplikacije, režim za decu i goste';
+
+  @override
+  String get settingsPrivacyHint => 'Lokacija, glas, brisanje podataka';
+
+  @override
+  String get settingsBackupHint =>
+      'Kopiranje podešavanja na drugi telefon ili tablet';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -197,6 +197,8 @@ void main() {
     await pumpApp(tester, signedIn: true);
     await tester.tap(find.text(en.navSettings));
     await settle(tester, 3);
+    await tapKey(tester, 'settingsSection-appearance');
+    await settle(tester, 3);
     await tester.tap(find.text(en.themeDark));
     await settle(tester, 3);
 
@@ -208,6 +210,8 @@ void main() {
   testWidgets('sign-out after confirmation deletes the token', (tester) async {
     final credentials = await pumpApp(tester, signedIn: true);
     await tester.tap(find.text(en.navSettings));
+    await settle(tester, 3);
+    await tapKey(tester, 'settingsSection-server');
     await settle(tester, 3);
 
     await tapKey(tester, 'signOutButton');

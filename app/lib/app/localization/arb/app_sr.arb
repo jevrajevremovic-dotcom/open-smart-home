@@ -800,5 +800,13 @@
   "kioskEditHint": "Držite panel i prevucite ga na drugi da biste ga pomerili; dugmad menjaju veličinu.",
   "kioskAddPanel": "Dodaj panel",
   "kioskEditLayout": "Uredi raspored",
-  "kioskEditLayoutHint": "Slaganje, veličina, dodavanje i uklanjanje panela prevlačenjem na tabletu"
+  "kioskEditLayoutHint": "Slaganje, veličina, dodavanje i uklanjanje panela prevlačenjem na tabletu",
+  "settingsNotificationsSection": "Obaveštenja",
+  "settingsAppearanceHint": "Tema, jezik, početni ekran",
+  "settingsServerHint": "Adresa, adresa van kuće, domovi, odjava",
+  "settingsKioskHint": "Zidni tablet: raspored, PIN, čuvar ekrana, kamera",
+  "settingsNotificationsHint": "Poruke iz Home Assistanta, upozorenja",
+  "settingsSecurityHint": "Zaključavanje aplikacije, režim za decu i goste",
+  "settingsPrivacyHint": "Lokacija, glas, brisanje podataka",
+  "settingsBackupHint": "Kopiranje podešavanja na drugi telefon ili tablet"
 }

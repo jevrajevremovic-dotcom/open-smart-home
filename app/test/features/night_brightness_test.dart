@@ -48,7 +48,7 @@ void main() {
         .read(kioskSettingsProvider.notifier)
         .update((s) => s.copyWith(dimAfter: const Duration(seconds: 30)));
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 8);
     await tester.pump(const Duration(seconds: 31));

@@ -9,7 +9,7 @@ void main() {
   const tablet = Size(1280, 800);
 
   Future<void> startKiosk(WidgetTester tester) async {
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 5);
   }
@@ -34,7 +34,7 @@ void main() {
       }
       expect(find.text(en.kioskDoorsWindows), findsOneWidget);
 
-      await goTo(tester, AppRoutes.settings);
+      await goTo(tester, AppRoutes.settingsSection('kiosk'));
       expect(
         find.byKey(const Key('kioskExit')),
         findsOneWidget,
@@ -47,7 +47,7 @@ void main() {
   testWidgets('exit with PIN; wrong PIN keeps kiosk', (tester) async {
     await pumpApp(tester, signedIn: true, size: tablet);
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
 
     // Set a PIN through the UI (entered twice).
     await tapKey(tester, 'kioskSetPin');
@@ -167,7 +167,7 @@ void main() {
   ) async {
     await pumpApp(tester, signedIn: true, size: tablet);
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'kioskStatusEntities');
     await settle(tester, 2);
     await tester.enterText(

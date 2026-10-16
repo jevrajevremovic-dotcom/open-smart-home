@@ -54,7 +54,7 @@ void main() {
     final container = ProviderScope.containerOf(
       tester.element(find.byType(SmartHomeApp)),
     );
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'kioskPhotoPick');
     await settle(tester, 4);
     expect(container.read(kioskSettingsProvider).photoPath, 'photo0');

@@ -4898,6 +4898,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Arrange, resize, add and remove panels by dragging on the tablet'**
   String get kioskEditLayoutHint;
+
+  /// No description provided for @settingsNotificationsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotificationsSection;
+
+  /// No description provided for @settingsAppearanceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme, language, home screen'**
+  String get settingsAppearanceHint;
+
+  /// No description provided for @settingsServerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Address, away address, homes, sign out'**
+  String get settingsServerHint;
+
+  /// No description provided for @settingsKioskHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall tablet: layout, PIN, screensaver, camera'**
+  String get settingsKioskHint;
+
+  /// No description provided for @settingsNotificationsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages from Home Assistant, alerts'**
+  String get settingsNotificationsHint;
+
+  /// No description provided for @settingsSecurityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock, kids and guests mode'**
+  String get settingsSecurityHint;
+
+  /// No description provided for @settingsPrivacyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Location, voice, deleting data'**
+  String get settingsPrivacyHint;
+
+  /// No description provided for @settingsBackupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy settings to another phone or tablet'**
+  String get settingsBackupHint;
 }
 
 class _AppLocalizationsDelegate

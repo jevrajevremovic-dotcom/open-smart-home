@@ -35,7 +35,7 @@ void main() {
         ProviderScope.containerOf(tester.element(find.byType(SmartHomeApp)));
     final first = container().read(activeProfileProvider)!;
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('server'));
     await tapKey(tester, 'addHome');
     await settle(tester, 4);
     expect(find.byKey(const Key('cancelAddHome')), findsOneWidget);
@@ -44,7 +44,7 @@ void main() {
     expect(container().read(activeProfileProvider), first);
 
     // Android back does the same instead of closing the app.
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('server'));
     await tapKey(tester, 'addHome');
     await settle(tester, 4);
     await tester.binding.handlePopRoute();
@@ -52,7 +52,7 @@ void main() {
     expect(find.byKey(const Key('cancelAddHome')), findsNothing);
     expect(container().read(addingHomeProvider), isFalse);
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('server'));
     await tapKey(tester, 'addHome');
     await settle(tester, 4);
     await tester.enterText(

@@ -34,7 +34,7 @@ void main() {
       tester.element(find.byType(SmartHomeApp)),
     ).read(mockHomeAssistantServerProvider);
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'kioskPopup');
     await settle(tester, 3);
     await tester.tap(find.byKey(const Key('kioskPopupCamera')));

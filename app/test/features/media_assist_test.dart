@@ -114,7 +114,7 @@ void main() {
   testWidgets('kiosk status bar: now playing and Assist', (tester) async {
     await pumpApp(tester, signedIn: true, size: const Size(1280, 800));
     await settle(tester, 10);
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 6);
     expect(find.byKey(const Key('kioskNowPlaying')), findsOneWidget);

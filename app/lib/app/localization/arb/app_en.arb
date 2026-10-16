@@ -1290,5 +1290,13 @@
   "kioskEditHint": "Hold a panel and drag it onto another to move it; buttons change its size.",
   "kioskAddPanel": "Add panel",
   "kioskEditLayout": "Edit layout",
-  "kioskEditLayoutHint": "Arrange, resize, add and remove panels by dragging on the tablet"
+  "kioskEditLayoutHint": "Arrange, resize, add and remove panels by dragging on the tablet",
+  "settingsNotificationsSection": "Notifications",
+  "settingsAppearanceHint": "Theme, language, home screen",
+  "settingsServerHint": "Address, away address, homes, sign out",
+  "settingsKioskHint": "Wall tablet: layout, PIN, screensaver, camera",
+  "settingsNotificationsHint": "Messages from Home Assistant, alerts",
+  "settingsSecurityHint": "App lock, kids and guests mode",
+  "settingsPrivacyHint": "Location, voice, deleting data",
+  "settingsBackupHint": "Copy settings to another phone or tablet"
 }

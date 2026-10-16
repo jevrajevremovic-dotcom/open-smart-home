@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/widgets/responsive.dart';
 import '../../features/authentication/application/session_controller.dart';
 import '../../features/connection/application/connection_setup_controller.dart';
 import '../../features/connection/presentation/server_address_screen.dart';
@@ -36,6 +37,7 @@ abstract final class AppRoutes {
   static const favorites = '/favorites';
   static const scenes = '/scenes';
   static const settings = '/settings';
+  static String settingsSection(String name) => '$settings/$name';
   static const energy = '/energy';
   static const weather = '/weather';
   static const calendar = '/calendar';
@@ -265,6 +267,23 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.settings,
             pageBuilder: (_, _) =>
                 const NoTransitionPage(child: SettingsScreen()),
+            routes: [
+              GoRoute(
+                path: ':section',
+                pageBuilder: (context, state) {
+                  final screen = SettingsScreen(
+                    section: SettingsSection.tryParse(
+                      state.pathParameters['section'],
+                    ),
+                  );
+                  // Tablets switch the right pane in place; phones slide in.
+                  return MediaQuery.sizeOf(context).width >=
+                          Breakpoints.expanded
+                      ? NoTransitionPage(key: state.pageKey, child: screen)
+                      : MaterialPage(key: state.pageKey, child: screen);
+                },
+              ),
+            ],
           ),
         ],
       ),

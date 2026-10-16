@@ -152,7 +152,7 @@ void main() {
       await tap(tester, find.byKey(const Key('powerSwitch')));
       await waitFor(tester, find.text(en.stateOff));
 
-      await go(tester, AppRoutes.settings);
+      await go(tester, AppRoutes.settingsSection('server'));
       await tap(tester, find.byKey(const Key('signOutButton')));
       await tap(tester, find.byKey(const Key('confirmDialogAction')));
       await waitFor(tester, find.text(en.welcomeTitle));
@@ -193,7 +193,7 @@ void main() {
     await startApp(tester, server);
     await signIn(tester);
 
-    await go(tester, AppRoutes.settings);
+    await go(tester, AppRoutes.settingsSection('kiosk'));
     await tap(tester, find.byKey(const Key('startKiosk')));
     await waitFor(tester, find.byKey(const Key('kioskExit')));
     expect(await WakelockPlus.enabled, isTrue);
@@ -208,7 +208,7 @@ void main() {
     final server = MockHomeAssistantServer();
     await startApp(tester, server);
     await signIn(tester);
-    await go(tester, AppRoutes.settings);
+    await go(tester, AppRoutes.settingsSection('appearance'));
     await tap(tester, find.text(en.themeDark));
     await tap(tester, find.text(en.languageSerbian));
     await tester.pump(const Duration(seconds: 1));
@@ -227,7 +227,7 @@ void main() {
       final server = MockHomeAssistantServer();
       await startApp(tester, server);
       await signIn(tester);
-      await go(tester, AppRoutes.settings);
+      await go(tester, AppRoutes.settingsSection('notifications'));
       await tap(tester, find.byKey(const Key('alertNotifySwitch')));
       await tester.pump(const Duration(seconds: 1));
 

@@ -48,7 +48,7 @@ void main() {
         .update((s) => s.copyWith(background: KioskBackground.dusk));
     await c.read(kioskSettingsProvider.notifier).setPin('1234');
 
-    await goTo(tester, AppRoutes.settings);
+    await goTo(tester, AppRoutes.settingsSection('backup'));
     await tapKey(tester, 'backupCopy');
     await settle(tester, 2);
     expect(clipboard, contains('"background": "dusk"'));

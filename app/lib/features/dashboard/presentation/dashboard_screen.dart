@@ -33,7 +33,6 @@ import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
-import '../../todo/todo_lists.dart';
 import '../../todo/todo_screen.dart';
 import '../application/home_summaries.dart';
 
@@ -298,7 +297,7 @@ class DashboardBody extends ConsumerWidget {
       case DashboardCard.notifications:
         return [box(const NotificationsBanner())];
       case DashboardCard.lists:
-        if (ref.watch(todoListsProvider).isEmpty) return const [];
+        if (kiosk) return const [];
         return [
           box(SectionHeader(l10n.dashCardLists)),
           box(const TodoListsCard()),

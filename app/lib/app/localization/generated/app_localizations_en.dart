@@ -2993,4 +2993,91 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get energyLowLegend => 'Low-rate hours';
+
+  @override
+  String get boardTitle => 'Board';
+
+  @override
+  String get boardNewPage => 'New page';
+
+  @override
+  String get boardEmpty =>
+      'No pages yet. Make the first one and write or draw with a finger or a pen.';
+
+  @override
+  String get boardStorageNote =>
+      'Pages are saved on your Home Assistant as pictures (image_upload), so all your devices see them. Home Assistant shows such pictures without signing in to anyone on the network who knows their long random link.';
+
+  @override
+  String get boardPen => 'Pen';
+
+  @override
+  String get boardEraser => 'Eraser';
+
+  @override
+  String get boardUndo => 'Undo';
+
+  @override
+  String get boardRedo => 'Redo';
+
+  @override
+  String get boardClear => 'Clear page';
+
+  @override
+  String get boardClearConfirm => 'Clear everything on this page?';
+
+  @override
+  String get boardDeletePage => 'Delete page';
+
+  @override
+  String get boardDeleteConfirm => 'Delete this page from Home Assistant?';
+
+  @override
+  String get boardDeleteNeedsAdmin =>
+      'Deleting pictures in Home Assistant needs an administrator account.';
+
+  @override
+  String get boardSaving => 'Saving…';
+
+  @override
+  String get boardSaved => 'Saved';
+
+  @override
+  String get boardSaveFailed => 'Not saved — will try again.';
+
+  @override
+  String get boardChangedElsewhere =>
+      'This page was changed on another device.';
+
+  @override
+  String get boardReload => 'Load';
+
+  @override
+  String boardColor(int n) {
+    return 'Colour $n';
+  }
+
+  @override
+  String boardWidth(int n) {
+    return 'Width $n';
+  }
+
+  @override
+  String get boardZoomHint => 'Two fingers: zoom and move';
+
+  @override
+  String get boardUnavailable =>
+      'The board is not available. Check the connection to Home Assistant.';
+
+  @override
+  String boardPageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pages',
+      one: '$count page',
+      zero: 'Empty — write or draw something',
+    );
+    return '$_temp0';
+  }
 }

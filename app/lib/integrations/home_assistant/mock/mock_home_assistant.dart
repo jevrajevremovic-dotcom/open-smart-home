@@ -200,6 +200,38 @@ class MockHomeAssistantServer {
     }
   }
 
+  /// `image_upload` storage: id → (metadata, original bytes).
+  final Map<String, (Map<String, Object?>, Uint8List)> images = {};
+  int _imageSeq = 0;
+
+  /// Whether the signed-in demo user is an administrator (image/delete).
+  bool imageAdmin = true;
+
+  String uploadImage(Uint8List bytes, String filename) {
+    final id = (++_imageSeq).toRadixString(16).padLeft(32, '0');
+    final item = <String, Object?>{
+      'id': id,
+      'filesize': bytes.length,
+      'content_type': 'image/png',
+      'name': filename,
+      'uploaded_at': _clock().toUtc().toIso8601String(),
+    };
+    images[id] = (item, Uint8List.fromList(bytes));
+    for (final socket in _sockets) {
+      socket._notifyImages('added', id, item);
+    }
+    return id;
+  }
+
+  bool deleteImage(String id) {
+    final removed = images.remove(id);
+    if (removed == null) return false;
+    for (final socket in _sockets) {
+      socket._notifyImages('removed', id, removed.$1);
+    }
+    return true;
+  }
+
   /// Items of the demo to-do lists (`todo` integration), by entity id.
   final Map<String, List<Map<String, Object?>>> todoItems = {
     'todo.shopping_list': [
@@ -1512,6 +1544,37 @@ class _MockSocket implements HaSocket {
         final confirmId = msg['confirm_id'];
         if (confirmId is String) _server.confirmedPushes.add(confirmId);
         _emit(ok());
+      case 'image/list':
+        _emit(ok([for (final (item, _) in _server.images.values) item]));
+      case 'image/subscribe':
+        _imageSub = id;
+        _emit(ok());
+        // Like Home Assistant: one first event with every item as "added".
+        final all = [
+          for (final (item, _) in _server.images.values)
+            {'change_type': 'added', 'image_id': item['id'], 'item': item},
+        ];
+        scheduleMicrotask(
+          () => _emit({'id': id, 'type': 'event', 'event': all}),
+        );
+      case 'image/delete':
+        if (!_server.imageAdmin) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'unauthorized', 'message': 'Unauthorized'},
+          });
+        } else if (_server.deleteImage(msg['image_id']! as String)) {
+          _emit(ok());
+        } else {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'not_found', 'message': 'Unable to find image'},
+          });
+        }
       case 'todo/item/subscribe' || 'todo/item/list':
         final entity = msg['entity_id'];
         final items = entity is String ? _server.todoItems[entity] : null;
@@ -1702,6 +1765,24 @@ class _MockSocket implements HaSocket {
     if (sub == null) return;
     scheduleMicrotask(
       () => _emit({'id': sub, 'type': 'event', 'event': event}),
+    );
+  }
+
+  int? _imageSub;
+
+  /// `image/subscribe` events: a list of changes, as Home Assistant's
+  /// storage collections send them.
+  void _notifyImages(String change, String imageId, Map<String, Object?> item) {
+    final sub = _imageSub;
+    if (sub == null) return;
+    scheduleMicrotask(
+      () => _emit({
+        'id': sub,
+        'type': 'event',
+        'event': [
+          {'change_type': change, 'image_id': imageId, 'item': item},
+        ],
+      }),
     );
   }
 
@@ -2079,8 +2160,24 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   }
 
   @override
+  Future<String> uploadImage(Uint8List bytes, String filename) async {
+    await _requireAuth();
+    await _latency();
+    return server.uploadImage(bytes, filename);
+  }
+
+  @override
   Future<Uint8List> fetchImage(String path) async {
     await _requireAuth();
+    final served = RegExp(r'^/api/image/serve/([0-9a-f]+)/original$');
+    if (served.firstMatch(path)?.group(1) case final id?) {
+      final bytes = server.images[id]?.$2;
+      if (bytes == null) {
+        throw const AppFailure(FailureKind.server, statusCode: 404);
+      }
+      await _latency();
+      return bytes;
+    }
     const proxy = '/api/camera_proxy/';
     if (path.startsWith(proxy)) {
       final id = Uri.decodeComponent(path.substring(proxy.length));

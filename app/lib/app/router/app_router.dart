@@ -27,6 +27,7 @@ import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/house_check/house_check.dart';
 import '../../features/house_check/house_check_screen.dart';
 import '../../features/todo/todo_screen.dart';
+import '../../features/board/board_screen.dart';
 import 'app_shell.dart';
 
 abstract final class AppRoutes {
@@ -47,6 +48,9 @@ abstract final class AppRoutes {
   static const activity = '/activity';
   static const houseCheck = '/check';
   static const todo = '/lists';
+  static const boardList = '/board';
+  static String board(String pageId, {bool kiosk = false}) =>
+      '${kiosk ? AppRoutes.kiosk : ''}$boardList/$pageId';
   static String todoList(String id) => '$todo/${Uri.encodeComponent(id)}';
   static String houseCheckFor(String mode) => '$houseCheck?mode=$mode';
   static const dashboardLayout = '/home-layout';
@@ -168,6 +172,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                 ),
               ),
               GoRoute(
+                path: 'board/:pageId',
+                builder: (_, state) =>
+                    BoardEditorScreen(pageId: state.pathParameters['pageId']!),
+              ),
+              GoRoute(
                 path: 'weather',
                 builder: (_, _) => const KioskScale(child: WeatherScreen()),
               ),
@@ -242,6 +251,17 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.activity,
             builder: (_, _) => const ActivityScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.boardList,
+            builder: (_, _) => const BoardListScreen(),
+            routes: [
+              GoRoute(
+                path: ':pageId',
+                builder: (_, state) =>
+                    BoardEditorScreen(pageId: state.pathParameters['pageId']!),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutes.todo,

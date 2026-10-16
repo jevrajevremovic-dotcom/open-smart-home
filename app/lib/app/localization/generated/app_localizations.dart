@@ -5264,6 +5264,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Low-rate hours'**
   String get energyLowLegend;
+
+  /// No description provided for @boardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Board'**
+  String get boardTitle;
+
+  /// No description provided for @boardNewPage.
+  ///
+  /// In en, this message translates to:
+  /// **'New page'**
+  String get boardNewPage;
+
+  /// No description provided for @boardEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No pages yet. Make the first one and write or draw with a finger or a pen.'**
+  String get boardEmpty;
+
+  /// No description provided for @boardStorageNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages are saved on your Home Assistant as pictures (image_upload), so all your devices see them. Home Assistant shows such pictures without signing in to anyone on the network who knows their long random link.'**
+  String get boardStorageNote;
+
+  /// No description provided for @boardPen.
+  ///
+  /// In en, this message translates to:
+  /// **'Pen'**
+  String get boardPen;
+
+  /// No description provided for @boardEraser.
+  ///
+  /// In en, this message translates to:
+  /// **'Eraser'**
+  String get boardEraser;
+
+  /// No description provided for @boardUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get boardUndo;
+
+  /// No description provided for @boardRedo.
+  ///
+  /// In en, this message translates to:
+  /// **'Redo'**
+  String get boardRedo;
+
+  /// No description provided for @boardClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear page'**
+  String get boardClear;
+
+  /// No description provided for @boardClearConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear everything on this page?'**
+  String get boardClearConfirm;
+
+  /// No description provided for @boardDeletePage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete page'**
+  String get boardDeletePage;
+
+  /// No description provided for @boardDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this page from Home Assistant?'**
+  String get boardDeleteConfirm;
+
+  /// No description provided for @boardDeleteNeedsAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting pictures in Home Assistant needs an administrator account.'**
+  String get boardDeleteNeedsAdmin;
+
+  /// No description provided for @boardSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get boardSaving;
+
+  /// No description provided for @boardSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get boardSaved;
+
+  /// No description provided for @boardSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not saved — will try again.'**
+  String get boardSaveFailed;
+
+  /// No description provided for @boardChangedElsewhere.
+  ///
+  /// In en, this message translates to:
+  /// **'This page was changed on another device.'**
+  String get boardChangedElsewhere;
+
+  /// No description provided for @boardReload.
+  ///
+  /// In en, this message translates to:
+  /// **'Load'**
+  String get boardReload;
+
+  /// No description provided for @boardColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour {n}'**
+  String boardColor(int n);
+
+  /// No description provided for @boardWidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Width {n}'**
+  String boardWidth(int n);
+
+  /// No description provided for @boardZoomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Two fingers: zoom and move'**
+  String get boardZoomHint;
+
+  /// No description provided for @boardUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The board is not available. Check the connection to Home Assistant.'**
+  String get boardUnavailable;
+
+  /// No description provided for @boardPageCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Empty — write or draw something} one{{count} page} other{{count} pages}}'**
+  String boardPageCount(int count);
 }
 
 class _AppLocalizationsDelegate

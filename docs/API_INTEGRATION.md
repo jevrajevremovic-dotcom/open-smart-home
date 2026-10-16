@@ -175,3 +175,16 @@ Provereno u izvornom kodu HA (`homeassistant/components/todo`):
 
 Stavka: `uid`, `summary`, `status`, opciono `due`, `description`. Stanje entiteta je broj neurađenih stavki.
 
+## Tabla (`image_upload`)
+
+Provereno u izvornom kodu HA (`homeassistant/components/image_upload`, `helpers/collection.py`):
+
+| Šta | Poziv | Ko sme |
+|---|---|---|
+| Nova verzija strane | `POST /api/image/upload`, multipart polje `file` (PNG), do 10 MB → `{id, name, …}` | svaki prijavljeni korisnik |
+| Spisak i promene uživo | WS `image/subscribe` → događaji su liste `{change_type, image_id, item}` (prvi sa svim slikama) | svaki korisnik |
+| Sadržaj | `GET /api/image/serve/<id>/original` (fajl bajt po bajt kako je poslat) | **bez prijave** (dovoljan je id) |
+| Brisanje | WS `image/delete {image_id}` | samo administrator |
+
+Strane se zovu `osh-board_<strana>_<ms>.png`; ostale slike u HA aplikacija ne dira. Potezi su JSON (base64) u PNG `tEXt` bloku sa ključem `osh-board`.
+

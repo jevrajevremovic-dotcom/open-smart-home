@@ -14,7 +14,10 @@ enum KioskPanelType {
   device,
 
   /// A Home Assistant to-do / shopping list.
-  lists;
+  lists,
+
+  /// The family board (handwriting and drawings).
+  board;
 
   /// Needs a device chosen (the thermostat and lists pick one themselves
   /// when empty).

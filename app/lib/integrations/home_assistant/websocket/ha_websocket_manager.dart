@@ -185,8 +185,9 @@ class HaWebSocketManager {
   }
 
   /// Sends a command that answers with a stream of events and yields each
-  /// event payload. Cancelling the stream unsubscribes on the server (which
-  /// for most such commands also stops what they started). The stream ends
+  /// event payload (a list payload as `{"changes": [...]}`). Cancelling the
+  /// stream unsubscribes on the server (which for most such commands also
+  /// stops what they started). The stream ends
   /// with an error if the command fails or the connection drops.
   Stream<Map<String, Object?>> subscribeCommand(Map<String, Object?> command) {
     _ensureNotDisposed();
@@ -389,8 +390,13 @@ class HaWebSocketManager {
         final stream = id is int ? _commandStreams[id] : null;
         if (stream != null) {
           final payload = message['event'];
-          if (payload is Map<String, Object?> && !stream.isClosed) {
+          if (stream.isClosed) return;
+          if (payload is Map<String, Object?>) {
             stream.add(payload);
+          } else if (payload is List) {
+            // Storage collections (`image/subscribe`, …) send a list of
+            // changes; it arrives as {"changes": [...]}.
+            stream.add({'changes': payload});
           }
           return;
         }

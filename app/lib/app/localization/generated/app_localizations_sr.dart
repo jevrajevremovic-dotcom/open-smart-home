@@ -3007,6 +3007,93 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get energyLowLegend => 'Sati niže tarife';
+
+  @override
+  String get boardTitle => 'Tabla';
+
+  @override
+  String get boardNewPage => 'Nova strana';
+
+  @override
+  String get boardEmpty =>
+      'Još nema strana. Napravite prvu i pišite ili crtajte prstom ili olovkom.';
+
+  @override
+  String get boardStorageNote =>
+      'Strane se čuvaju na vašem Home Assistantu kao slike (image_upload), pa ih vide svi vaši uređaji. Home Assistant takve slike pokazuje bez prijave svakome u mreži ko zna njihov dugačak nasumičan link.';
+
+  @override
+  String get boardPen => 'Olovka';
+
+  @override
+  String get boardEraser => 'Gumica';
+
+  @override
+  String get boardUndo => 'Poništi';
+
+  @override
+  String get boardRedo => 'Vrati';
+
+  @override
+  String get boardClear => 'Očisti stranu';
+
+  @override
+  String get boardClearConfirm => 'Obrisati sve sa ove strane?';
+
+  @override
+  String get boardDeletePage => 'Obriši stranu';
+
+  @override
+  String get boardDeleteConfirm => 'Obrisati ovu stranu sa Home Assistanta?';
+
+  @override
+  String get boardDeleteNeedsAdmin =>
+      'Brisanje slika u Home Assistantu traži administratorski nalog.';
+
+  @override
+  String get boardSaving => 'Čuvam…';
+
+  @override
+  String get boardSaved => 'Sačuvano';
+
+  @override
+  String get boardSaveFailed => 'Nije sačuvano — pokušaću ponovo.';
+
+  @override
+  String get boardChangedElsewhere => 'Strana je izmenjena na drugom uređaju.';
+
+  @override
+  String get boardReload => 'Učitaj';
+
+  @override
+  String boardColor(int n) {
+    return 'Boja $n';
+  }
+
+  @override
+  String boardWidth(int n) {
+    return 'Debljina $n';
+  }
+
+  @override
+  String get boardZoomHint => 'Dva prsta: uvećanje i pomeranje';
+
+  @override
+  String get boardUnavailable =>
+      'Tabla nije dostupna. Proverite vezu sa Home Assistantom.';
+
+  @override
+  String boardPageCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count strana',
+      few: '$count strane',
+      one: '$count strana',
+      zero: 'Prazna — napišite ili nacrtajte nešto',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

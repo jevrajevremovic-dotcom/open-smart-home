@@ -14,6 +14,7 @@ import '../devices/application/device_providers.dart';
 import '../devices/domain/smart_home_device.dart';
 import '../devices/presentation/device_detail_screen.dart'
     show EmptyHintPlaceholder;
+import '../board/board_repository.dart';
 import 'todo_lists.dart';
 
 /// Shopping and to-do lists from Home Assistant: check off, add, rename,
@@ -32,7 +33,17 @@ class TodoScreen extends ConsumerWidget {
     final current =
         lists.where((l) => l.id == listId).firstOrNull ?? lists.firstOrNull;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.todoTitle)),
+      appBar: AppBar(
+        title: Text(l10n.todoTitle),
+        actions: [
+          IconButton(
+            key: const Key('openBoard'),
+            tooltip: l10n.boardTitle,
+            onPressed: () => context.push(AppRoutes.boardList),
+            icon: const Icon(Icons.draw_outlined),
+          ),
+        ],
+      ),
       body: MockModeBanner(
         child: current == null
             ? EmptyHintPlaceholder(text: l10n.todoNoLists)
@@ -373,11 +384,29 @@ class TodoListsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
     final lists = ref.watch(todoListsProvider);
-    if (lists.isEmpty) return const SizedBox.shrink();
+    final pages = ref.watch(boardPagesProvider).value?.length;
     return Card(
       child: Column(
-        children: [for (final l in lists.take(3)) _ListSummary(list: l)],
+        children: [
+          for (final l in lists.take(3)) _ListSummary(list: l),
+          ListTile(
+            key: const Key('openBoardCard'),
+            leading: CircleAvatar(
+              backgroundColor: theme.colorScheme.primary.withValues(
+                alpha: 0.12,
+              ),
+              foregroundColor: theme.colorScheme.primary,
+              child: const Icon(Icons.draw_outlined),
+            ),
+            title: Text(l10n.boardTitle),
+            subtitle: pages == null ? null : Text(l10n.boardPageCount(pages)),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push(AppRoutes.boardList),
+          ),
+        ],
       ),
     );
   }

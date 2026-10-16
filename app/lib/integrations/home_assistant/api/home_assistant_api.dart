@@ -122,6 +122,11 @@ abstract interface class HomeAssistantApi {
   /// `/api/` paths are accepted, so the token never goes to another host.
   Future<Uint8List> fetchImage(String path);
 
+  /// `POST /api/image/upload` (Home Assistant's `image_upload`, multipart
+  /// field `file`; PNG, JPEG or GIF up to 10 MB). Returns the new image's
+  /// id; the file is served unchanged at `/api/image/serve/<id>/original`.
+  Future<String> uploadImage(Uint8List bytes, String filename);
+
   void close();
 }
 

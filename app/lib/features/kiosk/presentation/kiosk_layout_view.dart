@@ -20,6 +20,7 @@ import 'kiosk_camera_panel.dart';
 import 'kiosk_panels.dart';
 import 'thermostat_dial.dart';
 import '../../todo/todo_lists.dart';
+import 'kiosk_board_panel.dart';
 import 'kiosk_todo_panel.dart';
 
 /// `true` while the wall panel's layout is being edited on the tablet.
@@ -52,6 +53,7 @@ String kioskPanelLabel(AppLocalizations l10n, KioskPanelType t) => switch (t) {
   KioskPanelType.calendar => l10n.calendarTitle,
   KioskPanelType.device => l10n.kioskPanelDevice,
   KioskPanelType.lists => l10n.todoTitle,
+  KioskPanelType.board => l10n.boardTitle,
 };
 
 /// Whether [p] has something to show right now (else it is left out,
@@ -186,6 +188,7 @@ class KioskLayoutView extends ConsumerWidget {
     KioskPanelType.calendar => SizedBox(height: 520, child: child),
     KioskPanelType.device => SizedBox(height: 150.0 * p.height, child: child),
     KioskPanelType.lists => SizedBox(height: 360.0 * p.height, child: child),
+    KioskPanelType.board => SizedBox(height: 360.0 * p.height, child: child),
     _ => child,
   };
 }
@@ -240,6 +243,7 @@ class _PanelBody extends ConsumerWidget {
       ),
       KioskPanelType.calendar => const KioskCalendarPanel(),
       KioskPanelType.device => KioskDevicePanel(deviceId: panel.entityId!),
+      KioskPanelType.board => const KioskBoardPanel(),
       KioskPanelType.lists => KioskTodoPanel(
         listId: panel.entityId ?? ref.watch(todoListsProvider).first.id,
       ),

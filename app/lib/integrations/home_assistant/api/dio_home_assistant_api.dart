@@ -369,6 +369,55 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     }
   }
 
+  @override
+  Future<String> uploadImage(Uint8List bytes, String filename) async {
+    final type = switch (filename.split('.').last.toLowerCase()) {
+      'png' => 'png',
+      'jpg' || 'jpeg' => 'jpeg',
+      'gif' => 'gif',
+      _ => throw const AppFailure(
+        FailureKind.validation,
+        debugMessage: 'only png, jpeg and gif can be uploaded',
+      ),
+    };
+    final form = FormData.fromMap({
+      'file': MultipartFile.fromBytes(
+        bytes,
+        filename: filename,
+        contentType: DioMediaType('image', type),
+      ),
+    });
+    final token = await _readToken();
+    if (token == null || token.isEmpty) {
+      throw const AppFailure(
+        FailureKind.authentication,
+        debugMessage: 'no token stored',
+      );
+    }
+    try {
+      final response = await _dio.post<Object?>(
+        '/api/image/upload',
+        data: form,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      final id = switch (response.data) {
+        {'id': final String id} => id,
+        _ => null,
+      };
+      if (id == null) {
+        throw const AppFailure(
+          FailureKind.server,
+          debugMessage: 'upload answered without an id',
+        );
+      }
+      return id;
+    } on DioException catch (e) {
+      final failure = _map(e);
+      _log.warning('POST image upload failed', failure);
+      throw failure;
+    }
+  }
+
   Future<Object?> _authorized(
     String method,
     String path, {

@@ -8,7 +8,7 @@ void main() {
   testWidgets('dashboard shows summary, scenes and rooms from real data', (
     tester,
   ) async {
-    await pumpApp(tester, signedIn: true, size: const Size(1280, 1600));
+    await pumpApp(tester, signedIn: true, size: const Size(1280, 2200));
     await settle(tester, 10);
     expect(find.text(en.summaryTemperature), findsOneWidget);
     expect(find.text('22.4°'), findsOneWidget); // only one temperature sensor

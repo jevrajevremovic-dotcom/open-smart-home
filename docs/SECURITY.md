@@ -171,3 +171,7 @@ Ne otvarajte javni issue. Pošaljite opis održavaocima privatno (kontakt dodati
 
 Strane table se čuvaju kao slike preko HA integracije `image_upload`. Home Assistant te slike servira na `/api/image/serve/<id>/original` **bez prijave**: ko zna id (32 nasumična heksadecimalna znaka) i može da dođe do servera, može da je vidi. Aplikacija to piše na ekranu table. Ne pišite na tablu lozinke ni druge tajne.
 
+## Senzori uređaja
+
+Uključuju se posebno (podrazumevano isključeno) i idu samo na vaš Home Assistant: procenat i stanje baterije, vrsta punjača i da li je kiosk uključen. Lokacija, Wi-Fi mreža i ništa drugo se ne šalju.
+

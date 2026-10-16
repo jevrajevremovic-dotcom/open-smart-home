@@ -38,6 +38,11 @@ class MainActivity : FlutterFragmentActivity() {
         nsd = handler
         EventChannel(messenger, "org.opensmarthome/nsd").setStreamHandler(handler)
 
+        // One per process: keeps reporting while the cached engine runs in
+        // the background service, after this activity is gone.
+        EventChannel(messenger, "org.opensmarthome/battery")
+            .setStreamHandler(BatteryHandler.get(applicationContext))
+
         val levels = AudioLevelHandler(applicationContext)
         audio = levels
         EventChannel(messenger, "org.opensmarthome/audio_level").setStreamHandler(levels)

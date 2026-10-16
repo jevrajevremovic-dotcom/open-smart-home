@@ -3080,4 +3080,55 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get deviceSensorBattery => 'Battery';
+
+  @override
+  String get deviceSensorBatteryState => 'Battery state';
+
+  @override
+  String get deviceSensorCharging => 'Charging';
+
+  @override
+  String get deviceSensorKiosk => 'Kiosk';
+
+  @override
+  String get deviceSensorsSwitch => 'Send battery state to Home Assistant';
+
+  @override
+  String get deviceSensorsHint =>
+      'Battery level, charging and whether the kiosk is on become sensors of this device in your HA. Nothing else is sent.';
+
+  @override
+  String get smartChargeTitle => 'Smart charging';
+
+  @override
+  String smartChargeHint(int low, int high) {
+    return 'The charger\'s plug turns on at $low % and off at $high % — the wall tablet\'s battery lasts longer.';
+  }
+
+  @override
+  String get smartChargeWaiting =>
+      'Waiting for the battery sensor to appear in Home Assistant…';
+
+  @override
+  String get smartChargePlug => 'Charger plug or switch';
+
+  @override
+  String get smartChargeCreate => 'Create automation';
+
+  @override
+  String smartChargeDone(String name) {
+    return 'Automation “$name” created in Home Assistant.';
+  }
+
+  @override
+  String get smartChargeNeedsAdmin =>
+      'Creating automations needs an administrator account.';
+
+  @override
+  String smartChargeAlias(String device) {
+    return 'Smart charging – $device';
+  }
 }

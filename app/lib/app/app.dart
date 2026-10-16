@@ -14,6 +14,7 @@ import '../features/authentication/data/session_repository.dart';
 import '../features/devices/application/device_providers.dart';
 import '../features/settings/application/appearance_controllers.dart';
 import '../features/shortcuts/app_shortcuts.dart';
+import '../features/device_sensors/device_sensors.dart';
 import 'localization/app_locales.dart';
 import 'localization/l10n.dart';
 import 'router/app_router.dart';
@@ -92,9 +93,11 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
       ],
       routerConfig: ref.watch(routerProvider),
       builder: (context, child) => HaPushHost(
-        child: AlertNotificationsHost(
-          child: ShortcutsHost(
-            child: AppLockGate(child: child ?? const SizedBox()),
+        child: DeviceSensorsHost(
+          child: AlertNotificationsHost(
+            child: ShortcutsHost(
+              child: AppLockGate(child: child ?? const SizedBox()),
+            ),
           ),
         ),
       ),

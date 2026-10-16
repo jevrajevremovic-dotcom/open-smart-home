@@ -21,6 +21,7 @@ import 'package:open_smart_home/core/storage/app_preferences.dart';
 import 'package:open_smart_home/core/storage/credential_store.dart';
 import 'package:open_smart_home/features/devices/data/cache/snapshot_cache.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
+import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// In-memory replacement for the platform keychain/keystore.
@@ -107,6 +108,7 @@ Future<List<Override>> testOverrides({
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
+  DeviceBatteryPlatform? battery,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -142,6 +144,9 @@ Future<List<Override>> testOverrides({
     ),
     clapPlatformProvider.overrideWithValue(
       clap ?? FakeClapPlatform(supported: false),
+    ),
+    deviceBatteryProvider.overrideWithValue(
+      battery ?? FakeDeviceBattery(supported: false),
     ),
     homeScreenWidgetProvider.overrideWithValue(
       homeWidget ?? FakeHomeScreenWidget(supported: false),
@@ -332,5 +337,28 @@ class FakeMatterNewDevice implements MatterNewDevicePlatform {
     } on Object {
       return false;
     }
+  }
+}
+
+/// Battery readings pushed by the test.
+class FakeDeviceBattery implements DeviceBatteryPlatform {
+  FakeDeviceBattery({this.supported = true});
+
+  @override
+  final bool supported;
+
+  // ignore: close_sinks, lives as long as the test
+  final _readings = StreamController<BatteryReading>.broadcast();
+  BatteryReading? last;
+
+  void emit(BatteryReading r) {
+    last = r;
+    _readings.add(r);
+  }
+
+  @override
+  Stream<BatteryReading> readings() async* {
+    if (last case final r?) yield r;
+    yield* _readings.stream;
   }
 }

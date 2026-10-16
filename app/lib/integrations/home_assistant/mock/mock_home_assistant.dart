@@ -308,6 +308,52 @@ class MockHomeAssistantServer {
     _todoChanged(id! as String);
   }
 
+  /// Mobile App sensors: webhook → unique id → entity id.
+  final Map<String, Map<String, String>> mobileAppSensorIds = {};
+
+  /// `register_sensor` (201) and `update_sensor_states` (200), as in
+  /// homeassistant/components/mobile_app/webhook.py: the entity is named
+  /// `"<device name> <sensor name>"`; updates of unknown sensors are refused.
+  int mobileAppSensors(String webhook, String type, Object? data) {
+    final device = mobileApps[webhook]!['device_name']! as String;
+    final ids = mobileAppSensorIds.putIfAbsent(webhook, () => {});
+    Map<String, Object?> attrs(Map<Object?, Object?> s, String? name) => {
+      ...?(s['attributes'] as Map?)?.cast<String, Object?>(),
+      'friendly_name': ?name,
+      'device_class': ?s['device_class'],
+      'unit_of_measurement': ?s['unit_of_measurement'],
+      'icon': ?s['icon'],
+    };
+    String state(Object? v) => switch (v) {
+      true => 'on',
+      false => 'off',
+      null => 'unknown',
+      final other => '$other',
+    };
+    if (type == 'register_sensor' && data is Map) {
+      final uid = data['unique_id']! as String;
+      final domain = data['type']! as String;
+      final name = '$device ${data['name']}';
+      final entityId = ids[uid] ??= '$domain.${_slug(name)}';
+      _setState(entityId, state(data['state']), attrs(data, name));
+      return 201;
+    }
+    if (type == 'update_sensor_states' && data is List) {
+      for (final s in data.whereType<Map<Object?, Object?>>()) {
+        final entityId = ids[s['unique_id']];
+        if (entityId == null) continue;
+        final current = _states[entityId];
+        final keep = current?['attributes'] as Map<String, Object?>? ?? {};
+        _setState(entityId, state(s['state']), {
+          ...keep,
+          ...attrs(s, keep['friendly_name'] as String?),
+        });
+      }
+      return 200;
+    }
+    return 400;
+  }
+
   /// `mobile_app` registrations by webhook id (native app API).
   final Map<String, Map<String, Object?>> mobileApps = {};
 
@@ -1528,16 +1574,25 @@ class _MockSocket implements HaSocket {
           });
         } else {
           final json = body is String ? jsonDecode(body) : null;
+          var status = 200;
           if (json is Map && json['type'] == 'fire_event') {
             _server.firedEvents.add(
               Map<String, Object?>.from(json['data'] as Map),
+            );
+          } else if (json is Map &&
+              (json['type'] == 'register_sensor' ||
+                  json['type'] == 'update_sensor_states')) {
+            status = _server.mobileAppSensors(
+              webhook,
+              json['type']! as String,
+              json['data'],
             );
           }
           _emit({
             'id': id,
             'type': 'result',
             'success': true,
-            'result': {'status': 200, 'body': '{}'},
+            'result': {'status': status, 'body': '{}'},
           });
         }
       case 'mobile_app/push_notification_confirm':

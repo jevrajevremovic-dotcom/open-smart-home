@@ -1385,5 +1385,22 @@
   "boardZoomHint": "Two fingers: zoom and move",
   "boardUnavailable": "The board is not available. Check the connection to Home Assistant.",
   "boardPageCount": "{count, plural, =0{Empty — write or draw something} one{{count} page} other{{count} pages}}",
-  "@boardPageCount": {"placeholders": {"count": {"type": "int"}}}
+  "@boardPageCount": {"placeholders": {"count": {"type": "int"}}},
+  "deviceSensorBattery": "Battery",
+  "deviceSensorBatteryState": "Battery state",
+  "deviceSensorCharging": "Charging",
+  "deviceSensorKiosk": "Kiosk",
+  "deviceSensorsSwitch": "Send battery state to Home Assistant",
+  "deviceSensorsHint": "Battery level, charging and whether the kiosk is on become sensors of this device in your HA. Nothing else is sent.",
+  "smartChargeTitle": "Smart charging",
+  "smartChargeHint": "The charger's plug turns on at {low} % and off at {high} % — the wall tablet's battery lasts longer.",
+  "@smartChargeHint": {"placeholders": {"low": {"type": "int"}, "high": {"type": "int"}}},
+  "smartChargeWaiting": "Waiting for the battery sensor to appear in Home Assistant…",
+  "smartChargePlug": "Charger plug or switch",
+  "smartChargeCreate": "Create automation",
+  "smartChargeDone": "Automation “{name}” created in Home Assistant.",
+  "@smartChargeDone": {"placeholders": {"name": {"type": "String"}}},
+  "smartChargeNeedsAdmin": "Creating automations needs an administrator account.",
+  "smartChargeAlias": "Smart charging – {device}",
+  "@smartChargeAlias": {"placeholders": {"device": {"type": "String"}}}
 }

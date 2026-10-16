@@ -3094,6 +3094,57 @@ class AppLocalizationsSr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get deviceSensorBattery => 'Baterija';
+
+  @override
+  String get deviceSensorBatteryState => 'Stanje baterije';
+
+  @override
+  String get deviceSensorCharging => 'Punjenje';
+
+  @override
+  String get deviceSensorKiosk => 'Kiosk';
+
+  @override
+  String get deviceSensorsSwitch => 'Šalji stanje baterije u Home Assistant';
+
+  @override
+  String get deviceSensorsHint =>
+      'Procenat baterije, punjenje i da li je kiosk uključen postaju senzori ovog uređaja u vašem HA. Ništa drugo se ne šalje.';
+
+  @override
+  String get smartChargeTitle => 'Pametno punjenje';
+
+  @override
+  String smartChargeHint(int low, int high) {
+    return 'Utičnica punjača se pali na $low %, a gasi na $high % — baterija zidnog tableta duže traje.';
+  }
+
+  @override
+  String get smartChargeWaiting =>
+      'Čekam da se senzor baterije pojavi u Home Assistantu…';
+
+  @override
+  String get smartChargePlug => 'Utičnica ili prekidač punjača';
+
+  @override
+  String get smartChargeCreate => 'Napravi automatizaciju';
+
+  @override
+  String smartChargeDone(String name) {
+    return 'Automatizacija „$name” je napravljena u Home Assistantu.';
+  }
+
+  @override
+  String get smartChargeNeedsAdmin =>
+      'Pravljenje automatizacija traži administratorski nalog.';
+
+  @override
+  String smartChargeAlias(String device) {
+    return 'Pametno punjenje – $device';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

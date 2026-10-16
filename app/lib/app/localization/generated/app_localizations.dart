@@ -5402,6 +5402,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Empty — write or draw something} one{{count} page} other{{count} pages}}'**
   String boardPageCount(int count);
+
+  /// No description provided for @deviceSensorBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get deviceSensorBattery;
+
+  /// No description provided for @deviceSensorBatteryState.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery state'**
+  String get deviceSensorBatteryState;
+
+  /// No description provided for @deviceSensorCharging.
+  ///
+  /// In en, this message translates to:
+  /// **'Charging'**
+  String get deviceSensorCharging;
+
+  /// No description provided for @deviceSensorKiosk.
+  ///
+  /// In en, this message translates to:
+  /// **'Kiosk'**
+  String get deviceSensorKiosk;
+
+  /// No description provided for @deviceSensorsSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Send battery state to Home Assistant'**
+  String get deviceSensorsSwitch;
+
+  /// No description provided for @deviceSensorsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery level, charging and whether the kiosk is on become sensors of this device in your HA. Nothing else is sent.'**
+  String get deviceSensorsHint;
+
+  /// No description provided for @smartChargeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart charging'**
+  String get smartChargeTitle;
+
+  /// No description provided for @smartChargeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The charger\'s plug turns on at {low} % and off at {high} % — the wall tablet\'s battery lasts longer.'**
+  String smartChargeHint(int low, int high);
+
+  /// No description provided for @smartChargeWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the battery sensor to appear in Home Assistant…'**
+  String get smartChargeWaiting;
+
+  /// No description provided for @smartChargePlug.
+  ///
+  /// In en, this message translates to:
+  /// **'Charger plug or switch'**
+  String get smartChargePlug;
+
+  /// No description provided for @smartChargeCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create automation'**
+  String get smartChargeCreate;
+
+  /// No description provided for @smartChargeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Automation “{name}” created in Home Assistant.'**
+  String smartChargeDone(String name);
+
+  /// No description provided for @smartChargeNeedsAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating automations needs an administrator account.'**
+  String get smartChargeNeedsAdmin;
+
+  /// No description provided for @smartChargeAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart charging – {device}'**
+  String smartChargeAlias(String device);
 }
 
 class _AppLocalizationsDelegate

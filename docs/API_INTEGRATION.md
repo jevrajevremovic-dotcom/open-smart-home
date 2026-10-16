@@ -188,3 +188,12 @@ Provereno u izvornom kodu HA (`homeassistant/components/image_upload`, `helpers/
 
 Strane se zovu `osh-board_<strana>_<ms>.png`; ostale slike u HA aplikacija ne dira. Potezi su JSON (base64) u PNG `tEXt` bloku sa ključem `osh-board`.
 
+## Senzori uređaja (Mobile App)
+
+Provereno u `homeassistant/components/mobile_app/webhook.py`. Šalje se kroz WS `webhook/handle` sa telom `{type, data}`:
+
+- `register_sensor`: `{type: sensor|binary_sensor, unique_id, name, state, device_class?, unit_of_measurement?, state_class?, icon?, attributes?}` → 201. HA entitet nazove „<ime uređaja> <ime senzora>”.
+- `update_sensor_states`: lista `{type, unique_id, state, icon?, attributes?}` → 200; neregistrovan senzor HA odbija.
+
+Aplikacija šalje: `battery_level` (%), `battery_state` (atribut `charger`), `is_charging` (binary, `battery_charging`), `kiosk` (binary).
+

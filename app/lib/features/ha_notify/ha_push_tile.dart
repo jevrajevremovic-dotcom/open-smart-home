@@ -8,6 +8,8 @@ import '../../core/errors/failure_messages.dart';
 import '../alerts/alert_notifications.dart';
 import '../authentication/application/session_controller.dart';
 import 'ha_push.dart';
+import '../device_sensors/device_sensors.dart';
+import '../device_sensors/smart_charge_tile.dart';
 
 /// Settings row: let Home Assistant automations send messages here.
 class HaPushTile extends ConsumerWidget {
@@ -89,6 +91,17 @@ class HaPushTile extends ConsumerWidget {
             onChanged: (v) =>
                 ref.read(haPushBackgroundProvider.notifier).set(v),
           ),
+        if (ref.watch(deviceBatteryProvider).supported) ...[
+          SwitchListTile(
+            key: const Key('deviceSensorsSwitch'),
+            contentPadding: const EdgeInsets.only(left: 40),
+            title: Text(l10n.deviceSensorsSwitch),
+            subtitle: Text(l10n.deviceSensorsHint),
+            value: ref.watch(deviceSensorsProvider),
+            onChanged: (v) => ref.read(deviceSensorsProvider.notifier).set(v),
+          ),
+          if (ref.watch(deviceSensorsProvider)) const SmartChargeTile(),
+        ],
         Wrap(
           spacing: 8,
           runSpacing: 8,

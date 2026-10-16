@@ -1040,7 +1040,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get energyTariffHint =>
-      'Koristi se samo za procenu na ovom uređaju. Pravi račun uključuje i fiksne naknade, poreze i višu/nižu tarifu.';
+      'Koristi se samo za procenu na ovom uređaju. Pravi račun uključuje i fiksne naknade, poreze i obračun po zonama.';
 
   @override
   String get energyTariffImport => 'Cena po kWh iz mreže';
@@ -2955,6 +2955,58 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get dashCardLists => 'Liste';
+
+  @override
+  String get energyTwoRate => 'Dvotarifno brojilo';
+
+  @override
+  String get energyTwoRateHint =>
+      'Niža (noćna) tarifa važi u zadatim satima. Termini se razlikuju po području — proverite ih na računu ili kod distributera.';
+
+  @override
+  String get energyLowPrice => 'Cena u nižoj tarifi (po kWh)';
+
+  @override
+  String get energyHighPrice => 'Cena u višoj tarifi (po kWh)';
+
+  @override
+  String get energyLowFrom => 'Od';
+
+  @override
+  String get energyLowTo => 'Do';
+
+  @override
+  String get energyLowPresetBelgrade => 'Beograd 00–08';
+
+  @override
+  String get energyLowPresetVojvodina => 'Vojvodina 23–07';
+
+  @override
+  String get energyLowPresetCentral => 'Centralna Srbija 22–06';
+
+  @override
+  String get energyHighRateKwh => 'Viša tarifa';
+
+  @override
+  String get energyLowRateKwh => 'Niža tarifa';
+
+  @override
+  String energyLowShare(int percent) {
+    return '$percent % potrošnje';
+  }
+
+  @override
+  String energyLowNow(String time) {
+    return 'Sada je niža tarifa, do $time';
+  }
+
+  @override
+  String energyHighNow(String time) {
+    return 'Sada je viša tarifa — niža počinje u $time';
+  }
+
+  @override
+  String get energyLowLegend => 'Sati niže tarife';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

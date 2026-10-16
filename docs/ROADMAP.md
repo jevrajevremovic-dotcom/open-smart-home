@@ -37,6 +37,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Kiosk: iskačuća kamera (zvono, pokret, vrata) ✅, tamnije noću i minimum na čuvaru ekrana ✅, raspored panela prevlačenjem ✅
 - Provera kuće („Odlazim” / „Laku noć”) ✅
 - Liste (spisak za kupovinu, zadaci) na telefonu i u kiosku ✅
+- Dvotarifno brojilo (viša/niža tarifa) ✅
 - Prijava korisničkim imenom i lozinkom na telefonu ✅, Tailscale adrese ✅
 - Prilagodljiv početni ekran (izbor i redosled kartica) ✅
 - Video uživo u iskačućoj kameri ✅

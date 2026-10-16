@@ -1896,7 +1896,7 @@ abstract class AppLocalizations {
   /// No description provided for @energyTariffHint.
   ///
   /// In en, this message translates to:
-  /// **'Used only for an estimate on this device. Real bills also include fixed fees, taxes and time-of-day rates.'**
+  /// **'Used only for an estimate on this device. Real bills also include fixed fees, taxes and consumption zones.'**
   String get energyTariffHint;
 
   /// No description provided for @energyTariffImport.
@@ -5174,6 +5174,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lists'**
   String get dashCardLists;
+
+  /// No description provided for @energyTwoRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-rate meter'**
+  String get energyTwoRate;
+
+  /// No description provided for @energyTwoRateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The lower (night) rate applies in the hours you set. They differ by area — check your bill or your distributor.'**
+  String get energyTwoRateHint;
+
+  /// No description provided for @energyLowPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Low-rate price (per kWh)'**
+  String get energyLowPrice;
+
+  /// No description provided for @energyHighPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'High-rate price (per kWh)'**
+  String get energyHighPrice;
+
+  /// No description provided for @energyLowFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get energyLowFrom;
+
+  /// No description provided for @energyLowTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get energyLowTo;
+
+  /// No description provided for @energyLowPresetBelgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Belgrade 00–08'**
+  String get energyLowPresetBelgrade;
+
+  /// No description provided for @energyLowPresetVojvodina.
+  ///
+  /// In en, this message translates to:
+  /// **'Vojvodina 23–07'**
+  String get energyLowPresetVojvodina;
+
+  /// No description provided for @energyLowPresetCentral.
+  ///
+  /// In en, this message translates to:
+  /// **'Central Serbia 22–06'**
+  String get energyLowPresetCentral;
+
+  /// No description provided for @energyHighRateKwh.
+  ///
+  /// In en, this message translates to:
+  /// **'High rate'**
+  String get energyHighRateKwh;
+
+  /// No description provided for @energyLowRateKwh.
+  ///
+  /// In en, this message translates to:
+  /// **'Low rate'**
+  String get energyLowRateKwh;
+
+  /// No description provided for @energyLowShare.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} % of use'**
+  String energyLowShare(int percent);
+
+  /// No description provided for @energyLowNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low rate now, until {time}'**
+  String energyLowNow(String time);
+
+  /// No description provided for @energyHighNow.
+  ///
+  /// In en, this message translates to:
+  /// **'High rate now — low rate starts at {time}'**
+  String energyHighNow(String time);
+
+  /// No description provided for @energyLowLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Low-rate hours'**
+  String get energyLowLegend;
 }
 
 class _AppLocalizationsDelegate

@@ -107,6 +107,39 @@ void main() {
     });
   });
 
+  test('two-rate meter: hours across midnight, next change, cost', () {
+    const low = LowTariff(fromHour: 23, toHour: 7, price: 5);
+    expect(low.hours, {23, 0, 1, 2, 3, 4, 5, 6});
+    expect(low.containsHour(7), isFalse);
+    expect(low.containsHour(22), isFalse);
+    expect(
+      low.nextChange(DateTime(2026, 10, 16, 2, 30)),
+      DateTime(2026, 10, 16, 7),
+    );
+    expect(
+      low.nextChange(DateTime(2026, 10, 16, 12)),
+      DateTime(2026, 10, 16, 23),
+    );
+    expect(
+      low.nextChange(DateTime(2026, 10, 16, 23, 10)),
+      DateTime(2026, 10, 17, 7),
+    );
+    const belgrade = LowTariff(fromHour: 0, toHour: 8, price: 5);
+    expect(belgrade.hours, {0, 1, 2, 3, 4, 5, 6, 7});
+
+    const tariff = Tariff(importPrice: 15, low: low);
+    // 10 kWh, 4 of them at night: 6 × 15 + 4 × 5.
+    expect(tariff.estimate(gridImport: 10, gridImportLow: 4), 110);
+    final again = Tariff.tryFromJson(tariff.toJson())!;
+    expect(again.low, low);
+    expect(
+      LowTariff.tryFromJson({'fromHour': 5, 'toHour': 5, 'price': 1}),
+      isNull,
+      reason: 'an empty window',
+    );
+    expect(Tariff.tryFromJson({'importPrice': 15})!.low, isNull);
+  });
+
   test('tariff estimate and storage', () {
     const t = Tariff(importPrice: 12.5, exportPrice: 5);
     expect(t.estimate(gridImport: 10, gridExport: 2), 115);
@@ -165,6 +198,35 @@ void main() {
       expect(report.gas, isNull, reason: 'gas is not configured');
       expect(report.solar, isNotNull);
     });
+
+    for (final range in [EnergyRange.today, EnergyRange.week]) {
+      test('two-rate split of grid import (${range.name})', () async {
+        final repo = EnergyRepository(ws);
+        final prefs = (await repo.loadPrefs())!;
+        final now = DateTime.now();
+        final night = {0, 1, 2, 3, 4, 5, 6, 7};
+        final report = await repo.loadReport(
+          prefs,
+          range,
+          now: now,
+          lowHours: night,
+        );
+        final (start, _) = range.bounds(now);
+        var expected = 0.0;
+        for (
+          var h = start;
+          h.isBefore(now);
+          h = h.add(const Duration(hours: 1))
+        ) {
+          if (!night.contains(h.hour)) continue;
+          expected += double.parse(
+            mockHourlyEnergy('sensor.house_energy', h).toStringAsFixed(3),
+          );
+        }
+        expect(report.gridImportLow, closeTo(expected, 0.01));
+        expect(report.gridImportLow, lessThanOrEqualTo(report.gridImport!));
+      });
+    }
 
     test(
       'devices are named from the configuration and sorted by energy',
@@ -265,6 +327,32 @@ void main() {
         findsOneWidget,
         reason: 'previous month shown for comparison',
       );
+      await unmount(tester);
+    });
+
+    testWidgets('two-rate meter: rate now, high/low split, shaded hours', (
+      tester,
+    ) async {
+      await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+      await settle(tester, 10);
+      await goTo(tester, AppRoutes.energy);
+      await settle(tester, 6);
+      await tapKey(tester, 'energySetTariff');
+      await settle(tester, 3);
+      await tester.enterText(find.byKey(const Key('tariffImport')), '15');
+      await tapKey(tester, 'tariffTwoRate');
+      await settle(tester, 2);
+      await tester.enterText(find.byKey(const Key('tariffLowPrice')), '7');
+      await tapKey(tester, 'tariffPreset-23');
+      await settle(tester, 2);
+      await tapKey(tester, 'tariffSave');
+      await settle(tester, 6);
+
+      expect(find.byKey(const Key('energyRateNow')), findsOneWidget);
+      expect(find.byKey(const Key('energyHighRate')), findsOneWidget);
+      expect(find.byKey(const Key('energyLowRate')), findsOneWidget);
+      expect(find.byKey(const Key('energyLowLegend')), findsOneWidget);
+      expect(find.byKey(const Key('energyCost')), findsOneWidget);
       await unmount(tester);
     });
   });

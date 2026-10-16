@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,9 +14,17 @@ import 'energy_format.dart';
 /// the baseline with a gap between them, recessive axis, a value label on
 /// tap, and a table view for screen readers and exact values.
 class ConsumptionChart extends StatefulWidget {
-  const ConsumptionChart({super.key, required this.report, this.buckets});
+  const ConsumptionChart({
+    super.key,
+    required this.report,
+    this.buckets,
+    this.lowHours,
+  });
 
   final EnergyReport report;
+
+  /// Hours of the lower rate, shaded behind the bars of an hourly chart.
+  final Set<int>? lowHours;
 
   /// Another series over the same range (one device); default: the home.
   final List<EnergyBucket>? buckets;
@@ -115,6 +124,13 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
                     child: CustomPaint(
                       size: Size(constraints.maxWidth, 180),
                       painter: _BarsPainter(
+                        shaded: [
+                          for (final b in buckets)
+                            widget.report.range == EnergyRange.today &&
+                                (widget.lowHours?.contains(b.start.hour) ??
+                                    false),
+                        ],
+                        shade: theme.colorScheme.secondaryContainer,
                         values: values,
                         maxValue: maxValue,
                         selected: selected,
@@ -135,6 +151,30 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
               for (final b in buckets) _slotLabel(locale, b.start, short: true),
             ],
           ),
+          if (widget.report.range == EnergyRange.today &&
+              (widget.lowHours?.isNotEmpty ?? false)) ...[
+            const SizedBox(height: 8),
+            Row(
+              key: const Key('energyLowLegend'),
+              children: [
+                Container(
+                  width: 14,
+                  height: 14,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.secondaryContainer,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  l10n.energyLowLegend,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ],
     );
@@ -143,6 +183,8 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
 
 class _BarsPainter extends CustomPainter {
   _BarsPainter({
+    required this.shaded,
+    required this.shade,
     required this.values,
     required this.maxValue,
     required this.selected,
@@ -151,6 +193,9 @@ class _BarsPainter extends CustomPainter {
     required this.surface,
   });
 
+  /// Slots drawn on a background band (low-rate hours).
+  final List<bool> shaded;
+  final Color shade;
   final List<double?> values;
   final double maxValue;
   final int? selected;
@@ -161,6 +206,15 @@ class _BarsPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final baseline = size.height - 1;
+    final band = Paint()..color = shade;
+    final slotWidth = size.width / values.length;
+    for (var i = 0; i < shaded.length; i++) {
+      if (!shaded[i]) continue;
+      canvas.drawRect(
+        Rect.fromLTWH(i * slotWidth, 0, slotWidth + 0.5, baseline),
+        band,
+      );
+    }
     canvas.drawLine(
       Offset(0, baseline),
       Offset(size.width, baseline),
@@ -193,7 +247,8 @@ class _BarsPainter extends CustomPainter {
       old.values != values ||
       old.maxValue != maxValue ||
       old.selected != selected ||
-      old.bar != bar;
+      old.bar != bar ||
+      !listEquals(old.shaded, shaded);
 }
 
 /// A few evenly spaced labels (first, quarters, last) – never one per bar.

@@ -28,6 +28,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 
 **Početni ekran i kiosk (zidni tablet)**
 - Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”
+- Dvotarifno brojilo: potrošnja i trošak u višoj i nižoj tarifi, koja tarifa važi sada
 - Liste iz Home Assistanta (kupovina, zadaci) na telefonu i zidnom tabletu, uživo
 - Provera kuće pred odlazak i spavanje: šta je ostalo upaljeno, otvoreno ili otključano, „Sredi sve” jednim dodirom
 - Kiosk: raspored po želji — prevlačenje, veličina, dodavanje i uklanjanje panela

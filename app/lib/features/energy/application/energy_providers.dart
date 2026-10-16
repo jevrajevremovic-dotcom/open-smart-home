@@ -50,6 +50,7 @@ final energyReportProvider = FutureProvider<EnergyReport?>((ref) async {
     now: DateTime.now(),
     // Statistic ids of devices are usually their entity ids.
     nameOf: (id) => devices[id]?.name ?? id,
+    lowHours: ref.watch(tariffProvider.select((t) => t?.low?.hours)),
   );
 });
 

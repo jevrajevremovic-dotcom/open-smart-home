@@ -84,6 +84,7 @@ class EnergyReport {
     this.batteryCharge,
     this.batteryDischarge,
     this.gas,
+    this.gridImportLow,
   });
 
   final EnergyRange range;
@@ -93,6 +94,10 @@ class EnergyReport {
   /// discharge (Home Assistant's definition of home consumption).
   final double? consumption;
   final double? gridImport;
+
+  /// kWh taken from the grid in the low-rate hours (two-rate meter);
+  /// `null` when not asked for or unknown.
+  final double? gridImportLow;
   final double? gridExport;
   final double? solar;
   final double? batteryCharge;
@@ -132,6 +137,7 @@ class EnergyRepository {
     EnergyRange range, {
     required DateTime now,
     String Function(String statisticId)? nameOf,
+    Set<int>? lowHours,
   }) async {
     final (start, end) = range.bounds(now);
     final ids = {...prefs.electricityStatistics, ...prefs.gas};
@@ -215,8 +221,34 @@ class EnergyRepository {
           ),
     ]..sort((a, b) => b.kwh.compareTo(a.kwh));
 
+    // Two-rate meter: grid import in the low hours. Days need the hourly
+    // statistics of the grid meters (one more request, only then).
+    double? importLow;
+    if (lowHours != null && prefs.gridImport.isNotEmpty) {
+      final hourly = range.period == 'hour'
+          ? import
+          : _sumBySlot(
+              parseStatistics(
+                await _ws.sendCommand({
+                  'type': 'recorder/statistics_during_period',
+                  'start_time': start.toUtc().toIso8601String(),
+                  'end_time': end.toUtc().toIso8601String(),
+                  'statistic_ids': prefs.gridImport,
+                  'period': 'hour',
+                  'types': ['change'],
+                  'units': {'energy': 'kWh'},
+                }),
+              ),
+              prefs.gridImport,
+            );
+      importLow = hourly.entries
+          .where((e) => lowHours.contains(e.key.toLocal().hour))
+          .fold<double>(0, (a, e) => a + e.value);
+    }
+
     return EnergyReport(
       range: range,
+      gridImportLow: importLow,
       buckets: buckets,
       consumption: consumption,
       gridImport: total(prefs.gridImport),
@@ -228,4 +260,17 @@ class EnergyRepository {
       devices: devices,
     );
   }
+}
+
+Map<DateTime, double> _sumBySlot(
+  Map<String, List<StatisticChange>> stats,
+  List<String> group,
+) {
+  final out = <DateTime, double>{};
+  for (final id in group) {
+    for (final row in stats[id] ?? const <StatisticChange>[]) {
+      out.update(row.start, (v) => v + row.change, ifAbsent: () => row.change);
+    }
+  }
+  return out;
 }

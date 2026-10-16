@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../app/theme/app_theme.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_messages.dart';
@@ -182,12 +186,16 @@ class _Report extends ConsumerWidget {
     final cost = tariff?.estimate(
       gridImport: report.gridImport,
       gridExport: report.gridExport,
+      gridImportLow: report.gridImportLow,
     );
+    final low = tariff?.low;
+    final importLow = low == null ? null : report.gridImportLow;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 8),
+        if (low != null) ...[_RateNow(low: low), const SizedBox(height: 12)],
         TileWrap(
           children: [
             if (report.consumption != null)
@@ -211,6 +219,27 @@ class _Report extends ConsumerWidget {
                 label: l10n.energyFromGrid,
                 value: kwh(report.gridImport!),
               ),
+            if (importLow != null && report.gridImport != null) ...[
+              _StatTile(
+                key: const Key('energyHighRate'),
+                icon: Icons.wb_sunny_outlined,
+                label: l10n.energyHighRateKwh,
+                value: kwh(
+                  (report.gridImport! - importLow).clamp(0, double.infinity),
+                ),
+              ),
+              _StatTile(
+                key: const Key('energyLowRate'),
+                icon: Icons.nights_stay_outlined,
+                label: l10n.energyLowRateKwh,
+                value: kwh(importLow),
+                detail: report.gridImport! > 0
+                    ? l10n.energyLowShare(
+                        (importLow / report.gridImport! * 100).round(),
+                      )
+                    : null,
+              ),
+            ],
             if (report.gridExport != null)
               _StatTile(
                 icon: Icons.upload_outlined,
@@ -270,7 +299,7 @@ class _Report extends ConsumerWidget {
           Card.outlined(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: ConsumptionChart(report: report),
+              child: ConsumptionChart(report: report, lowHours: low?.hours),
             ),
           ),
         ],
@@ -401,6 +430,75 @@ class _TopConsumers extends StatelessWidget {
   }
 }
 
+/// Which rate applies now and until when (two-rate meter).
+class _RateNow extends StatefulWidget {
+  const _RateNow({required this.low});
+
+  final LowTariff low;
+
+  @override
+  State<_RateNow> createState() => _RateNowState();
+}
+
+class _RateNowState extends State<_RateNow> {
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Refresh when the rate changes, not on a polling loop.
+    _schedule();
+  }
+
+  void _schedule() {
+    final now = DateTime.now();
+    _timer = Timer(widget.low.nextChange(now).difference(now), () {
+      if (!mounted) return;
+      setState(() {});
+      _schedule();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final now = DateTime.now();
+    final lowNow = widget.low.containsHour(now.hour);
+    final time = DateFormat.Hm(l10n.localeName)
+        .format(widget.low.nextChange(now));
+    final color = lowNow
+        ? context.statusColors.ok
+        : theme.colorScheme.onSurfaceVariant;
+    return Row(
+      key: const Key('energyRateNow'),
+      children: [
+        Icon(
+          lowNow ? Icons.nights_stay : Icons.wb_sunny_outlined,
+          color: color,
+          size: 20,
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            lowNow ? l10n.energyLowNow(time) : l10n.energyHighNow(time),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: lowNow ? color : null,
+              fontWeight: lowNow ? FontWeight.w600 : null,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _StatTile extends StatelessWidget {
   const _StatTile({
     super.key,
@@ -503,13 +601,21 @@ class _TariffDialogState extends State<_TariffDialog> {
   late final _currency = TextEditingController(
     text: widget.current?.currency ?? 'RSD',
   );
+  late final _lowPrice = TextEditingController(
+    text: widget.current?.low?.price.toString() ?? '',
+  );
+  late bool _twoRate = widget.current?.low != null;
+  late int _lowFrom = widget.current?.low?.fromHour ?? 0;
+  late int _lowTo = widget.current?.low?.toHour ?? 8;
   String? _error;
+  String? _lowError;
 
   @override
   void dispose() {
     _import.dispose();
     _export.dispose();
     _currency.dispose();
+    _lowPrice.dispose();
     super.dispose();
   }
 
@@ -526,6 +632,11 @@ class _TariffDialogState extends State<_TariffDialog> {
       setState(() => _error = context.l10n.energyTariffInvalid);
       return;
     }
+    final lowPrice = _number(_lowPrice.text);
+    if (_twoRate && (lowPrice == null || lowPrice < 0 || _lowFrom == _lowTo)) {
+      setState(() => _lowError = context.l10n.energyTariffInvalid);
+      return;
+    }
     Navigator.of(context).pop(
       _TariffResult(
         Tariff(
@@ -534,10 +645,32 @@ class _TariffDialogState extends State<_TariffDialog> {
           currency: _currency.text.trim().isEmpty
               ? 'RSD'
               : _currency.text.trim(),
+          low: _twoRate
+              ? LowTariff(fromHour: _lowFrom, toHour: _lowTo, price: lowPrice!)
+              : null,
         ),
       ),
     );
   }
+
+  Widget _hourField(
+    String label,
+    int value,
+    void Function(int) set,
+    String key,
+  ) => DropdownButtonFormField<int>(
+    key: ValueKey('$key-$value'),
+    initialValue: value,
+    decoration: InputDecoration(labelText: label),
+    items: [
+      for (var h = 0; h < 24; h++)
+        DropdownMenuItem(
+          value: h,
+          child: Text('${h.toString().padLeft(2, '0')}:00'),
+        ),
+    ],
+    onChanged: (h) => setState(() => set(h!)),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -562,10 +695,81 @@ class _TariffDialogState extends State<_TariffDialog> {
               ),
               inputFormatters: numeric,
               decoration: InputDecoration(
-                labelText: l10n.energyTariffImport,
+                labelText: _twoRate
+                    ? l10n.energyHighPrice
+                    : l10n.energyTariffImport,
                 errorText: _error,
               ),
             ),
+            const SizedBox(height: 4),
+            SwitchListTile(
+              key: const Key('tariffTwoRate'),
+              contentPadding: EdgeInsets.zero,
+              title: Text(l10n.energyTwoRate),
+              value: _twoRate,
+              onChanged: (v) => setState(() => _twoRate = v),
+            ),
+            if (_twoRate) ...[
+              Text(
+                l10n.energyTwoRateHint,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                key: const Key('tariffLowPrice'),
+                controller: _lowPrice,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                inputFormatters: numeric,
+                decoration: InputDecoration(
+                  labelText: l10n.energyLowPrice,
+                  errorText: _lowError,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _hourField(
+                      l10n.energyLowFrom,
+                      _lowFrom,
+                      (h) => _lowFrom = h,
+                      'tariffLowFrom',
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _hourField(
+                      l10n.energyLowTo,
+                      _lowTo,
+                      (h) => _lowTo = h,
+                      'tariffLowTo',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: [
+                  for (final (label, from, to) in [
+                    (l10n.energyLowPresetBelgrade, 0, 8),
+                    (l10n.energyLowPresetVojvodina, 23, 7),
+                    (l10n.energyLowPresetCentral, 22, 6),
+                  ])
+                    ActionChip(
+                      key: ValueKey('tariffPreset-$from'),
+                      label: Text(label),
+                      onPressed: () => setState(() {
+                        _lowFrom = from;
+                        _lowTo = to;
+                      }),
+                    ),
+                ],
+              ),
+            ],
             const SizedBox(height: 12),
             TextField(
               controller: _export,

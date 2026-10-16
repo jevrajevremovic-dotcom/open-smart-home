@@ -1038,7 +1038,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get energyTariffHint =>
-      'Used only for an estimate on this device. Real bills also include fixed fees, taxes and time-of-day rates.';
+      'Used only for an estimate on this device. Real bills also include fixed fees, taxes and consumption zones.';
 
   @override
   String get energyTariffImport => 'Price per kWh from the grid';
@@ -2941,4 +2941,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashCardLists => 'Lists';
+
+  @override
+  String get energyTwoRate => 'Two-rate meter';
+
+  @override
+  String get energyTwoRateHint =>
+      'The lower (night) rate applies in the hours you set. They differ by area — check your bill or your distributor.';
+
+  @override
+  String get energyLowPrice => 'Low-rate price (per kWh)';
+
+  @override
+  String get energyHighPrice => 'High-rate price (per kWh)';
+
+  @override
+  String get energyLowFrom => 'From';
+
+  @override
+  String get energyLowTo => 'To';
+
+  @override
+  String get energyLowPresetBelgrade => 'Belgrade 00–08';
+
+  @override
+  String get energyLowPresetVojvodina => 'Vojvodina 23–07';
+
+  @override
+  String get energyLowPresetCentral => 'Central Serbia 22–06';
+
+  @override
+  String get energyHighRateKwh => 'High rate';
+
+  @override
+  String get energyLowRateKwh => 'Low rate';
+
+  @override
+  String energyLowShare(int percent) {
+    return '$percent % of use';
+  }
+
+  @override
+  String energyLowNow(String time) {
+    return 'Low rate now, until $time';
+  }
+
+  @override
+  String energyHighNow(String time) {
+    return 'High rate now — low rate starts at $time';
+  }
+
+  @override
+  String get energyLowLegend => 'Low-rate hours';
 }

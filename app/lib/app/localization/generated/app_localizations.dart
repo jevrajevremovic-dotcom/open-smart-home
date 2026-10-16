@@ -1098,8 +1098,20 @@ abstract class AppLocalizations {
   /// No description provided for @summaryOpenings.
   ///
   /// In en, this message translates to:
-  /// **'Doors & windows open'**
+  /// **'Doors & windows'**
   String get summaryOpenings;
+
+  /// No description provided for @summaryOpeningsClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'All closed'**
+  String get summaryOpeningsClosed;
+
+  /// No description provided for @summaryOpeningsOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} open'**
+  String summaryOpeningsOpen(int count);
 
   /// No description provided for @summaryPower.
   ///

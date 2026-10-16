@@ -276,30 +276,44 @@ class WeatherCard extends StatelessWidget {
                 label:
                     '$title: ${weatherConditionLabel(l10n, now.condition)}, $temp',
                 excludeSemantics: true,
-                child: Row(
-                  children: [
-                    Icon(
-                      weatherIcon(now.condition),
-                      size: 44,
-                      color: theme.colorScheme.primary,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(temp, style: theme.textTheme.displaySmall),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            weatherConditionLabel(l10n, now.condition),
-                            style: theme.textTheme.titleMedium,
-                          ),
-                          if (details.isNotEmpty)
-                            Text(details, style: theme.textTheme.bodySmall),
-                        ],
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Row(
+                    children: [
+                      Icon(
+                        weatherIcon(now.condition),
+                        size: 44,
+                        color: theme.colorScheme.primary,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 12),
+                      // Large text: the temperature shrinks rather than overflow.
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: constraints.maxWidth * 0.4,
+                        ),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            temp,
+                            style: theme.textTheme.displaySmall,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              weatherConditionLabel(l10n, now.condition),
+                              style: theme.textTheme.titleMedium,
+                            ),
+                            if (details.isNotEmpty)
+                              Text(details, style: theme.textTheme.bodySmall),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               if (report.daily.isNotEmpty) ...[

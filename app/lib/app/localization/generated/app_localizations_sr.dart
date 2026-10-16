@@ -568,7 +568,15 @@ class AppLocalizationsSr extends AppLocalizations {
   String get summaryLights => 'Upaljena svetla';
 
   @override
-  String get summaryOpenings => 'Otvorena vrata i prozori';
+  String get summaryOpenings => 'Vrata i prozori';
+
+  @override
+  String get summaryOpeningsClosed => 'Zatvoreno';
+
+  @override
+  String summaryOpeningsOpen(int count) {
+    return '$count otvoreno';
+  }
 
   @override
   String get summaryPower => 'Snaga';

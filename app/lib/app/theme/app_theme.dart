@@ -326,7 +326,12 @@ abstract final class AppTheme {
     final cardShape = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(cardRadius),
     );
-    final base = ThemeData(useMaterial3: true, colorScheme: scheme).textTheme;
+    // ThemeData's own textTheme carries colors only (sizes are added later,
+    // by Theme.of), so styles taken from it for component themes would have
+    // no font size. Merge in the Material 3 geometry first.
+    final base = Typography.englishLike2021.merge(
+      ThemeData(useMaterial3: true, colorScheme: scheme).textTheme,
+    );
     TextStyle? tight(TextStyle? s, FontWeight w, [double spacing = -0.2]) =>
         s?.copyWith(fontWeight: w, letterSpacing: spacing);
     final text = base.copyWith(

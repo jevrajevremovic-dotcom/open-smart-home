@@ -267,32 +267,44 @@ class DashboardBody extends ConsumerWidget {
           box(
             Padding(
               padding: const EdgeInsets.only(top: 12),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    FilledButton.tonalIcon(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final links = [
+                    _QuickLink(
                       key: const Key('openEnergy'),
                       onPressed: () => context.push(AppRoutes.energy),
-                      icon: const Icon(Icons.bolt),
-                      label: Text(l10n.energyTitle),
+                      icon: Icons.bolt,
+                      label: l10n.energyTitle,
                     ),
-                    FilledButton.tonalIcon(
+                    _QuickLink(
                       key: const Key('openCalendar'),
                       onPressed: () => context.push(AppRoutes.calendar),
-                      icon: const Icon(Icons.calendar_month_outlined),
-                      label: Text(l10n.calendarTitle),
+                      icon: Icons.calendar_month_outlined,
+                      label: l10n.calendarTitle,
                     ),
-                    FilledButton.tonalIcon(
+                    _QuickLink(
                       key: const Key('openActivity'),
                       onPressed: () => context.push(AppRoutes.activity),
-                      icon: const Icon(Icons.history),
-                      label: Text(l10n.activityTitle),
+                      icon: Icons.history,
+                      label: l10n.activityTitle,
                     ),
-                  ],
-                ),
+                  ];
+                  // Phones: one row of equal buttons; wider: natural sizes.
+                  if (WindowSize.fromWidth(constraints.maxWidth) ==
+                      WindowSize.compact) {
+                    return Row(
+                      spacing: 8,
+                      children: [
+                        for (final link in links)
+                          Expanded(child: link.stacked()),
+                      ],
+                    );
+                  }
+                  return Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(spacing: 8, runSpacing: 8, children: links),
+                  );
+                },
               ),
             ),
           ),
@@ -443,18 +455,14 @@ class DashboardSummaryRow extends ConsumerWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Two equal columns on phones; natural widths on larger screens.
-        final cardWidth =
-            WindowSize.fromWidth(constraints.maxWidth) == WindowSize.compact
-            ? (constraints.maxWidth - 12) / 2
-            : null;
+        final compact =
+            WindowSize.fromWidth(constraints.maxWidth) == WindowSize.compact;
         return Padding(
           padding: const EdgeInsets.only(top: 8),
-          child: Wrap(
-            spacing: 12,
-            runSpacing: 12,
+          child: _SummaryWrap(
+            fullWidth: compact ? constraints.maxWidth : null,
             children: [
               _SummaryCard(
-                width: cardWidth,
                 icon: Icons.thermostat,
                 label: l10n.summaryTemperature,
                 value: s.averageTemperature == null
@@ -463,13 +471,11 @@ class DashboardSummaryRow extends ConsumerWidget {
               ),
               if (outdoor != null)
                 _SummaryCard(
-                  width: cardWidth,
                   icon: Icons.wb_cloudy_outlined,
                   label: l10n.summaryOutdoor,
                   value: formatNumber(locale, outdoor, unit: '°'),
                 ),
               _SummaryCard(
-                width: cardWidth,
                 icon: Icons.water_drop_outlined,
                 label: l10n.summaryHumidity,
                 value: s.averageHumidity == null
@@ -479,29 +485,27 @@ class DashboardSummaryRow extends ConsumerWidget {
               if (s.lightsTotal > 0)
                 _SummaryCard(
                   key: const Key('summaryLights'),
-                  width: cardWidth,
                   icon: Icons.lightbulb_outline,
                   label: l10n.summaryLights,
                   value: l10n.lightsOnOf(s.lightsOn, s.lightsTotal),
                   onTap: () => showAllLightsSheet(context),
                 ),
               _SummaryCard(
-                width: cardWidth,
                 icon: Icons.door_front_door_outlined,
                 label: l10n.summaryOpenings,
-                value: '${s.openingIds.length}',
+                value: s.openingIds.isEmpty
+                    ? l10n.summaryOpeningsClosed
+                    : l10n.summaryOpeningsOpen(s.openingIds.length),
                 color: s.openingIds.isEmpty ? null : colors.warning,
               ),
               if (power != null)
                 _SummaryCard(
-                  width: cardWidth,
                   icon: Icons.bolt,
                   label: l10n.summaryPower,
                   value: DevicePresentation.sensorValue(l10n, power.state),
                   tooltip: power.name,
                 ),
               _SummaryCard(
-                width: cardWidth,
                 icon: Icons.warning_amber_rounded,
                 label: l10n.summaryAlerts,
                 value: '${s.criticalIds.length}',
@@ -511,6 +515,85 @@ class DashboardSummaryRow extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// A link to a secondary screen (energy, calendar, activity). On phones the
+/// icon sits above the label so three fit in a row.
+class _QuickLink extends StatelessWidget {
+  const _QuickLink({
+    super.key,
+    required this.onPressed,
+    required this.icon,
+    required this.label,
+    this.vertical = false,
+  });
+
+  final VoidCallback onPressed;
+  final IconData icon;
+  final String label;
+  final bool vertical;
+
+  _QuickLink stacked() => _QuickLink(
+    key: key,
+    onPressed: onPressed,
+    icon: icon,
+    label: label,
+    vertical: true,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    if (!vertical) {
+      return FilledButton.tonalIcon(
+        onPressed: onPressed,
+        icon: Icon(icon),
+        label: Text(label),
+      );
+    }
+    return FilledButton.tonal(
+      onPressed: onPressed,
+      style: FilledButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4,
+        children: [
+          Icon(icon),
+          Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
+        ],
+      ),
+    );
+  }
+}
+
+/// Lays out summary cards: two equal columns on phones, where an odd last
+/// card takes the whole row; natural widths otherwise.
+class _SummaryWrap extends StatelessWidget {
+  const _SummaryWrap({required this.fullWidth, required this.children});
+
+  /// The row width on phones; `null` on larger screens.
+  final double? fullWidth;
+  final List<_SummaryCard> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final full = fullWidth;
+    final half = full == null ? null : (full - 12) / 2;
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        for (final (i, card) in children.indexed)
+          card.withWidth(
+            full != null && children.length.isOdd && i == children.length - 1
+                ? full
+                : half,
+          ),
+      ],
     );
   }
 }
@@ -536,6 +619,17 @@ class _SummaryCard extends StatelessWidget {
   final Color? color;
   final String? tooltip;
   final VoidCallback? onTap;
+
+  _SummaryCard withWidth(double? width) => _SummaryCard(
+    key: key,
+    onTap: onTap,
+    width: width,
+    icon: icon,
+    label: label,
+    value: value,
+    color: color,
+    tooltip: tooltip,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -573,12 +667,16 @@ class _SummaryCard extends StatelessWidget {
                     children: [
                       Text(
                         label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.labelMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                       Text(
                         value ?? '—',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         semanticsLabel: value ?? l10n.valueNotAvailable,
                         style: theme.textTheme.titleLarge?.copyWith(
                           color: color,

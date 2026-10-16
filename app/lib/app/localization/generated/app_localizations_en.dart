@@ -571,7 +571,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get summaryLights => 'Lights on';
 
   @override
-  String get summaryOpenings => 'Doors & windows open';
+  String get summaryOpenings => 'Doors & windows';
+
+  @override
+  String get summaryOpeningsClosed => 'All closed';
+
+  @override
+  String summaryOpeningsOpen(int count) {
+    return '$count open';
+  }
 
   @override
   String get summaryPower => 'Power';

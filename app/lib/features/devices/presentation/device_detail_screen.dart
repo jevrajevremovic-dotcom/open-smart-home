@@ -59,7 +59,7 @@ class DeviceDetailScreen extends ConsumerWidget {
     final favorite = ref.watch(isFavoriteProvider(deviceId));
     return Scaffold(
       appBar: AppBar(
-        title: Text(device.name),
+        title: _DeviceTitle(device: device),
         actions: [
           // Not on the wall panel: editing belongs to the household's phones.
           if (!ref.watch(kioskActiveProvider))
@@ -311,4 +311,41 @@ class EmptyHintPlaceholder extends StatelessWidget {
       ),
     ),
   );
+}
+
+/// The device name without a leading room name, with the room below it:
+/// "Dnevna soba – ambijent" → "Ambijent" over "Dnevna soba".
+class _DeviceTitle extends ConsumerWidget {
+  const _DeviceTitle({required this.device});
+
+  final SmartHomeDevice device;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final room = ref.watch(
+      homeSnapshotProvider.select((s) => s.rooms[device.roomId]?.name),
+    );
+    final name = DevicePresentation.shortName(device.name, room);
+    if (room == null) return Text(device.name);
+    final theme = Theme.of(context);
+    return Semantics(
+      label: device.name,
+      excludeSemantics: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(
+            room,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

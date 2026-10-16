@@ -33,6 +33,8 @@ import '../../rooms/presentation/room_card.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
+import '../../todo/todo_lists.dart';
+import '../../todo/todo_screen.dart';
 import '../application/home_summaries.dart';
 
 /// Default home screen, generated from the available devices: summary,
@@ -295,6 +297,12 @@ class DashboardBody extends ConsumerWidget {
         return [box(const NowPlayingCard())];
       case DashboardCard.notifications:
         return [box(const NotificationsBanner())];
+      case DashboardCard.lists:
+        if (ref.watch(todoListsProvider).isEmpty) return const [];
+        return [
+          box(SectionHeader(l10n.dashCardLists)),
+          box(const TodoListsCard()),
+        ];
       case DashboardCard.shortcuts:
         if (kiosk) return const [];
         return [

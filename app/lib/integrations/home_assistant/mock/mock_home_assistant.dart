@@ -200,6 +200,82 @@ class MockHomeAssistantServer {
     }
   }
 
+  /// Items of the demo to-do lists (`todo` integration), by entity id.
+  final Map<String, List<Map<String, Object?>>> todoItems = {
+    'todo.shopping_list': [
+      {'uid': 's1', 'summary': 'Mleko', 'status': 'needs_action'},
+      {'uid': 's2', 'summary': 'Hleb', 'status': 'needs_action'},
+      {'uid': 's3', 'summary': 'Kafa', 'status': 'needs_action'},
+      {'uid': 's4', 'summary': 'Jaja', 'status': 'completed'},
+    ],
+    'todo.chores': [
+      {
+        'uid': 'c1',
+        'summary': 'Zameniti filter klime',
+        'status': 'needs_action',
+        'due': '2026-11-01',
+      },
+    ],
+  };
+  int _todoUid = 100;
+
+  void _todoChanged(String entityId) {
+    final items = todoItems[entityId]!;
+    final open = items.where((i) => i['status'] == 'needs_action').length;
+    final current = _states[entityId];
+    if (current != null) {
+      _setState(
+        entityId,
+        '$open',
+        Map.of(current['attributes']! as Map<String, Object?>),
+      );
+    }
+    for (final socket in _sockets) {
+      socket._notifyTodo(entityId, items);
+    }
+  }
+
+  /// `todo.*` services, as Home Assistant's `todo` integration has them.
+  void _todoService(String service, Map<String, Object?> data) {
+    final id = data['entity_id'];
+    final items = id is String ? todoItems[id] : null;
+    if (items == null) {
+      throw const AppFailure(FailureKind.validation, statusCode: 400);
+    }
+    Map<String, Object?>? find(Object? key) =>
+        items.where((i) => i['uid'] == key || i['summary'] == key).firstOrNull;
+    switch (service) {
+      case 'add_item':
+        final text = (data['item'] as String?)?.trim() ?? '';
+        if (text.isEmpty) {
+          throw const AppFailure(FailureKind.validation, statusCode: 400);
+        }
+        items.add({
+          'uid': 'n${_todoUid++}',
+          'summary': text,
+          'status': 'needs_action',
+        });
+      case 'update_item':
+        final item = find(data['item']);
+        if (item == null) {
+          throw const AppFailure(FailureKind.validation, statusCode: 400);
+        }
+        if (data['rename'] case final String name) item['summary'] = name;
+        if (data['status'] case final String status) item['status'] = status;
+      case 'remove_item':
+        final keys = switch (data['item']) {
+          final List<Object?> l => l,
+          final Object? one => [one],
+        };
+        items.removeWhere(
+          (i) => keys.contains(i['uid']) || keys.contains(i['summary']),
+        );
+      case 'remove_completed_items':
+        items.removeWhere((i) => i['status'] == 'completed');
+    }
+    _todoChanged(id! as String);
+  }
+
   /// `mobile_app` registrations by webhook id (native app API).
   final Map<String, Map<String, Object?>> mobileApps = {};
 
@@ -1019,6 +1095,10 @@ class MockHomeAssistantServer {
         debugMessage: 'Invalid alarm code provided',
       );
     }
+    if (domain == 'todo') {
+      _todoService(service, data);
+      return const [];
+    }
     if (domain == 'persistent_notification') {
       if (service == 'dismiss' && data['notification_id'] is String) {
         _dismissNotifications([data['notification_id']! as String]);
@@ -1307,6 +1387,9 @@ class _MockSocket implements HaSocket {
       case 'unsubscribe_events' when msg['subscription'] == _notificationSub:
         _notificationSub = null;
         _emit(ok());
+      case 'unsubscribe_events' when _todoSubs.containsKey(msg['subscription']):
+        _todoSubs.remove(msg['subscription']);
+        _emit(ok());
       case 'unsubscribe_events' when msg['subscription'] == _zwaveSub:
         _stopZwave();
         _emit(ok());
@@ -1429,6 +1512,26 @@ class _MockSocket implements HaSocket {
         final confirmId = msg['confirm_id'];
         if (confirmId is String) _server.confirmedPushes.add(confirmId);
         _emit(ok());
+      case 'todo/item/subscribe' || 'todo/item/list':
+        final entity = msg['entity_id'];
+        final items = entity is String ? _server.todoItems[entity] : null;
+        if (items == null) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {
+              'code': 'invalid_entity_id',
+              'message': 'To-do list entity not found: $entity',
+            },
+          });
+        } else if (type == 'todo/item/list') {
+          _emit(ok({'items': items}));
+        } else {
+          _todoSubs[id!] = entity! as String;
+          _emit(ok());
+          _notifyTodo(entity as String, items);
+        }
       case 'persistent_notification/subscribe':
         _notificationSub = id;
         _emit(ok());
@@ -1600,6 +1703,23 @@ class _MockSocket implements HaSocket {
     scheduleMicrotask(
       () => _emit({'id': sub, 'type': 'event', 'event': event}),
     );
+  }
+
+  /// Open `todo/item/subscribe` subscriptions: id → entity id.
+  final Map<int, String> _todoSubs = {};
+
+  void _notifyTodo(String entityId, List<Map<String, Object?>> items) {
+    final copy = [for (final i in items) Map.of(i)];
+    _todoSubs.forEach((sub, entity) {
+      if (entity != entityId) return;
+      scheduleMicrotask(
+        () => _emit({
+          'id': sub,
+          'type': 'event',
+          'event': {'items': copy},
+        }),
+      );
+    });
   }
 
   void _notifyNotifications(

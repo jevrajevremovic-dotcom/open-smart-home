@@ -26,6 +26,7 @@ import '../../features/scenes/presentation/scenes_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/house_check/house_check.dart';
 import '../../features/house_check/house_check_screen.dart';
+import '../../features/todo/todo_screen.dart';
 import 'app_shell.dart';
 
 abstract final class AppRoutes {
@@ -45,6 +46,8 @@ abstract final class AppRoutes {
   static const calendar = '/calendar';
   static const activity = '/activity';
   static const houseCheck = '/check';
+  static const todo = '/lists';
+  static String todoList(String id) => '$todo/${Uri.encodeComponent(id)}';
   static String houseCheckFor(String mode) => '$houseCheck?mode=$mode';
   static const dashboardLayout = '/home-layout';
   static const addDevice = '/add-device';
@@ -239,6 +242,17 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.activity,
             builder: (_, _) => const ActivityScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.todo,
+            builder: (_, _) => const TodoScreen(),
+            routes: [
+              GoRoute(
+                path: ':listId',
+                builder: (_, state) =>
+                    TodoScreen(listId: state.pathParameters['listId']),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutes.houseCheck,

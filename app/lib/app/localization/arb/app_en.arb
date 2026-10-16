@@ -1324,5 +1324,22 @@
   "houseCheckLock": "Lock",
   "houseCheckClose": "Close",
   "houseCheckPause": "Pause",
-  "houseCheckOpenDevice": "Open"
+  "houseCheckOpenDevice": "Open",
+  "todoOpenCount": "{count, plural, =0{All done} one{{count} item} other{{count} items}}",
+  "@todoOpenCount": {"placeholders": {"count": {"type": "int"}}},
+  "todoTitle": "Lists",
+  "todoAddHint": "Add an item…",
+  "todoAdd": "Add",
+  "todoDone": "Done ({count})",
+  "@todoDone": {"placeholders": {"count": {"type": "int"}}},
+  "todoClearDone": "Clear done",
+  "todoEmpty": "No items. Add the first one.",
+  "todoNoLists": "Home Assistant has no lists. Add the “Shopping list” or “Local to-do” integration.",
+  "todoRename": "Edit item",
+  "todoDelete": "Delete",
+  "todoReadOnly": "This list is read-only here.",
+  "todoDue": "Due: {date}",
+  "@todoDue": {"placeholders": {"date": {"type": "String"}}},
+  "todoUnavailable": "The list is not available right now.",
+  "dashCardLists": "Lists"
 }

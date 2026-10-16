@@ -394,6 +394,7 @@ List<String> triggerStatesFor(SmartHomeDevice d) => switch (d.kind) {
   DeviceKind.weather ||
   DeviceKind.select ||
   DeviceKind.number ||
+  DeviceKind.todoList ||
   DeviceKind.unknown => const [],
   _ when d.kind.isRoutine => const [],
   _ => const ['on', 'off'],

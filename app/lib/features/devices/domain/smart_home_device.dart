@@ -178,6 +178,7 @@ class DeviceLimits {
     this.maxValue,
     this.valueStep,
     this.percentageStep,
+    this.todoFeatures = 0,
   });
 
   static const DeviceLimits none = DeviceLimits();
@@ -213,6 +214,10 @@ class DeviceLimits {
 
   /// Fan speed step (e.g. 33.33 for a 3-speed fan).
   final double? percentageStep;
+
+  /// Home Assistant `TodoListEntityFeature` flags of a to-do list:
+  /// 1 create, 2 delete, 4 update items.
+  final int todoFeatures;
 }
 
 @immutable

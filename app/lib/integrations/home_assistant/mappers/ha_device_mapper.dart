@@ -223,6 +223,12 @@ class HaDeviceMapper {
           lastTriggered: _date(a['last_triggered']),
         ),
       ),
+      'todo' => _Mapped(
+        DeviceKind.todoList,
+        const {},
+        DeviceState(raw: s.state, numericValue: double.tryParse(s.state)),
+        DeviceLimits(todoFeatures: features),
+      ),
       _ => _Mapped(DeviceKind.unknown, const {}, DeviceState(raw: s.state)),
     };
 

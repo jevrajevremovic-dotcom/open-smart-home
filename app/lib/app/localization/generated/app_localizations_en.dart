@@ -2885,4 +2885,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get houseCheckOpenDevice => 'Open';
+
+  @override
+  String todoOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '$count item',
+      zero: 'All done',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todoTitle => 'Lists';
+
+  @override
+  String get todoAddHint => 'Add an item…';
+
+  @override
+  String get todoAdd => 'Add';
+
+  @override
+  String todoDone(int count) {
+    return 'Done ($count)';
+  }
+
+  @override
+  String get todoClearDone => 'Clear done';
+
+  @override
+  String get todoEmpty => 'No items. Add the first one.';
+
+  @override
+  String get todoNoLists =>
+      'Home Assistant has no lists. Add the “Shopping list” or “Local to-do” integration.';
+
+  @override
+  String get todoRename => 'Edit item';
+
+  @override
+  String get todoDelete => 'Delete';
+
+  @override
+  String get todoReadOnly => 'This list is read-only here.';
+
+  @override
+  String todoDue(String date) {
+    return 'Due: $date';
+  }
+
+  @override
+  String get todoUnavailable => 'The list is not available right now.';
+
+  @override
+  String get dashCardLists => 'Lists';
 }

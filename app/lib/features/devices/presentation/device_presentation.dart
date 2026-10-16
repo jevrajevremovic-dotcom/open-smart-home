@@ -115,6 +115,7 @@ abstract final class DevicePresentation {
         d.state.isActive == true ? Icons.person : Icons.person_outline,
       DeviceKind.select => Icons.list_alt_outlined,
       DeviceKind.number => Icons.tune,
+      DeviceKind.todoList => Icons.checklist,
       DeviceKind.unknown => Icons.device_unknown_outlined,
     };
   }
@@ -306,6 +307,7 @@ abstract final class DevicePresentation {
         // Any other state is the name of the zone the person is in.
         final zone => zone,
       },
+      DeviceKind.todoList => l10n.todoOpenCount(s.numericValue?.toInt() ?? 0),
       DeviceKind.unknown => s.raw,
       _ when d.kind.isSensor => sensorValue(l10n, s),
       _ => onOff(),

@@ -2898,6 +2898,63 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get houseCheckOpenDevice => 'Otvori';
+
+  @override
+  String todoOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stavki',
+      few: '$count stavke',
+      one: '$count stavka',
+      zero: 'Sve urađeno',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get todoTitle => 'Liste';
+
+  @override
+  String get todoAddHint => 'Dodaj stavku…';
+
+  @override
+  String get todoAdd => 'Dodaj';
+
+  @override
+  String todoDone(int count) {
+    return 'Urađeno ($count)';
+  }
+
+  @override
+  String get todoClearDone => 'Obriši urađene';
+
+  @override
+  String get todoEmpty => 'Nema stavki. Dodajte prvu.';
+
+  @override
+  String get todoNoLists =>
+      'U Home Assistantu nema lista. Dodajte integraciju „Spisak za kupovinu” ili „Lokalne liste zadataka”.';
+
+  @override
+  String get todoRename => 'Izmeni stavku';
+
+  @override
+  String get todoDelete => 'Obriši';
+
+  @override
+  String get todoReadOnly => 'Ova lista se ovde samo čita.';
+
+  @override
+  String todoDue(String date) {
+    return 'Rok: $date';
+  }
+
+  @override
+  String get todoUnavailable => 'Lista trenutno nije dostupna.';
+
+  @override
+  String get dashCardLists => 'Liste';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

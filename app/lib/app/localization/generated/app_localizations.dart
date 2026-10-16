@@ -5090,6 +5090,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get houseCheckOpenDevice;
+
+  /// No description provided for @todoOpenCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{All done} one{{count} item} other{{count} items}}'**
+  String todoOpenCount(int count);
+
+  /// No description provided for @todoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get todoTitle;
+
+  /// No description provided for @todoAddHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an item…'**
+  String get todoAddHint;
+
+  /// No description provided for @todoAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get todoAdd;
+
+  /// No description provided for @todoDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done ({count})'**
+  String todoDone(int count);
+
+  /// No description provided for @todoClearDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear done'**
+  String get todoClearDone;
+
+  /// No description provided for @todoEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No items. Add the first one.'**
+  String get todoEmpty;
+
+  /// No description provided for @todoNoLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no lists. Add the “Shopping list” or “Local to-do” integration.'**
+  String get todoNoLists;
+
+  /// No description provided for @todoRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit item'**
+  String get todoRename;
+
+  /// No description provided for @todoDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get todoDelete;
+
+  /// No description provided for @todoReadOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'This list is read-only here.'**
+  String get todoReadOnly;
+
+  /// No description provided for @todoDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due: {date}'**
+  String todoDue(String date);
+
+  /// No description provided for @todoUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The list is not available right now.'**
+  String get todoUnavailable;
+
+  /// No description provided for @dashCardLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get dashCardLists;
 }
 
 class _AppLocalizationsDelegate

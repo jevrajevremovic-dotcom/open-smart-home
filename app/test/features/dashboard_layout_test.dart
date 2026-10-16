@@ -28,8 +28,9 @@ void main() {
     await goTo(tester, AppRoutes.dashboardLayout);
     await tester.tap(find.byKey(const ValueKey('dashCard-weather')));
     await settle(tester, 2);
-    // Favorites from 8th place to the top.
-    for (var i = 0; i < 7; i++) {
+    // Favorites from its place to the top.
+    final steps = DashboardCard.values.indexOf(DashboardCard.favorites);
+    for (var i = 0; i < steps; i++) {
       await tester.tap(find.byKey(const ValueKey('dashUp-favorites')));
       await settle(tester, 1);
     }

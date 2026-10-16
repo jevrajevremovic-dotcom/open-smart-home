@@ -61,6 +61,10 @@ enum DeviceKind {
   /// A household member (Home Assistant `person`): home / away / zone.
   person,
 
+  /// A to-do or shopping list (Home Assistant `todo`); shown on the lists
+  /// screen, not as a device. The state is the number of open items.
+  todoList,
+
   /// A list to pick one option from (`select`, `input_select`).
   select,
 

@@ -63,6 +63,7 @@ final visibleDeviceIdsProvider = Provider<ValueList<String>>((ref) {
                 d.kind != DeviceKind.unknown &&
                 d.kind != DeviceKind.weather &&
                 d.kind != DeviceKind.person &&
+                d.kind != DeviceKind.todoList &&
                 !restricted.hides(d),
           )
           .toList()

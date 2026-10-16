@@ -11,10 +11,14 @@ enum KioskPanelType {
   shortcuts,
   scenes,
   calendar,
-  device;
+  device,
 
-  /// Needs a device chosen (the thermostat picks one itself when empty).
-  bool get usesEntity => this == thermostat || this == device;
+  /// A Home Assistant to-do / shopping list.
+  lists;
+
+  /// Needs a device chosen (the thermostat and lists pick one themselves
+  /// when empty).
+  bool get usesEntity => this == thermostat || this == device || this == lists;
 }
 
 /// One panel: its place is its index in [KioskLayout.panels]; [span] is

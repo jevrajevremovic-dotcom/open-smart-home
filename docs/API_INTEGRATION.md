@@ -159,3 +159,19 @@ Frontend WS komande Z-Wave JS integracije (administrator), opciono:
 - Uparivanje se zatvara kad istekne vreme, na „Zaustavi” i kad se ekran napusti. Novi uređaji se prepoznaju po HA uređajima/entitetima koji nisu postojali kad je uparivanje počelo (registri se osvežavaju na `device_registry_updated`).
 
 Komande uređajima se šalju preko REST-a (`POST /api/services/<domain>/<service>`), vidi [DEVICE_CAPABILITIES.md](DEVICE_CAPABILITIES.md#komande).
+
+## Liste (`todo`)
+
+Provereno u izvornom kodu HA (`homeassistant/components/todo`):
+
+| Šta | Poziv |
+|---|---|
+| Stavke uživo | WS `todo/item/subscribe` `{entity_id}` → događaji `{items: [...]}` (prvi odmah) |
+| Stavke jednom (stariji HA) | WS `todo/item/list` `{entity_id}` → `{items: [...]}` |
+| Dodavanje | `todo.add_item` `{entity_id, item}` (zahteva funkciju 1) |
+| Štikliranje / izmena | `todo.update_item` `{entity_id, item: uid, status: needs_action\|completed}` ili `rename` (funkcija 4) |
+| Brisanje | `todo.remove_item` `{entity_id, item: [uid]}` (funkcija 2) |
+| Brisanje urađenih | `todo.remove_completed_items` `{entity_id}` (funkcija 2) |
+
+Stavka: `uid`, `summary`, `status`, opciono `due`, `description`. Stanje entiteta je broj neurađenih stavki.
+

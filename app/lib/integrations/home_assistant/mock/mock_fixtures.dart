@@ -199,6 +199,15 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'unit_of_measurement': '%',
       'state_class': 'measurement',
     }),
+    e('todo.shopping_list', '3', {
+      'friendly_name': 'Spisak za kupovinu',
+      // CREATE | DELETE | UPDATE | MOVE
+      'supported_features': 15,
+    }),
+    e('todo.chores', '1', {
+      'friendly_name': 'Kućni poslovi',
+      'supported_features': 15 | 16,
+    }),
     e('weather.forecast_home', 'partlycloudy', {
       'friendly_name': 'Forecast Home',
       'temperature': 17.5,

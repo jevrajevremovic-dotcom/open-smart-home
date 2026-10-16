@@ -832,5 +832,19 @@
   "houseCheckLock": "Zaključaj",
   "houseCheckClose": "Zatvori",
   "houseCheckPause": "Pauziraj",
-  "houseCheckOpenDevice": "Otvori"
+  "houseCheckOpenDevice": "Otvori",
+  "todoOpenCount": "{count, plural, =0{Sve urađeno} one{{count} stavka} few{{count} stavke} other{{count} stavki}}",
+  "todoTitle": "Liste",
+  "todoAddHint": "Dodaj stavku…",
+  "todoAdd": "Dodaj",
+  "todoDone": "Urađeno ({count})",
+  "todoClearDone": "Obriši urađene",
+  "todoEmpty": "Nema stavki. Dodajte prvu.",
+  "todoNoLists": "U Home Assistantu nema lista. Dodajte integraciju „Spisak za kupovinu” ili „Lokalne liste zadataka”.",
+  "todoRename": "Izmeni stavku",
+  "todoDelete": "Obriši",
+  "todoReadOnly": "Ova lista se ovde samo čita.",
+  "todoDue": "Rok: {date}",
+  "todoUnavailable": "Lista trenutno nije dostupna.",
+  "dashCardLists": "Liste"
 }

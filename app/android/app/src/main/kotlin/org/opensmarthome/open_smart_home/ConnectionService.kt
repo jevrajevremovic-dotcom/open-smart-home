@@ -71,7 +71,7 @@ class ConnectionService : Service() {
             PendingIntent.FLAG_IMMUTABLE,
         )
         val notification: Notification = NotificationCompat.Builder(this, CHANNEL)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_stat_home)
             .setContentTitle(prefs.getString("title", "Open Smart Home"))
             .setContentText(prefs.getString("text", ""))
             .setOngoing(true)

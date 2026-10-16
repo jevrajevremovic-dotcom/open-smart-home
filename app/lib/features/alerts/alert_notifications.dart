@@ -88,7 +88,7 @@ class LocalAlertNotifier implements AlertNotifier {
     try {
       await _plugin.initialize(
         settings: const InitializationSettings(
-          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+          android: AndroidInitializationSettings('@drawable/ic_stat_home'),
           // Permission is asked only when the user turns alerts on.
           iOS: DarwinInitializationSettings(
             requestAlertPermission: false,

@@ -2803,4 +2803,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingContent => 'Loading…';
+
+  @override
+  String get houseCheckTitle => 'House check';
+
+  @override
+  String get houseCheckShort => 'Check';
+
+  @override
+  String get houseCheckLeaving => 'Leaving';
+
+  @override
+  String get houseCheckNight => 'Good night';
+
+  @override
+  String get houseCheckAllGood => 'All good';
+
+  @override
+  String get houseCheckAllGoodLeaving =>
+      'Lights are off, locks are locked, nothing is left open. Have a good trip!';
+
+  @override
+  String get houseCheckAllGoodNight =>
+      'The house is ready for the night. Good night!';
+
+  @override
+  String houseCheckCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count things to check',
+      one: '$count thing to check',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String houseCheckFixAll(int count) {
+    return 'Fix all ($count)';
+  }
+
+  @override
+  String get houseCheckFixing => 'Fixing…';
+
+  @override
+  String get houseCheckManualHint =>
+      'The app cannot close windows and doors with a sensor — please check them. The alarm is armed on its own screen.';
+
+  @override
+  String get houseCheckLightOn => 'On';
+
+  @override
+  String get houseCheckMediaOn => 'On';
+
+  @override
+  String get houseCheckClimateOn => 'Running';
+
+  @override
+  String get houseCheckUnlocked => 'Unlocked';
+
+  @override
+  String get houseCheckGarageOpen => 'Open';
+
+  @override
+  String get houseCheckOpened => 'Open';
+
+  @override
+  String get houseCheckAlarmOff => 'Alarm not armed';
+
+  @override
+  String get houseCheckTurnOff => 'Turn off';
+
+  @override
+  String get houseCheckLock => 'Lock';
+
+  @override
+  String get houseCheckClose => 'Close';
+
+  @override
+  String get houseCheckPause => 'Pause';
+
+  @override
+  String get houseCheckOpenDevice => 'Open';
 }

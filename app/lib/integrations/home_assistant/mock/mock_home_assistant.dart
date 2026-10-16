@@ -1115,6 +1115,10 @@ class MockHomeAssistantServer {
           state = 'paused';
         case ('vacuum', 'return_to_base'):
           state = 'returning';
+        case ('humidifier', 'turn_on'):
+          state = 'on';
+        case ('humidifier', 'turn_off'):
+          state = 'off';
         case ('humidifier', 'set_humidity'):
           final h = data['humidity'];
           if (h is num) attrs['humidity'] = h.toInt();

@@ -305,6 +305,12 @@ class DashboardBody extends ConsumerWidget {
                 builder: (context, constraints) {
                   final links = [
                     _QuickLink(
+                      key: const Key('openHouseCheck'),
+                      onPressed: () => context.push(AppRoutes.houseCheck),
+                      icon: Icons.fact_check_outlined,
+                      label: l10n.houseCheckShort,
+                    ),
+                    _QuickLink(
                       key: const Key('openEnergy'),
                       onPressed: () => context.push(AppRoutes.energy),
                       icon: Icons.bolt,

@@ -122,6 +122,7 @@ class AppShortcutsBinder {
     final scenes = ref.read(shortcutScenesProvider);
     final items = [
       for (final (id, name) in scenes) ('scene:$id', name, 'ic_scene'),
+      ('check', l10n.houseCheckTitle, 'ic_check'),
       if (!restricted) ('assist', l10n.assistTitle, 'ic_assist'),
       if (!restricted) ('kiosk', l10n.kioskStart, 'ic_kiosk'),
     ];
@@ -216,6 +217,11 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
         ref.read(pendingShortcutProvider.notifier).set(null);
         ref.read(kioskActiveProvider.notifier).enter();
         router.go(AppRoutes.kiosk);
+      case 'check':
+        ref.read(pendingShortcutProvider.notifier).set(null);
+        router
+          ..go(AppRoutes.home)
+          ..push(AppRoutes.houseCheck);
       case 'assist':
         ref.read(pendingShortcutProvider.notifier).set(null);
         router.go(AppRoutes.home);

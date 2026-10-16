@@ -24,6 +24,8 @@ import '../../features/onboarding/presentation/welcome_screen.dart';
 import '../../features/rooms/presentation/rooms_screen.dart';
 import '../../features/scenes/presentation/scenes_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
+import '../../features/house_check/house_check.dart';
+import '../../features/house_check/house_check_screen.dart';
 import 'app_shell.dart';
 
 abstract final class AppRoutes {
@@ -42,6 +44,8 @@ abstract final class AppRoutes {
   static const weather = '/weather';
   static const calendar = '/calendar';
   static const activity = '/activity';
+  static const houseCheck = '/check';
+  static String houseCheckFor(String mode) => '$houseCheck?mode=$mode';
   static const dashboardLayout = '/home-layout';
   static const addDevice = '/add-device';
   static String weatherFor({bool kiosk = false}) =>
@@ -235,6 +239,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.activity,
             builder: (_, _) => const ActivityScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.houseCheck,
+            builder: (_, state) => HouseCheckScreen(
+              mode: HouseCheckMode.tryParse(state.uri.queryParameters['mode']),
+            ),
           ),
           GoRoute(
             path: AppRoutes.dashboardLayout,

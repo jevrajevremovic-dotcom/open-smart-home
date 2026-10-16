@@ -2816,6 +2816,88 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get loadingContent => 'Učitavanje…';
+
+  @override
+  String get houseCheckTitle => 'Provera kuće';
+
+  @override
+  String get houseCheckShort => 'Provera';
+
+  @override
+  String get houseCheckLeaving => 'Odlazim';
+
+  @override
+  String get houseCheckNight => 'Laku noć';
+
+  @override
+  String get houseCheckAllGood => 'Sve je u redu';
+
+  @override
+  String get houseCheckAllGoodLeaving =>
+      'Svetla su ugašena, brave zaključane, ništa nije ostalo otvoreno. Srećan put!';
+
+  @override
+  String get houseCheckAllGoodNight => 'Kuća je spremna za noć. Laku noć!';
+
+  @override
+  String houseCheckCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stvari za proveru',
+      few: '$count stvari za proveru',
+      one: '$count stvar za proveru',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String houseCheckFixAll(int count) {
+    return 'Sredi sve ($count)';
+  }
+
+  @override
+  String get houseCheckFixing => 'Sređujem…';
+
+  @override
+  String get houseCheckManualHint =>
+      'Prozore i vrata sa senzorom aplikacija ne može da zatvori — proverite ih. Alarm se uključuje na njegovom ekranu.';
+
+  @override
+  String get houseCheckLightOn => 'Upaljeno';
+
+  @override
+  String get houseCheckMediaOn => 'Uključeno';
+
+  @override
+  String get houseCheckClimateOn => 'Radi';
+
+  @override
+  String get houseCheckUnlocked => 'Otključano';
+
+  @override
+  String get houseCheckGarageOpen => 'Otvoreno';
+
+  @override
+  String get houseCheckOpened => 'Otvoreno';
+
+  @override
+  String get houseCheckAlarmOff => 'Alarm nije uključen';
+
+  @override
+  String get houseCheckTurnOff => 'Ugasi';
+
+  @override
+  String get houseCheckLock => 'Zaključaj';
+
+  @override
+  String get houseCheckClose => 'Zatvori';
+
+  @override
+  String get houseCheckPause => 'Pauziraj';
+
+  @override
+  String get houseCheckOpenDevice => 'Otvori';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

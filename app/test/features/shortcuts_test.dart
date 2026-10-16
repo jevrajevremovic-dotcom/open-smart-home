@@ -9,7 +9,9 @@ import '../helpers.dart' show FakeShortcuts;
 import '../widgets/app_widget_test.dart' show pumpApp, settle, unmount;
 
 void main() {
-  testWidgets('launcher shortcuts: scene, Assist and kiosk', (tester) async {
+  testWidgets('launcher shortcuts: scene, house check, Assist and kiosk', (
+    tester,
+  ) async {
     final shortcuts = FakeShortcuts();
     await pumpApp(
       tester,
@@ -20,6 +22,7 @@ void main() {
     await settle(tester, 10);
     expect(shortcuts.items.map((i) => i.$1), [
       'scene:scene.movie_night',
+      'check',
       'assist',
       'kiosk',
     ]);
@@ -37,6 +40,10 @@ void main() {
       (s) => s['entity_id'] == 'scene.movie_night',
     )['state'];
     expect(after, isNot(before), reason: 'scene activated');
+
+    shortcuts.tap('check');
+    await settle(tester, 6);
+    expect(find.byKey(const Key('houseCheckMode')), findsOneWidget);
 
     shortcuts.tap('assist');
     await settle(tester, 6);

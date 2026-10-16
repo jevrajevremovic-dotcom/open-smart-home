@@ -4952,6 +4952,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading…'**
   String get loadingContent;
+
+  /// No description provided for @houseCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'House check'**
+  String get houseCheckTitle;
+
+  /// No description provided for @houseCheckShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get houseCheckShort;
+
+  /// No description provided for @houseCheckLeaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaving'**
+  String get houseCheckLeaving;
+
+  /// No description provided for @houseCheckNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Good night'**
+  String get houseCheckNight;
+
+  /// No description provided for @houseCheckAllGood.
+  ///
+  /// In en, this message translates to:
+  /// **'All good'**
+  String get houseCheckAllGood;
+
+  /// No description provided for @houseCheckAllGoodLeaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights are off, locks are locked, nothing is left open. Have a good trip!'**
+  String get houseCheckAllGoodLeaving;
+
+  /// No description provided for @houseCheckAllGoodNight.
+  ///
+  /// In en, this message translates to:
+  /// **'The house is ready for the night. Good night!'**
+  String get houseCheckAllGoodNight;
+
+  /// No description provided for @houseCheckCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} thing to check} other{{count} things to check}}'**
+  String houseCheckCount(int count);
+
+  /// No description provided for @houseCheckFixAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix all ({count})'**
+  String houseCheckFixAll(int count);
+
+  /// No description provided for @houseCheckFixing.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixing…'**
+  String get houseCheckFixing;
+
+  /// No description provided for @houseCheckManualHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app cannot close windows and doors with a sensor — please check them. The alarm is armed on its own screen.'**
+  String get houseCheckManualHint;
+
+  /// No description provided for @houseCheckLightOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get houseCheckLightOn;
+
+  /// No description provided for @houseCheckMediaOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get houseCheckMediaOn;
+
+  /// No description provided for @houseCheckClimateOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get houseCheckClimateOn;
+
+  /// No description provided for @houseCheckUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked'**
+  String get houseCheckUnlocked;
+
+  /// No description provided for @houseCheckGarageOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get houseCheckGarageOpen;
+
+  /// No description provided for @houseCheckOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get houseCheckOpened;
+
+  /// No description provided for @houseCheckAlarmOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm not armed'**
+  String get houseCheckAlarmOff;
+
+  /// No description provided for @houseCheckTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get houseCheckTurnOff;
+
+  /// No description provided for @houseCheckLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock'**
+  String get houseCheckLock;
+
+  /// No description provided for @houseCheckClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get houseCheckClose;
+
+  /// No description provided for @houseCheckPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get houseCheckPause;
+
+  /// No description provided for @houseCheckOpenDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get houseCheckOpenDevice;
 }
 
 class _AppLocalizationsDelegate

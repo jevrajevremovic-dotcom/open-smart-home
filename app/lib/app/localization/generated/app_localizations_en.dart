@@ -2800,4 +2800,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsBackupHint => 'Copy settings to another phone or tablet';
+
+  @override
+  String get loadingContent => 'Loading…';
 }

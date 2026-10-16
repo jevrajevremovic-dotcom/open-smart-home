@@ -24,6 +24,7 @@ import 'device_edit.dart';
 import 'device_history.dart';
 import 'device_presentation.dart';
 import 'stale_data_banner.dart';
+import '../../../core/widgets/skeleton.dart';
 
 /// Details and controls of one device, generated from its capabilities.
 class DeviceDetailScreen extends ConsumerWidget {
@@ -40,13 +41,10 @@ class DeviceDetailScreen extends ConsumerWidget {
     if (device == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: Center(
-          child:
-              syncStatus == SyncStatus.initial ||
-                  syncStatus == SyncStatus.syncing
-              ? const CircularProgressIndicator()
-              : Text(l10n.deviceNotFound),
-        ),
+        body:
+            syncStatus == SyncStatus.initial || syncStatus == SyncStatus.syncing
+            ? ListSkeleton(label: l10n.loadingContent)
+            : Center(child: Text(l10n.deviceNotFound)),
       );
     }
 

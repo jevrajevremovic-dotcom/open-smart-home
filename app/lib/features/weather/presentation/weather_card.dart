@@ -13,6 +13,7 @@ import '../application/weather_providers.dart';
 import '../data/device_location.dart';
 import '../domain/weather.dart';
 import 'weather_labels.dart';
+import '../../../core/widgets/skeleton.dart';
 
 /// Weather at home (from Home Assistant) and, if the user enabled it, at the
 /// device's location. Shown on the dashboard.
@@ -220,9 +221,9 @@ class _DeviceWeather extends ConsumerWidget {
         InlineNotice.warning(l10n.weatherDeviceUnavailable),
       ),
       AsyncData(value: null) => const SizedBox.shrink(),
-      _ => const Padding(
-        padding: EdgeInsets.all(16),
-        child: Center(child: CircularProgressIndicator()),
+      _ => Shimmer(
+        label: context.l10n.loadingContent,
+        child: const SkeletonBox(height: 170, radius: 24),
       ),
     };
   }

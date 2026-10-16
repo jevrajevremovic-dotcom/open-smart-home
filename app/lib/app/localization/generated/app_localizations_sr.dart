@@ -2813,6 +2813,9 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get settingsBackupHint =>
       'Kopiranje podešavanja na drugi telefon ili tablet';
+
+  @override
+  String get loadingContent => 'Učitavanje…';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

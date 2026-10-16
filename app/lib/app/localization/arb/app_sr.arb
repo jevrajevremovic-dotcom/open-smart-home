@@ -808,5 +808,6 @@
   "settingsNotificationsHint": "Poruke iz Home Assistanta, upozorenja",
   "settingsSecurityHint": "Zaključavanje aplikacije, režim za decu i goste",
   "settingsPrivacyHint": "Lokacija, glas, brisanje podataka",
-  "settingsBackupHint": "Kopiranje podešavanja na drugi telefon ili tablet"
+  "settingsBackupHint": "Kopiranje podešavanja na drugi telefon ili tablet",
+  "loadingContent": "Učitavanje…"
 }

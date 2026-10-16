@@ -14,6 +14,7 @@ import '../devices/domain/smart_home_device.dart';
 import '../devices/presentation/device_history.dart' show historyStateLabel;
 import '../devices/presentation/device_presentation.dart';
 import '../restricted/application/restricted_mode.dart';
+import '../../core/widgets/skeleton.dart';
 
 enum ActivityFilter { all, lights, security, people }
 
@@ -111,9 +112,8 @@ class _ActivityScreenState extends ConsumerState<ActivityScreen> {
                   child: InlineNotice.error(l10n.historyUnavailable),
                 ),
               ),
-              _ => const SliverFillRemaining(
-                hasScrollBody: false,
-                child: Center(child: CircularProgressIndicator()),
+              _ => SliverToBoxAdapter(
+                child: ListSkeleton(rows: 8, label: l10n.loadingContent),
               ),
             },
             SliverPadding(

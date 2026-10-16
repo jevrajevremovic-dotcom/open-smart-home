@@ -9,6 +9,7 @@ import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../../core/widgets/responsive.dart';
+import '../../../core/widgets/skeleton.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../../integrations/home_assistant/websocket/connection_status.dart';
 import '../../authentication/application/session_controller.dart';
@@ -175,6 +176,18 @@ class DashboardBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loading = _firstLoad(ref);
+    // Placeholders fade into the real content once the first data arrives.
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: KeyedSubtree(
+        key: ValueKey(loading),
+        child: _content(context, ref, loading),
+      ),
+    );
+  }
+
+  Widget _content(BuildContext context, WidgetRef ref, bool loading) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
@@ -182,6 +195,19 @@ class DashboardBody extends ConsumerWidget {
             width >= Breakpoints.large ||
             (width >= Breakpoints.expanded && width > constraints.maxHeight);
         final refresh = ref.read(webSocketManagerProvider)?.retryNow;
+        if (loading) {
+          return CustomScrollView(
+            slivers: [
+              ..._fixedSlivers(ref, progress: false),
+              SliverToBoxAdapter(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 900),
+                  child: DashboardSkeleton(label: context.l10n.loadingContent),
+                ),
+              ),
+            ],
+          );
+        }
         if (!twoPanes) {
           return RefreshIndicator(
             onRefresh: () async => refresh?.call(),
@@ -225,9 +251,17 @@ class DashboardBody extends ConsumerWidget {
     );
   }
 
+  /// Nothing loaded yet and still connecting: placeholders, not empty cards.
+  static bool _firstLoad(WidgetRef ref) {
+    final status = ref.watch(syncStatusProvider);
+    return !ref.watch(homeSnapshotProvider.select((s) => s.hasData)) &&
+        (status == SyncStatus.initial || status == SyncStatus.syncing);
+  }
+
   /// Warnings that always stay on top, whatever the layout.
-  List<Widget> _fixedSlivers(WidgetRef ref) {
-    final syncing = ref.watch(syncStatusProvider) == SyncStatus.syncing;
+  List<Widget> _fixedSlivers(WidgetRef ref, {bool progress = true}) {
+    final syncing =
+        progress && ref.watch(syncStatusProvider) == SyncStatus.syncing;
     return [
       const SliverPadding(
         padding: _pad,

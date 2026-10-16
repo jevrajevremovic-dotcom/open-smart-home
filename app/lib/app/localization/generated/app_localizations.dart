@@ -4946,6 +4946,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy settings to another phone or tablet'**
   String get settingsBackupHint;
+
+  /// No description provided for @loadingContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading…'**
+  String get loadingContent;
 }
 
 class _AppLocalizationsDelegate

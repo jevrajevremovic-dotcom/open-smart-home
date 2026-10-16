@@ -11,6 +11,7 @@ import '../../authentication/application/session_controller.dart';
 import '../domain/device_kind.dart';
 import '../domain/smart_home_device.dart';
 import 'device_presentation.dart';
+import '../../../core/widgets/skeleton.dart';
 
 enum HistoryRange {
   day(Duration(hours: 24)),
@@ -166,9 +167,9 @@ class _DeviceHistorySectionState extends ConsumerState<DeviceHistorySection> {
                             .icon,
                       ),
               AsyncError() => Text(l10n.historyUnavailable),
-              _ => const SizedBox(
-                height: 120,
-                child: Center(child: CircularProgressIndicator()),
+              _ => Shimmer(
+                label: l10n.loadingContent,
+                child: const SkeletonBox(height: 120, radius: 16),
               ),
             },
           ),

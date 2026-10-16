@@ -1298,5 +1298,6 @@
   "settingsNotificationsHint": "Messages from Home Assistant, alerts",
   "settingsSecurityHint": "App lock, kids and guests mode",
   "settingsPrivacyHint": "Location, voice, deleting data",
-  "settingsBackupHint": "Copy settings to another phone or tablet"
+  "settingsBackupHint": "Copy settings to another phone or tablet",
+  "loadingContent": "Loading…"
 }

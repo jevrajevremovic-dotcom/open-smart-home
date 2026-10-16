@@ -16,6 +16,7 @@ import '../data/energy_repository.dart';
 import '../data/tariff.dart';
 import 'energy_chart.dart';
 import 'energy_format.dart';
+import '../../../core/widgets/skeleton.dart';
 
 /// Energy overview: live power, consumption for today / this week / this
 /// month, grid, solar, battery, gas, top consumers and a cost estimate.
@@ -144,9 +145,24 @@ class _ReportSection extends ConsumerWidget {
               : l10n.failureUnknown,
         ),
       ),
-      _ => const Padding(
-        padding: EdgeInsets.all(32),
-        child: Center(child: CircularProgressIndicator()),
+      _ => Shimmer(
+        label: l10n.loadingContent,
+        child: const Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 8),
+            TileWrap(
+              children: [
+                SkeletonBox(height: 72, radius: 20),
+                SkeletonBox(height: 72, radius: 20),
+                SkeletonBox(height: 72, radius: 20),
+                SkeletonBox(height: 72, radius: 20),
+              ],
+            ),
+            SizedBox(height: 24),
+            SkeletonBox(height: 240, radius: 24),
+          ],
+        ),
       ),
     };
   }

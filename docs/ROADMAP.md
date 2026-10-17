@@ -40,6 +40,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Dvotarifno brojilo (viša/niža tarifa) ✅
 - Tabla za pisanje i crtanje (deljena preko HA) ✅
 - Senzori uređaja (baterija, punjenje, kiosk) i pametno punjenje ✅
+- NFC nalepnice (upis, očitavanje, automatizacija) ✅
 - Prijava korisničkim imenom i lozinkom na telefonu ✅, Tailscale adrese ✅
 - Prilagodljiv početni ekran (izbor i redosled kartica) ✅
 - Video uživo u iskačućoj kameri ✅

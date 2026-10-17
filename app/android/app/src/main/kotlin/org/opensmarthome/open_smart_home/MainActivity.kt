@@ -20,6 +20,7 @@ import io.flutter.plugin.common.MethodChannel
 class MainActivity : FlutterFragmentActivity() {
     private var nsd: NsdDiscoveryHandler? = null
     private var widget: MethodChannel? = null
+    private var nfc: NfcHandler? = null
     private var audio: AudioLevelHandler? = null
     private var micResult: MethodChannel.Result? = null
     private var matterResult: MethodChannel.Result? = null
@@ -37,6 +38,9 @@ class MainActivity : FlutterFragmentActivity() {
         val handler = NsdDiscoveryHandler(applicationContext)
         nsd = handler
         EventChannel(messenger, "org.opensmarthome/nsd").setStreamHandler(handler)
+
+        val nfcChannel = MethodChannel(messenger, "org.opensmarthome/nfc")
+        nfc = NfcHandler(this, nfcChannel).also { nfcChannel.setMethodCallHandler(it) }
 
         // One per process: keeps reporting while the cached engine runs in
         // the background service, after this activity is gone.
@@ -150,6 +154,7 @@ class MainActivity : FlutterFragmentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         widgetLink(intent)?.let { widget?.invokeMethod("link", it) }
+        nfc?.onNewIntent(intent)
     }
 
     // Dart may not get to cancel the stream when the activity goes away.
@@ -158,6 +163,8 @@ class MainActivity : FlutterFragmentActivity() {
         nsd = null
         audio?.stop()
         audio = null
+        nfc?.dispose()
+        nfc = null
         widget?.setMethodCallHandler(null)
         widget = null
         super.cleanUpFlutterEngine(flutterEngine)

@@ -22,6 +22,7 @@ import 'package:open_smart_home/core/storage/credential_store.dart';
 import 'package:open_smart_home/features/devices/data/cache/snapshot_cache.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
+import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// In-memory replacement for the platform keychain/keystore.
@@ -109,6 +110,7 @@ Future<List<Override>> testOverrides({
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
   DeviceBatteryPlatform? battery,
+  NfcPlatform? nfc,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -148,6 +150,7 @@ Future<List<Override>> testOverrides({
     deviceBatteryProvider.overrideWithValue(
       battery ?? FakeDeviceBattery(supported: false),
     ),
+    nfcPlatformProvider.overrideWithValue(nfc ?? FakeNfc(supported: false)),
     homeScreenWidgetProvider.overrideWithValue(
       homeWidget ?? FakeHomeScreenWidget(supported: false),
     ),
@@ -360,5 +363,52 @@ class FakeDeviceBattery implements DeviceBatteryPlatform {
   Stream<BatteryReading> readings() async* {
     if (last case final r?) yield r;
     yield* _readings.stream;
+  }
+}
+
+/// NFC driven by the test: [scan] a tag, finish or fail a [write].
+class FakeNfc implements NfcPlatform {
+  FakeNfc({this.supported = true, this.enabled = true, this.initial});
+
+  @override
+  final bool supported;
+  bool enabled;
+  String? initial;
+  String? writing;
+  Completer<void>? _write;
+
+  // ignore: close_sinks, lives as long as the test
+  final _scans = StreamController<String>.broadcast();
+
+  void scan(String id) => _scans.add(id);
+
+  void finishWrite([NfcWriteError? error]) {
+    final w = _write!;
+    _write = null;
+    error == null ? w.complete() : w.completeError(NfcWriteException(error));
+  }
+
+  @override
+  Future<(bool, bool)> availability() async => (true, enabled);
+
+  @override
+  Future<String?> initialTag() async {
+    final i = initial;
+    initial = null;
+    return i;
+  }
+
+  @override
+  Stream<String> get scans => _scans.stream;
+
+  @override
+  Future<void> write(String uri) {
+    writing = uri;
+    return (_write = Completer<void>()).future;
+  }
+
+  @override
+  Future<void> cancel() async {
+    if (_write != null) finishWrite(NfcWriteError.cancelled);
   }
 }

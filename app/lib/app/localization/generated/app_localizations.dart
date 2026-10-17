@@ -5486,6 +5486,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Smart charging – {device}'**
   String smartChargeAlias(String device);
+
+  /// No description provided for @nfcTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC tags'**
+  String get nfcTitle;
+
+  /// No description provided for @nfcHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the phone to a tag and Home Assistant runs what you chose — e.g. a “Leaving” scene by the front door. Tags use the same format as the official HA app.'**
+  String get nfcHint;
+
+  /// No description provided for @nfcSectionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A scene with a tap of the phone'**
+  String get nfcSectionHint;
+
+  /// No description provided for @nfcOff.
+  ///
+  /// In en, this message translates to:
+  /// **'NFC is turned off in the phone\'s settings.'**
+  String get nfcOff;
+
+  /// No description provided for @nfcMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has no NFC. Existing tags still work from other phones.'**
+  String get nfcMissing;
+
+  /// No description provided for @nfcNeedsRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'To scan, add this device to Home Assistant (Notifications → Messages from Home Assistant).'**
+  String get nfcNeedsRegistration;
+
+  /// No description provided for @nfcNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New tag'**
+  String get nfcNew;
+
+  /// No description provided for @nfcName.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag name'**
+  String get nfcName;
+
+  /// No description provided for @nfcRuns.
+  ///
+  /// In en, this message translates to:
+  /// **'When scanned, run'**
+  String get nfcRuns;
+
+  /// No description provided for @nfcWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Write tag'**
+  String get nfcWrite;
+
+  /// No description provided for @nfcHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the tag to the back of the phone…'**
+  String get nfcHold;
+
+  /// No description provided for @nfcWritten.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag “{name}” is ready.'**
+  String nfcWritten(String name);
+
+  /// No description provided for @nfcWrittenNoAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'The tag is written, but adding it to Home Assistant (and the automation) needs an administrator account. Scans still reach HA.'**
+  String get nfcWrittenNoAdmin;
+
+  /// No description provided for @nfcErrorReadOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'The tag is locked and cannot be written.'**
+  String get nfcErrorReadOnly;
+
+  /// No description provided for @nfcErrorTooSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'The address does not fit on this tag.'**
+  String get nfcErrorTooSmall;
+
+  /// No description provided for @nfcErrorUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'This kind of tag is not supported.'**
+  String get nfcErrorUnsupported;
+
+  /// No description provided for @nfcErrorFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing failed — hold the tag still against the phone and try again.'**
+  String get nfcErrorFailed;
+
+  /// No description provided for @nfcScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag “{name}” scanned'**
+  String nfcScanned(String name);
+
+  /// No description provided for @nfcScanFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The tag did not reach Home Assistant: {reason}'**
+  String nfcScanFailed(String reason);
+
+  /// No description provided for @nfcEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no tags yet.'**
+  String get nfcEmpty;
+
+  /// No description provided for @nfcLastScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Last: {when}'**
+  String nfcLastScanned(String when);
+
+  /// No description provided for @nfcNeverScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Not scanned yet'**
+  String get nfcNeverScanned;
+
+  /// No description provided for @nfcScannedUnnamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Tag scanned'**
+  String get nfcScannedUnnamed;
 }
 
 class _AppLocalizationsDelegate

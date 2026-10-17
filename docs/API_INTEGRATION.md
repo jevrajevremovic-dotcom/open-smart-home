@@ -197,3 +197,12 @@ Provereno u `homeassistant/components/mobile_app/webhook.py`. Šalje se kroz WS 
 
 Aplikacija šalje: `battery_level` (%), `battery_state` (atribut `charger`), `is_charging` (binary, `battery_charging`), `kiosk` (binary).
 
+## NFC nalepnice (`tag`)
+
+Provereno u `homeassistant/components/tag` i `mobile_app/webhook.py`, format URL-a u dokumentaciji companion aplikacija:
+
+- Na nalepnici: NDEF URI `https://www.home-assistant.io/tag/<tag_id>` (kao zvanične aplikacije).
+- Očitavanje: Mobile App webhook `scan_tag` `{tag_id}` (kroz WS `webhook/handle`) → `tag_scanned`; nepoznata nalepnica se dodaje sama.
+- Spisak: WS `tag/list`; nova: WS `tag/create {tag_id, name}` (administrator).
+- Automatizacija: okidač `{trigger: tag, tag_id}`.
+

@@ -17,6 +17,7 @@ import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/authentication/domain/stored_credential.dart';
 import 'package:open_smart_home/features/settings/presentation/settings_screen.dart';
 import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
+import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
 
 import '../helpers.dart';
 
@@ -37,6 +38,7 @@ Future<InMemoryCredentialStore> pumpApp(
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
   DeviceBatteryPlatform? battery,
+  NfcPlatform? nfc,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -60,6 +62,7 @@ Future<InMemoryCredentialStore> pumpApp(
     homeWidget: homeWidget,
     clap: clap,
     battery: battery,
+    nfc: nfc,
     background: background,
     matter: matter,
     overrides: overrides,

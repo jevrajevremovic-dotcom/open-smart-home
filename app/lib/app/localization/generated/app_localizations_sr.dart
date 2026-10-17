@@ -3145,6 +3145,89 @@ class AppLocalizationsSr extends AppLocalizations {
   String smartChargeAlias(String device) {
     return 'Pametno punjenje – $device';
   }
+
+  @override
+  String get nfcTitle => 'NFC nalepnice';
+
+  @override
+  String get nfcHint =>
+      'Prislonite telefon na nalepnicu i Home Assistant pokreće ono što ste izabrali — npr. scenu „Odlazak” kod ulaznih vrata. Nalepnice su u istom formatu kao kod zvanične HA aplikacije.';
+
+  @override
+  String get nfcSectionHint => 'Scena na dodir telefona';
+
+  @override
+  String get nfcOff => 'NFC je isključen u podešavanjima telefona.';
+
+  @override
+  String get nfcMissing =>
+      'Ovaj uređaj nema NFC. Postojeće nalepnice i dalje rade sa drugih telefona.';
+
+  @override
+  String get nfcNeedsRegistration =>
+      'Za očitavanje dodajte ovaj uređaj u Home Assistant (Obaveštenja → Poruke iz Home Assistanta).';
+
+  @override
+  String get nfcNew => 'Nova nalepnica';
+
+  @override
+  String get nfcName => 'Ime nalepnice';
+
+  @override
+  String get nfcRuns => 'Kad se očita, pokreni';
+
+  @override
+  String get nfcWrite => 'Upiši nalepnicu';
+
+  @override
+  String get nfcHold => 'Prislonite nalepnicu uz poleđinu telefona…';
+
+  @override
+  String nfcWritten(String name) {
+    return 'Nalepnica „$name” je spremna.';
+  }
+
+  @override
+  String get nfcWrittenNoAdmin =>
+      'Nalepnica je upisana, ali dodavanje u Home Assistant (i automatizacija) traži administratorski nalog. Očitavanja ipak stižu u HA.';
+
+  @override
+  String get nfcErrorReadOnly =>
+      'Nalepnica je zaključana i ne može da se upiše.';
+
+  @override
+  String get nfcErrorTooSmall => 'Na nalepnicu ne staje adresa.';
+
+  @override
+  String get nfcErrorUnsupported => 'Ova vrsta nalepnice nije podržana.';
+
+  @override
+  String get nfcErrorFailed =>
+      'Upis nije uspeo — držite nalepnicu mirno uz telefon i pokušajte ponovo.';
+
+  @override
+  String nfcScanned(String name) {
+    return 'Nalepnica „$name” očitana';
+  }
+
+  @override
+  String nfcScanFailed(String reason) {
+    return 'Nalepnica nije prosleđena Home Assistantu: $reason';
+  }
+
+  @override
+  String get nfcEmpty => 'U Home Assistantu još nema nalepnica.';
+
+  @override
+  String nfcLastScanned(String when) {
+    return 'Poslednji put: $when';
+  }
+
+  @override
+  String get nfcNeverScanned => 'Još nije očitana';
+
+  @override
+  String get nfcScannedUnnamed => 'Nalepnica očitana';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -308,6 +308,25 @@ class MockHomeAssistantServer {
     _todoChanged(id! as String);
   }
 
+  /// Tags (`tag` integration), by tag id.
+  final Map<String, Map<String, Object?>> tags = {};
+  final List<String> scannedTags = [];
+
+  /// Whether the demo user may change configuration (tag/create, …).
+  bool configAdmin = true;
+
+  /// Like `tag.async_scan_tag`: an unknown tag is added, "last scanned"
+  /// moves, and `tag_scanned` fires.
+  void scanTag(String id) {
+    scannedTags.add(id);
+    final tag = tags.putIfAbsent(id, () => {'id': id});
+    tag['last_scanned'] = _clock().toUtc().toIso8601String();
+    firedEvents.add({
+      'event_type': 'tag_scanned',
+      'event_data': {'tag_id': id},
+    });
+  }
+
   /// Mobile App sensors: webhook → unique id → entity id.
   final Map<String, Map<String, String>> mobileAppSensorIds = {};
 
@@ -1579,6 +1598,8 @@ class _MockSocket implements HaSocket {
             _server.firedEvents.add(
               Map<String, Object?>.from(json['data'] as Map),
             );
+          } else if (json is Map && json['type'] == 'scan_tag') {
+            _server.scanTag((json['data']! as Map)['tag_id']! as String);
           } else if (json is Map &&
               (json['type'] == 'register_sensor' ||
                   json['type'] == 'update_sensor_states')) {
@@ -1599,6 +1620,24 @@ class _MockSocket implements HaSocket {
         final confirmId = msg['confirm_id'];
         if (confirmId is String) _server.confirmedPushes.add(confirmId);
         _emit(ok());
+      case 'tag/list':
+        _emit(ok([for (final t in _server.tags.values) Map.of(t)]));
+      case 'tag/create':
+        if (!_server.configAdmin) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'unauthorized', 'message': 'Unauthorized'},
+          });
+        } else {
+          final tagId = msg['tag_id']! as String;
+          _server.tags[tagId] = {
+            'id': tagId,
+            if (msg['name'] case final String name) 'name': name,
+          };
+          _emit(ok(_server.tags[tagId]));
+        }
       case 'image/list':
         _emit(ok([for (final (item, _) in _server.images.values) item]));
       case 'image/subscribe':
@@ -2088,6 +2127,10 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   Future<void> saveAutomation(String id, Map<String, Object?> config) async {
     await _requireAuth();
     await _latency();
+    if (!server.configAdmin) {
+      // Like HA: the config API needs an administrator (401).
+      throw const AppFailure(FailureKind.authorization, statusCode: 401);
+    }
     server.saveAutomation(id, config);
   }
 

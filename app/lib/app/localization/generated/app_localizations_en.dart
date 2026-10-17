@@ -3131,4 +3131,86 @@ class AppLocalizationsEn extends AppLocalizations {
   String smartChargeAlias(String device) {
     return 'Smart charging – $device';
   }
+
+  @override
+  String get nfcTitle => 'NFC tags';
+
+  @override
+  String get nfcHint =>
+      'Hold the phone to a tag and Home Assistant runs what you chose — e.g. a “Leaving” scene by the front door. Tags use the same format as the official HA app.';
+
+  @override
+  String get nfcSectionHint => 'A scene with a tap of the phone';
+
+  @override
+  String get nfcOff => 'NFC is turned off in the phone\'s settings.';
+
+  @override
+  String get nfcMissing =>
+      'This device has no NFC. Existing tags still work from other phones.';
+
+  @override
+  String get nfcNeedsRegistration =>
+      'To scan, add this device to Home Assistant (Notifications → Messages from Home Assistant).';
+
+  @override
+  String get nfcNew => 'New tag';
+
+  @override
+  String get nfcName => 'Tag name';
+
+  @override
+  String get nfcRuns => 'When scanned, run';
+
+  @override
+  String get nfcWrite => 'Write tag';
+
+  @override
+  String get nfcHold => 'Hold the tag to the back of the phone…';
+
+  @override
+  String nfcWritten(String name) {
+    return 'Tag “$name” is ready.';
+  }
+
+  @override
+  String get nfcWrittenNoAdmin =>
+      'The tag is written, but adding it to Home Assistant (and the automation) needs an administrator account. Scans still reach HA.';
+
+  @override
+  String get nfcErrorReadOnly => 'The tag is locked and cannot be written.';
+
+  @override
+  String get nfcErrorTooSmall => 'The address does not fit on this tag.';
+
+  @override
+  String get nfcErrorUnsupported => 'This kind of tag is not supported.';
+
+  @override
+  String get nfcErrorFailed =>
+      'Writing failed — hold the tag still against the phone and try again.';
+
+  @override
+  String nfcScanned(String name) {
+    return 'Tag “$name” scanned';
+  }
+
+  @override
+  String nfcScanFailed(String reason) {
+    return 'The tag did not reach Home Assistant: $reason';
+  }
+
+  @override
+  String get nfcEmpty => 'Home Assistant has no tags yet.';
+
+  @override
+  String nfcLastScanned(String when) {
+    return 'Last: $when';
+  }
+
+  @override
+  String get nfcNeverScanned => 'Not scanned yet';
+
+  @override
+  String get nfcScannedUnnamed => 'Tag scanned';
 }

@@ -5624,6 +5624,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tag scanned'**
   String get nfcScannedUnnamed;
+
+  /// No description provided for @homeSayTime.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s {time}.'**
+  String homeSayTime(String time);
+
+  /// No description provided for @homeSayWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside it\'s {condition}, {temperature}.'**
+  String homeSayWeather(String condition, String temperature);
+
+  /// No description provided for @homeSayLights.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} light is on} other{{count} lights are on}}'**
+  String homeSayLights(int count);
+
+  /// No description provided for @homeSayLightsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'All lights are off'**
+  String get homeSayLightsOff;
+
+  /// No description provided for @homeSayOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{and {count} window or door is open.} other{and {count} windows or doors are open.}}'**
+  String homeSayOpen(int count);
+
+  /// No description provided for @homeSayClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'and everything is closed.'**
+  String get homeSayClosed;
+
+  /// No description provided for @homeSayUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked: {names}.'**
+  String homeSayUnlocked(String names);
+
+  /// No description provided for @homeSayAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Alarm: {state}.'**
+  String homeSayAlarm(String state);
+
+  /// No description provided for @homeSayAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Attention: {count} alert.} other{Attention: {count} alerts.}}'**
+  String homeSayAlerts(int count);
+
+  /// No description provided for @kioskStatOutside.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside'**
+  String get kioskStatOutside;
+
+  /// No description provided for @kioskStatInside.
+  ///
+  /// In en, this message translates to:
+  /// **'Inside'**
+  String get kioskStatInside;
+
+  /// No description provided for @kioskStatHumidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity'**
+  String get kioskStatHumidity;
+
+  /// No description provided for @kioskStatPower.
+  ///
+  /// In en, this message translates to:
+  /// **'Power'**
+  String get kioskStatPower;
+
+  /// No description provided for @kioskStatOpenings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get kioskStatOpenings;
+
+  /// No description provided for @kioskStyle.
+  ///
+  /// In en, this message translates to:
+  /// **'Kiosk look'**
+  String get kioskStyle;
+
+  /// No description provided for @kioskStyleBubble.
+  ///
+  /// In en, this message translates to:
+  /// **'Bubbles'**
+  String get kioskStyleBubble;
+
+  /// No description provided for @kioskStyleGlass.
+  ///
+  /// In en, this message translates to:
+  /// **'Glass'**
+  String get kioskStyleGlass;
 }
 
 class _AppLocalizationsDelegate

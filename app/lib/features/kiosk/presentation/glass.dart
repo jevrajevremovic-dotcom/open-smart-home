@@ -72,6 +72,10 @@ class KioskBackdrop extends ConsumerWidget {
     final photo = photoPath == null
         ? null
         : ref.watch(kioskPhotoStoreProvider).image(photoPath);
+    final bubble = ref.watch(kioskSettingsProvider.select((s) => s.bubble));
+    if (photo == null && bubble) {
+      return ColoredBox(color: BubbleColors.background, child: child);
+    }
     if (photo != null) {
       return DecoratedBox(
         decoration: BoxDecoration(
@@ -131,7 +135,16 @@ class KioskBackdrop extends ConsumerWidget {
   }
 }
 
-/// Text and icon colours on glass.
+/// Surfaces of the bubble style: near-black page, solid grey cards.
+abstract final class BubbleColors {
+  static const Color background = Color(0xFF0E0E10);
+  static const Color card = Color(0xFF1C1C1F);
+
+  /// Buttons and chips on a card.
+  static const Color raised = Color(0xFF2C2C30);
+}
+
+/// Text and icon colours on glass (and on bubble cards).
 abstract final class GlassColors {
   static const Color text = Colors.white;
   // Measured against the brightest glow under the darkened glass:
@@ -143,7 +156,8 @@ abstract final class GlassColors {
   static const Color border = Color(0x29FFFFFF);
 }
 
-/// Frosted-glass panel. Without blur in "lighter effects" mode.
+/// A kiosk panel: a solid card in the bubble style, frosted glass
+/// otherwise (without blur in "lighter effects" mode).
 class GlassPanel extends ConsumerWidget {
   const GlassPanel({
     super.key,
@@ -160,8 +174,18 @@ class GlassPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lite = ref.watch(kioskSettingsProvider.select((s) => s.liteEffects));
     final shape = BorderRadius.circular(radius);
+    if (ref.watch(kioskSettingsProvider.select((s) => s.bubble))) {
+      // Solid card: no border, no blur, readable at any distance.
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: shape,
+          color: color ?? BubbleColors.card,
+        ),
+        child: Padding(padding: padding, child: child),
+      );
+    }
+    final lite = ref.watch(kioskSettingsProvider.select((s) => s.liteEffects));
     final panel = DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: shape,

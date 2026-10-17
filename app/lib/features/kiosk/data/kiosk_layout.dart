@@ -100,13 +100,14 @@ class KioskLayout {
   final List<KioskPanel> panels;
 
   /// The layout the kiosk had before it could be edited.
+  /// Weather is in the header's numbers (a tap opens the forecast), so the
+  /// rooms get the room instead.
   static const standard = KioskLayout([
     KioskPanel(id: 'camera', type: KioskPanelType.camera, span: 5),
-    KioskPanel(id: 'weather', type: KioskPanelType.weather, span: 4),
     KioskPanel(id: 'thermostat', type: KioskPanelType.thermostat, span: 3),
-    KioskPanel(id: 'rooms', type: KioskPanelType.rooms, span: 3),
+    KioskPanel(id: 'calendar', type: KioskPanelType.calendar, span: 4),
+    KioskPanel(id: 'rooms', type: KioskPanelType.rooms, span: 8),
     KioskPanel(id: 'shortcuts', type: KioskPanelType.shortcuts, span: 4),
-    KioskPanel(id: 'calendar', type: KioskPanelType.calendar, span: 5),
   ]);
 
   /// `null` for missing or broken data: the standard layout is used then.

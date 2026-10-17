@@ -17,15 +17,15 @@ void main() {
   test('flow into rows, move, resize and parse tolerantly', () {
     const l = KioskLayout.standard;
     expect(KioskLayout.rows(l.panels).map((r) => r.map((p) => p.id).toList()), [
-      ['camera', 'weather', 'thermostat'],
-      ['rooms', 'shortcuts', 'calendar'],
+      ['camera', 'thermostat', 'calendar'],
+      ['rooms', 'shortcuts'],
     ]);
     expect(ids(l.move('calendar', 'camera', after: false)).first, 'calendar');
     expect(ids(l.move('camera', 'rooms', after: true))[3], 'camera');
-    expect(l.resize('weather', 20).panels[1].span, 12);
-    expect(l.resize('weather', -20).panels[1].span, KioskLayout.minSpan);
+    expect(l.resize('thermostat', 20).panels[1].span, 12);
+    expect(l.resize('thermostat', -20).panels[1].span, KioskLayout.minSpan);
     expect(l.toggleHeight('rooms').panels[3].height, 2);
-    expect(l.remove('camera').panels, hasLength(5));
+    expect(l.remove('camera').panels, hasLength(4));
     final added = l.add(KioskPanelType.device, entityId: 'light.hallway');
     expect(added.panels.last.entityId, 'light.hallway');
 
@@ -57,8 +57,8 @@ void main() {
     await settle(tester, 8);
     expect(find.byKey(const Key('kioskLayoutDone')), findsOneWidget);
 
-    // Hold "weather" and drop it on the left half of "camera".
-    final weather = find.byKey(const ValueKey('kioskPanel-weather'));
+    // Hold "thermostat" and drop it on the left half of "camera".
+    final weather = find.byKey(const ValueKey('kioskPanel-thermostat'));
     final camera = find.byKey(const ValueKey('kioskPanel-camera'));
     final gesture = await tester.startGesture(tester.getCenter(weather));
     await tester.pump(kLongPressTimeout + const Duration(milliseconds: 100));
@@ -66,11 +66,11 @@ void main() {
     await tester.pump();
     await gesture.up();
     await settle(tester, 3);
-    expect(ids(layout()).take(2), ['weather', 'camera']);
+    expect(ids(layout()).take(2), ['thermostat', 'camera']);
 
-    await tester.tap(find.byKey(const ValueKey('kioskPanelWider-weather')));
+    await tester.tap(find.byKey(const ValueKey('kioskPanelWider-thermostat')));
     await settle(tester, 2);
-    expect(layout().panels.first.span, 5);
+    expect(layout().panels.first.span, 4);
 
     await tester.tap(find.byKey(const ValueKey('kioskPanelRemove-calendar')));
     await settle(tester, 2);

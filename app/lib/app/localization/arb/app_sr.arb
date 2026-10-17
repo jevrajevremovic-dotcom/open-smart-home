@@ -921,5 +921,22 @@
   "nfcEmpty": "U Home Assistantu još nema nalepnica.",
   "nfcLastScanned": "Poslednji put: {when}",
   "nfcNeverScanned": "Još nije očitana",
-  "nfcScannedUnnamed": "Nalepnica očitana"
+  "nfcScannedUnnamed": "Nalepnica očitana",
+  "homeSayTime": "Sada je {time}.",
+  "homeSayWeather": "Napolju je {condition}, {temperature}.",
+  "homeSayLights": "{count, plural, one{Upaljeno je {count} svetlo} few{Upaljena su {count} svetla} other{Upaljeno je {count} svetala}}",
+  "homeSayLightsOff": "Sva svetla su ugašena",
+  "homeSayOpen": "{count, plural, one{a {count} prozor ili vrata su otvoreni.} few{a {count} prozora ili vrata su otvorena.} other{a {count} prozora ili vrata je otvoreno.}}",
+  "homeSayClosed": "a sve je zatvoreno.",
+  "homeSayUnlocked": "Otključano: {names}.",
+  "homeSayAlarm": "Alarm: {state}.",
+  "homeSayAlerts": "{count, plural, one{Pažnja: {count} upozorenje.} few{Pažnja: {count} upozorenja.} other{Pažnja: {count} upozorenja.}}",
+  "kioskStatOutside": "Napolju",
+  "kioskStatInside": "Unutra",
+  "kioskStatHumidity": "Vlažnost",
+  "kioskStatPower": "Snaga",
+  "kioskStatOpenings": "Otvoreno",
+  "kioskStyle": "Izgled kioska",
+  "kioskStyleBubble": "Mehurići",
+  "kioskStyleGlass": "Staklo"
 }

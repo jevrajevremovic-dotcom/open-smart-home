@@ -3213,4 +3213,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nfcScannedUnnamed => 'Tag scanned';
+
+  @override
+  String homeSayTime(String time) {
+    return 'It\'s $time.';
+  }
+
+  @override
+  String homeSayWeather(String condition, String temperature) {
+    return 'Outside it\'s $condition, $temperature.';
+  }
+
+  @override
+  String homeSayLights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lights are on',
+      one: '$count light is on',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeSayLightsOff => 'All lights are off';
+
+  @override
+  String homeSayOpen(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'and $count windows or doors are open.',
+      one: 'and $count window or door is open.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeSayClosed => 'and everything is closed.';
+
+  @override
+  String homeSayUnlocked(String names) {
+    return 'Unlocked: $names.';
+  }
+
+  @override
+  String homeSayAlarm(String state) {
+    return 'Alarm: $state.';
+  }
+
+  @override
+  String homeSayAlerts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Attention: $count alerts.',
+      one: 'Attention: $count alert.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskStatOutside => 'Outside';
+
+  @override
+  String get kioskStatInside => 'Inside';
+
+  @override
+  String get kioskStatHumidity => 'Humidity';
+
+  @override
+  String get kioskStatPower => 'Power';
+
+  @override
+  String get kioskStatOpenings => 'Open';
+
+  @override
+  String get kioskStyle => 'Kiosk look';
+
+  @override
+  String get kioskStyleBubble => 'Bubbles';
+
+  @override
+  String get kioskStyleGlass => 'Glass';
 }

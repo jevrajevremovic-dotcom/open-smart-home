@@ -3228,6 +3228,92 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get nfcScannedUnnamed => 'Nalepnica očitana';
+
+  @override
+  String homeSayTime(String time) {
+    return 'Sada je $time.';
+  }
+
+  @override
+  String homeSayWeather(String condition, String temperature) {
+    return 'Napolju je $condition, $temperature.';
+  }
+
+  @override
+  String homeSayLights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Upaljeno je $count svetala',
+      few: 'Upaljena su $count svetla',
+      one: 'Upaljeno je $count svetlo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeSayLightsOff => 'Sva svetla su ugašena';
+
+  @override
+  String homeSayOpen(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'a $count prozora ili vrata je otvoreno.',
+      few: 'a $count prozora ili vrata su otvorena.',
+      one: 'a $count prozor ili vrata su otvoreni.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get homeSayClosed => 'a sve je zatvoreno.';
+
+  @override
+  String homeSayUnlocked(String names) {
+    return 'Otključano: $names.';
+  }
+
+  @override
+  String homeSayAlarm(String state) {
+    return 'Alarm: $state.';
+  }
+
+  @override
+  String homeSayAlerts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pažnja: $count upozorenja.',
+      few: 'Pažnja: $count upozorenja.',
+      one: 'Pažnja: $count upozorenje.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskStatOutside => 'Napolju';
+
+  @override
+  String get kioskStatInside => 'Unutra';
+
+  @override
+  String get kioskStatHumidity => 'Vlažnost';
+
+  @override
+  String get kioskStatPower => 'Snaga';
+
+  @override
+  String get kioskStatOpenings => 'Otvoreno';
+
+  @override
+  String get kioskStyle => 'Izgled kioska';
+
+  @override
+  String get kioskStyleBubble => 'Mehurići';
+
+  @override
+  String get kioskStyleGlass => 'Staklo';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

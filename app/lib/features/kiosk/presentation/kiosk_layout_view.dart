@@ -21,6 +21,7 @@ import 'kiosk_panels.dart';
 import 'thermostat_dial.dart';
 import '../../todo/todo_lists.dart';
 import 'kiosk_board_panel.dart';
+import 'kiosk_bubble.dart';
 import 'kiosk_todo_panel.dart';
 
 /// `true` while the wall panel's layout is being edited on the tablet.
@@ -232,7 +233,10 @@ class _PanelBody extends ConsumerWidget {
       KioskPanelType.thermostat => KioskThermostatPanel(
         deviceId: panel.entityId ?? ref.watch(kioskThermostatIdProvider)!,
       ),
-      KioskPanelType.rooms => KioskRoomsPanel(scrollable: fill),
+      KioskPanelType.rooms =>
+        ref.watch(kioskSettingsProvider.select((s) => s.bubble))
+            ? KioskBubbleRoomsPanel(scrollable: fill)
+            : KioskRoomsPanel(scrollable: fill),
       KioskPanelType.shortcuts => KioskShortcutsPanel(
         scrollable: fill,
         sceneIds: scenesShown ? const [] : scenes,

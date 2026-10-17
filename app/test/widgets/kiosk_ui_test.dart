@@ -32,7 +32,9 @@ void main() {
       ]) {
         expect(find.byKey(Key(key)), findsOneWidget, reason: key);
       }
-      expect(find.text(en.kioskDoorsWindows), findsOneWidget);
+      // Bubble style: the home in one sentence, numbers under it.
+      expect(find.byKey(const Key('kioskHomeSentence')), findsOneWidget);
+      expect(find.text(en.kioskStatOpenings), findsOneWidget);
 
       await goTo(tester, AppRoutes.settingsSection('kiosk'));
       expect(

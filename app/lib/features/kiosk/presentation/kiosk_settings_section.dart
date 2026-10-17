@@ -115,29 +115,59 @@ class KioskSettingsSection extends ConsumerWidget {
             }
           },
         ),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(l10n.kioskBackground),
-          trailing: DropdownButton<KioskBackground>(
-            key: const Key('kioskBackground'),
-            value: settings.background,
-            items: [
-              for (final b in KioskBackground.values)
-                DropdownMenuItem(
-                  value: b,
-                  child: Text(switch (b) {
-                    KioskBackground.aurora => l10n.kioskBackgroundAurora,
-                    KioskBackground.ocean => l10n.kioskBackgroundOcean,
-                    KioskBackground.dusk => l10n.kioskBackgroundDusk,
-                    KioskBackground.forest => l10n.kioskBackgroundForest,
-                  }),
-                ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.kioskStyle),
+              const SizedBox(height: 8),
+              SegmentedButton<KioskStyle>(
+                key: const Key('kioskStyle'),
+                segments: [
+                  ButtonSegment(
+                    value: KioskStyle.bubble,
+                    icon: const Icon(Icons.bubble_chart_outlined),
+                    label: Text(l10n.kioskStyleBubble),
+                  ),
+                  ButtonSegment(
+                    value: KioskStyle.glass,
+                    icon: const Icon(Icons.blur_on),
+                    label: Text(l10n.kioskStyleGlass),
+                  ),
+                ],
+                selected: {settings.style},
+                onSelectionChanged: (v) =>
+                    controller.update((s) => s.copyWith(style: v.first)),
+              ),
             ],
-            onChanged: (v) => v == null
-                ? null
-                : controller.update((s) => s.copyWith(background: v)),
           ),
         ),
+        // The gradient belongs to the glass style.
+        if (!settings.bubble)
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l10n.kioskBackground),
+            trailing: DropdownButton<KioskBackground>(
+              key: const Key('kioskBackground'),
+              value: settings.background,
+              items: [
+                for (final b in KioskBackground.values)
+                  DropdownMenuItem(
+                    value: b,
+                    child: Text(switch (b) {
+                      KioskBackground.aurora => l10n.kioskBackgroundAurora,
+                      KioskBackground.ocean => l10n.kioskBackgroundOcean,
+                      KioskBackground.dusk => l10n.kioskBackgroundDusk,
+                      KioskBackground.forest => l10n.kioskBackgroundForest,
+                    }),
+                  ),
+              ],
+              onChanged: (v) => v == null
+                  ? null
+                  : controller.update((s) => s.copyWith(background: v)),
+            ),
+          ),
         if (ref.watch(kioskPhotoStoreProvider).supported)
           ListTile(
             key: const Key('kioskPhoto'),
@@ -182,14 +212,15 @@ class KioskSettingsSection extends ConsumerWidget {
         ),
         const CameraPopupSettingsTile(),
         const ClapSettings(),
-        SwitchListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(l10n.kioskLiteEffects),
-          subtitle: Text(l10n.kioskLiteEffectsHint),
-          value: settings.liteEffects,
-          onChanged: (v) =>
-              controller.update((s) => s.copyWith(liteEffects: v)),
-        ),
+        if (!settings.bubble)
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(l10n.kioskLiteEffects),
+            subtitle: Text(l10n.kioskLiteEffectsHint),
+            value: settings.liteEffects,
+            onChanged: (v) =>
+                controller.update((s) => s.copyWith(liteEffects: v)),
+          ),
         durationPicker(
           key: const Key('kioskDimAfter'),
           title: l10n.kioskDimAfter,

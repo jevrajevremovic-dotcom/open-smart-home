@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_smart_home/app/app.dart';
+import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
+import 'package:open_smart_home/features/kiosk/data/kiosk_layout.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/devices/domain/device_command.dart';
 import 'package:open_smart_home/integrations/home_assistant/mappers/ha_command_translator.dart';
@@ -55,6 +59,14 @@ void main() {
       server: bareServer(),
     );
     await settle(tester, 10);
+    // The weather panel (no longer in the standard layout) explains it.
+    await ProviderScope.containerOf(tester.element(find.byType(SmartHomeApp)))
+        .read(kioskSettingsProvider.notifier)
+        .update(
+          (s) => s.copyWith(
+            layout: KioskLayout.standard.add(KioskPanelType.weather),
+          ),
+        );
     await startKiosk(tester);
     expect(find.byKey(const Key('kioskWeatherMissing')), findsOneWidget);
     expect(find.text(en.kioskWeatherMissing), findsOneWidget);

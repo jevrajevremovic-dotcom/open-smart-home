@@ -6,6 +6,10 @@ import 'kiosk_layout.dart';
 /// Gradient behind the kiosk dashboard's glass panels.
 enum KioskBackground { aurora, ocean, dusk, forest }
 
+/// The kiosk's look: solid dark "bubble" cards with pastel highlights
+/// for what is on, or frosted glass over a gradient.
+enum KioskStyle { bubble, glass }
+
 /// Wall-panel options, stored locally (non-secret; the PIN only as a
 /// salted PBKDF2 hash).
 @immutable
@@ -17,6 +21,7 @@ class KioskSettings {
     this.returnHomeAfter = const Duration(seconds: 60),
     this.pinHash,
     this.pinSalt,
+    this.style = KioskStyle.bubble,
     this.background = KioskBackground.aurora,
     this.liteEffects = false,
     this.statusEntityIds = const [],
@@ -51,6 +56,10 @@ class KioskSettings {
           seconds(json['returnHomeAfterSeconds']) ?? d.returnHomeAfter,
       pinHash: json['pinHash'] is String ? json['pinHash']! as String : null,
       pinSalt: json['pinSalt'] is String ? json['pinSalt']! as String : null,
+      style: KioskStyle.values.firstWhere(
+        (v) => v.name == json['style'],
+        orElse: () => d.style,
+      ),
       background: KioskBackground.values.firstWhere(
         (b) => b.name == json['background'],
         orElse: () => d.background,
@@ -108,6 +117,11 @@ class KioskSettings {
   final String? pinHash;
   final String? pinSalt;
 
+  final KioskStyle style;
+
+  bool get bubble => style == KioskStyle.bubble;
+
+  /// Gradient of the glass style.
   final KioskBackground background;
 
   /// No backdrop blur (cheaper on slow wall tablets).
@@ -206,6 +220,7 @@ class KioskSettings {
     String? pinHash,
     String? pinSalt,
     bool clearPin = false,
+    KioskStyle? style,
     KioskBackground? background,
     bool? liteEffects,
     List<String>? statusEntityIds,
@@ -248,6 +263,7 @@ class KioskSettings {
     showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
     statusEntityIds: statusEntityIds ?? this.statusEntityIds,
+    style: style ?? this.style,
     background: background ?? this.background,
     liteEffects: liteEffects ?? this.liteEffects,
     startInKiosk: startInKiosk ?? this.startInKiosk,
@@ -265,6 +281,7 @@ class KioskSettings {
     'returnHomeAfterSeconds': returnHomeAfter.inSeconds,
     'pinHash': pinHash,
     'pinSalt': pinSalt,
+    'style': style.name,
     'background': background.name,
     'liteEffects': liteEffects,
     'statusEntityIds': statusEntityIds,

@@ -5816,6 +5816,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pull down the menu, tap the pencil and drag “Smart Home {n}” to the tiles.'**
   String quickTileAddManually(int n);
+
+  /// No description provided for @aodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Always-on screen'**
+  String get aodTitle;
+
+  /// No description provided for @aodHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When the kiosk is not used: a black screen with the clock, the forecast and one thing you choose. The content shifts slowly so the screen does not burn in.'**
+  String get aodHint;
+
+  /// No description provided for @aodFocus.
+  ///
+  /// In en, this message translates to:
+  /// **'Under the clock'**
+  String get aodFocus;
+
+  /// No description provided for @aodFocusNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get aodFocusNone;
+
+  /// No description provided for @aodFocusNextEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Next event'**
+  String get aodFocusNextEvent;
+
+  /// No description provided for @aodFocusList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get aodFocusList;
+
+  /// No description provided for @aodFocusDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get aodFocusDevice;
+
+  /// No description provided for @aodFocusEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Power now'**
+  String get aodFocusEnergy;
+
+  /// No description provided for @aodFocusMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Now playing'**
+  String get aodFocusMedia;
+
+  /// No description provided for @aodFocusHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home sentence'**
+  String get aodFocusHome;
+
+  /// No description provided for @aodChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose'**
+  String get aodChoose;
+
+  /// No description provided for @aodNextEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get aodNextEvent;
+
+  /// No description provided for @aodNoEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'No events in the next 7 days'**
+  String get aodNoEvents;
+
+  /// No description provided for @aodToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get aodToday;
+
+  /// No description provided for @aodTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get aodTomorrow;
+
+  /// No description provided for @morningScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning screen'**
+  String get morningScreen;
+
+  /// No description provided for @morningScreenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'In the morning the always-on screen shows today\'s forecast, events and reminders (items due today).'**
+  String get morningScreenHint;
+
+  /// No description provided for @morningFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get morningFrom;
+
+  /// No description provided for @morningTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get morningTo;
+
+  /// No description provided for @morningToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get morningToday;
+
+  /// No description provided for @morningReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get morningReminders;
+
+  /// No description provided for @morningNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing on today.'**
+  String get morningNothing;
+
+  /// No description provided for @morningHighLow.
+  ///
+  /// In en, this message translates to:
+  /// **'high {high}, low {low}'**
+  String morningHighLow(String high, String low);
+
+  /// No description provided for @aodNowUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'now, until {time}'**
+  String aodNowUntil(String time);
 }
 
 class _AppLocalizationsDelegate

@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../application/kiosk_controller.dart';
 import 'camera_popup.dart';
+import 'kiosk_ambient.dart';
 import 'kiosk_layout_view.dart';
 
 /// Wraps every kiosk route: fullscreen, screen kept on, back button
@@ -129,44 +129,13 @@ class _KioskShellState extends ConsumerState<KioskShell> {
             children: [
               widget.child,
               if (_dimmed)
-                Positioned.fill(child: _Screensaver(onWake: _onInteraction)),
+                Positioned.fill(child: KioskAmbient(onWake: _onInteraction)),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-/// Dark overlay with a clock. Absorbs the waking tap so it does not also
-/// press whatever control is underneath.
-class _Screensaver extends StatelessWidget {
-  const _Screensaver({required this.onWake});
-
-  final VoidCallback onWake;
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    key: const Key('kioskScreensaver'),
-    behavior: HitTestBehavior.opaque,
-    onTap: onWake,
-    child: ColoredBox(
-      color: Colors.black.withValues(alpha: 0.88),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const KioskClock(large: true, color: Colors.white70),
-            const SizedBox(height: 24),
-            Text(
-              context.l10n.kioskTapToWake,
-              style: const TextStyle(color: Colors.white38),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
 }
 
 /// Time and date, refreshed at each minute boundary.

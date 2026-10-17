@@ -247,6 +247,13 @@ class MockHomeAssistantServer {
         'status': 'needs_action',
         'due': '2026-11-01',
       },
+      {
+        'uid': 'c2',
+        'summary': 'Izneti smeće',
+        'status': 'needs_action',
+        // Due today, whenever the demo runs (a morning-screen reminder).
+        'due': DateTime.now().toIso8601String().substring(0, 10),
+      },
     ],
   };
   int _todoUid = 100;

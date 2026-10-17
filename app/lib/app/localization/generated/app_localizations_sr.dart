@@ -3366,6 +3366,84 @@ class AppLocalizationsSr extends AppLocalizations {
   String quickTileAddManually(int n) {
     return 'Prevucite meni nadole, dodirnite olovku i prevucite „Pametna kuća $n” među prekidače.';
   }
+
+  @override
+  String get aodTitle => 'Ekran u mirovanju (AOD)';
+
+  @override
+  String get aodHint =>
+      'Kad se kiosk ne koristi: crni ekran sa satom, prognozom i jednom stvari po izboru. Sadržaj se polako pomera da se ekran ne „ureže”.';
+
+  @override
+  String get aodFocus => 'Ispod sata';
+
+  @override
+  String get aodFocusNone => 'Ništa';
+
+  @override
+  String get aodFocusNextEvent => 'Sledeća obaveza';
+
+  @override
+  String get aodFocusList => 'Lista';
+
+  @override
+  String get aodFocusDevice => 'Uređaj';
+
+  @override
+  String get aodFocusEnergy => 'Trenutna potrošnja';
+
+  @override
+  String get aodFocusMedia => 'Šta svira';
+
+  @override
+  String get aodFocusHome => 'Rečenica o kući';
+
+  @override
+  String get aodChoose => 'Izaberi';
+
+  @override
+  String get aodNextEvent => 'Sledeće';
+
+  @override
+  String get aodNoEvents => 'Nema obaveza u narednih 7 dana';
+
+  @override
+  String get aodToday => 'danas';
+
+  @override
+  String get aodTomorrow => 'sutra';
+
+  @override
+  String get morningScreen => 'Jutarnji ekran';
+
+  @override
+  String get morningScreenHint =>
+      'Ujutru ekran u mirovanju pokazuje današnju prognozu, obaveze i podsetnike (stavke sa rokom danas).';
+
+  @override
+  String get morningFrom => 'Od';
+
+  @override
+  String get morningTo => 'Do';
+
+  @override
+  String get morningToday => 'Danas';
+
+  @override
+  String get morningReminders => 'Podsetnici';
+
+  @override
+  String get morningNothing => 'Danas nema obaveza ni podsetnika.';
+
+  @override
+  String morningHighLow(String high, String low) {
+    return 'najviše $high, najniže $low';
+  }
+
+  @override
+  String aodNowUntil(String time) {
+    return 'sada, do $time';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

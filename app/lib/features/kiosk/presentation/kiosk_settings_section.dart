@@ -14,6 +14,7 @@ import '../data/kiosk_settings.dart';
 import 'camera_popup_settings.dart';
 import 'glass.dart';
 import 'kiosk_layout_view.dart';
+import 'aod_settings.dart';
 import 'night_brightness_settings.dart';
 import 'pin_dialog.dart';
 import 'status_entities_picker.dart';
@@ -236,6 +237,7 @@ class KioskSettingsSection extends ConsumerWidget {
           onChanged: (v) =>
               controller.update((s) => s.copyWith(returnHomeAfter: v)),
         ),
+        const AodSettings(),
         const NightBrightnessSettings(),
         ListTile(
           contentPadding: EdgeInsets.zero,

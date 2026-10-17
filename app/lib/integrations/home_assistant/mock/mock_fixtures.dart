@@ -212,7 +212,7 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       // CREATE | DELETE | UPDATE | MOVE
       'supported_features': 15,
     }),
-    e('todo.chores', '1', {
+    e('todo.chores', '2', {
       'friendly_name': 'Kućni poslovi',
       'supported_features': 15 | 16,
     }),

@@ -3348,4 +3348,82 @@ class AppLocalizationsEn extends AppLocalizations {
   String quickTileAddManually(int n) {
     return 'Pull down the menu, tap the pencil and drag “Smart Home $n” to the tiles.';
   }
+
+  @override
+  String get aodTitle => 'Always-on screen';
+
+  @override
+  String get aodHint =>
+      'When the kiosk is not used: a black screen with the clock, the forecast and one thing you choose. The content shifts slowly so the screen does not burn in.';
+
+  @override
+  String get aodFocus => 'Under the clock';
+
+  @override
+  String get aodFocusNone => 'Nothing';
+
+  @override
+  String get aodFocusNextEvent => 'Next event';
+
+  @override
+  String get aodFocusList => 'List';
+
+  @override
+  String get aodFocusDevice => 'Device';
+
+  @override
+  String get aodFocusEnergy => 'Power now';
+
+  @override
+  String get aodFocusMedia => 'Now playing';
+
+  @override
+  String get aodFocusHome => 'Home sentence';
+
+  @override
+  String get aodChoose => 'Choose';
+
+  @override
+  String get aodNextEvent => 'Next';
+
+  @override
+  String get aodNoEvents => 'No events in the next 7 days';
+
+  @override
+  String get aodToday => 'today';
+
+  @override
+  String get aodTomorrow => 'tomorrow';
+
+  @override
+  String get morningScreen => 'Morning screen';
+
+  @override
+  String get morningScreenHint =>
+      'In the morning the always-on screen shows today\'s forecast, events and reminders (items due today).';
+
+  @override
+  String get morningFrom => 'From';
+
+  @override
+  String get morningTo => 'To';
+
+  @override
+  String get morningToday => 'Today';
+
+  @override
+  String get morningReminders => 'Reminders';
+
+  @override
+  String get morningNothing => 'Nothing on today.';
+
+  @override
+  String morningHighLow(String high, String low) {
+    return 'high $high, low $low';
+  }
+
+  @override
+  String aodNowUntil(String time) {
+    return 'now, until $time';
+  }
 }

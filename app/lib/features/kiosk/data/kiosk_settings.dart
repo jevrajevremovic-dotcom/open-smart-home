@@ -6,6 +6,9 @@ import 'kiosk_layout.dart';
 /// Gradient behind the kiosk dashboard's glass panels.
 enum KioskBackground { aurora, ocean, dusk, forest }
 
+/// The one extra thing the always-on screen shows under the clock.
+enum AodFocus { none, nextEvent, list, device, energy, media, home }
+
 /// The kiosk's look: solid dark "bubble" cards with pastel highlights
 /// for what is on, or frosted glass over a gradient.
 enum KioskStyle { bubble, glass }
@@ -35,6 +38,11 @@ class KioskSettings {
     this.popupCameraId,
     this.popupSeconds = 60,
     this.popupLive = true,
+    this.aodFocus = AodFocus.nextEvent,
+    this.aodEntityId,
+    this.morningScreen = true,
+    this.morningFrom = 6 * 60,
+    this.morningTo = 10 * 60,
     this.nightBrightness = false,
     this.nightFrom = 22 * 60,
     this.nightTo = 7 * 60,
@@ -78,6 +86,16 @@ class KioskSettings {
         (s) => s.name == json['clapSensitivity'],
         orElse: () => d.clapSensitivity,
       ),
+      aodFocus: AodFocus.values.firstWhere(
+        (f) => f.name == json['aodFocus'],
+        orElse: () => d.aodFocus,
+      ),
+      aodEntityId: json['aodEntityId'] is String
+          ? json['aodEntityId']! as String
+          : null,
+      morningScreen: json['morningScreen'] != false,
+      morningFrom: _minutes(json['morningFrom']) ?? d.morningFrom,
+      morningTo: _minutes(json['morningTo']) ?? d.morningTo,
       nightBrightness: json['nightBrightness'] == true,
       nightFrom: _minutes(json['nightFrom']) ?? d.nightFrom,
       nightTo: _minutes(json['nightTo']) ?? d.nightTo,
@@ -159,6 +177,26 @@ class KioskSettings {
 
   bool get hasPopup => popupCameraId != null && popupTriggerIds.isNotEmpty;
 
+  /// Under the clock of the always-on screen.
+  final AodFocus aodFocus;
+
+  /// The list or device for [AodFocus.list] / [AodFocus.device].
+  final String? aodEntityId;
+
+  /// Between [morningFrom] and [morningTo] (minutes after midnight) the
+  /// always-on screen becomes a morning overview.
+  final bool morningScreen;
+  final int morningFrom;
+  final int morningTo;
+
+  bool isMorning(DateTime now) {
+    if (!morningScreen) return false;
+    final m = now.hour * 60 + now.minute;
+    return morningFrom <= morningTo
+        ? m >= morningFrom && m < morningTo
+        : m >= morningFrom || m < morningTo;
+  }
+
   /// Lower screen brightness between [nightFrom] and [nightTo] (minutes
   /// after midnight; the window may cross midnight).
   final bool nightBrightness;
@@ -236,6 +274,12 @@ class KioskSettings {
     bool clearPopupCamera = false,
     int? popupSeconds,
     bool? popupLive,
+    AodFocus? aodFocus,
+    String? aodEntityId,
+    bool clearAodEntity = false,
+    bool? morningScreen,
+    int? morningFrom,
+    int? morningTo,
     bool? nightBrightness,
     int? nightFrom,
     int? nightTo,
@@ -245,6 +289,11 @@ class KioskSettings {
     bool resetLayout = false,
   }) => KioskSettings(
     layout: resetLayout ? null : (layout ?? this.layout),
+    aodFocus: aodFocus ?? this.aodFocus,
+    aodEntityId: clearAodEntity ? null : (aodEntityId ?? this.aodEntityId),
+    morningScreen: morningScreen ?? this.morningScreen,
+    morningFrom: morningFrom ?? this.morningFrom,
+    morningTo: morningTo ?? this.morningTo,
     nightBrightness: nightBrightness ?? this.nightBrightness,
     nightFrom: nightFrom ?? this.nightFrom,
     nightTo: nightTo ?? this.nightTo,
@@ -295,6 +344,11 @@ class KioskSettings {
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,
     'popupLive': popupLive,
+    'aodFocus': aodFocus.name,
+    'aodEntityId': aodEntityId,
+    'morningScreen': morningScreen,
+    'morningFrom': morningFrom,
+    'morningTo': morningTo,
     'nightBrightness': nightBrightness,
     'nightFrom': nightFrom,
     'nightTo': nightTo,

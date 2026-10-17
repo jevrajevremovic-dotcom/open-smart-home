@@ -35,6 +35,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Tabla za pisanje i crtanje (prst ili olovka), deljena preko Home Assistanta, i na zidnom tabletu
 - Liste iz Home Assistanta (kupovina, zadaci) na telefonu i zidnom tabletu, uživo
 - Provera kuće pred odlazak i spavanje: šta je ostalo upaljeno, otvoreno ili otključano, „Sredi sve” jednim dodirom
+- Kiosk: ekran u mirovanju (sat, prognoza, jedna stvar po izboru) i jutarnji pregled dana
 - Kiosk u stilu „Mehurići” (inspirisano [jlnbln/My-HA-Dashboard](https://github.com/jlnbln/My-HA-Dashboard)) ili „Staklo”
 - Kiosk: raspored po želji — prevlačenje, veličina, dodavanje i uklanjanje panela
 - Kiosk: tamnije noću i najniža osvetljenost na čuvaru ekrana

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../application/kiosk_controller.dart';
+import '../../../core/widgets/time_picker.dart';
 
 /// Kiosk brightness options: lower at night, minimum on the screensaver.
 class NightBrightnessSettings extends ConsumerWidget {
@@ -17,7 +18,7 @@ class NightBrightnessSettings extends ConsumerWidget {
         TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60).format(context);
 
     Future<int?> pick(int current, String help) async {
-      final t = await showTimePicker(
+      final t = await showAppTimePicker(
         context: context,
         helpText: help,
         initialTime: TimeOfDay(hour: current ~/ 60, minute: current % 60),

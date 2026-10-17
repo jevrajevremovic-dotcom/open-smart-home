@@ -11,6 +11,7 @@ import '../../devices/domain/smart_home_device.dart';
 import '../../devices/presentation/device_history.dart' show historyStateLabel;
 import '../../devices/presentation/device_presentation.dart';
 import '../domain/simple_automation.dart';
+import '../../../core/widgets/time_picker.dart';
 
 enum _TriggerKind { time, device, value, sun }
 
@@ -150,13 +151,13 @@ class _AutomationEditorScreenState
 
   Future<AutomationCondition?> _pickWindow() async {
     final l10n = context.l10n;
-    final from = await showTimePicker(
+    final from = await showAppTimePicker(
       context: context,
       helpText: l10n.autoCondAfter,
       initialTime: const TimeOfDay(hour: 22, minute: 0),
     );
     if (from == null || !mounted) return null;
-    final until = await showTimePicker(
+    final until = await showAppTimePicker(
       context: context,
       helpText: l10n.autoCondBefore,
       initialTime: const TimeOfDay(hour: 6, minute: 0),
@@ -612,7 +613,7 @@ class _TriggerDialogState extends ConsumerState<_TriggerDialog> {
                   OutlinedButton.icon(
                     key: const Key('autoTime'),
                     onPressed: () async {
-                      final t = await showTimePicker(
+                      final t = await showAppTimePicker(
                         context: context,
                         initialTime: _time,
                       );

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../application/dashboard_layout.dart';
+import '../application/home_sentence.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
@@ -102,6 +103,27 @@ class _HomeSwitcher extends ConsumerWidget {
           ),
       ],
       child: greeting,
+    );
+  }
+}
+
+/// The home in one sentence under the greeting.
+class _HomeSentence extends ConsumerWidget {
+  const _HomeSentence();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 4),
+      child: Text(
+        ref.watch(homeSentenceProvider(context.l10n)),
+        key: const Key('homeSentence'),
+        style: theme.textTheme.bodyLarge?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+          height: 1.4,
+        ),
+      ),
     );
   }
 }
@@ -289,7 +311,10 @@ class DashboardBody extends ConsumerWidget {
     );
     switch (card) {
       case DashboardCard.summary:
-        return [box(const DashboardSummaryRow())];
+        return [
+          if (!kiosk) box(const _HomeSentence()),
+          box(const DashboardSummaryRow()),
+        ];
       case DashboardCard.weather:
         return [box(WeatherSection(allowDeviceLocation: !kiosk))];
       case DashboardCard.media:

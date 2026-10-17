@@ -8,6 +8,7 @@ import '../../kiosk/application/kiosk_controller.dart';
 import '../../../app/theme/app_theme.dart';
 import '../application/device_providers.dart';
 import '../data/home_state_repository.dart';
+import '../domain/capability.dart';
 import '../domain/device_command.dart';
 import '../domain/smart_home_device.dart';
 import 'device_actions.dart';
@@ -56,6 +57,9 @@ class _DeviceCard extends ConsumerStatefulWidget {
 class _DeviceCardState extends ConsumerState<_DeviceCard> {
   bool _busy = false;
 
+  /// Brightness while the in-card slider is being dragged.
+  double? _dragging;
+
   Future<void> _run(DeviceCommand command) async {
     setState(() => _busy = true);
     await runDeviceCommand(context, ref, widget.device, command);
@@ -91,6 +95,12 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
     final disc = swatch != null ? accents.iconDisc : scheme.surfaceContainer;
 
     final live = ref.watch(syncStatusProvider) == SyncStatus.live;
+    // A light that is on and dims: its slider sits in the card.
+    final dimmableOn =
+        device.available &&
+        device.kind.isLight &&
+        device.state.isOn == true &&
+        device.supports(Capability.brightness);
     final Widget? action = !device.available
         ? null
         : DevicePresentation.hasQuickToggle(device)
@@ -180,27 +190,45 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
                       ),
                     ),
                     const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        if (!device.available) ...[
-                          Icon(Icons.cloud_off, size: 14, color: iconColor),
-                          const SizedBox(width: 4),
-                        ],
-                        Expanded(
-                          child: Text(
-                            statusText,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: onFillMuted,
-                              fontWeight: tone == DeviceTone.critical
-                                  ? FontWeight.bold
-                                  : null,
+                    if (dimmableOn)
+                      _BrightnessSlider(
+                        key: ValueKey('tileBrightness-${device.id}'),
+                        value:
+                            (_dragging ??
+                                    (device.state.brightnessPercent ?? 0)
+                                        .toDouble())
+                                .clamp(0, 100),
+                        color: swatch?.onContainer ?? scheme.primary,
+                        track: swatch?.icon ?? scheme.outlineVariant,
+                        enabled: live && !_busy,
+                        onChanged: (v) => setState(() => _dragging = v),
+                        onChangeEnd: (v) async {
+                          await _run(SetBrightness(v.round().clamp(1, 100)));
+                          if (mounted) setState(() => _dragging = null);
+                        },
+                      )
+                    else
+                      Row(
+                        children: [
+                          if (!device.available) ...[
+                            Icon(Icons.cloud_off, size: 14, color: iconColor),
+                            const SizedBox(width: 4),
+                          ],
+                          Expanded(
+                            child: Text(
+                              statusText,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: onFillMuted,
+                                fontWeight: tone == DeviceTone.critical
+                                    ? FontWeight.bold
+                                    : null,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -210,4 +238,57 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
       ),
     );
   }
+}
+
+/// Brightness inside a light's card: a thick track and the percentage.
+class _BrightnessSlider extends StatelessWidget {
+  const _BrightnessSlider({
+    super.key,
+    required this.value,
+    required this.color,
+    required this.track,
+    required this.enabled,
+    required this.onChanged,
+    required this.onChangeEnd,
+  });
+
+  final double value;
+  final Color color;
+  final Color track;
+  final bool enabled;
+  final ValueChanged<double> onChanged;
+  final ValueChanged<double> onChangeEnd;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      Expanded(
+        child: SizedBox(
+          height: 24,
+          child: SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: 8,
+              activeTrackColor: color,
+              inactiveTrackColor: track.withValues(alpha: 0.35),
+              thumbColor: color,
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+              overlayShape: SliderComponentShape.noOverlay,
+            ),
+            child: Slider(
+              value: value,
+              max: 100,
+              padding: EdgeInsets.zero,
+              onChanged: enabled ? onChanged : null,
+              onChangeEnd: enabled ? onChangeEnd : null,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(width: 8),
+      Text(
+        '${value.round()} %',
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(color: color),
+      ),
+    ],
+  );
 }

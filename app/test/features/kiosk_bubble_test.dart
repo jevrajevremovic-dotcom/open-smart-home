@@ -4,10 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
+import 'package:open_smart_home/features/dashboard/application/home_sentence.dart';
 import 'package:open_smart_home/features/dashboard/application/home_summaries.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
-import 'package:open_smart_home/features/kiosk/presentation/kiosk_bubble.dart';
 import 'package:open_smart_home/features/weather/domain/weather.dart';
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 

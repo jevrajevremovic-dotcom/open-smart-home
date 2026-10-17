@@ -11,7 +11,8 @@ void main() {
     await pumpApp(tester, signedIn: true, size: const Size(1280, 2200));
     await settle(tester, 10);
     expect(find.text(en.summaryTemperature), findsOneWidget);
-    expect(find.text('22.4°'), findsOneWidget); // only one temperature sensor
+    // One temperature sensor: in the summary and big on its room's card.
+    expect(find.text('22.4°'), findsNWidgets(2));
     expect(find.text(en.lightsOnOf(2, 3)), findsOneWidget);
     expect(find.text('Filmsko veče'), findsOneWidget); // scene chip
     expect(find.text('Spavaća soba'), findsOneWidget); // room card

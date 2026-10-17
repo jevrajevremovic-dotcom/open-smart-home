@@ -61,79 +61,113 @@ class RoomCard extends ConsumerWidget {
     final summary = ref.watch(roomSummaryProvider(roomId));
     final warning = context.statusColors.warning;
 
-    final facts = [
-      if (summary.temperature != null)
-        formatNumber(l10n.localeName, summary.temperature!, unit: '°'),
+    // Bubble style: a room where something is on turns pastel.
+    final active = summary.lightsOn > 0 || summary.activeCount > 0;
+    final pastel = context.deviceAccents.of(DeviceAccent.light);
+    final fg = active ? pastel.onContainer : theme.colorScheme.onSurface;
+    final sub = active
+        ? pastel.onContainer.withValues(alpha: 0.75)
+        : theme.colorScheme.onSurfaceVariant;
+    final detail = [
       if (summary.lightsOn > 0) l10n.roomLightsOn(summary.lightsOn),
-      l10n.roomDevicesCount(summary.deviceCount),
-    ];
+      if (summary.temperature == null || summary.lightsOn == 0)
+        l10n.roomDevicesCount(summary.deviceCount),
+    ].join(' · ');
 
     return Card(
+      color: active ? pastel.container : null,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => context.push(
           AppRoutes.room(roomId, kiosk: ref.read(kioskActiveProvider)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(14),
+          padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Expanded(
+                    child: Text(
+                      name,
+                      style: theme.textTheme.titleMedium?.copyWith(color: fg),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (summary.alertCount > 0)
+                    Tooltip(
+                      message: l10n.summaryAlerts,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 6, top: 8),
+                        child: Icon(
+                          Icons.warning_amber_rounded,
+                          size: 18,
+                          color: active ? fg : warning,
+                        ),
+                      ),
+                    ),
                   Container(
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: summary.lightsOn > 0
-                          ? context.deviceAccents
-                                .of(DeviceAccent.light)
-                                .container
-                          : theme.colorScheme.primaryContainer,
+                      color: active
+                          ? pastel.onContainer
+                          : theme.colorScheme.surfaceContainerHighest,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       roomIcon(icon),
                       size: 22,
-                      color: summary.lightsOn > 0
-                          ? context.deviceAccents
-                                .of(DeviceAccent.light)
-                                .onContainer
-                          : theme.colorScheme.onPrimaryContainer,
+                      color: active
+                          ? pastel.container
+                          : theme.colorScheme.onSurface,
                     ),
                   ),
-                  const Spacer(),
-                  if (summary.alertCount > 0)
-                    Tooltip(
-                      message: l10n.summaryAlerts,
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.warning_amber_rounded,
-                            size: 18,
-                            color: warning,
-                          ),
-                          const SizedBox(width: 2),
-                          Text(
-                            '${summary.alertCount}',
-                            style: TextStyle(color: warning),
-                          ),
-                        ],
-                      ),
-                    ),
                 ],
               ),
               const Spacer(),
+              if (summary.temperature != null)
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.bottomLeft,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        formatNumber(
+                          l10n.localeName,
+                          summary.temperature!,
+                          unit: '°',
+                        ),
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: fg,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      if (summary.humidity != null) ...[
+                        const SizedBox(width: 6),
+                        Text(
+                          formatNumber(
+                            l10n.localeName,
+                            summary.humidity!,
+                            unit: '%',
+                          ),
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: sub,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               Text(
-                name,
-                style: theme.textTheme.titleMedium,
+                detail,
+                style: theme.textTheme.bodySmall?.copyWith(color: sub),
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                facts.join(' · '),
-                style: theme.textTheme.bodySmall,
-                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
@@ -156,7 +190,7 @@ class RoomSliverGrid extends ConsumerWidget {
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 260,
-        mainAxisExtent: 128 * textScale,
+        mainAxisExtent: 150 * textScale,
         mainAxisSpacing: 12,
         crossAxisSpacing: 12,
       ),

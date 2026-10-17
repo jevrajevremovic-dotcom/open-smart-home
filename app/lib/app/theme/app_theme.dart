@@ -268,8 +268,10 @@ abstract final class AppTheme {
 
   static ThemeData light() =>
       _build(_lightScheme, StatusColors.light, DeviceAccents.light);
+  // What is on glows in the same pastels as in light mode: bright cards on
+  // the dark page are the clearest "this is on".
   static ThemeData dark() =>
-      _build(_darkScheme, StatusColors.dark, DeviceAccents.dark);
+      _build(_darkScheme, StatusColors.dark, DeviceAccents.light);
 
   static final ColorScheme _lightScheme =
       ColorScheme.fromSeed(
@@ -303,18 +305,19 @@ abstract final class AppTheme {
         onPrimary: const Color(0xFF4A2006),
         primaryContainer: const Color(0xFF6B3412),
         onPrimaryContainer: const Color(0xFFFFDCC4),
-        secondaryContainer: const Color(0xFF3A3129),
+        secondaryContainer: const Color(0xFF34302C),
         onSecondaryContainer: const Color(0xFFF1E4D6),
-        surface: const Color(0xFF14120F),
-        onSurface: const Color(0xFFF1ECE5),
-        onSurfaceVariant: const Color(0xFFB8AEA2),
-        surfaceContainerLowest: const Color(0xFF0F0D0B),
-        surfaceContainerLow: const Color(0xFF211D19),
-        surfaceContainer: const Color(0xFF2A2621),
-        surfaceContainerHigh: const Color(0xFF332E29),
-        surfaceContainerHighest: const Color(0xFF3D3731),
-        outline: const Color(0xFF857B70),
-        outlineVariant: const Color(0xFF3A342E),
+        // "Bubble" dark: near-black page, solid grey cards (as the kiosk).
+        surface: const Color(0xFF0E0E10),
+        onSurface: const Color(0xFFF2F0EC),
+        onSurfaceVariant: const Color(0xFFB4B0AA),
+        surfaceContainerLowest: const Color(0xFF09090A),
+        surfaceContainerLow: const Color(0xFF1C1C1F),
+        surfaceContainer: const Color(0xFF242428),
+        surfaceContainerHigh: const Color(0xFF2C2C30),
+        surfaceContainerHighest: const Color(0xFF36363B),
+        outline: const Color(0xFF85827C),
+        outlineVariant: const Color(0xFF34343A),
       );
 
   static ThemeData _build(

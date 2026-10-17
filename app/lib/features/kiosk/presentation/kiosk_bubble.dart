@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
@@ -9,6 +8,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../assist/presentation/assist_sheet.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../clap/clap_listener.dart';
+import '../../dashboard/application/home_sentence.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/domain/capability.dart';
@@ -34,37 +34,6 @@ import 'kiosk_layout_view.dart';
 import 'kiosk_panels.dart';
 import 'pin_dialog.dart';
 
-/// One sentence about the home, like a person would say it: time, weather,
-/// lights, what is open or unlocked, the alarm, alerts. Only facts Home
-/// Assistant reports; a part with no data is left out.
-String homeSentence(
-  AppLocalizations l10n, {
-  required DateTime now,
-  required DashboardSummary summary,
-  WeatherNow? weather,
-  List<String> unlocked = const [],
-  String? alarm,
-}) {
-  final locale = l10n.localeName;
-  String lower(String s) => s.isEmpty ? s : s[0].toLowerCase() + s.substring(1);
-  final parts = <String>[
-    l10n.homeSayTime(DateFormat.Hm(locale).format(now)),
-    if (weather?.temperature case final t?)
-      l10n.homeSayWeather(
-        lower(weatherConditionLabel(l10n, weather!.condition)),
-        formatNumber(locale, t, unit: '°'),
-      ),
-    if (summary.lightsTotal > 0)
-      '${summary.lightsOn > 0 ? l10n.homeSayLights(summary.lightsOn) : l10n.homeSayLightsOff}, '
-          '${summary.openingIds.isEmpty ? l10n.homeSayClosed : l10n.homeSayOpen(summary.openingIds.length)}',
-    if (unlocked.isNotEmpty) l10n.homeSayUnlocked(unlocked.join(', ')),
-    ?(alarm == null ? null : l10n.homeSayAlarm(lower(alarm))),
-    if (summary.criticalIds.isNotEmpty)
-      l10n.homeSayAlerts(summary.criticalIds.length),
-  ];
-  return parts.join(' ');
-}
-
 String _greeting(AppLocalizations l10n, DateTime now) => switch (now.hour) {
   >= 5 && < 12 => l10n.greetingMorning,
   >= 12 && < 18 => l10n.greetingAfternoon,
@@ -82,26 +51,7 @@ class KioskBubbleHeader extends ConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final now = ref.watch(kioskNowProvider);
-    final summary = ref.watch(dashboardSummaryProvider);
-    final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
-    final unlocked = [
-      for (final d in devices.values)
-        if (d.kind == DeviceKind.lock &&
-            d.available &&
-            d.state.lockState == DoorLockState.unlocked)
-          d.name,
-    ];
-    final alarm = devices.values
-        .where((d) => d.kind == DeviceKind.alarm && d.available)
-        .firstOrNull;
-    final sentence = homeSentence(
-      l10n,
-      now: now,
-      summary: summary,
-      weather: ref.watch(homeWeatherProvider)?.now,
-      unlocked: unlocked,
-      alarm: alarm == null ? null : DevicePresentation.status(l10n, alarm),
-    );
+    final sentence = ref.watch(homeSentenceProvider(l10n));
     // Short wall tablets (1280×800): a smaller greeting leaves the panels
     // their room.
     final short = MediaQuery.sizeOf(context).height < 900;

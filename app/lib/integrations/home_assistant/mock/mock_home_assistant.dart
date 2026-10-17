@@ -1258,13 +1258,49 @@ class MockHomeAssistantServer {
             state = mode;
           }
         case ('media_player', 'media_play_pause'):
+          // Like HA: the reported position is fixed when the state changes.
+          final at = DateTime.tryParse('${attrs['media_position_updated_at']}');
+          final pos = attrs['media_position'];
+          if (state == 'playing' && pos is num && at != null) {
+            attrs['media_position'] =
+                pos + _clock().difference(at).inMilliseconds / 1000;
+          }
+          attrs['media_position_updated_at'] = _clock()
+              .toUtc()
+              .toIso8601String();
           state = state == 'playing' ? 'paused' : 'playing';
         case ('media_player', 'media_next_track' || 'media_previous_track'):
           const titles = ['Kafa i kiša', 'Tiho jutro', 'Večernji šetač'];
           final i = titles.indexOf(attrs['media_title'] as String? ?? '');
           final step = service == 'media_next_track' ? 1 : titles.length - 1;
           attrs['media_title'] = titles[(i + step) % titles.length];
+          // Like HA: a new track, a new artwork URL (its `cache` changes).
+          final picture = attrs['entity_picture'];
+          if (picture is String) {
+            attrs['entity_picture'] = picture.replaceFirst(
+              RegExp(r'cache=[^&]*'),
+              'cache=${attrs['media_title'].hashCode}',
+            );
+          }
+          if (attrs.containsKey('media_position')) {
+            attrs['media_position'] = 0;
+            attrs['media_position_updated_at'] = _clock()
+                .toUtc()
+                .toIso8601String();
+          }
           state = 'playing';
+        case ('media_player', 'media_seek'):
+          final to = data['seek_position'];
+          if (to is num) {
+            attrs['media_position'] = to;
+            attrs['media_position_updated_at'] = _clock()
+                .toUtc()
+                .toIso8601String();
+          }
+        case ('media_player', 'shuffle_set'):
+          if (data['shuffle'] is bool) attrs['shuffle'] = data['shuffle'];
+        case ('media_player', 'repeat_set'):
+          if (data['repeat'] is String) attrs['repeat'] = data['repeat'];
         case ('media_player', 'volume_set'):
           final v = data['volume_level'];
           if (v is num) attrs['volume_level'] = v.toDouble();
@@ -2275,6 +2311,18 @@ class MockHomeAssistantApi implements HomeAssistantApi {
       }
       await _latency();
       return bytes;
+    }
+    const mediaProxy = '/api/media_player_proxy/';
+    if (path.startsWith(mediaProxy)) {
+      final id = Uri.parse(path).pathSegments.last;
+      final title = server.states
+          .where((s) => s['entity_id'] == id)
+          .map((s) => (s['attributes']! as Map)['media_title'])
+          .firstOrNull;
+      if (title is String) {
+        await _latency();
+        return mockAlbumArt(title);
+      }
     }
     const proxy = '/api/camera_proxy/';
     if (path.startsWith(proxy)) {

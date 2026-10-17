@@ -938,5 +938,11 @@
   "kioskStatOpenings": "Otvoreno",
   "kioskStyle": "Izgled kioska",
   "kioskStyleBubble": "Mehurići",
-  "kioskStyleGlass": "Staklo"
+  "kioskStyleGlass": "Staklo",
+  "mediaShuffle": "Nasumično",
+  "mediaRepeat": "Ponavljanje",
+  "mediaRepeatOff": "Bez ponavljanja",
+  "mediaRepeatAll": "Ponovi sve",
+  "mediaRepeatOne": "Ponovi jednu",
+  "mediaSeek": "Pozicija"
 }

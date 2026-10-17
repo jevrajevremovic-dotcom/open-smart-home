@@ -106,6 +106,29 @@ final class MediaPrevious extends DeviceCommand {
   Capability get requiredCapability => Capability.mediaPrevious;
 }
 
+/// Jump to [position] in what is playing.
+final class MediaSeek extends DeviceCommand {
+  const MediaSeek(this.position);
+  final Duration position;
+  @override
+  Capability get requiredCapability => Capability.mediaSeek;
+}
+
+final class SetShuffle extends DeviceCommand {
+  const SetShuffle(this.on);
+  final bool on;
+  @override
+  Capability get requiredCapability => Capability.shuffle;
+}
+
+/// `off`, `all` or `one`.
+final class SetRepeat extends DeviceCommand {
+  const SetRepeat(this.mode);
+  final String mode;
+  @override
+  Capability get requiredCapability => Capability.repeat;
+}
+
 /// Input / app of a media player (from its source list).
 final class SelectSource extends DeviceCommand {
   const SelectSource(this.source);

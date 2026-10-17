@@ -140,9 +140,17 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'is_volume_muted': false,
       'source': 'Radio',
       'source_list': ['Radio', 'Bluetooth', 'AirPlay'],
-      // PAUSE | VOLUME_SET | PREVIOUS | NEXT | TURN_ON | TURN_OFF |
-      // SELECT_SOURCE | STOP | PLAY
-      'supported_features': 22965,
+      'media_album_name': 'Jesenje jutro',
+      // As Home Assistant serves artwork: through its own proxy.
+      'entity_picture': '/api/media_player_proxy/media_player.living_room_speaker?token=demo&cache=1',
+      'media_duration': 215,
+      'media_position': 62,
+      'media_position_updated_at': ts,
+      'shuffle': false,
+      'repeat': 'off',
+      // PAUSE | SEEK | VOLUME_SET | PREVIOUS | NEXT | TURN_ON | TURN_OFF |
+      // SELECT_SOURCE | STOP | PLAY | SHUFFLE_SET | REPEAT_SET
+      'supported_features': 22965 | 2 | 32768 | 262144,
     }),
     e('media_player.living_room_tv', 'off', {
       'friendly_name': 'Televizor',

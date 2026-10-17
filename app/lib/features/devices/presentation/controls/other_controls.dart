@@ -11,7 +11,7 @@ import '../../../automations/domain/simple_automation.dart';
 import '../../../automations/presentation/automation_editor_screen.dart';
 import '../../../kiosk/application/kiosk_controller.dart';
 import '../../../restricted/application/restricted_mode.dart';
-import '../../../media/presentation/media_artwork.dart';
+import '../../../media/presentation/media_player_view.dart';
 import '../device_actions.dart';
 import '../device_presentation.dart';
 import 'command_slider.dart';
@@ -308,127 +308,12 @@ class RoutineControls extends ConsumerWidget {
   }
 }
 
-class MediaControls extends ConsumerWidget {
+/// The player (artwork, seek bar, transport, volume, source).
+class MediaControls extends StatelessWidget {
   const MediaControls({super.key, required this.device});
 
   final SmartHomeDevice device;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = context.l10n;
-    final theme = Theme.of(context);
-    final s = device.state;
-    final on = device.available && s.isOn != false;
-    final playing = s.raw == 'playing';
-    Future<bool> run(DeviceCommand c) =>
-        runDeviceCommand(context, ref, device, c);
-    final transport = [
-      device.supports(Capability.mediaPrevious),
-      device.supports(Capability.mediaPause) ||
-          device.supports(Capability.mediaPlay),
-      device.supports(Capability.mediaNext),
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (s.mediaTitle != null)
-          Row(
-            children: [
-              MediaArtwork(deviceId: device.id, size: 72),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      s.mediaTitle!,
-                      key: const Key('mediaTitle'),
-                      style: theme.textTheme.titleLarge,
-                    ),
-                    if (s.mediaArtist != null)
-                      Text(
-                        s.mediaArtist!,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        if (transport.contains(true)) ...[
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (transport[0])
-                IconButton(
-                  key: const Key('mediaPrevious'),
-                  iconSize: 32,
-                  tooltip: l10n.mediaPrevious,
-                  onPressed: on ? () => run(const MediaPrevious()) : null,
-                  icon: const Icon(Icons.skip_previous_rounded),
-                ),
-              if (transport[1])
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: IconButton.filled(
-                    key: const Key('mediaPlayPause'),
-                    iconSize: 40,
-                    tooltip: l10n.mediaPlayPause,
-                    onPressed: on ? () => run(const MediaPlayPause()) : null,
-                    icon: Icon(
-                      playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                    ),
-                  ),
-                ),
-              if (transport[2])
-                IconButton(
-                  key: const Key('mediaNext'),
-                  iconSize: 32,
-                  tooltip: l10n.mediaNext,
-                  onPressed: on ? () => run(const MediaNext()) : null,
-                  icon: const Icon(Icons.skip_next_rounded),
-                ),
-            ],
-          ),
-        ],
-        if (device.supports(Capability.sourceSelection) &&
-            device.limits.sources.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            key: const Key('mediaSource'),
-            initialValue: device.limits.sources.contains(s.source)
-                ? s.source
-                : null,
-            decoration: InputDecoration(labelText: l10n.mediaSource),
-            items: [
-              for (final src in device.limits.sources)
-                DropdownMenuItem(value: src, child: Text(src)),
-            ],
-            onChanged: on
-                ? (v) => v == null ? null : run(SelectSource(v))
-                : null,
-          ),
-        ],
-        if (device.supports(Capability.volume)) ...[
-          const SizedBox(height: 16),
-          CommandSlider(
-            label: l10n.volume,
-            value: s.volumePercent?.toDouble(),
-            min: 0,
-            max: 100,
-            divisions: 20,
-            enabled: on,
-            format: (v) => '${v.round()} %',
-            leading: const Icon(Icons.volume_down),
-            trailing: const Icon(Icons.volume_up),
-            onCommit: (v) => run(SetVolume(v.round())),
-          ),
-        ],
-      ],
-    );
-  }
+  Widget build(BuildContext context) => MediaPlayerView(device: device);
 }

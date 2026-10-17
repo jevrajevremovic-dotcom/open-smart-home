@@ -3296,4 +3296,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskStyleGlass => 'Glass';
+
+  @override
+  String get mediaShuffle => 'Shuffle';
+
+  @override
+  String get mediaRepeat => 'Repeat';
+
+  @override
+  String get mediaRepeatOff => 'Repeat off';
+
+  @override
+  String get mediaRepeatAll => 'Repeat all';
+
+  @override
+  String get mediaRepeatOne => 'Repeat one';
+
+  @override
+  String get mediaSeek => 'Position';
 }

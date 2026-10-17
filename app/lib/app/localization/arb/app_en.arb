@@ -1453,5 +1453,11 @@
   "kioskStatOpenings": "Open",
   "kioskStyle": "Kiosk look",
   "kioskStyleBubble": "Bubbles",
-  "kioskStyleGlass": "Glass"
+  "kioskStyleGlass": "Glass",
+  "mediaShuffle": "Shuffle",
+  "mediaRepeat": "Repeat",
+  "mediaRepeatOff": "Repeat off",
+  "mediaRepeatAll": "Repeat all",
+  "mediaRepeatOne": "Repeat one",
+  "mediaSeek": "Position"
 }

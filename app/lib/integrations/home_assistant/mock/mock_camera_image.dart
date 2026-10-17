@@ -77,6 +77,45 @@ Uint8List mockCameraFrame(int camera, DateTime time) {
   return _encodePng(w, h, px);
 }
 
+/// Demo album art: two colours picked from [title], a record in the
+/// middle. Each demo song gets its own look.
+Uint8List mockAlbumArt(String title) {
+  const size = 200;
+  final px = Uint8List(size * size * 3);
+  const palettes = [
+    (0xE2, 0x6D, 0x3B, 0x5B, 0x1E, 0x4F), // orange → plum
+    (0x2E, 0x8B, 0xC0, 0x14, 0x2C, 0x5C), // blue → navy
+    (0x6C, 0xB8, 0x6A, 0x1E, 0x4D, 0x3A), // green → forest
+  ];
+  final (r1, g1, b1, r2, g2, b2) =
+      palettes[title.codeUnits.fold(0, (a, c) => a + c) % palettes.length];
+  int mix(int a, int b, double t) => (a + (b - a) * t).round();
+  for (var y = 0; y < size; y++) {
+    for (var x = 0; x < size; x++) {
+      final t = (x + y) / (2 * size);
+      final dx = x - size / 2, dy = y - size / 2;
+      final d2 = dx * dx + dy * dy;
+      final i = (y * size + x) * 3;
+      if (d2 < 70 * 70 && d2 > 10 * 10) {
+        // The record: dark with faint grooves.
+        final groove = (d2 ~/ 160).isEven ? 0x22 : 0x2C;
+        px[i] = groove;
+        px[i + 1] = groove;
+        px[i + 2] = groove;
+      } else if (d2 <= 10 * 10) {
+        px[i] = r1;
+        px[i + 1] = g1;
+        px[i + 2] = b1;
+      } else {
+        px[i] = mix(r1, r2, t);
+        px[i + 1] = mix(g1, g2, t);
+        px[i + 2] = mix(b1, b2, t);
+      }
+    }
+  }
+  return _encodePng(size, size, px);
+}
+
 Uint8List _encodePng(int w, int h, Uint8List rgb) {
   // Raw scanlines with filter byte 0.
   final raw = Uint8List(h * (w * 3 + 1));

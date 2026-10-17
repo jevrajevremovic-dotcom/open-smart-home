@@ -153,6 +153,23 @@ class HaCommandTranslator {
       case MediaPrevious():
         if (domain != 'media_player') return unsupported();
         return call('media_previous_track');
+      case MediaSeek(:final position):
+        if (domain != 'media_player') return unsupported();
+        return call('media_seek', {
+          'seek_position': position.inMilliseconds / 1000,
+        });
+      case SetShuffle(:final on):
+        if (domain != 'media_player') return unsupported();
+        return call('shuffle_set', {'shuffle': on});
+      case SetRepeat(:final mode):
+        if (domain != 'media_player') return unsupported();
+        if (!const {'off', 'all', 'one'}.contains(mode)) {
+          throw const AppFailure(
+            FailureKind.validation,
+            debugMessage: 'repeat must be off, all or one',
+          );
+        }
+        return call('repeat_set', {'repeat': mode});
       case SetVolume(:final percent):
         if (domain != 'media_player') return unsupported();
         return call('volume_set', {'volume_level': percent / 100});

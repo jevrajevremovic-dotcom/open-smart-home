@@ -61,6 +61,8 @@ abstract final class MediaPlayerFeature {
   static const selectSource = 2048;
   static const stop = 4096;
   static const play = 16384;
+  static const shuffleSet = 32768;
+  static const repeatSet = 262144;
 }
 
 abstract final class FanFeature {

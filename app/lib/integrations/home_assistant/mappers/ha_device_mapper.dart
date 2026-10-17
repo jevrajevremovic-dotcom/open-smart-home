@@ -563,6 +563,9 @@ class HaDeviceMapper {
         if (features.has(MediaPlayerFeature.volumeMute)) Capability.mute,
         if (features.has(MediaPlayerFeature.selectSource))
           Capability.sourceSelection,
+        if (features.has(MediaPlayerFeature.seek)) Capability.mediaSeek,
+        if (features.has(MediaPlayerFeature.shuffleSet)) Capability.shuffle,
+        if (features.has(MediaPlayerFeature.repeatSet)) Capability.repeat,
       },
       DeviceState(
         raw: s.state,
@@ -580,6 +583,12 @@ class HaDeviceMapper {
             _str(a['media_album_name']) ??
             _str(a['media_channel']) ??
             _str(a['app_name']),
+        mediaAlbum: _str(a['media_album_name']),
+        mediaDuration: _seconds(a['media_duration']),
+        mediaPosition: _seconds(a['media_position']),
+        mediaPositionUpdatedAt: _date(a['media_position_updated_at']),
+        shuffle: a['shuffle'] is bool ? a['shuffle']! as bool : null,
+        repeat: _str(a['repeat']),
       ),
       DeviceLimits(sources: _strList(a['source_list'])),
     );
@@ -750,3 +759,8 @@ String? localPicturePath(Object? value) {
     queryParameters: rest.isEmpty ? null : rest,
   ).toString();
 }
+
+/// Seconds (int or float) as a [Duration]; `null` when missing or negative.
+Duration? _seconds(Object? value) => value is num && value >= 0
+    ? Duration(milliseconds: (value * 1000).round())
+    : null;

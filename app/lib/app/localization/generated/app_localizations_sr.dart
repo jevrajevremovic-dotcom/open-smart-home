@@ -3314,6 +3314,24 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskStyleGlass => 'Staklo';
+
+  @override
+  String get mediaShuffle => 'Nasumično';
+
+  @override
+  String get mediaRepeat => 'Ponavljanje';
+
+  @override
+  String get mediaRepeatOff => 'Bez ponavljanja';
+
+  @override
+  String get mediaRepeatAll => 'Ponovi sve';
+
+  @override
+  String get mediaRepeatOne => 'Ponovi jednu';
+
+  @override
+  String get mediaSeek => 'Pozicija';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

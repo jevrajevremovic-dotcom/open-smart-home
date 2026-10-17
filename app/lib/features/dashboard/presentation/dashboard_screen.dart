@@ -27,6 +27,7 @@ import '../../devices/domain/capability.dart';
 import '../../favorites/presentation/favorites_screen.dart';
 import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_artwork.dart';
+import '../../media/presentation/media_player_view.dart';
 import '../../media/presentation/media_sheet.dart';
 import '../../notifications/presentation/notifications.dart';
 import '../../restricted/application/restricted_mode.dart';
@@ -940,6 +941,7 @@ class NowPlayingCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final theme = Theme.of(context);
     final id = ref.watch(nowPlayingIdProvider);
     final hasPlayers = ref.watch(
       mediaPlayerIdsProvider.select((ids) => ids.isNotEmpty),
@@ -947,48 +949,114 @@ class NowPlayingCard extends ConsumerWidget {
     final d = id == null ? null : ref.watch(deviceProvider(id));
     // Always present, so it's clear where music lives; without players
     // the sheet explains what to add in Home Assistant.
-    final scheme = Theme.of(context).colorScheme;
+    final scheme = theme.colorScheme;
     final playing = d?.state.raw == 'playing';
+    final path = d?.metadata.picturePath;
+    // Tinted by the artwork, like the full player.
+    final tint = path == null
+        ? null
+        : ref.watch(artworkColorProvider(path)).value;
+    final fg = tint == null ? scheme.onSurface : Colors.white;
+    final muted = tint == null
+        ? scheme.onSurfaceVariant
+        : Colors.white.withValues(alpha: 0.75);
+    final duration = d?.state.mediaDuration;
+    final position = d?.state.positionAt(DateTime.now());
+    final progress =
+        duration == null || position == null || duration.inSeconds == 0
+        ? null
+        : (position.inSeconds / duration.inSeconds).clamp(0.0, 1.0);
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: Card(
         key: const Key('nowPlayingCard'),
+        color: tint,
         clipBehavior: Clip.antiAlias,
-        child: ListTile(
-          contentPadding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-          leading: d != null
-              ? MediaArtwork(deviceId: d.id, size: 48)
-              : CircleAvatar(
-                  radius: 24,
-                  backgroundColor: scheme.secondaryContainer,
-                  child: Icon(
-                    Icons.music_note,
-                    color: scheme.onSecondaryContainer,
-                  ),
-                ),
-          title: Text(
-            d == null ? l10n.mediaTitle : d.state.mediaTitle ?? d.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Text(
-            d == null
-                ? (hasPlayers ? l10n.mediaIdle : l10n.mediaNoPlayersShort)
-                : [?d.state.mediaArtist, d.name].join(' · '),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+        child: InkWell(
           onTap: () => showMediaSheet(context, playerId: d?.id),
-          trailing: d != null && d.supports(Capability.mediaPause)
-              ? IconButton.filledTonal(
-                  tooltip: l10n.mediaPlayPause,
-                  onPressed: () =>
-                      runDeviceCommand(context, ref, d, const MediaPlayPause()),
-                  icon: Icon(
-                    playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                  ),
-                )
-              : const Icon(Icons.chevron_right),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                child: Row(
+                  children: [
+                    if (d != null)
+                      MediaArtwork(deviceId: d.id, size: 56, radius: 16)
+                    else
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundColor: scheme.secondaryContainer,
+                        child: Icon(
+                          Icons.music_note,
+                          color: scheme.onSecondaryContainer,
+                        ),
+                      ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            d == null
+                                ? l10n.mediaTitle
+                                : d.state.mediaTitle ?? d.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: fg,
+                            ),
+                          ),
+                          Text(
+                            d == null
+                                ? (hasPlayers
+                                      ? l10n.mediaIdle
+                                      : l10n.mediaNoPlayersShort)
+                                : [?d.state.mediaArtist, d.name].join(' · '),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: muted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (d != null && d.supports(Capability.mediaPause))
+                      IconButton.filled(
+                        tooltip: l10n.mediaPlayPause,
+                        style: IconButton.styleFrom(
+                          backgroundColor: tint == null
+                              ? scheme.primary
+                              : Colors.white,
+                          foregroundColor: tint ?? scheme.onPrimary,
+                        ),
+                        iconSize: 30,
+                        onPressed: () => runDeviceCommand(
+                          context,
+                          ref,
+                          d,
+                          const MediaPlayPause(),
+                        ),
+                        icon: Icon(
+                          playing
+                              ? Icons.pause_rounded
+                              : Icons.play_arrow_rounded,
+                        ),
+                      )
+                    else
+                      Icon(Icons.chevron_right, color: muted),
+                  ],
+                ),
+              ),
+              if (progress != null)
+                LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 3,
+                  color: fg,
+                  backgroundColor: fg.withValues(alpha: 0.15),
+                ),
+            ],
+          ),
         ),
       ),
     );

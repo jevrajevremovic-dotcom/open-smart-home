@@ -86,6 +86,12 @@ class DeviceState {
     this.source,
     this.mediaTitle,
     this.mediaArtist,
+    this.mediaAlbum,
+    this.mediaDuration,
+    this.mediaPosition,
+    this.mediaPositionUpdatedAt,
+    this.shuffle,
+    this.repeat,
     this.lastTriggered,
     this.windSpeed,
     this.windSpeedUnit,
@@ -141,6 +147,29 @@ class DeviceState {
 
   /// Artist, or the album / channel / app when there is no artist.
   final String? mediaArtist;
+  final String? mediaAlbum;
+
+  /// Length of what plays, and where it was at [mediaPositionUpdatedAt]
+  /// (Home Assistant does not stream the position; it moves on from there
+  /// while playing).
+  final Duration? mediaDuration;
+  final Duration? mediaPosition;
+  final DateTime? mediaPositionUpdatedAt;
+  final bool? shuffle;
+
+  /// `off`, `all` or `one`.
+  final String? repeat;
+
+  /// The position now, counting on from the last report while playing.
+  Duration? positionAt(DateTime now) {
+    final p = mediaPosition;
+    if (p == null) return null;
+    final at = mediaPositionUpdatedAt;
+    var current = raw == 'playing' && at != null ? p + now.difference(at) : p;
+    final d = mediaDuration;
+    if (d != null && current > d) current = d;
+    return current.isNegative ? Duration.zero : current;
+  }
 
   /// Automations and scripts.
   final DateTime? lastTriggered;

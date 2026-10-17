@@ -5,10 +5,10 @@ import '../../../app/localization/l10n.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/domain/capability.dart';
 import '../../devices/domain/device_command.dart';
-import '../../devices/presentation/controls/other_controls.dart';
 import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../application/media_providers.dart';
+import 'media_player_view.dart';
 
 /// Music and media: pick a player, then play/pause, skip, volume, source
 /// and power – without leaving the current screen (also in kiosk mode).
@@ -58,82 +58,76 @@ class _MediaSheetState extends ConsumerState<MediaSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l10n.mediaTitle, style: theme.textTheme.titleLarge),
-            const SizedBox(height: 12),
-            if (ids.isEmpty)
-              Text(l10n.mediaNoPlayers)
-            else ...[
-              if (ids.length > 1)
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (final id in ids)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: Consumer(
-                            builder: (context, ref, _) {
-                              final p = ref.watch(deviceProvider(id));
-                              if (p == null) return const SizedBox.shrink();
-                              return ChoiceChip(
-                                key: ValueKey('mediaPlayer-$id'),
-                                avatar: Icon(
-                                  DevicePresentation.icon(p),
-                                  size: 18,
-                                ),
-                                label: Text(p.name),
-                                selected: id == selected,
-                                onSelected: (_) =>
-                                    setState(() => _selected = id),
-                              );
-                            },
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              if (d != null) ...[
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+            if (ids.isEmpty) ...[
+              Text(l10n.mediaTitle, style: theme.textTheme.titleLarge),
+              const SizedBox(height: 12),
+              Text(l10n.mediaNoPlayers),
+            ] else ...[
+              // Which player, and its power, above the player itself.
+              Row(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
                         children: [
-                          Text(d.name, style: theme.textTheme.titleMedium),
-                          Text(
-                            d.state.mediaTitle == null &&
-                                    d.state.raw != 'playing'
-                                ? '${DevicePresentation.status(l10n, d)} · ${l10n.mediaIdle}'
-                                : DevicePresentation.status(l10n, d),
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
+                          for (final id in ids)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Consumer(
+                                builder: (context, ref, _) {
+                                  final p = ref.watch(deviceProvider(id));
+                                  if (p == null) return const SizedBox.shrink();
+                                  return ChoiceChip(
+                                    key: ValueKey('mediaPlayer-$id'),
+                                    avatar: Icon(
+                                      DevicePresentation.icon(p),
+                                      size: 18,
+                                    ),
+                                    label: Text(p.name),
+                                    selected: id == selected,
+                                    onSelected: (_) =>
+                                        setState(() => _selected = id),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
-                    if (d.supports(Capability.power))
-                      IconButton.filledTonal(
-                        key: const Key('mediaPower'),
-                        tooltip: l10n.powerToggle,
-                        isSelected: d.state.isOn == true,
-                        onPressed: d.available
-                            ? () => runDeviceCommand(
-                                context,
-                                ref,
-                                d,
-                                d.state.isOn == true
-                                    ? const TurnOff()
-                                    : const TurnOn(),
-                              )
-                            : null,
-                        icon: const Icon(Icons.power_settings_new),
-                      ),
-                  ],
-                ),
+                  ),
+                  if (d != null && d.supports(Capability.power))
+                    IconButton.filledTonal(
+                      key: const Key('mediaPower'),
+                      tooltip: l10n.powerToggle,
+                      isSelected: d.state.isOn == true,
+                      onPressed: d.available
+                          ? () => runDeviceCommand(
+                              context,
+                              ref,
+                              d,
+                              d.state.isOn == true
+                                  ? const TurnOff()
+                                  : const TurnOn(),
+                            )
+                          : null,
+                      icon: const Icon(Icons.power_settings_new),
+                    ),
+                ],
+              ),
+              if (d != null) ...[
                 const SizedBox(height: 16),
-                MediaControls(device: d),
+                if (d.state.isOn == false)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(
+                      '${DevicePresentation.status(l10n, d)} · ${l10n.mediaIdle}',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                MediaPlayerView(device: d),
               ],
             ],
           ],

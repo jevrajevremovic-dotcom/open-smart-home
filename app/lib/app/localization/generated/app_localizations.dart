@@ -5726,6 +5726,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Glass'**
   String get kioskStyleGlass;
+
+  /// No description provided for @mediaShuffle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shuffle'**
+  String get mediaShuffle;
+
+  /// No description provided for @mediaRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get mediaRepeat;
+
+  /// No description provided for @mediaRepeatOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat off'**
+  String get mediaRepeatOff;
+
+  /// No description provided for @mediaRepeatAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat all'**
+  String get mediaRepeatAll;
+
+  /// No description provided for @mediaRepeatOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat one'**
+  String get mediaRepeatOne;
+
+  /// No description provided for @mediaSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Position'**
+  String get mediaSeek;
 }
 
 class _AppLocalizationsDelegate

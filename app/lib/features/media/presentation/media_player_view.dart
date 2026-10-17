@@ -59,7 +59,8 @@ Future<Color?> artworkTint(Uint8List bytes) async {
   }
 }
 
-String _time(Duration d) {
+/// `m:ss`, or `h:mm:ss` from an hour on.
+String formatMediaTime(Duration d) {
   final s = d.inSeconds;
   final h = s ~/ 3600;
   final m = (s % 3600) ~/ 60;
@@ -238,7 +239,7 @@ class _MediaPlayerViewState extends ConsumerState<MediaPlayerView> {
             child: Slider(
               key: const Key('mediaSeek'),
               semanticFormatterCallback: (v) =>
-                  '${l10n.mediaSeek} ${_time(Duration(seconds: v.round()))}',
+                  '${l10n.mediaSeek} ${formatMediaTime(Duration(seconds: v.round()))}',
               value:
                   (_seeking ?? (position ?? Duration.zero).inSeconds.toDouble())
                       .clamp(0, duration.inSeconds.toDouble()),
@@ -256,7 +257,7 @@ class _MediaPlayerViewState extends ConsumerState<MediaPlayerView> {
           Row(
             children: [
               Text(
-                _time(
+                formatMediaTime(
                   Duration(
                     seconds: (_seeking ?? (position ?? Duration.zero).inSeconds)
                         .round(),
@@ -266,7 +267,7 @@ class _MediaPlayerViewState extends ConsumerState<MediaPlayerView> {
               ),
               const Spacer(),
               Text(
-                '-${_time(duration - Duration(seconds: (_seeking ?? (position ?? Duration.zero).inSeconds).round()))}',
+                '-${formatMediaTime(duration - Duration(seconds: (_seeking ?? (position ?? Duration.zero).inSeconds).round()))}',
                 style: theme.textTheme.labelMedium?.copyWith(color: muted),
               ),
             ],

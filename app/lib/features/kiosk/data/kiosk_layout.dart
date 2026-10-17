@@ -17,11 +17,15 @@ enum KioskPanelType {
   lists,
 
   /// The family board (handwriting and drawings).
-  board;
+  board,
+
+  /// The music player (a chosen player, or whatever plays now).
+  media;
 
   /// Needs a device chosen (the thermostat and lists pick one themselves
   /// when empty).
-  bool get usesEntity => this == thermostat || this == device || this == lists;
+  bool get usesEntity =>
+      this == thermostat || this == device || this == lists || this == media;
 }
 
 /// One panel: its place is its index in [KioskLayout.panels]; [span] is

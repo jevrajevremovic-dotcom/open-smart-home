@@ -18,6 +18,7 @@ import 'package:open_smart_home/features/authentication/domain/stored_credential
 import 'package:open_smart_home/features/settings/presentation/settings_screen.dart';
 import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
 import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
+import 'package:open_smart_home/features/shortcuts/quick_tiles.dart';
 
 import '../helpers.dart';
 
@@ -39,6 +40,7 @@ Future<InMemoryCredentialStore> pumpApp(
   ClapPlatform? clap,
   DeviceBatteryPlatform? battery,
   NfcPlatform? nfc,
+  QuickTilesPlatform? tiles,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -63,6 +65,7 @@ Future<InMemoryCredentialStore> pumpApp(
     clap: clap,
     battery: battery,
     nfc: nfc,
+    tiles: tiles,
     background: background,
     matter: matter,
     overrides: overrides,

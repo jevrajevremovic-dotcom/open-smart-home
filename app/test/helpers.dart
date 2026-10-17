@@ -23,6 +23,7 @@ import 'package:open_smart_home/features/devices/data/cache/snapshot_cache.dart'
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
 import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
+import 'package:open_smart_home/features/shortcuts/quick_tiles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// In-memory replacement for the platform keychain/keystore.
@@ -111,6 +112,7 @@ Future<List<Override>> testOverrides({
   ClapPlatform? clap,
   DeviceBatteryPlatform? battery,
   NfcPlatform? nfc,
+  QuickTilesPlatform? tiles,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -151,6 +153,9 @@ Future<List<Override>> testOverrides({
       battery ?? FakeDeviceBattery(supported: false),
     ),
     nfcPlatformProvider.overrideWithValue(nfc ?? FakeNfc(supported: false)),
+    quickTilesPlatformProvider.overrideWithValue(
+      tiles ?? FakeQuickTiles(supported: false),
+    ),
     homeScreenWidgetProvider.overrideWithValue(
       homeWidget ?? FakeHomeScreenWidget(supported: false),
     ),
@@ -410,5 +415,43 @@ class FakeNfc implements NfcPlatform {
   @override
   Future<void> cancel() async {
     if (_write != null) finishWrite(NfcWriteError.cancelled);
+  }
+}
+
+/// Quick Settings tiles: records what the menu would show, fakes taps.
+class FakeQuickTiles implements QuickTilesPlatform {
+  FakeQuickTiles({this.supported = true});
+
+  @override
+  final bool supported;
+  List<QuickTileState?> shown = const [];
+  final List<int> _pending = [];
+  int addRequests = 0;
+
+  // ignore: close_sinks, lives as long as the test
+  final _clicks = StreamController<void>.broadcast();
+
+  void tap(int index) {
+    _pending.add(index);
+    _clicks.add(null);
+  }
+
+  @override
+  Future<void> update(List<QuickTileState?> tiles) async => shown = tiles;
+
+  @override
+  Future<List<int>> takePending() async {
+    final p = [..._pending];
+    _pending.clear();
+    return p;
+  }
+
+  @override
+  Stream<void> get clicks => _clicks.stream;
+
+  @override
+  Future<bool> requestAdd(int index, String label) async {
+    addRequests++;
+    return true;
   }
 }

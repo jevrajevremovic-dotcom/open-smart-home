@@ -3332,6 +3332,40 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get mediaSeek => 'Pozicija';
+
+  @override
+  String get quickTilesTitle => 'Brzi prekidači';
+
+  @override
+  String get quickTilesHint =>
+      'Tri prekidača u meniju koji se spušta odozgo (Android): jedan dodir pali ili gasi uređaj ili pokreće scenu, bez otvaranja aplikacije. Radi tek kad je telefon otključan; brave, garaža i alarm nisu ponuđeni.';
+
+  @override
+  String quickTileSlot(int n) {
+    return 'Prekidač $n';
+  }
+
+  @override
+  String get quickTileUnset => 'Nije podešeno';
+
+  @override
+  String quickTileChoose(int n) {
+    return 'Šta radi prekidač $n';
+  }
+
+  @override
+  String get quickTileClear => 'Ukloni';
+
+  @override
+  String get quickTileAdd => 'Dodaj u meni';
+
+  @override
+  String get quickTileAdded => 'Prekidač je u meniju brzih podešavanja.';
+
+  @override
+  String quickTileAddManually(int n) {
+    return 'Prevucite meni nadole, dodirnite olovku i prevucite „Pametna kuća $n” među prekidače.';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

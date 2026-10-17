@@ -3314,4 +3314,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mediaSeek => 'Position';
+
+  @override
+  String get quickTilesTitle => 'Quick tiles';
+
+  @override
+  String get quickTilesHint =>
+      'Three tiles in the pull-down menu (Android): one tap switches a device or runs a scene, without opening the app. Works only on an unlocked phone; locks, garage doors and alarms are not offered.';
+
+  @override
+  String quickTileSlot(int n) {
+    return 'Tile $n';
+  }
+
+  @override
+  String get quickTileUnset => 'Not set up';
+
+  @override
+  String quickTileChoose(int n) {
+    return 'What tile $n does';
+  }
+
+  @override
+  String get quickTileClear => 'Remove';
+
+  @override
+  String get quickTileAdd => 'Add to menu';
+
+  @override
+  String get quickTileAdded => 'The tile is in the Quick Settings menu.';
+
+  @override
+  String quickTileAddManually(int n) {
+    return 'Pull down the menu, tap the pencil and drag “Smart Home $n” to the tiles.';
+  }
 }

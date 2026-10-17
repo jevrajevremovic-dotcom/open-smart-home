@@ -65,6 +65,46 @@
                     android:pathPrefix="/tag/" />
             </intent-filter>
         </activity>
+        <!-- Quick Settings tiles: what each does is chosen in the app. -->
+        <service
+            android:name=".QuickTile1"
+            android:exported="true"
+            android:icon="@drawable/ic_stat_home"
+            android:label="@string/quick_tile_1"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="false" />
+        </service>
+        <service
+            android:name=".QuickTile2"
+            android:exported="true"
+            android:icon="@drawable/ic_stat_home"
+            android:label="@string/quick_tile_2"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="false" />
+        </service>
+        <service
+            android:name=".QuickTile3"
+            android:exported="true"
+            android:icon="@drawable/ic_stat_home"
+            android:label="@string/quick_tile_3"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.ACTIVE_TILE"
+                android:value="false" />
+        </service>
         <!-- Google Play services hands new Matter devices to this service. -->
         <service
             android:name=".MatterCommissioningService"

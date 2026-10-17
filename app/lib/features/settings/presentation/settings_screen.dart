@@ -23,6 +23,7 @@ import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
 import '../../nfc_tags/nfc_tags.dart';
 import '../../nfc_tags/nfc_tags_ui.dart';
+import '../../shortcuts/quick_tiles_settings.dart';
 import 'language_selector.dart';
 
 /// Settings categories; each one is its own screen (`/settings/<name>`).
@@ -264,6 +265,7 @@ class _SectionBody extends ConsumerWidget {
         trailing: const Icon(Icons.chevron_right),
         onTap: () => context.push(AppRoutes.dashboardLayout),
       ),
+      const QuickTilesSettings(),
     ];
   }
 

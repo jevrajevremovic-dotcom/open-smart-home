@@ -28,6 +28,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 
 **Početni ekran i kiosk (zidni tablet)**
 - Topli, minimalistički izgled (svetla/tamna tema), pozdrav, pregled doma, vreme (HA ili MET Norway uz pristanak) sa prognozom po satima i 7 dana, kalendar, obaveštenja iz HA, „sada svira”
+- Brzi prekidači u Androidovom meniju koji se spušta odozgo (uređaj ili scena jednim dodirom)
 - NFC nalepnice: prislonite telefon i pokreće se scena (isti format kao zvanična HA aplikacija)
 - Baterija i punjenje telefona/tableta kao senzori u HA, pametno punjenje zidnog tableta (40–80 %)
 - Dvotarifno brojilo: potrošnja i trošak u višoj i nižoj tarifi, koja tarifa važi sada

@@ -944,5 +944,14 @@
   "mediaRepeatOff": "Bez ponavljanja",
   "mediaRepeatAll": "Ponovi sve",
   "mediaRepeatOne": "Ponovi jednu",
-  "mediaSeek": "Pozicija"
+  "mediaSeek": "Pozicija",
+  "quickTilesTitle": "Brzi prekidači",
+  "quickTilesHint": "Tri prekidača u meniju koji se spušta odozgo (Android): jedan dodir pali ili gasi uređaj ili pokreće scenu, bez otvaranja aplikacije. Radi tek kad je telefon otključan; brave, garaža i alarm nisu ponuđeni.",
+  "quickTileSlot": "Prekidač {n}",
+  "quickTileUnset": "Nije podešeno",
+  "quickTileChoose": "Šta radi prekidač {n}",
+  "quickTileClear": "Ukloni",
+  "quickTileAdd": "Dodaj u meni",
+  "quickTileAdded": "Prekidač je u meniju brzih podešavanja.",
+  "quickTileAddManually": "Prevucite meni nadole, dodirnite olovku i prevucite „Pametna kuća {n}” među prekidače."
 }

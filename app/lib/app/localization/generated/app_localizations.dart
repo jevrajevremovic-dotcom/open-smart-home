@@ -5762,6 +5762,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Position'**
   String get mediaSeek;
+
+  /// No description provided for @quickTilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick tiles'**
+  String get quickTilesTitle;
+
+  /// No description provided for @quickTilesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Three tiles in the pull-down menu (Android): one tap switches a device or runs a scene, without opening the app. Works only on an unlocked phone; locks, garage doors and alarms are not offered.'**
+  String get quickTilesHint;
+
+  /// No description provided for @quickTileSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Tile {n}'**
+  String quickTileSlot(int n);
+
+  /// No description provided for @quickTileUnset.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set up'**
+  String get quickTileUnset;
+
+  /// No description provided for @quickTileChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'What tile {n} does'**
+  String quickTileChoose(int n);
+
+  /// No description provided for @quickTileClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get quickTileClear;
+
+  /// No description provided for @quickTileAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to menu'**
+  String get quickTileAdd;
+
+  /// No description provided for @quickTileAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'The tile is in the Quick Settings menu.'**
+  String get quickTileAdded;
+
+  /// No description provided for @quickTileAddManually.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down the menu, tap the pencil and drag “Smart Home {n}” to the tiles.'**
+  String quickTileAddManually(int n);
 }
 
 class _AppLocalizationsDelegate

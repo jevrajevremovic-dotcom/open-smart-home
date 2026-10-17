@@ -1459,5 +1459,17 @@
   "mediaRepeatOff": "Repeat off",
   "mediaRepeatAll": "Repeat all",
   "mediaRepeatOne": "Repeat one",
-  "mediaSeek": "Position"
+  "mediaSeek": "Position",
+  "quickTilesTitle": "Quick tiles",
+  "quickTilesHint": "Three tiles in the pull-down menu (Android): one tap switches a device or runs a scene, without opening the app. Works only on an unlocked phone; locks, garage doors and alarms are not offered.",
+  "quickTileSlot": "Tile {n}",
+  "@quickTileSlot": {"placeholders": {"n": {"type": "int"}}},
+  "quickTileUnset": "Not set up",
+  "quickTileChoose": "What tile {n} does",
+  "@quickTileChoose": {"placeholders": {"n": {"type": "int"}}},
+  "quickTileClear": "Remove",
+  "quickTileAdd": "Add to menu",
+  "quickTileAdded": "The tile is in the Quick Settings menu.",
+  "quickTileAddManually": "Pull down the menu, tap the pencil and drag “Smart Home {n}” to the tiles.",
+  "@quickTileAddManually": {"placeholders": {"n": {"type": "int"}}}
 }

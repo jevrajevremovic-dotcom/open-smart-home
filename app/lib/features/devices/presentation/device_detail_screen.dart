@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../appliance_done/appliance_done.dart';
 import '../../appliance_done/appliance_done_section.dart';
+import '../../heating_schedule/heating_schedule_section.dart';
 import '../../timers/device_timer.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
@@ -118,6 +119,13 @@ class DeviceDetailScreen extends ConsumerWidget {
                     case final power? when !ref.watch(kioskActiveProvider)) ...[
                   const SizedBox(height: 16),
                   ApplianceDoneSection(power: power),
+                ],
+                if ((device.kind == DeviceKind.climate ||
+                        device.kind == DeviceKind.thermostat) &&
+                    device.supports(Capability.targetTemperature) &&
+                    !ref.watch(kioskActiveProvider)) ...[
+                  const SizedBox(height: 16),
+                  HeatingScheduleSection(device: device),
                 ],
                 if (hasHistory(device)) ...[
                   const SizedBox(height: 24),

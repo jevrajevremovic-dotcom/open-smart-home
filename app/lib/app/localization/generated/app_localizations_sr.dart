@@ -4062,6 +4062,50 @@ class AppLocalizationsSr extends AppLocalizations {
   String applianceDoneAlias(String name) {
     return 'Gotovo: $name (Open Smart Home)';
   }
+
+  @override
+  String get heatingScheduleAction => 'Nedeljni raspored';
+
+  @override
+  String get heatingScheduleTitle => 'Nedeljni raspored';
+
+  @override
+  String get heatingScheduleHint =>
+      'Od svakog vremena važi ta temperatura, do sledećeg. Raspored čuva i izvršava Home Assistant, i kad je aplikacija zatvorena. Ručna promena važi do sledećeg vremena.';
+
+  @override
+  String get heatingScheduleWorkdays => 'Radni dani (pon–pet)';
+
+  @override
+  String get heatingScheduleWeekend => 'Vikend (sub–ned)';
+
+  @override
+  String get heatingScheduleAdd => 'Dodaj vreme';
+
+  @override
+  String get heatingScheduleColder => 'Hladnije';
+
+  @override
+  String get heatingScheduleWarmer => 'Toplije';
+
+  @override
+  String get heatingScheduleRemove => 'Ukloni raspored';
+
+  @override
+  String get heatingScheduleRemoved => 'Raspored je uklonjen.';
+
+  @override
+  String get heatingScheduleSaved => 'Raspored je sačuvan u Home Assistantu.';
+
+  @override
+  String heatingScheduleNext(String time, String temperature) {
+    return 'Sledeće: $time → $temperature';
+  }
+
+  @override
+  String heatingScheduleAlias(String name) {
+    return 'Raspored: $name (Open Smart Home)';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

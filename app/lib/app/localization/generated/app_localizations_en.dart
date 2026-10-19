@@ -4041,4 +4041,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String applianceDoneAlias(String name) {
     return 'Done: $name (Open Smart Home)';
   }
+
+  @override
+  String get heatingScheduleAction => 'Weekly schedule';
+
+  @override
+  String get heatingScheduleTitle => 'Weekly schedule';
+
+  @override
+  String get heatingScheduleHint =>
+      'From each time on, that temperature holds until the next one. Home Assistant keeps and runs the schedule, also with the app closed. A manual change holds until the next time.';
+
+  @override
+  String get heatingScheduleWorkdays => 'Workdays (Mon–Fri)';
+
+  @override
+  String get heatingScheduleWeekend => 'Weekend (Sat–Sun)';
+
+  @override
+  String get heatingScheduleAdd => 'Add a time';
+
+  @override
+  String get heatingScheduleColder => 'Colder';
+
+  @override
+  String get heatingScheduleWarmer => 'Warmer';
+
+  @override
+  String get heatingScheduleRemove => 'Remove schedule';
+
+  @override
+  String get heatingScheduleRemoved => 'Schedule removed.';
+
+  @override
+  String get heatingScheduleSaved => 'Schedule saved in Home Assistant.';
+
+  @override
+  String heatingScheduleNext(String time, String temperature) {
+    return 'Next: $time → $temperature';
+  }
+
+  @override
+  String heatingScheduleAlias(String name) {
+    return 'Schedule: $name (Open Smart Home)';
+  }
 }

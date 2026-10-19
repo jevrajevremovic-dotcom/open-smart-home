@@ -1697,5 +1697,20 @@
   "applianceDoneMessage": "{name}: the cycle has finished.",
   "@applianceDoneMessage": {"placeholders": {"name": {"type": "String"}}},
   "applianceDoneAlias": "Done: {name} (Open Smart Home)",
-  "@applianceDoneAlias": {"placeholders": {"name": {"type": "String"}}}
+  "@applianceDoneAlias": {"placeholders": {"name": {"type": "String"}}},
+  "heatingScheduleAction": "Weekly schedule",
+  "heatingScheduleTitle": "Weekly schedule",
+  "heatingScheduleHint": "From each time on, that temperature holds until the next one. Home Assistant keeps and runs the schedule, also with the app closed. A manual change holds until the next time.",
+  "heatingScheduleWorkdays": "Workdays (Mon–Fri)",
+  "heatingScheduleWeekend": "Weekend (Sat–Sun)",
+  "heatingScheduleAdd": "Add a time",
+  "heatingScheduleColder": "Colder",
+  "heatingScheduleWarmer": "Warmer",
+  "heatingScheduleRemove": "Remove schedule",
+  "heatingScheduleRemoved": "Schedule removed.",
+  "heatingScheduleSaved": "Schedule saved in Home Assistant.",
+  "heatingScheduleNext": "Next: {time} → {temperature}",
+  "@heatingScheduleNext": {"placeholders": {"time": {"type": "String"}, "temperature": {"type": "String"}}},
+  "heatingScheduleAlias": "Schedule: {name} (Open Smart Home)",
+  "@heatingScheduleAlias": {"placeholders": {"name": {"type": "String"}}}
 }

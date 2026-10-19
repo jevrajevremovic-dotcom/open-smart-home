@@ -6962,6 +6962,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done: {name} (Open Smart Home)'**
   String applianceDoneAlias(String name);
+
+  /// No description provided for @heatingScheduleAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly schedule'**
+  String get heatingScheduleAction;
+
+  /// No description provided for @heatingScheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly schedule'**
+  String get heatingScheduleTitle;
+
+  /// No description provided for @heatingScheduleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'From each time on, that temperature holds until the next one. Home Assistant keeps and runs the schedule, also with the app closed. A manual change holds until the next time.'**
+  String get heatingScheduleHint;
+
+  /// No description provided for @heatingScheduleWorkdays.
+  ///
+  /// In en, this message translates to:
+  /// **'Workdays (Mon–Fri)'**
+  String get heatingScheduleWorkdays;
+
+  /// No description provided for @heatingScheduleWeekend.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekend (Sat–Sun)'**
+  String get heatingScheduleWeekend;
+
+  /// No description provided for @heatingScheduleAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a time'**
+  String get heatingScheduleAdd;
+
+  /// No description provided for @heatingScheduleColder.
+  ///
+  /// In en, this message translates to:
+  /// **'Colder'**
+  String get heatingScheduleColder;
+
+  /// No description provided for @heatingScheduleWarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Warmer'**
+  String get heatingScheduleWarmer;
+
+  /// No description provided for @heatingScheduleRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove schedule'**
+  String get heatingScheduleRemove;
+
+  /// No description provided for @heatingScheduleRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule removed.'**
+  String get heatingScheduleRemoved;
+
+  /// No description provided for @heatingScheduleSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule saved in Home Assistant.'**
+  String get heatingScheduleSaved;
+
+  /// No description provided for @heatingScheduleNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {time} → {temperature}'**
+  String heatingScheduleNext(String time, String temperature);
+
+  /// No description provided for @heatingScheduleAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule: {name} (Open Smart Home)'**
+  String heatingScheduleAlias(String name);
 }
 
 class _AppLocalizationsDelegate

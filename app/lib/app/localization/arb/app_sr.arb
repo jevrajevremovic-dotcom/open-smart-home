@@ -1144,5 +1144,18 @@
   "applianceDoneChange": "Promeni",
   "applianceDoneTitle": "Gotovo",
   "applianceDoneMessage": "{name}: ciklus je završen.",
-  "applianceDoneAlias": "Gotovo: {name} (Open Smart Home)"
+  "applianceDoneAlias": "Gotovo: {name} (Open Smart Home)",
+  "heatingScheduleAction": "Nedeljni raspored",
+  "heatingScheduleTitle": "Nedeljni raspored",
+  "heatingScheduleHint": "Od svakog vremena važi ta temperatura, do sledećeg. Raspored čuva i izvršava Home Assistant, i kad je aplikacija zatvorena. Ručna promena važi do sledećeg vremena.",
+  "heatingScheduleWorkdays": "Radni dani (pon–pet)",
+  "heatingScheduleWeekend": "Vikend (sub–ned)",
+  "heatingScheduleAdd": "Dodaj vreme",
+  "heatingScheduleColder": "Hladnije",
+  "heatingScheduleWarmer": "Toplije",
+  "heatingScheduleRemove": "Ukloni raspored",
+  "heatingScheduleRemoved": "Raspored je uklonjen.",
+  "heatingScheduleSaved": "Raspored je sačuvan u Home Assistantu.",
+  "heatingScheduleNext": "Sledeće: {time} → {temperature}",
+  "heatingScheduleAlias": "Raspored: {name} (Open Smart Home)"
 }

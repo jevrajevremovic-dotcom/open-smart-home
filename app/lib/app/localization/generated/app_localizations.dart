@@ -6770,6 +6770,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Channel down'**
   String get tvChannelDown;
+
+  /// No description provided for @roomPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Room photo'**
+  String get roomPhoto;
+
+  /// No description provided for @roomPhotoChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another photo'**
+  String get roomPhotoChange;
+
+  /// No description provided for @roomPhotoRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get roomPhotoRemove;
+
+  /// No description provided for @roomPhotoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.'**
+  String get roomPhotoHint;
 }
 
 class _AppLocalizationsDelegate

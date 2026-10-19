@@ -3904,4 +3904,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tvChannelDown => 'Channel down';
+
+  @override
+  String get roomPhoto => 'Room photo';
+
+  @override
+  String get roomPhotoChange => 'Choose another photo';
+
+  @override
+  String get roomPhotoRemove => 'Remove photo';
+
+  @override
+  String get roomPhotoHint =>
+      'The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.';
 }

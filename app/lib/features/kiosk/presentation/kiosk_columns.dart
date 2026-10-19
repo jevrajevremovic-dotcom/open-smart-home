@@ -40,6 +40,7 @@ import '../../household/application/household_providers.dart';
 import '../../household/family_messages.dart';
 import '../../household/presentation/person_avatar.dart';
 import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
+import '../../rooms/presentation/room_photo.dart';
 import '../../timers/kiosk_timers.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
@@ -1049,6 +1050,12 @@ class _RoomColumn extends ConsumerWidget {
       key: ValueKey('kioskColumnsRoomView-$roomId'),
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
       children: [
+        // The room's own photo (chosen on this tablet), when it has one.
+        if (roomId case final id? when _areaOf(id) != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: RoomPhotoHeader(roomId: id, height: 200),
+          ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

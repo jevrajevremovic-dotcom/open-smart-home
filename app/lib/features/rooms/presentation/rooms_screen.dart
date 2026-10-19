@@ -15,6 +15,7 @@ import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../devices/presentation/stale_data_banner.dart';
 import 'room_card.dart';
+import 'room_photo.dart';
 
 class RoomsScreen extends ConsumerWidget {
   const RoomsScreen({super.key});
@@ -149,9 +150,17 @@ class RoomDetailScreen extends ConsumerWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text(name)),
+      appBar: AppBar(
+        title: Text(name),
+        actions: [if (roomId case final id?) RoomPhotoButton(roomId: id)],
+      ),
       body: CustomScrollView(
         slivers: [
+          if (roomId case final id?)
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+              sliver: SliverToBoxAdapter(child: RoomPhotoHeader(roomId: id)),
+            ),
           const SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverToBoxAdapter(child: StaleDataBanner()),

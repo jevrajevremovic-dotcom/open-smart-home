@@ -15,7 +15,7 @@ class PlatformKioskPhotoStore implements KioskPhotoStore {
     final dir = await getApplicationDocumentsDirectory();
     // A new name each time, so the image cache never shows the old photo.
     final file = File(
-      '${dir.path}/kiosk_background_${DateTime.now().millisecondsSinceEpoch}.img',
+      '${dir.path}/photo_${DateTime.now().millisecondsSinceEpoch}.img',
     );
     await file.writeAsBytes(bytes, flush: true);
     return file.path;

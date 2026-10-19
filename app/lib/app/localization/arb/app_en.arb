@@ -1620,5 +1620,9 @@
   "tvVolume": "Vol",
   "tvChannel": "Ch",
   "tvChannelUp": "Channel up",
-  "tvChannelDown": "Channel down"
+  "tvChannelDown": "Channel down",
+  "roomPhoto": "Room photo",
+  "roomPhotoChange": "Choose another photo",
+  "roomPhotoRemove": "Remove photo",
+  "roomPhotoHint": "The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself."
 }

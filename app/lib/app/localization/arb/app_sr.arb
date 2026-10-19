@@ -1112,5 +1112,9 @@
   "tvVolume": "Zvuk",
   "tvChannel": "Kanal",
   "tvChannelUp": "Sledeći kanal",
-  "tvChannelDown": "Prethodni kanal"
+  "tvChannelDown": "Prethodni kanal",
+  "roomPhoto": "Fotografija sobe",
+  "roomPhotoChange": "Izaberi drugu fotografiju",
+  "roomPhotoRemove": "Ukloni fotografiju",
+  "roomPhotoHint": "Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu."
 }

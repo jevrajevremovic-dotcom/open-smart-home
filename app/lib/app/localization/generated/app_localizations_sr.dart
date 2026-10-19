@@ -3920,6 +3920,19 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get tvChannelDown => 'Prethodni kanal';
+
+  @override
+  String get roomPhoto => 'Fotografija sobe';
+
+  @override
+  String get roomPhotoChange => 'Izaberi drugu fotografiju';
+
+  @override
+  String get roomPhotoRemove => 'Ukloni fotografiju';
+
+  @override
+  String get roomPhotoHint =>
+      'Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

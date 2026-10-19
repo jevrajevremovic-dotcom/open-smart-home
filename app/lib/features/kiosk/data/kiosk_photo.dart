@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 export 'kiosk_photo_io.dart'
     if (dart.library.js_interop) 'kiosk_photo_web.dart';
 
-/// Stores the kiosk background photo on the device (not on web).
+/// Stores photos on the device (photo frame, room photos; not on web).
 abstract interface class KioskPhotoStore {
   bool get supported;
 

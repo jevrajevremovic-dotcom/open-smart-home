@@ -6614,6 +6614,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'every {minutes} min'**
   String photoFrameEveryMinutes(int minutes);
+
+  /// No description provided for @familyMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get familyMessages;
+
+  /// No description provided for @familyMessagesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages. Leave one for the household.'**
+  String get familyMessagesNone;
+
+  /// No description provided for @familyMessageNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get familyMessageNew;
+
+  /// No description provided for @familyMessageEveryone.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get familyMessageEveryone;
+
+  /// No description provided for @familyMessageFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Message for {name}'**
+  String familyMessageFor(String name);
+
+  /// No description provided for @familyMessageForAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Message for everyone'**
+  String get familyMessageForAll;
+
+  /// No description provided for @familyMessageRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get familyMessageRead;
+
+  /// No description provided for @familyMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: there is soup in the fridge'**
+  String get familyMessageHint;
+
+  /// No description provided for @familyMessageSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave message'**
+  String get familyMessageSend;
+
+  /// No description provided for @welcomeHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome home, {name}!'**
+  String welcomeHome(String name);
+
+  /// No description provided for @greetPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'Greet people coming home'**
+  String get greetPeople;
+
+  /// No description provided for @greetPeopleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages.'**
+  String get greetPeopleHint;
 }
 
 class _AppLocalizationsDelegate

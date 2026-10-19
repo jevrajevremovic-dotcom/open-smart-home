@@ -3856,6 +3856,47 @@ class AppLocalizationsSr extends AppLocalizations {
   String photoFrameEveryMinutes(int minutes) {
     return 'na $minutes min';
   }
+
+  @override
+  String get familyMessages => 'Poruke';
+
+  @override
+  String get familyMessagesNone => 'Nema poruka. Ostavite poruku ukućanima.';
+
+  @override
+  String get familyMessageNew => 'Nova poruka';
+
+  @override
+  String get familyMessageEveryone => 'Svi';
+
+  @override
+  String familyMessageFor(String name) {
+    return 'Poruka za: $name';
+  }
+
+  @override
+  String get familyMessageForAll => 'Poruka za sve';
+
+  @override
+  String get familyMessageRead => 'Pročitano';
+
+  @override
+  String get familyMessageHint => 'Na primer: u frižideru je supa';
+
+  @override
+  String get familyMessageSend => 'Ostavi poruku';
+
+  @override
+  String welcomeHome(String name) {
+    return 'Dobro došli kući, $name!';
+  }
+
+  @override
+  String get greetPeople => 'Pozdravi ukućane kad dođu';
+
+  @override
+  String get greetPeopleHint =>
+      'Kad neko stigne (po osobi u Home Assistantu), tablet ga pozdravi i pokaže poruke za njega.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

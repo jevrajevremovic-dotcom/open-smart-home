@@ -1222,7 +1222,21 @@ class MockHomeAssistantServer {
       return const [];
     }
     if (domain == 'persistent_notification') {
-      if (service == 'dismiss' && data['notification_id'] is String) {
+      if (service == 'create' && data['message'] is String) {
+        final id = data['notification_id'] is String
+            ? data['notification_id']! as String
+            : 'mock-${notifications.length + 1}';
+        final n = {
+          'notification_id': id,
+          'title': data['title'] is String ? data['title'] : null,
+          'message': data['message'],
+          'created_at': _clock().toUtc().toIso8601String(),
+        };
+        notifications[id] = n;
+        for (final socket in _sockets) {
+          socket._notifyNotifications('added', {id: n});
+        }
+      } else if (service == 'dismiss' && data['notification_id'] is String) {
         _dismissNotifications([data['notification_id']! as String]);
       } else if (service == 'dismiss_all') {
         _dismissNotifications(notifications.keys.toList());

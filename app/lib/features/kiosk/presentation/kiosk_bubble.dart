@@ -18,6 +18,7 @@ import '../../devices/domain/smart_home_device.dart';
 import '../../devices/presentation/all_lights.dart';
 import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_presentation.dart';
+import '../../household/family_messages.dart';
 import '../../media/application/media_providers.dart';
 import '../../media/presentation/media_sheet.dart';
 import '../../notifications/application/notifications_provider.dart';
@@ -122,9 +123,15 @@ class _Chips extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final s = ref.watch(dashboardSummaryProvider);
+    // Household messages have their own button.
     final notifications = ref.watch(
-      haNotificationsProvider.select((n) => n.value?.length ?? 0),
+      haNotificationsProvider.select(
+        (n) => (n.value ?? const [])
+            .where((x) => !x.id.startsWith(FamilyMessage.prefix))
+            .length,
+      ),
     );
+    final messages = ref.watch(familyMessagesProvider.select((m) => m.length));
     final playing = ref.watch(nowPlayingIdProvider);
     final connected = ref.watch(
       connectionStatusProvider.select((s) => s.value?.isConnected ?? false),
@@ -168,6 +175,16 @@ class _Chips extends ConsumerWidget {
                 highlight: warning,
                 onTap: () => showNotificationsSheet(context),
               ),
+            _Chip(
+              key: const Key('kioskMessages'),
+              icon: Icons.forum_outlined,
+              text: messages > 0 ? '$messages' : null,
+              tooltip: l10n.familyMessages,
+              highlight: messages > 0
+                  ? DeviceAccents.light.of(DeviceAccent.cool)
+                  : null,
+              onTap: () => showFamilyMessages(context),
+            ),
             _Chip(
               key: Key(playing == null ? 'kioskMedia' : 'kioskNowPlaying'),
               icon: playing == null

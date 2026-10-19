@@ -41,6 +41,7 @@ class KioskSettings {
     this.approachWake = ApproachWake.off,
     this.approachSensorId,
     this.alertOverlay = true,
+    this.greetPeople = true,
     this.openAlertMinutes = 10,
     this.popupTriggerIds = const [],
     this.popupCameraId,
@@ -103,6 +104,7 @@ class KioskSettings {
         orElse: () => d.approachWake,
       ),
       alertOverlay: json['alertOverlay'] != false,
+      greetPeople: json['greetPeople'] != false,
       openAlertMinutes: json['openAlertMinutes'] is int
           ? json['openAlertMinutes']! as int
           : d.openAlertMinutes,
@@ -228,6 +230,9 @@ class KioskSettings {
   /// Critical alerts (smoke, CO, leak, alarm triggered, jammed lock) cover
   /// the whole kiosk screen until acknowledged.
   final bool alertOverlay;
+
+  /// Says hello (and shows their messages) when a person comes home.
+  final bool greetPeople;
 
   /// A door or window open longer than this also covers the screen (0 =
   /// never).
@@ -391,6 +396,7 @@ class KioskSettings {
     ApproachWake? approachWake,
     String? approachSensorId,
     bool? alertOverlay,
+    bool? greetPeople,
     int? openAlertMinutes,
     List<String>? popupTriggerIds,
     String? popupCameraId,
@@ -449,6 +455,7 @@ class KioskSettings {
     approachWake: approachWake ?? this.approachWake,
     approachSensorId: approachSensorId ?? this.approachSensorId,
     alertOverlay: alertOverlay ?? this.alertOverlay,
+    greetPeople: greetPeople ?? this.greetPeople,
     openAlertMinutes: openAlertMinutes ?? this.openAlertMinutes,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
@@ -486,6 +493,7 @@ class KioskSettings {
     'approachWake': approachWake.name,
     'approachSensorId': approachSensorId,
     'alertOverlay': alertOverlay,
+    'greetPeople': greetPeople,
     'openAlertMinutes': openAlertMinutes,
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,

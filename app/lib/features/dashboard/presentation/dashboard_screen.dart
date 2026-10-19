@@ -36,6 +36,7 @@ import '../../kiosk/application/kiosk_controller.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_card.dart';
 import '../../todo/todo_screen.dart';
+import '../../household/family_messages.dart';
 import '../application/home_summaries.dart';
 
 /// Default home screen, generated from the available devices: summary,
@@ -342,6 +343,12 @@ class DashboardBody extends ConsumerWidget {
                       onPressed: () => context.push(AppRoutes.houseCheck),
                       icon: Icons.fact_check_outlined,
                       label: l10n.houseCheckShort,
+                    ),
+                    _QuickLink(
+                      key: const Key('openMessages'),
+                      onPressed: () => showFamilyMessages(context),
+                      icon: Icons.forum_outlined,
+                      label: l10n.familyMessages,
                     ),
                     _QuickLink(
                       key: const Key('openEnergy'),

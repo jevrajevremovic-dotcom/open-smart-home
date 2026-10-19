@@ -12,6 +12,7 @@ import 'camera_popup.dart';
 import '../../timers/kiosk_timers.dart';
 import 'kiosk_alert_overlay.dart';
 import 'kiosk_ambient.dart';
+import 'kiosk_greeter.dart';
 import 'kiosk_approach_waker.dart';
 import 'kiosk_layout_view.dart';
 
@@ -136,17 +137,19 @@ class _KioskShellState extends ConsumerState<KioskShell> {
         child: KioskCameraPopup(
           onShow: _onInteraction,
           child: KioskAlertOverlay(
-            child: KioskTimersLayer(
-              child: KioskApproachWaker(
-                child: KioskWakeWordListener(
-                  child: Stack(
-                    children: [
-                      widget.child,
-                      if (_dimmed)
-                        Positioned.fill(
-                          child: KioskAmbient(onWake: _onInteraction),
-                        ),
-                    ],
+            child: KioskGreeter(
+              child: KioskTimersLayer(
+                child: KioskApproachWaker(
+                  child: KioskWakeWordListener(
+                    child: Stack(
+                      children: [
+                        widget.child,
+                        if (_dimmed)
+                          Positioned.fill(
+                            child: KioskAmbient(onWake: _onInteraction),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ),

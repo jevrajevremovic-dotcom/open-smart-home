@@ -1628,5 +1628,19 @@
   "photoFrameEverySeconds": "every {seconds} s",
   "@photoFrameEverySeconds": {"placeholders": {"seconds": {"type": "int"}}},
   "photoFrameEveryMinutes": "every {minutes} min",
-  "@photoFrameEveryMinutes": {"placeholders": {"minutes": {"type": "int"}}}
+  "@photoFrameEveryMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+  "familyMessages": "Messages",
+  "familyMessagesNone": "No messages. Leave one for the household.",
+  "familyMessageNew": "New message",
+  "familyMessageEveryone": "Everyone",
+  "familyMessageFor": "Message for {name}",
+  "@familyMessageFor": {"placeholders": {"name": {"type": "String"}}},
+  "familyMessageForAll": "Message for everyone",
+  "familyMessageRead": "Read",
+  "familyMessageHint": "For example: there is soup in the fridge",
+  "familyMessageSend": "Leave message",
+  "welcomeHome": "Welcome home, {name}!",
+  "@welcomeHome": {"placeholders": {"name": {"type": "String"}}},
+  "greetPeople": "Greet people coming home",
+  "greetPeopleHint": "When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages."
 }

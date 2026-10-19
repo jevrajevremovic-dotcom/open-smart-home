@@ -1086,5 +1086,17 @@
   "photoFrameAdd": "Dodaj slike",
   "photoFrameRemove": "Ukloni sve",
   "photoFrameEverySeconds": "na {seconds} s",
-  "photoFrameEveryMinutes": "na {minutes} min"
+  "photoFrameEveryMinutes": "na {minutes} min",
+  "familyMessages": "Poruke",
+  "familyMessagesNone": "Nema poruka. Ostavite poruku ukućanima.",
+  "familyMessageNew": "Nova poruka",
+  "familyMessageEveryone": "Svi",
+  "familyMessageFor": "Poruka za: {name}",
+  "familyMessageForAll": "Poruka za sve",
+  "familyMessageRead": "Pročitano",
+  "familyMessageHint": "Na primer: u frižideru je supa",
+  "familyMessageSend": "Ostavi poruku",
+  "welcomeHome": "Dobro došli kući, {name}!",
+  "greetPeople": "Pozdravi ukućane kad dođu",
+  "greetPeopleHint": "Kad neko stigne (po osobi u Home Assistantu), tablet ga pozdravi i pokaže poruke za njega."
 }

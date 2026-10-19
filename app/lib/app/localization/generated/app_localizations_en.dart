@@ -3835,4 +3835,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String photoFrameEveryMinutes(int minutes) {
     return 'every $minutes min';
   }
+
+  @override
+  String get familyMessages => 'Messages';
+
+  @override
+  String get familyMessagesNone => 'No messages. Leave one for the household.';
+
+  @override
+  String get familyMessageNew => 'New message';
+
+  @override
+  String get familyMessageEveryone => 'Everyone';
+
+  @override
+  String familyMessageFor(String name) {
+    return 'Message for $name';
+  }
+
+  @override
+  String get familyMessageForAll => 'Message for everyone';
+
+  @override
+  String get familyMessageRead => 'Read';
+
+  @override
+  String get familyMessageHint => 'For example: there is soup in the fridge';
+
+  @override
+  String get familyMessageSend => 'Leave message';
+
+  @override
+  String welcomeHome(String name) {
+    return 'Welcome home, $name!';
+  }
+
+  @override
+  String get greetPeople => 'Greet people coming home';
+
+  @override
+  String get greetPeopleHint =>
+      'When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages.';
 }

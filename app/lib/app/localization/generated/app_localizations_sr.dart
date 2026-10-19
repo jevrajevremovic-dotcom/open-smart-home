@@ -3977,6 +3977,9 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get kioskQuickControlsHint =>
       'Izaberite uređaje koje želite da imate pri ruci — svetla, fritezu, scenu…';
+
+  @override
+  String get kioskHomeCards => 'Kartice na Početnoj';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

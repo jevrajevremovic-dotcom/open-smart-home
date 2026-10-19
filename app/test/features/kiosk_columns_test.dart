@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
+import 'package:open_smart_home/features/devices/application/device_providers.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
+import 'package:open_smart_home/features/kiosk/presentation/kiosk_columns.dart';
 import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
 import 'package:open_smart_home/features/board/board_screen.dart';
 import 'package:open_smart_home/features/todo/todo_screen.dart';
@@ -281,6 +283,103 @@ void main() {
     await tester.tap(board);
     await settle(tester, 6);
     expect(find.byType(BoardListScreen), findsOneWidget);
+    await unmount(tester);
+  });
+
+  testWidgets('a sensor on the right comes with its chart', (tester) async {
+    await kiosk(tester, const Size(1600, 1000));
+    await tester.tap(
+      find.byKey(const ValueKey('kioskColumnsRoom-living_room')),
+    );
+    await settle(tester, 4);
+    // Temperature and humidity are one device (one card): open it, then
+    // the temperature row.
+    final card = find.byWidgetPredicate(
+      (w) =>
+          w.key is ValueKey<String> &&
+          (w.key! as ValueKey<String>).value.startsWith(
+            'kioskColumnsDevice-group:',
+          ) &&
+          w is Material,
+    );
+    final sensorCard = card.evaluate().firstWhere(
+      (e) => find
+          .descendant(
+            of: find.byWidget(e.widget),
+            matching: find.textContaining('Temperatura'),
+          )
+          .evaluate()
+          .isNotEmpty,
+    );
+    await tester.ensureVisible(find.byWidget(sensorCard.widget));
+    await tester.tap(find.byWidget(sensorCard.widget));
+    await settle(tester, 4);
+    final row = find.byKey(
+      const ValueKey('kioskBundleState-sensor.living_room_temperature'),
+    );
+    await tester.ensureVisible(row);
+    await tester.tap(row);
+    await settle(tester, 6);
+    expect(
+      find.byKey(
+        const ValueKey('kioskColumnsHistory-sensor.living_room_temperature'),
+      ),
+      findsOneWidget,
+    );
+    await unmount(tester);
+  });
+
+  test('home cards: order and choice survive a round trip', () {
+    final s = KioskSettings.fromJson(
+      const KioskSettings(homeCards: [HomeCard.calendar, HomeCard.cameras])
+          .toJson(),
+    );
+    expect(s.homeCards, [HomeCard.calendar, HomeCard.cameras]);
+    expect(const KioskSettings().homeCards, HomeCard.values);
+  });
+
+  testWidgets('home cards can be hidden from the overview', (tester) async {
+    final container = await kiosk(tester, const Size(1600, 1000));
+    expect(find.byType(WeatherSection), findsOneWidget);
+    await tapKey(tester, 'kioskHomeCardsEdit');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const ValueKey('kioskHomeCard-weather')));
+    await tester.tap(find.byKey(const ValueKey('kioskHomeCard-cameras')));
+    await tapKey(tester, 'kioskHomeCardsSave');
+    await settle(tester, 3);
+    expect(container.read(kioskSettingsProvider).homeCards, [
+      HomeCard.media,
+      HomeCard.calendar,
+      HomeCard.lists,
+    ]);
+    expect(find.byType(WeatherSection), findsNothing);
+    expect(find.byKey(const Key('kioskColumnsCameras')), findsNothing);
+    expect(find.byKey(const Key('nowPlayingCard')), findsOneWidget);
+    await unmount(tester);
+  });
+
+  testWidgets('swiping the middle goes room by room, Home first', (
+    tester,
+  ) async {
+    final container = await kiosk(tester, const Size(1600, 1000));
+    final rooms = container.read(roomsProvider);
+    final swipe = find.byKey(const Key('kioskColumnsSwipe'));
+    await tester.fling(swipe, const Offset(-400, 0), 1500);
+    await settle(tester, 4);
+    expect(container.read(kioskColumnsRoomProvider), rooms.first.id);
+    await tester.fling(swipe, const Offset(-400, 0), 1500);
+    await settle(tester, 4);
+    expect(container.read(kioskColumnsRoomProvider), rooms[1].id);
+    await tester.fling(swipe, const Offset(400, 0), 1500);
+    await settle(tester, 4);
+    await tester.fling(swipe, const Offset(400, 0), 1500);
+    await settle(tester, 4);
+    expect(container.read(kioskColumnsRoomProvider), isNull);
+    expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
+    // Nothing before Home.
+    await tester.fling(swipe, const Offset(400, 0), 1500);
+    await settle(tester, 4);
+    expect(container.read(kioskColumnsRoomProvider), isNull);
     await unmount(tester);
   });
 }

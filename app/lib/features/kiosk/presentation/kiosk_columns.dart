@@ -27,6 +27,7 @@ import '../../devices/domain/device_command.dart';
 import '../../devices/domain/device_kind.dart';
 import '../../devices/domain/smart_home_device.dart';
 import '../../devices/presentation/device_actions.dart';
+import '../../devices/presentation/device_history.dart';
 import '../../devices/presentation/device_detail_screen.dart'
     show deviceControlsFor;
 import '../../devices/presentation/device_presentation.dart';
@@ -39,6 +40,7 @@ import '../../household/presentation/person_avatar.dart';
 import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
 import '../../timers/kiosk_timers.dart';
 import '../application/kiosk_controller.dart';
+import '../data/kiosk_settings.dart';
 import 'kiosk_alarm.dart';
 import 'kiosk_bundle_detail.dart';
 import 'kiosk_leaving.dart';
@@ -114,6 +116,18 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
     super.dispose();
   }
 
+  /// Direction of the last swipe (1 = to the next room), for the slide.
+  double _direction = 1;
+
+  void _step(List<String?> order, String? current, int by) {
+    final i = order.indexOf(current);
+    final next = i + by;
+    if (i < 0 || next < 0 || next >= order.length) return;
+    setState(() => _direction = by.toDouble());
+    ref.read(kioskColumnsRoomProvider.notifier).select(order[next]);
+    ref.read(kioskColumnsDeviceProvider.notifier).select(null);
+  }
+
   void _touched() {
     _idle?.cancel();
     final after = ref.read(kioskSettingsProvider).returnHomeAfter;
@@ -155,9 +169,43 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
               Expanded(
                 child: Material(
                   color: scheme.surfaceContainerLowest,
-                  child: roomId == null
-                      ? const _HomeOverview()
-                      : _RoomColumn(roomId: roomId),
+                  // Swipe left/right: next/previous room (Home first).
+                  child: GestureDetector(
+                    key: const Key('kioskColumnsSwipe'),
+                    behavior: HitTestBehavior.translucent,
+                    onHorizontalDragEnd: (e) {
+                      final v = e.primaryVelocity ?? 0;
+                      if (v.abs() < 300) return;
+                      _step(
+                        [
+                          null,
+                          for (final r in rooms) r.id,
+                          if (unassigned) kioskNoRoom,
+                        ],
+                        roomId,
+                        v < 0 ? 1 : -1,
+                      );
+                    },
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 220),
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween(
+                            begin: Offset(0.06 * _direction, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      ),
+                      child: KeyedSubtree(
+                        key: ValueKey(roomId ?? 'home'),
+                        child: roomId == null
+                            ? const _HomeOverview()
+                            : _RoomColumn(roomId: roomId),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               VerticalDivider(width: 1, color: scheme.outlineVariant),
@@ -187,15 +235,31 @@ class _HomeOverview extends ConsumerWidget {
       _ => l10n.greetingNight,
     };
     final hasLists = ref.watch(todoListsProvider).isNotEmpty;
+    final cards = ref.watch(kioskSettingsProvider.select((s) => s.homeCards));
     return ListView(
       key: const Key('kioskColumnsOverview'),
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
       children: [
-        Text(
-          greeting,
-          style: theme.textTheme.displaySmall?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                greeting,
+                style: theme.textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+            IconButton(
+              key: const Key('kioskHomeCardsEdit'),
+              tooltip: l10n.kioskHomeCards,
+              onPressed: () => showDialog<void>(
+                context: context,
+                builder: (_) => const _HomeCardsDialog(),
+              ),
+              icon: const Icon(Icons.tune),
+            ),
+          ],
         ),
         const SizedBox(height: 8),
         Text(
@@ -205,40 +269,27 @@ class _HomeOverview extends ConsumerWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        const SizedBox(height: 20),
-        // Cameras first, then the rest of the day.
-        if (ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
-            ref.watch(cameraIdsProvider).isNotEmpty) ...[
-          const _OverviewCameras(),
-          const SizedBox(height: 16),
-        ],
-        const WeatherSection(allowDeviceLocation: false),
-        const SizedBox(height: 16),
-        const NowPlayingCard(),
-        const SizedBox(height: 16),
-        // Agenda on the left, the month on the right, half each.
-        Card(
-          key: const Key('kioskColumnsCalendar'),
-          margin: EdgeInsets.zero,
-          clipBehavior: Clip.antiAlias,
-          child: SizedBox(
-            height: 330,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 12, 10),
-              child: CalendarBrowser(
-                palette: CalendarPalette.of(theme),
-                evenSplit: true,
-                fitGrid: true,
-                gridScale: 1.1,
-                header: Text(
-                  l10n.calendarTitle,
-                  style: theme.textTheme.titleMedium,
-                ),
+        const SizedBox(height: 4),
+        // The household's choice and order of cards (Edit, top right).
+        for (final card in cards)
+          if (switch (card) {
+            HomeCard.cameras =>
+              ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
+                  ref.watch(cameraIdsProvider).isNotEmpty,
+            HomeCard.lists => hasLists,
+            _ => true,
+          }) ...[
+            const SizedBox(height: 16),
+            switch (card) {
+              HomeCard.cameras => const _OverviewCameras(),
+              HomeCard.weather => const WeatherSection(
+                allowDeviceLocation: false,
               ),
-            ),
-          ),
-        ),
-        if (hasLists) ...[const SizedBox(height: 16), const TodoListsCard()],
+              HomeCard.media => const NowPlayingCard(),
+              HomeCard.calendar => const _OverviewCalendar(),
+              HomeCard.lists => const TodoListsCard(),
+            },
+          ],
       ],
     );
   }
@@ -508,6 +559,134 @@ class _SceneCircle extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Agenda on the left, the month on the right, half each.
+class _OverviewCalendar extends StatelessWidget {
+  const _OverviewCalendar();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return Card(
+      key: const Key('kioskColumnsCalendar'),
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      child: SizedBox(
+        height: 330,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 14, 12, 10),
+          child: CalendarBrowser(
+            palette: CalendarPalette.of(theme),
+            evenSplit: true,
+            fitGrid: true,
+            gridScale: 1.1,
+            header: Text(
+              l10n.calendarTitle,
+              style: theme.textTheme.titleMedium,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Which cards the home overview shows, and in what order (drag).
+class _HomeCardsDialog extends ConsumerStatefulWidget {
+  const _HomeCardsDialog();
+
+  @override
+  ConsumerState<_HomeCardsDialog> createState() => _HomeCardsDialogState();
+}
+
+class _HomeCardsDialogState extends ConsumerState<_HomeCardsDialog> {
+  late final List<HomeCard> _order = [
+    ...ref.read(kioskSettingsProvider).homeCards,
+    for (final c in HomeCard.values)
+      if (!ref.read(kioskSettingsProvider).homeCards.contains(c)) c,
+  ];
+  late final Set<HomeCard> _shown = {
+    ...ref.read(kioskSettingsProvider).homeCards,
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    String label(HomeCard c) => switch (c) {
+      HomeCard.cameras => l10n.camerasTitle,
+      HomeCard.weather => l10n.dashCardWeather,
+      HomeCard.media => l10n.mediaTitle,
+      HomeCard.calendar => l10n.calendarTitle,
+      HomeCard.lists => l10n.todoTitle,
+    };
+    IconData icon(HomeCard c) => switch (c) {
+      HomeCard.cameras => Icons.videocam_outlined,
+      HomeCard.weather => Icons.wb_cloudy_outlined,
+      HomeCard.media => Icons.music_note_outlined,
+      HomeCard.calendar => Icons.calendar_month_outlined,
+      HomeCard.lists => Icons.checklist,
+    };
+    return AlertDialog(
+      title: Text(l10n.kioskHomeCards),
+      content: SizedBox(
+        width: 420,
+        height: 380,
+        child: ReorderableListView(
+          buildDefaultDragHandles: false,
+          onReorderItem: (from, to) => setState(() {
+            _order.insert(to, _order.removeAt(from));
+          }),
+          children: [
+            for (final (i, c) in _order.indexed)
+              CheckboxListTile(
+                key: ValueKey('kioskHomeCard-${c.name}'),
+                value: _shown.contains(c),
+                onChanged: (v) => setState(
+                  () => v == true ? _shown.add(c) : _shown.remove(c),
+                ),
+                secondary: ReorderableDragStartListener(
+                  index: i,
+                  child: const Icon(Icons.drag_handle),
+                ),
+                title: Row(
+                  children: [
+                    Icon(icon(c), size: 20),
+                    const SizedBox(width: 10),
+                    Text(label(c)),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          key: const Key('kioskHomeCardsSave'),
+          onPressed: () {
+            final navigator = Navigator.of(context);
+            ref
+                .read(kioskSettingsProvider.notifier)
+                .update(
+                  (s) => s.copyWith(
+                    homeCards: [
+                      for (final c in _order)
+                        if (_shown.contains(c)) c,
+                    ],
+                  ),
+                );
+            navigator.pop();
+          },
+          child: Text(l10n.save),
+        ),
+      ],
     );
   }
 }
@@ -1157,6 +1336,14 @@ class _DetailColumn extends ConsumerWidget {
             )
           else
             ...deviceControlsFor(d),
+          // A sensor's last day (or week) as a chart.
+          if (d.kind.isSensor || d.state.numericValue != null) ...[
+            const SizedBox(height: 16),
+            DeviceHistorySection(
+              key: ValueKey('kioskColumnsHistory-${d.id}'),
+              device: d,
+            ),
+          ],
           const SizedBox(height: 20),
         ],
         const _WeekEnergyCard(),

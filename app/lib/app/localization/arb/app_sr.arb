@@ -1121,5 +1121,6 @@
   "kioskQuickControls": "Brze kontrole",
   "kioskQuickControlsAdd": "Dodaj",
   "kioskQuickControlsEdit": "Izmeni",
-  "kioskQuickControlsHint": "Izaberite uređaje koje želite da imate pri ruci — svetla, fritezu, scenu…"
+  "kioskQuickControlsHint": "Izaberite uređaje koje želite da imate pri ruci — svetla, fritezu, scenu…",
+  "kioskHomeCards": "Kartice na Početnoj"
 }

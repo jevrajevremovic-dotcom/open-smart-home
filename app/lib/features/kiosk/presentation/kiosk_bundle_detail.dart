@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../app/localization/l10n.dart';
-import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../devices/application/device_groups.dart';
 import '../../devices/domain/device_command.dart';
@@ -14,6 +12,7 @@ import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_detail_screen.dart'
     show deviceControlsFor;
 import '../../devices/presentation/device_presentation.dart';
+import 'kiosk_columns.dart' show kioskColumnsDeviceProvider;
 import 'thermostat_dial.dart';
 
 /// All of one physical device in the kiosk's right column, in sections:
@@ -184,7 +183,9 @@ class KioskBundleDetail extends ConsumerWidget {
                     ),
                   ),
                 ),
-                onTap: () => context.push(AppRoutes.device(d.id, kiosk: true)),
+                // Shown on its own here, with its chart.
+                onTap: () =>
+                    ref.read(kioskColumnsDeviceProvider.notifier).select(d.id),
               ),
           ]),
       ],

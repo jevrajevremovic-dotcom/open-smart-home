@@ -3956,4 +3956,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kioskQuickControlsHint =>
       'Choose devices to keep at hand here — lights, the air fryer, a scene…';
+
+  @override
+  String get kioskHomeCards => 'Home cards';
 }

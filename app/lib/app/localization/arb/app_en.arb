@@ -1668,5 +1668,6 @@
   "kioskQuickControls": "Quick controls",
   "kioskQuickControlsAdd": "Add",
   "kioskQuickControlsEdit": "Change",
-  "kioskQuickControlsHint": "Choose devices to keep at hand here — lights, the air fryer, a scene…"
+  "kioskQuickControlsHint": "Choose devices to keep at hand here — lights, the air fryer, a scene…",
+  "kioskHomeCards": "Home cards"
 }

@@ -17,6 +17,9 @@ enum KioskStyle { bubble, glass, columns }
 
 /// Wall-panel options, stored locally (non-secret; the PIN only as a
 /// salted PBKDF2 hash).
+/// Cards of the "columns" home overview.
+enum HomeCard { cameras, weather, media, calendar, lists }
+
 /// What wakes the idle kiosk screen besides a touch.
 enum ApproachWake { off, sensor, camera }
 
@@ -45,6 +48,7 @@ class KioskSettings {
     this.alertOverlay = true,
     this.greetPeople = true,
     this.quickControls = const [],
+    this.homeCards = HomeCard.values,
     this.openAlertMinutes = 10,
     this.popupTriggerIds = const [],
     this.popupCameraId,
@@ -110,6 +114,13 @@ class KioskSettings {
       ),
       alertOverlay: json['alertOverlay'] != false,
       greetPeople: json['greetPeople'] != false,
+      homeCards: switch (json['homeCards']) {
+        final List<Object?> list => [
+          for (final name in list)
+            ?HomeCard.values.where((c) => c.name == name).firstOrNull,
+        ],
+        _ => d.homeCards,
+      },
       quickControls: [
         if (json['quickControls'] case final List<Object?> list)
           for (final k in list.take(24))
@@ -256,6 +267,9 @@ class KioskSettings {
   /// Devices on the right of the "columns" home overview: entity ids, or
   /// `group:<device id>` for all of one physical device.
   final List<String> quickControls;
+
+  /// Shown on the home overview, in this order (others are hidden).
+  final List<HomeCard> homeCards;
 
   /// A door or window open longer than this also covers the screen (0 =
   /// never).
@@ -429,6 +443,7 @@ class KioskSettings {
     bool? alertOverlay,
     bool? greetPeople,
     List<String>? quickControls,
+    List<HomeCard>? homeCards,
     int? openAlertMinutes,
     List<String>? popupTriggerIds,
     String? popupCameraId,
@@ -497,6 +512,7 @@ class KioskSettings {
     alertOverlay: alertOverlay ?? this.alertOverlay,
     greetPeople: greetPeople ?? this.greetPeople,
     quickControls: quickControls ?? this.quickControls,
+    homeCards: homeCards ?? this.homeCards,
     openAlertMinutes: openAlertMinutes ?? this.openAlertMinutes,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
@@ -536,6 +552,7 @@ class KioskSettings {
     'alertOverlay': alertOverlay,
     'greetPeople': greetPeople,
     'quickControls': quickControls,
+    'homeCards': [for (final c in homeCards) c.name],
     'openAlertMinutes': openAlertMinutes,
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,

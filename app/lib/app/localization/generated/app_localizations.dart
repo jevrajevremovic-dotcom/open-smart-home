@@ -6824,6 +6824,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose devices to keep at hand here — lights, the air fryer, a scene…'**
   String get kioskQuickControlsHint;
+
+  /// No description provided for @kioskHomeCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Home cards'**
+  String get kioskHomeCards;
 }
 
 class _AppLocalizationsDelegate

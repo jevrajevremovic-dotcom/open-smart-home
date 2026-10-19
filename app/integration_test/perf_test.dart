@@ -100,9 +100,7 @@ void main() {
       }
     }, reportKey: 'kiosk_dialogs');
 
-    // Idle kiosk: what it costs to just sit there for 10 s.
-    await binding.watchPerformance(() async {
-      await wait(tester, 10000);
-    }, reportKey: 'kiosk_idle');
+    // Idle cost per panel: integration_test/idle_probe_test.dart (this
+    // file's `wait` pumps frames itself, so it cannot measure idle).
   });
 }

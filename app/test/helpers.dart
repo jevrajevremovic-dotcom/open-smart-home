@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:open_smart_home/features/add_device/data/matter_pairing.dart';
 import 'package:open_smart_home/features/clap/clap_platform.dart';
+import 'package:open_smart_home/features/kiosk/data/approach_platform.dart';
 import 'package:open_smart_home/features/ha_notify/ha_push.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/alerts/alert_notifications.dart';
@@ -113,6 +114,7 @@ Future<List<Override>> testOverrides({
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
+  ApproachPlatform? approach,
   DeviceBatteryPlatform? battery,
   NfcPlatform? nfc,
   QuickTilesPlatform? tiles,
@@ -153,6 +155,9 @@ Future<List<Override>> testOverrides({
     ),
     clapPlatformProvider.overrideWithValue(
       clap ?? FakeClapPlatform(supported: false),
+    ),
+    approachPlatformProvider.overrideWithValue(
+      approach ?? FakeApproach(supported: false),
     ),
     deviceBatteryProvider.overrideWithValue(
       battery ?? FakeDeviceBattery(supported: false),
@@ -344,6 +349,40 @@ class FakeClapPlatform implements ClapPlatform {
       _pcm.add(bytes);
     }
   }
+}
+
+/// Front-camera movement driven by the test.
+class FakeApproach implements ApproachPlatform {
+  FakeApproach({this.supported = true, this.permission = true});
+
+  @override
+  final bool supported;
+  bool permission;
+  int listeners = 0;
+  // ignore: close_sinks, lives as long as the test
+  final _motion = StreamController<void>.broadcast();
+
+  @override
+  Future<bool> requestPermission() async => permission;
+
+  @override
+  Stream<void> motion() {
+    // ignore: close_sinks, closed by its listener's cancel
+    late final StreamController<void> c;
+    c = StreamController<void>(
+      onListen: () {
+        listeners++;
+        final sub = _motion.stream.listen(c.add);
+        c.onCancel = () {
+          listeners--;
+          return sub.cancel();
+        };
+      },
+    );
+    return c.stream;
+  }
+
+  void move() => _motion.add(null);
 }
 
 /// Records whether the connection service would run.

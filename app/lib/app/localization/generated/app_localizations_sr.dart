@@ -3494,6 +3494,107 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get wakeWordNeedsServer => 'Potrebna je veza sa Home Assistantom.';
+
+  @override
+  String get approachWake => 'Probudi ekran kad neko priđe';
+
+  @override
+  String get approachWakeHint => 'Samo dok je ekran kioska u mirovanju.';
+
+  @override
+  String get approachOff => 'Isključeno';
+
+  @override
+  String get approachSensor => 'Senzor pokreta (Home Assistant)';
+
+  @override
+  String get approachCamera => 'Kamera tableta';
+
+  @override
+  String get approachSensorPick => 'Senzor';
+
+  @override
+  String get approachNoSensors =>
+      'Home Assistant nema senzore pokreta ili prisustva.';
+
+  @override
+  String get approachCameraTitle => 'Koristiti kameru tableta?';
+
+  @override
+  String get approachCameraBody =>
+      'Dok je ekran u mirovanju, prednja kamera nekoliko puta u sekundi proverava da li se nešto pomera ispred tableta, a Android prikazuje oznaku kamere. Slike se obrađuju samo na ovom tabletu i odmah odbacuju: ništa se ne snima, ne čuva i nigde ne šalje — ni Home Assistantu. Dok je ekran budan, kamera je isključena.';
+
+  @override
+  String get approachCameraAllow => 'Uključi';
+
+  @override
+  String get approachCameraDenied =>
+      'Kamera nije dozvoljena za ovu aplikaciju u sistemskim podešavanjima.';
+
+  @override
+  String get presenceTitle => 'Simulacija prisustva';
+
+  @override
+  String get presenceHint =>
+      'Svetla se uveče sama pale i gase dok niko nije kod kuće';
+
+  @override
+  String get presenceIntro =>
+      'Dok niko nije kod kuće, Home Assistant uveče na svakih 15 minuta (uz nasumično čekanje do 10 minuta) upali ili ugasi jedno od izabranih svetala, a u vreme kraja ugasi sva. Radi u Home Assistantu, pa i kad je ovaj uređaj isključen. Za čuvanje je potreban administratorski nalog.';
+
+  @override
+  String get presenceOn => 'Simulacija uključena';
+
+  @override
+  String get presenceNotSaved => 'Još nije sačuvana u Home Assistantu.';
+
+  @override
+  String get presenceLights => 'Svetla';
+
+  @override
+  String get presenceNoLights => 'Home Assistant nema svetla.';
+
+  @override
+  String get presenceWhen => 'Kada';
+
+  @override
+  String get presenceWhenAway => 'Kad niko nije kod kuće';
+
+  @override
+  String get presenceWhenAwayHint =>
+      'Prema osobama u Home Assistantu (zona Dom).';
+
+  @override
+  String get presenceWhenAlarm => 'Kad je alarm uključen (odsutni)';
+
+  @override
+  String get presenceWhenAlways => 'Uvek dok je uključena';
+
+  @override
+  String get presenceFromSunset => 'Od zalaska sunca';
+
+  @override
+  String get presenceStart => 'Početak';
+
+  @override
+  String get presenceEnd => 'Kraj (sva izabrana svetla se gase)';
+
+  @override
+  String get presenceSave => 'Sačuvaj u Home Assistant';
+
+  @override
+  String get presenceSaved =>
+      'Simulacija prisustva je sačuvana u Home Assistantu.';
+
+  @override
+  String get presenceRemove => 'Ukloni';
+
+  @override
+  String get presenceRemoved => 'Simulacija prisustva je uklonjena.';
+
+  @override
+  String get presenceNeedsAdmin =>
+      'Za ovo je potreban administratorski nalog u Home Assistantu.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

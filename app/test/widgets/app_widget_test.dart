@@ -6,6 +6,7 @@ import 'package:open_smart_home/features/alerts/alert_notifications.dart';
 import 'package:open_smart_home/features/shortcuts/app_shortcuts.dart';
 import 'package:open_smart_home/features/add_device/data/matter_pairing.dart';
 import 'package:open_smart_home/features/clap/clap_platform.dart';
+import 'package:open_smart_home/features/kiosk/data/approach_platform.dart';
 import 'package:open_smart_home/features/ha_notify/ha_push.dart';
 import 'package:open_smart_home/features/shortcuts/home_screen_widget.dart';
 import 'package:open_smart_home/features/app_lock/data/device_auth.dart';
@@ -39,6 +40,7 @@ Future<InMemoryCredentialStore> pumpApp(
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
   ClapPlatform? clap,
+  ApproachPlatform? approach,
   DeviceBatteryPlatform? battery,
   NfcPlatform? nfc,
   QuickTilesPlatform? tiles,
@@ -66,6 +68,7 @@ Future<InMemoryCredentialStore> pumpApp(
     alerts: alerts,
     homeWidget: homeWidget,
     clap: clap,
+    approach: approach,
     battery: battery,
     nfc: nfc,
     tiles: tiles,

@@ -10,6 +10,7 @@ import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../assist/presentation/wake_word_settings.dart';
 import '../../clap/clap_settings.dart';
+import 'approach_settings.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'camera_popup_settings.dart';
@@ -215,6 +216,7 @@ class KioskSettingsSection extends ConsumerWidget {
         const CameraPopupSettingsTile(),
         const ClapSettings(),
         const WakeWordSettings(),
+        const ApproachSettings(),
         if (!settings.bubble)
           SwitchListTile(
             contentPadding: EdgeInsets.zero,

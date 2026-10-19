@@ -207,6 +207,20 @@ Provereno u `homeassistant/components/assist_pipeline` (`websocket_api.py`, `def
 - Greške pri proveri (pre `result`): `wake-engine-missing`, `wake-provider-missing` (nema openWakeWord-a), `pipeline-not-found`. Otkazivanje pretplate (`unsubscribe_events`) prekida run.
 - Odgovor izgovara tablet sam (lokalni TTS), pa se `tts` faza ne koristi.
 
+## Simulacija prisustva (automatizacija)
+
+Provereno u `helpers/config_validation.py`, `helpers/condition/conditions.py`, `components/zone` i `homeassistant/triggers/time_pattern.py`:
+
+- Čuva se kao UI automatizacija `osh_presence_simulation` (`/api/config/automation/config/<id>`), podešavanja u `variables` (`osh_lights`, `osh_from_sunset`, `osh_start`, `osh_end`, `osh_when`, `osh_alarm`).
+- Okidači: `time_pattern` `minutes: "/15"` (id `tick`) i `time` u vreme kraja (id `end`).
+- Uslov: `numeric_state` `zone.home` `below: 1` (stanje zone je broj osoba u njoj), ili `state` alarma `armed_away`, ili nijedan.
+- Akcije: na `end` `light.turn_off` za sva izabrana svetla; inače `state` `sun.sun` = `below_horizon` + `time` `after: 12:00` (ili `after` početak) `before` kraj (HA ispravno računa i prelaz preko ponoći), `delay: {seconds: "{{ range(0, 600) | random }}"}`, `variables: osh_light: "{{ osh_lights | random }}"`, pa `if` (`template` `is_state(osh_light, 'on')`) `light.turn_off` / `light.turn_on` sa `target.entity_id: "{{ osh_light }}"`. Uslov `sun` nije korišćen jer mu se format menja među verzijama HA.
+- Uključivanje/isključivanje: `automation.turn_on` / `turn_off` na entitetu čiji je `id` atribut `osh_presence_simulation`.
+
+## Buđenje kioska senzorom
+
+- Senzori pokreta/prisustva su `binary_sensor` sa `device_class` `motion`, `moving`, `occupancy` ili `presence`; ekran se budi na prelaz u `on`.
+
 ## NFC nalepnice (`tag`)
 
 Provereno u `homeassistant/components/tag` i `mobile_app/webhook.py`, format URL-a u dokumentaciji companion aplikacija:

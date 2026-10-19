@@ -134,6 +134,16 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Sluša samo dok je kiosk na ekranu, aplikacija u prvom planu, veza sa HA postoji i Assist prozor nije otvoren; Android prikazuje oznaku mikrofona, a kiosk sitnu ikonicu mikrofona. Bez prepoznavača u HA mikrofon se gasi.
 - Komande se izvršavaju sa ovlašćenjima prijavljenog naloga, kao tekstualni Assist; kritične radnje (otključavanje…) zavise od toga kako ih HA-ov Assist izlaže.
 
+## Buđenje ekrana kamerom (kiosk, Android)
+
+- Isključeno dok se ne izabere; pre toga dijalog objašnjava šta kamera radi, a sistem traži dozvolu za kameru.
+- `MotionHandler.kt` (CameraX, niska rezolucija, oko 2 slike u sekundi) iz svake slike računa samo prosečnu svetlinu 16×12 polja i poredi je sa prethodnom; slika se odmah zatvara. Ništa se ne snima, ne čuva, ne prikazuje i ne šalje — ni Home Assistantu. Dart dobija samo „bilo je pokreta”.
+- Kamera radi samo dok je ekran kioska u mirovanju, aplikacija u prvom planu i kiosk otvoren; Android pritom prikazuje oznaku kamere. Druga mogućnost je senzor pokreta iz HA, bez kamere.
+
+## Simulacija prisustva
+
+- Automatizacija `osh_presence_simulation` se pravi u korisnikovom HA (frontend config API, samo administrator) i tamo se vidi i menja kao svaka druga. Aplikacija ne šalje ništa drugo; šabloni u automatizaciji biraju svetlo nasumično na samom HA.
+
 ## Poruke iz Home Assistanta (mobile_app)
 
 - Po želji: korisnik imenuje uređaj i dodaje ga u HA; tek tada sistem traži dozvolu za obaveštenja.

@@ -26,6 +26,7 @@ import '../../features/scenes/presentation/scenes_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/house_check/house_check.dart';
 import '../../features/house_check/house_check_screen.dart';
+import '../../features/presence_sim/presence_sim_screen.dart';
 import '../../features/todo/todo_screen.dart';
 import '../../features/board/board_screen.dart';
 import 'app_shell.dart';
@@ -47,6 +48,7 @@ abstract final class AppRoutes {
   static const calendar = '/calendar';
   static const activity = '/activity';
   static const houseCheck = '/check';
+  static const presenceSim = '/presence';
   static const todo = '/lists';
   static const boardList = '/board';
   static String board(String pageId, {bool kiosk = false}) =>
@@ -279,6 +281,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (_, state) => HouseCheckScreen(
               mode: HouseCheckMode.tryParse(state.uri.queryParameters['mode']),
             ),
+          ),
+          GoRoute(
+            path: AppRoutes.presenceSim,
+            builder: (_, _) => const PresenceSimScreen(),
           ),
           GoRoute(
             path: AppRoutes.dashboardLayout,

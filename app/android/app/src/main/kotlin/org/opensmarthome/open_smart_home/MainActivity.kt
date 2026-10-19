@@ -23,7 +23,9 @@ class MainActivity : FlutterFragmentActivity() {
     private var nfc: NfcHandler? = null
     private var assist: MethodChannel? = null
     private var audio: AudioLevelHandler? = null
+    private var motion: MotionHandler? = null
     private var micResult: MethodChannel.Result? = null
+    private var cameraResult: MethodChannel.Result? = null
     private var matterResult: MethodChannel.Result? = null
 
     // Google's Matter screens (scan, Bluetooth, network) return here.
@@ -76,6 +78,15 @@ class MainActivity : FlutterFragmentActivity() {
         audio = microphone
         EventChannel(messenger, "org.opensmarthome/audio_level").setStreamHandler(microphone.levels)
         EventChannel(messenger, "org.opensmarthome/audio_pcm").setStreamHandler(microphone.pcm)
+        val motionHandler = MotionHandler(this)
+        motion = motionHandler
+        EventChannel(messenger, "org.opensmarthome/motion").setStreamHandler(motionHandler)
+        MethodChannel(messenger, "org.opensmarthome/camera").setMethodCallHandler { call, result ->
+            when (call.method) {
+                "request" -> requestCamera(result)
+                else -> result.notImplemented()
+            }
+        }
         MethodChannel(messenger, "org.opensmarthome/microphone").setMethodCallHandler { call, result ->
             when (call.method) {
                 "request" -> requestMicrophone(result)
@@ -190,6 +201,8 @@ class MainActivity : FlutterFragmentActivity() {
         nsd = null
         audio?.stop()
         audio = null
+        motion?.dispose()
+        motion = null
         nfc?.dispose()
         nfc = null
         assist?.setMethodCallHandler(null)
@@ -211,6 +224,18 @@ class MainActivity : FlutterFragmentActivity() {
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), MIC_REQUEST)
     }
 
+    private fun requestCamera(result: MethodChannel.Result) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            result.success(true)
+            return
+        }
+        cameraResult?.success(false)
+        cameraResult = result
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_REQUEST)
+    }
+
     @Deprecated("Still the callback for ActivityCompat.requestPermissions")
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -218,9 +243,17 @@ class MainActivity : FlutterFragmentActivity() {
         grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode != MIC_REQUEST) return
-        micResult?.success(grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED)
-        micResult = null
+        val granted = grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED
+        when (requestCode) {
+            MIC_REQUEST -> {
+                micResult?.success(granted)
+                micResult = null
+            }
+            CAMERA_REQUEST -> {
+                cameraResult?.success(granted)
+                cameraResult = null
+            }
+        }
     }
 
     private fun widgetLink(intent: Intent?): String? =
@@ -228,5 +261,6 @@ class MainActivity : FlutterFragmentActivity() {
 
     companion object {
         private const val MIC_REQUEST = 4711
+        private const val CAMERA_REQUEST = 4712
     }
 }

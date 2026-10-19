@@ -6050,6 +6050,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Needs a connection to Home Assistant.'**
   String get wakeWordNeedsServer;
+
+  /// No description provided for @approachWake.
+  ///
+  /// In en, this message translates to:
+  /// **'Wake the screen when someone comes near'**
+  String get approachWake;
+
+  /// No description provided for @approachWakeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only while the kiosk screen is idle.'**
+  String get approachWakeHint;
+
+  /// No description provided for @approachOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get approachOff;
+
+  /// No description provided for @approachSensor.
+  ///
+  /// In en, this message translates to:
+  /// **'Motion sensor (Home Assistant)'**
+  String get approachSensor;
+
+  /// No description provided for @approachCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Tablet camera'**
+  String get approachCamera;
+
+  /// No description provided for @approachSensorPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Sensor'**
+  String get approachSensorPick;
+
+  /// No description provided for @approachNoSensors.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no motion or presence sensors.'**
+  String get approachNoSensors;
+
+  /// No description provided for @approachCameraTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the tablet\'s camera?'**
+  String get approachCameraTitle;
+
+  /// No description provided for @approachCameraBody.
+  ///
+  /// In en, this message translates to:
+  /// **'While the screen is idle, the front camera checks a few times a second whether something moves in front of the tablet, and Android shows its camera indicator. Pictures are processed only on this tablet and dropped at once: nothing is recorded, stored or sent anywhere — not even to Home Assistant. While the screen is awake the camera is off.'**
+  String get approachCameraBody;
+
+  /// No description provided for @approachCameraAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get approachCameraAllow;
+
+  /// No description provided for @approachCameraDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'The camera is not allowed for this app in the system settings.'**
+  String get approachCameraDenied;
+
+  /// No description provided for @presenceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Presence simulation'**
+  String get presenceTitle;
+
+  /// No description provided for @presenceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights go on and off by themselves in the evening while nobody is home'**
+  String get presenceHint;
+
+  /// No description provided for @presenceIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'While nobody is home, Home Assistant switches one of the chosen lights on or off every 15 minutes in the evening (with a random wait of up to 10 minutes), and turns them all off at the end time. It runs in Home Assistant, so it works even when this device is off. Saving needs an administrator account.'**
+  String get presenceIntro;
+
+  /// No description provided for @presenceOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulation on'**
+  String get presenceOn;
+
+  /// No description provided for @presenceNotSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Not saved in Home Assistant yet.'**
+  String get presenceNotSaved;
+
+  /// No description provided for @presenceLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights'**
+  String get presenceLights;
+
+  /// No description provided for @presenceNoLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no lights.'**
+  String get presenceNoLights;
+
+  /// No description provided for @presenceWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get presenceWhen;
+
+  /// No description provided for @presenceWhenAway.
+  ///
+  /// In en, this message translates to:
+  /// **'When nobody is home'**
+  String get presenceWhenAway;
+
+  /// No description provided for @presenceWhenAwayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'By the people in Home Assistant (the Home zone).'**
+  String get presenceWhenAwayHint;
+
+  /// No description provided for @presenceWhenAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'When the alarm is armed away'**
+  String get presenceWhenAlarm;
+
+  /// No description provided for @presenceWhenAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'Always while it is on'**
+  String get presenceWhenAlways;
+
+  /// No description provided for @presenceFromSunset.
+  ///
+  /// In en, this message translates to:
+  /// **'From sunset'**
+  String get presenceFromSunset;
+
+  /// No description provided for @presenceStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get presenceStart;
+
+  /// No description provided for @presenceEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End (all chosen lights go off)'**
+  String get presenceEnd;
+
+  /// No description provided for @presenceSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Home Assistant'**
+  String get presenceSave;
+
+  /// No description provided for @presenceSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Presence simulation saved in Home Assistant.'**
+  String get presenceSaved;
+
+  /// No description provided for @presenceRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get presenceRemove;
+
+  /// No description provided for @presenceRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Presence simulation removed.'**
+  String get presenceRemoved;
+
+  /// No description provided for @presenceNeedsAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'This needs an administrator account in Home Assistant.'**
+  String get presenceNeedsAdmin;
 }
 
 class _AppLocalizationsDelegate

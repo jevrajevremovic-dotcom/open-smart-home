@@ -3476,4 +3476,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wakeWordNeedsServer => 'Needs a connection to Home Assistant.';
+
+  @override
+  String get approachWake => 'Wake the screen when someone comes near';
+
+  @override
+  String get approachWakeHint => 'Only while the kiosk screen is idle.';
+
+  @override
+  String get approachOff => 'Off';
+
+  @override
+  String get approachSensor => 'Motion sensor (Home Assistant)';
+
+  @override
+  String get approachCamera => 'Tablet camera';
+
+  @override
+  String get approachSensorPick => 'Sensor';
+
+  @override
+  String get approachNoSensors =>
+      'Home Assistant has no motion or presence sensors.';
+
+  @override
+  String get approachCameraTitle => 'Use the tablet\'s camera?';
+
+  @override
+  String get approachCameraBody =>
+      'While the screen is idle, the front camera checks a few times a second whether something moves in front of the tablet, and Android shows its camera indicator. Pictures are processed only on this tablet and dropped at once: nothing is recorded, stored or sent anywhere — not even to Home Assistant. While the screen is awake the camera is off.';
+
+  @override
+  String get approachCameraAllow => 'Turn on';
+
+  @override
+  String get approachCameraDenied =>
+      'The camera is not allowed for this app in the system settings.';
+
+  @override
+  String get presenceTitle => 'Presence simulation';
+
+  @override
+  String get presenceHint =>
+      'Lights go on and off by themselves in the evening while nobody is home';
+
+  @override
+  String get presenceIntro =>
+      'While nobody is home, Home Assistant switches one of the chosen lights on or off every 15 minutes in the evening (with a random wait of up to 10 minutes), and turns them all off at the end time. It runs in Home Assistant, so it works even when this device is off. Saving needs an administrator account.';
+
+  @override
+  String get presenceOn => 'Simulation on';
+
+  @override
+  String get presenceNotSaved => 'Not saved in Home Assistant yet.';
+
+  @override
+  String get presenceLights => 'Lights';
+
+  @override
+  String get presenceNoLights => 'Home Assistant has no lights.';
+
+  @override
+  String get presenceWhen => 'When';
+
+  @override
+  String get presenceWhenAway => 'When nobody is home';
+
+  @override
+  String get presenceWhenAwayHint =>
+      'By the people in Home Assistant (the Home zone).';
+
+  @override
+  String get presenceWhenAlarm => 'When the alarm is armed away';
+
+  @override
+  String get presenceWhenAlways => 'Always while it is on';
+
+  @override
+  String get presenceFromSunset => 'From sunset';
+
+  @override
+  String get presenceStart => 'Start';
+
+  @override
+  String get presenceEnd => 'End (all chosen lights go off)';
+
+  @override
+  String get presenceSave => 'Save to Home Assistant';
+
+  @override
+  String get presenceSaved => 'Presence simulation saved in Home Assistant.';
+
+  @override
+  String get presenceRemove => 'Remove';
+
+  @override
+  String get presenceRemoved => 'Presence simulation removed.';
+
+  @override
+  String get presenceNeedsAdmin =>
+      'This needs an administrator account in Home Assistant.';
 }

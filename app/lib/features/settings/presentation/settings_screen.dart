@@ -385,6 +385,15 @@ class _SectionBody extends ConsumerWidget {
         ),
       ],
       const RestrictedSettingsTile(),
+      ListTile(
+        key: const Key('openPresenceSim'),
+        contentPadding: EdgeInsets.zero,
+        leading: const Icon(Icons.nights_stay_outlined),
+        title: Text(l10n.presenceTitle),
+        subtitle: Text(l10n.presenceHint),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push(AppRoutes.presenceSim),
+      ),
     ];
   }
 

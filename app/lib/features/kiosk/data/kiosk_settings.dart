@@ -15,6 +15,9 @@ enum KioskStyle { bubble, glass }
 
 /// Wall-panel options, stored locally (non-secret; the PIN only as a
 /// salted PBKDF2 hash).
+/// What wakes the idle kiosk screen besides a touch.
+enum ApproachWake { off, sensor, camera }
+
 @immutable
 class KioskSettings {
   const KioskSettings({
@@ -35,6 +38,8 @@ class KioskSettings {
     this.clapTargetId,
     this.clapSensitivity = ClapSensitivity.medium,
     this.wakeWordEnabled = false,
+    this.approachWake = ApproachWake.off,
+    this.approachSensorId,
     this.popupTriggerIds = const [],
     this.popupCameraId,
     this.popupSeconds = 60,
@@ -85,6 +90,13 @@ class KioskSettings {
           ? json['clapTargetId']! as String
           : null,
       wakeWordEnabled: json['wakeWordEnabled'] == true,
+      approachWake: ApproachWake.values.firstWhere(
+        (a) => a.name == json['approachWake'],
+        orElse: () => d.approachWake,
+      ),
+      approachSensorId: json['approachSensorId'] is String
+          ? json['approachSensorId']! as String
+          : null,
       clapSensitivity: ClapSensitivity.values.firstWhere(
         (s) => s.name == json['clapSensitivity'],
         orElse: () => d.clapSensitivity,
@@ -176,6 +188,12 @@ class KioskSettings {
   /// to the user's own Home Assistant, whose wake word engine (openWakeWord)
   /// listens for the wake word. Opt-in.
   final bool wakeWordEnabled;
+
+  /// Wakes the idle screen when someone comes near: a motion sensor in
+  /// Home Assistant ([approachSensorId]) or the tablet's front camera
+  /// (movement found on the tablet, nothing recorded or sent).
+  final ApproachWake approachWake;
+  final String? approachSensorId;
 
   /// A doorbell, motion or contact sensor that wakes the screen and shows
   /// [popupCameraId] full screen for [popupSeconds].
@@ -290,6 +308,8 @@ class KioskSettings {
     String? clapTargetId,
     ClapSensitivity? clapSensitivity,
     bool? wakeWordEnabled,
+    ApproachWake? approachWake,
+    String? approachSensorId,
     List<String>? popupTriggerIds,
     String? popupCameraId,
     bool clearPopupCamera = false,
@@ -332,6 +352,8 @@ class KioskSettings {
     clapTargetId: clapTargetId ?? this.clapTargetId,
     clapSensitivity: clapSensitivity ?? this.clapSensitivity,
     wakeWordEnabled: wakeWordEnabled ?? this.wakeWordEnabled,
+    approachWake: approachWake ?? this.approachWake,
+    approachSensorId: approachSensorId ?? this.approachSensorId,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
@@ -365,6 +387,8 @@ class KioskSettings {
     'clapTargetId': clapTargetId,
     'clapSensitivity': clapSensitivity.name,
     'wakeWordEnabled': wakeWordEnabled,
+    'approachWake': approachWake.name,
+    'approachSensorId': approachSensorId,
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,

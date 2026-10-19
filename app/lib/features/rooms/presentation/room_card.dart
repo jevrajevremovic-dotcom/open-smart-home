@@ -41,6 +41,38 @@ IconData roomIcon(String? mdi) => switch (mdi) {
   _ => Icons.meeting_room_outlined,
 };
 
+/// Each kind of room has its own colour, so rooms read as places (and look
+/// different from device tiles, whose colour follows their state).
+Color roomColor(String? mdi, String name) {
+  final icon = roomIcon(mdi);
+  return switch (icon) {
+    Icons.weekend_outlined => const Color(0xFFE0A030),
+    Icons.bed_outlined => const Color(0xFF6B6FD6),
+    Icons.kitchen_outlined => const Color(0xFF3FA37A),
+    Icons.bathtub_outlined => const Color(0xFF3A8FD0),
+    Icons.garage_outlined => const Color(0xFF7A8794),
+    Icons.park_outlined => const Color(0xFF58A048),
+    Icons.door_front_door_outlined => const Color(0xFFC9786A),
+    Icons.desk_outlined => const Color(0xFF9A6BD0),
+    Icons.child_care_outlined => const Color(0xFFE07AA8),
+    Icons.stairs_outlined => const Color(0xFFB08A5A),
+    Icons.local_laundry_service_outlined => const Color(0xFF4FB3BF),
+    _ =>
+      _roomPalette[name.codeUnits.fold(0, (a, c) => a + c) %
+          _roomPalette.length],
+  };
+}
+
+const _roomPalette = [
+  Color(0xFFE0A030),
+  Color(0xFF6B6FD6),
+  Color(0xFF3FA37A),
+  Color(0xFF3A8FD0),
+  Color(0xFFC9786A),
+  Color(0xFF9A6BD0),
+  Color(0xFF4FB3BF),
+];
+
 class RoomCard extends ConsumerWidget {
   const RoomCard({
     super.key,
@@ -54,128 +86,187 @@ class RoomCard extends ConsumerWidget {
   final String name;
   final String? icon;
 
+  static const radius = 32.0;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final dark = theme.brightness == Brightness.dark;
     final summary = ref.watch(roomSummaryProvider(roomId));
-    final warning = context.statusColors.warning;
+    final color = roomColor(icon, name);
+    final base = dark ? scheme.surfaceContainer : scheme.surfaceContainerLowest;
+    final top = Color.lerp(base, color, dark ? 0.16 : 0.10)!;
+    final bottom = Color.lerp(base, color, dark ? 0.34 : 0.26)!;
+    final fg = scheme.onSurface;
+    final sub = scheme.onSurfaceVariant;
+    final lightsOn = summary.lightsOn > 0;
+    final amber = context.deviceAccents.of(DeviceAccent.light);
 
-    // Bubble style: a room where something is on turns pastel.
-    final active = summary.lightsOn > 0 || summary.activeCount > 0;
-    final pastel = context.deviceAccents.of(DeviceAccent.light);
-    final fg = active ? pastel.onContainer : theme.colorScheme.onSurface;
-    final sub = active
-        ? pastel.onContainer.withValues(alpha: 0.75)
-        : theme.colorScheme.onSurfaceVariant;
-    final detail = [
-      if (summary.lightsOn > 0) l10n.roomLightsOn(summary.lightsOn),
-      if (summary.temperature == null || summary.lightsOn == 0)
+    return Semantics(
+      button: true,
+      label: [
+        name,
+        if (summary.temperature != null)
+          formatNumber(l10n.localeName, summary.temperature!, unit: '°'),
+        if (lightsOn) l10n.roomLightsOn(summary.lightsOn),
         l10n.roomDevicesCount(summary.deviceCount),
-    ].join(' · ');
-
-    return Card(
-      color: active ? pastel.container : null,
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => context.push(
-          AppRoutes.room(roomId, kiosk: ref.read(kioskActiveProvider)),
+        if (summary.alertCount > 0) l10n.summaryAlerts,
+      ].join(', '),
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [top, bottom],
+          ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      name,
-                      style: theme.textTheme.titleMedium?.copyWith(color: fg),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+        child: Material(
+          type: MaterialType.transparency,
+          borderRadius: BorderRadius.circular(radius),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () => context.push(
+              AppRoutes.room(roomId, kiosk: ref.read(kioskActiveProvider)),
+            ),
+            child: Stack(
+              children: [
+                // The room's picture: a large, faint icon in the corner.
+                Positioned(
+                  right: -14,
+                  bottom: -18,
+                  child: Icon(
+                    roomIcon(icon),
+                    size: 112,
+                    color: color.withValues(alpha: dark ? 0.30 : 0.24),
                   ),
-                  if (summary.alertCount > 0)
-                    Tooltip(
-                      message: l10n.summaryAlerts,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 6, top: 8),
-                        child: Icon(
-                          Icons.warning_amber_rounded,
-                          size: 18,
-                          color: active ? fg : warning,
-                        ),
-                      ),
-                    ),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: active
-                          ? pastel.onContainer
-                          : theme.colorScheme.surfaceContainerHighest,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      roomIcon(icon),
-                      size: 22,
-                      color: active
-                          ? pastel.container
-                          : theme.colorScheme.onSurface,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              if (summary.temperature != null)
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.bottomLeft,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(18, 16, 14, 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        formatNumber(
-                          l10n.localeName,
-                          summary.temperature!,
-                          unit: '°',
-                        ),
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          color: fg,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: fg,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (summary.alertCount > 0)
+                            Tooltip(
+                              message: l10n.summaryAlerts,
+                              child: Icon(
+                                Icons.warning_amber_rounded,
+                                size: 20,
+                                color: context.statusColors.warning,
+                              ),
+                            ),
+                        ],
                       ),
-                      if (summary.humidity != null) ...[
-                        const SizedBox(width: 6),
-                        Text(
-                          formatNumber(
-                            l10n.localeName,
-                            summary.humidity!,
-                            unit: '%',
-                          ),
-                          style: theme.textTheme.labelMedium?.copyWith(
-                            color: sub,
+                      if (summary.temperature != null)
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            formatNumber(
+                              l10n.localeName,
+                              summary.temperature!,
+                              unit: '°',
+                            ),
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              color: fg,
+                              fontWeight: FontWeight.w300,
+                            ),
                           ),
                         ),
-                      ],
+                      const Spacer(),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 4,
+                        children: [
+                          if (lightsOn)
+                            _Pill(
+                              icon: Icons.lightbulb,
+                              text: '${summary.lightsOn}',
+                              background: amber.container,
+                              foreground: amber.onContainer,
+                            )
+                          else
+                            _Pill(
+                              icon: Icons.devices_other_outlined,
+                              text: '${summary.deviceCount}',
+                              background: base.withValues(alpha: 0.7),
+                              foreground: sub,
+                            ),
+                          if (summary.humidity != null)
+                            _Pill(
+                              icon: Icons.water_drop_outlined,
+                              text: formatNumber(
+                                l10n.localeName,
+                                summary.humidity!,
+                                unit: '%',
+                              ),
+                              background: base.withValues(alpha: 0.7),
+                              foreground: sub,
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-              Text(
-                detail,
-                style: theme.textTheme.bodySmall?.copyWith(color: sub),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
+
+class _Pill extends StatelessWidget {
+  const _Pill({
+    required this.icon,
+    required this.text,
+    required this.background,
+    required this.foreground,
+  });
+
+  final IconData icon;
+  final String text;
+  final Color background;
+  final Color foreground;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+    decoration: BoxDecoration(
+      color: background,
+      borderRadius: BorderRadius.circular(99),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 14, color: foreground),
+        const SizedBox(width: 4),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.labelMedium
+              ?.copyWith(color: foreground),
+        ),
+      ],
+    ),
+  );
 }
 
 /// Responsive grid of room cards (lazy).

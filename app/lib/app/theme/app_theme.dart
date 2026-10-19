@@ -266,6 +266,10 @@ abstract final class AppTheme {
   /// Corner radius of cards and tiles.
   static const double cardRadius = 24;
 
+  /// Device tiles: a little squarer than room cards, so the two read as
+  /// different things (controls vs. places).
+  static const double tileRadius = 18;
+
   static ThemeData light() =>
       _build(_lightScheme, StatusColors.light, DeviceAccents.light);
   // What is on glows in the same pastels as in light mode: bright cards on

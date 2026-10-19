@@ -133,11 +133,11 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
         curve: Curves.easeOut,
         decoration: BoxDecoration(
           color: fill,
-          borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+          borderRadius: BorderRadius.circular(AppTheme.tileRadius),
         ),
         child: Material(
           type: MaterialType.transparency,
-          borderRadius: BorderRadius.circular(AppTheme.cardRadius),
+          borderRadius: BorderRadius.circular(AppTheme.tileRadius),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () => context.push(

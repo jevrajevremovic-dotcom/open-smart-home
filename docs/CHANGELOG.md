@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Prostorije i uređaji se sada jasno razlikuju: kartica prostorije ima svoju boju po vrsti sobe (dnevna soba žuta, spavaća ljubičasta, kuhinja zelena, kupatilo plava…) u blagom prelazu, veliku providnu sliku sobe u uglu i stanje u „pilulama” (upaljena svetla, vlažnost, broj uređaja), bez okrugle ikonice; pločice uređaja ostaju kontrole (okrugla ikonica, prekidač, boja po stanju) i malo su manje zaobljene.
 - Demo server prosleđuje i `data` iz `notify.mobile_app_…` (npr. `tag`), kao pravi Home Assistant.
 - AOD bolje vidljiv: u mirovanju osvetljenje ekrana više ne pada na minimum (1 %), već na „Osvetljenost u mirovanju” (podrazumevano 40 %, klizač 5–100 % u Kiosk podešavanjima; noću važi tamnije od toga i „Tamnije noću”); sat je beo i deblji, ostali tekst svetliji.
 - Ispravljeno: izbor vremena (Tamnije noću, jutarnji ekran, automatizacije) na telefonu podešenom na 12-časovno vreme u unosu teksta nije prihvatao sate 13–23, a nije nudio ni AM/PM; sada na srpskom uvek radi 24-časovno.

@@ -5,6 +5,7 @@ import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
+import 'package:open_smart_home/features/weather/presentation/weather_card.dart';
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 
 import '../widgets/app_widget_test.dart'
@@ -111,6 +112,36 @@ void main() {
     await kiosk(tester, const Size(1000, 1400));
     expect(find.byKey(const Key('kioskColumns')), findsNothing);
     expect(find.byKey(const Key('kioskEditLayout')), findsOneWidget);
+    await unmount(tester);
+  });
+
+  testWidgets('home overview first: weather, music, calendar; back to it', (
+    tester,
+  ) async {
+    final container = await kiosk(tester, const Size(1600, 1000));
+    expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
+    expect(find.byType(WeatherSection), findsOneWidget);
+    expect(find.byKey(const Key('nowPlayingCard')), findsOneWidget);
+    expect(find.byKey(const Key('kioskColumnsCalendar')), findsOneWidget);
+    // The home's thermostat on the right.
+    expect(
+      tester.widget<Text>(find.byKey(const Key('kioskColumnsDetailName'))).data,
+      'Klima dnevna soba',
+    );
+
+    await tester.tap(find.byKey(const ValueKey('kioskColumnsRoom-kitchen')));
+    await settle(tester, 4);
+    expect(find.byKey(const Key('kioskColumnsOverview')), findsNothing);
+    await tapKey(tester, 'kioskColumnsHome');
+    await settle(tester, 4);
+    expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
+
+    // Left alone in a room, it goes back to the overview.
+    await tester.tap(find.byKey(const ValueKey('kioskColumnsRoom-kitchen')));
+    await settle(tester, 4);
+    await tester.pump(container.read(kioskSettingsProvider).returnHomeAfter);
+    await settle(tester, 4);
+    expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
     await unmount(tester);
   });
 }

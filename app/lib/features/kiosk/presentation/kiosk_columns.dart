@@ -12,6 +12,13 @@ import '../../../app/theme/app_theme.dart';
 import '../../assist/presentation/assist_sheet.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../cameras/presentation/camera_view.dart';
+import '../../calendar/presentation/calendar_browser.dart';
+import '../../calendar/presentation/calendar_widgets.dart';
+import '../../dashboard/application/home_sentence.dart';
+import '../../dashboard/presentation/dashboard_screen.dart' show NowPlayingCard;
+import '../../todo/todo_lists.dart';
+import '../../todo/todo_screen.dart' show TodoListsCard;
+import '../../weather/presentation/weather_card.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_groups.dart';
 import '../../devices/application/device_providers.dart';
@@ -30,6 +37,7 @@ import '../../household/family_messages.dart';
 import '../../household/presentation/person_avatar.dart';
 import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
 import '../../timers/kiosk_timers.dart';
+import '../application/kiosk_controller.dart';
 import 'kiosk_alarm.dart';
 import 'kiosk_bundle_detail.dart';
 import 'kiosk_leaving.dart';
@@ -75,40 +83,137 @@ final _weekEnergyProvider = FutureProvider.autoDispose<EnergyReport?>((
   return repository.loadReport(prefs, EnergyRange.week, now: DateTime.now());
 });
 
-/// The "columns" kiosk (like a tablet home app): rooms, scenes and
-/// automations on the left, the chosen room's devices, music and camera in
-/// the middle, the chosen device's controls on the right. Follows the
-/// app's light or dark theme.
-class KioskColumnsLayout extends ConsumerWidget {
+/// The "columns" kiosk (like a tablet home app): home, rooms, scenes and
+/// automations on the left; the home overview (weather, music, calendar,
+/// lists) or the chosen room's devices in the middle; the chosen device's
+/// controls on the right. Follows the app's light or dark theme. Left
+/// alone, it goes back to the home overview.
+class KioskColumnsLayout extends ConsumerStatefulWidget {
   const KioskColumnsLayout({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<KioskColumnsLayout> createState() => _KioskColumnsLayoutState();
+}
+
+class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
+  Timer? _idle;
+
+  @override
+  void dispose() {
+    _idle?.cancel();
+    super.dispose();
+  }
+
+  void _touched() {
+    _idle?.cancel();
+    final after = ref.read(kioskSettingsProvider).returnHomeAfter;
+    _idle = Timer(
+      after > Duration.zero ? after : const Duration(minutes: 1),
+      () {
+        if (!mounted) return;
+        ref.read(kioskColumnsRoomProvider.notifier).select(null);
+        ref.read(kioskColumnsDeviceProvider.notifier).select(null);
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final rooms = ref.watch(roomsProvider);
     final chosen = ref.watch(kioskColumnsRoomProvider);
-    final roomId = rooms.any((r) => r.id == chosen)
-        ? chosen
-        : rooms.firstOrNull?.id;
-    return Material(
-      key: const Key('kioskColumns'),
-      color: scheme.surfaceContainerLow,
-      child: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(width: 300, child: _Sidebar(roomId: roomId)),
-            Expanded(
-              child: Material(
-                color: scheme.surfaceContainerLowest,
-                child: _RoomColumn(roomId: roomId),
+    // `null` = the home overview.
+    final roomId = rooms.any((r) => r.id == chosen) ? chosen : null;
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (_) => _touched(),
+      child: Material(
+        key: const Key('kioskColumns'),
+        color: scheme.surfaceContainerLow,
+        child: SafeArea(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(width: 300, child: _Sidebar(roomId: roomId)),
+              Expanded(
+                child: Material(
+                  color: scheme.surfaceContainerLowest,
+                  child: roomId == null
+                      ? const _HomeOverview()
+                      : _RoomColumn(roomId: roomId),
+                ),
               ),
-            ),
-            VerticalDivider(width: 1, color: scheme.outlineVariant),
-            SizedBox(width: 380, child: _DetailColumn(roomId: roomId)),
-          ],
+              VerticalDivider(width: 1, color: scheme.outlineVariant),
+              SizedBox(width: 380, child: _DetailColumn(roomId: roomId)),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+/// No room chosen: the day at a glance.
+class _HomeOverview extends ConsumerWidget {
+  const _HomeOverview();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final now = DateTime.now();
+    final greeting = switch (now.hour) {
+      >= 5 && < 12 => l10n.greetingMorning,
+      >= 12 && < 18 => l10n.greetingAfternoon,
+      >= 18 && < 23 => l10n.greetingEvening,
+      _ => l10n.greetingNight,
+    };
+    final hasLists = ref.watch(todoListsProvider).isNotEmpty;
+    return ListView(
+      key: const Key('kioskColumnsOverview'),
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
+      children: [
+        Text(
+          greeting,
+          style: theme.textTheme.displaySmall?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          ref.watch(homeSentenceProvider(l10n)),
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: scheme.onSurfaceVariant,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        const SizedBox(height: 20),
+        const WeatherSection(allowDeviceLocation: false),
+        const SizedBox(height: 16),
+        const NowPlayingCard(),
+        const SizedBox(height: 16),
+        Card(
+          key: const Key('kioskColumnsCalendar'),
+          margin: EdgeInsets.zero,
+          clipBehavior: Clip.antiAlias,
+          child: SizedBox(
+            height: 380,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 12, 8),
+              child: CalendarBrowser(
+                palette: CalendarPalette.of(theme),
+                fitGrid: true,
+                header: Text(
+                  l10n.calendarTitle,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (hasLists) ...[const SizedBox(height: 16), const TodoListsCard()],
+      ],
     );
   }
 }
@@ -271,6 +376,7 @@ class _Sidebar extends ConsumerWidget {
           ),
         ],
         label(l10n.navRooms),
+        _HomeRow(selected: roomId == null),
         for (final r in rooms)
           _RoomRow(
             key: ValueKey('kioskColumnsRoom-${r.id}'),
@@ -366,6 +472,52 @@ class _SceneCircle extends ConsumerWidget {
             style: theme.textTheme.labelMedium,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// "Home": back to the overview.
+class _HomeRow extends ConsumerWidget {
+  const _HomeRow({required this.selected});
+
+  final bool selected;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final fg = selected ? scheme.onPrimary : scheme.onSurface;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Material(
+        key: const Key('kioskColumnsHome'),
+        color: selected ? scheme.primary : Colors.transparent,
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: () {
+            ref.read(kioskColumnsRoomProvider.notifier).select(null);
+            ref.read(kioskColumnsDeviceProvider.notifier).select(null);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.home_outlined,
+                  color: selected ? fg : scheme.primary,
+                ),
+                const SizedBox(width: 14),
+                Text(
+                  l10n.navHome,
+                  style: theme.textTheme.titleMedium?.copyWith(color: fg),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -823,8 +975,10 @@ class _DetailColumn extends ConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+    // On the home overview: the home's thermostat.
+    final thermostat = ref.watch(kioskThermostatIdProvider);
     final ids = roomId == null
-        ? const <String>[]
+        ? [?thermostat]
         : ref.watch(deviceIdsByRoomProvider)[roomId] ?? const <String>[];
     final devices = [for (final id in ids) ?ref.watch(deviceProvider(id))]
         .where((d) => !d.isAuxiliary && !d.kind.isRoutine)

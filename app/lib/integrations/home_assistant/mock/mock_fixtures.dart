@@ -41,6 +41,16 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'supported_features': 44, // EFFECT | FLASH | TRANSITION
     }),
     e('switch.coffee_machine', 'off', {'friendly_name': 'Aparat za kafu'}),
+    e('switch.washer_plug', 'on', {
+      'friendly_name': 'Veš mašina utičnica',
+      'device_class': 'outlet',
+    }),
+    e('sensor.washer_plug_power', '420', {
+      'friendly_name': 'Veš mašina snaga',
+      'device_class': 'power',
+      'state_class': 'measurement',
+      'unit_of_measurement': 'W',
+    }),
     e('switch.tv_outlet', 'on', {
       'friendly_name': 'Utičnica TV',
       'device_class': 'outlet',
@@ -332,6 +342,9 @@ buildMockRegistries() {
       device('d_coffee', 'Aparat za kafu', 'Shelly', 'Plus 1PM', 'kitchen', [
         ['shelly', 'c4:5b:be:00:11:22'],
       ]),
+      device('d_washer', 'Veš mašina', 'Shelly', 'Plus Plug S', 'kitchen', [
+        ['shelly', 'c4:5b:be:00:33:44'],
+      ]),
       device('d_tv_outlet', 'TV utičnica', 'Nous', 'A1T', 'living_room', [
         ['tasmota', '3C71BF000001'],
       ]),
@@ -404,6 +417,8 @@ buildMockRegistries() {
       ),
       entity('switch.coffee_machine', 'shelly', deviceId: 'd_coffee'),
       entity('switch.tv_outlet', 'tasmota', deviceId: 'd_tv_outlet'),
+      entity('switch.washer_plug', 'shelly', deviceId: 'd_washer'),
+      entity('sensor.washer_plug_power', 'shelly', deviceId: 'd_washer'),
       entity(
         'sensor.living_room_temperature',
         'zha',

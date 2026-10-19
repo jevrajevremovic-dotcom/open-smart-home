@@ -6830,6 +6830,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home cards'**
   String get kioskHomeCards;
+
+  /// No description provided for @applianceDoneAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me when it\'s done'**
+  String get applianceDoneAction;
+
+  /// No description provided for @applianceDoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant watches the power: once the appliance has run (above the threshold) and then goes quiet, it tells you it\'s done. Works with the app closed; everything stays on your network.'**
+  String get applianceDoneHint;
+
+  /// No description provided for @applianceDoneName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name (e.g. Washing machine)'**
+  String get applianceDoneName;
+
+  /// No description provided for @applianceDoneThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Running above'**
+  String get applianceDoneThreshold;
+
+  /// No description provided for @applianceDoneQuiet.
+  ///
+  /// In en, this message translates to:
+  /// **'Done after quiet for'**
+  String get applianceDoneQuiet;
+
+  /// No description provided for @applianceDoneMinutesValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String applianceDoneMinutesValue(int minutes);
+
+  /// No description provided for @applianceDoneNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Using {watts} W now.'**
+  String applianceDoneNow(String watts);
+
+  /// No description provided for @applianceDoneThisPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Message to this phone'**
+  String get applianceDoneThisPhone;
+
+  /// No description provided for @applianceDoneNeedsPush.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on messages from Home Assistant in settings first.'**
+  String get applianceDoneNeedsPush;
+
+  /// No description provided for @applianceDoneHousehold.
+  ///
+  /// In en, this message translates to:
+  /// **'Message to the whole household'**
+  String get applianceDoneHousehold;
+
+  /// No description provided for @applianceDoneHouseholdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone sees it in the app and on the wall tablet.'**
+  String get applianceDoneHouseholdHint;
+
+  /// No description provided for @applianceDoneOtherPhones.
+  ///
+  /// In en, this message translates to:
+  /// **'Also tells {count} other phone(s).'**
+  String applianceDoneOtherPhones(int count);
+
+  /// No description provided for @applianceDoneRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get applianceDoneRemove;
+
+  /// No description provided for @applianceDoneRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder removed.'**
+  String get applianceDoneRemoved;
+
+  /// No description provided for @applianceDoneSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ll hear when \"{name}\" is done.'**
+  String applianceDoneSaved(String name);
+
+  /// No description provided for @applianceDoneNeedsAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'This needs an administrator account in Home Assistant.'**
+  String get applianceDoneNeedsAdmin;
+
+  /// No description provided for @applianceDoneOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Tells you when it\'s done'**
+  String get applianceDoneOn;
+
+  /// No description provided for @applianceDoneOnHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Automation in Home Assistant'**
+  String get applianceDoneOnHint;
+
+  /// No description provided for @applianceDoneChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get applianceDoneChange;
+
+  /// No description provided for @applianceDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get applianceDoneTitle;
+
+  /// No description provided for @applianceDoneMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: the cycle has finished.'**
+  String applianceDoneMessage(String name);
+
+  /// No description provided for @applianceDoneAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Done: {name} (Open Smart Home)'**
+  String applianceDoneAlias(String name);
 }
 
 class _AppLocalizationsDelegate

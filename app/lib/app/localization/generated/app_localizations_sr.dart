@@ -3980,6 +3980,88 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskHomeCards => 'Kartice na Početnoj';
+
+  @override
+  String get applianceDoneAction => 'Javi kad završi';
+
+  @override
+  String get applianceDoneHint =>
+      'Home Assistant prati snagu: kad uređaj radi (iznad praga) pa se umiri, javlja da je gotovo. Radi i kad je aplikacija zatvorena; sve ostaje u vašoj mreži.';
+
+  @override
+  String get applianceDoneName => 'Naziv (npr. Veš mašina)';
+
+  @override
+  String get applianceDoneThreshold => 'Radi iznad';
+
+  @override
+  String get applianceDoneQuiet => 'Gotovo posle mirovanja od';
+
+  @override
+  String applianceDoneMinutesValue(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String applianceDoneNow(String watts) {
+    return 'Sada troši $watts W.';
+  }
+
+  @override
+  String get applianceDoneThisPhone => 'Poruka na ovaj telefon';
+
+  @override
+  String get applianceDoneNeedsPush =>
+      'Prvo uključite poruke iz Home Assistanta u podešavanjima.';
+
+  @override
+  String get applianceDoneHousehold => 'Poruka svim ukućanima';
+
+  @override
+  String get applianceDoneHouseholdHint =>
+      'Vide je svi u aplikaciji i na zidnom tabletu.';
+
+  @override
+  String applianceDoneOtherPhones(int count) {
+    return 'Javlja i na još $count telefon(a).';
+  }
+
+  @override
+  String get applianceDoneRemove => 'Ukloni';
+
+  @override
+  String get applianceDoneRemoved => 'Javljanje je uklonjeno.';
+
+  @override
+  String applianceDoneSaved(String name) {
+    return 'Javiće se kad „$name” završi.';
+  }
+
+  @override
+  String get applianceDoneNeedsAdmin =>
+      'Za ovo je potreban administratorski nalog u Home Assistantu.';
+
+  @override
+  String get applianceDoneOn => 'Javlja kad završi';
+
+  @override
+  String get applianceDoneOnHint => 'Automatizacija u Home Assistantu';
+
+  @override
+  String get applianceDoneChange => 'Promeni';
+
+  @override
+  String get applianceDoneTitle => 'Gotovo';
+
+  @override
+  String applianceDoneMessage(String name) {
+    return '$name: ciklus je završen.';
+  }
+
+  @override
+  String applianceDoneAlias(String name) {
+    return 'Gotovo: $name (Open Smart Home)';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

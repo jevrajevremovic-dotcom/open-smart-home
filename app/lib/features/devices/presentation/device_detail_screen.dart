@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../appliance_done/appliance_done.dart';
+import '../../appliance_done/appliance_done_section.dart';
 import '../../timers/device_timer.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
@@ -111,6 +113,11 @@ class DeviceDetailScreen extends ConsumerWidget {
                 if (supportsTimer(device) && syncStatus == SyncStatus.live) ...[
                   const SizedBox(height: 16),
                   DeviceTimerSection(device: device),
+                ],
+                if (ref.watch(appliancePowerProvider(deviceId))
+                    case final power? when !ref.watch(kioskActiveProvider)) ...[
+                  const SizedBox(height: 16),
+                  ApplianceDoneSection(power: power),
                 ],
                 if (hasHistory(device)) ...[
                   const SizedBox(height: 24),

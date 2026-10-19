@@ -33,6 +33,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- „Javi kad završi” (veš mašina, sudo-mašina, fritoza…): na ekranu uređaja sa merenjem snage (ili njegove pametne utičnice) pravi se automatizacija u Home Assistantu — kad uređaj radi iznad praga pa se umiri nekoliko minuta, stiže poruka na telefon i/ili poruka svim ukućanima (vidi se u aplikaciji i na zidnom tabletu). Radi i kad je aplikacija zatvorena; ništa ne napušta mrežu. Podešavanje se može promeniti ili ukloniti.
 - Kiosk „Kolone”, Početna: dugme ⚙ pored pozdrava — biraju se kartice (kamere, vreme, muzika, kalendar, liste) i njihov redosled (prevlačenjem).
 - Kiosk „Kolone”: prevlačenje levo/desno po srednjoj koloni prelazi Početna → prostorije → „Bez prostorije”, sa animacijom.
 - Kiosk „Kolone”: grafikon istorije (24 h / 7 dana) u desnoj koloni za senzore; dodir na red u odeljku „Stanje” uređaja prikazuje taj senzor sa grafikonom.

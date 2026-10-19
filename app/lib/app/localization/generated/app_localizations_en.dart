@@ -3959,4 +3959,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskHomeCards => 'Home cards';
+
+  @override
+  String get applianceDoneAction => 'Tell me when it\'s done';
+
+  @override
+  String get applianceDoneHint =>
+      'Home Assistant watches the power: once the appliance has run (above the threshold) and then goes quiet, it tells you it\'s done. Works with the app closed; everything stays on your network.';
+
+  @override
+  String get applianceDoneName => 'Name (e.g. Washing machine)';
+
+  @override
+  String get applianceDoneThreshold => 'Running above';
+
+  @override
+  String get applianceDoneQuiet => 'Done after quiet for';
+
+  @override
+  String applianceDoneMinutesValue(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String applianceDoneNow(String watts) {
+    return 'Using $watts W now.';
+  }
+
+  @override
+  String get applianceDoneThisPhone => 'Message to this phone';
+
+  @override
+  String get applianceDoneNeedsPush =>
+      'Turn on messages from Home Assistant in settings first.';
+
+  @override
+  String get applianceDoneHousehold => 'Message to the whole household';
+
+  @override
+  String get applianceDoneHouseholdHint =>
+      'Everyone sees it in the app and on the wall tablet.';
+
+  @override
+  String applianceDoneOtherPhones(int count) {
+    return 'Also tells $count other phone(s).';
+  }
+
+  @override
+  String get applianceDoneRemove => 'Remove';
+
+  @override
+  String get applianceDoneRemoved => 'Reminder removed.';
+
+  @override
+  String applianceDoneSaved(String name) {
+    return 'You\'ll hear when \"$name\" is done.';
+  }
+
+  @override
+  String get applianceDoneNeedsAdmin =>
+      'This needs an administrator account in Home Assistant.';
+
+  @override
+  String get applianceDoneOn => 'Tells you when it\'s done';
+
+  @override
+  String get applianceDoneOnHint => 'Automation in Home Assistant';
+
+  @override
+  String get applianceDoneChange => 'Change';
+
+  @override
+  String get applianceDoneTitle => 'Done';
+
+  @override
+  String applianceDoneMessage(String name) {
+    return '$name: the cycle has finished.';
+  }
+
+  @override
+  String applianceDoneAlias(String name) {
+    return 'Done: $name (Open Smart Home)';
+  }
 }

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 
@@ -221,6 +223,52 @@ class DeviceAccents extends ThemeExtension<DeviceAccents> {
   final Color iconDisc;
 
   AccentSwatch of(DeviceAccent accent) => swatches[accent]!;
+
+  /// A swatch in the hue of [tint] (a light's own colour), with the same
+  /// contrast rules as the fixed ones: text ≥ 4.5:1 on the card, the icon
+  /// ≥ 3:1 on its badge. Near-white tints keep the usual warm [light].
+  AccentSwatch tinted(Color tint) {
+    final hsl = HSLColor.fromColor(tint);
+    if (hsl.saturation < 0.12) return of(DeviceAccent.light);
+    final dark = iconDisc.a < 1;
+    final sat = hsl.saturation.clamp(0.35, 0.85);
+    Color at(double lightness, [double? s]) =>
+        hsl.withSaturation(s ?? sat).withLightness(lightness).toColor();
+    final container = dark ? at(0.2, sat * 0.6) : at(0.86);
+    final onContainer = _readable(
+      dark ? at(0.88) : at(0.2),
+      container,
+      4.5,
+      lighter: dark,
+    );
+    // The badge: white in light mode, a faint white veil in dark mode.
+    final disc = Color.alphaBlend(iconDisc, container);
+    final icon = _readable(dark ? at(0.72) : at(0.4), disc, 3, lighter: dark);
+    return AccentSwatch(container, onContainer, icon);
+  }
+
+  /// [c] made darker (or [lighter]) until it reaches [ratio] on [bg].
+  static Color _readable(
+    Color c,
+    Color bg,
+    double ratio, {
+    required bool lighter,
+  }) {
+    var hsl = HSLColor.fromColor(c);
+    while (contrastRatio(hsl.toColor(), bg) < ratio) {
+      final l = hsl.lightness + (lighter ? 0.02 : -0.02);
+      if (l <= 0 || l >= 1) break;
+      hsl = hsl.withLightness(l);
+    }
+    return hsl.toColor();
+  }
+
+  /// WCAG contrast ratio of two opaque colours.
+  static double contrastRatio(Color a, Color b) {
+    final la = a.computeLuminance();
+    final lb = b.computeLuminance();
+    return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+  }
 
   @override
   DeviceAccents copyWith({

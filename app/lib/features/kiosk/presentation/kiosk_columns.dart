@@ -1153,7 +1153,7 @@ class _AccessoryCard extends ConsumerWidget {
     final d = group.primary;
     final tone = DevicePresentation.tone(d);
     final on = tone == DeviceTone.active;
-    final accent = context.deviceAccents.of(DevicePresentation.accent(d));
+    final accent = DevicePresentation.swatch(context.deviceAccents, d);
     final iconBg = !d.available
         ? scheme.surfaceContainerHighest
         : on

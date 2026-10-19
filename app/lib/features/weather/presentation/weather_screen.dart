@@ -10,6 +10,7 @@ import '../../devices/presentation/device_grid.dart' show EmptyHint;
 import '../../devices/presentation/device_presentation.dart';
 import '../application/weather_providers.dart';
 import '../domain/weather.dart';
+import 'animated_weather_icon.dart';
 import 'weather_labels.dart';
 
 /// Full forecast from the Home Assistant weather entity: now, the next
@@ -110,8 +111,8 @@ class _NowCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  weatherIcon(now.condition),
+                AnimatedWeatherIcon(
+                  condition: now.condition,
                   size: 64,
                   color: theme.colorScheme.primary,
                 ),

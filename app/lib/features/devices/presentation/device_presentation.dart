@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -162,6 +164,35 @@ abstract final class DevicePresentation {
   }
 
   /// Colour family of the tile when the device is on.
+  /// Colours of [d]'s card when it is on: a light that is on glows in its
+  /// own colour (or white temperature); everything else in its accent.
+  static AccentSwatch swatch(DeviceAccents accents, SmartHomeDevice d) {
+    final light = d.kind.isLight && d.state.isOn == true;
+    final rgb = d.state.rgb;
+    final kelvin = d.state.colorTemperatureKelvin;
+    if (light && rgb != null) {
+      return accents.tinted(Color.fromARGB(255, rgb.red, rgb.green, rgb.blue));
+    }
+    if (light && kelvin != null) return accents.tinted(kelvinColor(kelvin));
+    return accents.of(accent(d));
+  }
+
+  /// Approximate colour of white light at [kelvin] (Tanner Helland's fit).
+  static Color kelvinColor(int kelvin) {
+    final t = kelvin.clamp(1000, 40000) / 100;
+    int c(double v) => v.round().clamp(0, 255);
+    final r = t <= 66 ? 255.0 : 329.698727446 * math.pow(t - 60, -0.1332047592);
+    final g = t <= 66
+        ? 99.4708025861 * math.log(t) - 161.1195681661
+        : 288.1221695283 * math.pow(t - 60, -0.0755148492);
+    final b = t >= 66
+        ? 255.0
+        : t <= 19
+        ? 0.0
+        : 138.5177312231 * math.log(t - 10) - 305.0447927307;
+    return Color.fromARGB(255, c(r), c(g), c(b));
+  }
+
   static DeviceAccent accent(SmartHomeDevice d) => switch (d.kind) {
     DeviceKind.light ||
     DeviceKind.dimmableLight ||

@@ -86,7 +86,7 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
 
     // Active devices take their accent colour; alerts take warning/critical.
     final swatch = switch (tone) {
-      DeviceTone.active => accents.of(DevicePresentation.accent(device)),
+      DeviceTone.active => DevicePresentation.swatch(accents, device),
       DeviceTone.warning => accents.warning,
       DeviceTone.critical => accents.critical,
       _ => null,

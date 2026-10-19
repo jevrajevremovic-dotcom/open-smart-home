@@ -108,7 +108,7 @@ class _QuickControl extends ConsumerWidget {
     final d = bundle.primary;
     final on = DevicePresentation.tone(d) == DeviceTone.active;
     final toggle = DevicePresentation.hasQuickToggle(d) && d.available;
-    final accent = context.deviceAccents.of(DevicePresentation.accent(d));
+    final accent = DevicePresentation.swatch(context.deviceAccents, d);
     final actions = [
       for (final m in bundle.members)
         if (m.id != d.id && (m.kind == DeviceKind.button || m.kind.isRoutine))

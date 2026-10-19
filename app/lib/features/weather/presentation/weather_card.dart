@@ -12,6 +12,7 @@ import '../../devices/presentation/device_presentation.dart';
 import '../application/weather_providers.dart';
 import '../data/device_location.dart';
 import '../domain/weather.dart';
+import 'animated_weather_icon.dart';
 import 'weather_labels.dart';
 import '../../../core/widgets/skeleton.dart';
 
@@ -280,8 +281,8 @@ class WeatherCard extends StatelessWidget {
                 child: LayoutBuilder(
                   builder: (context, constraints) => Row(
                     children: [
-                      Icon(
-                        weatherIcon(now.condition),
+                      AnimatedWeatherIcon(
+                        condition: now.condition,
                         size: 44,
                         color: theme.colorScheme.primary,
                       ),

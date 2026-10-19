@@ -3711,4 +3711,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskNightLightNone => 'None (a tap wakes the screen)';
+
+  @override
+  String get kioskLeaving => 'I\'m leaving';
+
+  @override
+  String get kioskLeavingAllGood =>
+      'Everything is off and closed. Have a nice day!';
+
+  @override
+  String get kioskLeavingManual =>
+      'Windows and doors marked without a tick must be closed by hand.';
+
+  @override
+  String kioskLeavingGo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Switch off $count things',
+      one: 'Switch off 1 thing',
+      zero: 'Nothing to switch off',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String kioskLeavingGoArm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Switch off $count and arm',
+      one: 'Switch off 1 thing and arm',
+      zero: 'Arm the alarm',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskLeavingBye => 'Goodbye!';
 }

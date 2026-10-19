@@ -213,15 +213,7 @@ class _ItemTile extends ConsumerWidget {
       HouseCheckProblem.alarmOff => true,
       _ => false,
     };
-    final status = switch (item.problem) {
-      HouseCheckProblem.lightOn => l10n.houseCheckLightOn,
-      HouseCheckProblem.mediaOn => l10n.houseCheckMediaOn,
-      HouseCheckProblem.climateOn => l10n.houseCheckClimateOn,
-      HouseCheckProblem.unlocked => l10n.houseCheckUnlocked,
-      HouseCheckProblem.garageOpen => l10n.houseCheckGarageOpen,
-      HouseCheckProblem.opened => l10n.houseCheckOpened,
-      HouseCheckProblem.alarmOff => l10n.houseCheckAlarmOff,
-    };
+    final status = houseCheckStatus(l10n, item.problem);
     final fix = item.fix;
     final action = switch (fix) {
       LockDevice() => l10n.houseCheckLock,
@@ -266,3 +258,15 @@ class _ItemTile extends ConsumerWidget {
     );
   }
 }
+
+/// What is wrong, in a few words ("light on", "unlocked"…).
+String houseCheckStatus(AppLocalizations l10n, HouseCheckProblem p) =>
+    switch (p) {
+      HouseCheckProblem.lightOn => l10n.houseCheckLightOn,
+      HouseCheckProblem.mediaOn => l10n.houseCheckMediaOn,
+      HouseCheckProblem.climateOn => l10n.houseCheckClimateOn,
+      HouseCheckProblem.unlocked => l10n.houseCheckUnlocked,
+      HouseCheckProblem.garageOpen => l10n.houseCheckGarageOpen,
+      HouseCheckProblem.opened => l10n.houseCheckOpened,
+      HouseCheckProblem.alarmOff => l10n.houseCheckAlarmOff,
+    };

@@ -32,6 +32,7 @@ import '../../weather/presentation/weather_labels.dart';
 import '../application/kiosk_controller.dart';
 import 'glass.dart';
 import 'kiosk_alarm.dart';
+import 'kiosk_leaving.dart';
 import 'kiosk_layout_view.dart';
 import 'kiosk_panels.dart';
 import 'pin_dialog.dart';
@@ -190,6 +191,12 @@ class _Chips extends ConsumerWidget {
                     : null,
                 onTap: () => showKioskAlarm(context),
               ),
+            _Chip(
+              key: const Key('kioskLeaving'),
+              icon: Icons.directions_walk,
+              tooltip: l10n.kioskLeaving,
+              onTap: () => showKioskLeaving(context),
+            ),
             _Chip(
               key: const Key('kioskTimer'),
               icon: Icons.timer_outlined,

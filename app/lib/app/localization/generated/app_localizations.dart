@@ -6452,6 +6452,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'None (a tap wakes the screen)'**
   String get kioskNightLightNone;
+
+  /// No description provided for @kioskLeaving.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m leaving'**
+  String get kioskLeaving;
+
+  /// No description provided for @kioskLeavingAllGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is off and closed. Have a nice day!'**
+  String get kioskLeavingAllGood;
+
+  /// No description provided for @kioskLeavingManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Windows and doors marked without a tick must be closed by hand.'**
+  String get kioskLeavingManual;
+
+  /// No description provided for @kioskLeavingGo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to switch off} =1{Switch off 1 thing} other{Switch off {count} things}}'**
+  String kioskLeavingGo(int count);
+
+  /// No description provided for @kioskLeavingGoArm.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Arm the alarm} =1{Switch off 1 thing and arm} other{Switch off {count} and arm}}'**
+  String kioskLeavingGoArm(int count);
+
+  /// No description provided for @kioskLeavingBye.
+  ///
+  /// In en, this message translates to:
+  /// **'Goodbye!'**
+  String get kioskLeavingBye;
 }
 
 class _AppLocalizationsDelegate

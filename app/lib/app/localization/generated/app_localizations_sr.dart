@@ -3730,6 +3730,45 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskNightLightNone => 'Nijedno (dodir budi ekran)';
+
+  @override
+  String get kioskLeaving => 'Izlazim';
+
+  @override
+  String get kioskLeavingAllGood => 'Sve je ugašeno i zatvoreno. Prijatan dan!';
+
+  @override
+  String get kioskLeavingManual =>
+      'Prozore i vrata bez kvačice treba zatvoriti ručno.';
+
+  @override
+  String kioskLeavingGo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ugasi $count stvari',
+      few: 'Ugasi $count stvari',
+      one: 'Ugasi $count stvar',
+      zero: 'Nema šta da se ugasi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String kioskLeavingGoArm(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ugasi $count i uključi alarm',
+      few: 'Ugasi $count i uključi alarm',
+      one: 'Ugasi $count i uključi alarm',
+      zero: 'Uključi alarm',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get kioskLeavingBye => 'Doviđenja!';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

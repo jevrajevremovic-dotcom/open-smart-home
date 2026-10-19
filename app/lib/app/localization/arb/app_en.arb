@@ -1591,5 +1591,13 @@
   "kioskNightClock": "Red night clock",
   "kioskNightClockHint": "At night the idle screen shows only the time, in dim red.",
   "kioskNightLight": "Night light on tap",
-  "kioskNightLightNone": "None (a tap wakes the screen)"
+  "kioskNightLightNone": "None (a tap wakes the screen)",
+  "kioskLeaving": "I'm leaving",
+  "kioskLeavingAllGood": "Everything is off and closed. Have a nice day!",
+  "kioskLeavingManual": "Windows and doors marked without a tick must be closed by hand.",
+  "kioskLeavingGo": "{count, plural, =0{Nothing to switch off} =1{Switch off 1 thing} other{Switch off {count} things}}",
+  "@kioskLeavingGo": {"placeholders": {"count": {"type": "int"}}},
+  "kioskLeavingGoArm": "{count, plural, =0{Arm the alarm} =1{Switch off 1 thing and arm} other{Switch off {count} and arm}}",
+  "@kioskLeavingGoArm": {"placeholders": {"count": {"type": "int"}}},
+  "kioskLeavingBye": "Goodbye!"
 }

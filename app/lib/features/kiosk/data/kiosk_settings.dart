@@ -44,6 +44,7 @@ class KioskSettings {
     this.approachSensorId,
     this.alertOverlay = true,
     this.greetPeople = true,
+    this.quickControls = const [],
     this.openAlertMinutes = 10,
     this.popupTriggerIds = const [],
     this.popupCameraId,
@@ -109,6 +110,11 @@ class KioskSettings {
       ),
       alertOverlay: json['alertOverlay'] != false,
       greetPeople: json['greetPeople'] != false,
+      quickControls: [
+        if (json['quickControls'] case final List<Object?> list)
+          for (final k in list.take(24))
+            if (k is String) k,
+      ],
       openAlertMinutes: json['openAlertMinutes'] is int
           ? json['openAlertMinutes']! as int
           : d.openAlertMinutes,
@@ -246,6 +252,10 @@ class KioskSettings {
 
   /// Says hello (and shows their messages) when a person comes home.
   final bool greetPeople;
+
+  /// Devices on the right of the "columns" home overview: entity ids, or
+  /// `group:<device id>` for all of one physical device.
+  final List<String> quickControls;
 
   /// A door or window open longer than this also covers the screen (0 =
   /// never).
@@ -418,6 +428,7 @@ class KioskSettings {
     String? approachSensorId,
     bool? alertOverlay,
     bool? greetPeople,
+    List<String>? quickControls,
     int? openAlertMinutes,
     List<String>? popupTriggerIds,
     String? popupCameraId,
@@ -485,6 +496,7 @@ class KioskSettings {
     approachSensorId: approachSensorId ?? this.approachSensorId,
     alertOverlay: alertOverlay ?? this.alertOverlay,
     greetPeople: greetPeople ?? this.greetPeople,
+    quickControls: quickControls ?? this.quickControls,
     openAlertMinutes: openAlertMinutes ?? this.openAlertMinutes,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
@@ -523,6 +535,7 @@ class KioskSettings {
     'approachSensorId': approachSensorId,
     'alertOverlay': alertOverlay,
     'greetPeople': greetPeople,
+    'quickControls': quickControls,
     'openAlertMinutes': openAlertMinutes,
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,

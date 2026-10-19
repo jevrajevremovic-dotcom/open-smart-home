@@ -42,6 +42,7 @@ import 'kiosk_alarm.dart';
 import 'kiosk_bundle_detail.dart';
 import 'kiosk_leaving.dart';
 import 'kiosk_media_panel.dart';
+import 'kiosk_quick_controls.dart';
 import 'pin_dialog.dart';
 import 'thermostat_dial.dart';
 
@@ -193,22 +194,24 @@ class _HomeOverview extends ConsumerWidget {
         const SizedBox(height: 16),
         const NowPlayingCard(),
         const SizedBox(height: 16),
-        // The month across the whole card (big enough to read from a
-        // distance), the agenda below.
+        // Agenda on the left, the month on the right, half each.
         Card(
           key: const Key('kioskColumnsCalendar'),
           margin: EdgeInsets.zero,
           clipBehavior: Clip.antiAlias,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-            child: CalendarBrowser(
-              palette: CalendarPalette.of(theme),
-              wide: false,
-              gridScale: 1.45,
-              agendaDays: 2,
-              header: Text(
-                l10n.calendarTitle,
-                style: theme.textTheme.titleMedium,
+          child: SizedBox(
+            height: 330,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 12, 10),
+              child: CalendarBrowser(
+                palette: CalendarPalette.of(theme),
+                evenSplit: true,
+                fitGrid: true,
+                gridScale: 1.1,
+                header: Text(
+                  l10n.calendarTitle,
+                  style: theme.textTheme.titleMedium,
+                ),
               ),
             ),
           ),
@@ -1012,6 +1015,11 @@ class _DetailColumn extends ConsumerWidget {
       key: const Key('kioskColumnsDetail'),
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
       children: [
+        // Home overview: the devices chosen to keep at hand come first.
+        if (roomId == null) ...[
+          const KioskQuickControls(),
+          const SizedBox(height: 24),
+        ],
         if (d != null) ...[
           Row(
             children: [

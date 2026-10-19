@@ -144,4 +144,39 @@ void main() {
     expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
     await unmount(tester);
   });
+
+  testWidgets('quick controls: choose a light and a scene, use them', (
+    tester,
+  ) async {
+    final container = await kiosk(tester, const Size(1600, 1000));
+    final server = container.read(mockHomeAssistantServerProvider);
+    expect(find.byKey(const Key('kioskQuickControls')), findsOneWidget);
+    await tapKey(tester, 'kioskQuickControlsEdit');
+    await settle(tester, 3);
+    await tester.tap(
+      find.byKey(const ValueKey('kioskQuickPick-light.hallway')),
+    );
+    await tester.enterText(find.byKey(const Key('kioskQuickSearch')), 'Film');
+    await settle(tester, 2);
+    await tester.tap(
+      find.byKey(const ValueKey('kioskQuickPick-scene.movie_night')),
+    );
+    await tapKey(tester, 'kioskQuickSave');
+    await settle(tester, 3);
+    expect(container.read(kioskSettingsProvider).quickControls, [
+      'light.hallway',
+      'scene.movie_night',
+    ]);
+    expect(find.byKey(const ValueKey('kioskQuick-light.hallway')), findsOne);
+    expect(
+      find.byKey(const ValueKey('kioskQuick-scene.movie_night')),
+      findsOne,
+    );
+
+    expect(server.stateForTest('light.hallway'), 'off');
+    await tapKey(tester, 'kioskQuickSwitch-light.hallway');
+    await settle(tester, 4);
+    expect(server.stateForTest('light.hallway'), 'on');
+    await unmount(tester);
+  });
 }

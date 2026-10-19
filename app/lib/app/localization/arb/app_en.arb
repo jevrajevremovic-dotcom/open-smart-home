@@ -1664,5 +1664,9 @@
   "kioskBundleSettings": "Settings",
   "kioskBundleState": "State",
   "kioskBundleCount": "{count} controls",
-  "@kioskBundleCount": {"placeholders": {"count": {"type": "int"}}}
+  "@kioskBundleCount": {"placeholders": {"count": {"type": "int"}}},
+  "kioskQuickControls": "Quick controls",
+  "kioskQuickControlsAdd": "Add",
+  "kioskQuickControlsEdit": "Change",
+  "kioskQuickControlsHint": "Choose devices to keep at hand here — lights, the air fryer, a scene…"
 }

@@ -3943,4 +3943,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String kioskBundleCount(int count) {
     return '$count controls';
   }
+
+  @override
+  String get kioskQuickControls => 'Quick controls';
+
+  @override
+  String get kioskQuickControlsAdd => 'Add';
+
+  @override
+  String get kioskQuickControlsEdit => 'Change';
+
+  @override
+  String get kioskQuickControlsHint =>
+      'Choose devices to keep at hand here — lights, the air fryer, a scene…';
 }

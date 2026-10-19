@@ -6800,6 +6800,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} controls'**
   String kioskBundleCount(int count);
+
+  /// No description provided for @kioskQuickControls.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick controls'**
+  String get kioskQuickControls;
+
+  /// No description provided for @kioskQuickControlsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get kioskQuickControlsAdd;
+
+  /// No description provided for @kioskQuickControlsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get kioskQuickControlsEdit;
+
+  /// No description provided for @kioskQuickControlsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose devices to keep at hand here — lights, the air fryer, a scene…'**
+  String get kioskQuickControlsHint;
 }
 
 class _AppLocalizationsDelegate

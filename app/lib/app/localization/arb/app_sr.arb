@@ -1117,5 +1117,9 @@
   "kioskBundleActions": "Radnje",
   "kioskBundleSettings": "Podešavanja",
   "kioskBundleState": "Stanje",
-  "kioskBundleCount": "{count} kontrola"
+  "kioskBundleCount": "{count} kontrola",
+  "kioskQuickControls": "Brze kontrole",
+  "kioskQuickControlsAdd": "Dodaj",
+  "kioskQuickControlsEdit": "Izmeni",
+  "kioskQuickControlsHint": "Izaberite uređaje koje želite da imate pri ruci — svetla, fritezu, scenu…"
 }

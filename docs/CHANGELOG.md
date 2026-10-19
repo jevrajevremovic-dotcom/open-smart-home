@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Kiosk „Kolone”, Početna: kalendar pola-pola — obaveze levo, mesec desno.
 - Kiosk „Kolone”, Početna: kalendar sa mesecom preko cele širine kartice i ≈ 1,5× većim danima, nazivima dana i naslovom meseca (čitljivo iz sobe), naslov iznad, događaji za danas i sutra ispod.
 - Sređivanje koda (bez promene ponašanja): najveće datoteke podeljene na delove (`part`) — paneli kioska (vreme, prostorije, prečice, statusna traka), zaglavlje kioska i prozor sobe, početni ekran (pregled, sekcije), editor rasporeda i stranica kioska, demo server (server, socket, API); najveća datoteka aplikacije sada ima ≈ 460 linija (demo server ≈ 1.550).
 - Manje posla u pozadini: pozdrav ukućana, iskačuća kamera, izbor vremenske prognoze i „sada svira” reaguju samo na promene svojih uređaja, ne na svaku promenu u kući.
@@ -31,6 +32,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kiosk „Kolone”, Početna: „Brze kontrole” u desnoj koloni — izaberete uređaje (svetla, ceo uređaj kao fritezu, scene i skripte; sa pretragom) i oni stoje tu kao kompaktne kontrole: prekidač, jačina svetla, dugmad uređaja kao čipovi, ▶ za scenu. Termostat i potrošnja ostaju ispod.
 - Kiosk „Kolone”: „Početna” na vrhu liste prostorija (i podrazumevano) — kad nijedna soba nije izabrana, sredina prikazuje pozdrav i rečenicu o kući, vremensku prognozu, muziku, kalendar (danas, sutra i mesec) i liste/belešku, a desno termostat doma i potrošnju ove nedelje. Posle vremena „povratak na početak” bez dodira kiosk se vraća na „Početnu”.
 - Kiosk „Kolone”: entiteti istog fizičkog uređaja (HA registar uređaja) su jedna kartica — npr. friteza sa dugmadima Start/Pauza/Stop, režimima, vremenom i senzorima umesto 20 kartica. Kartica nosi ime uređaja (zajednički deo imena entiteta), ikonicu glavne funkcije, broj kontrola i jedno „Nedostupno” ako je ceo uređaj van mreže; krug pali/gasi glavni prekidač. Desno, uređaj po odeljcima: Glavno (prekidač, svetlo, klima…), Radnje (dugmad kao čipovi), Podešavanja (prekidači, izbori, brojevi u redovima) i Stanje (senzori), sa kraćim imenima bez imena uređaja.
 - Kiosk: novi podrazumevani izgled „Kolone” (kao kućne aplikacije na tabletu), u svetloj ili tamnoj temi aplikacije:

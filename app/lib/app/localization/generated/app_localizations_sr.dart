@@ -3964,6 +3964,19 @@ class AppLocalizationsSr extends AppLocalizations {
   String kioskBundleCount(int count) {
     return '$count kontrola';
   }
+
+  @override
+  String get kioskQuickControls => 'Brze kontrole';
+
+  @override
+  String get kioskQuickControlsAdd => 'Dodaj';
+
+  @override
+  String get kioskQuickControlsEdit => 'Izmeni';
+
+  @override
+  String get kioskQuickControlsHint =>
+      'Izaberite uređaje koje želite da imate pri ruci — svetla, fritezu, scenu…';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

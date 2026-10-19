@@ -17,7 +17,11 @@ class CalendarBrowser extends ConsumerStatefulWidget {
     this.header,
     this.gridScale = 1,
     this.agendaDays = 7,
+    this.evenSplit = false,
   });
+
+  /// Wide: agenda and month take half each (else ≈ 5:4).
+  final bool evenSplit;
 
   /// How many days the agenda covers.
   final int agendaDays;
@@ -117,15 +121,15 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(flex: 5, child: left),
+        Expanded(flex: widget.evenSplit ? 1 : 5, child: left),
         const SizedBox(width: 20),
         Expanded(
-          flex: 4,
+          flex: widget.evenSplit ? 1 : 4,
           child: widget.fitGrid
               ? FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.topCenter,
-                  child: SizedBox(width: 320, child: grid),
+                  child: SizedBox(width: 320 * widget.gridScale, child: grid),
                 )
               : SingleChildScrollView(child: grid),
         ),

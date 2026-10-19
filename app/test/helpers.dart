@@ -205,8 +205,14 @@ class FakeAlertNotifier implements AlertNotifier {
   Future<void> show(String deviceId, String title, String body) async =>
       shown[deviceId] = (title, body);
 
+  /// Keys of removed notifications, in order.
+  final List<String> cancelled = [];
+
   @override
-  Future<void> cancel(String deviceId) async => shown.remove(deviceId);
+  Future<void> cancel(String deviceId) async {
+    cancelled.add(deviceId);
+    shown.remove(deviceId);
+  }
 
   void tap(String deviceId) => _taps.add(NotificationTap(deviceId));
 

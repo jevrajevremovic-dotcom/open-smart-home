@@ -1543,5 +1543,19 @@
   "presenceSaved": "Presence simulation saved in Home Assistant.",
   "presenceRemove": "Remove",
   "presenceRemoved": "Presence simulation removed.",
-  "presenceNeedsAdmin": "This needs an administrator account in Home Assistant."
+  "presenceNeedsAdmin": "This needs an administrator account in Home Assistant.",
+  "lowTariffAlias": "Lower rate reminder ({device})",
+  "@lowTariffAlias": {"placeholders": {"device": {"type": "String"}}},
+  "lowTariffTitle": "The lower rate has started",
+  "lowTariffMessage": "Electricity is cheaper until {until} ({price}/kWh): a good time for the washing machine, the dishwasher or charging.",
+  "@lowTariffMessage": {"placeholders": {"until": {"type": "String"}, "price": {"type": "String"}}},
+  "lowTariffRemind": "Remind me when the lower rate starts",
+  "lowTariffRemindOn": "Lower rate reminder is on",
+  "lowTariffDialogBody": "When the lower rate starts ({time}), Home Assistant sends a message to this phone; when it ends, the message goes away by itself. It runs as an automation in Home Assistant (saving needs an administrator account), and the message arrives while the app is connected, as all messages from Home Assistant.",
+  "@lowTariffDialogBody": {"placeholders": {"time": {"type": "String"}}},
+  "lowTariffCreate": "Turn on reminder",
+  "lowTariffRemove": "Remove reminder",
+  "lowTariffCreated": "Lower rate reminder is on.",
+  "lowTariffRemoved": "Lower rate reminder removed.",
+  "lowTariffNeedsPush": "First turn on “Messages from Home Assistant” (Settings › Notifications)."
 }

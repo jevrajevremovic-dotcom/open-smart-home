@@ -20,6 +20,7 @@ import '../data/energy_repository.dart';
 import '../data/tariff.dart';
 import 'energy_chart.dart';
 import 'energy_format.dart';
+import 'low_tariff_reminder_button.dart';
 import '../../../core/widgets/skeleton.dart';
 
 /// Energy overview: live power, consumption for today / this week / this
@@ -494,6 +495,9 @@ class _RateNowState extends State<_RateNow> {
             ),
           ),
         ),
+        LowTariffReminderButton(
+          startsAt: '${widget.low.fromHour.toString().padLeft(2, '0')}:00',
+        ),
       ],
     );
   }
@@ -573,7 +577,16 @@ Future<void> _editTariff(
     builder: (_) => _TariffDialog(current: current),
   );
   if (result != null) {
+    final l10n = context.mounted ? context.l10n : null;
     await ref.read(tariffProvider.notifier).save(result.tariff);
+    // A reminder in Home Assistant follows the new hours and price.
+    if (l10n != null && ref.read(lowTariffReminderSetProvider)) {
+      try {
+        await saveLowTariffReminder(ref, l10n);
+      } on AppFailure {
+        // Kept as it was; the bell still shows it and can replace it.
+      }
+    }
   }
 }
 

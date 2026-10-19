@@ -1023,5 +1023,16 @@
   "presenceSaved": "Simulacija prisustva je sačuvana u Home Assistantu.",
   "presenceRemove": "Ukloni",
   "presenceRemoved": "Simulacija prisustva je uklonjena.",
-  "presenceNeedsAdmin": "Za ovo je potreban administratorski nalog u Home Assistantu."
+  "presenceNeedsAdmin": "Za ovo je potreban administratorski nalog u Home Assistantu.",
+  "lowTariffAlias": "Niža tarifa: podsetnik ({device})",
+  "lowTariffTitle": "Počela je niža tarifa",
+  "lowTariffMessage": "Struja je jeftinija do {until} ({price}/kWh): dobro vreme za veš-mašinu, sudove ili punjenje.",
+  "lowTariffRemind": "Podseti me kad počne niža tarifa",
+  "lowTariffRemindOn": "Podsetnik za nižu tarifu je uključen",
+  "lowTariffDialogBody": "Kad počne niža tarifa ({time}), Home Assistant šalje poruku na ovaj telefon, a kad prođe, poruka se sama skloni. Radi kao automatizacija u Home Assistantu (za čuvanje je potreban administratorski nalog), a poruka stiže dok je aplikacija povezana, kao i sve poruke iz Home Assistanta.",
+  "lowTariffCreate": "Uključi podsetnik",
+  "lowTariffRemove": "Ukloni podsetnik",
+  "lowTariffCreated": "Podsetnik za nižu tarifu je uključen.",
+  "lowTariffRemoved": "Podsetnik za nižu tarifu je uklonjen.",
+  "lowTariffNeedsPush": "Prvo uključite „Poruke iz Home Assistanta” (Podešavanja › Obaveštenja)."
 }

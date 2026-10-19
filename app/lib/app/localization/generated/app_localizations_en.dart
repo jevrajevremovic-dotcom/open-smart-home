@@ -3576,4 +3576,44 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get presenceNeedsAdmin =>
       'This needs an administrator account in Home Assistant.';
+
+  @override
+  String lowTariffAlias(String device) {
+    return 'Lower rate reminder ($device)';
+  }
+
+  @override
+  String get lowTariffTitle => 'The lower rate has started';
+
+  @override
+  String lowTariffMessage(String until, String price) {
+    return 'Electricity is cheaper until $until ($price/kWh): a good time for the washing machine, the dishwasher or charging.';
+  }
+
+  @override
+  String get lowTariffRemind => 'Remind me when the lower rate starts';
+
+  @override
+  String get lowTariffRemindOn => 'Lower rate reminder is on';
+
+  @override
+  String lowTariffDialogBody(String time) {
+    return 'When the lower rate starts ($time), Home Assistant sends a message to this phone; when it ends, the message goes away by itself. It runs as an automation in Home Assistant (saving needs an administrator account), and the message arrives while the app is connected, as all messages from Home Assistant.';
+  }
+
+  @override
+  String get lowTariffCreate => 'Turn on reminder';
+
+  @override
+  String get lowTariffRemove => 'Remove reminder';
+
+  @override
+  String get lowTariffCreated => 'Lower rate reminder is on.';
+
+  @override
+  String get lowTariffRemoved => 'Lower rate reminder removed.';
+
+  @override
+  String get lowTariffNeedsPush =>
+      'First turn on “Messages from Home Assistant” (Settings › Notifications).';
 }

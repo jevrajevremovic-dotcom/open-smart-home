@@ -379,6 +379,12 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
       _sync();
       return;
     }
+    // The lower-rate reminder (energy screen's bell) opens energy.
+    if (json['tag'] == 'osh_low_tariff' &&
+        ref.read(activeProfileProvider) != null) {
+      ref.read(routerProvider).push(AppRoutes.energy);
+      return;
+    }
     final entity = json['entity'];
     if (entity is String &&
         ref.read(activeProfileProvider) != null &&

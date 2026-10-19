@@ -6236,6 +6236,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This needs an administrator account in Home Assistant.'**
   String get presenceNeedsAdmin;
+
+  /// No description provided for @lowTariffAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower rate reminder ({device})'**
+  String lowTariffAlias(String device);
+
+  /// No description provided for @lowTariffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The lower rate has started'**
+  String get lowTariffTitle;
+
+  /// No description provided for @lowTariffMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity is cheaper until {until} ({price}/kWh): a good time for the washing machine, the dishwasher or charging.'**
+  String lowTariffMessage(String until, String price);
+
+  /// No description provided for @lowTariffRemind.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me when the lower rate starts'**
+  String get lowTariffRemind;
+
+  /// No description provided for @lowTariffRemindOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower rate reminder is on'**
+  String get lowTariffRemindOn;
+
+  /// No description provided for @lowTariffDialogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When the lower rate starts ({time}), Home Assistant sends a message to this phone; when it ends, the message goes away by itself. It runs as an automation in Home Assistant (saving needs an administrator account), and the message arrives while the app is connected, as all messages from Home Assistant.'**
+  String lowTariffDialogBody(String time);
+
+  /// No description provided for @lowTariffCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on reminder'**
+  String get lowTariffCreate;
+
+  /// No description provided for @lowTariffRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove reminder'**
+  String get lowTariffRemove;
+
+  /// No description provided for @lowTariffCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower rate reminder is on.'**
+  String get lowTariffCreated;
+
+  /// No description provided for @lowTariffRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower rate reminder removed.'**
+  String get lowTariffRemoved;
+
+  /// No description provided for @lowTariffNeedsPush.
+  ///
+  /// In en, this message translates to:
+  /// **'First turn on “Messages from Home Assistant” (Settings › Notifications).'**
+  String get lowTariffNeedsPush;
 }
 
 class _AppLocalizationsDelegate

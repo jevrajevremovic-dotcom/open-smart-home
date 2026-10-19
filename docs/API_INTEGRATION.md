@@ -217,6 +217,12 @@ Provereno u `helpers/config_validation.py`, `helpers/condition/conditions.py`, `
 - Akcije: na `end` `light.turn_off` za sva izabrana svetla; inače `state` `sun.sun` = `below_horizon` + `time` `after: 12:00` (ili `after` početak) `before` kraj (HA ispravno računa i prelaz preko ponoći), `delay: {seconds: "{{ range(0, 600) | random }}"}`, `variables: osh_light: "{{ osh_lights | random }}"`, pa `if` (`template` `is_state(osh_light, 'on')`) `light.turn_off` / `light.turn_on` sa `target.entity_id: "{{ osh_light }}"`. Uslov `sun` nije korišćen jer mu se format menja među verzijama HA.
 - Uključivanje/isključivanje: `automation.turn_on` / `turn_off` na entitetu čiji je `id` atribut `osh_presence_simulation`.
 
+## Podsetnik za nižu tarifu (automatizacija)
+
+- UI automatizacija `osh_low_tariff_<ime uređaja>` (frontend config API, administrator): okidači `time` u `fromHour:00:00` (id `start`) i `toHour:00:00` (id `end`).
+- Na `start`: `notify.mobile_app_<ime>` sa `title`, `message` i `data.tag: osh_low_tariff`; na `end`: ista usluga sa `message: clear_notification` i istim `tag` (konvencija Home Assistant aplikacija, koju aplikacija poštuje).
+- Poruka stiže kanalom `push_websocket_channel`, kao sve poruke iz HA (dok je aplikacija povezana).
+
 ## Buđenje kioska senzorom
 
 - Senzori pokreta/prisustva su `binary_sensor` sa `device_class` `motion`, `moving`, `occupancy` ili `presence`; ekran se budi na prelaz u `on`.

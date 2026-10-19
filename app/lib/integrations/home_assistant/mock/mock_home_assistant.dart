@@ -1187,6 +1187,12 @@ class MockHomeAssistantServer {
             key,
             message: message is String ? message : '',
             title: data['title'] is String ? data['title']! as String : null,
+            data: switch (data['data']) {
+              final Map<Object?, Object?> extra => {
+                for (final e in extra.entries) '${e.key}': e.value,
+              },
+              _ => null,
+            },
           );
         }
       }

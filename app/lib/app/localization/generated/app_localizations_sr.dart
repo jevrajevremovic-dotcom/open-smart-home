@@ -3595,6 +3595,46 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get presenceNeedsAdmin =>
       'Za ovo je potreban administratorski nalog u Home Assistantu.';
+
+  @override
+  String lowTariffAlias(String device) {
+    return 'Niža tarifa: podsetnik ($device)';
+  }
+
+  @override
+  String get lowTariffTitle => 'Počela je niža tarifa';
+
+  @override
+  String lowTariffMessage(String until, String price) {
+    return 'Struja je jeftinija do $until ($price/kWh): dobro vreme za veš-mašinu, sudove ili punjenje.';
+  }
+
+  @override
+  String get lowTariffRemind => 'Podseti me kad počne niža tarifa';
+
+  @override
+  String get lowTariffRemindOn => 'Podsetnik za nižu tarifu je uključen';
+
+  @override
+  String lowTariffDialogBody(String time) {
+    return 'Kad počne niža tarifa ($time), Home Assistant šalje poruku na ovaj telefon, a kad prođe, poruka se sama skloni. Radi kao automatizacija u Home Assistantu (za čuvanje je potreban administratorski nalog), a poruka stiže dok je aplikacija povezana, kao i sve poruke iz Home Assistanta.';
+  }
+
+  @override
+  String get lowTariffCreate => 'Uključi podsetnik';
+
+  @override
+  String get lowTariffRemove => 'Ukloni podsetnik';
+
+  @override
+  String get lowTariffCreated => 'Podsetnik za nižu tarifu je uključen.';
+
+  @override
+  String get lowTariffRemoved => 'Podsetnik za nižu tarifu je uklonjen.';
+
+  @override
+  String get lowTariffNeedsPush =>
+      'Prvo uključite „Poruke iz Home Assistanta” (Podešavanja › Obaveštenja).';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

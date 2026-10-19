@@ -32,6 +32,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kiosk „Kolone”: „Bez prostorije” na kraju liste prostorija (kad ih ima) — uređaji koje Home Assistant nema ni u jednoj oblasti više nisu skriveni.
 - Kiosk „Kolone”, Početna: kartica „Kamere” (prva, odmah ispod pozdrava) — slika izabrane kamere i dugmići za prebacivanje između kamera; dodir otvara kameru preko celog ekrana. Prati podešavanje „Prikaži kamere”.
 - Kiosk „Kolone”, Početna: „Brze kontrole” u desnoj koloni — izaberete uređaje (svetla, ceo uređaj kao fritezu, scene i skripte; sa pretragom) i oni stoje tu kao kompaktne kontrole: prekidač, jačina svetla, dugmad uređaja kao čipovi, ▶ za scenu. Termostat i potrošnja ostaju ispod.
 - Kiosk „Kolone”: „Početna” na vrhu liste prostorija (i podrazumevano) — kad nijedna soba nije izabrana, sredina prikazuje pozdrav i rečenicu o kući, vremensku prognozu, muziku, kalendar (danas, sutra i mesec) i liste/belešku, a desno termostat doma i potrošnju ove nedelje. Posle vremena „povratak na početak” bez dodira kiosk se vraća na „Početnu”.

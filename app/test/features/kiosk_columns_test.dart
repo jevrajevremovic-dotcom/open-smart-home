@@ -9,7 +9,7 @@ import 'package:open_smart_home/features/weather/presentation/weather_card.dart'
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 
 import '../widgets/app_widget_test.dart'
-    show goTo, pumpApp, settle, tapKey, unmount;
+    show en, goTo, pumpApp, settle, tapKey, unmount;
 
 void main() {
   test('columns is the default kiosk look', () {
@@ -221,6 +221,31 @@ void main() {
         .update((s) => s.copyWith(showCameras: false));
     await settle(tester, 3);
     expect(find.byKey(const Key('kioskColumnsCameras')), findsNothing);
+    await unmount(tester);
+  });
+
+  testWidgets('devices without a room are reachable from the left', (
+    tester,
+  ) async {
+    await kiosk(tester, const Size(1600, 1000));
+    final none = find.byKey(const ValueKey('kioskColumnsRoom-none'));
+    await tester.ensureVisible(none);
+    await tester.tap(none);
+    await settle(tester, 4);
+    expect(
+      tester.widget<Text>(find.byKey(const Key('kioskColumnsRoomTitle'))).data,
+      en.roomNoRoom,
+    );
+    expect(
+      find.byWidgetPredicate(
+        (w) =>
+            w.key is ValueKey<String> &&
+            (w.key! as ValueKey<String>).value.startsWith(
+              'kioskColumnsDevice-',
+            ),
+      ),
+      findsWidgets,
+    );
     await unmount(tester);
   });
 }

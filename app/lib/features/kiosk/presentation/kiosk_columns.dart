@@ -47,7 +47,15 @@ import 'kiosk_quick_controls.dart';
 import 'pin_dialog.dart';
 import 'thermostat_dial.dart';
 
-/// Room shown in the middle column (`null` = the first room).
+/// Chosen in the left column for the devices without a room (`null` is
+/// the home overview).
+const kioskNoRoom = '__no_room__';
+
+/// The area id behind a [kioskColumnsRoomProvider] value (`null` for
+/// [kioskNoRoom]: Home Assistant's "no area").
+String? _areaOf(String roomId) => roomId == kioskNoRoom ? null : roomId;
+
+/// Room shown in the middle column (`null` = the home overview).
 class KioskColumnsRoom extends Notifier<String?> {
   @override
   String? build() => null;
@@ -125,7 +133,14 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
     final rooms = ref.watch(roomsProvider);
     final chosen = ref.watch(kioskColumnsRoomProvider);
     // `null` = the home overview.
-    final roomId = rooms.any((r) => r.id == chosen) ? chosen : null;
+    final unassigned = ref.watch(
+      deviceIdsByRoomProvider.select((m) => (m[null] ?? const []).isNotEmpty),
+    );
+    final roomId =
+        (chosen == kioskNoRoom && unassigned) ||
+            rooms.any((r) => r.id == chosen)
+        ? chosen
+        : null;
     return Listener(
       behavior: HitTestBehavior.translucent,
       onPointerDown: (_) => _touched(),
@@ -396,6 +411,15 @@ class _Sidebar extends ConsumerWidget {
             icon: r.icon,
             selected: r.id == roomId,
           ),
+        // Devices Home Assistant has in no area: still reachable.
+        if ((ref.watch(deviceIdsByRoomProvider)[null] ?? const []).isNotEmpty)
+          _RoomRow(
+            key: const ValueKey('kioskColumnsRoom-none'),
+            roomId: kioskNoRoom,
+            name: l10n.roomNoRoom,
+            icon: null,
+            selected: roomId == kioskNoRoom,
+          ),
         if (automations.isNotEmpty) ...[
           label(l10n.automationsTitle),
           for (final a in automations.take(5)) _AutomationRow(device: a),
@@ -605,7 +629,7 @@ class _RoomRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final summary = ref.watch(roomSummaryProvider(roomId));
+    final summary = ref.watch(roomSummaryProvider(_areaOf(roomId)));
     final fg = selected ? scheme.onPrimary : scheme.onSurface;
     return Padding(
       padding: const EdgeInsets.only(bottom: 2),
@@ -715,8 +739,9 @@ class _RoomColumn extends ConsumerWidget {
         .watch(roomsProvider)
         .where((r) => r.id == roomId)
         .firstOrNull;
-    final summary = ref.watch(roomSummaryProvider(roomId));
-    final ids = ref.watch(deviceIdsByRoomProvider)[roomId] ?? const <String>[];
+    final area = _areaOf(roomId!);
+    final summary = ref.watch(roomSummaryProvider(area));
+    final ids = ref.watch(deviceIdsByRoomProvider)[area] ?? const <String>[];
     final devices = [for (final id in ids) ?ref.watch(deviceProvider(id))]
         .where((d) => !d.isAuxiliary && !d.kind.isRoutine)
         .toList();
@@ -746,7 +771,7 @@ class _RoomColumn extends ConsumerWidget {
           children: [
             Expanded(
               child: Text(
-                room?.name ?? '',
+                roomId == kioskNoRoom ? l10n.roomNoRoom : room?.name ?? '',
                 key: const Key('kioskColumnsRoomTitle'),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -1043,7 +1068,8 @@ class _DetailColumn extends ConsumerWidget {
     final thermostat = ref.watch(kioskThermostatIdProvider);
     final ids = roomId == null
         ? [?thermostat]
-        : ref.watch(deviceIdsByRoomProvider)[roomId] ?? const <String>[];
+        : ref.watch(deviceIdsByRoomProvider)[_areaOf(roomId!)] ??
+              const <String>[];
     final devices = [for (final id in ids) ?ref.watch(deviceProvider(id))]
         .where((d) => !d.isAuxiliary && !d.kind.isRoutine)
         .toList();

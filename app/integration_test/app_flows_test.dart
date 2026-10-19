@@ -3,6 +3,9 @@
 // wakelock). Only Home Assistant is replaced by the in-memory mock server.
 //
 //   flutter test integration_test -d <device-id>
+//
+// WARNING: these tests erase the app's data on the device (login,
+// settings) — use an emulator or a spare device, never a panel in use.
 
 import 'dart:io';
 

@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Izdanje za Android se pravi sa `--split-per-abi`: biblioteka za skeniranje QR kodova (ML Kit) inače ulazi za sva tri procesora, pa je APK za telefon/tablet (arm64) bio ≈ 40 MB umesto ≈ 30 MB. Provereno da demo (mock) server ne ulazi u release build.
+- Upozorenje u integracionim testovima: `flutter drive` i postojeći testovi brišu podatke aplikacije na uređaju — samo na emulatoru ili rezervnom uređaju.
 - Assist na srpskom: tekst latinicom ide Home Assistantu kao `sr-Latn`, a ćirilicom kao `sr` (HA ima odvojene gramatike za ta dva pisma; ranije je latinica išla kao `sr` i komande nisu bile prepoznate).
 - Prenos podešavanja na drugi uređaj ne prenosi izbore za mikrofon i kameru (ključna reč, buđenje kamerom) ni slike foto-okvira — to ostaje izbor svakog uređaja.
 - Kiosk: panel vremena u niskom, širokom polju slaže trenutno vreme, sate i dane jedno pored drugog umesto da se smanji.

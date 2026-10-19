@@ -130,7 +130,7 @@ flutter run
 
 ```bash
 flutter build web --release        # Web (JS); dodajte --wasm za WebAssembly
-flutter build apk --release        # Android
+flutter build apk --release --split-per-abi  # Android: jedan APK po procesoru (arm64 ≈ 30 MB umesto ≈ 40 MB)
 flutter build appbundle --release  # Google Play
 flutter build ipa --release        # iOS (macOS + Xcode, potpisivanje)
 ```

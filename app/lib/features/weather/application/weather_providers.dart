@@ -12,6 +12,7 @@ import '../../devices/domain/device_kind.dart';
 import '../data/device_location.dart';
 import '../data/ha_weather.dart';
 import '../data/met_norway_client.dart';
+import '../../../core/utils/value_list.dart';
 import '../domain/weather.dart';
 
 const _refreshEvery = Duration(minutes: 30);
@@ -21,10 +22,12 @@ const _refreshEvery = Duration(minutes: 30);
 final homeWeatherEntityIdProvider = Provider<String?>((ref) {
   final ids = ref.watch(
     homeSnapshotProvider.select(
-      (s) => [
-        for (final d in s.devices.values)
-          if (d.kind == DeviceKind.weather && d.available) d.id,
-      ]..sort(),
+      (s) => ValueList(
+        [
+          for (final d in s.devices.values)
+            if (d.kind == DeviceKind.weather && d.available) d.id,
+        ]..sort(),
+      ),
     ),
   );
   if (ids.isEmpty) return null;

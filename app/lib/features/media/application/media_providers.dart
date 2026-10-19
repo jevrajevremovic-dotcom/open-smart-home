@@ -9,14 +9,16 @@ import '../../devices/domain/device_kind.dart';
 final nowPlayingIdProvider = Provider<String?>((ref) {
   final players = ref.watch(
     homeSnapshotProvider.select(
-      (s) => [
-        for (final d in s.devices.values)
-          if (d.available &&
-              (d.kind == DeviceKind.mediaPlayer ||
-                  d.kind == DeviceKind.speaker ||
-                  d.kind == DeviceKind.television))
-            (d.id, d.state.raw),
-      ]..sort((a, b) => a.$1.compareTo(b.$1)),
+      (s) => ValueList(
+        [
+          for (final d in s.devices.values)
+            if (d.available &&
+                (d.kind == DeviceKind.mediaPlayer ||
+                    d.kind == DeviceKind.speaker ||
+                    d.kind == DeviceKind.television))
+              (d.id, d.state.raw),
+        ]..sort((a, b) => a.$1.compareTo(b.$1)),
+      ),
     ),
   );
   for (final state in ['playing', 'paused']) {

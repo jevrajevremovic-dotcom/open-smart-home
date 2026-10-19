@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Sređivanje koda (bez promene ponašanja): najveće datoteke podeljene na delove (`part`) — paneli kioska (vreme, prostorije, prečice, statusna traka), zaglavlje kioska i prozor sobe, početni ekran (pregled, sekcije), editor rasporeda i stranica kioska, demo server (server, socket, API); najveća datoteka aplikacije sada ima ≈ 460 linija (demo server ≈ 1.550).
+- Manje posla u pozadini: pozdrav ukućana, iskačuća kamera, izbor vremenske prognoze i „sada svira” reaguju samo na promene svojih uređaja, ne na svaku promenu u kući.
 - Merenje performansi (`integration_test/perf_test.dart`, `idle_probe_test.dart`, samo na emulatoru): priprema sličice prosečno 0,1–0,4 ms (najgore 7 ms) pri listanju, prevlačenju stranica kioska i otvaranju prozora; kiosk u mirovanju crta 1–7 sličica za 4 s po panelu (kamera i traka plejera), bez stalnih animacija.
 - Izdanje za Android se pravi sa `--split-per-abi`: biblioteka za skeniranje QR kodova (ML Kit) inače ulazi za sva tri procesora, pa je APK za telefon/tablet (arm64) bio ≈ 40 MB umesto ≈ 30 MB. Provereno da demo (mock) server ne ulazi u release build.
 - Upozorenje u integracionim testovima: `flutter drive` i postojeći testovi brišu podatke aplikacije na uređaju — samo na emulatoru ili rezervnom uređaju.

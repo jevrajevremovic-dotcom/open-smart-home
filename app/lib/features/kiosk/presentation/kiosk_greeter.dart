@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../app/theme/app_theme.dart';
+import '../../../core/utils/value_list.dart';
 import '../../assist/application/voice_providers.dart';
 import '../../dashboard/application/home_sentence.dart';
 import '../../devices/application/device_providers.dart';
@@ -95,8 +96,12 @@ class _KioskGreeterState extends ConsumerState<KioskGreeter> {
     if (enabled) {
       final people = ref.watch(peopleIdsProvider);
       ref.listen(
+        // A value-equal list: only a change of someone's state notifies,
+        // not every other device's update.
         homeSnapshotProvider.select(
-          (s) => {for (final id in people) id: s.devices[id]?.state.raw},
+          (s) => ValueList([
+            for (final id in people) (id, s.devices[id]?.state.raw),
+          ]),
         ),
         (before, now) {
           // Only real arrivals: not the first load or a reconnect.
@@ -104,10 +109,10 @@ class _KioskGreeterState extends ConsumerState<KioskGreeter> {
               ref.read(syncStatusProvider) != SyncStatus.live) {
             return;
           }
-          for (final MapEntry(:key, :value) in now.entries) {
-            final was = before[key];
-            if (value == 'home' && was != null && was != 'home') {
-              _greet(key);
+          final was = {for (final (id, state) in before) id: state};
+          for (final (id, state) in now) {
+            if (state == 'home' && was[id] != null && was[id] != 'home') {
+              _greet(id);
               return;
             }
           }

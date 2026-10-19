@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
+import '../../../core/utils/value_list.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../authentication/application/session_controller.dart';
@@ -149,22 +150,23 @@ class _KioskCameraPopupState extends ConsumerState<KioskCameraPopup> {
     final settings = ref.watch(kioskSettingsProvider);
     final cameraId = settings.popupCameraId;
     if (settings.hasPopup) {
-      ref.listen<Map<String, Object?>>(
+      // Value-equal: only the triggers' own changes notify.
+      ref.listen<ValueList<Object?>>(
         homeSnapshotProvider.select(
-          (s) => {
-            for (final id in settings.popupTriggerIds)
-              id: _signal(s.devices[id]),
-          },
+          (s) => ValueList([
+            for (final id in settings.popupTriggerIds) _signal(s.devices[id]),
+          ]),
         ),
         (previous, next) {
           // Only live changes: not the cached state shown at start-up.
           if (previous == null ||
+              previous.length != next.length ||
               ref.read(syncStatusProvider) != SyncStatus.live) {
             return;
           }
-          for (final id in settings.popupTriggerIds) {
-            final before = previous[id];
-            final now = next[id];
+          for (final (i, id) in settings.popupTriggerIds.indexed) {
+            final before = previous[i];
+            final now = next[i];
             final fired = now is DateTime
                 ? before is DateTime && now.isAfter(before)
                 : now == true && before == false;

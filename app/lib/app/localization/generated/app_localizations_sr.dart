@@ -3447,6 +3447,26 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get aodBrightness => 'Osvetljenost u mirovanju';
+
+  @override
+  String get settingsAssistSection => 'Assist (glas)';
+
+  @override
+  String get settingsAssistHint => 'Izgovoreni odgovori, asistent telefona';
+
+  @override
+  String get assistSpeak => 'Izgovaraj odgovore';
+
+  @override
+  String get assistSpeakHint =>
+      'Kad pitate glasom, odgovor se i izgovori (sintetizator govora na uređaju, ništa se ne šalje).';
+
+  @override
+  String get assistDefault => 'Asistent telefona';
+
+  @override
+  String get assistDefaultHint =>
+      'Izaberite Open Smart Home za „digitalnog asistenta”: dugi pritisak na Home ili dugme za napajanje otvara Assist koji odmah sluša.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

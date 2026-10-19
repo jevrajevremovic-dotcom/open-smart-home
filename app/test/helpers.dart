@@ -24,6 +24,7 @@ import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart
 import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
 import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
 import 'package:open_smart_home/features/shortcuts/quick_tiles.dart';
+import 'package:open_smart_home/features/assist/data/speech_output.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// In-memory replacement for the platform keychain/keystore.
@@ -113,6 +114,8 @@ Future<List<Override>> testOverrides({
   DeviceBatteryPlatform? battery,
   NfcPlatform? nfc,
   QuickTilesPlatform? tiles,
+  SpeechOutput? speech,
+  AssistLaunchPlatform? assistLaunch,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -155,6 +158,12 @@ Future<List<Override>> testOverrides({
     nfcPlatformProvider.overrideWithValue(nfc ?? FakeNfc(supported: false)),
     quickTilesPlatformProvider.overrideWithValue(
       tiles ?? FakeQuickTiles(supported: false),
+    ),
+    speechOutputProvider.overrideWithValue(
+      speech ?? FakeSpeechOutput(supported: false),
+    ),
+    assistLaunchProvider.overrideWithValue(
+      assistLaunch ?? FakeAssistLaunch(supported: false),
     ),
     homeScreenWidgetProvider.overrideWithValue(
       homeWidget ?? FakeHomeScreenWidget(supported: false),
@@ -454,4 +463,50 @@ class FakeQuickTiles implements QuickTilesPlatform {
     addRequests++;
     return true;
   }
+}
+
+/// Records what Assist would say aloud.
+class FakeSpeechOutput implements SpeechOutput {
+  FakeSpeechOutput({this.supported = true});
+
+  @override
+  final bool supported;
+  final List<String> said = [];
+
+  @override
+  Future<bool> speak(String text, {required String languageTag}) async {
+    said.add(text);
+    return true;
+  }
+
+  @override
+  Future<void> stop() async {}
+}
+
+/// Launches as the phone's assistant, driven by the test.
+class FakeAssistLaunch implements AssistLaunchPlatform {
+  FakeAssistLaunch({this.supported = true, this.initial = false});
+
+  @override
+  final bool supported;
+  bool initial;
+  int settingsOpened = 0;
+
+  // ignore: close_sinks, lives as long as the test
+  final _launches = StreamController<void>.broadcast();
+
+  void launch() => _launches.add(null);
+
+  @override
+  Future<bool> launchedAsAssistant() async {
+    final i = initial;
+    initial = false;
+    return i;
+  }
+
+  @override
+  Stream<void> get launches => _launches.stream;
+
+  @override
+  Future<void> openAssistantSettings() async => settingsOpened++;
 }

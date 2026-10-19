@@ -3429,4 +3429,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aodBrightness => 'Always-on brightness';
+
+  @override
+  String get settingsAssistSection => 'Assist (voice)';
+
+  @override
+  String get settingsAssistHint => 'Spoken answers, phone assistant';
+
+  @override
+  String get assistSpeak => 'Speak answers';
+
+  @override
+  String get assistSpeakHint =>
+      'When you ask by voice, the answer is spoken too (the device\'s text-to-speech, nothing is sent).';
+
+  @override
+  String get assistDefault => 'Phone assistant';
+
+  @override
+  String get assistDefaultHint =>
+      'Choose Open Smart Home as the “digital assistant”: a long press of home or power opens Assist, listening.';
 }

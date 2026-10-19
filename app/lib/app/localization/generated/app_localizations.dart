@@ -5966,6 +5966,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Always-on brightness'**
   String get aodBrightness;
+
+  /// No description provided for @settingsAssistSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Assist (voice)'**
+  String get settingsAssistSection;
+
+  /// No description provided for @settingsAssistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken answers, phone assistant'**
+  String get settingsAssistHint;
+
+  /// No description provided for @assistSpeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Speak answers'**
+  String get assistSpeak;
+
+  /// No description provided for @assistSpeakHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When you ask by voice, the answer is spoken too (the device\'s text-to-speech, nothing is sent).'**
+  String get assistSpeakHint;
+
+  /// No description provided for @assistDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone assistant'**
+  String get assistDefault;
+
+  /// No description provided for @assistDefaultHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Open Smart Home as the “digital assistant”: a long press of home or power opens Assist, listening.'**
+  String get assistDefaultHint;
 }
 
 class _AppLocalizationsDelegate

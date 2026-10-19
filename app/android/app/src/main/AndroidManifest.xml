@@ -45,6 +45,12 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- Can be chosen as the phone's digital assistant: a long press
+                 of home / power opens Assist, listening. -->
+            <intent-filter>
+                <action android:name="android.intent.action.ASSIST" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <!-- Home Assistant tags (same format as the official apps). -->
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />

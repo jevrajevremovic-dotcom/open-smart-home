@@ -8,15 +8,18 @@ import '../../../core/errors/failure_messages.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../authentication/application/session_controller.dart';
 import '../application/voice_providers.dart';
+import '../data/speech_output.dart';
 import '../data/voice_input.dart';
 
-/// Opens Assist: a short text conversation with Home Assistant.
-Future<void> showAssist(BuildContext context) => showModalBottomSheet<void>(
-  context: context,
-  isScrollControlled: true,
-  useSafeArea: true,
-  builder: (_) => const AssistSheet(),
-);
+/// Opens Assist: a short conversation with Home Assistant. [listen]
+/// starts listening right away (opened as the phone's assistant).
+Future<void> showAssist(BuildContext context, {bool listen = false}) =>
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) => AssistSheet(listenNow: listen),
+    );
 
 class _Message {
   const _Message(this.text, {required this.fromUser, this.error = false});
@@ -27,7 +30,9 @@ class _Message {
 }
 
 class AssistSheet extends ConsumerStatefulWidget {
-  const AssistSheet({super.key});
+  const AssistSheet({super.key, this.listenNow = false});
+
+  final bool listenNow;
 
   @override
   ConsumerState<AssistSheet> createState() => _AssistSheetState();
@@ -41,6 +46,19 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
   bool _busy = false;
   bool _listening = false;
   late final VoiceInput _voice = ref.read(voiceInputProvider);
+  late final SpeechOutput _speech;
+
+  @override
+  void initState() {
+    super.initState();
+    // Read now: dispose() must not touch ref.
+    _speech = ref.read(speechOutputProvider);
+    if (widget.listenNow) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) unawaited(_listen());
+      });
+    }
+  }
 
   /// Asks once whether online recognition is OK; `null` = cancelled.
   Future<bool?> _voicePrivacyChoice() async {
@@ -94,7 +112,8 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
       );
       if (!mounted) return;
       setState(() => _listening = false);
-      await _send(text);
+      // Asked by voice: answered by voice.
+      await _send(text, speak: true);
     } on VoiceError catch (e) {
       if (!mounted) return;
       setState(() => _listening = false);
@@ -117,12 +136,15 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
   @override
   void dispose() {
     if (_listening) unawaited(_voice.stop());
+    if (_speech.supported) {
+      unawaited(_speech.stop().catchError((Object _) {}));
+    }
     _controller.dispose();
     _scroll.dispose();
     super.dispose();
   }
 
-  Future<void> _send(String text) async {
+  Future<void> _send(String text, {bool speak = false}) async {
     final l10n = context.l10n;
     final trimmed = text.trim();
     final api = ref.read(homeAssistantApiProvider);
@@ -140,6 +162,16 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
         conversationId: _conversationId,
       );
       _conversationId = reply.conversationId ?? _conversationId;
+      if (speak &&
+          reply.speech.isNotEmpty &&
+          _speech.supported &&
+          ref.read(assistSpeakProvider)) {
+        unawaited(
+          _speech
+              .speak(reply.speech, languageTag: l10n.localeName)
+              .catchError((Object _) => false),
+        );
+      }
       _messages.add(
         _Message(
           reply.speech.isEmpty

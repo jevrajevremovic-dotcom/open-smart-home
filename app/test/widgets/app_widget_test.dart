@@ -19,6 +19,7 @@ import 'package:open_smart_home/features/settings/presentation/settings_screen.d
 import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
 import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
 import 'package:open_smart_home/features/shortcuts/quick_tiles.dart';
+import 'package:open_smart_home/features/assist/data/speech_output.dart';
 
 import '../helpers.dart';
 
@@ -41,6 +42,8 @@ Future<InMemoryCredentialStore> pumpApp(
   DeviceBatteryPlatform? battery,
   NfcPlatform? nfc,
   QuickTilesPlatform? tiles,
+  SpeechOutput? speech,
+  AssistLaunchPlatform? assistLaunch,
   BackgroundConnectionPlatform? background,
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
@@ -66,6 +69,8 @@ Future<InMemoryCredentialStore> pumpApp(
     battery: battery,
     nfc: nfc,
     tiles: tiles,
+    speech: speech,
+    assistLaunch: assistLaunch,
     background: background,
     matter: matter,
     overrides: overrides,

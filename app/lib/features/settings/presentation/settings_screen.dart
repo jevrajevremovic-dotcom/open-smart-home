@@ -24,6 +24,7 @@ import '../../weather/presentation/weather_card.dart';
 import '../../nfc_tags/nfc_tags.dart';
 import '../../nfc_tags/nfc_tags_ui.dart';
 import '../../shortcuts/quick_tiles_settings.dart';
+import '../../assist/presentation/assist_settings.dart';
 import 'language_selector.dart';
 
 /// Settings categories; each one is its own screen (`/settings/<name>`).
@@ -32,6 +33,7 @@ enum SettingsSection {
   server(Icons.dns_outlined),
   kiosk(Icons.tablet_outlined),
   notifications(Icons.notifications_outlined),
+  assist(Icons.assistant_outlined),
   security(Icons.lock_outline),
   nfc(Icons.nfc),
   privacy(Icons.privacy_tip_outlined),
@@ -49,6 +51,7 @@ enum SettingsSection {
     server => l10n.serverSection,
     kiosk => l10n.kioskSection,
     notifications => l10n.settingsNotificationsSection,
+    assist => l10n.settingsAssistSection,
     security => l10n.securitySection,
     nfc => l10n.nfcTitle,
     privacy => l10n.privacySection,
@@ -60,6 +63,7 @@ enum SettingsSection {
     server => l10n.settingsServerHint,
     kiosk => l10n.settingsKioskHint,
     notifications => l10n.settingsNotificationsHint,
+    assist => l10n.settingsAssistHint,
     security => l10n.settingsSecurityHint,
     nfc => l10n.nfcSectionHint,
     privacy => l10n.settingsPrivacyHint,
@@ -145,10 +149,14 @@ class _SectionList extends ConsumerWidget {
     final profile = ref.watch(activeProfileProvider);
     final notifications = ref.watch(alertNotifierProvider).supported;
     final nfc = ref.watch(nfcPlatformProvider).supported;
+    final assist =
+        ref.watch(speechOutputProvider).supported ||
+        ref.watch(assistLaunchProvider).supported;
     final sections = [
       for (final s in SettingsSection.values)
         if ((s != SettingsSection.notifications || notifications) &&
-            (s != SettingsSection.nfc || nfc))
+            (s != SettingsSection.nfc || nfc) &&
+            (s != SettingsSection.assist || assist))
           s,
     ];
     return ListView(
@@ -233,6 +241,7 @@ class _SectionBody extends ConsumerWidget {
                 SettingsSection.kiosk => const [KioskSettingsSection()],
                 SettingsSection.notifications => _notifications(context, ref),
                 SettingsSection.security => _security(context, ref),
+                SettingsSection.assist => const [AssistSettings()],
                 SettingsSection.nfc => const [NfcTagsSection()],
                 SettingsSection.privacy => _privacy(context, ref),
                 SettingsSection.backup => _backup(context, ref),

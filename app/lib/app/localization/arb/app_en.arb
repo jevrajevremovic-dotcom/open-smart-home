@@ -1498,5 +1498,11 @@
   "@morningHighLow": {"placeholders": {"high": {"type": "String"}, "low": {"type": "String"}}},
   "aodNowUntil": "now, until {time}",
   "@aodNowUntil": {"placeholders": {"time": {"type": "String"}}},
-  "aodBrightness": "Always-on brightness"
+  "aodBrightness": "Always-on brightness",
+  "settingsAssistSection": "Assist (voice)",
+  "settingsAssistHint": "Spoken answers, phone assistant",
+  "assistSpeak": "Speak answers",
+  "assistSpeakHint": "When you ask by voice, the answer is spoken too (the device's text-to-speech, nothing is sent).",
+  "assistDefault": "Phone assistant",
+  "assistDefaultHint": "Choose Open Smart Home as the “digital assistant”: a long press of home or power opens Assist, listening."
 }

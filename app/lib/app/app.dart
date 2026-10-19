@@ -17,6 +17,7 @@ import '../features/shortcuts/app_shortcuts.dart';
 import '../features/device_sensors/device_sensors.dart';
 import '../features/nfc_tags/nfc_tags_ui.dart';
 import '../features/shortcuts/quick_tiles.dart';
+import '../features/assist/presentation/assist_launch_host.dart';
 import 'localization/app_locales.dart';
 import 'localization/l10n.dart';
 import 'router/app_router.dart';
@@ -100,7 +101,9 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
             child: AlertNotificationsHost(
               child: ShortcutsHost(
                 child: QuickTilesHost(
-                  child: AppLockGate(child: child ?? const SizedBox()),
+                  child: AssistLaunchHost(
+                    child: AppLockGate(child: child ?? const SizedBox()),
+                  ),
                 ),
               ),
             ),

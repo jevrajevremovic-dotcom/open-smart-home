@@ -978,5 +978,11 @@
   "morningNothing": "Danas nema obaveza ni podsetnika.",
   "morningHighLow": "najviše {high}, najniže {low}",
   "aodNowUntil": "sada, do {time}",
-  "aodBrightness": "Osvetljenost u mirovanju"
+  "aodBrightness": "Osvetljenost u mirovanju",
+  "settingsAssistSection": "Assist (glas)",
+  "settingsAssistHint": "Izgovoreni odgovori, asistent telefona",
+  "assistSpeak": "Izgovaraj odgovore",
+  "assistSpeakHint": "Kad pitate glasom, odgovor se i izgovori (sintetizator govora na uređaju, ništa se ne šalje).",
+  "assistDefault": "Asistent telefona",
+  "assistDefaultHint": "Izaberite Open Smart Home za „digitalnog asistenta”: dugi pritisak na Home ili dugme za napajanje otvara Assist koji odmah sluša."
 }

@@ -21,6 +21,7 @@ class MainActivity : FlutterFragmentActivity() {
     private var nsd: NsdDiscoveryHandler? = null
     private var widget: MethodChannel? = null
     private var nfc: NfcHandler? = null
+    private var assist: MethodChannel? = null
     private var audio: AudioLevelHandler? = null
     private var micResult: MethodChannel.Result? = null
     private var matterResult: MethodChannel.Result? = null
@@ -38,6 +39,30 @@ class MainActivity : FlutterFragmentActivity() {
         val handler = NsdDiscoveryHandler(applicationContext)
         nsd = handler
         EventChannel(messenger, "org.opensmarthome/nsd").setStreamHandler(handler)
+
+        // Opened as the phone's assistant (long press of home / power).
+        assist = MethodChannel(messenger, "org.opensmarthome/assist").apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "initial" -> {
+                        result.success(intent?.action == Intent.ACTION_ASSIST)
+                        if (intent?.action == Intent.ACTION_ASSIST) intent?.action = Intent.ACTION_MAIN
+                    }
+                    "openSettings" -> {
+                        // "Digital assistant app" lives under voice input /
+                        // default apps, depending on the Android version.
+                        val opened = listOf(
+                            android.provider.Settings.ACTION_VOICE_INPUT_SETTINGS,
+                            android.provider.Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS,
+                        ).any { action ->
+                            runCatching { startActivity(Intent(action)) }.isSuccess
+                        }
+                        result.success(opened)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
 
         val nfcChannel = MethodChannel(messenger, "org.opensmarthome/nfc")
         nfc = NfcHandler(this, nfcChannel).also { nfcChannel.setMethodCallHandler(it) }
@@ -155,6 +180,7 @@ class MainActivity : FlutterFragmentActivity() {
         super.onNewIntent(intent)
         widgetLink(intent)?.let { widget?.invokeMethod("link", it) }
         nfc?.onNewIntent(intent)
+        if (intent.action == Intent.ACTION_ASSIST) assist?.invokeMethod("open", null)
     }
 
     // Dart may not get to cancel the stream when the activity goes away.
@@ -165,6 +191,8 @@ class MainActivity : FlutterFragmentActivity() {
         audio = null
         nfc?.dispose()
         nfc = null
+        assist?.setMethodCallHandler(null)
+        assist = null
         widget?.setMethodCallHandler(null)
         widget = null
         super.cleanUpFlutterEngine(flutterEngine)

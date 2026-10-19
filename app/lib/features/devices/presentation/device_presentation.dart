@@ -94,6 +94,7 @@ abstract final class DevicePresentation {
       DeviceKind.mediaPlayer => Icons.play_circle_outline,
       DeviceKind.speaker => Icons.speaker,
       DeviceKind.television => Icons.tv,
+      DeviceKind.remote => Icons.settings_remote_outlined,
       DeviceKind.energyMeter => Icons.electric_meter_outlined,
       DeviceKind.powerMeter => Icons.bolt,
       DeviceKind.waterMeter => Icons.water_outlined,

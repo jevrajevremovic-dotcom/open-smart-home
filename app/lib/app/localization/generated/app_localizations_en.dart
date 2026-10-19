@@ -3847,4 +3847,61 @@ class AppLocalizationsEn extends AppLocalizations {
   String heatingScheduleAlias(String name) {
     return 'Schedule: $name (Open Smart Home)';
   }
+
+  @override
+  String get mediaMute => 'Mute';
+
+  @override
+  String get mediaUnmute => 'Unmute';
+
+  @override
+  String get mediaVolumeUp => 'Volume up';
+
+  @override
+  String get mediaVolumeDown => 'Volume down';
+
+  @override
+  String get mediaSoundMode => 'Sound mode';
+
+  @override
+  String get tvRemote => 'Remote';
+
+  @override
+  String get tvUp => 'Up';
+
+  @override
+  String get tvDown => 'Down';
+
+  @override
+  String get tvLeft => 'Left';
+
+  @override
+  String get tvRight => 'Right';
+
+  @override
+  String get tvOk => 'OK';
+
+  @override
+  String get tvBack => 'Back';
+
+  @override
+  String get tvHome => 'Home';
+
+  @override
+  String get tvMenu => 'Menu';
+
+  @override
+  String get tvPlayPause => 'Play / pause';
+
+  @override
+  String get tvVolume => 'Vol';
+
+  @override
+  String get tvChannel => 'Ch';
+
+  @override
+  String get tvChannelUp => 'Channel up';
+
+  @override
+  String get tvChannelDown => 'Channel down';
 }

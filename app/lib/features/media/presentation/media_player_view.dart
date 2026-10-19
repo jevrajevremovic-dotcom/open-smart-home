@@ -168,6 +168,55 @@ class _MediaPlayerViewState extends ConsumerState<MediaPlayerView> {
     );
 
     final repeat = s.repeat ?? 'off';
+    // A choice (source, sound mode) in the player's colours.
+    Widget choice({
+      required Key key,
+      required String label,
+      required IconData icon,
+      required String? value,
+      required List<String> options,
+      required void Function(String) onChanged,
+    }) => Theme(
+      data: tint == null
+          ? theme
+          : theme.copyWith(
+              colorScheme: theme.colorScheme.copyWith(
+                onSurface: Colors.white,
+                onSurfaceVariant: muted,
+              ),
+              canvasColor: Color.lerp(tint, Colors.black, 0.2),
+            ),
+      child: DropdownButtonFormField<String>(
+        key: key,
+        initialValue: options.contains(value) ? value : null,
+        iconEnabledColor: fg,
+        style: theme.textTheme.bodyLarge?.copyWith(color: fg),
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(color: muted),
+          prefixIcon: Icon(icon, color: muted),
+          filled: true,
+          fillColor: fg.withValues(alpha: 0.08),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(color: fg.withValues(alpha: 0.5)),
+          ),
+        ),
+        items: [
+          for (final o in options) DropdownMenuItem(value: o, child: Text(o)),
+        ],
+        onChanged: on ? (v) => v == null ? null : onChanged(v) : null,
+      ),
+    );
+
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -345,94 +394,108 @@ class _MediaPlayerViewState extends ConsumerState<MediaPlayerView> {
               ),
           ],
         ),
-        if (d.supports(Capability.volume)) ...[
+        if (d.supports(Capability.volume) ||
+            d.supports(Capability.volumeStep) ||
+            d.supports(Capability.mute)) ...[
           const SizedBox(height: 12),
           Row(
             children: [
-              Icon(Icons.volume_mute_rounded, color: muted),
-              Expanded(
-                child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    trackHeight: 6,
-                    activeTrackColor: fg,
-                    inactiveTrackColor: fg.withValues(alpha: 0.2),
-                    thumbColor: fg,
-                    thumbShape: const RoundSliderThumbShape(
-                      enabledThumbRadius: 8,
+              if (d.supports(Capability.mute))
+                IconButton(
+                  key: const Key('mediaMute'),
+                  tooltip: s.isMuted == true
+                      ? l10n.mediaUnmute
+                      : l10n.mediaMute,
+                  color: s.isMuted == true ? fg : muted,
+                  isSelected: s.isMuted == true,
+                  icon: const Icon(Icons.volume_up_rounded),
+                  selectedIcon: const Icon(Icons.volume_off_rounded),
+                  onPressed: on ? () => _run(SetMute(s.isMuted != true)) : null,
+                )
+              else if (d.supports(Capability.volume))
+                Icon(Icons.volume_mute_rounded, color: muted),
+              if (d.supports(Capability.volume))
+                Expanded(
+                  child: SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      trackHeight: 6,
+                      activeTrackColor: fg,
+                      inactiveTrackColor: fg.withValues(alpha: 0.2),
+                      thumbColor: fg,
+                      thumbShape: const RoundSliderThumbShape(
+                        enabledThumbRadius: 8,
+                      ),
+                      overlayShape: SliderComponentShape.noOverlay,
                     ),
-                    overlayShape: SliderComponentShape.noOverlay,
-                  ),
-                  child: Slider(
-                    key: const Key('mediaVolume'),
-                    semanticFormatterCallback: (v) =>
-                        '${l10n.volume} ${v.round()} %',
-                    value: (_volume ?? (s.volumePercent ?? 0).toDouble()).clamp(
-                      0,
-                      100,
+                    child: Slider(
+                      key: const Key('mediaVolume'),
+                      semanticFormatterCallback: (v) =>
+                          '${l10n.volume} ${v.round()} %',
+                      value: (_volume ?? (s.volumePercent ?? 0).toDouble())
+                          .clamp(0, 100),
+                      max: 100,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      onChanged: on ? (v) => setState(() => _volume = v) : null,
+                      onChangeEnd: on
+                          ? (v) async {
+                              await _run(SetVolume(v.round()));
+                              if (mounted) setState(() => _volume = null);
+                            }
+                          : null,
                     ),
-                    max: 100,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    onChanged: on ? (v) => setState(() => _volume = v) : null,
-                    onChangeEnd: on
-                        ? (v) async {
-                            await _run(SetVolume(v.round()));
-                            if (mounted) setState(() => _volume = null);
-                          }
-                        : null,
                   ),
+                )
+              else
+                const Spacer(),
+              // Without a level (many TVs): one step at a time.
+              if (d.supports(Capability.volumeStep) &&
+                  !d.supports(Capability.volume)) ...[
+                Text(
+                  l10n.volume,
+                  style: theme.textTheme.labelLarge?.copyWith(color: muted),
                 ),
-              ),
-              Icon(Icons.volume_up_rounded, color: muted),
+                const SizedBox(width: 8),
+                IconButton.filledTonal(
+                  key: const Key('mediaVolumeDown'),
+                  tooltip: l10n.mediaVolumeDown,
+                  onPressed: on
+                      ? () => _run(const StepVolume(up: false))
+                      : null,
+                  icon: const Icon(Icons.remove),
+                ),
+                IconButton.filledTonal(
+                  key: const Key('mediaVolumeUp'),
+                  tooltip: l10n.mediaVolumeUp,
+                  onPressed: on ? () => _run(const StepVolume(up: true)) : null,
+                  icon: const Icon(Icons.add),
+                ),
+              ] else if (d.supports(Capability.volume))
+                Icon(Icons.volume_up_rounded, color: muted),
             ],
           ),
         ],
         if (d.supports(Capability.sourceSelection) &&
             d.limits.sources.isNotEmpty) ...[
           const SizedBox(height: 16),
-          Theme(
-            data: tint == null
-                ? theme
-                : theme.copyWith(
-                    colorScheme: theme.colorScheme.copyWith(
-                      onSurface: Colors.white,
-                      onSurfaceVariant: muted,
-                    ),
-                    canvasColor: Color.lerp(tint, Colors.black, 0.2),
-                  ),
-            child: DropdownButtonFormField<String>(
-              key: const Key('mediaSource'),
-              initialValue: d.limits.sources.contains(s.source)
-                  ? s.source
-                  : null,
-              iconEnabledColor: fg,
-              style: theme.textTheme.bodyLarge?.copyWith(color: fg),
-              decoration: InputDecoration(
-                labelText: l10n.mediaSource,
-                labelStyle: TextStyle(color: muted),
-                prefixIcon: Icon(Icons.input_rounded, color: muted),
-                filled: true,
-                fillColor: fg.withValues(alpha: 0.08),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18),
-                  borderSide: BorderSide(color: fg.withValues(alpha: 0.5)),
-                ),
-              ),
-              items: [
-                for (final src in d.limits.sources)
-                  DropdownMenuItem(value: src, child: Text(src)),
-              ],
-              onChanged: on
-                  ? (v) => v == null ? null : _run(SelectSource(v))
-                  : null,
-            ),
+          choice(
+            key: const Key('mediaSource'),
+            label: l10n.mediaSource,
+            icon: Icons.input_rounded,
+            value: s.source,
+            options: d.limits.sources,
+            onChanged: (v) => _run(SelectSource(v)),
+          ),
+        ],
+        if (d.supports(Capability.soundMode) &&
+            d.limits.soundModes.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          choice(
+            key: const Key('mediaSoundMode'),
+            label: l10n.mediaSoundMode,
+            icon: Icons.graphic_eq_rounded,
+            value: s.soundMode,
+            options: d.limits.soundModes,
+            onChanged: (v) => _run(SelectSoundMode(v)),
           ),
         ],
       ],

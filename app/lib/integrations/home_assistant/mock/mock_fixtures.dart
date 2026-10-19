@@ -166,9 +166,15 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Televizor',
       'device_class': 'tv',
       'source_list': ['TV', 'HDMI 1', 'HDMI 2'],
-      // PAUSE | VOLUME_SET | TURN_ON | TURN_OFF | SELECT_SOURCE | PLAY
-      'supported_features': 18821,
+      'sound_mode_list': ['Standard', 'Film', 'Muzika'],
+      'sound_mode': 'Standard',
+      'is_volume_muted': false,
+      // PAUSE | VOLUME_SET | VOLUME_MUTE | TURN_ON | TURN_OFF |
+      // SELECT_SOURCE | PLAY | SELECT_SOUND_MODE
+      'supported_features': 84365,
     }),
+    // Its remote (Android TV Remote integration).
+    e('remote.living_room_tv', 'on', {'friendly_name': 'Televizor'}),
     e('camera.front_yard', 'idle', {
       'friendly_name': 'Kamera dvorište',
       'supported_features': 0,
@@ -345,6 +351,9 @@ buildMockRegistries() {
       device('d_washer', 'Veš mašina', 'Shelly', 'Plus Plug S', 'kitchen', [
         ['shelly', 'c4:5b:be:00:33:44'],
       ]),
+      device('d_tv', 'Televizor', 'Sony', 'Bravia KD-55X85', 'living_room', [
+        ['androidtv_remote', 'aa:bb:cc:dd:ee:ff'],
+      ]),
       device('d_tv_outlet', 'TV utičnica', 'Nous', 'A1T', 'living_room', [
         ['tasmota', '3C71BF000001'],
       ]),
@@ -417,6 +426,12 @@ buildMockRegistries() {
       ),
       entity('switch.coffee_machine', 'shelly', deviceId: 'd_coffee'),
       entity('switch.tv_outlet', 'tasmota', deviceId: 'd_tv_outlet'),
+      entity(
+        'media_player.living_room_tv',
+        'androidtv_remote',
+        deviceId: 'd_tv',
+      ),
+      entity('remote.living_room_tv', 'androidtv_remote', deviceId: 'd_tv'),
       entity('switch.washer_plug', 'shelly', deviceId: 'd_washer'),
       entity('sensor.washer_plug_power', 'shelly', deviceId: 'd_washer'),
       entity(

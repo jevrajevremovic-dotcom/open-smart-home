@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../../features/devices/domain/device_command.dart';
 import '../../../features/devices/domain/smart_home_device.dart';
+import 'ha_tv_keys.dart';
 
 /// A Home Assistant service call (`POST /api/services/<domain>/<service>`).
 @immutable
@@ -173,6 +174,33 @@ class HaCommandTranslator {
       case SetVolume(:final percent):
         if (domain != 'media_player') return unsupported();
         return call('volume_set', {'volume_level': percent / 100});
+      case SetMute(:final muted):
+        if (domain != 'media_player') return unsupported();
+        return call('volume_mute', {'is_volume_muted': muted});
+      case StepVolume(:final up):
+        if (domain != 'media_player') return unsupported();
+        return call(up ? 'volume_up' : 'volume_down');
+      case SelectSoundMode(:final mode):
+        if (domain != 'media_player') return unsupported();
+        if (!device.limits.soundModes.contains(mode)) {
+          throw const AppFailure(
+            FailureKind.validation,
+            debugMessage: 'unknown sound mode',
+          );
+        }
+        return call('select_sound_mode', {'sound_mode': mode});
+      case PressTvKey(:final key):
+        final integration = device.metadata.integration;
+        final name = haTvKeyNames[integration]?[key];
+        if (name == null) return unsupported();
+        if (domain == 'remote') return call('send_command', {'command': name});
+        if (domain == 'media_player' && integration == 'webostv') {
+          return HaServiceCall('webostv', 'button', {
+            ...target,
+            'button': name,
+          });
+        }
+        return unsupported();
 
       case OpenCover():
         return switch (domain) {

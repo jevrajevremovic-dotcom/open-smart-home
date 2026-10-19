@@ -5,6 +5,7 @@ import '../models/ha_models.dart';
 import '../models/ha_registry.dart';
 import 'ha_feature_flags.dart';
 import 'ha_protocol_detector.dart';
+import 'ha_tv_keys.dart';
 
 /// Battery and signal readings shared by all entities of one physical
 /// device (they come from separate diagnostic entities in Home Assistant).
@@ -113,7 +114,24 @@ class HaDeviceMapper {
         Capability.cameraSnapshot,
         if (features.has(CameraFeature.stream)) Capability.cameraStream,
       }, DeviceState(raw: s.state)),
-      'media_player' => _mediaPlayer(s, deviceClass, features, known),
+      'media_player' => _mediaPlayer(
+        s,
+        deviceClass,
+        features,
+        known,
+        entry?.platform,
+      ),
+      'remote' => _Mapped(
+        DeviceKind.remote,
+        {
+          Capability.power,
+          if (haTvKeyNames.containsKey(entry?.platform)) Capability.tvKeys,
+        },
+        DeviceState(raw: s.state, isOn: _onOff(s.state, known)),
+        DeviceLimits(
+          tvKeys: haTvKeyNames[entry?.platform]?.keys.toSet() ?? const {},
+        ),
+      ),
       'fan' => _Mapped(
         DeviceKind.fan,
         {
@@ -263,12 +281,15 @@ class HaDeviceMapper {
         configId: s.domain == 'automation' || s.domain == 'scene'
             ? _str(a['id'])
             : null,
+        integration: entry?.platform,
       ),
       isAuxiliary:
           (entry?.hidden ?? false) ||
           entry?.entityCategory != null ||
           // The app's own device-timer scripts are plumbing, not routines.
-          s.entityId.startsWith('script.osh_timer_'),
+          s.entityId.startsWith('script.osh_timer_') ||
+          // A TV's remote is shown on the TV itself.
+          s.domain == 'remote',
     );
   }
 
@@ -540,9 +561,14 @@ class HaDeviceMapper {
     String? deviceClass,
     int features,
     bool known,
+    String? platform,
   ) {
     final a = s.attributes;
     final volume = _num(a['volume_level']);
+    // LG takes remote keys on the media player itself (webostv.button).
+    final keys = platform == 'webostv'
+        ? haTvKeyNames['webostv']!.keys.toSet()
+        : const <TvKey>{};
     return _Mapped(
       switch (deviceClass) {
         'tv' => DeviceKind.television,
@@ -550,7 +576,9 @@ class HaDeviceMapper {
         _ => DeviceKind.mediaPlayer,
       },
       {
-        if (features.has(MediaPlayerFeature.turnOn) &&
+        // Some TVs only turn off (turning on needs Wake-on-LAN or an
+        // automation): the power switch is still useful.
+        if (features.has(MediaPlayerFeature.turnOn) ||
             features.has(MediaPlayerFeature.turnOff))
           Capability.power,
         if (features.has(MediaPlayerFeature.play)) Capability.mediaPlay,
@@ -561,6 +589,10 @@ class HaDeviceMapper {
           Capability.mediaPrevious,
         if (features.has(MediaPlayerFeature.volumeSet)) Capability.volume,
         if (features.has(MediaPlayerFeature.volumeMute)) Capability.mute,
+        if (features.has(MediaPlayerFeature.volumeStep)) Capability.volumeStep,
+        if (features.has(MediaPlayerFeature.selectSoundMode))
+          Capability.soundMode,
+        if (keys.isNotEmpty) Capability.tvKeys,
         if (features.has(MediaPlayerFeature.selectSource))
           Capability.sourceSelection,
         if (features.has(MediaPlayerFeature.seek)) Capability.mediaSeek,
@@ -589,8 +621,13 @@ class HaDeviceMapper {
         mediaPositionUpdatedAt: _date(a['media_position_updated_at']),
         shuffle: a['shuffle'] is bool ? a['shuffle']! as bool : null,
         repeat: _str(a['repeat']),
+        soundMode: _str(a['sound_mode']),
       ),
-      DeviceLimits(sources: _strList(a['source_list'])),
+      DeviceLimits(
+        sources: _strList(a['source_list']),
+        soundModes: _strList(a['sound_mode_list']),
+        tvKeys: keys,
+      ),
     );
   }
 

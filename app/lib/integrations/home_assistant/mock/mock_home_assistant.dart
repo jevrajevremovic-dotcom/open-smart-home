@@ -172,6 +172,9 @@ class MockHomeAssistantServer {
   /// The last `tts.speak` call (its data), for tests.
   Map<String, Object?>? lastTtsSpeak;
 
+  /// Keys sent to TV remotes (`remote.send_command`), oldest first.
+  final List<String> remoteCommands = [];
+
   /// Persistent notifications (`persistent_notification/subscribe`).
   final Map<String, Map<String, Object?>> notifications = {
     'config_entry_discovery': {
@@ -1227,6 +1230,11 @@ class MockHomeAssistantServer {
       _todoService(service, data);
       return const [];
     }
+    if (domain == 'remote' && service == 'send_command') {
+      final command = data['command'];
+      if (command is String) remoteCommands.add(command);
+      return const [];
+    }
     if (domain == 'tts' && service == 'speak') {
       lastTtsSpeak = Map.of(data);
       return const [];
@@ -1353,6 +1361,16 @@ class MockHomeAssistantServer {
         case ('media_player', 'volume_set'):
           final v = data['volume_level'];
           if (v is num) attrs['volume_level'] = v.toDouble();
+        case ('media_player', 'volume_mute'):
+          if (data['is_volume_muted'] is bool) {
+            attrs['is_volume_muted'] = data['is_volume_muted'];
+          }
+        case ('media_player', 'select_sound_mode'):
+          final mode = data['sound_mode'];
+          if (mode is String &&
+              (attrs['sound_mode_list'] as List?)?.contains(mode) == true) {
+            attrs['sound_mode'] = mode;
+          }
         case ('alarm_control_panel', final s) when s.startsWith('alarm_arm_'):
           state = 'armed_${s.substring('alarm_arm_'.length)}';
         case ('alarm_control_panel', 'alarm_disarm'):

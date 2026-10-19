@@ -37,6 +37,9 @@ enum DeviceKind {
   mediaPlayer,
   speaker,
   television,
+
+  /// A TV's remote control (Home Assistant `remote`), shown on the TV.
+  remote,
   energyMeter,
   powerMeter,
   waterMeter,

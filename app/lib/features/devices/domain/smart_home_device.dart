@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 
 import 'capability.dart';
 import 'device_kind.dart';
+import 'tv_key.dart';
+
+export 'tv_key.dart';
 
 enum CoverState { open, closed, opening, closing }
 
@@ -92,6 +95,7 @@ class DeviceState {
     this.mediaPositionUpdatedAt,
     this.shuffle,
     this.repeat,
+    this.soundMode,
     this.lastTriggered,
     this.windSpeed,
     this.windSpeedUnit,
@@ -157,6 +161,10 @@ class DeviceState {
   final DateTime? mediaPositionUpdatedAt;
   final bool? shuffle;
 
+  /// Media player's sound mode (`Movie`, `Music`…), one of
+  /// [DeviceLimits.soundModes].
+  final String? soundMode;
+
   /// `off`, `all` or `one`.
   final String? repeat;
 
@@ -208,6 +216,8 @@ class DeviceLimits {
     this.valueStep,
     this.percentageStep,
     this.todoFeatures = 0,
+    this.soundModes = const [],
+    this.tvKeys = const {},
   });
 
   static const DeviceLimits none = DeviceLimits();
@@ -247,6 +257,12 @@ class DeviceLimits {
   /// Home Assistant `TodoListEntityFeature` flags of a to-do list:
   /// 1 create, 2 delete, 4 update items.
   final int todoFeatures;
+
+  /// Sound modes of a media player.
+  final List<String> soundModes;
+
+  /// Remote-control keys a TV (or its remote entity) takes.
+  final Set<TvKey> tvKeys;
 }
 
 @immutable
@@ -261,6 +277,7 @@ class DeviceMetadata {
     this.lastUpdated,
     this.picturePath,
     this.configId,
+    this.integration,
   });
 
   /// From a battery sensor of the same physical device, if any.
@@ -284,6 +301,10 @@ class DeviceMetadata {
   /// Id of a UI-managed automation/script (attribute `id`), needed to
   /// delete it.
   final String? configId;
+
+  /// Home Assistant integration that provides the entity (`webostv`,
+  /// `samsungtv`…), where its services differ by integration.
+  final String? integration;
 }
 
 /// The protocol-independent device model the whole UI works with.

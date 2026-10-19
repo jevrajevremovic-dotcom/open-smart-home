@@ -197,6 +197,37 @@ final class SetVolume extends DeviceCommand {
   Capability get requiredCapability => Capability.volume;
 }
 
+/// Sound on or off ([muted]).
+final class SetMute extends DeviceCommand {
+  const SetMute(this.muted);
+  final bool muted;
+  @override
+  Capability get requiredCapability => Capability.mute;
+}
+
+/// Volume one step up ([up]) or down.
+final class StepVolume extends DeviceCommand {
+  const StepVolume({required this.up});
+  final bool up;
+  @override
+  Capability get requiredCapability => Capability.volumeStep;
+}
+
+final class SelectSoundMode extends DeviceCommand {
+  const SelectSoundMode(this.mode);
+  final String mode;
+  @override
+  Capability get requiredCapability => Capability.soundMode;
+}
+
+/// A key of the TV remote.
+final class PressTvKey extends DeviceCommand {
+  const PressTvKey(this.key);
+  final TvKey key;
+  @override
+  Capability get requiredCapability => Capability.tvKeys;
+}
+
 final class OpenCover extends DeviceCommand {
   const OpenCover();
   @override

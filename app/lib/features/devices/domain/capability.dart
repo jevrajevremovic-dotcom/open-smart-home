@@ -45,6 +45,13 @@ enum Capability {
   mediaPrevious,
   volume,
   mute,
+
+  /// Volume one step up or down (no level).
+  volumeStep,
+  soundMode,
+
+  /// Takes remote-control keys ([DeviceLimits.tvKeys]).
+  tvKeys,
   sourceSelection,
   mediaSeek,
   shuffle,

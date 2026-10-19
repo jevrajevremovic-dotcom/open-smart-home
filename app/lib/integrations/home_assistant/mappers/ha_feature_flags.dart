@@ -62,6 +62,7 @@ abstract final class MediaPlayerFeature {
   static const stop = 4096;
   static const play = 16384;
   static const shuffleSet = 32768;
+  static const selectSoundMode = 65536;
   static const repeatSet = 262144;
 }
 

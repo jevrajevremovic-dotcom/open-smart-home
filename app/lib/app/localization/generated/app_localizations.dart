@@ -6656,6 +6656,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Schedule: {name} (Open Smart Home)'**
   String heatingScheduleAlias(String name);
+
+  /// No description provided for @mediaMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get mediaMute;
+
+  /// No description provided for @mediaUnmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get mediaUnmute;
+
+  /// No description provided for @mediaVolumeUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume up'**
+  String get mediaVolumeUp;
+
+  /// No description provided for @mediaVolumeDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume down'**
+  String get mediaVolumeDown;
+
+  /// No description provided for @mediaSoundMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound mode'**
+  String get mediaSoundMode;
+
+  /// No description provided for @tvRemote.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote'**
+  String get tvRemote;
+
+  /// No description provided for @tvUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Up'**
+  String get tvUp;
+
+  /// No description provided for @tvDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Down'**
+  String get tvDown;
+
+  /// No description provided for @tvLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get tvLeft;
+
+  /// No description provided for @tvRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get tvRight;
+
+  /// No description provided for @tvOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get tvOk;
+
+  /// No description provided for @tvBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get tvBack;
+
+  /// No description provided for @tvHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get tvHome;
+
+  /// No description provided for @tvMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get tvMenu;
+
+  /// No description provided for @tvPlayPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Play / pause'**
+  String get tvPlayPause;
+
+  /// No description provided for @tvVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Vol'**
+  String get tvVolume;
+
+  /// No description provided for @tvChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ch'**
+  String get tvChannel;
+
+  /// No description provided for @tvChannelUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel up'**
+  String get tvChannelUp;
+
+  /// No description provided for @tvChannelDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel down'**
+  String get tvChannelDown;
 }
 
 class _AppLocalizationsDelegate

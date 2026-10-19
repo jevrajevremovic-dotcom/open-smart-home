@@ -3863,6 +3863,63 @@ class AppLocalizationsSr extends AppLocalizations {
   String heatingScheduleAlias(String name) {
     return 'Raspored: $name (Open Smart Home)';
   }
+
+  @override
+  String get mediaMute => 'Isključi zvuk';
+
+  @override
+  String get mediaUnmute => 'Uključi zvuk';
+
+  @override
+  String get mediaVolumeUp => 'Pojačaj';
+
+  @override
+  String get mediaVolumeDown => 'Utišaj';
+
+  @override
+  String get mediaSoundMode => 'Zvučni režim';
+
+  @override
+  String get tvRemote => 'Daljinski';
+
+  @override
+  String get tvUp => 'Gore';
+
+  @override
+  String get tvDown => 'Dole';
+
+  @override
+  String get tvLeft => 'Levo';
+
+  @override
+  String get tvRight => 'Desno';
+
+  @override
+  String get tvOk => 'OK';
+
+  @override
+  String get tvBack => 'Nazad';
+
+  @override
+  String get tvHome => 'Početni ekran';
+
+  @override
+  String get tvMenu => 'Meni';
+
+  @override
+  String get tvPlayPause => 'Pusti / pauziraj';
+
+  @override
+  String get tvVolume => 'Zvuk';
+
+  @override
+  String get tvChannel => 'Kanal';
+
+  @override
+  String get tvChannelUp => 'Sledeći kanal';
+
+  @override
+  String get tvChannelDown => 'Prethodni kanal';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

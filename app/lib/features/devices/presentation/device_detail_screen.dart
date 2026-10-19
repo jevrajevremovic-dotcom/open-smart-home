@@ -23,6 +23,7 @@ import 'controls/more_controls.dart';
 import 'controls/other_controls.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../restricted/application/restricted_mode.dart';
+import '../../media/presentation/tv_remote.dart';
 import 'device_edit.dart';
 import 'device_history.dart';
 import 'device_presentation.dart';
@@ -164,9 +165,10 @@ List<Widget> deviceControlsFor(SmartHomeDevice d) {
       DeviceKind.vacuum => [VacuumControls(device: d)],
       DeviceKind.select => [SelectControls(device: d)],
       DeviceKind.number => [NumberControls(device: d)],
-      DeviceKind.mediaPlayer ||
-      DeviceKind.speaker ||
-      DeviceKind.television => [MediaControls(device: d)],
+      DeviceKind.mediaPlayer || DeviceKind.speaker || DeviceKind.television => [
+        MediaControls(device: d),
+        TvRemotePad(tvId: d.id),
+      ],
       _ when d.kind.isRoutine || d.kind == DeviceKind.button => [
         RoutineControls(device: d),
       ],

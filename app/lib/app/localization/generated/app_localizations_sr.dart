@@ -3635,6 +3635,45 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get lowTariffNeedsPush =>
       'Prvo uključite „Poruke iz Home Assistanta” (Podešavanja › Obaveštenja).';
+
+  @override
+  String get kioskAlertAck => 'Video sam';
+
+  @override
+  String get kioskAlertShow => 'Prikaži uređaj';
+
+  @override
+  String kioskAlertOpenFor(int minutes) {
+    return 'Otvoreno već $minutes min';
+  }
+
+  @override
+  String kioskAlertMore(int count) {
+    return 'još $count';
+  }
+
+  @override
+  String kioskAlertSpeech(String name, String status) {
+    return 'Upozorenje! $name: $status.';
+  }
+
+  @override
+  String get kioskAlertSetting => 'Upozorenja preko celog ekrana';
+
+  @override
+  String get kioskAlertSettingHint =>
+      'Dim, ugljen-monoksid, curenje vode, aktiviran alarm ili zaglavljena brava prekrivaju ceo ekran i izgovore se, dok neko ne potvrdi.';
+
+  @override
+  String get kioskOpenAlert => 'Vrata ili prozor otvoreni duže od';
+
+  @override
+  String get kioskOpenAlertNever => 'Nikad';
+
+  @override
+  String kioskOpenAlertMinutes(int minutes) {
+    return '$minutes min';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

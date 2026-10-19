@@ -52,7 +52,7 @@ DeviceGroup groupOf(DeviceKind kind) => switch (kind) {
   _ => DeviceGroup.other,
 };
 
-bool _isCriticalAlert(SmartHomeDevice d) =>
+bool isCriticalAlert(SmartHomeDevice d) =>
     d.available &&
     (((d.kind == DeviceKind.smokeSensor ||
                 d.kind == DeviceKind.coSensor ||
@@ -63,7 +63,7 @@ bool _isCriticalAlert(SmartHomeDevice d) =>
         (d.kind == DeviceKind.lock &&
             d.state.lockState == DoorLockState.jammed));
 
-bool _isOpening(SmartHomeDevice d) =>
+bool isOpening(SmartHomeDevice d) =>
     d.available &&
     ((d.kind == DeviceKind.contactSensor && d.state.isActive == true) ||
         (d.kind == DeviceKind.garageDoor &&
@@ -175,12 +175,12 @@ DashboardSummary summarize(Iterable<SmartHomeDevice> all) {
     lightsTotal: lights.length,
     openingIds: [
       for (final d in devices)
-        if (_isOpening(d)) d.id,
+        if (isOpening(d)) d.id,
     ],
     powerDeviceId: power.isEmpty ? null : power.first.id,
     criticalIds: [
       for (final d in devices)
-        if (_isCriticalAlert(d)) d.id,
+        if (isCriticalAlert(d)) d.id,
     ],
     lowBatteryIds: [
       for (final d in devices)
@@ -263,7 +263,7 @@ final roomSummaryProvider = Provider.family<RoomSummary, String?>((
     deviceCount: list.length,
     lightsOn: summary.lightsOn,
     activeCount: list
-        .where((d) => d.available && (d.state.isOn == true || _isOpening(d)))
+        .where((d) => d.available && (d.state.isOn == true || isOpening(d)))
         .length,
     alertCount: summary.attentionCount,
     temperature: summary.averageTemperature,

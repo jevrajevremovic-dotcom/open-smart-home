@@ -40,6 +40,8 @@ class KioskSettings {
     this.wakeWordEnabled = false,
     this.approachWake = ApproachWake.off,
     this.approachSensorId,
+    this.alertOverlay = true,
+    this.openAlertMinutes = 10,
     this.popupTriggerIds = const [],
     this.popupCameraId,
     this.popupSeconds = 60,
@@ -94,6 +96,10 @@ class KioskSettings {
         (a) => a.name == json['approachWake'],
         orElse: () => d.approachWake,
       ),
+      alertOverlay: json['alertOverlay'] != false,
+      openAlertMinutes: json['openAlertMinutes'] is int
+          ? json['openAlertMinutes']! as int
+          : d.openAlertMinutes,
       approachSensorId: json['approachSensorId'] is String
           ? json['approachSensorId']! as String
           : null,
@@ -194,6 +200,14 @@ class KioskSettings {
   /// (movement found on the tablet, nothing recorded or sent).
   final ApproachWake approachWake;
   final String? approachSensorId;
+
+  /// Critical alerts (smoke, CO, leak, alarm triggered, jammed lock) cover
+  /// the whole kiosk screen until acknowledged.
+  final bool alertOverlay;
+
+  /// A door or window open longer than this also covers the screen (0 =
+  /// never).
+  final int openAlertMinutes;
 
   /// A doorbell, motion or contact sensor that wakes the screen and shows
   /// [popupCameraId] full screen for [popupSeconds].
@@ -310,6 +324,8 @@ class KioskSettings {
     bool? wakeWordEnabled,
     ApproachWake? approachWake,
     String? approachSensorId,
+    bool? alertOverlay,
+    int? openAlertMinutes,
     List<String>? popupTriggerIds,
     String? popupCameraId,
     bool clearPopupCamera = false,
@@ -354,6 +370,8 @@ class KioskSettings {
     wakeWordEnabled: wakeWordEnabled ?? this.wakeWordEnabled,
     approachWake: approachWake ?? this.approachWake,
     approachSensorId: approachSensorId ?? this.approachSensorId,
+    alertOverlay: alertOverlay ?? this.alertOverlay,
+    openAlertMinutes: openAlertMinutes ?? this.openAlertMinutes,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
@@ -389,6 +407,8 @@ class KioskSettings {
     'wakeWordEnabled': wakeWordEnabled,
     'approachWake': approachWake.name,
     'approachSensorId': approachSensorId,
+    'alertOverlay': alertOverlay,
+    'openAlertMinutes': openAlertMinutes,
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,

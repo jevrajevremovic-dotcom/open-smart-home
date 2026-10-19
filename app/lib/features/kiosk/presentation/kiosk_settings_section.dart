@@ -217,6 +217,47 @@ class KioskSettingsSection extends ConsumerWidget {
         const ClapSettings(),
         const WakeWordSettings(),
         const ApproachSettings(),
+        SwitchListTile(
+          key: const Key('kioskAlertSwitch'),
+          contentPadding: EdgeInsets.zero,
+          secondary: const Icon(Icons.crisis_alert_rounded),
+          title: Text(l10n.kioskAlertSetting),
+          subtitle: Text(l10n.kioskAlertSettingHint),
+          value: settings.alertOverlay,
+          onChanged: (v) =>
+              controller.update((s) => s.copyWith(alertOverlay: v)),
+        ),
+        if (settings.alertOverlay)
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 40),
+            title: Text(l10n.kioskOpenAlert),
+            trailing: DropdownButton<int>(
+              key: const Key('kioskOpenAlert'),
+              value: settings.openAlertMinutes,
+              onChanged: (v) => v == null
+                  ? null
+                  : controller.update((s) => s.copyWith(openAlertMinutes: v)),
+              items: [
+                for (final m in {
+                  0,
+                  5,
+                  10,
+                  15,
+                  30,
+                  60,
+                  settings.openAlertMinutes,
+                })
+                  DropdownMenuItem(
+                    value: m,
+                    child: Text(
+                      m == 0
+                          ? l10n.kioskOpenAlertNever
+                          : l10n.kioskOpenAlertMinutes(m),
+                    ),
+                  ),
+              ],
+            ),
+          ),
         if (!settings.bubble)
           SwitchListTile(
             contentPadding: EdgeInsets.zero,

@@ -3616,4 +3616,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lowTariffNeedsPush =>
       'First turn on “Messages from Home Assistant” (Settings › Notifications).';
+
+  @override
+  String get kioskAlertAck => 'Got it';
+
+  @override
+  String get kioskAlertShow => 'Show device';
+
+  @override
+  String kioskAlertOpenFor(int minutes) {
+    return 'Open for $minutes min';
+  }
+
+  @override
+  String kioskAlertMore(int count) {
+    return '+$count more';
+  }
+
+  @override
+  String kioskAlertSpeech(String name, String status) {
+    return 'Warning! $name: $status.';
+  }
+
+  @override
+  String get kioskAlertSetting => 'Full-screen alerts';
+
+  @override
+  String get kioskAlertSettingHint =>
+      'Smoke, carbon monoxide, water leak, a triggered alarm or a jammed lock covers the whole screen and is spoken until someone confirms it.';
+
+  @override
+  String get kioskOpenAlert => 'Door or window open longer than';
+
+  @override
+  String get kioskOpenAlertNever => 'Never';
+
+  @override
+  String kioskOpenAlertMinutes(int minutes) {
+    return '$minutes min';
+  }
 }

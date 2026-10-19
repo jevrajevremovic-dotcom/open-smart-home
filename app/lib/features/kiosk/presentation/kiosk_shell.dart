@@ -9,6 +9,7 @@ import '../../../app/router/app_router.dart';
 import '../../assist/presentation/wake_word_listener.dart';
 import '../application/kiosk_controller.dart';
 import 'camera_popup.dart';
+import 'kiosk_alert_overlay.dart';
 import 'kiosk_ambient.dart';
 import 'kiosk_approach_waker.dart';
 import 'kiosk_layout_view.dart';
@@ -131,16 +132,18 @@ class _KioskShellState extends ConsumerState<KioskShell> {
         onPointerDown: (_) => _onInteraction(),
         child: KioskCameraPopup(
           onShow: _onInteraction,
-          child: KioskApproachWaker(
-            child: KioskWakeWordListener(
-              child: Stack(
-                children: [
-                  widget.child,
-                  if (_dimmed)
-                    Positioned.fill(
-                      child: KioskAmbient(onWake: _onInteraction),
-                    ),
-                ],
+          child: KioskAlertOverlay(
+            child: KioskApproachWaker(
+              child: KioskWakeWordListener(
+                child: Stack(
+                  children: [
+                    widget.child,
+                    if (_dimmed)
+                      Positioned.fill(
+                        child: KioskAmbient(onWake: _onInteraction),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

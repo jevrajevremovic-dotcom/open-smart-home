@@ -1034,5 +1034,15 @@
   "lowTariffRemove": "Ukloni podsetnik",
   "lowTariffCreated": "Podsetnik za nižu tarifu je uključen.",
   "lowTariffRemoved": "Podsetnik za nižu tarifu je uklonjen.",
-  "lowTariffNeedsPush": "Prvo uključite „Poruke iz Home Assistanta” (Podešavanja › Obaveštenja)."
+  "lowTariffNeedsPush": "Prvo uključite „Poruke iz Home Assistanta” (Podešavanja › Obaveštenja).",
+  "kioskAlertAck": "Video sam",
+  "kioskAlertShow": "Prikaži uređaj",
+  "kioskAlertOpenFor": "Otvoreno već {minutes} min",
+  "kioskAlertMore": "još {count}",
+  "kioskAlertSpeech": "Upozorenje! {name}: {status}.",
+  "kioskAlertSetting": "Upozorenja preko celog ekrana",
+  "kioskAlertSettingHint": "Dim, ugljen-monoksid, curenje vode, aktiviran alarm ili zaglavljena brava prekrivaju ceo ekran i izgovore se, dok neko ne potvrdi.",
+  "kioskOpenAlert": "Vrata ili prozor otvoreni duže od",
+  "kioskOpenAlertNever": "Nikad",
+  "kioskOpenAlertMinutes": "{minutes} min"
 }

@@ -6302,6 +6302,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'First turn on “Messages from Home Assistant” (Settings › Notifications).'**
   String get lowTariffNeedsPush;
+
+  /// No description provided for @kioskAlertAck.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get kioskAlertAck;
+
+  /// No description provided for @kioskAlertShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Show device'**
+  String get kioskAlertShow;
+
+  /// No description provided for @kioskAlertOpenFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Open for {minutes} min'**
+  String kioskAlertOpenFor(int minutes);
+
+  /// No description provided for @kioskAlertMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} more'**
+  String kioskAlertMore(int count);
+
+  /// No description provided for @kioskAlertSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning! {name}: {status}.'**
+  String kioskAlertSpeech(String name, String status);
+
+  /// No description provided for @kioskAlertSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Full-screen alerts'**
+  String get kioskAlertSetting;
+
+  /// No description provided for @kioskAlertSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke, carbon monoxide, water leak, a triggered alarm or a jammed lock covers the whole screen and is spoken until someone confirms it.'**
+  String get kioskAlertSettingHint;
+
+  /// No description provided for @kioskOpenAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'Door or window open longer than'**
+  String get kioskOpenAlert;
+
+  /// No description provided for @kioskOpenAlertNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get kioskOpenAlertNever;
+
+  /// No description provided for @kioskOpenAlertMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String kioskOpenAlertMinutes(int minutes);
 }
 
 class _AppLocalizationsDelegate

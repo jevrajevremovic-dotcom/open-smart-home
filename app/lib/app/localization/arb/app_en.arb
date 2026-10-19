@@ -1557,5 +1557,19 @@
   "lowTariffRemove": "Remove reminder",
   "lowTariffCreated": "Lower rate reminder is on.",
   "lowTariffRemoved": "Lower rate reminder removed.",
-  "lowTariffNeedsPush": "First turn on “Messages from Home Assistant” (Settings › Notifications)."
+  "lowTariffNeedsPush": "First turn on “Messages from Home Assistant” (Settings › Notifications).",
+  "kioskAlertAck": "Got it",
+  "kioskAlertShow": "Show device",
+  "kioskAlertOpenFor": "Open for {minutes} min",
+  "@kioskAlertOpenFor": {"placeholders": {"minutes": {"type": "int"}}},
+  "kioskAlertMore": "+{count} more",
+  "@kioskAlertMore": {"placeholders": {"count": {"type": "int"}}},
+  "kioskAlertSpeech": "Warning! {name}: {status}.",
+  "@kioskAlertSpeech": {"placeholders": {"name": {"type": "String"}, "status": {"type": "String"}}},
+  "kioskAlertSetting": "Full-screen alerts",
+  "kioskAlertSettingHint": "Smoke, carbon monoxide, water leak, a triggered alarm or a jammed lock covers the whole screen and is spoken until someone confirms it.",
+  "kioskOpenAlert": "Door or window open longer than",
+  "kioskOpenAlertNever": "Never",
+  "kioskOpenAlertMinutes": "{minutes} min",
+  "@kioskOpenAlertMinutes": {"placeholders": {"minutes": {"type": "int"}}}
 }

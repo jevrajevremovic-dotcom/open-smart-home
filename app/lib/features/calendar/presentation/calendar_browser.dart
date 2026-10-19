@@ -15,7 +15,15 @@ class CalendarBrowser extends ConsumerStatefulWidget {
     this.wide = true,
     this.fitGrid = false,
     this.header,
+    this.gridScale = 1,
+    this.agendaDays = 7,
   });
+
+  /// How many days the agenda covers.
+  final int agendaDays;
+
+  /// Size of the month grid's days and labels (see [MonthGrid.scale]).
+  final double gridScale;
 
   final CalendarPalette palette;
   final bool wide;
@@ -66,6 +74,7 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
       selectedDay: _selected,
       events: list,
       palette: p,
+      scale: widget.gridScale,
       onMonth: (m) => setState(() => _month = m),
       onSelect: (d) => setState(() {
         _selected = d;
@@ -83,6 +92,7 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
             events: list,
             from: _selected,
             palette: p,
+            days: widget.agendaDays,
             shrinkWrap: !widget.wide,
           );
 
@@ -90,7 +100,7 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: widget.wide ? MainAxisSize.max : MainAxisSize.min,
       children: [
-        ?widget.header,
+        if (widget.wide) ?widget.header,
         if (events.isLoading && !events.hasValue)
           LinearProgressIndicator(color: p.accent, minHeight: 2),
         if (widget.wide) Expanded(child: EdgeFade(child: agenda)) else agenda,
@@ -100,7 +110,8 @@ class _CalendarBrowserState extends ConsumerState<CalendarBrowser> {
     if (!widget.wide) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [grid, const SizedBox(height: 12), left],
+        // Title, the month, then the agenda.
+        children: [?widget.header, grid, const SizedBox(height: 12), left],
       );
     }
     return Row(

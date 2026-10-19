@@ -56,7 +56,11 @@ class MonthGrid extends StatelessWidget {
     required this.onSelect,
     required this.onMonth,
     required this.palette,
+    this.scale = 1,
   });
+
+  /// Larger days, labels and title (e.g. a wall tablet across the room).
+  final double scale;
 
   final DateTime month;
   final DateTime selectedDay;
@@ -70,6 +74,9 @@ class MonthGrid extends StatelessWidget {
     final l10n = context.l10n;
     final locale = l10n.localeName;
     final theme = Theme.of(context);
+    final k = scale;
+    TextStyle? big(TextStyle? t) =>
+        t?.copyWith(fontSize: (t.fontSize ?? 14) * k);
     final first = DateTime(month.year, month.month);
     final lead = first.weekday - 1; // Monday first
     final daysInMonth = DateUtils.getDaysInMonth(month.year, month.month);
@@ -93,13 +100,13 @@ class MonthGrid extends StatelessWidget {
         child: InkResponse(
           key: ValueKey('calDay-${day.month}-${day.day}'),
           onTap: () => onSelect(day),
-          radius: 22,
+          radius: 22 * k,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 32 * k,
+                height: 32 * k,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -111,7 +118,7 @@ class MonthGrid extends StatelessWidget {
                 ),
                 child: Text(
                   '${day.day}',
-                  style: theme.textTheme.bodyLarge?.copyWith(
+                  style: big(theme.textTheme.bodyLarge)?.copyWith(
                     color: isToday
                         ? palette.onAccent
                         : inMonth
@@ -123,10 +130,10 @@ class MonthGrid extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2 * k),
               Container(
-                width: 5,
-                height: 5,
+                width: 5 * k,
+                height: 5 * k,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: busy ? palette.muted : Colors.transparent,
@@ -158,9 +165,8 @@ class MonthGrid extends StatelessWidget {
                 ),
                 key: const Key('calMonthTitle'),
                 textAlign: TextAlign.center,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: palette.text,
-                ),
+                style: big(theme.textTheme.titleMedium)
+                    ?.copyWith(color: palette.text),
               ),
             ),
             IconButton(
@@ -179,9 +185,8 @@ class MonthGrid extends StatelessWidget {
                 child: Text(
                   w.toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: palette.muted,
-                  ),
+                  style: big(theme.textTheme.labelSmall)
+                      ?.copyWith(color: palette.muted),
                 ),
               ),
           ],
@@ -189,7 +194,7 @@ class MonthGrid extends StatelessWidget {
         const SizedBox(height: 4),
         for (var r = 0; r < rows; r++)
           SizedBox(
-            height: 42,
+            height: 42 * k,
             child: Row(
               children: [
                 for (var c = 0; c < 7; c++)

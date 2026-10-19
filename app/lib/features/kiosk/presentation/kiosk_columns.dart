@@ -193,21 +193,22 @@ class _HomeOverview extends ConsumerWidget {
         const SizedBox(height: 16),
         const NowPlayingCard(),
         const SizedBox(height: 16),
+        // The month across the whole card (big enough to read from a
+        // distance), the agenda below.
         Card(
           key: const Key('kioskColumnsCalendar'),
           margin: EdgeInsets.zero,
           clipBehavior: Clip.antiAlias,
-          child: SizedBox(
-            height: 380,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 12, 8),
-              child: CalendarBrowser(
-                palette: CalendarPalette.of(theme),
-                fitGrid: true,
-                header: Text(
-                  l10n.calendarTitle,
-                  style: theme.textTheme.titleMedium,
-                ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+            child: CalendarBrowser(
+              palette: CalendarPalette.of(theme),
+              wide: false,
+              gridScale: 1.45,
+              agendaDays: 2,
+              header: Text(
+                l10n.calendarTitle,
+                style: theme.textTheme.titleMedium,
               ),
             ),
           ),

@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Kiosk „Kolone”, Početna: kalendar sa mesecom preko cele širine kartice i ≈ 1,5× većim danima, nazivima dana i naslovom meseca (čitljivo iz sobe), naslov iznad, događaji za danas i sutra ispod.
 - Sređivanje koda (bez promene ponašanja): najveće datoteke podeljene na delove (`part`) — paneli kioska (vreme, prostorije, prečice, statusna traka), zaglavlje kioska i prozor sobe, početni ekran (pregled, sekcije), editor rasporeda i stranica kioska, demo server (server, socket, API); najveća datoteka aplikacije sada ima ≈ 460 linija (demo server ≈ 1.550).
 - Manje posla u pozadini: pozdrav ukućana, iskačuća kamera, izbor vremenske prognoze i „sada svira” reaguju samo na promene svojih uređaja, ne na svaku promenu u kući.
 - Merenje performansi (`integration_test/perf_test.dart`, `idle_probe_test.dart`, samo na emulatoru): priprema sličice prosečno 0,1–0,4 ms (najgore 7 ms) pri listanju, prevlačenju stranica kioska i otvaranju prozora; kiosk u mirovanju crta 1–7 sličica za 4 s po panelu (kamera i traka plejera), bez stalnih animacija.

@@ -2596,11 +2596,11 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
-  String get kioskDarkScreensaver => 'Čuvar ekrana gasi osvetljenje';
+  String get kioskDarkScreensaver => 'Prigušeno osvetljenje u mirovanju';
 
   @override
   String get kioskDarkScreensaverHint =>
-      'Najniža osvetljenost dok je čuvar ekrana uključen; štedi struju i ne svetli noću.';
+      'Dok je ekran u mirovanju, osvetljenje je na nivou ispod (noću najviše „Tamnije noću”).';
 
   @override
   String get kioskNight => 'Tamnije noću';
@@ -3444,6 +3444,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String aodNowUntil(String time) {
     return 'sada, do $time';
   }
+
+  @override
+  String get aodBrightness => 'Osvetljenost u mirovanju';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

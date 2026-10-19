@@ -38,6 +38,28 @@ class NightBrightnessSettings extends ConsumerWidget {
           onChanged: (v) =>
               controller.update((k) => k.copyWith(darkScreensaver: v)),
         ),
+        if (s.darkScreensaver)
+          Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Row(
+              children: [
+                Text(l10n.aodBrightness),
+                Expanded(
+                  child: Slider(
+                    key: const Key('aodBrightness'),
+                    value: s.aodBrightness,
+                    min: 0.05,
+                    max: 1,
+                    divisions: 19,
+                    label: '${(s.aodBrightness * 100).round()} %',
+                    onChanged: (v) =>
+                        controller.update((k) => k.copyWith(aodBrightness: v)),
+                  ),
+                ),
+                Text('${(s.aodBrightness * 100).round()} %'),
+              ],
+            ),
+          ),
         SwitchListTile(
           key: const Key('kioskNight'),
           contentPadding: EdgeInsets.zero,

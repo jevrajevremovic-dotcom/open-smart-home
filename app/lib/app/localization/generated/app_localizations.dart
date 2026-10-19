@@ -4578,13 +4578,13 @@ abstract class AppLocalizations {
   /// No description provided for @kioskDarkScreensaver.
   ///
   /// In en, this message translates to:
-  /// **'Screensaver turns the screen down'**
+  /// **'Dimmed backlight when idle'**
   String get kioskDarkScreensaver;
 
   /// No description provided for @kioskDarkScreensaverHint.
   ///
   /// In en, this message translates to:
-  /// **'Lowest backlight while the screensaver shows; saves power and lights up nothing at night.'**
+  /// **'While the screen is idle the backlight is at the level below (at night at most “Darker at night”).'**
   String get kioskDarkScreensaverHint;
 
   /// No description provided for @kioskNight.
@@ -5960,6 +5960,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'now, until {time}'**
   String aodNowUntil(String time);
+
+  /// No description provided for @aodBrightness.
+  ///
+  /// In en, this message translates to:
+  /// **'Always-on brightness'**
+  String get aodBrightness;
 }
 
 class _AppLocalizationsDelegate

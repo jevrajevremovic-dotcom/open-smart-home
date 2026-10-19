@@ -1171,8 +1171,8 @@
       }
     }
   },
-  "kioskDarkScreensaver": "Screensaver turns the screen down",
-  "kioskDarkScreensaverHint": "Lowest backlight while the screensaver shows; saves power and lights up nothing at night.",
+  "kioskDarkScreensaver": "Dimmed backlight when idle",
+  "kioskDarkScreensaverHint": "While the screen is idle the backlight is at the level below (at night at most “Darker at night”).",
   "kioskNight": "Darker at night",
   "kioskNightHint": "Lower brightness on a schedule",
   "kioskNightRange": "{from} – {to}",
@@ -1497,5 +1497,6 @@
   "morningHighLow": "high {high}, low {low}",
   "@morningHighLow": {"placeholders": {"high": {"type": "String"}, "low": {"type": "String"}}},
   "aodNowUntil": "now, until {time}",
-  "@aodNowUntil": {"placeholders": {"time": {"type": "String"}}}
+  "@aodNowUntil": {"placeholders": {"time": {"type": "String"}}},
+  "aodBrightness": "Always-on brightness"
 }

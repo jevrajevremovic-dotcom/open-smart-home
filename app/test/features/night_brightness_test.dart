@@ -21,8 +21,18 @@ void main() {
     expect(s.brightnessAt(at(12, 0), dimmed: false), isNull);
     expect(
       s.brightnessAt(at(12, 0), dimmed: true),
-      0.01,
-      reason: 'screensaver',
+      0.4,
+      reason: 'always-on screen: readable, not glaring',
+    );
+    expect(
+      s.brightnessAt(at(23, 30), dimmed: true),
+      0.2,
+      reason: 'at night the darker of the two',
+    );
+    expect(
+      const KioskSettings(aodBrightness: 0.7)
+          .brightnessAt(at(12, 0), dimmed: true),
+      0.7,
     );
     const day = KioskSettings(
       nightBrightness: true,
@@ -54,7 +64,7 @@ void main() {
     await tester.pump(const Duration(seconds: 31));
     await settle(tester, 2);
     expect(find.byKey(const Key('kioskScreensaver')), findsOneWidget);
-    expect(platform.brightness, 0.01);
+    expect(platform.brightness, 0.4);
 
     await tester.tap(find.byKey(const Key('kioskScreensaver')));
     await settle(tester, 2);

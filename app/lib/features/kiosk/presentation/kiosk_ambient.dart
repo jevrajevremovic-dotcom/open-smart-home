@@ -17,11 +17,11 @@ import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'kiosk_panels.dart' show kioskNowProvider;
 
-/// Dim text on black: bright enough to read across a room at night,
-/// dark enough to stay out of the way.
-const _bright = Color(0xD9FFFFFF);
-const _dim = Color(0x99FFFFFF);
-const _faint = Color(0x66FFFFFF);
+/// Text on black, readable across a room (the screen itself is dimmed by
+/// the always-on brightness, so the text stays near white).
+const _bright = Colors.white;
+const _dim = Color(0xE6FFFFFF);
+const _faint = Color(0xB3FFFFFF);
 
 /// The always-on screen: black, a large thin clock, the weather and one
 /// chosen thing — or, in the morning, the day ahead. Everything moves a
@@ -83,7 +83,7 @@ class _Clock extends ConsumerWidget {
           style: theme.textTheme.displayLarge?.copyWith(
             color: _bright,
             fontSize: 132,
-            fontWeight: FontWeight.w200,
+            fontWeight: FontWeight.w300,
             height: 1,
           ),
         ),

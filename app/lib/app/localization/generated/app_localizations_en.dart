@@ -2586,11 +2586,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get kioskDarkScreensaver => 'Screensaver turns the screen down';
+  String get kioskDarkScreensaver => 'Dimmed backlight when idle';
 
   @override
   String get kioskDarkScreensaverHint =>
-      'Lowest backlight while the screensaver shows; saves power and lights up nothing at night.';
+      'While the screen is idle the backlight is at the level below (at night at most “Darker at night”).';
 
   @override
   String get kioskNight => 'Darker at night';
@@ -3426,4 +3426,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String aodNowUntil(String time) {
     return 'now, until $time';
   }
+
+  @override
+  String get aodBrightness => 'Always-on brightness';
 }

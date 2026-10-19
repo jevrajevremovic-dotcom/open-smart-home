@@ -747,8 +747,8 @@
   "kioskPopupDuration": "Prikazuj",
   "kioskPopupTriggers": "Okidači",
   "kioskPopupClosesIn": "zatvara se za {seconds} s",
-  "kioskDarkScreensaver": "Čuvar ekrana gasi osvetljenje",
-  "kioskDarkScreensaverHint": "Najniža osvetljenost dok je čuvar ekrana uključen; štedi struju i ne svetli noću.",
+  "kioskDarkScreensaver": "Prigušeno osvetljenje u mirovanju",
+  "kioskDarkScreensaverHint": "Dok je ekran u mirovanju, osvetljenje je na nivou ispod (noću najviše „Tamnije noću”).",
   "kioskNight": "Tamnije noću",
   "kioskNightHint": "Niža osvetljenost u zadato vreme",
   "kioskNightRange": "{from} – {to}",
@@ -977,5 +977,6 @@
   "morningReminders": "Podsetnici",
   "morningNothing": "Danas nema obaveza ni podsetnika.",
   "morningHighLow": "najviše {high}, najniže {low}",
-  "aodNowUntil": "sada, do {time}"
+  "aodNowUntil": "sada, do {time}",
+  "aodBrightness": "Osvetljenost u mirovanju"
 }

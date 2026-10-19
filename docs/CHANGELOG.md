@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- AOD bolje vidljiv: u mirovanju osvetljenje ekrana više ne pada na minimum (1 %), već na „Osvetljenost u mirovanju” (podrazumevano 40 %, klizač 5–100 % u Kiosk podešavanjima; noću važi tamnije od toga i „Tamnije noću”); sat je beo i deblji, ostali tekst svetliji.
 - Ispravljeno: izbor vremena (Tamnije noću, jutarnji ekran, automatizacije) na telefonu podešenom na 12-časovno vreme u unosu teksta nije prihvatao sate 13–23, a nije nudio ni AM/PM; sada na srpskom uvek radi 24-časovno.
 - Novi muzički plejer (prozor „Muzika”, ekran plejera, kiosk): veliki omot, pozadina u boji omota (menja se sa pesmom), naslov i izvođač · album, traka napretka koja ide u realnom vremenu sa premotavanjem (`media_seek`), veliko okruglo dugme pusti/pauza, nasumično (`shuffle_set`) i ponavljanje sve/jednu (`repeat_set`), klizač jačine i izbor izvora. Mini plejer na početnom ekranu je kartica u boji omota sa trakom napretka. Pozicija se računa iz `media_position` i `media_position_updated_at` (HA je ne šalje stalno). Demo server ima omote albuma.
 - Telefon u istom „mehurić” stilu kao kiosk: tamna tema je skoro crna sa tamnosivim karticama, a uključeni uređaji su u svetlim pastelima (kao u svetloj temi); kartice prostorija imaju ime gore, okruglu ikonicu i krupnu temperaturu, a pastelne su kad u prostoriji nešto radi; upaljeno svetlo koje se pojačava ima klizač jačine u samoj kartici; ispod pozdrava na početnom ekranu je ista rečenica o kući kao na zidnom tabletu.

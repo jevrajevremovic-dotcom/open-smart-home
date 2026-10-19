@@ -48,6 +48,7 @@ class KioskSettings {
     this.nightTo = 7 * 60,
     this.nightLevel = 0.15,
     this.darkScreensaver = true,
+    this.aodBrightness = 0.4,
     this.layout,
   });
 
@@ -104,6 +105,10 @@ class KioskSettings {
         _ => d.nightLevel,
       },
       darkScreensaver: json['darkScreensaver'] != false,
+      aodBrightness: switch (json['aodBrightness']) {
+        final num v when v >= 0.05 && v <= 1 => v.toDouble(),
+        _ => d.aodBrightness,
+      },
       layout: KioskLayout.tryParse(json['layout']),
       popupTriggerIds: [
         if (json['popupTriggerIds'] case final List<Object?> ids)
@@ -209,6 +214,10 @@ class KioskSettings {
   /// The screensaver also turns the backlight down to its minimum.
   final bool darkScreensaver;
 
+  /// Screen brightness of the always-on screen (with [darkScreensaver]),
+  /// 0.05–1. At night the lower of this and [nightLevel] applies.
+  final double aodBrightness;
+
   /// Panels arranged on the tablet; `null` = [KioskLayout.standard].
   final KioskLayout? layout;
 
@@ -226,7 +235,11 @@ class KioskSettings {
 
   /// Brightness the kiosk asks for; `null` = leave it to the system.
   double? brightnessAt(DateTime now, {required bool dimmed}) {
-    if (dimmed && darkScreensaver) return 0.01;
+    if (dimmed && darkScreensaver) {
+      return nightBrightness && isNight(now) && nightLevel < aodBrightness
+          ? nightLevel
+          : aodBrightness;
+    }
     if (nightBrightness && isNight(now)) return nightLevel;
     return null;
   }
@@ -285,6 +298,7 @@ class KioskSettings {
     int? nightTo,
     double? nightLevel,
     bool? darkScreensaver,
+    double? aodBrightness,
     KioskLayout? layout,
     bool resetLayout = false,
   }) => KioskSettings(
@@ -299,6 +313,7 @@ class KioskSettings {
     nightTo: nightTo ?? this.nightTo,
     nightLevel: nightLevel ?? this.nightLevel,
     darkScreensaver: darkScreensaver ?? this.darkScreensaver,
+    aodBrightness: aodBrightness ?? this.aodBrightness,
     popupTriggerIds: popupTriggerIds ?? this.popupTriggerIds,
     popupCameraId: clearPopupCamera
         ? null
@@ -354,6 +369,7 @@ class KioskSettings {
     'nightTo': nightTo,
     'nightLevel': nightLevel,
     'darkScreensaver': darkScreensaver,
+    'aodBrightness': aodBrightness,
     'layout': layout?.toJson(),
   };
 }

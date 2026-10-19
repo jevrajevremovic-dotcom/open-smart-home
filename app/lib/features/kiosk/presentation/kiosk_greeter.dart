@@ -9,6 +9,7 @@ import '../../assist/application/voice_providers.dart';
 import '../../dashboard/application/home_sentence.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/data/home_state_repository.dart';
+import '../../ha_notify/ha_push.dart' show announcementProvider;
 import '../../household/application/household_providers.dart';
 import '../../household/family_messages.dart';
 import '../../household/presentation/person_avatar.dart';
@@ -30,10 +31,26 @@ class _KioskGreeterState extends ConsumerState<KioskGreeter> {
   String? _person;
   Timer? _hide;
 
+  /// A spoken announcement from Home Assistant, shown for a while.
+  String? _announcement;
+  Timer? _hideAnnouncement;
+
   @override
   void dispose() {
     _hide?.cancel();
+    _hideAnnouncement?.cancel();
     super.dispose();
+  }
+
+  void _announce(String text) {
+    _hideAnnouncement?.cancel();
+    setState(() => _announcement = text);
+    _hideAnnouncement = Timer(const Duration(seconds: 15), () {
+      if (mounted) setState(() => _announcement = null);
+    });
+    if (ref.read(kioskDimmedProvider)) {
+      ref.read(kioskDimmedProvider.notifier).set(false);
+    }
   }
 
   void _greet(String personId) {
@@ -97,10 +114,64 @@ class _KioskGreeterState extends ConsumerState<KioskGreeter> {
         },
       );
     }
+    if (ref.watch(kioskActiveProvider)) {
+      ref.listen(announcementProvider, (_, next) {
+        if (next != null) _announce(next.$1);
+      });
+    }
     final person = _person;
+    final announcement = _announcement;
     return Stack(
       children: [
         widget.child,
+        if (announcement != null && person == null)
+          Positioned(
+            top: 24,
+            left: 24,
+            right: 24,
+            child: SafeArea(
+              child: Center(
+                child: Theme(
+                  data: AppTheme.dark(),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 720),
+                    child: Material(
+                      key: const Key('kioskAnnouncement'),
+                      color: const Color(0xFF3D7BFF),
+                      elevation: 12,
+                      borderRadius: BorderRadius.circular(28),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(28),
+                        onTap: () => setState(() => _announcement = null),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.campaign_rounded,
+                                size: 40,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Text(
+                                  announcement,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         if (person != null)
           Positioned(
             top: 24,

@@ -17,6 +17,8 @@ import '../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
 import '../devices/application/device_providers.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../alerts/alert_notifications.dart';
+import '../assist/application/voice_providers.dart';
+import '../settings/application/appearance_controllers.dart';
 import '../authentication/application/session_controller.dart';
 
 /// This app registered with Home Assistant's `mobile_app` integration
@@ -324,6 +326,12 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
   /// One message, following the data keys Home Assistant's own apps use:
   /// `tag` (replace), `clear_notification` (remove), `actions` (buttons),
   /// plus `entity_id` here (a tap opens that device).
+  /// The app's language (or the system's) for spoken announcements.
+  String _languageTag() =>
+      (ref.read(localeProvider) ??
+              WidgetsBinding.instance.platformDispatcher.locale)
+          .toLanguageTag();
+
   void _show(AlertNotifier notifier, Map<String, Object?> event) {
     final message = event['message'];
     if (message is! String) return;
@@ -335,6 +343,24 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
     final key = tag != null ? 'ha-tag-$tag' : 'ha-${_counter++}';
     if (message == 'clear_notification') {
       if (tag != null) unawaited(notifier.cancel(key));
+      return;
+    }
+    // Spoken announcement, as Home Assistant's own apps take it
+    // (`message: TTS`, `data.tts_text`): the device says it out loud; a
+    // kiosk also shows it. Without text-to-speech it becomes a message.
+    if (message == 'TTS' && data['tts_text'] is String) {
+      final text = data['tts_text']! as String;
+      ref.read(announcementProvider.notifier).announce(text);
+      final speech = ref.read(speechOutputProvider);
+      if (speech.supported) {
+        unawaited(
+          speech
+              .speak(text, languageTag: _languageTag())
+              .catchError((Object _) => false),
+        );
+        return;
+      }
+      unawaited(notifier.showMessage(key, null, text));
       return;
     }
     final title = event['title'];
@@ -503,3 +529,16 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
     return widget.child;
   }
 }
+
+/// The last spoken announcement from Home Assistant (shown on the kiosk).
+class AnnouncementController extends Notifier<(String, DateTime)?> {
+  @override
+  (String, DateTime)? build() => null;
+
+  void announce(String text) => state = (text, DateTime.now());
+}
+
+final announcementProvider =
+    NotifierProvider<AnnouncementController, (String, DateTime)?>(
+      AnnouncementController.new,
+    );

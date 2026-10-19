@@ -223,6 +223,10 @@ Provereno u `helpers/config_validation.py`, `helpers/condition/conditions.py`, `
 - Na `start`: `notify.mobile_app_<ime>` sa `title`, `message` i `data.tag: osh_low_tariff`; na `end`: ista usluga sa `message: clear_notification` i istim `tag` (konvencija Home Assistant aplikacija, koju aplikacija poštuje).
 - Poruka stiže kanalom `push_websocket_channel`, kao sve poruke iz HA (dok je aplikacija povezana).
 
+## Objave (TTS)
+
+Poruka preko `notify.mobile_app_<ime>` sa `message: "TTS"` i `data: {tts_text: "..."}` (konvencija Home Assistant Companion aplikacija) se izgovara lokalnim TTS-om; kiosk je prikazuje 15 s.
+
 ## Porodične poruke
 
 Provereno u `components/persistent_notification` (`services.yaml`, `const.py`): servisi `persistent_notification.create` (`message`, `title`, `notification_id`) i `dismiss` (`notification_id`); promene stižu kroz WS `persistent_notification/subscribe` (`current`/`added`/`removed`/`updated`). Poruke aplikacije imaju id `osh_msg_<osoba bez person.>_<milisekunde>` ili `osh_msg_all_<…>`.

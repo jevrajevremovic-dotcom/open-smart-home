@@ -1069,5 +1069,12 @@
   "kioskEnergyToday": "Danas {kwh}",
   "kioskEnergySolar": "Solar danas {kwh}",
   "kioskEnergyLowFor": "Niža tarifa još {time}",
-  "kioskEnergyLowIn": "Viša tarifa · niža za {time}"
+  "kioskEnergyLowIn": "Viša tarifa · niža za {time}",
+  "kioskAddPage": "Nova stranica",
+  "kioskRenamePage": "Preimenuj stranicu",
+  "kioskDeletePage": "Obriši stranicu",
+  "kioskPageEmpty": "Prazna",
+  "kioskPageClimateEnergy": "Klima i energija",
+  "kioskPageNumber": "Stranica {number}",
+  "kioskHomePage": "Početna"
 }

@@ -17,6 +17,7 @@ import '../../notifications/presentation/notifications.dart';
 import 'glass.dart';
 import 'kiosk_bubble.dart';
 import 'kiosk_layout_view.dart';
+import 'kiosk_pages.dart';
 import 'kiosk_panels.dart';
 import 'pin_dialog.dart';
 
@@ -197,7 +198,7 @@ class _GridLayout extends ConsumerWidget {
             const _Header(),
           const _Problems(),
           const SizedBox(height: KioskLayoutView.gap),
-          const Expanded(child: KioskLayoutView(grid: true)),
+          const Expanded(child: KioskPages(grid: true)),
           // The bubble header already carries music, Assist and the numbers.
           if (!editing && !bubble) ...[
             const SizedBox(height: KioskLayoutView.gap),
@@ -219,7 +220,7 @@ class _ColumnLayout extends ConsumerWidget {
     final refresh = ref.read(webSocketManagerProvider)?.retryNow;
     return RefreshIndicator(
       onRefresh: () async => refresh?.call(),
-      child: KioskLayoutView(
+      child: KioskPages(
         grid: false,
         header: [
           if (editing)

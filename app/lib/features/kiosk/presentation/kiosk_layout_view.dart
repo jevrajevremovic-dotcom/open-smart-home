@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -44,6 +45,19 @@ class KioskEditingController extends Notifier<bool> {
 
 final kioskEditingProvider = NotifierProvider<KioskEditingController, bool>(
   KioskEditingController.new,
+);
+
+/// Kiosk page on screen: 0 = home, then [KioskSettings.pages].
+class KioskPageController extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  // ignore: use_setters_to_change_properties
+  void set(int page) => state = page;
+}
+
+final kioskPageProvider = NotifierProvider<KioskPageController, int>(
+  KioskPageController.new,
 );
 
 String kioskPanelLabel(AppLocalizations l10n, KioskPanelType t) => switch (t) {
@@ -93,10 +107,14 @@ class KioskLayoutView extends ConsumerWidget {
   const KioskLayoutView({
     super.key,
     required this.grid,
+    this.page = 0,
     this.header = const [],
   });
 
   final bool grid;
+
+  /// 0 = home, then the extra pages.
+  final int page;
 
   /// Shown above the panels in the scrolling column.
   final List<Widget> header;
@@ -107,7 +125,7 @@ class KioskLayoutView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final editing = ref.watch(kioskEditingProvider);
     final layout = ref.watch(
-      kioskSettingsProvider.select((s) => s.effectiveLayout),
+      kioskSettingsProvider.select((s) => s.layoutOf(page)),
     );
     final panels = [
       for (final p in layout.panels)
@@ -124,7 +142,13 @@ class KioskLayoutView extends ConsumerWidget {
         available: !editing || _available(ref, p),
       );
       return editing
-          ? _EditablePanel(panel: p, layout: layout, grid: grid, child: child)
+          ? _EditablePanel(
+              panel: p,
+              layout: layout,
+              page: page,
+              grid: grid,
+              child: child,
+            )
           : child;
     }
 
@@ -342,18 +366,20 @@ class _EditablePanel extends ConsumerWidget {
   const _EditablePanel({
     required this.panel,
     required this.layout,
+    required this.page,
     required this.grid,
     required this.child,
   });
 
   final KioskPanel panel;
   final KioskLayout layout;
+  final int page;
   final bool grid;
   final Widget child;
 
   void _save(WidgetRef ref, KioskLayout next) => ref
       .read(kioskSettingsProvider.notifier)
-      .update((s) => s.copyWith(layout: next));
+      .update((s) => s.withLayoutOf(page, next));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -668,6 +694,7 @@ class KioskEditBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final settings = ref.read(kioskSettingsProvider.notifier);
+    final page = ref.watch(kioskPageProvider);
     return GlassPanel(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
@@ -703,21 +730,54 @@ class KioskEditBar extends ConsumerWidget {
                 entity = await pickKioskPanelDevice(context, type);
                 if (entity == null) return;
               }
+              final page = ref.read(kioskPageProvider);
               await settings.update(
-                (s) => s.copyWith(
-                  layout: s.effectiveLayout.add(type, entityId: entity),
+                (s) => s.withLayoutOf(
+                  page,
+                  s.layoutOf(page).add(type, entityId: entity),
                 ),
               );
             },
             icon: const Icon(Icons.add),
             label: Text(l10n.kioskAddPanel),
           ),
-          TextButton(
-            key: const Key('kioskLayoutReset'),
-            onPressed: () =>
-                settings.update((s) => s.copyWith(resetLayout: true)),
-            child: Text(l10n.dashLayoutReset),
+          TextButton.icon(
+            key: const Key('kioskAddPage'),
+            onPressed: () => addKioskPage(context, ref),
+            icon: const Icon(Icons.add_to_photos_outlined),
+            label: Text(l10n.kioskAddPage),
           ),
+          if (page == 0)
+            TextButton(
+              key: const Key('kioskLayoutReset'),
+              onPressed: () =>
+                  settings.update((s) => s.copyWith(resetLayout: true)),
+              child: Text(l10n.dashLayoutReset),
+            )
+          else ...[
+            TextButton(
+              key: const Key('kioskRenamePage'),
+              onPressed: () => renameKioskPage(context, ref, page),
+              child: Text(l10n.kioskRenamePage),
+            ),
+            TextButton(
+              key: const Key('kioskDeletePage'),
+              onPressed: () {
+                ref.read(kioskPageProvider.notifier).set(page - 1);
+                unawaited(
+                  settings.update(
+                    (s) => s.copyWith(
+                      pages: [
+                        for (final (i, p) in s.pages.indexed)
+                          if (i != page - 1) p,
+                      ],
+                    ),
+                  ),
+                );
+              },
+              child: Text(l10n.kioskDeletePage),
+            ),
+          ],
           const SizedBox(width: 8),
           FilledButton(
             key: const Key('kioskLayoutDone'),
@@ -726,6 +786,114 @@ class KioskEditBar extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Asks for a template and adds a page after the others, then shows it.
+Future<void> addKioskPage(BuildContext context, WidgetRef ref) async {
+  final l10n = context.l10n;
+  final settings = ref.read(kioskSettingsProvider);
+  if (settings.pages.length >= KioskPage.maxPages) return;
+  String label(KioskPageTemplate t) => switch (t) {
+    KioskPageTemplate.empty => l10n.kioskPageEmpty,
+    KioskPageTemplate.cameras => l10n.camerasTitle,
+    KioskPageTemplate.climateEnergy => l10n.kioskPageClimateEnergy,
+  };
+  final template = await showDialog<KioskPageTemplate>(
+    context: context,
+    builder: (context) => SimpleDialog(
+      title: Text(l10n.kioskAddPage),
+      children: [
+        for (final t in KioskPageTemplate.values)
+          SimpleDialogOption(
+            key: ValueKey('kioskPageTemplate-${t.name}'),
+            onPressed: () => Navigator.of(context).pop(t),
+            child: Text(label(t)),
+          ),
+      ],
+    ),
+  );
+  if (template == null) return;
+  final name = template == KioskPageTemplate.empty
+      ? l10n.kioskPageNumber(settings.pages.length + 2)
+      : label(template);
+  await ref
+      .read(kioskSettingsProvider.notifier)
+      .update(
+        (s) =>
+            s.copyWith(pages: [...s.pages, KioskPage.create(template, name)]),
+      );
+  ref
+      .read(kioskPageProvider.notifier)
+      .set(ref.read(kioskSettingsProvider).pages.length);
+}
+
+Future<void> renameKioskPage(
+  BuildContext context,
+  WidgetRef ref,
+  int page,
+) async {
+  final pages = ref.read(kioskSettingsProvider).pages;
+  if (page < 1 || page > pages.length) return;
+  final name = await showDialog<String>(
+    context: context,
+    builder: (_) => _RenameDialog(initial: pages[page - 1].name),
+  );
+  if (name == null || name.trim().isEmpty) return;
+  await ref
+      .read(kioskSettingsProvider.notifier)
+      .update(
+        (s) => s.copyWith(
+          pages: [
+            for (final (i, p) in s.pages.indexed)
+              i == page - 1 ? p.copyWith(name: name.trim()) : p,
+          ],
+        ),
+      );
+}
+
+class _RenameDialog extends StatefulWidget {
+  const _RenameDialog({required this.initial});
+
+  final String initial;
+
+  @override
+  State<_RenameDialog> createState() => _RenameDialogState();
+}
+
+class _RenameDialogState extends State<_RenameDialog> {
+  late final _controller = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return AlertDialog(
+      title: Text(l10n.kioskRenamePage),
+      content: TextField(
+        key: const Key('kioskPageName'),
+        controller: _controller,
+        autofocus: true,
+        maxLength: 30,
+        onSubmitted: (v) => Navigator.of(context).pop(v),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(
+          key: const Key('kioskPageNameSave'),
+          onPressed: () => Navigator.of(context).pop(_controller.text),
+          child: Text(l10n.save),
+        ),
+      ],
     );
   }
 }

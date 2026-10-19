@@ -3769,4 +3769,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String kioskEnergyLowIn(String time) {
     return 'Higher rate · lower in $time';
   }
+
+  @override
+  String get kioskAddPage => 'New page';
+
+  @override
+  String get kioskRenamePage => 'Rename page';
+
+  @override
+  String get kioskDeletePage => 'Delete page';
+
+  @override
+  String get kioskPageEmpty => 'Empty';
+
+  @override
+  String get kioskPageClimateEnergy => 'Climate and energy';
+
+  @override
+  String kioskPageNumber(int number) {
+    return 'Page $number';
+  }
+
+  @override
+  String get kioskHomePage => 'Home';
 }

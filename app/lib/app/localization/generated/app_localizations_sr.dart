@@ -3789,6 +3789,29 @@ class AppLocalizationsSr extends AppLocalizations {
   String kioskEnergyLowIn(String time) {
     return 'Viša tarifa · niža za $time';
   }
+
+  @override
+  String get kioskAddPage => 'Nova stranica';
+
+  @override
+  String get kioskRenamePage => 'Preimenuj stranicu';
+
+  @override
+  String get kioskDeletePage => 'Obriši stranicu';
+
+  @override
+  String get kioskPageEmpty => 'Prazna';
+
+  @override
+  String get kioskPageClimateEnergy => 'Klima i energija';
+
+  @override
+  String kioskPageNumber(int number) {
+    return 'Stranica $number';
+  }
+
+  @override
+  String get kioskHomePage => 'Početna';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

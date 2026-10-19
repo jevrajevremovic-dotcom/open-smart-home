@@ -1607,5 +1607,13 @@
   "kioskEnergyLowFor": "Lower rate for another {time}",
   "@kioskEnergyLowFor": {"placeholders": {"time": {"type": "String"}}},
   "kioskEnergyLowIn": "Higher rate · lower in {time}",
-  "@kioskEnergyLowIn": {"placeholders": {"time": {"type": "String"}}}
+  "@kioskEnergyLowIn": {"placeholders": {"time": {"type": "String"}}},
+  "kioskAddPage": "New page",
+  "kioskRenamePage": "Rename page",
+  "kioskDeletePage": "Delete page",
+  "kioskPageEmpty": "Empty",
+  "kioskPageClimateEnergy": "Climate and energy",
+  "kioskPageNumber": "Page {number}",
+  "@kioskPageNumber": {"placeholders": {"number": {"type": "int"}}},
+  "kioskHomePage": "Home"
 }

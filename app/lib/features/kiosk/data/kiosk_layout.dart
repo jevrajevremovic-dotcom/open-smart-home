@@ -194,3 +194,77 @@ class KioskLayout {
   @override
   int get hashCode => Object.hashAll(panels);
 }
+
+/// Templates for a new kiosk page.
+enum KioskPageTemplate { empty, cameras, climateEnergy }
+
+/// An extra kiosk page (swiped to from the home page), with its own name and
+/// layout.
+@immutable
+class KioskPage {
+  const KioskPage({required this.id, required this.name, required this.layout});
+
+  static const maxPages = 6;
+
+  final String id;
+  final String name;
+  final KioskLayout layout;
+
+  static KioskPage? tryParse(Object? json) {
+    if (json is! Map) return null;
+    final id = json['id'];
+    final name = json['name'];
+    if (id is! String || id.isEmpty || name is! String) return null;
+    return KioskPage(
+      id: id,
+      name: name,
+      layout: KioskLayout.tryParse(json['panels']) ?? const KioskLayout([]),
+    );
+  }
+
+  /// A new page from [template], named [name].
+  static KioskPage create(KioskPageTemplate template, String name) {
+    final id = 'page-${Random().nextInt(1 << 32).toRadixString(36)}';
+    KioskPanel panel(KioskPanelType type, int span, {int height = 1}) =>
+        KioskPanel(
+          id: '${type.name}-$id',
+          type: type,
+          span: span,
+          height: height,
+        );
+    return KioskPage(
+      id: id,
+      name: name,
+      layout: KioskLayout(switch (template) {
+        KioskPageTemplate.empty => const [],
+        KioskPageTemplate.cameras => [
+          panel(KioskPanelType.camera, 12, height: 2),
+        ],
+        KioskPageTemplate.climateEnergy => [
+          panel(KioskPanelType.thermostat, 5, height: 2),
+          panel(KioskPanelType.energy, 7),
+          panel(KioskPanelType.weather, 7),
+        ],
+      }),
+    );
+  }
+
+  KioskPage copyWith({String? name, KioskLayout? layout}) =>
+      KioskPage(id: id, name: name ?? this.name, layout: layout ?? this.layout);
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'name': name,
+    'panels': layout.toJson(),
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      other is KioskPage &&
+      other.id == id &&
+      other.name == name &&
+      other.layout == layout;
+
+  @override
+  int get hashCode => Object.hash(id, name, layout);
+}

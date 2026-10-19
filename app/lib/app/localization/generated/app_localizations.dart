@@ -6512,6 +6512,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Higher rate · lower in {time}'**
   String kioskEnergyLowIn(String time);
+
+  /// No description provided for @kioskAddPage.
+  ///
+  /// In en, this message translates to:
+  /// **'New page'**
+  String get kioskAddPage;
+
+  /// No description provided for @kioskRenamePage.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename page'**
+  String get kioskRenamePage;
+
+  /// No description provided for @kioskDeletePage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete page'**
+  String get kioskDeletePage;
+
+  /// No description provided for @kioskPageEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty'**
+  String get kioskPageEmpty;
+
+  /// No description provided for @kioskPageClimateEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'Climate and energy'**
+  String get kioskPageClimateEnergy;
+
+  /// No description provided for @kioskPageNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {number}'**
+  String kioskPageNumber(int number);
+
+  /// No description provided for @kioskHomePage.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get kioskHomePage;
 }
 
 class _AppLocalizationsDelegate

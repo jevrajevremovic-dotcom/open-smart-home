@@ -60,6 +60,7 @@ class KioskSettings {
     this.darkScreensaver = true,
     this.aodBrightness = 0.4,
     this.layout,
+    this.pages = const [],
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -136,6 +137,10 @@ class KioskSettings {
         _ => d.aodBrightness,
       },
       layout: KioskLayout.tryParse(json['layout']),
+      pages: [
+        if (json['pages'] case final List<Object?> list)
+          for (final p in list.take(KioskPage.maxPages)) ?KioskPage.tryParse(p),
+      ],
       popupTriggerIds: [
         if (json['popupTriggerIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(10)) id,
@@ -275,6 +280,25 @@ class KioskSettings {
 
   KioskLayout get effectiveLayout => layout ?? KioskLayout.standard;
 
+  /// Extra pages after the home page (swipe left).
+  final List<KioskPage> pages;
+
+  /// Layout of page [index] (0 = home).
+  KioskLayout layoutOf(int index) => index <= 0 || index > pages.length
+      ? effectiveLayout
+      : pages[index - 1].layout;
+
+  /// With page [index]'s layout replaced.
+  KioskSettings withLayoutOf(int index, KioskLayout next) =>
+      index <= 0 || index > pages.length
+      ? copyWith(layout: next)
+      : copyWith(
+          pages: [
+            for (final (i, p) in pages.indexed)
+              i == index - 1 ? p.copyWith(layout: next) : p,
+          ],
+        );
+
   static int? _minutes(Object? v) =>
       v is int && v >= 0 && v < 24 * 60 ? v : null;
 
@@ -360,8 +384,10 @@ class KioskSettings {
     double? aodBrightness,
     KioskLayout? layout,
     bool resetLayout = false,
+    List<KioskPage>? pages,
   }) => KioskSettings(
     layout: resetLayout ? null : (layout ?? this.layout),
+    pages: pages ?? this.pages,
     aodFocus: aodFocus ?? this.aodFocus,
     aodEntityId: clearAodEntity ? null : (aodEntityId ?? this.aodEntityId),
     morningScreen: morningScreen ?? this.morningScreen,
@@ -444,5 +470,6 @@ class KioskSettings {
     'darkScreensaver': darkScreensaver,
     'aodBrightness': aodBrightness,
     'layout': layout?.toJson(),
+    'pages': [for (final p in pages) p.toJson()],
   };
 }

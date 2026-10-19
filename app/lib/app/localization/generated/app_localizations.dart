@@ -6746,6 +6746,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open {name}'**
   String kioskIntercomOpenDevice(String name);
+
+  /// No description provided for @kioskColumnsNoRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'No rooms yet. Add areas in Home Assistant.'**
+  String get kioskColumnsNoRooms;
+
+  /// No description provided for @kioskColumnsDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get kioskColumnsDevices;
+
+  /// No description provided for @kioskOpenDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Open device'**
+  String get kioskOpenDevice;
+
+  /// No description provided for @kioskStyleColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns'**
+  String get kioskStyleColumns;
 }
 
 class _AppLocalizationsDelegate

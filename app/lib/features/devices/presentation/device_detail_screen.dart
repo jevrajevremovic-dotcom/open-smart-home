@@ -104,7 +104,7 @@ class DeviceDetailScreen extends ConsumerWidget {
                     opacity: syncStatus == SyncStatus.live ? 1 : 0.5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: _controls(device),
+                      children: deviceControlsFor(device),
                     ),
                   ),
                 ),
@@ -125,39 +125,41 @@ class DeviceDetailScreen extends ConsumerWidget {
       ),
     );
   }
+}
 
-  List<Widget> _controls(SmartHomeDevice d) {
-    final hasPower = d.supports(Capability.power) && !d.kind.isRoutine;
-    return [
-      if (hasPower) ...[PowerControl(device: d), const SizedBox(height: 16)],
-      ...switch (d.kind) {
-        _ when d.kind.isLight => [LightControls(device: d)],
-        DeviceKind.thermostat ||
-        DeviceKind.climate => [ClimateControls(device: d)],
-        DeviceKind.blind ||
-        DeviceKind.curtain ||
-        DeviceKind.garageDoor ||
-        DeviceKind.irrigation => [CoverControls(device: d)],
-        DeviceKind.lock => [LockControls(device: d)],
-        DeviceKind.alarm => [AlarmControls(device: d)],
-        DeviceKind.fan || DeviceKind.airPurifier => [FanControls(device: d)],
-        DeviceKind.humidifier ||
-        DeviceKind.dehumidifier => [HumidifierControls(device: d)],
-        DeviceKind.vacuum => [VacuumControls(device: d)],
-        DeviceKind.select => [SelectControls(device: d)],
-        DeviceKind.number => [NumberControls(device: d)],
-        DeviceKind.mediaPlayer ||
-        DeviceKind.speaker ||
-        DeviceKind.television => [MediaControls(device: d)],
-        _ when d.kind.isRoutine || d.kind == DeviceKind.button => [
-          RoutineControls(device: d),
-        ],
-        DeviceKind.camera => [CameraDetail(device: d)],
-        _ when d.kind.isSensor => [SensorReadout(device: d)],
-        _ => const <Widget>[],
-      },
-    ];
-  }
+/// The controls for [d] (power, then what its kind needs), as on its
+/// screen; also used by the kiosk's detail column.
+List<Widget> deviceControlsFor(SmartHomeDevice d) {
+  final hasPower = d.supports(Capability.power) && !d.kind.isRoutine;
+  return [
+    if (hasPower) ...[PowerControl(device: d), const SizedBox(height: 16)],
+    ...switch (d.kind) {
+      _ when d.kind.isLight => [LightControls(device: d)],
+      DeviceKind.thermostat ||
+      DeviceKind.climate => [ClimateControls(device: d)],
+      DeviceKind.blind ||
+      DeviceKind.curtain ||
+      DeviceKind.garageDoor ||
+      DeviceKind.irrigation => [CoverControls(device: d)],
+      DeviceKind.lock => [LockControls(device: d)],
+      DeviceKind.alarm => [AlarmControls(device: d)],
+      DeviceKind.fan || DeviceKind.airPurifier => [FanControls(device: d)],
+      DeviceKind.humidifier ||
+      DeviceKind.dehumidifier => [HumidifierControls(device: d)],
+      DeviceKind.vacuum => [VacuumControls(device: d)],
+      DeviceKind.select => [SelectControls(device: d)],
+      DeviceKind.number => [NumberControls(device: d)],
+      DeviceKind.mediaPlayer ||
+      DeviceKind.speaker ||
+      DeviceKind.television => [MediaControls(device: d)],
+      _ when d.kind.isRoutine || d.kind == DeviceKind.button => [
+        RoutineControls(device: d),
+      ],
+      DeviceKind.camera => [CameraDetail(device: d)],
+      _ when d.kind.isSensor => [SensorReadout(device: d)],
+      _ => const <Widget>[],
+    },
+  ];
 }
 
 class _Header extends StatelessWidget {

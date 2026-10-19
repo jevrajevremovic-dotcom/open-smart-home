@@ -66,9 +66,17 @@ IconData presetIcon(String preset) => switch (preset) {
 
 /// Circular thermostat: drag along the arc or use −/+; modes underneath.
 class KioskThermostatPanel extends ConsumerStatefulWidget {
-  const KioskThermostatPanel({super.key, required this.deviceId});
+  const KioskThermostatPanel({
+    super.key,
+    required this.deviceId,
+    this.plain = false,
+  });
 
   final String deviceId;
+
+  /// Without the glass card and in the app theme's colours (the light
+  /// "columns" kiosk); otherwise white on a glass panel.
+  final bool plain;
 
   @override
   ConsumerState<KioskThermostatPanel> createState() =>
@@ -151,6 +159,7 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
         : ((target - min) / (max - min)).clamp(0.0, 1.0);
     final enabled = d.available && !off && target != null;
     final color = off ? hvacColor('off') : hvacColor(s.hvacMode);
+    final pal = widget.plain ? _Palette.of(theme.colorScheme) : _Palette.glass;
 
     String temp(double? v) =>
         v == null ? '—' : formatNumber(locale, v, unit: '°');
@@ -190,6 +199,7 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
                     fraction: off ? 0 : fraction,
                     color: color,
                     showKnob: !off && target != null,
+                    track: pal.track,
                   ),
                   child: Stack(
                     children: [
@@ -213,14 +223,14 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
                                       s.hvacMode,
                                     ),
                                     style: theme.textTheme.titleMedium
-                                        ?.copyWith(color: GlassColors.muted),
+                                        ?.copyWith(color: pal.muted),
                                   ),
                                   Text(
                                     off ? '—' : temp(target),
                                     key: const Key('kioskTargetTemperature'),
                                     style: theme.textTheme.displayLarge
                                         ?.copyWith(
-                                          color: GlassColors.text,
+                                          color: pal.text,
                                           fontWeight: FontWeight.w500,
                                           letterSpacing: -2,
                                           height: 1.05,
@@ -230,17 +240,15 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        const Icon(
+                                        Icon(
                                           Icons.thermostat,
                                           size: 18,
-                                          color: GlassColors.muted,
+                                          color: pal.muted,
                                         ),
                                         Text(
                                           temp(s.currentTemperature),
                                           style: theme.textTheme.titleMedium
-                                              ?.copyWith(
-                                                color: GlassColors.muted,
-                                              ),
+                                              ?.copyWith(color: pal.muted),
                                         ),
                                       ],
                                     ),
@@ -261,6 +269,7 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               _RoundButton(
+                                pal: pal,
                                 key: const Key('kioskDecreaseTemperature'),
                                 icon: Icons.remove,
                                 tooltip: l10n.decreaseTemperature,
@@ -270,6 +279,7 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
                               ),
                               const SizedBox(width: 16),
                               _RoundButton(
+                                pal: pal,
                                 key: const Key('kioskIncreaseTemperature'),
                                 icon: Icons.add,
                                 tooltip: l10n.increaseTemperature,
@@ -298,80 +308,85 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
         ? d.limits.hvacModes
         : const <String>[];
 
-    return GlassPanel(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
-      child: Column(
-        children: [
+    final body = Column(
+      children: [
+        if (!widget.plain)
           Text(
             d.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: GlassColors.muted,
-            ),
+            style: theme.textTheme.titleMedium?.copyWith(color: pal.muted),
           ),
-          Expanded(child: dial),
-          const SizedBox(height: 8),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                // With presets: power + presets (like a wall thermostat).
-                // Without: the HVAC modes, which include "off".
-                if (presets.isNotEmpty)
+        Expanded(child: dial),
+        const SizedBox(height: 8),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              // With presets: power + presets (like a wall thermostat).
+              // Without: the HVAC modes, which include "off".
+              if (presets.isNotEmpty)
+                _ModeButton(
+                  pal: pal,
+                  key: const Key('kioskThermostatPower'),
+                  icon: Icons.power_settings_new,
+                  label: l10n.powerToggle,
+                  selected: !off,
+                  color: hvacColor(s.hvacMode),
+                  onPressed: d.available
+                      ? () => runDeviceCommand(
+                          context,
+                          ref,
+                          d,
+                          _powerCommand(d, turnOn: off),
+                        )
+                      : null,
+                )
+              else
+                for (final mode in modes)
                   _ModeButton(
-                    key: const Key('kioskThermostatPower'),
-                    icon: Icons.power_settings_new,
-                    label: l10n.powerToggle,
-                    selected: !off,
-                    color: hvacColor(s.hvacMode),
+                    pal: pal,
+                    icon: hvacIcon(mode),
+                    label: DevicePresentation.hvacModeLabel(l10n, mode),
+                    selected: s.hvacMode == mode,
+                    color: hvacColor(mode),
                     onPressed: d.available
                         ? () => runDeviceCommand(
                             context,
                             ref,
                             d,
-                            _powerCommand(d, turnOn: off),
+                            SetHvacMode(mode),
                           )
                         : null,
-                  )
-                else
-                  for (final mode in modes)
-                    _ModeButton(
-                      icon: hvacIcon(mode),
-                      label: DevicePresentation.hvacModeLabel(l10n, mode),
-                      selected: s.hvacMode == mode,
-                      color: hvacColor(mode),
-                      onPressed: d.available
-                          ? () => runDeviceCommand(
-                              context,
-                              ref,
-                              d,
-                              SetHvacMode(mode),
-                            )
-                          : null,
-                    ),
-                if (!off)
-                  for (final p in presets.where((p) => p != 'none'))
-                    _ModeButton(
-                      icon: presetIcon(p),
-                      label: DevicePresentation.presetLabel(l10n, p),
-                      selected: s.presetMode == p,
-                      color: Colors.white,
-                      onPressed: d.available
-                          ? () => runDeviceCommand(
-                              context,
-                              ref,
-                              d,
-                              SetPresetMode(s.presetMode == p ? 'none' : p),
-                            )
-                          : null,
-                    ),
-              ],
-            ),
+                  ),
+              if (!off)
+                for (final p in presets.where((p) => p != 'none'))
+                  _ModeButton(
+                    pal: pal,
+                    icon: presetIcon(p),
+                    label: DevicePresentation.presetLabel(l10n, p),
+                    selected: s.presetMode == p,
+                    color: pal.text,
+                    onPressed: d.available
+                        ? () => runDeviceCommand(
+                            context,
+                            ref,
+                            d,
+                            SetPresetMode(s.presetMode == p ? 'none' : p),
+                          )
+                        : null,
+                  ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
+    return widget.plain
+        ? body
+        : GlassPanel(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+            child: body,
+          );
   }
 }
 
@@ -392,11 +407,13 @@ class _DialPainter extends CustomPainter {
     required this.fraction,
     required this.color,
     required this.showKnob,
+    required this.track,
   });
 
   final double fraction;
   final Color color;
   final bool showKnob;
+  final Color track;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -407,12 +424,12 @@ class _DialPainter extends CustomPainter {
     );
     const start = 0.75 * math.pi;
     const sweep = 1.5 * math.pi;
-    final track = Paint()
-      ..color = Colors.white.withValues(alpha: 0.14)
+    final trackPaint = Paint()
+      ..color = track
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke
       ..strokeCap = StrokeCap.round;
-    canvas.drawArc(rect, start, sweep, false, track);
+    canvas.drawArc(rect, start, sweep, false, trackPaint);
     if (fraction > 0) {
       canvas.drawArc(
         rect,
@@ -439,17 +456,20 @@ class _DialPainter extends CustomPainter {
   bool shouldRepaint(_DialPainter old) =>
       old.fraction != fraction ||
       old.color != color ||
-      old.showKnob != showKnob;
+      old.showKnob != showKnob ||
+      old.track != track;
 }
 
 class _RoundButton extends StatelessWidget {
   const _RoundButton({
     super.key,
+    required this.pal,
     required this.icon,
     required this.tooltip,
     required this.onPressed,
   });
 
+  final _Palette pal;
   final IconData icon;
   final String tooltip;
   final VoidCallback? onPressed;
@@ -460,10 +480,10 @@ class _RoundButton extends StatelessWidget {
     onPressed: onPressed,
     iconSize: 24,
     style: IconButton.styleFrom(
-      foregroundColor: Colors.white,
-      disabledForegroundColor: GlassColors.faint,
+      foregroundColor: pal.text,
+      disabledForegroundColor: pal.faint,
       minimumSize: const Size.square(48),
-      side: const BorderSide(color: GlassColors.muted, width: 1.5),
+      side: BorderSide(color: pal.muted, width: 1.5),
     ),
     icon: Icon(icon),
   );
@@ -472,6 +492,7 @@ class _RoundButton extends StatelessWidget {
 class _ModeButton extends StatelessWidget {
   const _ModeButton({
     super.key,
+    required this.pal,
     required this.icon,
     required this.label,
     required this.selected,
@@ -479,6 +500,7 @@ class _ModeButton extends StatelessWidget {
     required this.onPressed,
   });
 
+  final _Palette pal;
   final IconData icon;
   final String label;
   final bool selected;
@@ -496,7 +518,7 @@ class _ModeButton extends StatelessWidget {
         label: label,
         excludeSemantics: true,
         child: Material(
-          color: selected ? GlassColors.fillStrong : GlassColors.fill,
+          color: selected ? pal.fillStrong : pal.fill,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18),
             side: BorderSide(
@@ -510,15 +532,48 @@ class _ModeButton extends StatelessWidget {
             child: SizedBox(
               width: 56,
               height: 52,
-              child: Icon(
-                icon,
-                color: selected ? color : GlassColors.muted,
-                size: 26,
-              ),
+              child: Icon(icon, color: selected ? color : pal.muted, size: 26),
             ),
           ),
         ),
       ),
     ),
   );
+}
+
+/// Colours of the dial: white on glass, or the theme's (plain).
+class _Palette {
+  const _Palette({
+    required this.text,
+    required this.muted,
+    required this.faint,
+    required this.track,
+    required this.fill,
+    required this.fillStrong,
+  });
+
+  static const glass = _Palette(
+    text: GlassColors.text,
+    muted: GlassColors.muted,
+    faint: GlassColors.faint,
+    track: Color(0x24FFFFFF),
+    fill: GlassColors.fill,
+    fillStrong: GlassColors.fillStrong,
+  );
+
+  factory _Palette.of(ColorScheme c) => _Palette(
+    text: c.onSurface,
+    muted: c.onSurfaceVariant,
+    faint: c.outline,
+    track: c.surfaceContainerHighest,
+    fill: c.surfaceContainerHigh,
+    fillStrong: c.surfaceContainerHighest,
+  );
+
+  final Color text;
+  final Color muted;
+  final Color faint;
+  final Color track;
+  final Color fill;
+  final Color fillStrong;
 }

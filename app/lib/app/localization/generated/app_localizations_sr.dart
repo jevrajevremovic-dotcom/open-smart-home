@@ -3934,6 +3934,19 @@ class AppLocalizationsSr extends AppLocalizations {
   String kioskIntercomOpenDevice(String name) {
     return 'Otvori: $name';
   }
+
+  @override
+  String get kioskColumnsNoRooms =>
+      'Još nema prostorija. Dodajte oblasti u Home Assistantu.';
+
+  @override
+  String get kioskColumnsDevices => 'Uređaji';
+
+  @override
+  String get kioskOpenDevice => 'Otvori uređaj';
+
+  @override
+  String get kioskStyleColumns => 'Kolone';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

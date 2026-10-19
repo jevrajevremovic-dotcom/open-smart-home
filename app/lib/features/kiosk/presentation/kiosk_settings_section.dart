@@ -129,6 +129,11 @@ class KioskSettingsSection extends ConsumerWidget {
                 key: const Key('kioskStyle'),
                 segments: [
                   ButtonSegment(
+                    value: KioskStyle.columns,
+                    icon: const Icon(Icons.view_column_outlined),
+                    label: Text(l10n.kioskStyleColumns),
+                  ),
+                  ButtonSegment(
                     value: KioskStyle.bubble,
                     icon: const Icon(Icons.bubble_chart_outlined),
                     label: Text(l10n.kioskStyleBubble),

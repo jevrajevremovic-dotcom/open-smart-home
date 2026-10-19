@@ -1654,5 +1654,9 @@
   "kioskIntercomUnlock": "Unlock {name}",
   "@kioskIntercomUnlock": {"placeholders": {"name": {"type": "String"}}},
   "kioskIntercomOpenDevice": "Open {name}",
-  "@kioskIntercomOpenDevice": {"placeholders": {"name": {"type": "String"}}}
+  "@kioskIntercomOpenDevice": {"placeholders": {"name": {"type": "String"}}},
+  "kioskColumnsNoRooms": "No rooms yet. Add areas in Home Assistant.",
+  "kioskColumnsDevices": "Devices",
+  "kioskOpenDevice": "Open device",
+  "kioskStyleColumns": "Columns"
 }

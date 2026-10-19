@@ -16,6 +16,7 @@ import '../../notifications/application/notifications_provider.dart';
 import '../../notifications/presentation/notifications.dart';
 import 'glass.dart';
 import 'kiosk_bubble.dart';
+import 'kiosk_columns.dart';
 import 'kiosk_layout_view.dart';
 import 'kiosk_pages.dart';
 import 'kiosk_panels.dart';
@@ -51,6 +52,16 @@ class KioskDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final columns = ref.watch(kioskSettingsProvider.select((s) => s.columns));
+    final size = MediaQuery.sizeOf(context);
+    // Three columns need a landscape tablet; elsewhere the bubbles.
+    if (columns && size.width >= 1100 && size.width > size.height) {
+      return const Scaffold(
+        body: KioskClapListener(
+          child: MockModeBanner(child: KioskColumnsLayout()),
+        ),
+      );
+    }
     return Theme(
       data: AppTheme.dark(),
       child: Scaffold(

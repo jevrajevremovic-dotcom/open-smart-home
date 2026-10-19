@@ -1108,5 +1108,9 @@
   "kioskIntercomReplied": "Izgovoreno kod vrata: „Dolazim, samo trenutak!”",
   "kioskIntercomNoTts": "Home Assistant nema podešeno pretvaranje teksta u govor.",
   "kioskIntercomUnlock": "Otključaj: {name}",
-  "kioskIntercomOpenDevice": "Otvori: {name}"
+  "kioskIntercomOpenDevice": "Otvori: {name}",
+  "kioskColumnsNoRooms": "Još nema prostorija. Dodajte oblasti u Home Assistantu.",
+  "kioskColumnsDevices": "Uređaji",
+  "kioskOpenDevice": "Otvori uređaj",
+  "kioskStyleColumns": "Kolone"
 }

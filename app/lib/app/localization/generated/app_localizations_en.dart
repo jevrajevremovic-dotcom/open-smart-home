@@ -3913,4 +3913,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String kioskIntercomOpenDevice(String name) {
     return 'Open $name';
   }
+
+  @override
+  String get kioskColumnsNoRooms =>
+      'No rooms yet. Add areas in Home Assistant.';
+
+  @override
+  String get kioskColumnsDevices => 'Devices';
+
+  @override
+  String get kioskOpenDevice => 'Open device';
+
+  @override
+  String get kioskStyleColumns => 'Columns';
 }

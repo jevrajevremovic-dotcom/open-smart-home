@@ -11,7 +11,9 @@ enum AodFocus { none, nextEvent, list, device, energy, media, home }
 
 /// The kiosk's look: solid dark "bubble" cards with pastel highlights
 /// for what is on, or frosted glass over a gradient.
-enum KioskStyle { bubble, glass }
+/// Look of the kiosk: three columns like a tablet home app (default),
+/// round bubbles, or glass panels.
+enum KioskStyle { bubble, glass, columns }
 
 /// Wall-panel options, stored locally (non-secret; the PIN only as a
 /// salted PBKDF2 hash).
@@ -27,7 +29,7 @@ class KioskSettings {
     this.returnHomeAfter = const Duration(seconds: 60),
     this.pinHash,
     this.pinSalt,
-    this.style = KioskStyle.bubble,
+    this.style = KioskStyle.columns,
     this.background = KioskBackground.aurora,
     this.liteEffects = false,
     this.statusEntityIds = const [],
@@ -196,7 +198,10 @@ class KioskSettings {
 
   final KioskStyle style;
 
-  bool get bubble => style == KioskStyle.bubble;
+  /// Bubbles — also what "columns" falls back to on narrow screens.
+  bool get bubble => style != KioskStyle.glass;
+
+  bool get columns => style == KioskStyle.columns;
 
   /// Gradient of the glass style.
   final KioskBackground background;

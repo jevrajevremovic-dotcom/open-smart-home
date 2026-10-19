@@ -30,6 +30,11 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kiosk: novi podrazumevani izgled „Kolone” (kao kućne aplikacije na tabletu), u svetloj ili tamnoj temi aplikacije:
+  - levo: ime doma, pretraga koja otvara Assist (i mikrofon), scene kao krugovi, prostorije (izabrana istaknuta, sijalica kad nešto svetli, tačka kod upozorenja), poslednje automatizacije, ukućani, i dugmad za tajmer, alarm, „Izlazim”, poruke i izlaz;
+  - sredina: izabrana prostorija sa vlažnošću i temperaturom, kartice uređaja (dodir na krug uključuje/isključuje, dodir na karticu je prikazuje desno, dugi dodir otvara uređaj), muzika i kamere te prostorije;
+  - desno: izabrani uređaj sa svim kontrolama (klima sa velikim brojčanikom), potrošnja ove nedelje po danima.
+  Na uspravnom ili užem ekranu (ispod 1100 tačaka) kiosk prikazuje „Mehuriće”. Stari izgledi ostaju u Kiosk › Izgled kioska.
 - Kiosk interfon (u „Iskačuća kamera”): kad neko pozvoni, preko kamere su dugmad „Dolazim!” — Home Assistant izgovori „Dolazim, samo trenutak!” na izabranom zvučniku kod vrata (`tts.speak` na prvom TTS entitetu, provereno u HA izvornom kodu) — i „Otključaj/Otvori” za izabranu bravu, kapiju/garažu ili dugme, uz uobičajenu potvrdu za kritične radnje.
 - Objave iz Home Assistanta: automatizacija pošalje uređaju `notify.mobile_app_<ime>` sa `message: TTS` i `data.tts_text` (kao zvaničnim HA aplikacijama, pa rade i postojeći blueprintovi) — uređaj tekst izgovori, a kiosk ga i prikaže krupno (i probudi ekran). Bez govornog izlaza stiže kao obična poruka.
 - Porodične poruke: sa telefona (početni ekran › Poruke) ili tableta (dugme „Poruke” u zaglavlju kioska, sa brojem) ostavite poruku za ukućanina ili za sve. Čuvaju se u Home Assistantu kao trajna obaveštenja (`persistent_notification.create`, id `osh_msg_<kome>_<vreme>`), pa ih vide svi uređaji i sam HA; „Pročitano” ih uklanja (`dismiss`).

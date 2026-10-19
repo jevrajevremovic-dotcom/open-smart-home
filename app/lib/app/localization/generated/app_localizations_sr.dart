@@ -3769,6 +3769,26 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskLeavingBye => 'Doviđenja!';
+
+  @override
+  String kioskEnergyToday(String kwh) {
+    return 'Danas $kwh';
+  }
+
+  @override
+  String kioskEnergySolar(String kwh) {
+    return 'Solar danas $kwh';
+  }
+
+  @override
+  String kioskEnergyLowFor(String time) {
+    return 'Niža tarifa još $time';
+  }
+
+  @override
+  String kioskEnergyLowIn(String time) {
+    return 'Viša tarifa · niža za $time';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -1599,5 +1599,13 @@
   "@kioskLeavingGo": {"placeholders": {"count": {"type": "int"}}},
   "kioskLeavingGoArm": "{count, plural, =0{Arm the alarm} =1{Switch off 1 thing and arm} other{Switch off {count} and arm}}",
   "@kioskLeavingGoArm": {"placeholders": {"count": {"type": "int"}}},
-  "kioskLeavingBye": "Goodbye!"
+  "kioskLeavingBye": "Goodbye!",
+  "kioskEnergyToday": "Today {kwh}",
+  "@kioskEnergyToday": {"placeholders": {"kwh": {"type": "String"}}},
+  "kioskEnergySolar": "Solar today {kwh}",
+  "@kioskEnergySolar": {"placeholders": {"kwh": {"type": "String"}}},
+  "kioskEnergyLowFor": "Lower rate for another {time}",
+  "@kioskEnergyLowFor": {"placeholders": {"time": {"type": "String"}}},
+  "kioskEnergyLowIn": "Higher rate · lower in {time}",
+  "@kioskEnergyLowIn": {"placeholders": {"time": {"type": "String"}}}
 }

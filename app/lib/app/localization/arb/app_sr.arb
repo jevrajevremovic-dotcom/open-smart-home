@@ -1065,5 +1065,9 @@
   "kioskLeavingManual": "Prozore i vrata bez kvačice treba zatvoriti ručno.",
   "kioskLeavingGo": "{count, plural, =0{Nema šta da se ugasi} one{Ugasi {count} stvar} few{Ugasi {count} stvari} other{Ugasi {count} stvari}}",
   "kioskLeavingGoArm": "{count, plural, =0{Uključi alarm} one{Ugasi {count} i uključi alarm} few{Ugasi {count} i uključi alarm} other{Ugasi {count} i uključi alarm}}",
-  "kioskLeavingBye": "Doviđenja!"
+  "kioskLeavingBye": "Doviđenja!",
+  "kioskEnergyToday": "Danas {kwh}",
+  "kioskEnergySolar": "Solar danas {kwh}",
+  "kioskEnergyLowFor": "Niža tarifa još {time}",
+  "kioskEnergyLowIn": "Viša tarifa · niža za {time}"
 }

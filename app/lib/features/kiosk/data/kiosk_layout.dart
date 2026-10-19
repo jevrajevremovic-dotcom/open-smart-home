@@ -20,7 +20,10 @@ enum KioskPanelType {
   board,
 
   /// The music player (a chosen player, or whatever plays now).
-  media;
+  media,
+
+  /// Live power, today's energy and the current rate.
+  energy;
 
   /// Needs a device chosen (the thermostat and lists pick one themselves
   /// when empty).

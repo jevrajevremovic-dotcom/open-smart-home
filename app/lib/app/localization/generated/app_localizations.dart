@@ -6488,6 +6488,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Goodbye!'**
   String get kioskLeavingBye;
+
+  /// No description provided for @kioskEnergyToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today {kwh}'**
+  String kioskEnergyToday(String kwh);
+
+  /// No description provided for @kioskEnergySolar.
+  ///
+  /// In en, this message translates to:
+  /// **'Solar today {kwh}'**
+  String kioskEnergySolar(String kwh);
+
+  /// No description provided for @kioskEnergyLowFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower rate for another {time}'**
+  String kioskEnergyLowFor(String time);
+
+  /// No description provided for @kioskEnergyLowIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher rate · lower in {time}'**
+  String kioskEnergyLowIn(String time);
 }
 
 class _AppLocalizationsDelegate

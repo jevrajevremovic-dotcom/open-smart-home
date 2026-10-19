@@ -3749,4 +3749,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskLeavingBye => 'Goodbye!';
+
+  @override
+  String kioskEnergyToday(String kwh) {
+    return 'Today $kwh';
+  }
+
+  @override
+  String kioskEnergySolar(String kwh) {
+    return 'Solar today $kwh';
+  }
+
+  @override
+  String kioskEnergyLowFor(String time) {
+    return 'Lower rate for another $time';
+  }
+
+  @override
+  String kioskEnergyLowIn(String time) {
+    return 'Higher rate · lower in $time';
+  }
 }

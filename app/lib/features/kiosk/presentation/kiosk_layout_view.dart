@@ -22,6 +22,7 @@ import 'thermostat_dial.dart';
 import '../../todo/todo_lists.dart';
 import 'kiosk_board_panel.dart';
 import 'kiosk_bubble.dart';
+import 'kiosk_energy_panel.dart';
 import 'kiosk_media_panel.dart';
 import 'kiosk_todo_panel.dart';
 
@@ -57,6 +58,7 @@ String kioskPanelLabel(AppLocalizations l10n, KioskPanelType t) => switch (t) {
   KioskPanelType.lists => l10n.todoTitle,
   KioskPanelType.board => l10n.boardTitle,
   KioskPanelType.media => l10n.mediaTitle,
+  KioskPanelType.energy => l10n.energyTitle,
 };
 
 /// Whether [p] has something to show right now (else it is left out,
@@ -193,6 +195,7 @@ class KioskLayoutView extends ConsumerWidget {
     KioskPanelType.lists => SizedBox(height: 360.0 * p.height, child: child),
     KioskPanelType.board => SizedBox(height: 360.0 * p.height, child: child),
     KioskPanelType.media => SizedBox(height: 300.0 * p.height, child: child),
+    KioskPanelType.energy => SizedBox(height: 280.0 * p.height, child: child),
     _ => child,
   };
 }
@@ -252,6 +255,7 @@ class _PanelBody extends ConsumerWidget {
       KioskPanelType.device => KioskDevicePanel(deviceId: panel.entityId!),
       KioskPanelType.board => const KioskBoardPanel(),
       KioskPanelType.media => KioskMediaPanel(playerId: panel.entityId),
+      KioskPanelType.energy => const KioskEnergyPanel(),
       KioskPanelType.lists => KioskTodoPanel(
         listId: panel.entityId ?? ref.watch(todoListsProvider).first.id,
       ),

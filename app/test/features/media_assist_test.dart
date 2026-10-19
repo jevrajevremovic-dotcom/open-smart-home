@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
+import 'package:open_smart_home/features/assist/presentation/assist_sheet.dart';
 import 'package:open_smart_home/integrations/home_assistant/mappers/ha_device_mapper.dart';
 import 'package:open_smart_home/integrations/home_assistant/models/ha_conversation.dart';
 
@@ -20,6 +21,12 @@ void main() {
       localPicturePath('/api/media_player_proxy/media_player.x?token=abc'),
       '/api/media_player_proxy/media_player.x',
     );
+  });
+
+  test('Serbian goes to HA as sr (Cyrillic) or sr-Latn (Latin)', () {
+    expect(assistLanguage('sr', 'ugasi svetla'), 'sr-Latn');
+    expect(assistLanguage('sr', 'угаси светла'), 'sr');
+    expect(assistLanguage('en', 'turn off the lights'), 'en');
   });
 
   test('conversation reply parsing', () {

@@ -92,7 +92,11 @@ void main() {
       find.byKey(const ValueKey('aodReminder-Izneti smeće')),
       findsOneWidget,
     );
-    expect(find.byKey(const ValueKey('aodEvent-Vrtić')), findsOneWidget);
+    // The demo's "Vrtić" is today 08:00–16:00; ended events are not shown.
+    expect(
+      find.byKey(const ValueKey('aodEvent-Vrtić')),
+      now.hour < 16 ? findsOneWidget : findsNothing,
+    );
     await unmount(tester);
   });
 

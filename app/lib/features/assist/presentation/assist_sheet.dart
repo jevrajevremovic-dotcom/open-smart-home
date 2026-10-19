@@ -186,7 +186,7 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
     try {
       final reply = await api!.processConversation(
         trimmed,
-        language: l10n.localeName,
+        language: assistLanguage(l10n.localeName, trimmed),
         conversationId: _conversationId,
       );
       _conversationId = reply.conversationId ?? _conversationId;
@@ -395,4 +395,12 @@ class _Bubble extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Language for Home Assistant's conversation agent. Serbian has two
+/// grammars there: `sr` (Cyrillic) and `sr-Latn` (Latin); the text decides
+/// (typed text is usually Latin, phone speech recognition often Cyrillic).
+String assistLanguage(String localeName, String text) {
+  if (!localeName.toLowerCase().startsWith('sr')) return localeName;
+  return RegExp('[\u0400-\u04FF]').hasMatch(text) ? 'sr' : 'sr-Latn';
 }

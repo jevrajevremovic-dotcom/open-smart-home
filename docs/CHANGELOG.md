@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Assist na srpskom: tekst latinicom ide Home Assistantu kao `sr-Latn`, a ćirilicom kao `sr` (HA ima odvojene gramatike za ta dva pisma; ranije je latinica išla kao `sr` i komande nisu bile prepoznate).
 - Prenos podešavanja na drugi uređaj ne prenosi izbore za mikrofon i kameru (ključna reč, buđenje kamerom) ni slike foto-okvira — to ostaje izbor svakog uređaja.
 - Kiosk: panel vremena u niskom, širokom polju slaže trenutno vreme, sate i dane jedno pored drugog umesto da se smanji.
 - Kiosk: mehurići prostorija imaju istu boju po sobi kao na telefonu (prelaz preko tamne kartice), veliku providnu sliku sobe i žutu pilulu sa brojem upaljenih svetala umesto okrugle ikonice.

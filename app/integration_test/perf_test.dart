@@ -16,7 +16,6 @@ import 'package:integration_test/integration_test.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
-import 'package:open_smart_home/features/kiosk/data/kiosk_layout.dart';
 
 import '../test/helpers.dart';
 
@@ -63,33 +62,24 @@ void main() {
       }
     }, reportKey: 'home_scroll');
 
-    await container
-        .read(kioskSettingsProvider.notifier)
-        .update(
-          (s) => s.copyWith(
-            pages: [
-              KioskPage.create(KioskPageTemplate.climateEnergy, 'Klima'),
-              KioskPage.create(KioskPageTemplate.cameras, 'Kamere'),
-            ],
-          ),
-        );
     container.read(kioskActiveProvider.notifier).enter();
     container.read(routerProvider).go(AppRoutes.kiosk);
     await wait(tester, 4000);
 
     await binding.watchPerformance(() async {
-      final pages = find.byKey(const Key('kioskPages'));
+      // Swipe through the rooms and back.
+      final middle = find.byKey(const Key('kioskColumnsSwipe'));
       for (var i = 0; i < 2; i++) {
-        await tester.fling(pages, const Offset(-900, 0), 2500);
+        await tester.fling(middle, const Offset(-900, 0), 2500);
         await wait(tester, 1200);
-        await tester.fling(pages, const Offset(-900, 0), 2500);
+        await tester.fling(middle, const Offset(-900, 0), 2500);
         await wait(tester, 1200);
-        await tester.fling(pages, const Offset(900, 0), 2500);
+        await tester.fling(middle, const Offset(900, 0), 2500);
         await wait(tester, 1200);
-        await tester.fling(pages, const Offset(900, 0), 2500);
+        await tester.fling(middle, const Offset(900, 0), 2500);
         await wait(tester, 1200);
       }
-    }, reportKey: 'kiosk_pages');
+    }, reportKey: 'kiosk_rooms');
 
     await binding.watchPerformance(() async {
       for (final key in ['kioskTimer', 'kioskLeaving', 'kioskAlarm']) {

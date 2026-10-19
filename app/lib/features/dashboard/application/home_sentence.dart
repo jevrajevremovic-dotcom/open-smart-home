@@ -6,7 +6,7 @@ import '../../devices/application/device_providers.dart';
 import '../../devices/domain/device_kind.dart';
 import '../../devices/domain/smart_home_device.dart';
 import '../../devices/presentation/device_presentation.dart';
-import '../../kiosk/presentation/kiosk_panels.dart' show kioskNowProvider;
+import '../../kiosk/application/kiosk_now.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/domain/weather.dart';
 import '../../weather/presentation/weather_labels.dart';

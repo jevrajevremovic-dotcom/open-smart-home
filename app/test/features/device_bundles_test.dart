@@ -8,7 +8,6 @@ import 'package:open_smart_home/features/devices/domain/capability.dart';
 import 'package:open_smart_home/features/devices/domain/device_kind.dart';
 import 'package:open_smart_home/features/devices/domain/smart_home_device.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
-import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_fixtures.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_home_assistant.dart';
 
@@ -134,9 +133,6 @@ void main() {
     final container = ProviderScope.containerOf(
       tester.element(find.byType(SmartHomeApp)),
     );
-    await container
-        .read(kioskSettingsProvider.notifier)
-        .update((s) => s.copyWith(style: KioskStyle.columns));
     container.read(kioskActiveProvider.notifier).enter();
     await goTo(tester, AppRoutes.kiosk);
     await settle(tester, 8);

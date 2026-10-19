@@ -131,7 +131,7 @@ class KioskBundleDetail extends ConsumerWidget {
                 main.kind == DeviceKind.thermostat)
               SizedBox(
                 height: 440,
-                child: KioskThermostatPanel(deviceId: main.id, plain: true),
+                child: KioskThermostatPanel(deviceId: main.id),
               )
             else
               ...deviceControlsFor(main),

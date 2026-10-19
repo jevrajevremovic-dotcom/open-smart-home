@@ -118,13 +118,12 @@ void main() {
     await unmount(tester);
   });
 
-  testWidgets('kiosk status bar: now playing and Assist', (tester) async {
+  testWidgets('kiosk: Assist from the sidebar', (tester) async {
     await pumpApp(tester, signedIn: true, size: const Size(1280, 800));
     await settle(tester, 10);
     await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 6);
-    expect(find.byKey(const Key('kioskNowPlaying')), findsOneWidget);
     await tapKey(tester, 'kioskAssist');
     await settle(tester, 2);
     expect(find.byKey(const Key('assistSheet')), findsOneWidget);

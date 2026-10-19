@@ -62,29 +62,6 @@ void main() {
     },
   );
 
-  testWidgets('kiosk shows cameras with tabs and can hide them', (
-    tester,
-  ) async {
-    await pumpApp(tester, signedIn: true, size: const Size(1280, 800));
-    await settle(tester, 10);
-    await goTo(tester, AppRoutes.settingsSection('kiosk'));
-    await tapKey(tester, 'startKiosk');
-    await settle(tester, 5);
-    expect(find.byKey(const Key('kioskCameras')), findsOneWidget);
-    expect(
-      find.byKey(const ValueKey('kioskCamera-camera.backyard')),
-      findsOneWidget,
-      reason: 'first by name',
-    );
-    await tester.tap(find.byKey(const ValueKey('cameraTab-camera.driveway')));
-    await settle(tester, 2);
-    expect(
-      find.byKey(const ValueKey('kioskCamera-camera.driveway')),
-      findsOneWidget,
-    );
-    await unmount(tester);
-  });
-
   testWidgets('live mode falls back to a message when there is no stream', (
     tester,
   ) async {

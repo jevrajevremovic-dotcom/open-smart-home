@@ -1,28 +1,18 @@
 import 'package:flutter/foundation.dart';
 
 import '../../clap/clap_detector.dart';
-import 'kiosk_layout.dart';
-
-/// Gradient behind the kiosk dashboard's glass panels.
-enum KioskBackground { aurora, ocean, dusk, forest }
 
 /// The one extra thing the always-on screen shows under the clock.
 enum AodFocus { none, nextEvent, list, device, energy, media, home }
 
-/// The kiosk's look: solid dark "bubble" cards with pastel highlights
-/// for what is on, or frosted glass over a gradient.
-/// Look of the kiosk: three columns like a tablet home app (default),
-/// round bubbles, or glass panels.
-enum KioskStyle { bubble, glass, columns }
-
-/// Wall-panel options, stored locally (non-secret; the PIN only as a
-/// salted PBKDF2 hash).
-/// Cards of the "columns" home overview.
+/// Cards of the kiosk's home overview.
 enum HomeCard { cameras, weather, media, calendar, lists }
 
 /// What wakes the idle kiosk screen besides a touch.
 enum ApproachWake { off, sensor, camera }
 
+/// Wall-panel options, stored locally (non-secret; the PIN only as a
+/// salted PBKDF2 hash).
 @immutable
 class KioskSettings {
   const KioskSettings({
@@ -32,13 +22,7 @@ class KioskSettings {
     this.returnHomeAfter = const Duration(seconds: 60),
     this.pinHash,
     this.pinSalt,
-    this.style = KioskStyle.columns,
-    this.background = KioskBackground.aurora,
-    this.liteEffects = false,
-    this.statusEntityIds = const [],
     this.showCameras = true,
-    this.showCalendar = true,
-    this.photoPath,
     this.clapEnabled = false,
     this.clapTargetId,
     this.clapSensitivity = ClapSensitivity.medium,
@@ -72,8 +56,6 @@ class KioskSettings {
     this.nightLightId,
     this.darkScreensaver = true,
     this.aodBrightness = 0.4,
-    this.layout,
-    this.pages = const [],
   });
 
   factory KioskSettings.fromJson(Map<String, Object?>? json) {
@@ -89,20 +71,7 @@ class KioskSettings {
           seconds(json['returnHomeAfterSeconds']) ?? d.returnHomeAfter,
       pinHash: json['pinHash'] is String ? json['pinHash']! as String : null,
       pinSalt: json['pinSalt'] is String ? json['pinSalt']! as String : null,
-      style: KioskStyle.values.firstWhere(
-        (v) => v.name == json['style'],
-        orElse: () => d.style,
-      ),
-      background: KioskBackground.values.firstWhere(
-        (b) => b.name == json['background'],
-        orElse: () => d.background,
-      ),
-      liteEffects: json['liteEffects'] == true,
       showCameras: json['showCameras'] != false,
-      showCalendar: json['showCalendar'] != false,
-      photoPath: json['photoPath'] is String
-          ? json['photoPath']! as String
-          : null,
       clapEnabled: json['clapEnabled'] == true,
       clapTargetId: json['clapTargetId'] is String
           ? json['clapTargetId']! as String
@@ -172,11 +141,6 @@ class KioskSettings {
         final num v when v >= 0.05 && v <= 1 => v.toDouble(),
         _ => d.aodBrightness,
       },
-      layout: KioskLayout.tryParse(json['layout']),
-      pages: [
-        if (json['pages'] case final List<Object?> list)
-          for (final p in list.take(KioskPage.maxPages)) ?KioskPage.tryParse(p),
-      ],
       popupTriggerIds: [
         if (json['popupTriggerIds'] case final List<Object?> ids)
           for (final id in ids.whereType<String>().take(10)) id,
@@ -195,10 +159,6 @@ class KioskSettings {
         final int s when popupOptions.contains(s) => s,
         _ => d.popupSeconds,
       },
-      statusEntityIds: [
-        if (json['statusEntityIds'] case final List<Object?> ids)
-          for (final id in ids.whereType<String>().take(maxStatusEntities)) id,
-      ],
     );
   }
 
@@ -213,32 +173,8 @@ class KioskSettings {
   final String? pinHash;
   final String? pinSalt;
 
-  final KioskStyle style;
-
-  /// Bubbles — also what "columns" falls back to on narrow screens.
-  bool get bubble => style != KioskStyle.glass;
-
-  bool get columns => style == KioskStyle.columns;
-
-  /// Gradient of the glass style.
-  final KioskBackground background;
-
-  /// No backdrop blur (cheaper on slow wall tablets).
-  final bool liteEffects;
-
-  /// Entities shown as chips at the top of the kiosk dashboard.
-  final List<String> statusEntityIds;
-  static const maxStatusEntities = 6;
-
-  /// Camera panel on the kiosk dashboard (visible to anyone in the room).
+  /// Cameras on the kiosk's home overview (visible to anyone in the room).
   final bool showCameras;
-
-  /// Calendar panel on the kiosk dashboard.
-  final bool showCalendar;
-
-  /// Own background photo (file on this device), shown instead of the
-  /// gradient.
-  final String? photoPath;
 
   /// Double clap toggles [clapTargetId] while the kiosk is shown. Opt-in:
   /// the microphone listens (levels only, nothing recorded) meanwhile.
@@ -264,7 +200,7 @@ class KioskSettings {
   /// Says hello (and shows their messages) when a person comes home.
   final bool greetPeople;
 
-  /// Devices on the right of the "columns" home overview: entity ids, or
+  /// Devices on the right of the home overview: entity ids, or
   /// `group:<device id>` for all of one physical device.
   final List<String> quickControls;
 
@@ -345,39 +281,6 @@ class KioskSettings {
   /// 0.05–1. At night the lower of this and [nightLevel] applies.
   final double aodBrightness;
 
-  /// Panels arranged on the tablet; `null` = [KioskLayout.standard].
-  final KioskLayout? layout;
-
-  KioskLayout get effectiveLayout => layout ?? KioskLayout.standard;
-
-  /// Extra pages after the home page (swipe left).
-  final List<KioskPage> pages;
-
-  /// The page the kiosk returns to when left alone: the first extra page
-  /// whose time window contains [now], else the home page (0).
-  int defaultPageAt(DateTime now) {
-    for (final (i, p) in pages.indexed) {
-      if (p.activeAt(now)) return i + 1;
-    }
-    return 0;
-  }
-
-  /// Layout of page [index] (0 = home).
-  KioskLayout layoutOf(int index) => index <= 0 || index > pages.length
-      ? effectiveLayout
-      : pages[index - 1].layout;
-
-  /// With page [index]'s layout replaced.
-  KioskSettings withLayoutOf(int index, KioskLayout next) =>
-      index <= 0 || index > pages.length
-      ? copyWith(layout: next)
-      : copyWith(
-          pages: [
-            for (final (i, p) in pages.indexed)
-              i == index - 1 ? p.copyWith(layout: next) : p,
-          ],
-        );
-
   static int? _minutes(Object? v) =>
       v is int && v >= 0 && v < 24 * 60 ? v : null;
 
@@ -426,14 +329,7 @@ class KioskSettings {
     String? pinHash,
     String? pinSalt,
     bool clearPin = false,
-    KioskStyle? style,
-    KioskBackground? background,
-    bool? liteEffects,
-    List<String>? statusEntityIds,
     bool? showCameras,
-    bool? showCalendar,
-    String? photoPath,
-    bool clearPhoto = false,
     bool? clapEnabled,
     String? clapTargetId,
     ClapSensitivity? clapSensitivity,
@@ -471,12 +367,7 @@ class KioskSettings {
     String? nightLightId,
     bool? darkScreensaver,
     double? aodBrightness,
-    KioskLayout? layout,
-    bool resetLayout = false,
-    List<KioskPage>? pages,
   }) => KioskSettings(
-    layout: resetLayout ? null : (layout ?? this.layout),
-    pages: pages ?? this.pages,
     aodFocus: aodFocus ?? this.aodFocus,
     aodEntityId: clearAodEntity ? null : (aodEntityId ?? this.aodEntityId),
     morningScreen: morningScreen ?? this.morningScreen,
@@ -514,13 +405,7 @@ class KioskSettings {
     quickControls: quickControls ?? this.quickControls,
     homeCards: homeCards ?? this.homeCards,
     openAlertMinutes: openAlertMinutes ?? this.openAlertMinutes,
-    photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
-    showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
-    statusEntityIds: statusEntityIds ?? this.statusEntityIds,
-    style: style ?? this.style,
-    background: background ?? this.background,
-    liteEffects: liteEffects ?? this.liteEffects,
     startInKiosk: startInKiosk ?? this.startInKiosk,
     keepScreenOn: keepScreenOn ?? this.keepScreenOn,
     dimAfter: dimAfter ?? this.dimAfter,
@@ -536,13 +421,7 @@ class KioskSettings {
     'returnHomeAfterSeconds': returnHomeAfter.inSeconds,
     'pinHash': pinHash,
     'pinSalt': pinSalt,
-    'style': style.name,
-    'background': background.name,
-    'liteEffects': liteEffects,
-    'statusEntityIds': statusEntityIds,
     'showCameras': showCameras,
-    'showCalendar': showCalendar,
-    'photoPath': photoPath,
     'clapEnabled': clapEnabled,
     'clapTargetId': clapTargetId,
     'clapSensitivity': clapSensitivity.name,
@@ -576,7 +455,5 @@ class KioskSettings {
     'nightLightId': nightLightId,
     'darkScreensaver': darkScreensaver,
     'aodBrightness': aodBrightness,
-    'layout': layout?.toJson(),
-    'pages': [for (final p in pages) p.toJson()],
   };
 }

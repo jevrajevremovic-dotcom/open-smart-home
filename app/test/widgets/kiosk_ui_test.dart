@@ -25,16 +25,13 @@ void main() {
       expect(find.byType(NavigationRail), findsNothing);
       expect(find.byType(NavigationBar), findsNothing);
       for (final key in [
-        'kioskWeather',
-        'kioskRooms',
-        'kioskShortcuts',
+        'kioskColumns',
+        'kioskColumnsOverview',
+        'kioskQuickControls',
         'kioskTargetTemperature',
       ]) {
         expect(find.byKey(Key(key)), findsOneWidget, reason: key);
       }
-      // Bubble style: the home in one sentence, numbers under it.
-      expect(find.byKey(const Key('kioskHomeSentence')), findsOneWidget);
-      expect(find.text(en.kioskStatOpenings), findsOneWidget);
 
       await goTo(tester, AppRoutes.settingsSection('kiosk'));
       expect(
@@ -144,72 +141,6 @@ void main() {
       tester.getSemantics(find.bySemanticsLabel(en.presetSleep)),
       isSemantics(isSelected: true),
     );
-    await unmount(tester);
-  });
-
-  testWidgets('portrait kiosk stacks the panels without overflow', (
-    tester,
-  ) async {
-    await pumpApp(tester, signedIn: true, size: const Size(800, 1280));
-    await settle(tester, 10);
-    await startKiosk(tester);
-    expect(find.byKey(const Key('kioskWeather')), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.byKey(const Key('kioskRooms')),
-      300,
-      scrollable: find.byType(Scrollable).first,
-    );
-    expect(find.byKey(const Key('kioskRooms')), findsOneWidget);
-    await settle(tester, 4); // let in-flight requests finish
-    await unmount(tester);
-  });
-
-  testWidgets('kiosk header: household and chosen status chips', (
-    tester,
-  ) async {
-    await pumpApp(tester, signedIn: true, size: tablet);
-    await settle(tester, 10);
-    await goTo(tester, AppRoutes.settingsSection('kiosk'));
-    await tapKey(tester, 'kioskStatusEntities');
-    await settle(tester, 2);
-    await tester.enterText(
-      find.byKey(const Key('statusEntitiesSearch')),
-      'Veš',
-    );
-    await settle(tester, 1);
-    await tester.tap(
-      find.byKey(const ValueKey('status-sensor.washing_machine_status')),
-    );
-    await tapKey(tester, 'statusEntitiesDone');
-    await settle(tester, 2);
-    expect(find.text(en.kioskStatusSelected(1)), findsOneWidget);
-
-    await tapKey(tester, 'startKiosk');
-    await settle(tester, 5);
-    expect(find.byKey(const Key('kioskPeople')), findsOneWidget);
-    expect(find.byTooltip('Marko: ${en.personHome}'), findsOneWidget);
-    expect(find.byTooltip('Jelena: Posao'), findsOneWidget);
-    expect(find.byTooltip('Ana: ${en.personAway}'), findsOneWidget);
-    final chip = find.byKey(
-      const ValueKey('chip-sensor.washing_machine_status'),
-    );
-    expect(chip, findsOneWidget);
-    expect(
-      find.descendant(of: chip, matching: find.textContaining('Završeno')),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(
-        of: chip,
-        matching: find.textContaining(en.timeMinutesAgo(2)),
-      ),
-      findsOneWidget,
-    );
-
-    await tester.tap(find.byKey(const Key('kioskWeather')));
-    await settle(tester, 4);
-    expect(find.text(en.weatherForecastTitle), findsOneWidget);
-    expect(find.byKey(const Key('kioskExit')), findsNothing);
     await unmount(tester);
   });
 

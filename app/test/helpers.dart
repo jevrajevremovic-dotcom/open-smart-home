@@ -124,13 +124,7 @@ Future<List<Override>> testOverrides({
   MatterNewDevicePlatform? matter,
   List<Override> overrides = const [],
 }) async {
-  // Most kiosk tests were written for the bubble look; the "columns" look
-  // (the default) has its own tests and passes its own preferences.
-  SharedPreferences.setMockInitialValues({
-    if (!preferences.containsKey('kiosk.settings'))
-      'kiosk.settings': '{"style":"bubble"}',
-    ...preferences,
-  });
+  SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
   return [
     appConfigProvider.overrideWithValue(const AppConfig(mockMode: true)),

@@ -22,7 +22,7 @@ import '../../weather/presentation/weather_labels.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'glass.dart' show kioskPhotoStoreProvider;
-import 'kiosk_panels.dart' show kioskNowProvider;
+import '../application/kiosk_now.dart';
 
 /// Text on black, readable across a room (the screen itself is dimmed by
 /// the always-on brightness, so the text stays near white).

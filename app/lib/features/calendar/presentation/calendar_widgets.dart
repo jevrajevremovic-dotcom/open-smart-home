@@ -6,8 +6,7 @@ import '../../../app/localization/l10n.dart';
 import '../../../integrations/home_assistant/models/ha_calendar.dart';
 import '../application/calendar_providers.dart';
 
-/// Colours for the calendar widgets: theme colours in the app, white on
-/// glass in the kiosk.
+/// Colours for the calendar widgets, from the app theme.
 @immutable
 class CalendarPalette {
   const CalendarPalette({
@@ -26,15 +25,6 @@ class CalendarPalette {
     accent: theme.colorScheme.primary,
     onAccent: theme.colorScheme.onPrimary,
     selected: theme.colorScheme.primaryContainer,
-  );
-
-  static const glass = CalendarPalette(
-    text: Colors.white,
-    muted: Color(0xC7FFFFFF),
-    faint: Color(0x73FFFFFF),
-    accent: Color(0xFF3D7BFF),
-    onAccent: Colors.white,
-    selected: Color(0x33FFFFFF),
   );
 
   final Color text;

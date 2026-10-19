@@ -896,9 +896,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get kioskTapToWake => 'Tap to wake';
-
-  @override
   String get kioskOsHint =>
       'For a fully locked wall panel also use the system\'s kiosk feature: Android screen pinning or a kiosk launcher, iOS Guided Access. They can also start the app automatically.';
 
@@ -1167,70 +1164,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get presetActivity => 'Activity';
 
   @override
-  String get kioskShortcuts => 'Shortcuts';
-
-  @override
-  String get kioskShortcutsEmpty => 'Star devices to show them here.';
-
-  @override
-  String kioskLightsOn(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count lights on',
-      one: '1 light on',
-      zero: 'All lights off',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get kioskClimate => 'Climate';
-
-  @override
-  String kioskAverage(String value) {
-    return 'Average $value';
-  }
-
-  @override
-  String kioskOpenings(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count open',
-      zero: 'Everything closed',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get kioskDoorsWindows => 'Doors and windows';
-
-  @override
-  String get kioskPower => 'Power now';
-
-  @override
-  String get kioskBackground => 'Background';
-
-  @override
-  String get kioskBackgroundAurora => 'Aurora';
-
-  @override
-  String get kioskBackgroundOcean => 'Ocean';
-
-  @override
-  String get kioskBackgroundDusk => 'Dusk';
-
-  @override
-  String get kioskBackgroundForest => 'Forest';
-
-  @override
-  String get kioskLiteEffects => 'Lighter effects';
-
-  @override
-  String get kioskLiteEffectsHint => 'No glass blur, for slower tablets.';
-
-  @override
   String get thermostatModes => 'Modes';
 
   @override
@@ -1244,28 +1177,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get householdTitle => 'Household';
-
-  @override
-  String get kioskStatusEntities => 'Status chips at the top';
-
-  @override
-  String kioskStatusEntitiesHint(int max) {
-    return 'Pick up to $max devices or sensors to show at the top of the kiosk screen, for example the washing machine, a printer or a sleep sensor.';
-  }
-
-  @override
-  String get kioskStatusNone => 'None';
-
-  @override
-  String kioskStatusSelected(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count selected',
-      one: '1 selected',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get searchHint => 'Search';
@@ -1394,13 +1305,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calendarBackToToday => 'Today';
-
-  @override
-  String get kioskShowCalendar => 'Show calendar';
-
-  @override
-  String get kioskShowCalendarHint =>
-      'Events are visible to anyone looking at the wall tablet.';
 
   @override
   String get assistTitle => 'Assist';
@@ -1567,10 +1471,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get weatherNoHomeCoordinates =>
       'Home Assistant has no home location set.';
-
-  @override
-  String get kioskWeatherMissing =>
-      'No weather forecast. Turn it on in Settings, Privacy, or add the Met.no integration in Home Assistant.';
 
   @override
   String get calendarNoneShort => 'No calendars in Home Assistant';
@@ -2233,19 +2133,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'This automation does more than the app\'s editor can show. Change it in Home Assistant.';
 
   @override
-  String get kioskPhoto => 'Own background photo';
-
-  @override
-  String get kioskPhotoHint =>
-      'Shown darkened behind the panels. Stays on this device only.';
-
-  @override
-  String get kioskPhotoPick => 'Choose photo';
-
-  @override
-  String get kioskPhotoRemove => 'Remove photo';
-
-  @override
   String get backupSection => 'Move to another device';
 
   @override
@@ -2727,53 +2614,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get matterSharedTitle => 'Device already in another app';
 
   @override
-  String get kioskPanelThermostat => 'Thermostat';
-
-  @override
-  String get kioskPanelDevice => 'Device';
-
-  @override
-  String get kioskLayoutEmpty => 'No panels. Edit the layout to add some.';
-
-  @override
-  String kioskPanelUnavailable(String panel) {
-    return '$panel: nothing to show right now';
-  }
-
-  @override
-  String get kioskPanelEarlier => 'Move earlier';
-
-  @override
-  String get kioskPanelLater => 'Move later';
-
-  @override
-  String get kioskPanelNarrower => 'Narrower';
-
-  @override
-  String get kioskPanelWider => 'Wider';
-
-  @override
-  String get kioskPanelHeight => 'Normal / tall';
-
-  @override
   String get kioskPanelChooseDevice => 'Choose device';
-
-  @override
-  String get kioskPanelRemove => 'Remove panel';
-
-  @override
-  String get kioskEditHint =>
-      'Hold a panel and drag it onto another to move it; buttons change its size.';
-
-  @override
-  String get kioskAddPanel => 'Add panel';
-
-  @override
-  String get kioskEditLayout => 'Edit layout';
-
-  @override
-  String get kioskEditLayoutHint =>
-      'Arrange, resize, add and remove panels by dragging on the tablet';
 
   @override
   String get settingsNotificationsSection => 'Notifications';
@@ -3274,30 +3115,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get kioskStatOutside => 'Outside';
-
-  @override
-  String get kioskStatInside => 'Inside';
-
-  @override
-  String get kioskStatHumidity => 'Humidity';
-
-  @override
-  String get kioskStatPower => 'Power';
-
-  @override
-  String get kioskStatOpenings => 'Open';
-
-  @override
-  String get kioskStyle => 'Kiosk look';
-
-  @override
-  String get kioskStyleBubble => 'Bubbles';
-
-  @override
-  String get kioskStyleGlass => 'Glass';
-
-  @override
   String get mediaShuffle => 'Shuffle';
 
   @override
@@ -3751,58 +3568,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kioskLeavingBye => 'Goodbye!';
 
   @override
-  String kioskEnergyToday(String kwh) {
-    return 'Today $kwh';
-  }
-
-  @override
-  String kioskEnergySolar(String kwh) {
-    return 'Solar today $kwh';
-  }
-
-  @override
-  String kioskEnergyLowFor(String time) {
-    return 'Lower rate for another $time';
-  }
-
-  @override
-  String kioskEnergyLowIn(String time) {
-    return 'Higher rate · lower in $time';
-  }
-
-  @override
-  String get kioskAddPage => 'New page';
-
-  @override
-  String get kioskRenamePage => 'Rename page';
-
-  @override
-  String get kioskDeletePage => 'Delete page';
-
-  @override
-  String get kioskPageEmpty => 'Empty';
-
-  @override
-  String get kioskPageClimateEnergy => 'Climate and energy';
-
-  @override
-  String kioskPageNumber(int number) {
-    return 'Page $number';
-  }
-
-  @override
-  String get kioskHomePage => 'Home';
-
-  @override
-  String get kioskPageSchedule => 'Show by itself';
-
-  @override
-  String get kioskPageScheduleFrom => 'Show this page from';
-
-  @override
-  String get kioskPageScheduleTo => 'until';
-
-  @override
   String get photoFrame => 'Photo frame';
 
   @override
@@ -3923,9 +3688,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskOpenDevice => 'Open device';
-
-  @override
-  String get kioskStyleColumns => 'Columns';
 
   @override
   String get kioskBundleMain => 'Main';

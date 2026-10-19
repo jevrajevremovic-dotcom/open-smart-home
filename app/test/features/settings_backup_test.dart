@@ -6,7 +6,6 @@ import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/favorites/application/favorites_controller.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
-import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
 import 'package:open_smart_home/features/settings/application/appearance_controllers.dart';
 
 import '../widgets/app_widget_test.dart'
@@ -45,13 +44,13 @@ void main() {
     await c.read(favoritesProvider.notifier).toggle('light.hallway');
     await c
         .read(kioskSettingsProvider.notifier)
-        .update((s) => s.copyWith(background: KioskBackground.dusk));
+        .update((s) => s.copyWith(quickControls: ['light.hallway']));
     await c.read(kioskSettingsProvider.notifier).setPin('1234');
 
     await goTo(tester, AppRoutes.settingsSection('backup'));
     await tapKey(tester, 'backupCopy');
     await settle(tester, 2);
-    expect(clipboard, contains('"background": "dusk"'));
+    expect(clipboard, contains('"quickControls"'));
     expect(clipboard, isNot(contains('pinHash')));
     expect(clipboard, isNot(contains('token')));
 
@@ -59,7 +58,7 @@ void main() {
     await c.read(favoritesProvider.notifier).toggle('light.hallway');
     await c
         .read(kioskSettingsProvider.notifier)
-        .update((s) => s.copyWith(background: KioskBackground.ocean));
+        .update((s) => s.copyWith(quickControls: []));
     await settle(tester, 2);
 
     await tapKey(tester, 'backupPaste');
@@ -67,7 +66,7 @@ void main() {
     expect(find.text(en.backupImported), findsOneWidget);
     expect(c.read(themeModeProvider), ThemeMode.dark);
     expect(c.read(favoritesProvider), contains('light.hallway'));
-    expect(c.read(kioskSettingsProvider).background, KioskBackground.dusk);
+    expect(c.read(kioskSettingsProvider).quickControls, ['light.hallway']);
     expect(c.read(kioskSettingsProvider).hasPin, isTrue, reason: 'PIN kept');
 
     clipboard = 'hello';

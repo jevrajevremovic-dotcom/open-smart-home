@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:open_smart_home/app/app.dart';
-import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
-import 'package:open_smart_home/features/kiosk/data/kiosk_layout.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/devices/domain/device_command.dart';
 import 'package:open_smart_home/integrations/home_assistant/mappers/ha_command_translator.dart';
@@ -30,6 +26,19 @@ Future<void> startKiosk(WidgetTester tester) async {
   await settle(tester, 20);
 }
 
+/// Scrolls the kiosk's home overview to [f].
+Future<void> showOnHome(WidgetTester tester, Finder f) =>
+    tester.scrollUntilVisible(
+      f,
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('kioskColumnsOverview')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+
 void main() {
   test('select_source is validated against the source list', () {
     final tv = const HaDeviceMapper().map(
@@ -55,24 +64,16 @@ void main() {
     await pumpApp(
       tester,
       signedIn: true,
-      size: const Size(1280, 800),
+      size: const Size(1600, 1000),
       server: bareServer(),
     );
     await settle(tester, 10);
-    // The weather panel (no longer in the standard layout) explains it.
-    await ProviderScope.containerOf(tester.element(find.byType(SmartHomeApp)))
-        .read(kioskSettingsProvider.notifier)
-        .update(
-          (s) => s.copyWith(
-            layout: KioskLayout.standard.add(KioskPanelType.weather),
-          ),
-        );
     await startKiosk(tester);
-    expect(find.byKey(const Key('kioskWeatherMissing')), findsOneWidget);
-    expect(find.text(en.kioskWeatherMissing), findsOneWidget);
-    expect(find.byKey(const Key('kioskCalendar')), findsOneWidget);
+    // No weather entity: the home-location forecast is offered instead.
+    await showOnHome(tester, find.byKey(const Key('homeWeatherPrompt')));
+    expect(find.byKey(const Key('homeWeatherPrompt')), findsOneWidget);
+    await showOnHome(tester, find.byKey(const Key('calendarNone')));
     expect(find.byKey(const Key('calendarNone')), findsOneWidget);
-    expect(find.byKey(const Key('calMonthTitle')), findsOneWidget);
     await unmount(tester);
   });
 
@@ -82,7 +83,7 @@ void main() {
     await pumpApp(
       tester,
       signedIn: true,
-      size: const Size(1280, 800),
+      size: const Size(1600, 1000),
       server: bareServer(),
     );
     await settle(tester, 10);
@@ -93,7 +94,7 @@ void main() {
     await tapKey(tester, 'confirmHomeWeather');
     await settle(tester, 4);
     await startKiosk(tester);
-    expect(find.byKey(const Key('kioskWeather')), findsOneWidget);
+    await showOnHome(tester, find.text(en.weatherMetAttribution));
     expect(find.text(en.weatherMetAttribution), findsOneWidget);
     await unmount(tester);
   });
@@ -101,10 +102,11 @@ void main() {
   testWidgets('media sheet: switch player, power on, choose a source', (
     tester,
   ) async {
-    await pumpApp(tester, signedIn: true, size: const Size(1280, 800));
+    await pumpApp(tester, signedIn: true, size: const Size(1600, 1000));
     await settle(tester, 10);
     await startKiosk(tester);
-    await tapKey(tester, 'kioskNowPlaying');
+    await showOnHome(tester, find.byKey(const Key('nowPlayingCard')));
+    await tapKey(tester, 'nowPlayingCard');
     await settle(tester, 2);
     expect(find.byKey(const Key('mediaSheet')), findsOneWidget);
     expect(find.text('Kafa i kiša'), findsWidgets);

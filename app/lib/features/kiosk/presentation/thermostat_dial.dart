@@ -13,7 +13,6 @@ import '../../devices/domain/smart_home_device.dart';
 import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../favorites/application/favorites_controller.dart';
-import 'glass.dart';
 
 /// Thermostat shown on the kiosk: a favorite one if there is any,
 /// otherwise the first by name. `null` = no climate device in the home.
@@ -66,17 +65,9 @@ IconData presetIcon(String preset) => switch (preset) {
 
 /// Circular thermostat: drag along the arc or use −/+; modes underneath.
 class KioskThermostatPanel extends ConsumerStatefulWidget {
-  const KioskThermostatPanel({
-    super.key,
-    required this.deviceId,
-    this.plain = false,
-  });
+  const KioskThermostatPanel({super.key, required this.deviceId});
 
   final String deviceId;
-
-  /// Without the glass card and in the app theme's colours (the light
-  /// "columns" kiosk); otherwise white on a glass panel.
-  final bool plain;
 
   @override
   ConsumerState<KioskThermostatPanel> createState() =>
@@ -159,7 +150,7 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
         : ((target - min) / (max - min)).clamp(0.0, 1.0);
     final enabled = d.available && !off && target != null;
     final color = off ? hvacColor('off') : hvacColor(s.hvacMode);
-    final pal = widget.plain ? _Palette.of(theme.colorScheme) : _Palette.glass;
+    final pal = _Palette.of(theme.colorScheme);
 
     String temp(double? v) =>
         v == null ? '—' : formatNumber(locale, v, unit: '°');
@@ -308,15 +299,8 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
         ? d.limits.hvacModes
         : const <String>[];
 
-    final body = Column(
+    return Column(
       children: [
-        if (!widget.plain)
-          Text(
-            d.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleMedium?.copyWith(color: pal.muted),
-          ),
         Expanded(child: dial),
         const SizedBox(height: 8),
         SingleChildScrollView(
@@ -381,12 +365,6 @@ class _KioskThermostatPanelState extends ConsumerState<KioskThermostatPanel> {
         ),
       ],
     );
-    return widget.plain
-        ? body
-        : GlassPanel(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
-            child: body,
-          );
   }
 }
 
@@ -541,7 +519,7 @@ class _ModeButton extends StatelessWidget {
   );
 }
 
-/// Colours of the dial: white on glass, or the theme's (plain).
+/// Colours of the dial, from the app theme.
 class _Palette {
   const _Palette({
     required this.text,
@@ -551,15 +529,6 @@ class _Palette {
     required this.fill,
     required this.fillStrong,
   });
-
-  static const glass = _Palette(
-    text: GlassColors.text,
-    muted: GlassColors.muted,
-    faint: GlassColors.faint,
-    track: Color(0x24FFFFFF),
-    fill: GlassColors.fill,
-    fillStrong: GlassColors.fillStrong,
-  );
 
   factory _Palette.of(ColorScheme c) => _Palette(
     text: c.onSurface,

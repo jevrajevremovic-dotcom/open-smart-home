@@ -30,16 +30,13 @@ abstract final class SettingsBackup {
       'favorites': ref.read(favoritesProvider),
       'homeLayout': ref.read(dashboardLayoutProvider).toJson(),
       'kiosk': {
-        'background': kiosk.background.name,
-        'liteEffects': kiosk.liteEffects,
         'showCameras': kiosk.showCameras,
-        'showCalendar': kiosk.showCalendar,
-        'statusEntityIds': kiosk.statusEntityIds,
+        'homeCards': [for (final c in kiosk.homeCards) c.name],
+        'quickControls': kiosk.quickControls,
         'popupTriggerIds': kiosk.popupTriggerIds,
         'popupCameraId': kiosk.popupCameraId,
         'popupSeconds': kiosk.popupSeconds,
         'popupLive': kiosk.popupLive,
-        'layout': kiosk.layout?.toJson(),
         'nightBrightness': kiosk.nightBrightness,
         'nightFrom': kiosk.nightFrom,
         'nightTo': kiosk.nightTo,
@@ -96,10 +93,9 @@ abstract final class SettingsBackup {
           .read(kioskSettingsProvider.notifier)
           .update(
             (_) => imported.copyWith(
-              // Keep this device's own PIN, photo and start-up choice.
+              // Keep this device's own PIN and start-up choice.
               pinHash: current.pinHash,
               pinSalt: current.pinSalt,
-              photoPath: current.photoPath,
               startInKiosk: current.startInKiosk,
               // Microphone use is this device's own choice.
               clapEnabled: current.clapEnabled,

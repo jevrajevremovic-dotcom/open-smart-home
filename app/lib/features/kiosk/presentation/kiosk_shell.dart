@@ -14,7 +14,6 @@ import 'kiosk_alert_overlay.dart';
 import 'kiosk_ambient.dart';
 import 'kiosk_greeter.dart';
 import 'kiosk_approach_waker.dart';
-import 'kiosk_layout_view.dart';
 
 /// Wraps every kiosk route: fullscreen, screen kept on, back button
 /// blocked, return to the kiosk dashboard and dimming after inactivity.
@@ -101,8 +100,7 @@ class _KioskShellState extends ConsumerState<KioskShell> {
         if (mounted) context.go(AppRoutes.kiosk);
       });
     }
-    // No screensaver while the layout is being edited.
-    if (settings.dimAfter > Duration.zero && !ref.read(kioskEditingProvider)) {
+    if (settings.dimAfter > Duration.zero) {
       _dimTimer = Timer(settings.dimAfter, () {
         if (mounted) _setDimmed(true);
       });
@@ -111,7 +109,6 @@ class _KioskShellState extends ConsumerState<KioskShell> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(kioskEditingProvider, (_, _) => _restartTimers());
     // Woken without a touch (the wake word).
     ref.listen(kioskDimmedProvider, (_, dimmed) {
       if (!dimmed && _dimmed) _onInteraction();

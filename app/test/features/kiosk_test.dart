@@ -54,27 +54,20 @@ void main() {
       dimAfter: Duration.zero,
       pinHash: 'h',
       pinSalt: 's',
-      background: KioskBackground.dusk,
-      liteEffects: true,
+      quickControls: ['light.hallway', 'group:d_coffee'],
+      homeCards: [HomeCard.calendar, HomeCard.weather],
     );
     final back = KioskSettings.fromJson(s.toJson());
-    expect(back.background, KioskBackground.dusk);
-    expect(
-      KioskSettings.fromJson(
-        const KioskSettings(statusEntityIds: ['a', 'b']).toJson(),
-      ).statusEntityIds,
-      ['a', 'b'],
-    );
+    expect(back.quickControls, ['light.hallway', 'group:d_coffee']);
+    expect(back.homeCards, [HomeCard.calendar, HomeCard.weather]);
+    // Settings of the old looks are simply ignored.
     expect(
       KioskSettings.fromJson({
-        'statusEntityIds': ['1', '2', '3', '4', '5', '6', '7', 8],
-      }).statusEntityIds,
-      hasLength(KioskSettings.maxStatusEntities),
-    );
-    expect(back.liteEffects, isTrue);
-    expect(
-      KioskSettings.fromJson({'background': 'neon'}).background,
-      KioskBackground.aurora,
+        'style': 'bubble',
+        'background': 'dusk',
+        'pages': [{}],
+      }).homeCards,
+      HomeCard.values,
     );
     expect(back.startInKiosk, isTrue);
     expect(back.dimAfter, Duration.zero);

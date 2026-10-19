@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Kiosk ima samo jedan izgled, „Kolone”. Uklonjeni su stari stilovi „Mehurići” i „Staklo” i sve što je postojalo samo za njih: uređivač rasporeda panela, dodatne stranice kioska po dobu dana, pozadine i sopstvena pozadinska fotografija, statusni čipovi u zaglavlju, „lakši efekti” i prekidač za kalendar (kalendar se bira među karticama Početne). Ram za fotografije, noćni sat, iskačuća kamera i ostalo ostaju.
+- Kiosk uspravno: i dalje „Kolone”, bez desne kolone — dodir na uređaj otvara detalje odozdo, brze kontrole su na dnu Početne; na uskom ekranu prostorije su u meniju. Upozorenja o vezi i zastarelim podacima sada su i iznad srednje kolone.
 - Ispravljeno: u kiosku dodir na listu ili tablu (kartica „Liste”) nije ništa otvarao nego je vraćao na vrh kioska — ti ekrani nisu imali kiosk adresu, pa ih kiosk nije puštao. Sada liste, spisak tabli i nova stranica table rade unutar kioska.
 - Kiosk „Kolone”, Početna: kalendar pola-pola — obaveze levo, mesec desno.
 - Kiosk „Kolone”, Početna: kalendar sa mesecom preko cele širine kartice i ≈ 1,5× većim danima, nazivima dana i naslovom meseca (čitljivo iz sobe), naslov iznad, događaji za danas i sutra ispod.

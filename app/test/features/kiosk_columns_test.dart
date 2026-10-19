@@ -16,24 +16,12 @@ import '../widgets/app_widget_test.dart'
     show en, goTo, pumpApp, settle, tapKey, unmount;
 
 void main() {
-  test('columns is the default kiosk look', () {
-    expect(const KioskSettings().style, KioskStyle.columns);
-    expect(const KioskSettings().bubble, isTrue, reason: 'narrow fallback');
-    expect(
-      KioskSettings.fromJson(const {'style': 'glass'}).style,
-      KioskStyle.glass,
-    );
-  });
-
   Future<ProviderContainer> kiosk(WidgetTester tester, Size size) async {
     await pumpApp(tester, signedIn: true, size: size);
     await settle(tester, 10);
     final container = ProviderScope.containerOf(
       tester.element(find.byType(SmartHomeApp)),
     );
-    await container
-        .read(kioskSettingsProvider.notifier)
-        .update((s) => s.copyWith(style: KioskStyle.columns));
     container.read(kioskActiveProvider.notifier).enter();
     await goTo(tester, AppRoutes.kiosk);
     await settle(tester, 8);
@@ -110,12 +98,66 @@ void main() {
     await unmount(tester);
   });
 
-  testWidgets('portrait or narrow screens fall back to the bubbles', (
-    tester,
-  ) async {
+  testWidgets('portrait: no right column, details in a sheet', (tester) async {
     await kiosk(tester, const Size(1000, 1400));
-    expect(find.byKey(const Key('kioskColumns')), findsNothing);
-    expect(find.byKey(const Key('kioskEditLayout')), findsOneWidget);
+    expect(find.byKey(const Key('kioskColumns')), findsOneWidget);
+    expect(find.byKey(const Key('kioskColumnsDetail')), findsNothing);
+    // The quick controls move to the end of the home overview.
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('kioskQuickControls')),
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('kioskColumnsOverview')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+    expect(find.byKey(const Key('kioskQuickControls')), findsOneWidget);
+
+    await tester.tap(
+      find.byKey(const ValueKey('kioskColumnsRoom-living_room')),
+    );
+    await settle(tester, 4);
+    await tester.tap(
+      find.byKey(
+        const ValueKey('kioskColumnsDevice-group:d_living_climate_sensor'),
+      ),
+    );
+    await settle(tester, 4);
+    expect(find.byKey(const Key('kioskColumnsDetail')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('kioskBundle-group:d_living_climate_sensor')),
+      findsOneWidget,
+    );
+    // Closed: back to the room, nothing chosen.
+    await tester.tapAt(const Offset(500, 40));
+    await settle(tester, 4);
+    expect(find.byKey(const Key('kioskColumnsDetail')), findsNothing);
+    expect(find.byKey(const Key('kioskColumnsRoomTitle')), findsOneWidget);
+    await unmount(tester);
+  });
+
+  testWidgets('phone-sized: rooms from the menu', (tester) async {
+    await kiosk(tester, const Size(600, 1000));
+    expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('kioskColumnsRoom-kitchen')),
+      findsNothing,
+    );
+    await tapKey(tester, 'kioskColumnsMenu');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const ValueKey('kioskColumnsRoom-kitchen')));
+    await settle(tester, 4);
+    expect(
+      tester.widget<Text>(find.byKey(const Key('kioskColumnsRoomTitle'))).data,
+      'Kuhinja',
+    );
+    // The drawer closed by itself.
+    expect(
+      find.byKey(const ValueKey('kioskColumnsRoom-kitchen')),
+      findsNothing,
+    );
     await unmount(tester);
   });
 

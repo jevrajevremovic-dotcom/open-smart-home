@@ -1641,12 +1641,6 @@ abstract class AppLocalizations {
   /// **'Too many attempts. Try again in {seconds} s.'**
   String kioskLockedOut(int seconds);
 
-  /// No description provided for @kioskTapToWake.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to wake'**
-  String get kioskTapToWake;
-
   /// No description provided for @kioskOsHint.
   ///
   /// In en, this message translates to:
@@ -2139,96 +2133,6 @@ abstract class AppLocalizations {
   /// **'Activity'**
   String get presetActivity;
 
-  /// No description provided for @kioskShortcuts.
-  ///
-  /// In en, this message translates to:
-  /// **'Shortcuts'**
-  String get kioskShortcuts;
-
-  /// No description provided for @kioskShortcutsEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'Star devices to show them here.'**
-  String get kioskShortcutsEmpty;
-
-  /// No description provided for @kioskLightsOn.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{All lights off} =1{1 light on} other{{count} lights on}}'**
-  String kioskLightsOn(int count);
-
-  /// No description provided for @kioskClimate.
-  ///
-  /// In en, this message translates to:
-  /// **'Climate'**
-  String get kioskClimate;
-
-  /// No description provided for @kioskAverage.
-  ///
-  /// In en, this message translates to:
-  /// **'Average {value}'**
-  String kioskAverage(String value);
-
-  /// No description provided for @kioskOpenings.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{Everything closed} other{{count} open}}'**
-  String kioskOpenings(int count);
-
-  /// No description provided for @kioskDoorsWindows.
-  ///
-  /// In en, this message translates to:
-  /// **'Doors and windows'**
-  String get kioskDoorsWindows;
-
-  /// No description provided for @kioskPower.
-  ///
-  /// In en, this message translates to:
-  /// **'Power now'**
-  String get kioskPower;
-
-  /// No description provided for @kioskBackground.
-  ///
-  /// In en, this message translates to:
-  /// **'Background'**
-  String get kioskBackground;
-
-  /// No description provided for @kioskBackgroundAurora.
-  ///
-  /// In en, this message translates to:
-  /// **'Aurora'**
-  String get kioskBackgroundAurora;
-
-  /// No description provided for @kioskBackgroundOcean.
-  ///
-  /// In en, this message translates to:
-  /// **'Ocean'**
-  String get kioskBackgroundOcean;
-
-  /// No description provided for @kioskBackgroundDusk.
-  ///
-  /// In en, this message translates to:
-  /// **'Dusk'**
-  String get kioskBackgroundDusk;
-
-  /// No description provided for @kioskBackgroundForest.
-  ///
-  /// In en, this message translates to:
-  /// **'Forest'**
-  String get kioskBackgroundForest;
-
-  /// No description provided for @kioskLiteEffects.
-  ///
-  /// In en, this message translates to:
-  /// **'Lighter effects'**
-  String get kioskLiteEffects;
-
-  /// No description provided for @kioskLiteEffectsHint.
-  ///
-  /// In en, this message translates to:
-  /// **'No glass blur, for slower tablets.'**
-  String get kioskLiteEffectsHint;
-
   /// No description provided for @thermostatModes.
   ///
   /// In en, this message translates to:
@@ -2258,30 +2162,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Household'**
   String get householdTitle;
-
-  /// No description provided for @kioskStatusEntities.
-  ///
-  /// In en, this message translates to:
-  /// **'Status chips at the top'**
-  String get kioskStatusEntities;
-
-  /// No description provided for @kioskStatusEntitiesHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick up to {max} devices or sensors to show at the top of the kiosk screen, for example the washing machine, a printer or a sleep sensor.'**
-  String kioskStatusEntitiesHint(int max);
-
-  /// No description provided for @kioskStatusNone.
-  ///
-  /// In en, this message translates to:
-  /// **'None'**
-  String get kioskStatusNone;
-
-  /// No description provided for @kioskStatusSelected.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{1 selected} other{{count} selected}}'**
-  String kioskStatusSelected(int count);
 
   /// No description provided for @searchHint.
   ///
@@ -2474,18 +2354,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get calendarBackToToday;
-
-  /// No description provided for @kioskShowCalendar.
-  ///
-  /// In en, this message translates to:
-  /// **'Show calendar'**
-  String get kioskShowCalendar;
-
-  /// No description provided for @kioskShowCalendarHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Events are visible to anyone looking at the wall tablet.'**
-  String get kioskShowCalendarHint;
 
   /// No description provided for @assistTitle.
   ///
@@ -2786,12 +2654,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home Assistant has no home location set.'**
   String get weatherNoHomeCoordinates;
-
-  /// No description provided for @kioskWeatherMissing.
-  ///
-  /// In en, this message translates to:
-  /// **'No weather forecast. Turn it on in Settings, Privacy, or add the Met.no integration in Home Assistant.'**
-  String get kioskWeatherMissing;
 
   /// No description provided for @calendarNoneShort.
   ///
@@ -3951,30 +3813,6 @@ abstract class AppLocalizations {
   /// **'This automation does more than the app\'s editor can show. Change it in Home Assistant.'**
   String get autoTooComplex;
 
-  /// No description provided for @kioskPhoto.
-  ///
-  /// In en, this message translates to:
-  /// **'Own background photo'**
-  String get kioskPhoto;
-
-  /// No description provided for @kioskPhotoHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Shown darkened behind the panels. Stays on this device only.'**
-  String get kioskPhotoHint;
-
-  /// No description provided for @kioskPhotoPick.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose photo'**
-  String get kioskPhotoPick;
-
-  /// No description provided for @kioskPhotoRemove.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove photo'**
-  String get kioskPhotoRemove;
-
   /// No description provided for @backupSection.
   ///
   /// In en, this message translates to:
@@ -4809,95 +4647,11 @@ abstract class AppLocalizations {
   /// **'Device already in another app'**
   String get matterSharedTitle;
 
-  /// No description provided for @kioskPanelThermostat.
-  ///
-  /// In en, this message translates to:
-  /// **'Thermostat'**
-  String get kioskPanelThermostat;
-
-  /// No description provided for @kioskPanelDevice.
-  ///
-  /// In en, this message translates to:
-  /// **'Device'**
-  String get kioskPanelDevice;
-
-  /// No description provided for @kioskLayoutEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'No panels. Edit the layout to add some.'**
-  String get kioskLayoutEmpty;
-
-  /// No description provided for @kioskPanelUnavailable.
-  ///
-  /// In en, this message translates to:
-  /// **'{panel}: nothing to show right now'**
-  String kioskPanelUnavailable(String panel);
-
-  /// No description provided for @kioskPanelEarlier.
-  ///
-  /// In en, this message translates to:
-  /// **'Move earlier'**
-  String get kioskPanelEarlier;
-
-  /// No description provided for @kioskPanelLater.
-  ///
-  /// In en, this message translates to:
-  /// **'Move later'**
-  String get kioskPanelLater;
-
-  /// No description provided for @kioskPanelNarrower.
-  ///
-  /// In en, this message translates to:
-  /// **'Narrower'**
-  String get kioskPanelNarrower;
-
-  /// No description provided for @kioskPanelWider.
-  ///
-  /// In en, this message translates to:
-  /// **'Wider'**
-  String get kioskPanelWider;
-
-  /// No description provided for @kioskPanelHeight.
-  ///
-  /// In en, this message translates to:
-  /// **'Normal / tall'**
-  String get kioskPanelHeight;
-
   /// No description provided for @kioskPanelChooseDevice.
   ///
   /// In en, this message translates to:
   /// **'Choose device'**
   String get kioskPanelChooseDevice;
-
-  /// No description provided for @kioskPanelRemove.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove panel'**
-  String get kioskPanelRemove;
-
-  /// No description provided for @kioskEditHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Hold a panel and drag it onto another to move it; buttons change its size.'**
-  String get kioskEditHint;
-
-  /// No description provided for @kioskAddPanel.
-  ///
-  /// In en, this message translates to:
-  /// **'Add panel'**
-  String get kioskAddPanel;
-
-  /// No description provided for @kioskEditLayout.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit layout'**
-  String get kioskEditLayout;
-
-  /// No description provided for @kioskEditLayoutHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Arrange, resize, add and remove panels by dragging on the tablet'**
-  String get kioskEditLayoutHint;
 
   /// No description provided for @settingsNotificationsSection.
   ///
@@ -5679,54 +5433,6 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{Attention: {count} alert.} other{Attention: {count} alerts.}}'**
   String homeSayAlerts(int count);
 
-  /// No description provided for @kioskStatOutside.
-  ///
-  /// In en, this message translates to:
-  /// **'Outside'**
-  String get kioskStatOutside;
-
-  /// No description provided for @kioskStatInside.
-  ///
-  /// In en, this message translates to:
-  /// **'Inside'**
-  String get kioskStatInside;
-
-  /// No description provided for @kioskStatHumidity.
-  ///
-  /// In en, this message translates to:
-  /// **'Humidity'**
-  String get kioskStatHumidity;
-
-  /// No description provided for @kioskStatPower.
-  ///
-  /// In en, this message translates to:
-  /// **'Power'**
-  String get kioskStatPower;
-
-  /// No description provided for @kioskStatOpenings.
-  ///
-  /// In en, this message translates to:
-  /// **'Open'**
-  String get kioskStatOpenings;
-
-  /// No description provided for @kioskStyle.
-  ///
-  /// In en, this message translates to:
-  /// **'Kiosk look'**
-  String get kioskStyle;
-
-  /// No description provided for @kioskStyleBubble.
-  ///
-  /// In en, this message translates to:
-  /// **'Bubbles'**
-  String get kioskStyleBubble;
-
-  /// No description provided for @kioskStyleGlass.
-  ///
-  /// In en, this message translates to:
-  /// **'Glass'**
-  String get kioskStyleGlass;
-
   /// No description provided for @mediaShuffle.
   ///
   /// In en, this message translates to:
@@ -6489,90 +6195,6 @@ abstract class AppLocalizations {
   /// **'Goodbye!'**
   String get kioskLeavingBye;
 
-  /// No description provided for @kioskEnergyToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Today {kwh}'**
-  String kioskEnergyToday(String kwh);
-
-  /// No description provided for @kioskEnergySolar.
-  ///
-  /// In en, this message translates to:
-  /// **'Solar today {kwh}'**
-  String kioskEnergySolar(String kwh);
-
-  /// No description provided for @kioskEnergyLowFor.
-  ///
-  /// In en, this message translates to:
-  /// **'Lower rate for another {time}'**
-  String kioskEnergyLowFor(String time);
-
-  /// No description provided for @kioskEnergyLowIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Higher rate · lower in {time}'**
-  String kioskEnergyLowIn(String time);
-
-  /// No description provided for @kioskAddPage.
-  ///
-  /// In en, this message translates to:
-  /// **'New page'**
-  String get kioskAddPage;
-
-  /// No description provided for @kioskRenamePage.
-  ///
-  /// In en, this message translates to:
-  /// **'Rename page'**
-  String get kioskRenamePage;
-
-  /// No description provided for @kioskDeletePage.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete page'**
-  String get kioskDeletePage;
-
-  /// No description provided for @kioskPageEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'Empty'**
-  String get kioskPageEmpty;
-
-  /// No description provided for @kioskPageClimateEnergy.
-  ///
-  /// In en, this message translates to:
-  /// **'Climate and energy'**
-  String get kioskPageClimateEnergy;
-
-  /// No description provided for @kioskPageNumber.
-  ///
-  /// In en, this message translates to:
-  /// **'Page {number}'**
-  String kioskPageNumber(int number);
-
-  /// No description provided for @kioskHomePage.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get kioskHomePage;
-
-  /// No description provided for @kioskPageSchedule.
-  ///
-  /// In en, this message translates to:
-  /// **'Show by itself'**
-  String get kioskPageSchedule;
-
-  /// No description provided for @kioskPageScheduleFrom.
-  ///
-  /// In en, this message translates to:
-  /// **'Show this page from'**
-  String get kioskPageScheduleFrom;
-
-  /// No description provided for @kioskPageScheduleTo.
-  ///
-  /// In en, this message translates to:
-  /// **'until'**
-  String get kioskPageScheduleTo;
-
   /// No description provided for @photoFrame.
   ///
   /// In en, this message translates to:
@@ -6764,12 +6386,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open device'**
   String get kioskOpenDevice;
-
-  /// No description provided for @kioskStyleColumns.
-  ///
-  /// In en, this message translates to:
-  /// **'Columns'**
-  String get kioskStyleColumns;
 
   /// No description provided for @kioskBundleMain.
   ///

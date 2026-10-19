@@ -37,7 +37,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Poruke iz HA automatizacija (mobile_app, lokalno) ✅
 - Poruke i kad je aplikacija zatvorena (Android servis u prvom planu, i posle restarta) ✅
 - Poruke sa dugmićima (`mobile_app_notification_action`), `tag`, `clear_notification` ✅
-- Kiosk: iskačuća kamera (zvono, pokret, vrata) ✅, tamnije noću i minimum na čuvaru ekrana ✅, raspored panela prevlačenjem ✅
+- Kiosk: iskačuća kamera (zvono, pokret, vrata) ✅, tamnije noću i minimum na čuvaru ekrana ✅, raspored u tri kolone ✅
 - Provera kuće („Odlazim” / „Laku noć”) ✅
 - Liste (spisak za kupovinu, zadaci) na telefonu i u kiosku ✅
 - Dvotarifno brojilo (viša/niža tarifa) ✅

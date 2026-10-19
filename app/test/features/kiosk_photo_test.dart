@@ -9,7 +9,6 @@ import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart
 import 'package:open_smart_home/features/kiosk/data/kiosk_photo.dart';
 import 'package:open_smart_home/features/kiosk/presentation/aod_settings.dart';
 import 'package:open_smart_home/features/kiosk/presentation/glass.dart';
-import 'package:open_smart_home/features/kiosk/presentation/kiosk_settings_section.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_camera_image.dart';
 
 import '../widgets/app_widget_test.dart'
@@ -37,45 +36,6 @@ class MemoryPhotoStore implements KioskPhotoStore {
 }
 
 void main() {
-  testWidgets('choose a kiosk photo, see it behind the panels, remove it', (
-    tester,
-  ) async {
-    final store = MemoryPhotoStore();
-    final photo = mockCameraFrame(0, DateTime(2026));
-    await pumpApp(
-      tester,
-      signedIn: true,
-      size: const Size(1280, 800),
-      overrides: [
-        kioskPhotoStoreProvider.overrideWithValue(store),
-        kioskPhotoPickerProvider.overrideWithValue(() async => photo),
-      ],
-    );
-    await settle(tester, 10);
-    final container = ProviderScope.containerOf(
-      tester.element(find.byType(SmartHomeApp)),
-    );
-    await goTo(tester, AppRoutes.settingsSection('kiosk'));
-    await tapKey(tester, 'kioskPhotoPick');
-    await settle(tester, 4);
-    expect(container.read(kioskSettingsProvider).photoPath, 'photo0');
-    expect(store.files, hasLength(1));
-
-    await tapKey(tester, 'startKiosk');
-    await settle(tester, 8);
-    final backdrop = find.descendant(
-      of: find.byType(KioskBackdrop),
-      matching: find.byWidgetPredicate(
-        (w) =>
-            w is DecoratedBox &&
-            w.decoration is BoxDecoration &&
-            (w.decoration as BoxDecoration).image != null,
-      ),
-    );
-    expect(backdrop, findsOneWidget);
-    await unmount(tester);
-  });
-
   testWidgets('photo frame: add photos, idle screen shows them, remove all', (
     tester,
   ) async {

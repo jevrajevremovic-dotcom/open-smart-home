@@ -414,7 +414,6 @@
       }
     }
   },
-  "kioskTapToWake": "Tap to wake",
   "kioskOsHint": "For a fully locked wall panel also use the system's kiosk feature: Android screen pinning or a kiosk launcher, iOS Guided Access. They can also start the app automatically.",
   "durationNever": "Never",
   "durationSeconds": "{seconds} s",
@@ -528,65 +527,11 @@
   "presetComfort": "Comfort",
   "presetBoost": "Boost",
   "presetActivity": "Activity",
-  "kioskShortcuts": "Shortcuts",
-  "kioskShortcutsEmpty": "Star devices to show them here.",
-  "kioskLightsOn": "{count, plural, =0{All lights off} =1{1 light on} other{{count} lights on}}",
-  "@kioskLightsOn": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "kioskClimate": "Climate",
-  "kioskAverage": "Average {value}",
-  "@kioskAverage": {
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
-  "kioskOpenings": "{count, plural, =0{Everything closed} other{{count} open}}",
-  "@kioskOpenings": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "kioskDoorsWindows": "Doors and windows",
-  "kioskPower": "Power now",
-  "kioskBackground": "Background",
-  "kioskBackgroundAurora": "Aurora",
-  "kioskBackgroundOcean": "Ocean",
-  "kioskBackgroundDusk": "Dusk",
-  "kioskBackgroundForest": "Forest",
-  "kioskLiteEffects": "Lighter effects",
-  "kioskLiteEffectsHint": "No glass blur, for slower tablets.",
   "thermostatModes": "Modes",
   "powerToggle": "On/off",
   "personHome": "Home",
   "personAway": "Away",
   "householdTitle": "Household",
-  "kioskStatusEntities": "Status chips at the top",
-  "kioskStatusEntitiesHint": "Pick up to {max} devices or sensors to show at the top of the kiosk screen, for example the washing machine, a printer or a sleep sensor.",
-  "@kioskStatusEntitiesHint": {
-    "placeholders": {
-      "max": {
-        "type": "int"
-      }
-    }
-  },
-  "kioskStatusNone": "None",
-  "kioskStatusSelected": "{count, plural, =1{1 selected} other{{count} selected}}",
-  "@kioskStatusSelected": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "searchHint": "Search",
   "done": "Done",
   "timeJustNow": "just now",
@@ -654,8 +599,6 @@
   "calendarPrevMonth": "Previous month",
   "calendarNextMonth": "Next month",
   "calendarBackToToday": "Today",
-  "kioskShowCalendar": "Show calendar",
-  "kioskShowCalendarHint": "Events are visible to anyone looking at the wall tablet.",
   "assistTitle": "Assist",
   "assistHint": "Type a command or a question",
   "assistSend": "Send",
@@ -720,7 +663,6 @@
   "weatherHomeLocationSetting": "Forecast for the home location (MET Norway)",
   "weatherHomeLocationSettingHint": "Only when Home Assistant has no weather entity. Sends the home's approximate location.",
   "weatherNoHomeCoordinates": "Home Assistant has no home location set.",
-  "kioskWeatherMissing": "No weather forecast. Turn it on in Settings, Privacy, or add the Met.no integration in Home Assistant.",
   "calendarNoneShort": "No calendars in Home Assistant",
   "mediaTitle": "Music and media",
   "mediaNoPlayers": "Home Assistant has no media players yet. Add one there, for example Spotify, Google Cast, Sonos, DLNA, Kodi or your smart TV's integration, and it shows up here.",
@@ -1026,10 +968,6 @@
   },
   "autoEdit": "Edit automation",
   "autoTooComplex": "This automation does more than the app's editor can show. Change it in Home Assistant.",
-  "kioskPhoto": "Own background photo",
-  "kioskPhotoHint": "Shown darkened behind the panels. Stays on this device only.",
-  "kioskPhotoPick": "Choose photo",
-  "kioskPhotoRemove": "Remove photo",
   "backupSection": "Move to another device",
   "backupHint": "Copies theme, language, favourites and kiosk layout as text, to paste in the app on another phone or tablet. Tokens, PINs and privacy choices are never included.",
   "backupCopy": "Copy settings",
@@ -1269,28 +1207,7 @@
   "matterNoPlayServices": "Adding new Matter devices on Android goes through Google Play services, which are not available here (for example an emulator, or a phone without Google services). Use Home Assistant's own app, or share the device from another Matter app below.",
   "matterNewFailed": "The device was not added. Reset it (see its manual) and try again close to the phone. Thread devices also need a Thread border router known to this phone.",
   "matterSharedTitle": "Device already in another app",
-  "kioskPanelThermostat": "Thermostat",
-  "kioskPanelDevice": "Device",
-  "kioskLayoutEmpty": "No panels. Edit the layout to add some.",
-  "kioskPanelUnavailable": "{panel}: nothing to show right now",
-  "@kioskPanelUnavailable": {
-    "placeholders": {
-      "panel": {
-        "type": "String"
-      }
-    }
-  },
-  "kioskPanelEarlier": "Move earlier",
-  "kioskPanelLater": "Move later",
-  "kioskPanelNarrower": "Narrower",
-  "kioskPanelWider": "Wider",
-  "kioskPanelHeight": "Normal / tall",
   "kioskPanelChooseDevice": "Choose device",
-  "kioskPanelRemove": "Remove panel",
-  "kioskEditHint": "Hold a panel and drag it onto another to move it; buttons change its size.",
-  "kioskAddPanel": "Add panel",
-  "kioskEditLayout": "Edit layout",
-  "kioskEditLayoutHint": "Arrange, resize, add and remove panels by dragging on the tablet",
   "settingsNotificationsSection": "Notifications",
   "settingsAppearanceHint": "Theme, language, home screen",
   "settingsServerHint": "Address, away address, homes, sign out",
@@ -1446,14 +1363,6 @@
   "@homeSayAlarm": {"placeholders": {"state": {"type": "String"}}},
   "homeSayAlerts": "{count, plural, one{Attention: {count} alert.} other{Attention: {count} alerts.}}",
   "@homeSayAlerts": {"placeholders": {"count": {"type": "int"}}},
-  "kioskStatOutside": "Outside",
-  "kioskStatInside": "Inside",
-  "kioskStatHumidity": "Humidity",
-  "kioskStatPower": "Power",
-  "kioskStatOpenings": "Open",
-  "kioskStyle": "Kiosk look",
-  "kioskStyleBubble": "Bubbles",
-  "kioskStyleGlass": "Glass",
   "mediaShuffle": "Shuffle",
   "mediaRepeat": "Repeat",
   "mediaRepeatOff": "Repeat off",
@@ -1600,25 +1509,6 @@
   "kioskLeavingGoArm": "{count, plural, =0{Arm the alarm} =1{Switch off 1 thing and arm} other{Switch off {count} and arm}}",
   "@kioskLeavingGoArm": {"placeholders": {"count": {"type": "int"}}},
   "kioskLeavingBye": "Goodbye!",
-  "kioskEnergyToday": "Today {kwh}",
-  "@kioskEnergyToday": {"placeholders": {"kwh": {"type": "String"}}},
-  "kioskEnergySolar": "Solar today {kwh}",
-  "@kioskEnergySolar": {"placeholders": {"kwh": {"type": "String"}}},
-  "kioskEnergyLowFor": "Lower rate for another {time}",
-  "@kioskEnergyLowFor": {"placeholders": {"time": {"type": "String"}}},
-  "kioskEnergyLowIn": "Higher rate · lower in {time}",
-  "@kioskEnergyLowIn": {"placeholders": {"time": {"type": "String"}}},
-  "kioskAddPage": "New page",
-  "kioskRenamePage": "Rename page",
-  "kioskDeletePage": "Delete page",
-  "kioskPageEmpty": "Empty",
-  "kioskPageClimateEnergy": "Climate and energy",
-  "kioskPageNumber": "Page {number}",
-  "@kioskPageNumber": {"placeholders": {"number": {"type": "int"}}},
-  "kioskHomePage": "Home",
-  "kioskPageSchedule": "Show by itself",
-  "kioskPageScheduleFrom": "Show this page from",
-  "kioskPageScheduleTo": "until",
   "photoFrame": "Photo frame",
   "photoFrameHint": "While idle, show photos from this tablet (they stay on it).",
   "photoFrameCount": "{count, plural, =1{1 photo · stays on this tablet} other{{count} photos · stay on this tablet}}",
@@ -1658,7 +1548,6 @@
   "kioskColumnsNoRooms": "No rooms yet. Add areas in Home Assistant.",
   "kioskColumnsDevices": "Devices",
   "kioskOpenDevice": "Open device",
-  "kioskStyleColumns": "Columns",
   "kioskBundleMain": "Main",
   "kioskBundleActions": "Actions",
   "kioskBundleSettings": "Settings",

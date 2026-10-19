@@ -5,12 +5,12 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../devices/application/device_providers.dart';
+import '../../devices/domain/device_kind.dart';
+import '../../devices/presentation/device_presentation.dart';
 import '../application/kiosk_controller.dart';
-import '../data/kiosk_layout.dart';
 import '../data/kiosk_settings.dart';
 import '../../../core/widgets/time_picker.dart';
 import 'glass.dart' show kioskPhotoStoreProvider;
-import 'kiosk_layout_view.dart' show pickKioskPanelDevice;
 
 /// Kiosk settings: the always-on screen and the morning screen.
 class AodSettings extends ConsumerWidget {
@@ -81,11 +81,10 @@ class AodSettings extends ConsumerWidget {
             title: Text(entity?.name ?? l10n.aodChoose),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
-              final id = await pickKioskPanelDevice(
-                context,
-                s.aodFocus == AodFocus.list
-                    ? KioskPanelType.lists
-                    : KioskPanelType.device,
+              final id = await showDialog<String>(
+                context: context,
+                builder: (_) =>
+                    _DevicePickerDialog(lists: s.aodFocus == AodFocus.list),
               );
               if (id != null) {
                 await controller.update((k) => k.copyWith(aodEntityId: id));
@@ -270,6 +269,76 @@ class _PhotoFrameSettingsState extends ConsumerState<PhotoFrameSettings> {
               ],
             ],
           ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Picks a list ([lists]) or a device for the always-on screen.
+class _DevicePickerDialog extends ConsumerStatefulWidget {
+  const _DevicePickerDialog({required this.lists});
+
+  final bool lists;
+
+  @override
+  ConsumerState<_DevicePickerDialog> createState() =>
+      _DevicePickerDialogState();
+}
+
+class _DevicePickerDialogState extends ConsumerState<_DevicePickerDialog> {
+  String _q = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
+    final list =
+        devices.values
+            .where(
+              (d) =>
+                  !d.isAuxiliary &&
+                  d.kind != DeviceKind.unknown &&
+                  widget.lists == (d.kind == DeviceKind.todoList) &&
+                  d.name.toLowerCase().contains(_q.toLowerCase()),
+            )
+            .toList()
+          ..sort((a, b) => a.name.compareTo(b.name));
+    return AlertDialog(
+      title: Text(l10n.kioskPanelChooseDevice),
+      content: SizedBox(
+        width: 440,
+        height: 460,
+        child: Column(
+          children: [
+            TextField(
+              key: const Key('kioskPanelSearch'),
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: l10n.searchHint,
+              ),
+              onChanged: (v) => setState(() => _q = v),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  for (final d in list)
+                    ListTile(
+                      key: ValueKey('kioskPick-${d.id}'),
+                      leading: Icon(DevicePresentation.icon(d)),
+                      title: Text(d.name),
+                      onTap: () => Navigator.of(context).pop(d.id),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
         ),
       ],
     );

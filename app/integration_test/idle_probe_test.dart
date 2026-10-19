@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
-import 'package:open_smart_home/features/kiosk/data/kiosk_layout.dart';
+import 'package:open_smart_home/features/kiosk/presentation/kiosk_columns.dart';
 
 import '../test/helpers.dart';
 
@@ -46,16 +46,9 @@ void main() {
     );
     container.read(kioskActiveProvider.notifier).enter();
     container.read(routerProvider).go(AppRoutes.kiosk);
-    for (final type in [null, ...KioskPanelType.values]) {
-      await container
-          .read(kioskSettingsProvider.notifier)
-          .update(
-            (s) => s.copyWith(
-              layout: KioskLayout([
-                if (type != null) KioskPanel(id: 'p', type: type, span: 12),
-              ]),
-            ),
-          );
+    // The home overview, then each room of the mock home.
+    for (final room in [null, 'living_room', 'kitchen', 'bedroom']) {
+      container.read(kioskColumnsRoomProvider.notifier).select(room);
       await wait(tester, 2500);
       // Count frames the app itself asks for (not our pumps).
       var frames = 0;
@@ -71,9 +64,9 @@ void main() {
       }
       binding.removeTimingsCallback(count);
       binding.reportData ??= {};
-      binding.reportData![type?.name ?? 'header'] = frames;
+      binding.reportData![room ?? 'home'] = frames;
       // ignore: avoid_print
-      print('IDLE ${type?.name ?? 'header'}: $frames frames / 4 s');
+      print('IDLE ${room ?? 'home'}: $frames frames / 4 s');
     }
   });
 }

@@ -123,19 +123,26 @@ void main() {
     await unmount(tester);
   });
 
-  testWidgets('kiosk shows the calendar panel', (tester) async {
-    await pumpApp(tester, signedIn: true, size: const Size(1280, 800));
+  testWidgets('the kiosk home shows the calendar', (tester) async {
+    await pumpApp(tester, signedIn: true, size: const Size(1600, 1000));
     await settle(tester, 10);
     await goTo(tester, AppRoutes.settingsSection('kiosk'));
     await tapKey(tester, 'startKiosk');
     await settle(tester, 20);
-    expect(find.byKey(const Key('kioskCalendar')), findsOneWidget);
+    final calendar = find.byKey(const Key('kioskColumnsCalendar'));
+    await tester.scrollUntilVisible(
+      calendar,
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('kioskColumnsOverview')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     expect(
-      find.descendant(
-        of: find.byKey(const Key('kioskCalendar')),
-        matching: find.text('Vrtić'),
-      ),
-      findsOneWidget,
+      find.descendant(of: calendar, matching: find.text('Vrtić')),
+      findsWidgets,
     );
     await unmount(tester);
   });

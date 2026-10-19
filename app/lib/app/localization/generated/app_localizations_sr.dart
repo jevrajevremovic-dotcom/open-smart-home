@@ -898,9 +898,6 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
-  String get kioskTapToWake => 'Dodirnite za buđenje';
-
-  @override
   String get kioskOsHint =>
       'Za potpuno zaključan zidni panel koristite i sistemsku kiosk funkciju: Android pinovanje ekrana ili kiosk launcher, iOS Guided Access. One mogu i automatski da pokrenu aplikaciju.';
 
@@ -1167,73 +1164,6 @@ class AppLocalizationsSr extends AppLocalizations {
   String get presetActivity => 'Aktivnost';
 
   @override
-  String get kioskShortcuts => 'Prečice';
-
-  @override
-  String get kioskShortcutsEmpty =>
-      'Označite uređaje zvezdicom da se pojave ovde.';
-
-  @override
-  String kioskLightsOn(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count svetala upaljeno',
-      few: '$count svetla upaljena',
-      one: '$count svetlo upaljeno',
-      zero: 'Sva svetla ugašena',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get kioskClimate => 'Klima';
-
-  @override
-  String kioskAverage(String value) {
-    return 'Prosečno $value';
-  }
-
-  @override
-  String kioskOpenings(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Otvoreno: $count',
-      zero: 'Sve zatvoreno',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get kioskDoorsWindows => 'Vrata i prozori';
-
-  @override
-  String get kioskPower => 'Trenutna snaga';
-
-  @override
-  String get kioskBackground => 'Pozadina';
-
-  @override
-  String get kioskBackgroundAurora => 'Polarna svetlost';
-
-  @override
-  String get kioskBackgroundOcean => 'Okean';
-
-  @override
-  String get kioskBackgroundDusk => 'Sumrak';
-
-  @override
-  String get kioskBackgroundForest => 'Šuma';
-
-  @override
-  String get kioskLiteEffects => 'Lakši efekti';
-
-  @override
-  String get kioskLiteEffectsHint =>
-      'Bez zamućenja stakla, za slabije tablete.';
-
-  @override
   String get thermostatModes => 'Režimi';
 
   @override
@@ -1247,29 +1177,6 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get householdTitle => 'Ukućani';
-
-  @override
-  String get kioskStatusEntities => 'Statusi na vrhu ekrana';
-
-  @override
-  String kioskStatusEntitiesHint(int max) {
-    return 'Izaberite do $max uređaja ili senzora koji se prikazuju na vrhu kiosk ekrana, na primer veš mašinu, štampač ili senzor spavanja.';
-  }
-
-  @override
-  String get kioskStatusNone => 'Nijedan';
-
-  @override
-  String kioskStatusSelected(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count izabranih',
-      few: '$count izabrana',
-      one: '$count izabran',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get searchHint => 'Pretraži';
@@ -1401,13 +1308,6 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get calendarBackToToday => 'Danas';
-
-  @override
-  String get kioskShowCalendar => 'Prikaži kalendar';
-
-  @override
-  String get kioskShowCalendarHint =>
-      'Događaje vidi svako ko gleda u zidni tablet.';
 
   @override
   String get assistTitle => 'Assist';
@@ -1576,10 +1476,6 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get weatherNoHomeCoordinates =>
       'U Home Assistantu nije podešena lokacija doma.';
-
-  @override
-  String get kioskWeatherMissing =>
-      'Nema vremenske prognoze. Uključite je u Podešavanjima → Privatnost ili dodajte integraciju Met.no u Home Assistantu.';
 
   @override
   String get calendarNoneShort => 'U Home Assistantu nema kalendara';
@@ -2243,19 +2139,6 @@ class AppLocalizationsSr extends AppLocalizations {
       'Ova automatizacija radi više nego što editor u aplikaciji može da prikaže. Izmenite je u Home Assistantu.';
 
   @override
-  String get kioskPhoto => 'Sopstvena slika pozadine';
-
-  @override
-  String get kioskPhotoHint =>
-      'Prikazuje se zatamnjena iza panela. Ostaje samo na ovom uređaju.';
-
-  @override
-  String get kioskPhotoPick => 'Izaberi sliku';
-
-  @override
-  String get kioskPhotoRemove => 'Ukloni sliku';
-
-  @override
   String get backupSection => 'Prenos na drugi uređaj';
 
   @override
@@ -2737,54 +2620,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get matterSharedTitle => 'Uređaj je već u drugoj aplikaciji';
 
   @override
-  String get kioskPanelThermostat => 'Termostat';
-
-  @override
-  String get kioskPanelDevice => 'Uređaj';
-
-  @override
-  String get kioskLayoutEmpty =>
-      'Nema panela. Uredite raspored da biste ih dodali.';
-
-  @override
-  String kioskPanelUnavailable(String panel) {
-    return '$panel: trenutno nema šta da se prikaže';
-  }
-
-  @override
-  String get kioskPanelEarlier => 'Pomeri ranije';
-
-  @override
-  String get kioskPanelLater => 'Pomeri kasnije';
-
-  @override
-  String get kioskPanelNarrower => 'Uže';
-
-  @override
-  String get kioskPanelWider => 'Šire';
-
-  @override
-  String get kioskPanelHeight => 'Normalno / visoko';
-
-  @override
   String get kioskPanelChooseDevice => 'Izaberi uređaj';
-
-  @override
-  String get kioskPanelRemove => 'Ukloni panel';
-
-  @override
-  String get kioskEditHint =>
-      'Držite panel i prevucite ga na drugi da biste ga pomerili; dugmad menjaju veličinu.';
-
-  @override
-  String get kioskAddPanel => 'Dodaj panel';
-
-  @override
-  String get kioskEditLayout => 'Uredi raspored';
-
-  @override
-  String get kioskEditLayoutHint =>
-      'Slaganje, veličina, dodavanje i uklanjanje panela prevlačenjem na tabletu';
 
   @override
   String get settingsNotificationsSection => 'Obaveštenja';
@@ -3292,30 +3128,6 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
-  String get kioskStatOutside => 'Napolju';
-
-  @override
-  String get kioskStatInside => 'Unutra';
-
-  @override
-  String get kioskStatHumidity => 'Vlažnost';
-
-  @override
-  String get kioskStatPower => 'Snaga';
-
-  @override
-  String get kioskStatOpenings => 'Otvoreno';
-
-  @override
-  String get kioskStyle => 'Izgled kioska';
-
-  @override
-  String get kioskStyleBubble => 'Mehurići';
-
-  @override
-  String get kioskStyleGlass => 'Staklo';
-
-  @override
   String get mediaShuffle => 'Nasumično';
 
   @override
@@ -3771,58 +3583,6 @@ class AppLocalizationsSr extends AppLocalizations {
   String get kioskLeavingBye => 'Doviđenja!';
 
   @override
-  String kioskEnergyToday(String kwh) {
-    return 'Danas $kwh';
-  }
-
-  @override
-  String kioskEnergySolar(String kwh) {
-    return 'Solar danas $kwh';
-  }
-
-  @override
-  String kioskEnergyLowFor(String time) {
-    return 'Niža tarifa još $time';
-  }
-
-  @override
-  String kioskEnergyLowIn(String time) {
-    return 'Viša tarifa · niža za $time';
-  }
-
-  @override
-  String get kioskAddPage => 'Nova stranica';
-
-  @override
-  String get kioskRenamePage => 'Preimenuj stranicu';
-
-  @override
-  String get kioskDeletePage => 'Obriši stranicu';
-
-  @override
-  String get kioskPageEmpty => 'Prazna';
-
-  @override
-  String get kioskPageClimateEnergy => 'Klima i energija';
-
-  @override
-  String kioskPageNumber(int number) {
-    return 'Stranica $number';
-  }
-
-  @override
-  String get kioskHomePage => 'Početna';
-
-  @override
-  String get kioskPageSchedule => 'Prikazuj samu';
-
-  @override
-  String get kioskPageScheduleFrom => 'Prikazuj ovu stranicu od';
-
-  @override
-  String get kioskPageScheduleTo => 'do';
-
-  @override
   String get photoFrame => 'Foto-okvir';
 
   @override
@@ -3944,9 +3704,6 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskOpenDevice => 'Otvori uređaj';
-
-  @override
-  String get kioskStyleColumns => 'Kolone';
 
   @override
   String get kioskBundleMain => 'Glavno';

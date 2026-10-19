@@ -36,8 +36,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Liste iz Home Assistanta (kupovina, zadaci) na telefonu i zidnom tabletu, uživo
 - Provera kuće pred odlazak i spavanje: šta je ostalo upaljeno, otvoreno ili otključano, „Sredi sve” jednim dodirom
 - Kiosk: ekran u mirovanju (sat, prognoza, jedna stvar po izboru) i jutarnji pregled dana
-- Kiosk u stilu „Mehurići” (inspirisano [jlnbln/My-HA-Dashboard](https://github.com/jlnbln/My-HA-Dashboard)) ili „Staklo”
-- Kiosk: raspored po želji — prevlačenje, veličina, dodavanje i uklanjanje panela
+- Kiosk u tri kolone: prostorije levo, Početna ili prostorija u sredini (prevlačenje između soba), detalji uređaja i brze kontrole desno; uspravno bez desne kolone
 - Kiosk: tamnije noću i najniža osvetljenost na čuvaru ekrana
 - Kiosk: iskačuća kamera kad neko pozvoni ili se pomeri ispred vrata
 - Kiosk: dvostruki pljesak za bilo koji uređaj ili scenu (Android, po želji, samo jačina zvuka na uređaju; otključavanje i sl. uz potvrdu)
@@ -176,8 +175,9 @@ flutter run -d chrome --dart-define=SMARTHOME_MOCK=true
 
 Podešavanja → **Kiosk režim** → *Pokreni kiosk režim*. Preporučeno je i da postavite **PIN za izlaz**.
 
-- Fullscreen dashboard sa satom, krupnijim tekstom i kontrolama, bez standardne navigacije.
-- Raspored panela se menja na samom tabletu: ikonica u zaglavlju (ili Podešavanja → Kiosk → *Uredi raspored*), pa držite i prevucite panel; dugmad menjaju širinu, visinu i uređaj, a *Dodaj panel* dodaje nove.
+- Fullscreen prikaz u tri kolone, bez standardne navigacije: prostorije levo, Početna (kamere, vreme, muzika, kalendar, liste) ili izabrana prostorija u sredini, detalji uređaja desno.
+- Kartice Početne i njihov redosled se biraju dugmetom ⚙ pored pozdrava; brze kontrole desno se biraju na Početnoj.
+- Uspravno nema desne kolone (detalji se otvaraju odozdo); na uskom ekranu prostorije su u meniju.
 - Posle neaktivnosti vraća se na kiosk dashboard, a zatim zatamnjuje ekran i prikazuje sat; dodir ga budi. Oba vremena su podesiva.
 - Ekran ostaje uključen dok je kiosk aktivan (može da se isključi).
 - *Otvori u kiosk režimu pri pokretanju* vraća panel u kiosk i posle restarta aplikacije.

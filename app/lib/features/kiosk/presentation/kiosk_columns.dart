@@ -16,7 +16,9 @@ import '../../cameras/presentation/camera_view.dart';
 import '../../calendar/presentation/calendar_browser.dart';
 import '../../calendar/presentation/calendar_widgets.dart';
 import '../../dashboard/application/home_sentence.dart';
-import '../../dashboard/presentation/dashboard_screen.dart' show NowPlayingCard;
+import '../../dashboard/presentation/dashboard_screen.dart'
+    show ConnectionProblemCard, CriticalAlertsBanner, NowPlayingCard;
+import '../../devices/presentation/stale_data_banner.dart';
 import '../../todo/todo_lists.dart';
 import '../../todo/todo_screen.dart' show TodoListsCard;
 import '../../weather/presentation/weather_card.dart';
@@ -155,37 +157,49 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
             rooms.any((r) => r.id == chosen)
         ? chosen
         : null;
+    // Narrow: a chosen device opens in a sheet instead of the right column.
+    ref
+      ..listen(kioskColumnsDeviceProvider, (_, id) {
+        if (id != null && !_wide && mounted) _openDetail(roomId);
+      })
+      ..listen(kioskColumnsRoomProvider, (_, _) {
+        _scaffold.currentState?.closeDrawer();
+      });
     return Listener(
       behavior: HitTestBehavior.translucent,
       onPointerDown: (_) => _touched(),
-      child: Material(
-        key: const Key('kioskColumns'),
-        color: scheme.surfaceContainerLow,
-        child: SafeArea(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(width: 300, child: _Sidebar(roomId: roomId)),
-              Expanded(
-                child: Material(
-                  color: scheme.surfaceContainerLowest,
-                  // Swipe left/right: next/previous room (Home first).
-                  child: GestureDetector(
-                    key: const Key('kioskColumnsSwipe'),
-                    behavior: HitTestBehavior.translucent,
-                    onHorizontalDragEnd: (e) {
-                      final v = e.primaryVelocity ?? 0;
-                      if (v.abs() < 300) return;
-                      _step(
-                        [
-                          null,
-                          for (final r in rooms) r.id,
-                          if (unassigned) kioskNoRoom,
-                        ],
-                        roomId,
-                        v < 0 ? 1 : -1,
-                      );
-                    },
+      child: LayoutBuilder(
+        builder: (context, c) {
+          // Three columns need a landscape tablet; portrait drops the right
+          // one, and a phone-sized screen keeps the rooms in a drawer.
+          _wide = c.maxWidth >= 1100 && c.maxWidth > c.maxHeight;
+          final compact = c.maxWidth < 720;
+          final middle = Material(
+            color: scheme.surfaceContainerLowest,
+            // Swipe left/right: next/previous room (Home first).
+            child: GestureDetector(
+              key: const Key('kioskColumnsSwipe'),
+              behavior: HitTestBehavior.translucent,
+              onHorizontalDragEnd: (e) {
+                final v = e.primaryVelocity ?? 0;
+                if (v.abs() < 300) return;
+                _step(
+                  [
+                    null,
+                    for (final r in rooms) r.id,
+                    if (unassigned) kioskNoRoom,
+                  ],
+                  roomId,
+                  v < 0 ? 1 : -1,
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const StaleDataBanner(),
+                  const ConnectionProblemCard(),
+                  const CriticalAlertsBanner(),
+                  Expanded(
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 220),
                       transitionBuilder: (child, animation) => FadeTransition(
@@ -201,26 +215,105 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
                       child: KeyedSubtree(
                         key: ValueKey(roomId ?? 'home'),
                         child: roomId == null
-                            ? const _HomeOverview()
+                            ? _HomeOverview(withQuickControls: !_wide)
                             : _RoomColumn(roomId: roomId),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-              VerticalDivider(width: 1, color: scheme.outlineVariant),
-              SizedBox(width: 380, child: _DetailColumn(roomId: roomId)),
-            ],
-          ),
-        ),
+            ),
+          );
+          return Scaffold(
+            key: _scaffold,
+            backgroundColor: scheme.surfaceContainerLow,
+            drawer: compact
+                ? Drawer(
+                    backgroundColor: scheme.surfaceContainerLow,
+                    child: _Sidebar(roomId: roomId),
+                  )
+                : null,
+            body: Material(
+              key: const Key('kioskColumns'),
+              color: scheme.surfaceContainerLow,
+              child: SafeArea(
+                child: compact
+                    ? Stack(
+                        children: [
+                          Positioned.fill(child: middle),
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: IconButton.filledTonal(
+                              key: const Key('kioskColumnsMenu'),
+                              tooltip: context.l10n.navRooms,
+                              icon: const Icon(Icons.menu),
+                              onPressed: () =>
+                                  _scaffold.currentState?.openDrawer(),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(
+                            width: _wide ? 300 : 260,
+                            child: _Sidebar(roomId: roomId),
+                          ),
+                          Expanded(child: middle),
+                          if (_wide) ...[
+                            VerticalDivider(
+                              width: 1,
+                              color: scheme.outlineVariant,
+                            ),
+                            SizedBox(
+                              width: 380,
+                              child: _DetailColumn(roomId: roomId),
+                            ),
+                          ],
+                        ],
+                      ),
+              ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  final _scaffold = GlobalKey<ScaffoldState>();
+
+  /// Whether the right column is shown (set on layout).
+  bool _wide = true;
+
+  bool _sheetOpen = false;
+
+  /// The chosen device's details in a sheet (no right column).
+  Future<void> _openDetail(String? roomId) async {
+    if (_sheetOpen) return;
+    _sheetOpen = true;
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      builder: (_) => FractionallySizedBox(
+        heightFactor: 0.85,
+        child: _DetailColumn(roomId: roomId),
+      ),
+    );
+    _sheetOpen = false;
+    if (mounted) ref.read(kioskColumnsDeviceProvider.notifier).select(null);
   }
 }
 
 /// No room chosen: the day at a glance.
 class _HomeOverview extends ConsumerWidget {
-  const _HomeOverview();
+  const _HomeOverview({this.withQuickControls = false});
+
+  /// No right column (portrait): the quick controls come last here.
+  final bool withQuickControls;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -290,6 +383,10 @@ class _HomeOverview extends ConsumerWidget {
               HomeCard.lists => const TodoListsCard(),
             },
           ],
+        if (withQuickControls) ...[
+          const SizedBox(height: 24),
+          const KioskQuickControls(),
+        ],
       ],
     );
   }
@@ -348,38 +445,45 @@ class _Sidebar extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _SideIcon(
-              key: const Key('kioskTimer'),
-              icon: Icons.timer_outlined,
-              tooltip: l10n.timerTitle,
-              onTap: () => showTimerPicker(context, ref),
-            ),
-            if (alarm != null)
-              _SideIcon(
-                key: const Key('kioskAlarm'),
-                icon:
-                    alarm.state.alarmState == AlarmState.disarmed ||
-                        alarm.state.alarmState == null
-                    ? Icons.shield_outlined
-                    : Icons.shield,
-                tooltip: DevicePresentation.status(l10n, alarm),
-                onTap: () => showKioskAlarm(context),
+            // Wraps to a second line in a narrow sidebar (portrait).
+            Expanded(
+              child: Wrap(
+                children: [
+                  _SideIcon(
+                    key: const Key('kioskTimer'),
+                    icon: Icons.timer_outlined,
+                    tooltip: l10n.timerTitle,
+                    onTap: () => showTimerPicker(context, ref),
+                  ),
+                  if (alarm != null)
+                    _SideIcon(
+                      key: const Key('kioskAlarm'),
+                      icon:
+                          alarm.state.alarmState == AlarmState.disarmed ||
+                              alarm.state.alarmState == null
+                          ? Icons.shield_outlined
+                          : Icons.shield,
+                      tooltip: DevicePresentation.status(l10n, alarm),
+                      onTap: () => showKioskAlarm(context),
+                    ),
+                  _SideIcon(
+                    key: const Key('kioskLeaving'),
+                    icon: Icons.directions_walk,
+                    tooltip: l10n.kioskLeaving,
+                    onTap: () => showKioskLeaving(context),
+                  ),
+                  _SideIcon(
+                    key: const Key('kioskMessages'),
+                    icon: Icons.forum_outlined,
+                    tooltip: l10n.familyMessages,
+                    badge: messages,
+                    onTap: () => showFamilyMessages(context),
+                  ),
+                ],
               ),
-            _SideIcon(
-              key: const Key('kioskLeaving'),
-              icon: Icons.directions_walk,
-              tooltip: l10n.kioskLeaving,
-              onTap: () => showKioskLeaving(context),
             ),
-            _SideIcon(
-              key: const Key('kioskMessages'),
-              icon: Icons.forum_outlined,
-              tooltip: l10n.familyMessages,
-              badge: messages,
-              onTap: () => showFamilyMessages(context),
-            ),
-            const Spacer(),
             _SideIcon(
               key: const Key('kioskExit'),
               icon: Icons.lock_outline,
@@ -1330,10 +1434,7 @@ class _DetailColumn extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           if (climate)
-            SizedBox(
-              height: 440,
-              child: KioskThermostatPanel(deviceId: d.id, plain: true),
-            )
+            SizedBox(height: 440, child: KioskThermostatPanel(deviceId: d.id))
           else
             ...deviceControlsFor(d),
           // A sensor's last day (or week) as a chart.

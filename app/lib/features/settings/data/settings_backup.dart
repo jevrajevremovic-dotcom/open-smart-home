@@ -105,6 +105,11 @@ abstract final class SettingsBackup {
               clapEnabled: current.clapEnabled,
               clapTargetId: current.clapTargetId,
               clapSensitivity: current.clapSensitivity,
+              wakeWordEnabled: current.wakeWordEnabled,
+              // So is the camera; the frame's photos live on this device.
+              approachWake: current.approachWake,
+              photoFrame: current.photoFrame,
+              framePhotos: current.framePhotos,
             ),
           );
     }

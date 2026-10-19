@@ -3821,6 +3821,41 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskPageScheduleTo => 'do';
+
+  @override
+  String get photoFrame => 'Foto-okvir';
+
+  @override
+  String get photoFrameHint =>
+      'U mirovanju prikazuj slike sa ovog tableta (ostaju na njemu).';
+
+  @override
+  String photoFrameCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count slika · ostaju na ovom tabletu',
+      few: '$count slike · ostaju na ovom tabletu',
+      one: '$count slika · ostaje na ovom tabletu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get photoFrameAdd => 'Dodaj slike';
+
+  @override
+  String get photoFrameRemove => 'Ukloni sve';
+
+  @override
+  String photoFrameEverySeconds(int seconds) {
+    return 'na $seconds s';
+  }
+
+  @override
+  String photoFrameEveryMinutes(int minutes) {
+    return 'na $minutes min';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

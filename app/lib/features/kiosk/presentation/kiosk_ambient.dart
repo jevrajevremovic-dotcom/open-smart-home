@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +21,7 @@ import '../../weather/application/weather_providers.dart';
 import '../../weather/presentation/weather_labels.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
+import 'glass.dart' show kioskPhotoStoreProvider;
 import 'kiosk_panels.dart' show kioskNowProvider;
 
 /// Text on black, readable across a room (the screen itself is dimmed by
@@ -42,6 +45,8 @@ class KioskAmbient extends ConsumerWidget {
     final settings = ref.watch(kioskSettingsProvider);
     final morning = settings.isMorning(now);
     final night = settings.nightClock && settings.isNight(now);
+    final frame =
+        !night && settings.photoFrame && settings.framePhotos.isNotEmpty;
     final lightId = settings.nightLightId;
     final light = night && lightId != null
         ? ref.watch(deviceProvider(lightId))
@@ -67,26 +72,137 @@ class KioskAmbient extends ConsumerWidget {
         }
         onWake();
       },
-      child: ColoredBox(
-        color: Colors.black,
-        child: SafeArea(
-          child: Center(
-            child: Transform.translate(
-              offset: shift,
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: night
-                      ? _NightClock(light: light)
-                      : morning
-                      ? const _Morning()
-                      : _Ambient(focus: settings.aodFocus),
+      child: frame
+          ? _PhotoFrame(
+              photos: settings.framePhotos,
+              seconds: settings.frameSeconds,
+              shift: shift,
+            )
+          : ColoredBox(
+              color: Colors.black,
+              child: SafeArea(
+                child: Center(
+                  child: Transform.translate(
+                    offset: shift,
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: night
+                            ? _NightClock(light: light)
+                            : morning
+                            ? const _Morning()
+                            : _Ambient(focus: settings.aodFocus),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
+    );
+  }
+}
+
+/// Photos from this tablet, one after another with a soft cross-fade, and
+/// a small clock and temperature in a corner (which wanders a little
+/// against burn-in).
+class _PhotoFrame extends ConsumerStatefulWidget {
+  const _PhotoFrame({
+    required this.photos,
+    required this.seconds,
+    required this.shift,
+  });
+
+  final List<String> photos;
+  final int seconds;
+  final Offset shift;
+
+  @override
+  ConsumerState<_PhotoFrame> createState() => _PhotoFrameState();
+}
+
+class _PhotoFrameState extends ConsumerState<_PhotoFrame> {
+  Timer? _timer;
+  int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: widget.seconds), (_) {
+      if (mounted) setState(() => _index++);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final store = ref.watch(kioskPhotoStoreProvider);
+    final path = widget.photos[_index % widget.photos.length];
+    final image = store.image(path);
+    final now = ref.watch(kioskNowProvider);
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final temp = ref.watch(
+      homeWeatherProvider.select((w) => w?.now.temperature),
+    );
+    const shadow = [Shadow(blurRadius: 12, color: Colors.black87)];
+    return ColoredBox(
+      key: const Key('aodPhotoFrame'),
+      color: Colors.black,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 1500),
+            child: image == null
+                ? const SizedBox.expand()
+                : Image(
+                    key: ValueKey(path),
+                    image: image,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    errorBuilder: (_, _, _) => const SizedBox.expand(),
+                  ),
           ),
-        ),
+          Positioned(
+            left: 40 + widget.shift.dx,
+            bottom: 36 + widget.shift.dy,
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat.Hm(l10n.localeName).format(now),
+                    key: const Key('aodClock'),
+                    style: theme.textTheme.displayLarge?.copyWith(
+                      color: _bright,
+                      fontWeight: FontWeight.w300,
+                      height: 1,
+                      shadows: shadow,
+                    ),
+                  ),
+                  Text(
+                    [
+                      DateFormat.MMMMEEEEd(l10n.localeName).format(now),
+                      if (temp != null)
+                        formatNumber(l10n.localeName, temp, unit: '°'),
+                    ].join(' · '),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      color: _dim,
+                      shadows: shadow,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

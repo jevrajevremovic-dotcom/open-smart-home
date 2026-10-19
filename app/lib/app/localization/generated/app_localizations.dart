@@ -6572,6 +6572,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'until'**
   String get kioskPageScheduleTo;
+
+  /// No description provided for @photoFrame.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo frame'**
+  String get photoFrame;
+
+  /// No description provided for @photoFrameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'While idle, show photos from this tablet (they stay on it).'**
+  String get photoFrameHint;
+
+  /// No description provided for @photoFrameCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 photo · stays on this tablet} other{{count} photos · stay on this tablet}}'**
+  String photoFrameCount(int count);
+
+  /// No description provided for @photoFrameAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photos'**
+  String get photoFrameAdd;
+
+  /// No description provided for @photoFrameRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all'**
+  String get photoFrameRemove;
+
+  /// No description provided for @photoFrameEverySeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'every {seconds} s'**
+  String photoFrameEverySeconds(int seconds);
+
+  /// No description provided for @photoFrameEveryMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'every {minutes} min'**
+  String photoFrameEveryMinutes(int minutes);
 }
 
 class _AppLocalizationsDelegate

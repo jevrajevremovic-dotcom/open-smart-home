@@ -3801,4 +3801,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskPageScheduleTo => 'until';
+
+  @override
+  String get photoFrame => 'Photo frame';
+
+  @override
+  String get photoFrameHint =>
+      'While idle, show photos from this tablet (they stay on it).';
+
+  @override
+  String photoFrameCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos · stay on this tablet',
+      one: '1 photo · stays on this tablet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get photoFrameAdd => 'Add photos';
+
+  @override
+  String get photoFrameRemove => 'Remove all';
+
+  @override
+  String photoFrameEverySeconds(int seconds) {
+    return 'every $seconds s';
+  }
+
+  @override
+  String photoFrameEveryMinutes(int minutes) {
+    return 'every $minutes min';
+  }
 }

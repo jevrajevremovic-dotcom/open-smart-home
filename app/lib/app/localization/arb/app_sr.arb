@@ -1079,5 +1079,12 @@
   "kioskHomePage": "Početna",
   "kioskPageSchedule": "Prikazuj samu",
   "kioskPageScheduleFrom": "Prikazuj ovu stranicu od",
-  "kioskPageScheduleTo": "do"
+  "kioskPageScheduleTo": "do",
+  "photoFrame": "Foto-okvir",
+  "photoFrameHint": "U mirovanju prikazuj slike sa ovog tableta (ostaju na njemu).",
+  "photoFrameCount": "{count, plural, one{{count} slika · ostaje na ovom tabletu} few{{count} slike · ostaju na ovom tabletu} other{{count} slika · ostaju na ovom tabletu}}",
+  "photoFrameAdd": "Dodaj slike",
+  "photoFrameRemove": "Ukloni sve",
+  "photoFrameEverySeconds": "na {seconds} s",
+  "photoFrameEveryMinutes": "na {minutes} min"
 }

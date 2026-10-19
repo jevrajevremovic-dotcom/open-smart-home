@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../devices/application/device_providers.dart';
@@ -7,6 +9,7 @@ import '../application/kiosk_controller.dart';
 import '../data/kiosk_layout.dart';
 import '../data/kiosk_settings.dart';
 import '../../../core/widgets/time_picker.dart';
+import 'glass.dart' show kioskPhotoStoreProvider;
 import 'kiosk_layout_view.dart' show pickKioskPanelDevice;
 
 /// Kiosk settings: the always-on screen and the morning screen.
@@ -135,6 +138,139 @@ class AodSettings extends ConsumerWidget {
               ],
             ),
           ),
+        const PhotoFrameSettings(),
+      ],
+    );
+  }
+}
+
+/// Picks several photos from the gallery (resized on the way in).
+final kioskPhotosPickerProvider = Provider<Future<List<Uint8List>> Function()>(
+  (ref) => () async {
+    final files = await ImagePicker().pickMultiImage(
+      maxWidth: 2560,
+      maxHeight: 2560,
+      imageQuality: 85,
+      limit: KioskSettings.maxFramePhotos,
+    );
+    return [for (final f in files) await f.readAsBytes()];
+  },
+);
+
+/// The photo frame: on/off, photos (kept on this tablet), how often they
+/// change.
+class PhotoFrameSettings extends ConsumerStatefulWidget {
+  const PhotoFrameSettings({super.key});
+
+  @override
+  ConsumerState<PhotoFrameSettings> createState() => _PhotoFrameSettingsState();
+}
+
+class _PhotoFrameSettingsState extends ConsumerState<PhotoFrameSettings> {
+  bool _busy = false;
+
+  Future<void> _add() async {
+    final picked = await ref.read(kioskPhotosPickerProvider)();
+    if (picked.isEmpty) return;
+    setState(() => _busy = true);
+    final store = ref.read(kioskPhotoStoreProvider);
+    final room =
+        KioskSettings.maxFramePhotos -
+        ref.read(kioskSettingsProvider).framePhotos.length;
+    final paths = [
+      for (final bytes in picked.take(room.clamp(0, picked.length)))
+        await store.save(bytes),
+    ];
+    await ref
+        .read(kioskSettingsProvider.notifier)
+        .update(
+          (s) => s.copyWith(
+            photoFrame: true,
+            framePhotos: [...s.framePhotos, ...paths],
+          ),
+        );
+    if (mounted) setState(() => _busy = false);
+  }
+
+  Future<void> _removeAll() async {
+    final store = ref.read(kioskPhotoStoreProvider);
+    final paths = ref.read(kioskSettingsProvider).framePhotos;
+    await ref
+        .read(kioskSettingsProvider.notifier)
+        .update((s) => s.copyWith(photoFrame: false, framePhotos: const []));
+    for (final p in paths) {
+      await store.delete(p);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final s = ref.watch(kioskSettingsProvider);
+    final controller = ref.read(kioskSettingsProvider.notifier);
+    if (!ref.watch(kioskPhotoStoreProvider).supported) {
+      return const SizedBox.shrink();
+    }
+    final count = s.framePhotos.length;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SwitchListTile(
+          key: const Key('photoFrameSwitch'),
+          contentPadding: EdgeInsets.zero,
+          secondary: const Icon(Icons.photo_library_outlined),
+          title: Text(l10n.photoFrame),
+          subtitle: Text(
+            count == 0 ? l10n.photoFrameHint : l10n.photoFrameCount(count),
+          ),
+          value: s.photoFrame && count > 0,
+          onChanged: (v) => v && count == 0
+              ? _add()
+              : controller.update((k) => k.copyWith(photoFrame: v)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 40),
+          child: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              OutlinedButton.icon(
+                key: const Key('photoFrameAdd'),
+                onPressed: _busy || count >= KioskSettings.maxFramePhotos
+                    ? null
+                    : _add,
+                icon: const Icon(Icons.add_photo_alternate_outlined),
+                label: Text(l10n.photoFrameAdd),
+              ),
+              if (count > 0) ...[
+                TextButton(
+                  key: const Key('photoFrameRemove'),
+                  onPressed: _busy ? null : _removeAll,
+                  child: Text(l10n.photoFrameRemove),
+                ),
+                DropdownButton<int>(
+                  key: const Key('photoFrameSeconds'),
+                  value: s.frameSeconds,
+                  onChanged: (v) => v == null
+                      ? null
+                      : controller.update((k) => k.copyWith(frameSeconds: v)),
+                  items: [
+                    for (final sec in {10, 30, 60, 300, s.frameSeconds})
+                      DropdownMenuItem(
+                        value: sec,
+                        child: Text(
+                          sec < 60
+                              ? l10n.photoFrameEverySeconds(sec)
+                              : l10n.photoFrameEveryMinutes(sec ~/ 60),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
+            ],
+          ),
+        ),
       ],
     );
   }

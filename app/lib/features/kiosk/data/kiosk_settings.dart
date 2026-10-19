@@ -56,6 +56,9 @@ class KioskSettings {
     this.nightTo = 7 * 60,
     this.nightLevel = 0.15,
     this.nightClock = false,
+    this.photoFrame = false,
+    this.framePhotos = const [],
+    this.frameSeconds = 30,
     this.nightLightId,
     this.darkScreensaver = true,
     this.aodBrightness = 0.4,
@@ -122,6 +125,16 @@ class KioskSettings {
       morningTo: _minutes(json['morningTo']) ?? d.morningTo,
       nightBrightness: json['nightBrightness'] == true,
       nightClock: json['nightClock'] == true,
+      photoFrame: json['photoFrame'] == true,
+      framePhotos: [
+        if (json['framePhotos'] case final List<Object?> list)
+          for (final p in list.take(maxFramePhotos))
+            if (p is String) p,
+      ],
+      frameSeconds: switch (json['frameSeconds']) {
+        final int v when v >= 5 && v <= 600 => v,
+        _ => d.frameSeconds,
+      },
       nightLightId: json['nightLightId'] is String
           ? json['nightLightId']! as String
           : null,
@@ -264,6 +277,13 @@ class KioskSettings {
   /// At night the idle screen is only a dim red clock (easy on the eyes).
   final bool nightClock;
 
+  /// The idle screen shows [framePhotos] (kept on this tablet only), one
+  /// after another every [frameSeconds], with a small clock.
+  final bool photoFrame;
+  final List<String> framePhotos;
+  final int frameSeconds;
+  static const maxFramePhotos = 60;
+
   /// At night the first tap on the idle screen turns this light on at 10 %
   /// instead of waking the screen (a night light for the hallway).
   final String? nightLightId;
@@ -388,6 +408,9 @@ class KioskSettings {
     int? nightTo,
     double? nightLevel,
     bool? nightClock,
+    bool? photoFrame,
+    List<String>? framePhotos,
+    int? frameSeconds,
     String? nightLightId,
     bool? darkScreensaver,
     double? aodBrightness,
@@ -407,6 +430,9 @@ class KioskSettings {
     nightTo: nightTo ?? this.nightTo,
     nightLevel: nightLevel ?? this.nightLevel,
     nightClock: nightClock ?? this.nightClock,
+    photoFrame: photoFrame ?? this.photoFrame,
+    framePhotos: framePhotos ?? this.framePhotos,
+    frameSeconds: frameSeconds ?? this.frameSeconds,
     nightLightId: nightLightId ?? this.nightLightId,
     darkScreensaver: darkScreensaver ?? this.darkScreensaver,
     aodBrightness: aodBrightness ?? this.aodBrightness,
@@ -475,6 +501,9 @@ class KioskSettings {
     'nightTo': nightTo,
     'nightLevel': nightLevel,
     'nightClock': nightClock,
+    'photoFrame': photoFrame,
+    'framePhotos': framePhotos,
+    'frameSeconds': frameSeconds,
     'nightLightId': nightLightId,
     'darkScreensaver': darkScreensaver,
     'aodBrightness': aodBrightness,

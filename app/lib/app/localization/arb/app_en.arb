@@ -1618,5 +1618,15 @@
   "kioskHomePage": "Home",
   "kioskPageSchedule": "Show by itself",
   "kioskPageScheduleFrom": "Show this page from",
-  "kioskPageScheduleTo": "until"
+  "kioskPageScheduleTo": "until",
+  "photoFrame": "Photo frame",
+  "photoFrameHint": "While idle, show photos from this tablet (they stay on it).",
+  "photoFrameCount": "{count, plural, =1{1 photo · stays on this tablet} other{{count} photos · stay on this tablet}}",
+  "@photoFrameCount": {"placeholders": {"count": {"type": "int"}}},
+  "photoFrameAdd": "Add photos",
+  "photoFrameRemove": "Remove all",
+  "photoFrameEverySeconds": "every {seconds} s",
+  "@photoFrameEverySeconds": {"placeholders": {"seconds": {"type": "int"}}},
+  "photoFrameEveryMinutes": "every {minutes} min",
+  "@photoFrameEveryMinutes": {"placeholders": {"minutes": {"type": "int"}}}
 }

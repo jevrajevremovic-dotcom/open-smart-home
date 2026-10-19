@@ -11,6 +11,7 @@ import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../assist/presentation/assist_sheet.dart';
 import '../../authentication/application/session_controller.dart';
+import '../../cameras/application/camera_providers.dart';
 import '../../cameras/presentation/camera_view.dart';
 import '../../calendar/presentation/calendar_browser.dart';
 import '../../calendar/presentation/calendar_widgets.dart';
@@ -194,6 +195,11 @@ class _HomeOverview extends ConsumerWidget {
         const SizedBox(height: 16),
         const NowPlayingCard(),
         const SizedBox(height: 16),
+        if (ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
+            ref.watch(cameraIdsProvider).isNotEmpty) ...[
+          const _OverviewCameras(),
+          const SizedBox(height: 16),
+        ],
         // Agenda on the left, the month on the right, half each.
         Card(
           key: const Key('kioskColumnsCalendar'),
@@ -476,6 +482,59 @@ class _SceneCircle extends ConsumerWidget {
             style: theme.textTheme.labelMedium,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The home's cameras on the overview: one picture, chips to switch.
+class _OverviewCameras extends ConsumerStatefulWidget {
+  const _OverviewCameras();
+
+  @override
+  ConsumerState<_OverviewCameras> createState() => _OverviewCamerasState();
+}
+
+class _OverviewCamerasState extends ConsumerState<_OverviewCameras> {
+  String? _chosen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final ids = ref.watch(cameraIdsProvider);
+    final id = ids.contains(_chosen) ? _chosen! : ids.first;
+    final camera = ref.watch(deviceProvider(id));
+    return Card(
+      key: const Key('kioskColumnsCameras'),
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(l10n.camerasTitle, style: theme.textTheme.titleMedium),
+            if (ids.length > 1) ...[
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final c in ids)
+                    ChoiceChip(
+                      key: ValueKey('kioskColumnsCamera-$c'),
+                      label: Text(ref.watch(deviceProvider(c))?.name ?? c),
+                      selected: c == id,
+                      onSelected: (_) => setState(() => _chosen = c),
+                    ),
+                ],
+              ),
+            ],
+            const SizedBox(height: 12),
+            if (camera != null) _CameraCard(camera: camera),
+          ],
+        ),
       ),
     );
   }

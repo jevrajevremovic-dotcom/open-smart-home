@@ -122,6 +122,16 @@ void main() {
     expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
     expect(find.byType(WeatherSection), findsOneWidget);
     expect(find.byKey(const Key('nowPlayingCard')), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('kioskColumnsCalendar')),
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('kioskColumnsOverview')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
     expect(find.byKey(const Key('kioskColumnsCalendar')), findsOneWidget);
     // The home's thermostat on the right.
     expect(
@@ -177,6 +187,27 @@ void main() {
     await tapKey(tester, 'kioskQuickSwitch-light.hallway');
     await settle(tester, 4);
     expect(server.stateForTest('light.hallway'), 'on');
+    await unmount(tester);
+  });
+
+  testWidgets('cameras on the home overview, switchable, can be hidden', (
+    tester,
+  ) async {
+    final container = await kiosk(tester, const Size(1600, 1000));
+    expect(find.byKey(const Key('kioskColumnsCameras')), findsOneWidget);
+    final driveway = find.byKey(
+      const ValueKey('kioskColumnsCamera-camera.driveway'),
+    );
+    await tester.ensureVisible(driveway);
+    await tester.tap(driveway);
+    await settle(tester, 3);
+    expect(tester.widget<ChoiceChip>(driveway).selected, isTrue);
+
+    await container
+        .read(kioskSettingsProvider.notifier)
+        .update((s) => s.copyWith(showCameras: false));
+    await settle(tester, 3);
+    expect(find.byKey(const Key('kioskColumnsCameras')), findsNothing);
     await unmount(tester);
   });
 }

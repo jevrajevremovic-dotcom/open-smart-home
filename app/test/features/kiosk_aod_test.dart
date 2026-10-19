@@ -6,7 +6,10 @@ import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
 
-import '../widgets/app_widget_test.dart' show goTo, pumpApp, settle, unmount;
+import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
+
+import '../widgets/app_widget_test.dart'
+    show en, goTo, pumpApp, settle, unmount;
 
 void main() {
   test('the morning window, also across midnight', () {
@@ -90,6 +93,36 @@ void main() {
       findsOneWidget,
     );
     expect(find.byKey(const ValueKey('aodEvent-Vrtić')), findsOneWidget);
+    await unmount(tester);
+  });
+
+  testWidgets('night: red clock, first tap is the night light', (tester) async {
+    final now = DateTime.now();
+    final m = now.hour * 60 + now.minute;
+    final container = await start(
+      tester,
+      (s) => s.copyWith(
+        nightBrightness: true,
+        nightFrom: (m - 60) % (24 * 60),
+        nightTo: (m + 60) % (24 * 60),
+        nightClock: true,
+        nightLightId: 'light.hallway',
+      ),
+    );
+    final server = container.read(mockHomeAssistantServerProvider);
+    expect(server.stateForTest('light.hallway'), 'off');
+    expect(find.byKey(const Key('aodNight')), findsOneWidget);
+    expect(find.text(en.kioskNightLightHint('Hodnik')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('kioskScreensaver')));
+    await settle(tester, 4);
+    expect(server.stateForTest('light.hallway'), 'on');
+    expect(find.byKey(const Key('kioskScreensaver')), findsOneWidget);
+    expect(find.text(en.kioskNightLightOn('Hodnik')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('kioskScreensaver')));
+    await settle(tester, 2);
+    expect(find.byKey(const Key('kioskScreensaver')), findsNothing);
     await unmount(tester);
   });
 }

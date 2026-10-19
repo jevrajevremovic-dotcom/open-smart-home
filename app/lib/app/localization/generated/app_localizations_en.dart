@@ -3688,4 +3688,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String timerStarted(String label) {
     return 'Timer for $label started.';
   }
+
+  @override
+  String kioskNightLightHint(String name) {
+    return 'Tap: $name at 10 %';
+  }
+
+  @override
+  String kioskNightLightOn(String name) {
+    return '$name is on · tap again for the screen';
+  }
+
+  @override
+  String get kioskNightClock => 'Red night clock';
+
+  @override
+  String get kioskNightClockHint =>
+      'At night the idle screen shows only the time, in dim red.';
+
+  @override
+  String get kioskNightLight => 'Night light on tap';
+
+  @override
+  String get kioskNightLightNone => 'None (a tap wakes the screen)';
 }

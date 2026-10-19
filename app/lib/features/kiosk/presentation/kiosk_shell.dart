@@ -130,7 +130,9 @@ class _KioskShellState extends ConsumerState<KioskShell> {
       },
       child: Listener(
         behavior: HitTestBehavior.translucent,
-        onPointerDown: (_) => _onInteraction(),
+        // While idle, the idle screen decides what a tap does (it may be
+        // the night light rather than waking up).
+        onPointerDown: (_) => _dimmed ? null : _onInteraction(),
         child: KioskCameraPopup(
           onShow: _onInteraction,
           child: KioskAlertOverlay(

@@ -3707,6 +3707,29 @@ class AppLocalizationsSr extends AppLocalizations {
   String timerStarted(String label) {
     return 'Tajmer od $label je pokrenut.';
   }
+
+  @override
+  String kioskNightLightHint(String name) {
+    return 'Dodir: $name na 10 %';
+  }
+
+  @override
+  String kioskNightLightOn(String name) {
+    return '$name je upaljeno · dodirnite ponovo za ekran';
+  }
+
+  @override
+  String get kioskNightClock => 'Crveni noćni sat';
+
+  @override
+  String get kioskNightClockHint =>
+      'Noću ekran u mirovanju prikazuje samo vreme, prigušeno crveno.';
+
+  @override
+  String get kioskNightLight => 'Noćno svetlo na dodir';
+
+  @override
+  String get kioskNightLightNone => 'Nijedno (dodir budi ekran)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

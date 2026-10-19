@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
+import '../../devices/application/device_providers.dart';
 import '../application/kiosk_controller.dart';
+import '../data/kiosk_settings.dart';
 import '../../../core/widgets/time_picker.dart';
 
 /// Kiosk brightness options: lower at night, minimum on the screensaver.
@@ -11,6 +13,13 @@ class NightBrightnessSettings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final lights =
+        ref
+            .watch(homeSnapshotProvider.select((s) => s.devices))
+            .values
+            .where((d) => d.kind.isLight)
+            .toList()
+          ..sort((a, b) => a.name.compareTo(b.name));
     final l10n = context.l10n;
     final s = ref.watch(kioskSettingsProvider);
     final controller = ref.read(kioskSettingsProvider.notifier);
@@ -117,6 +126,43 @@ class NightBrightnessSettings extends ConsumerWidget {
                   controller.update((k) => k.copyWith(nightLevel: v)),
             ),
           ),
+          SwitchListTile(
+            key: const Key('kioskNightClock'),
+            contentPadding: const EdgeInsets.only(left: 16),
+            title: Text(l10n.kioskNightClock),
+            subtitle: Text(l10n.kioskNightClockHint),
+            value: s.nightClock,
+            onChanged: (v) =>
+                controller.update((k) => k.copyWith(nightClock: v)),
+          ),
+          if (s.nightClock)
+            ListTile(
+              contentPadding: const EdgeInsets.only(left: 32),
+              title: Text(l10n.kioskNightLight),
+              subtitle: DropdownButton<String>(
+                key: const Key('kioskNightLight'),
+                isExpanded: true,
+                value: lights.any((d) => d.id == s.nightLightId)
+                    ? s.nightLightId
+                    : '',
+                onChanged: (v) => controller.update(
+                  (k) => v == null || v.isEmpty
+                      ? KioskSettings.fromJson({
+                          ...k.toJson(),
+                          'nightLightId': null,
+                        })
+                      : k.copyWith(nightLightId: v),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: '',
+                    child: Text(l10n.kioskNightLightNone),
+                  ),
+                  for (final d in lights)
+                    DropdownMenuItem(value: d.id, child: Text(d.name)),
+                ],
+              ),
+            ),
         ],
       ],
     );

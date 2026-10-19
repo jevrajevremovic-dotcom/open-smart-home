@@ -6416,6 +6416,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Timer for {label} started.'**
   String timerStarted(String label);
+
+  /// No description provided for @kioskNightLightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap: {name} at 10 %'**
+  String kioskNightLightHint(String name);
+
+  /// No description provided for @kioskNightLightOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is on · tap again for the screen'**
+  String kioskNightLightOn(String name);
+
+  /// No description provided for @kioskNightClock.
+  ///
+  /// In en, this message translates to:
+  /// **'Red night clock'**
+  String get kioskNightClock;
+
+  /// No description provided for @kioskNightClockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At night the idle screen shows only the time, in dim red.'**
+  String get kioskNightClockHint;
+
+  /// No description provided for @kioskNightLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Night light on tap'**
+  String get kioskNightLight;
+
+  /// No description provided for @kioskNightLightNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None (a tap wakes the screen)'**
+  String get kioskNightLightNone;
 }
 
 class _AppLocalizationsDelegate

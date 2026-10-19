@@ -1053,5 +1053,11 @@
   "timerAddMinute": "+1 min",
   "timerDone": "Tajmer {label} je istekao",
   "timerDoneSpeech": "Tajmer od {label} je istekao.",
-  "timerStarted": "Tajmer od {label} je pokrenut."
+  "timerStarted": "Tajmer od {label} je pokrenut.",
+  "kioskNightLightHint": "Dodir: {name} na 10 %",
+  "kioskNightLightOn": "{name} je upaljeno · dodirnite ponovo za ekran",
+  "kioskNightClock": "Crveni noćni sat",
+  "kioskNightClockHint": "Noću ekran u mirovanju prikazuje samo vreme, prigušeno crveno.",
+  "kioskNightLight": "Noćno svetlo na dodir",
+  "kioskNightLightNone": "Nijedno (dodir budi ekran)"
 }

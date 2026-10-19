@@ -8,6 +8,10 @@ import '../../calendar/application/calendar_providers.dart';
 import '../../dashboard/application/home_sentence.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/application/device_providers.dart';
+import '../../devices/domain/capability.dart';
+import '../../devices/domain/device_command.dart';
+import '../../devices/domain/smart_home_device.dart';
+import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../media/application/media_providers.dart';
 import '../../todo/todo_lists.dart';
@@ -37,13 +41,32 @@ class KioskAmbient extends ConsumerWidget {
     final now = ref.watch(kioskNowProvider);
     final settings = ref.watch(kioskSettingsProvider);
     final morning = settings.isMorning(now);
+    final night = settings.nightClock && settings.isNight(now);
+    final lightId = settings.nightLightId;
+    final light = night && lightId != null
+        ? ref.watch(deviceProvider(lightId))
+        : null;
     // Burn-in protection: a slow walk within ±20 px, new spot each minute.
     final m = now.hour * 60 + now.minute;
     final shift = Offset(((m * 7) % 41) - 20.0, ((m * 13) % 31) - 15.0);
     return GestureDetector(
       key: const Key('kioskScreensaver'),
       behavior: HitTestBehavior.opaque,
-      onTap: onWake,
+      onTap: () async {
+        // At night the first tap is a night light, not a bright screen.
+        if (light != null && light.available && light.state.isOn != true) {
+          final ok = await runDeviceCommand(
+            context,
+            ref,
+            light,
+            light.supports(Capability.brightness)
+                ? const SetBrightness(10)
+                : const TurnOn(),
+          );
+          if (ok) return;
+        }
+        onWake();
+      },
       child: ColoredBox(
         color: Colors.black,
         child: SafeArea(
@@ -54,7 +77,9 @@ class KioskAmbient extends ConsumerWidget {
                 padding: const EdgeInsets.all(32),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: morning
+                  child: night
+                      ? _NightClock(light: light)
+                      : morning
                       ? const _Morning()
                       : _Ambient(focus: settings.aodFocus),
                 ),
@@ -63,6 +88,50 @@ class KioskAmbient extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Night: only the time, in dim red (keeps the eyes used to the dark).
+class _NightClock extends ConsumerWidget {
+  const _NightClock({this.light});
+
+  /// The night light, if one is chosen.
+  final SmartHomeDevice? light;
+
+  static const red = Color(0xFFB3261E);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final now = ref.watch(kioskNowProvider);
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final light = this.light;
+    return Column(
+      key: const Key('aodNight'),
+      children: [
+        Text(
+          DateFormat.Hm(l10n.localeName).format(now),
+          key: const Key('aodClock'),
+          style: theme.textTheme.displayLarge?.copyWith(
+            color: red,
+            fontSize: 132,
+            fontWeight: FontWeight.w300,
+            height: 1,
+          ),
+        ),
+        if (light != null) ...[
+          const SizedBox(height: 16),
+          Text(
+            light.state.isOn == true
+                ? l10n.kioskNightLightOn(light.name)
+                : l10n.kioskNightLightHint(light.name),
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: red.withValues(alpha: 0.8),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

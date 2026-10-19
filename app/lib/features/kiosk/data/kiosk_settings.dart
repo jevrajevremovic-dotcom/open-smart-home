@@ -55,6 +55,8 @@ class KioskSettings {
     this.nightFrom = 22 * 60,
     this.nightTo = 7 * 60,
     this.nightLevel = 0.15,
+    this.nightClock = false,
+    this.nightLightId,
     this.darkScreensaver = true,
     this.aodBrightness = 0.4,
     this.layout,
@@ -118,6 +120,10 @@ class KioskSettings {
       morningFrom: _minutes(json['morningFrom']) ?? d.morningFrom,
       morningTo: _minutes(json['morningTo']) ?? d.morningTo,
       nightBrightness: json['nightBrightness'] == true,
+      nightClock: json['nightClock'] == true,
+      nightLightId: json['nightLightId'] is String
+          ? json['nightLightId']! as String
+          : null,
       nightFrom: _minutes(json['nightFrom']) ?? d.nightFrom,
       nightTo: _minutes(json['nightTo']) ?? d.nightTo,
       nightLevel: switch (json['nightLevel']) {
@@ -250,6 +256,13 @@ class KioskSettings {
   /// 0…1 of full brightness at night.
   final double nightLevel;
 
+  /// At night the idle screen is only a dim red clock (easy on the eyes).
+  final bool nightClock;
+
+  /// At night the first tap on the idle screen turns this light on at 10 %
+  /// instead of waking the screen (a night light for the hallway).
+  final String? nightLightId;
+
   /// The screensaver also turns the backlight down to its minimum.
   final bool darkScreensaver;
 
@@ -341,6 +354,8 @@ class KioskSettings {
     int? nightFrom,
     int? nightTo,
     double? nightLevel,
+    bool? nightClock,
+    String? nightLightId,
     bool? darkScreensaver,
     double? aodBrightness,
     KioskLayout? layout,
@@ -356,6 +371,8 @@ class KioskSettings {
     nightFrom: nightFrom ?? this.nightFrom,
     nightTo: nightTo ?? this.nightTo,
     nightLevel: nightLevel ?? this.nightLevel,
+    nightClock: nightClock ?? this.nightClock,
+    nightLightId: nightLightId ?? this.nightLightId,
     darkScreensaver: darkScreensaver ?? this.darkScreensaver,
     aodBrightness: aodBrightness ?? this.aodBrightness,
     popupTriggerIds: popupTriggerIds ?? this.popupTriggerIds,
@@ -422,6 +439,8 @@ class KioskSettings {
     'nightFrom': nightFrom,
     'nightTo': nightTo,
     'nightLevel': nightLevel,
+    'nightClock': nightClock,
+    'nightLightId': nightLightId,
     'darkScreensaver': darkScreensaver,
     'aodBrightness': aodBrightness,
     'layout': layout?.toJson(),

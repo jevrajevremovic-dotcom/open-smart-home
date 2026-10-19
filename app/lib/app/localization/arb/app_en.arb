@@ -1583,5 +1583,13 @@
   "timerDoneSpeech": "The {label} timer is done.",
   "@timerDoneSpeech": {"placeholders": {"label": {"type": "String"}}},
   "timerStarted": "Timer for {label} started.",
-  "@timerStarted": {"placeholders": {"label": {"type": "String"}}}
+  "@timerStarted": {"placeholders": {"label": {"type": "String"}}},
+  "kioskNightLightHint": "Tap: {name} at 10 %",
+  "@kioskNightLightHint": {"placeholders": {"name": {"type": "String"}}},
+  "kioskNightLightOn": "{name} is on · tap again for the screen",
+  "@kioskNightLightOn": {"placeholders": {"name": {"type": "String"}}},
+  "kioskNightClock": "Red night clock",
+  "kioskNightClockHint": "At night the idle screen shows only the time, in dim red.",
+  "kioskNightLight": "Night light on tap",
+  "kioskNightLightNone": "None (a tap wakes the screen)"
 }

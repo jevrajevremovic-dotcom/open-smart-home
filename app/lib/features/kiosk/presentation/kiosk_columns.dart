@@ -191,15 +191,16 @@ class _HomeOverview extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 20),
-        const WeatherSection(allowDeviceLocation: false),
-        const SizedBox(height: 16),
-        const NowPlayingCard(),
-        const SizedBox(height: 16),
+        // Cameras first, then the rest of the day.
         if (ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
             ref.watch(cameraIdsProvider).isNotEmpty) ...[
           const _OverviewCameras(),
           const SizedBox(height: 16),
         ],
+        const WeatherSection(allowDeviceLocation: false),
+        const SizedBox(height: 16),
+        const NowPlayingCard(),
+        const SizedBox(height: 16),
         // Agenda on the left, the month on the right, half each.
         Card(
           key: const Key('kioskColumnsCalendar'),

@@ -120,19 +120,32 @@ void main() {
   ) async {
     final container = await kiosk(tester, const Size(1600, 1000));
     expect(find.byKey(const Key('kioskColumnsOverview')), findsOneWidget);
-    expect(find.byType(WeatherSection), findsOneWidget);
-    expect(find.byKey(const Key('nowPlayingCard')), findsOneWidget);
-    await tester.scrollUntilVisible(
+    // Cameras first, then weather, music and the calendar.
+    expect(find.byKey(const Key('kioskColumnsCameras')), findsOneWidget);
+    final overview = find
+        .descendant(
+          of: find.byKey(const Key('kioskColumnsOverview')),
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    double top(Finder f) => tester.getTopLeft(f).dy;
+    for (final f in [
+      find.byType(WeatherSection),
+      find.byKey(const Key('nowPlayingCard')),
       find.byKey(const Key('kioskColumnsCalendar')),
-      300,
-      scrollable: find
-          .descendant(
-            of: find.byKey(const Key('kioskColumnsOverview')),
-            matching: find.byType(Scrollable),
-          )
-          .first,
+    ]) {
+      await tester.scrollUntilVisible(f, 300, scrollable: overview);
+      expect(f, findsOneWidget);
+    }
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('kioskColumnsCameras')),
+      -300,
+      scrollable: overview,
     );
-    expect(find.byKey(const Key('kioskColumnsCalendar')), findsOneWidget);
+    expect(
+      top(find.byKey(const Key('kioskColumnsCameras'))),
+      lessThan(top(find.byType(WeatherSection))),
+    );
     // The home's thermostat on the right.
     expect(
       tester.widget<Text>(find.byKey(const Key('kioskColumnsDetailName'))).data,

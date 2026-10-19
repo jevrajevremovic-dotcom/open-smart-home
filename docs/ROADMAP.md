@@ -22,6 +22,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Ukućani, statusi u kiosku, kalendar, kamere (snimci + uživo), mediji, Assist (tekst + glas, izgovoreni odgovori, asistent telefona, ključna reč bez ruku na kiosku preko HA openWakeWord) ✅
 - Kiosk se budi kad neko priđe (senzor iz HA ili kamera tableta, obrada samo na tabletu); simulacija prisustva kao HA automatizacija ✅
 - Podsetnik kad počne niža tarifa (HA automatizacija → poruka na telefon) ✅
+- Kiosk: upozorenja preko celog ekrana, kuhinjski tajmeri (i glasom), noćni režim, alarm tastatura, „Izlazim”, panel energije, više stranica i raspored po dobu dana, foto-okvir, pozdrav ukućana, porodične poruke, objave iz HA (TTS), interfon ✅
 - Dodavanje uređaja: Zigbee, Wi-Fi/LAN (HA config flow), Matter (deljeni), Z-Wave (S2, SmartStart) ✅
 - Istorija uređaja, obaveštenja, alarmni panel, ventilator/ovlaživač/usisivač/izbor/broj ✅
 - Zaključavanje aplikacije i biometrijska potvrda kritičnih komandi, više domova ✅

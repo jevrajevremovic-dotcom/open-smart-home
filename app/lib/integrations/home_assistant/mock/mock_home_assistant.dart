@@ -166,6 +166,9 @@ class MockHomeAssistantServer {
     _ => null,
   };
 
+  /// The last `tts.speak` call (its data), for tests.
+  Map<String, Object?>? lastTtsSpeak;
+
   /// Persistent notifications (`persistent_notification/subscribe`).
   final Map<String, Map<String, Object?>> notifications = {
     'config_entry_discovery': {
@@ -1219,6 +1222,10 @@ class MockHomeAssistantServer {
     }
     if (domain == 'todo') {
       _todoService(service, data);
+      return const [];
+    }
+    if (domain == 'tts' && service == 'speak') {
+      lastTtsSpeak = Map.of(data);
       return const [];
     }
     if (domain == 'persistent_notification') {

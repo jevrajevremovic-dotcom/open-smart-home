@@ -3876,4 +3876,41 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get greetPeopleHint =>
       'When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages.';
+
+  @override
+  String get kioskIntercom => 'Intercom';
+
+  @override
+  String get kioskIntercomOpen => '“Open” button';
+
+  @override
+  String get kioskIntercomSpeaker => 'Speaker by the door (“Coming” button)';
+
+  @override
+  String get kioskIntercomSpeakerHint =>
+      'Home Assistant says the reply there with its own text-to-speech.';
+
+  @override
+  String get kioskIntercomReply => 'Coming!';
+
+  @override
+  String get kioskIntercomReplyText => 'Coming, just a moment!';
+
+  @override
+  String get kioskIntercomReplied =>
+      'Said at the door: “Coming, just a moment!”';
+
+  @override
+  String get kioskIntercomNoTts =>
+      'Home Assistant has no text-to-speech set up.';
+
+  @override
+  String kioskIntercomUnlock(String name) {
+    return 'Unlock $name';
+  }
+
+  @override
+  String kioskIntercomOpenDevice(String name) {
+    return 'Open $name';
+  }
 }

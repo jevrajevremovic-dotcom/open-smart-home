@@ -6686,6 +6686,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages.'**
   String get greetPeopleHint;
+
+  /// No description provided for @kioskIntercom.
+  ///
+  /// In en, this message translates to:
+  /// **'Intercom'**
+  String get kioskIntercom;
+
+  /// No description provided for @kioskIntercomOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'“Open” button'**
+  String get kioskIntercomOpen;
+
+  /// No description provided for @kioskIntercomSpeaker.
+  ///
+  /// In en, this message translates to:
+  /// **'Speaker by the door (“Coming” button)'**
+  String get kioskIntercomSpeaker;
+
+  /// No description provided for @kioskIntercomSpeakerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant says the reply there with its own text-to-speech.'**
+  String get kioskIntercomSpeakerHint;
+
+  /// No description provided for @kioskIntercomReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming!'**
+  String get kioskIntercomReply;
+
+  /// No description provided for @kioskIntercomReplyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming, just a moment!'**
+  String get kioskIntercomReplyText;
+
+  /// No description provided for @kioskIntercomReplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Said at the door: “Coming, just a moment!”'**
+  String get kioskIntercomReplied;
+
+  /// No description provided for @kioskIntercomNoTts.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no text-to-speech set up.'**
+  String get kioskIntercomNoTts;
+
+  /// No description provided for @kioskIntercomUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock {name}'**
+  String kioskIntercomUnlock(String name);
+
+  /// No description provided for @kioskIntercomOpenDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {name}'**
+  String kioskIntercomOpenDevice(String name);
 }
 
 class _AppLocalizationsDelegate

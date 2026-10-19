@@ -47,6 +47,8 @@ class KioskSettings {
     this.popupCameraId,
     this.popupSeconds = 60,
     this.popupLive = true,
+    this.popupOpenId,
+    this.popupSpeakerId,
     this.aodFocus = AodFocus.nextEvent,
     this.aodEntityId,
     this.morningScreen = true,
@@ -164,6 +166,12 @@ class KioskSettings {
           ? json['popupCameraId']! as String
           : null,
       popupLive: json['popupLive'] != false,
+      popupOpenId: json['popupOpenId'] is String
+          ? json['popupOpenId']! as String
+          : null,
+      popupSpeakerId: json['popupSpeakerId'] is String
+          ? json['popupSpeakerId']! as String
+          : null,
       popupSeconds: switch (json['popupSeconds']) {
         final int s when popupOptions.contains(s) => s,
         _ => d.popupSeconds,
@@ -246,6 +254,14 @@ class KioskSettings {
 
   /// Live video in the pop-up when the camera offers it (else snapshots).
   final bool popupLive;
+
+  /// Intercom on the pop-up: "Open" works this lock, gate or garage door
+  /// (critical, so it asks for confirmation) …
+  final String? popupOpenId;
+
+  /// … and "Coming" says a short reply through this speaker by the door
+  /// (Home Assistant's `tts.speak`).
+  final String? popupSpeakerId;
   static const popupOptions = [30, 60, 120, 300];
 
   bool get hasPopup => popupCameraId != null && popupTriggerIds.isNotEmpty;
@@ -403,6 +419,10 @@ class KioskSettings {
     bool clearPopupCamera = false,
     int? popupSeconds,
     bool? popupLive,
+    String? popupOpenId,
+    String? popupSpeakerId,
+    bool clearPopupOpen = false,
+    bool clearPopupSpeaker = false,
     AodFocus? aodFocus,
     String? aodEntityId,
     bool clearAodEntity = false,
@@ -448,6 +468,10 @@ class KioskSettings {
         : (popupCameraId ?? this.popupCameraId),
     popupSeconds: popupSeconds ?? this.popupSeconds,
     popupLive: popupLive ?? this.popupLive,
+    popupOpenId: clearPopupOpen ? null : (popupOpenId ?? this.popupOpenId),
+    popupSpeakerId: clearPopupSpeaker
+        ? null
+        : (popupSpeakerId ?? this.popupSpeakerId),
     clapEnabled: clapEnabled ?? this.clapEnabled,
     clapTargetId: clapTargetId ?? this.clapTargetId,
     clapSensitivity: clapSensitivity ?? this.clapSensitivity,
@@ -499,6 +523,8 @@ class KioskSettings {
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,
     'popupLive': popupLive,
+    'popupOpenId': popupOpenId,
+    'popupSpeakerId': popupSpeakerId,
     'aodFocus': aodFocus.name,
     'aodEntityId': aodEntityId,
     'morningScreen': morningScreen,

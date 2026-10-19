@@ -1642,5 +1642,17 @@
   "welcomeHome": "Welcome home, {name}!",
   "@welcomeHome": {"placeholders": {"name": {"type": "String"}}},
   "greetPeople": "Greet people coming home",
-  "greetPeopleHint": "When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages."
+  "greetPeopleHint": "When someone arrives (by their person in Home Assistant), the tablet says hello and shows their messages.",
+  "kioskIntercom": "Intercom",
+  "kioskIntercomOpen": "“Open” button",
+  "kioskIntercomSpeaker": "Speaker by the door (“Coming” button)",
+  "kioskIntercomSpeakerHint": "Home Assistant says the reply there with its own text-to-speech.",
+  "kioskIntercomReply": "Coming!",
+  "kioskIntercomReplyText": "Coming, just a moment!",
+  "kioskIntercomReplied": "Said at the door: “Coming, just a moment!”",
+  "kioskIntercomNoTts": "Home Assistant has no text-to-speech set up.",
+  "kioskIntercomUnlock": "Unlock {name}",
+  "@kioskIntercomUnlock": {"placeholders": {"name": {"type": "String"}}},
+  "kioskIntercomOpenDevice": "Open {name}",
+  "@kioskIntercomOpenDevice": {"placeholders": {"name": {"type": "String"}}}
 }

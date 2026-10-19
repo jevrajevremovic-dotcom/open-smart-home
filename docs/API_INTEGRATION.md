@@ -227,6 +227,10 @@ Provereno u `helpers/config_validation.py`, `helpers/condition/conditions.py`, `
 
 Poruka preko `notify.mobile_app_<ime>` sa `message: "TTS"` i `data: {tts_text: "..."}` (konvencija Home Assistant Companion aplikacija) se izgovara lokalnim TTS-om; kiosk je prikazuje 15 s.
 
+## Interfon (`tts.speak`)
+
+Provereno u `components/tts/services.yaml`: `tts.speak` sa ciljem `tts.*` entitet i podacima `media_player_entity_id` i `message`. Aplikacija uzima prvi `tts.*` entitet iz `GET /api/states`.
+
 ## Porodične poruke
 
 Provereno u `components/persistent_notification` (`services.yaml`, `const.py`): servisi `persistent_notification.create` (`message`, `title`, `notification_id`) i `dismiss` (`notification_id`); promene stižu kroz WS `persistent_notification/subscribe` (`current`/`added`/`removed`/`updated`). Poruke aplikacije imaju id `osh_msg_<osoba bez person.>_<milisekunde>` ili `osh_msg_all_<…>`.

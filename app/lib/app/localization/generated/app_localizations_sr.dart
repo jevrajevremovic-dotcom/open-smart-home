@@ -3897,6 +3897,43 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get greetPeopleHint =>
       'Kad neko stigne (po osobi u Home Assistantu), tablet ga pozdravi i pokaže poruke za njega.';
+
+  @override
+  String get kioskIntercom => 'Interfon';
+
+  @override
+  String get kioskIntercomOpen => 'Dugme „Otvori”';
+
+  @override
+  String get kioskIntercomSpeaker => 'Zvučnik kod vrata (dugme „Dolazim”)';
+
+  @override
+  String get kioskIntercomSpeakerHint =>
+      'Home Assistant tamo izgovori odgovor svojim pretvaranjem teksta u govor.';
+
+  @override
+  String get kioskIntercomReply => 'Dolazim!';
+
+  @override
+  String get kioskIntercomReplyText => 'Dolazim, samo trenutak!';
+
+  @override
+  String get kioskIntercomReplied =>
+      'Izgovoreno kod vrata: „Dolazim, samo trenutak!”';
+
+  @override
+  String get kioskIntercomNoTts =>
+      'Home Assistant nema podešeno pretvaranje teksta u govor.';
+
+  @override
+  String kioskIntercomUnlock(String name) {
+    return 'Otključaj: $name';
+  }
+
+  @override
+  String kioskIntercomOpenDevice(String name) {
+    return 'Otvori: $name';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

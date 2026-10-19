@@ -1098,5 +1098,15 @@
   "familyMessageSend": "Ostavi poruku",
   "welcomeHome": "Dobro došli kući, {name}!",
   "greetPeople": "Pozdravi ukućane kad dođu",
-  "greetPeopleHint": "Kad neko stigne (po osobi u Home Assistantu), tablet ga pozdravi i pokaže poruke za njega."
+  "greetPeopleHint": "Kad neko stigne (po osobi u Home Assistantu), tablet ga pozdravi i pokaže poruke za njega.",
+  "kioskIntercom": "Interfon",
+  "kioskIntercomOpen": "Dugme „Otvori”",
+  "kioskIntercomSpeaker": "Zvučnik kod vrata (dugme „Dolazim”)",
+  "kioskIntercomSpeakerHint": "Home Assistant tamo izgovori odgovor svojim pretvaranjem teksta u govor.",
+  "kioskIntercomReply": "Dolazim!",
+  "kioskIntercomReplyText": "Dolazim, samo trenutak!",
+  "kioskIntercomReplied": "Izgovoreno kod vrata: „Dolazim, samo trenutak!”",
+  "kioskIntercomNoTts": "Home Assistant nema podešeno pretvaranje teksta u govor.",
+  "kioskIntercomUnlock": "Otključaj: {name}",
+  "kioskIntercomOpenDevice": "Otvori: {name}"
 }

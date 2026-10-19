@@ -13,6 +13,7 @@ import '../../assist/presentation/assist_sheet.dart';
 import '../../authentication/application/session_controller.dart';
 import '../../cameras/presentation/camera_view.dart';
 import '../../dashboard/application/home_summaries.dart';
+import '../../devices/application/device_groups.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/domain/device_command.dart';
 import '../../devices/domain/device_kind.dart';
@@ -30,6 +31,7 @@ import '../../household/presentation/person_avatar.dart';
 import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
 import '../../timers/kiosk_timers.dart';
 import 'kiosk_alarm.dart';
+import 'kiosk_bundle_detail.dart';
 import 'kiosk_leaving.dart';
 import 'kiosk_media_panel.dart';
 import 'pin_dialog.dart';
@@ -509,10 +511,12 @@ class _RoomColumn extends ConsumerWidget {
         )
         .firstOrNull;
     final cameras = devices.where((d) => d.kind == DeviceKind.camera).toList();
-    final accessories = [
+    // One card per physical device (its buttons, modes and sensors
+    // together), not one per entity.
+    final accessories = groupDevices([
       for (final d in devices)
         if (d.id != media?.id && d.kind != DeviceKind.camera) d,
-    ];
+    ]);
     final selected = ref.watch(kioskColumnsDeviceProvider);
     String n(double v, String unit) =>
         formatNumber(l10n.localeName, v, unit: unit);
@@ -567,13 +571,15 @@ class _RoomColumn extends ConsumerWidget {
               spacing: 12,
               runSpacing: 12,
               children: [
-                for (final d in accessories)
+                for (final g in accessories)
                   SizedBox(
                     width: width,
                     height: 136,
                     child: _AccessoryCard(
-                      device: d,
-                      selected: d.id == selected,
+                      group: g,
+                      selected:
+                          g.key == selected ||
+                          g.members.any((m) => m.id == selected),
                       roomName: room?.name,
                     ),
                   ),
@@ -603,12 +609,13 @@ class _RoomColumn extends ConsumerWidget {
 /// the quick action (switch on/off), long press opens its full screen.
 class _AccessoryCard extends ConsumerWidget {
   const _AccessoryCard({
-    required this.device,
+    required this.group,
     required this.selected,
     this.roomName,
   });
 
-  final SmartHomeDevice device;
+  /// One entity, or all of one physical device (shown by its main entity).
+  final DeviceBundle group;
   final bool selected;
 
   /// Left out of the name ("Living room – lamp" → "Lamp").
@@ -619,7 +626,7 @@ class _AccessoryCard extends ConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final d = device;
+    final d = group.primary;
     final tone = DevicePresentation.tone(d);
     final on = tone == DeviceTone.active;
     final accent = context.deviceAccents.of(DevicePresentation.accent(d));
@@ -630,8 +637,11 @@ class _AccessoryCard extends ConsumerWidget {
         : scheme.surfaceContainerHighest;
     final iconFg = on && d.available ? Colors.white : scheme.onSurfaceVariant;
     final quick = DevicePresentation.hasQuickToggle(d) && d.available;
+    final status = !group.available
+        ? l10n.stateUnavailable
+        : DevicePresentation.status(l10n, d);
     return Material(
-      key: ValueKey('kioskColumnsDevice-${d.id}'),
+      key: ValueKey('kioskColumnsDevice-${group.key}'),
       color: scheme.surface,
       elevation: selected ? 3 : 0,
       shadowColor: scheme.shadow.withValues(alpha: 0.2),
@@ -644,7 +654,8 @@ class _AccessoryCard extends ConsumerWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => ref.read(kioskColumnsDeviceProvider.notifier).select(d.id),
+        onTap: () =>
+            ref.read(kioskColumnsDeviceProvider.notifier).select(group.key),
         onLongPress: () => context.push(AppRoutes.device(d.id, kiosk: true)),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -670,7 +681,7 @@ class _AccessoryCard extends ConsumerWidget {
                             )
                           : () => ref
                                 .read(kioskColumnsDeviceProvider.notifier)
-                                .select(d.id),
+                                .select(group.key),
                       child: SizedBox.square(
                         dimension: 48,
                         child: Icon(DevicePresentation.icon(d), color: iconFg),
@@ -678,6 +689,21 @@ class _AccessoryCard extends ConsumerWidget {
                     ),
                   ),
                   const Spacer(),
+                  if (group.isGroup)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: scheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(99),
+                      ),
+                      child: Text(
+                        '${group.members.length}',
+                        style: theme.textTheme.labelMedium,
+                      ),
+                    ),
                   if (tone == DeviceTone.warning || tone == DeviceTone.critical)
                     Icon(
                       Icons.error_outline,
@@ -689,7 +715,7 @@ class _AccessoryCard extends ConsumerWidget {
               ),
               const Spacer(),
               Text(
-                DevicePresentation.shortName(d.name, roomName),
+                DevicePresentation.shortName(group.name, roomName),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.titleSmall?.copyWith(
@@ -697,7 +723,7 @@ class _AccessoryCard extends ConsumerWidget {
                 ),
               ),
               Text(
-                DevicePresentation.status(l10n, d),
+                status,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodySmall?.copyWith(
@@ -804,6 +830,23 @@ class _DetailColumn extends ConsumerWidget {
         .where((d) => !d.isAuxiliary && !d.kind.isRoutine)
         .toList();
     final chosen = ref.watch(kioskColumnsDeviceProvider);
+    // A whole physical device chosen in the middle.
+    if (chosen != null && chosen.startsWith('group:')) {
+      final bundle = groupDevices(devices)
+          .where((b) => b.key == chosen)
+          .firstOrNull;
+      if (bundle != null) {
+        return ListView(
+          key: const Key('kioskColumnsDetail'),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+          children: [
+            KioskBundleDetail(bundle: bundle),
+            const SizedBox(height: 20),
+            const _WeekEnergyCard(),
+          ],
+        );
+      }
+    }
     final id = devices.any((d) => d.id == chosen) ? chosen : _fallback(devices);
     final d = id == null ? null : ref.watch(deviceProvider(id));
     final climate =

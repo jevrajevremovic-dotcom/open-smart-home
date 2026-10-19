@@ -1112,5 +1112,10 @@
   "kioskColumnsNoRooms": "Još nema prostorija. Dodajte oblasti u Home Assistantu.",
   "kioskColumnsDevices": "Uređaji",
   "kioskOpenDevice": "Otvori uređaj",
-  "kioskStyleColumns": "Kolone"
+  "kioskStyleColumns": "Kolone",
+  "kioskBundleMain": "Glavno",
+  "kioskBundleActions": "Radnje",
+  "kioskBundleSettings": "Podešavanja",
+  "kioskBundleState": "Stanje",
+  "kioskBundleCount": "{count} kontrola"
 }

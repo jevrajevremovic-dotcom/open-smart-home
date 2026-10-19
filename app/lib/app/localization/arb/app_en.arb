@@ -1658,5 +1658,11 @@
   "kioskColumnsNoRooms": "No rooms yet. Add areas in Home Assistant.",
   "kioskColumnsDevices": "Devices",
   "kioskOpenDevice": "Open device",
-  "kioskStyleColumns": "Columns"
+  "kioskStyleColumns": "Columns",
+  "kioskBundleMain": "Main",
+  "kioskBundleActions": "Actions",
+  "kioskBundleSettings": "Settings",
+  "kioskBundleState": "State",
+  "kioskBundleCount": "{count} controls",
+  "@kioskBundleCount": {"placeholders": {"count": {"type": "int"}}}
 }

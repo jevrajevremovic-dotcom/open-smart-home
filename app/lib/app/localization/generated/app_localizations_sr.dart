@@ -3947,6 +3947,23 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskStyleColumns => 'Kolone';
+
+  @override
+  String get kioskBundleMain => 'Glavno';
+
+  @override
+  String get kioskBundleActions => 'Radnje';
+
+  @override
+  String get kioskBundleSettings => 'Podešavanja';
+
+  @override
+  String get kioskBundleState => 'Stanje';
+
+  @override
+  String kioskBundleCount(int count) {
+    return '$count kontrola';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

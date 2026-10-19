@@ -6770,6 +6770,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Columns'**
   String get kioskStyleColumns;
+
+  /// No description provided for @kioskBundleMain.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get kioskBundleMain;
+
+  /// No description provided for @kioskBundleActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get kioskBundleActions;
+
+  /// No description provided for @kioskBundleSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get kioskBundleSettings;
+
+  /// No description provided for @kioskBundleState.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get kioskBundleState;
+
+  /// No description provided for @kioskBundleCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} controls'**
+  String kioskBundleCount(int count);
 }
 
 class _AppLocalizationsDelegate

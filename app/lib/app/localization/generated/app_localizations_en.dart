@@ -3926,4 +3926,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskStyleColumns => 'Columns';
+
+  @override
+  String get kioskBundleMain => 'Main';
+
+  @override
+  String get kioskBundleActions => 'Actions';
+
+  @override
+  String get kioskBundleSettings => 'Settings';
+
+  @override
+  String get kioskBundleState => 'State';
+
+  @override
+  String kioskBundleCount(int count) {
+    return '$count controls';
+  }
 }

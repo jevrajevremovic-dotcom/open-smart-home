@@ -31,6 +31,7 @@ import '../../weather/domain/weather.dart';
 import '../../weather/presentation/weather_labels.dart';
 import '../application/kiosk_controller.dart';
 import 'glass.dart';
+import 'kiosk_alarm.dart';
 import 'kiosk_layout_view.dart';
 import 'kiosk_panels.dart';
 import 'pin_dialog.dart';
@@ -129,6 +130,9 @@ class _Chips extends ConsumerWidget {
     );
     final amber = DeviceAccents.light.of(DeviceAccent.light);
     final warning = DeviceAccents.light.warning;
+    final alarm = ref.watch(kioskAlarmProvider);
+    final alarmState = alarm?.state.alarmState;
+    final armed = alarmState != null && alarmState != AlarmState.disarmed;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -174,6 +178,18 @@ class _Chips extends ConsumerWidget {
                   : DeviceAccents.light.of(DeviceAccent.media),
               onTap: () => showMediaSheet(context, playerId: playing),
             ),
+            if (alarm != null)
+              _Chip(
+                key: const Key('kioskAlarm'),
+                icon: armed ? Icons.shield : Icons.shield_outlined,
+                tooltip: DevicePresentation.status(l10n, alarm),
+                highlight: alarmState == AlarmState.triggered
+                    ? warning
+                    : armed
+                    ? DeviceAccents.light.of(DeviceAccent.cool)
+                    : null,
+                onTap: () => showKioskAlarm(context),
+              ),
             _Chip(
               key: const Key('kioskTimer'),
               icon: Icons.timer_outlined,

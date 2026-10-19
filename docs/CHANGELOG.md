@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Kiosk: panel vremena u niskom, širokom polju slaže trenutno vreme, sate i dane jedno pored drugog umesto da se smanji.
 - Kiosk: mehurići prostorija imaju istu boju po sobi kao na telefonu (prelaz preko tamne kartice), veliku providnu sliku sobe i žutu pilulu sa brojem upaljenih svetala umesto okrugle ikonice.
 - Prostorije i uređaji se sada jasno razlikuju: kartica prostorije ima svoju boju po vrsti sobe (dnevna soba žuta, spavaća ljubičasta, kuhinja zelena, kupatilo plava…) u blagom prelazu, veliku providnu sliku sobe u uglu i stanje u „pilulama” (upaljena svetla, vlažnost, broj uređaja), bez okrugle ikonice; pločice uređaja ostaju kontrole (okrugla ikonica, prekidač, boja po stanju) i malo su manje zaobljene.
 - Demo server prosleđuje i `data` iz `notify.mobile_app_…` (npr. `tag`), kao pravi Home Assistant.
@@ -22,6 +23,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kiosk raspored po dobu dana: dodatna stranica može da dobije vreme („Prikazuj samu”, npr. Veče 19:00–23:00, može i preko ponoći). Tada je ona podrazumevana: kiosk se otvara na njoj, vraća se na nju posle neaktivnosti i sam prelazi na nju (i nazad na početnu) kad period počne ili istekne, ako niko ne dira tablet. Vreme piše pored naslova stranice.
 - Kiosk: više stranica. U uređivanju rasporeda „Nova stranica” (prazna, Kamere ili Klima i energija), svaka stranica ima svoj raspored i ime (preimenuj/obriši). Zaglavlje ostaje, a paneli se prevlače levo-desno; tačkice na dnu pokazuju i biraju stranicu. Posle vremena „povratak na početak” bez dodira kiosk se vraća na početnu stranicu.
 - Kiosk panel „Energija” (dodaje se u rasporedu kioska): trenutna snaga kao veliki „brzinomer” (zeleno do 1 kW, narandžasto do 3 kW, crveno preko; skala 3/5/10/20 kW), današnja potrošnja i procena troška, solarna proizvodnja danas (ako postoji) i trenutna tarifa sa odbrojavanjem („Niža tarifa još 3 h 20 min”). Dnevni podaci se osvežavaju na 5 minuta.
 - Kiosk: dugme „Izlazim” u zaglavlju — spisak onoga što je ostalo upaljeno, otključano ili otvoreno (iz „Provere kuće”), pa jednim dodirom gasi/zaključava ono što aplikacija može i uključuje alarm (odsutni; sa kodom ako ga alarm traži) i kaže „Doviđenja!”. Prozore i vrata koje treba zatvoriti ručno posebno naglašava.

@@ -6554,6 +6554,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home'**
   String get kioskHomePage;
+
+  /// No description provided for @kioskPageSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Show by itself'**
+  String get kioskPageSchedule;
+
+  /// No description provided for @kioskPageScheduleFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Show this page from'**
+  String get kioskPageScheduleFrom;
+
+  /// No description provided for @kioskPageScheduleTo.
+  ///
+  /// In en, this message translates to:
+  /// **'until'**
+  String get kioskPageScheduleTo;
 }
 
 class _AppLocalizationsDelegate

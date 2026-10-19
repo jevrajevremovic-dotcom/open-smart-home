@@ -283,6 +283,15 @@ class KioskSettings {
   /// Extra pages after the home page (swipe left).
   final List<KioskPage> pages;
 
+  /// The page the kiosk returns to when left alone: the first extra page
+  /// whose time window contains [now], else the home page (0).
+  int defaultPageAt(DateTime now) {
+    for (final (i, p) in pages.indexed) {
+      if (p.activeAt(now)) return i + 1;
+    }
+    return 0;
+  }
+
   /// Layout of page [index] (0 = home).
   KioskLayout layoutOf(int index) => index <= 0 || index > pages.length
       ? effectiveLayout

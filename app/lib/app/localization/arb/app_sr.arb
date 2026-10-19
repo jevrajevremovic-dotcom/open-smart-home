@@ -1076,5 +1076,8 @@
   "kioskPageEmpty": "Prazna",
   "kioskPageClimateEnergy": "Klima i energija",
   "kioskPageNumber": "Stranica {number}",
-  "kioskHomePage": "Početna"
+  "kioskHomePage": "Početna",
+  "kioskPageSchedule": "Prikazuj samu",
+  "kioskPageScheduleFrom": "Prikazuj ovu stranicu od",
+  "kioskPageScheduleTo": "do"
 }

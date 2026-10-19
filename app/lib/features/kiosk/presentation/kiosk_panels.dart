@@ -206,97 +206,127 @@ class KioskWeatherPanel extends ConsumerWidget {
           label:
               '${l10n.weatherForecastTitle}. ${weatherConditionLabel(l10n, now.condition)}, '
               '${t(now.temperature)}',
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: ExcludeSemantics(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
+          child: LayoutBuilder(
+            builder: (context, c) {
+              // Low and wide cells: now, hours and days side by side, so
+              // nothing has to shrink.
+              final wide = c.maxWidth > c.maxHeight * 2.2 && next.isNotEmpty;
+              final parts = <Widget>[
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      weatherIcon(now.condition),
+                      size: 72,
+                      color: const Color(0xFF8CC8FF),
+                    ),
+                    const SizedBox(width: 14),
+                    Text(
+                      t(now.temperature),
+                      style: theme.textTheme.displayLarge?.copyWith(
+                        color: GlassColors.text,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -2,
+                      ),
+                    ),
+                    const SizedBox(width: 18),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          weatherConditionLabel(l10n, now.condition),
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            color: GlassColors.text,
+                          ),
+                        ),
+                        if (today != null)
+                          Text(
+                            '↑ ${t(today.high)}   ↓ ${t(today.low)}',
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: GlassColors.muted,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+                if (hours.isNotEmpty) ...[
+                  const SizedBox(height: 18),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        weatherIcon(now.condition),
-                        size: 72,
-                        color: const Color(0xFF8CC8FF),
-                      ),
-                      const SizedBox(width: 14),
-                      Text(
-                        t(now.temperature),
-                        style: theme.textTheme.displayLarge?.copyWith(
-                          color: GlassColors.text,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -2,
+                      for (final h in hours)
+                        cell(
+                          DateFormat.Hm(locale).format(h.time),
+                          weatherIcon(h.condition),
+                          t(h.temperature),
                         ),
-                      ),
-                      const SizedBox(width: 18),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            weatherConditionLabel(l10n, now.condition),
-                            style: theme.textTheme.headlineSmall?.copyWith(
-                              color: GlassColors.text,
-                            ),
-                          ),
-                          if (today != null)
-                            Text(
-                              '↑ ${t(today.high)}   ↓ ${t(today.low)}',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: GlassColors.muted,
-                              ),
-                            ),
-                        ],
-                      ),
                     ],
                   ),
-                  if (hours.isNotEmpty) ...[
-                    const SizedBox(height: 18),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        for (final h in hours)
-                          cell(
-                            DateFormat.Hm(locale).format(h.time),
-                            weatherIcon(h.condition),
-                            t(h.temperature),
-                          ),
-                      ],
-                    ),
-                  ],
-                  if (report.source == WeatherSource.homeLocation) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.weatherMetAttribution,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: GlassColors.faint,
-                      ),
-                    ),
-                  ],
-                  if (next.isNotEmpty) ...[
-                    const SizedBox(height: 14),
-                    Container(
-                      width: 66.0 * math.max(hours.length, next.length),
-                      height: 1,
-                      color: GlassColors.border,
-                    ),
-                    const SizedBox(height: 14),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        for (final day in next)
-                          cell(
-                            DateFormat.E(locale).format(day.date),
-                            weatherIcon(day.condition),
-                            t(day.high),
-                            t(day.low),
-                          ),
-                      ],
-                    ),
-                  ],
                 ],
-              ),
-            ),
+                if (report.source == WeatherSource.homeLocation) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.weatherMetAttribution,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: GlassColors.faint,
+                    ),
+                  ),
+                ],
+                if (next.isNotEmpty) ...[
+                  const SizedBox(height: 14),
+                  Container(
+                    width: 66.0 * math.max(hours.length, next.length),
+                    height: 1,
+                    color: GlassColors.border,
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (final day in next)
+                        cell(
+                          DateFormat.E(locale).format(day.date),
+                          weatherIcon(day.condition),
+                          t(day.high),
+                          t(day.low),
+                        ),
+                    ],
+                  ),
+                ],
+              ];
+              return FittedBox(
+                fit: BoxFit.scaleDown,
+                child: ExcludeSemantics(
+                  child: wide
+                      ? Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                parts.first,
+                                ...parts.whereType<Text>(),
+                              ],
+                            ),
+                            for (final row
+                                in parts.skip(1).whereType<Row>()) ...[
+                              Container(
+                                width: 1,
+                                height: 96,
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                ),
+                                color: GlassColors.border,
+                              ),
+                              row,
+                            ],
+                          ],
+                        )
+                      : Column(mainAxisSize: MainAxisSize.min, children: parts),
+                ),
+              );
+            },
           ),
         ),
       ),

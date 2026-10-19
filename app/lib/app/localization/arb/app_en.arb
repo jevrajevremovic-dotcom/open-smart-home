@@ -1615,5 +1615,8 @@
   "kioskPageClimateEnergy": "Climate and energy",
   "kioskPageNumber": "Page {number}",
   "@kioskPageNumber": {"placeholders": {"number": {"type": "int"}}},
-  "kioskHomePage": "Home"
+  "kioskHomePage": "Home",
+  "kioskPageSchedule": "Show by itself",
+  "kioskPageScheduleFrom": "Show this page from",
+  "kioskPageScheduleTo": "until"
 }

@@ -202,7 +202,13 @@ enum KioskPageTemplate { empty, cameras, climateEnergy }
 /// layout.
 @immutable
 class KioskPage {
-  const KioskPage({required this.id, required this.name, required this.layout});
+  const KioskPage({
+    required this.id,
+    required this.name,
+    required this.layout,
+    this.from,
+    this.to,
+  });
 
   static const maxPages = 6;
 
@@ -210,15 +216,31 @@ class KioskPage {
   final String name;
   final KioskLayout layout;
 
+  /// Shown by default between [from] and [to] (minutes after midnight, may
+  /// cross midnight); `null` = only when swiped to.
+  final int? from;
+  final int? to;
+
+  bool get scheduled => from != null && to != null && from != to;
+
+  bool activeAt(DateTime now) {
+    if (!scheduled) return false;
+    final m = now.hour * 60 + now.minute;
+    return from! < to! ? m >= from! && m < to! : m >= from! || m < to!;
+  }
+
   static KioskPage? tryParse(Object? json) {
     if (json is! Map) return null;
     final id = json['id'];
     final name = json['name'];
     if (id is! String || id.isEmpty || name is! String) return null;
+    int? minutes(Object? v) => v is int && v >= 0 && v < 24 * 60 ? v : null;
     return KioskPage(
       id: id,
       name: name,
       layout: KioskLayout.tryParse(json['panels']) ?? const KioskLayout([]),
+      from: minutes(json['from']),
+      to: minutes(json['to']),
     );
   }
 
@@ -249,13 +271,25 @@ class KioskPage {
     );
   }
 
-  KioskPage copyWith({String? name, KioskLayout? layout}) =>
-      KioskPage(id: id, name: name ?? this.name, layout: layout ?? this.layout);
+  KioskPage copyWith({
+    String? name,
+    KioskLayout? layout,
+    (int, int)? schedule,
+    bool clearSchedule = false,
+  }) => KioskPage(
+    id: id,
+    name: name ?? this.name,
+    layout: layout ?? this.layout,
+    from: clearSchedule ? null : (schedule?.$1 ?? from),
+    to: clearSchedule ? null : (schedule?.$2 ?? to),
+  );
 
   Map<String, Object?> toJson() => {
     'id': id,
     'name': name,
     'panels': layout.toJson(),
+    'from': ?from,
+    'to': ?to,
   };
 
   @override
@@ -263,8 +297,10 @@ class KioskPage {
       other is KioskPage &&
       other.id == id &&
       other.name == name &&
-      other.layout == layout;
+      other.layout == layout &&
+      other.from == from &&
+      other.to == to;
 
   @override
-  int get hashCode => Object.hash(id, name, layout);
+  int get hashCode => Object.hash(id, name, layout, from, to);
 }

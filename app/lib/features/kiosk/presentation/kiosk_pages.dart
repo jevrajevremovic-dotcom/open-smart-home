@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/localization/l10n.dart';
 import '../application/kiosk_controller.dart';
 import 'glass.dart';
+import '../data/kiosk_layout.dart';
 import 'kiosk_layout_view.dart';
+import 'kiosk_panels.dart' show kioskNowProvider;
 
 /// The kiosk's panels, page by page: the home layout, then the extra pages
 /// (swipe left/right, dots at the bottom). After a while without a touch
@@ -26,12 +28,21 @@ class KioskPages extends ConsumerStatefulWidget {
 class _KioskPagesState extends ConsumerState<KioskPages> {
   late final PageController _controller;
   Timer? _home;
+  DateTime _lastTouch = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    _controller = PageController(initialPage: ref.read(kioskPageProvider));
+    // Opening the kiosk shows the page for this time of day.
+    final start = ref.read(kioskSettingsProvider).defaultPageAt(DateTime.now());
+    _controller = PageController(initialPage: start);
+    Future.microtask(() {
+      if (mounted) ref.read(kioskPageProvider.notifier).set(start);
+    });
   }
+
+  int get _default =>
+      ref.read(kioskSettingsProvider).defaultPageAt(DateTime.now());
 
   @override
   void dispose() {
@@ -40,18 +51,32 @@ class _KioskPagesState extends ConsumerState<KioskPages> {
     super.dispose();
   }
 
-  /// Back to the home page after the kiosk's "return home" time.
+  Duration get _idleAfter {
+    final after = ref.read(kioskSettingsProvider).returnHomeAfter;
+    return after > Duration.zero ? after : const Duration(minutes: 1);
+  }
+
+  /// Back to the page for this time of day (normally home) after the
+  /// kiosk's "return home" time.
   void _arm() {
     _home?.cancel();
-    final page = ref.read(kioskPageProvider);
-    if (page == 0 || ref.read(kioskEditingProvider)) return;
-    final after = ref.read(kioskSettingsProvider).returnHomeAfter;
-    _home = Timer(
-      after > Duration.zero ? after : const Duration(minutes: 1),
-      () {
-        if (mounted) ref.read(kioskPageProvider.notifier).set(0);
-      },
-    );
+    if (ref.read(kioskPageProvider) == _default ||
+        ref.read(kioskEditingProvider)) {
+      return;
+    }
+    _home = Timer(_idleAfter, () {
+      if (mounted) ref.read(kioskPageProvider.notifier).set(_default);
+    });
+  }
+
+  /// A page's time window started or ended while nobody touched the panel.
+  void _followSchedule() {
+    if (ref.read(kioskEditingProvider)) return;
+    if (DateTime.now().difference(_lastTouch) < _idleAfter) return;
+    final page = _default;
+    if (ref.read(kioskPageProvider) != page) {
+      ref.read(kioskPageProvider.notifier).set(page);
+    }
   }
 
   @override
@@ -59,6 +84,7 @@ class _KioskPagesState extends ConsumerState<KioskPages> {
     final l10n = context.l10n;
     final pages = ref.watch(kioskSettingsProvider.select((s) => s.pages));
     final count = pages.length + 1;
+    ref.listen(kioskNowProvider, (_, _) => _followSchedule());
     ref.listen(kioskPageProvider, (_, page) {
       _arm();
       if (!_controller.hasClients) return;
@@ -94,7 +120,10 @@ class _KioskPagesState extends ConsumerState<KioskPages> {
     });
     return Listener(
       behavior: HitTestBehavior.translucent,
-      onPointerDown: (_) => _arm(),
+      onPointerDown: (_) {
+        _lastTouch = DateTime.now();
+        _arm();
+      },
       child: Column(
         children: [
           Expanded(
@@ -121,11 +150,26 @@ class _KioskPagesState extends ConsumerState<KioskPages> {
                       ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(4, 0, 4, 12),
-                      child: Text(
-                        pages[i - 1].name,
-                        key: ValueKey('kioskPageTitle-$i'),
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(color: GlassColors.text),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            pages[i - 1].name,
+                            key: ValueKey('kioskPageTitle-$i'),
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(color: GlassColors.text),
+                          ),
+                          if (pages[i - 1].scheduled) ...[
+                            const SizedBox(width: 12),
+                            Text(
+                              kioskPageWindow(pages[i - 1]),
+                              key: ValueKey('kioskPageWindow-$i'),
+                              style: Theme.of(context).textTheme.titleSmall
+                                  ?.copyWith(color: GlassColors.muted),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
                     Expanded(
@@ -171,4 +215,11 @@ class _KioskPagesState extends ConsumerState<KioskPages> {
       ),
     );
   }
+}
+
+/// "19:00–23:00".
+String kioskPageWindow(KioskPage p) {
+  String hm(int m) =>
+      '${(m ~/ 60).toString().padLeft(2, '0')}:${(m % 60).toString().padLeft(2, '0')}';
+  return '${hm(p.from!)}–${hm(p.to!)}';
 }

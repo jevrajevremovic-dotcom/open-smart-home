@@ -92,4 +92,51 @@ void main() {
     expect(find.byKey(const Key('kioskPages')), findsNothing);
     await unmount(tester);
   });
+
+  test('a page with a time window becomes the default page', () {
+    final evening = KioskPage.create(
+      KioskPageTemplate.empty,
+      'Veče',
+    ).copyWith(schedule: (19 * 60, 23 * 60));
+    final night = KioskPage.create(
+      KioskPageTemplate.empty,
+      'Noć',
+    ).copyWith(schedule: (23 * 60, 6 * 60));
+    final s = KioskSettings(pages: [evening, night]);
+    expect(s.defaultPageAt(DateTime(2026, 10, 19, 12)), 0);
+    expect(s.defaultPageAt(DateTime(2026, 10, 19, 20, 30)), 1);
+    expect(s.defaultPageAt(DateTime(2026, 10, 19, 23, 30)), 2);
+    expect(s.defaultPageAt(DateTime(2026, 10, 20, 2)), 2);
+    expect(KioskSettings.fromJson(s.toJson()).pages[1].to, 6 * 60);
+    expect(night.copyWith(clearSchedule: true).scheduled, isFalse);
+  });
+
+  testWidgets('the kiosk opens on the page for this time of day', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(1600, 1000));
+    await settle(tester, 10);
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    );
+    final now = DateTime.now();
+    final m = now.hour * 60 + now.minute;
+    await container
+        .read(kioskSettingsProvider.notifier)
+        .update(
+          (s) => s.copyWith(
+            pages: [
+              KioskPage.create(KioskPageTemplate.cameras, 'Sada').copyWith(
+                schedule: ((m - 30) % (24 * 60), (m + 30) % (24 * 60)),
+              ),
+            ],
+          ),
+        );
+    await goTo(tester, AppRoutes.settingsSection('kiosk'));
+    await tapKey(tester, 'startKiosk');
+    await settle(tester, 8);
+    expect(container.read(kioskPageProvider), 1);
+    expect(find.byKey(const ValueKey('kioskPageWindow-1')), findsOneWidget);
+    await unmount(tester);
+  });
 }

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/localization/l10n.dart';
+import '../../../core/widgets/time_picker.dart';
 import '../../../app/router/app_router.dart';
 import '../../cameras/application/camera_providers.dart';
 import '../../clap/clap_listener.dart' show clapCommandFor;
@@ -756,6 +757,11 @@ class KioskEditBar extends ConsumerWidget {
             )
           else ...[
             TextButton(
+              key: const Key('kioskPageSchedule'),
+              onPressed: () => scheduleKioskPage(context, ref, page),
+              child: Text(l10n.kioskPageSchedule),
+            ),
+            TextButton(
               key: const Key('kioskRenamePage'),
               onPressed: () => renameKioskPage(context, ref, page),
               child: Text(l10n.kioskRenamePage),
@@ -896,4 +902,45 @@ class _RenameDialogState extends State<_RenameDialog> {
       ],
     );
   }
+}
+
+/// When page [page] shows by itself: a time window (the same time twice =
+/// never).
+Future<void> scheduleKioskPage(
+  BuildContext context,
+  WidgetRef ref,
+  int page,
+) async {
+  final l10n = context.l10n;
+  final pages = ref.read(kioskSettingsProvider).pages;
+  if (page < 1 || page > pages.length) return;
+  final current = pages[page - 1];
+  TimeOfDay time(int m) => TimeOfDay(hour: m ~/ 60, minute: m % 60);
+  final from = await showAppTimePicker(
+    context: context,
+    initialTime: time(current.from ?? 19 * 60),
+    helpText: l10n.kioskPageScheduleFrom,
+  );
+  if (from == null || !context.mounted) return;
+  final to = await showAppTimePicker(
+    context: context,
+    initialTime: time(current.to ?? 23 * 60),
+    helpText: l10n.kioskPageScheduleTo,
+  );
+  if (to == null) return;
+  final schedule = (from.hour * 60 + from.minute, to.hour * 60 + to.minute);
+  await ref
+      .read(kioskSettingsProvider.notifier)
+      .update(
+        (s) => s.copyWith(
+          pages: [
+            for (final (i, p) in s.pages.indexed)
+              i == page - 1
+                  ? (schedule.$1 == schedule.$2
+                        ? p.copyWith(clearSchedule: true)
+                        : p.copyWith(schedule: schedule))
+                  : p,
+          ],
+        ),
+      );
 }

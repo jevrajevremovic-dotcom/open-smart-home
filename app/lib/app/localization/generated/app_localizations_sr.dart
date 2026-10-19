@@ -3812,6 +3812,15 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskHomePage => 'Početna';
+
+  @override
+  String get kioskPageSchedule => 'Prikazuj samu';
+
+  @override
+  String get kioskPageScheduleFrom => 'Prikazuj ovu stranicu od';
+
+  @override
+  String get kioskPageScheduleTo => 'do';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

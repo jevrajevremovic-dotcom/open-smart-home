@@ -3792,4 +3792,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskHomePage => 'Home';
+
+  @override
+  String get kioskPageSchedule => 'Show by itself';
+
+  @override
+  String get kioskPageScheduleFrom => 'Show this page from';
+
+  @override
+  String get kioskPageScheduleTo => 'until';
 }

@@ -134,7 +134,19 @@ class RoomDetailScreen extends ConsumerWidget {
                 homeSnapshotProvider.select((s) => s.rooms[roomId]?.name),
               ) ??
               '';
-    final groups = ref.watch(roomDeviceGroupsProvider(roomId));
+    final sections = ref.watch(roomDeviceGroupsProvider(roomId));
+    // One card per physical device: its parts are left out of the sections
+    // (the card sits in its main part's section).
+    final all = [for (final (_, ids) in sections) ...ids];
+    final parts = ref
+        .watch(homeSnapshotProvider.select((s) => groupedParts(s.devices, all)))
+        .toSet();
+    final groups = [
+      for (final (group, ids) in sections)
+        if (ids.where((id) => !parts.contains(id)).toList() case final shown
+            when shown.isNotEmpty)
+          (group, shown),
+    ];
 
     return Scaffold(
       appBar: AppBar(title: Text(name)),
@@ -181,7 +193,11 @@ class RoomDetailScreen extends ConsumerWidget {
               ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: DeviceSliverGrid(deviceIds: ids, withoutRoomName: true),
+              sliver: DeviceSliverGrid(
+                deviceIds: ids,
+                withoutRoomName: true,
+                groupFrom: all,
+              ),
             ),
           ],
           const SliverToBoxAdapter(child: SizedBox(height: 24)),

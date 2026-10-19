@@ -29,6 +29,7 @@ SmartHomeDevice _d(String id, String name, DeviceKind kind, {String? dev}) =>
     );
 
 void main() {
+  phoneGroups();
   test(
     'entities of one device become one bundle, named by what they share',
     () {
@@ -177,6 +178,42 @@ void main() {
     );
     await settle(tester, 4);
     expect(server.stateForTest('switch.fryer'), 'on');
+    await unmount(tester);
+  });
+}
+
+void phoneGroups() {
+  testWidgets('phone: a room shows the washer as one card, its parts inside', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await settle(tester, 10);
+    await goTo(tester, AppRoutes.room('kitchen'));
+    await settle(tester, 6);
+    // One card for plug + power sensor, with the number of parts.
+    expect(
+      find.byKey(const ValueKey('tileGroupCount-d_washer')),
+      findsOneWidget,
+    );
+    expect(find.byKey(const ValueKey('group:d_washer')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('sensor.washer_plug_power')),
+      findsNothing,
+    );
+    expect(find.text('Veš mašina'), findsOneWidget);
+    // Devices on their own stay as they were.
+    expect(find.byKey(const ValueKey('switch.coffee_machine')), findsOneWidget);
+
+    await tester.tap(find.text('Veš mašina'));
+    await settle(tester, 4);
+    expect(find.byKey(const ValueKey('kioskBundle-group:d_washer')), findsOne);
+    expect(find.byKey(const Key('applianceDone')), findsOneWidget);
+    // A part opens on its own screen (here: "tell me when it's done").
+    await tester.tap(
+      find.byKey(const ValueKey('kioskBundleState-sensor.washer_plug_power')),
+    );
+    await settle(tester, 4);
+    expect(find.byKey(const Key('applianceDone')), findsOneWidget);
     await unmount(tester);
   });
 }

@@ -19,9 +19,13 @@ import 'thermostat_dial.dart';
 /// its main control, actions (buttons), settings (switches, modes,
 /// numbers) and state (sensors).
 class KioskBundleDetail extends ConsumerWidget {
-  const KioskBundleDetail({super.key, required this.bundle});
+  const KioskBundleDetail({super.key, required this.bundle, this.onOpen});
 
   final DeviceBundle bundle;
+
+  /// Opens one part (a sensor with its chart); by default it is shown in
+  /// the kiosk's right column.
+  final void Function(SmartHomeDevice device)? onOpen;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -183,9 +187,12 @@ class KioskBundleDetail extends ConsumerWidget {
                     ),
                   ),
                 ),
-                // Shown on its own here, with its chart.
-                onTap: () =>
-                    ref.read(kioskColumnsDeviceProvider.notifier).select(d.id),
+                // Shown on its own, with its chart.
+                onTap: () => onOpen != null
+                    ? onOpen!(d)
+                    : ref
+                          .read(kioskColumnsDeviceProvider.notifier)
+                          .select(d.id),
               ),
           ]),
       ],

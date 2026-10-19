@@ -10,6 +10,7 @@ import '../../features/connection/presentation/token_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/devices/presentation/device_detail_screen.dart';
 import '../../features/add_device/presentation/add_device_screen.dart';
+import '../../features/devices/presentation/device_bundle_screen.dart';
 import '../../features/activity/activity_screen.dart';
 import '../../features/dashboard/presentation/dashboard_layout_screen.dart';
 import '../../features/calendar/presentation/calendar_screen.dart';
@@ -74,6 +75,11 @@ abstract final class AppRoutes {
       '${kiosk ? AppRoutes.kiosk : ''}$rooms/${Uri.encodeComponent(id ?? noRoomId)}';
   static String device(String id, {bool kiosk = false}) =>
       '${kiosk ? AppRoutes.kiosk : ''}/device/${Uri.encodeComponent(id)}';
+
+  /// All parts of one physical device ([deviceId] from Home Assistant's
+  /// device registry).
+  static String deviceGroup(String deviceId, {bool kiosk = false}) =>
+      '${kiosk ? AppRoutes.kiosk : ''}/device-group/${Uri.encodeComponent(deviceId)}';
 
   /// Destinations shown in the bottom bar / navigation rail, in order.
   static const shellDestinations = [home, rooms, favorites, scenes, settings];
@@ -172,6 +178,14 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'device/:deviceId',
                 builder: (_, state) => KioskScale(
                   child: DeviceDetailScreen(
+                    deviceId: state.pathParameters['deviceId']!,
+                  ),
+                ),
+              ),
+              GoRoute(
+                path: 'device-group/:deviceId',
+                builder: (_, state) => KioskScale(
+                  child: DeviceBundleScreen(
                     deviceId: state.pathParameters['deviceId']!,
                   ),
                 ),
@@ -322,6 +336,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/device/:deviceId',
             builder: (_, state) =>
                 DeviceDetailScreen(deviceId: state.pathParameters['deviceId']!),
+          ),
+          GoRoute(
+            path: '/device-group/:deviceId',
+            builder: (_, state) =>
+                DeviceBundleScreen(deviceId: state.pathParameters['deviceId']!),
           ),
           GoRoute(
             path: AppRoutes.favorites,

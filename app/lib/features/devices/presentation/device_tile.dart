@@ -21,9 +21,14 @@ class DeviceTile extends ConsumerWidget {
     super.key,
     required this.deviceId,
     this.withoutRoomName = false,
+    this.group,
   });
 
   final String deviceId;
+
+  /// The card stands for a whole physical device ([deviceId] is its main
+  /// part): its name, how many parts, and a tap opens all of them.
+  final ({String id, String name, int count})? group;
 
   /// Inside a room's own screen the room name in front is redundant.
   final bool withoutRoomName;
@@ -39,16 +44,18 @@ class DeviceTile extends ConsumerWidget {
         : null;
     return _DeviceCard(
       device: device,
-      name: DevicePresentation.shortName(device.name, roomName),
+      name: DevicePresentation.shortName(group?.name ?? device.name, roomName),
+      group: group,
     );
   }
 }
 
 class _DeviceCard extends ConsumerStatefulWidget {
-  const _DeviceCard({required this.device, required this.name});
+  const _DeviceCard({required this.device, required this.name, this.group});
 
   final SmartHomeDevice device;
   final String name;
+  final ({String id, String name, int count})? group;
 
   @override
   ConsumerState<_DeviceCard> createState() => _DeviceCardState();
@@ -141,7 +148,15 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             onTap: () => context.push(
-              AppRoutes.device(device.id, kiosk: ref.read(kioskActiveProvider)),
+              widget.group != null
+                  ? AppRoutes.deviceGroup(
+                      widget.group!.id,
+                      kiosk: ref.read(kioskActiveProvider),
+                    )
+                  : AppRoutes.device(
+                      device.id,
+                      kiosk: ref.read(kioskActiveProvider),
+                    ),
             ),
             child: Opacity(
               opacity: device.available ? 1 : 0.6,
@@ -166,6 +181,30 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
                           ),
                         ),
                         const Spacer(),
+                        if (widget.group case final g?)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: Tooltip(
+                              message: l10n.kioskBundleCount(g.count),
+                              child: Container(
+                                key: ValueKey('tileGroupCount-${g.id}'),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: disc,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  '${g.count}',
+                                  style: theme.textTheme.labelMedium?.copyWith(
+                                    color: onFillMuted,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         if (device.hasLowBattery)
                           Tooltip(
                             message: l10n.lowBattery,

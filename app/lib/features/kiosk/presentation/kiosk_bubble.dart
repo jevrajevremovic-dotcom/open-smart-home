@@ -24,7 +24,7 @@ import '../../notifications/application/notifications_provider.dart';
 import '../../notifications/presentation/notifications.dart';
 import '../../dashboard/presentation/dashboard_screen.dart'
     show ConnectionIndicator;
-import '../../rooms/presentation/room_card.dart' show roomIcon;
+import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
 import '../../weather/application/weather_providers.dart';
 import '../../weather/domain/weather.dart';
 import '../../weather/presentation/weather_labels.dart';
@@ -467,119 +467,163 @@ class _RoomBubble extends ConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final summary = ref.watch(roomSummaryProvider(roomId));
-    final active = summary.lightsOn > 0 || summary.activeCount > 0;
+    // Same colour per room as on the phone; lights on show as a pill.
+    final color = roomColor(icon, name);
     final pastel = DeviceAccents.light.of(DeviceAccent.light);
-    final bg = active ? pastel.container : BubbleColors.card;
-    final fg = active ? pastel.onContainer : GlassColors.text;
-    final sub = active
-        ? pastel.onContainer.withValues(alpha: 0.75)
-        : GlassColors.faint;
-    return Material(
-      key: ValueKey('kioskRoom-$roomId'),
-      color: bg,
-      borderRadius: BorderRadius.circular(28),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => showBubbleRoom(context, roomId: roomId, name: name),
-        onLongPress: () => context.push(AppRoutes.room(roomId, kiosk: true)),
-        child: LayoutBuilder(
-          builder: (context, c) {
-            // Short cells (many rooms in a low panel): smaller icon and type.
-            final compact = c.maxHeight < 150;
-            final disc = compact ? 38.0 : 48.0;
-            return Padding(
-              padding: EdgeInsets.all(compact ? 14 : 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+    const fg = GlassColors.text;
+    const sub = GlassColors.faint;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color.lerp(BubbleColors.card, color, 0.18)!,
+            Color.lerp(BubbleColors.card, color, 0.40)!,
+          ],
+        ),
+      ),
+      child: Material(
+        key: ValueKey('kioskRoom-$roomId'),
+        type: MaterialType.transparency,
+        borderRadius: BorderRadius.circular(28),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => showBubbleRoom(context, roomId: roomId, name: name),
+          onLongPress: () => context.push(AppRoutes.room(roomId, kiosk: true)),
+          child: LayoutBuilder(
+            builder: (context, c) {
+              // Short cells (many rooms in a low panel): smaller icon and type.
+              final compact = c.maxHeight < 150;
+              return Stack(
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          name,
-                          maxLines: compact ? 1 : 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            color: fg,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        width: disc,
-                        height: disc,
-                        decoration: BoxDecoration(
-                          color: active ? pastel.onContainer : Colors.black,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          roomIcon(icon),
-                          size: compact ? 20 : 24,
-                          color: active ? pastel.container : Colors.white,
-                        ),
-                      ),
-                    ],
+                  Positioned(
+                    right: -12,
+                    bottom: -16,
+                    child: Icon(
+                      roomIcon(icon),
+                      size: compact ? 84 : 120,
+                      color: color.withValues(alpha: 0.32),
+                    ),
                   ),
-                  // Whatever room is left: the value shrinks rather than
-                  // overflow (large system text, short cells).
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.bottomLeft,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
+                  Padding(
+                    padding: EdgeInsets.all(compact ? 14 : 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              summary.temperature == null
-                                  ? (summary.lightsOn > 0
-                                        ? l10n.roomLightsOn(summary.lightsOn)
-                                        : l10n.roomDevicesCount(
-                                            summary.deviceCount,
-                                          ))
-                                  : formatNumber(
-                                      l10n.localeName,
-                                      summary.temperature!,
-                                      unit: '°',
-                                    ),
-                              maxLines: 1,
-                              style: summary.temperature == null
-                                  ? theme.textTheme.titleSmall?.copyWith(
-                                      color: fg,
-                                    )
-                                  : (compact
-                                            ? theme.textTheme.headlineMedium
-                                            : theme.textTheme.displaySmall)
-                                        ?.copyWith(
-                                          color: fg,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                            ),
-                            if (summary.humidity != null) ...[
-                              const SizedBox(width: 6),
-                              Text(
-                                formatNumber(
-                                  l10n.localeName,
-                                  summary.humidity!,
-                                  unit: '%',
+                            Expanded(
+                              child: Text(
+                                name,
+                                maxLines: compact ? 1 : 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  color: fg,
                                 ),
-                                style: theme.textTheme.labelMedium?.copyWith(
-                                  color: sub,
+                              ),
+                            ),
+                            if (summary.lightsOn > 0) ...[
+                              const SizedBox(width: 8),
+                              Container(
+                                key: ValueKey('kioskRoomLights-$roomId'),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: pastel.container,
+                                  borderRadius: BorderRadius.circular(99),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.lightbulb,
+                                      size: 16,
+                                      color: pastel.onContainer,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${summary.lightsOn}',
+                                      style: theme.textTheme.labelLarge
+                                          ?.copyWith(color: pastel.onContainer),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ],
                         ),
-                      ),
+                        // Whatever room is left: the value shrinks rather than
+                        // overflow (large system text, short cells).
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.bottomLeft,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Text(
+                                    summary.temperature == null
+                                        ? (summary.lightsOn > 0
+                                              ? l10n.roomLightsOn(
+                                                  summary.lightsOn,
+                                                )
+                                              : l10n.roomDevicesCount(
+                                                  summary.deviceCount,
+                                                ))
+                                        : formatNumber(
+                                            l10n.localeName,
+                                            summary.temperature!,
+                                            unit: '°',
+                                          ),
+                                    maxLines: 1,
+                                    style: summary.temperature == null
+                                        ? theme.textTheme.titleSmall?.copyWith(
+                                            color: fg,
+                                          )
+                                        : (compact
+                                                  ? theme
+                                                        .textTheme
+                                                        .headlineMedium
+                                                  : theme
+                                                        .textTheme
+                                                        .displaySmall)
+                                              ?.copyWith(
+                                                color: fg,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                  ),
+                                  if (summary.humidity != null) ...[
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      formatNumber(
+                                        l10n.localeName,
+                                        summary.humidity!,
+                                        unit: '%',
+                                      ),
+                                      style: theme.textTheme.labelMedium
+                                          ?.copyWith(color: sub),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

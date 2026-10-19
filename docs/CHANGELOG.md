@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Kiosk: mehurići prostorija imaju istu boju po sobi kao na telefonu (prelaz preko tamne kartice), veliku providnu sliku sobe i žutu pilulu sa brojem upaljenih svetala umesto okrugle ikonice.
 - Prostorije i uređaji se sada jasno razlikuju: kartica prostorije ima svoju boju po vrsti sobe (dnevna soba žuta, spavaća ljubičasta, kuhinja zelena, kupatilo plava…) u blagom prelazu, veliku providnu sliku sobe u uglu i stanje u „pilulama” (upaljena svetla, vlažnost, broj uređaja), bez okrugle ikonice; pločice uređaja ostaju kontrole (okrugla ikonica, prekidač, boja po stanju) i malo su manje zaobljene.
 - Demo server prosleđuje i `data` iz `notify.mobile_app_…` (npr. `tag`), kao pravi Home Assistant.
 - AOD bolje vidljiv: u mirovanju osvetljenje ekrana više ne pada na minimum (1 %), već na „Osvetljenost u mirovanju” (podrazumevano 40 %, klizač 5–100 % u Kiosk podešavanjima; noću važi tamnije od toga i „Tamnije noću”); sat je beo i deblji, ostali tekst svetliji.

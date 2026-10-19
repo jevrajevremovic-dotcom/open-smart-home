@@ -5,6 +5,8 @@ import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/kiosk/data/kiosk_settings.dart';
+import 'package:open_smart_home/features/board/board_screen.dart';
+import 'package:open_smart_home/features/todo/todo_screen.dart';
 import 'package:open_smart_home/features/weather/presentation/weather_card.dart';
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 
@@ -246,6 +248,39 @@ void main() {
       ),
       findsWidgets,
     );
+    await unmount(tester);
+  });
+
+  testWidgets('lists and the board open inside the kiosk', (tester) async {
+    await kiosk(tester, const Size(1600, 1000));
+    final overview = find
+        .descendant(
+          of: find.byKey(const Key('kioskColumnsOverview')),
+          matching: find.byType(Scrollable),
+        )
+        .first;
+    final list = find.text('Spisak za kupovinu');
+    await tester.scrollUntilVisible(list, 300, scrollable: overview);
+    await tester.tap(list);
+    await settle(tester, 6);
+    expect(find.byType(TodoScreen), findsOneWidget);
+
+    await goTo(tester, AppRoutes.kiosk);
+    await settle(tester, 6);
+    final board = find.byKey(const Key('openBoardCard'));
+    await tester.scrollUntilVisible(
+      board,
+      300,
+      scrollable: find
+          .descendant(
+            of: find.byKey(const Key('kioskColumnsOverview')),
+            matching: find.byType(Scrollable),
+          )
+          .first,
+    );
+    await tester.tap(board);
+    await settle(tester, 6);
+    expect(find.byType(BoardListScreen), findsOneWidget);
     await unmount(tester);
   });
 }

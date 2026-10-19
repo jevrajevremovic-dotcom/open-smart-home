@@ -53,7 +53,10 @@ abstract final class AppRoutes {
   static const boardList = '/board';
   static String board(String pageId, {bool kiosk = false}) =>
       '${kiosk ? AppRoutes.kiosk : ''}$boardList/$pageId';
-  static String todoList(String id) => '$todo/${Uri.encodeComponent(id)}';
+  static String todoList(String id, {bool kiosk = false}) =>
+      '${kiosk ? AppRoutes.kiosk : ''}$todo/${Uri.encodeComponent(id)}';
+  static String boardListFor({bool kiosk = false}) =>
+      '${kiosk ? AppRoutes.kiosk : ''}$boardList';
   static String houseCheckFor(String mode) => '$houseCheck?mode=$mode';
   static const dashboardLayout = '/home-layout';
   static const addDevice = '/add-device';
@@ -177,6 +180,23 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: 'board/:pageId',
                 builder: (_, state) =>
                     BoardEditorScreen(pageId: state.pathParameters['pageId']!),
+              ),
+              // Lists and the board's pages stay inside the kiosk too.
+              GoRoute(
+                path: 'board',
+                builder: (_, _) => const KioskScale(child: BoardListScreen()),
+              ),
+              GoRoute(
+                path: 'lists',
+                builder: (_, _) => const KioskScale(child: TodoScreen()),
+                routes: [
+                  GoRoute(
+                    path: ':listId',
+                    builder: (_, state) => KioskScale(
+                      child: TodoScreen(listId: state.pathParameters['listId']),
+                    ),
+                  ),
+                ],
               ),
               GoRoute(
                 path: 'weather',

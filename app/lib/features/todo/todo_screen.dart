@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../app/localization/l10n.dart';
 import '../../app/router/app_router.dart';
+import '../kiosk/application/kiosk_controller.dart';
 import '../../core/errors/app_failure.dart';
 import '../../core/errors/failure_messages.dart';
 import '../../core/widgets/responsive.dart';
@@ -39,7 +40,9 @@ class TodoScreen extends ConsumerWidget {
           IconButton(
             key: const Key('openBoard'),
             tooltip: l10n.boardTitle,
-            onPressed: () => context.push(AppRoutes.boardList),
+            onPressed: () => context.push(
+              AppRoutes.boardListFor(kiosk: ref.read(kioskActiveProvider)),
+            ),
             icon: const Icon(Icons.draw_outlined),
           ),
         ],
@@ -63,8 +66,12 @@ class TodoScreen extends ConsumerWidget {
                                 key: ValueKey('todoList-${l.id}'),
                                 label: Text(l.name),
                                 selected: l.id == current.id,
-                                onSelected: (_) =>
-                                    context.replace(AppRoutes.todoList(l.id)),
+                                onSelected: (_) => context.replace(
+                                  AppRoutes.todoList(
+                                    l.id,
+                                    kiosk: ref.read(kioskActiveProvider),
+                                  ),
+                                ),
                               ),
                           ],
                         ),
@@ -404,7 +411,9 @@ class TodoListsCard extends ConsumerWidget {
             title: Text(l10n.boardTitle),
             subtitle: pages == null ? null : Text(l10n.boardPageCount(pages)),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push(AppRoutes.boardList),
+            onTap: () => context.push(
+              AppRoutes.boardListFor(kiosk: ref.read(kioskActiveProvider)),
+            ),
           ),
         ],
       ),
@@ -454,7 +463,9 @@ class _ListSummary extends ConsumerWidget {
               backgroundColor: theme.colorScheme.primary,
               textColor: theme.colorScheme.onPrimary,
             ),
-      onTap: () => context.push(AppRoutes.todoList(list.id)),
+      onTap: () => context.push(
+        AppRoutes.todoList(list.id, kiosk: ref.read(kioskActiveProvider)),
+      ),
     );
   }
 }

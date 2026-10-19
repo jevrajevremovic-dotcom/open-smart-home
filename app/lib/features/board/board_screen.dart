@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../app/localization/l10n.dart';
 import '../../app/router/app_router.dart';
+import '../kiosk/application/kiosk_controller.dart';
 import '../../core/errors/app_failure.dart';
 import '../../core/widgets/skeleton.dart';
 import '../../core/widgets/status_widgets.dart';
@@ -27,8 +28,12 @@ class BoardListScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l10n.boardTitle)),
       floatingActionButton: FloatingActionButton.extended(
         key: const Key('boardNewPage'),
-        onPressed: () =>
-            context.push(AppRoutes.board(BoardRepository.newPageId())),
+        onPressed: () => context.push(
+          AppRoutes.board(
+            BoardRepository.newPageId(),
+            kiosk: ref.read(kioskActiveProvider),
+          ),
+        ),
         icon: const Icon(Icons.draw_outlined),
         label: Text(l10n.boardNewPage),
       ),
@@ -57,7 +62,10 @@ class BoardListScreen extends ConsumerWidget {
                         for (final page in value)
                           SizedBox(
                             width: (c.maxWidth - 12 * (columns - 1)) / columns,
-                            child: BoardPageCard(image: page),
+                            child: BoardPageCard(
+                              image: page,
+                              kiosk: ref.watch(kioskActiveProvider),
+                            ),
                           ),
                       ],
                     );

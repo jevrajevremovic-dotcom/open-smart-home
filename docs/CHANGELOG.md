@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Ispravljeno: u kiosku dodir na listu ili tablu (kartica „Liste”) nije ništa otvarao nego je vraćao na vrh kioska — ti ekrani nisu imali kiosk adresu, pa ih kiosk nije puštao. Sada liste, spisak tabli i nova stranica table rade unutar kioska.
 - Kiosk „Kolone”, Početna: kalendar pola-pola — obaveze levo, mesec desno.
 - Kiosk „Kolone”, Početna: kalendar sa mesecom preko cele širine kartice i ≈ 1,5× većim danima, nazivima dana i naslovom meseca (čitljivo iz sobe), naslov iznad, događaji za danas i sutra ispod.
 - Sređivanje koda (bez promene ponašanja): najveće datoteke podeljene na delove (`part`) — paneli kioska (vreme, prostorije, prečice, statusna traka), zaglavlje kioska i prozor sobe, početni ekran (pregled, sekcije), editor rasporeda i stranica kioska, demo server (server, socket, API); najveća datoteka aplikacije sada ima ≈ 460 linija (demo server ≈ 1.550).

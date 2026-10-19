@@ -7,6 +7,8 @@ import '../../../app/localization/l10n.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../authentication/application/session_controller.dart';
+import '../../timers/kiosk_timers.dart' show timerLabel;
+import '../../timers/kitchen_timers.dart';
 import '../application/voice_providers.dart';
 import '../data/speech_output.dart';
 import '../data/voice_input.dart';
@@ -153,15 +155,36 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
     final l10n = context.l10n;
     final trimmed = text.trim();
     final api = ref.read(homeAssistantApiProvider);
-    if (trimmed.isEmpty || _busy || api == null) return;
+    if (trimmed.isEmpty || _busy) return;
+    // Timers work without a connection; everything else needs HA.
+    if (api == null && parseTimerCommand(trimmed) == null) return;
     setState(() {
       _messages.add(_Message(trimmed, fromUser: true));
       _busy = true;
       _controller.clear();
     });
     _scrollToEnd();
+    // Timers run on this device: Home Assistant is not asked.
+    if (parseTimerCommand(trimmed) case final duration?) {
+      await ref.read(kitchenTimersProvider.notifier).start(duration);
+      final answer = l10n.timerStarted(timerLabel(duration));
+      if (speak && _speech.supported && ref.read(assistSpeakProvider)) {
+        unawaited(
+          _speech
+              .speak(answer, languageTag: l10n.localeName)
+              .catchError((Object _) => false),
+        );
+      }
+      if (!mounted) return;
+      setState(() {
+        _messages.add(_Message(answer, fromUser: false));
+        _busy = false;
+      });
+      _scrollToEnd();
+      return;
+    }
     try {
-      final reply = await api.processConversation(
+      final reply = await api!.processConversation(
         trimmed,
         language: l10n.localeName,
         conversationId: _conversationId,

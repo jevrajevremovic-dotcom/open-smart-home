@@ -1571,5 +1571,17 @@
   "kioskOpenAlert": "Door or window open longer than",
   "kioskOpenAlertNever": "Never",
   "kioskOpenAlertMinutes": "{minutes} min",
-  "@kioskOpenAlertMinutes": {"placeholders": {"minutes": {"type": "int"}}}
+  "@kioskOpenAlertMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+  "timerTitle": "Timer",
+  "timerNew": "New timer",
+  "timerStart": "Start",
+  "timerStop": "Stop",
+  "timerCancel": "Cancel timer",
+  "timerAddMinute": "+1 min",
+  "timerDone": "Timer {label} is done",
+  "@timerDone": {"placeholders": {"label": {"type": "String"}}},
+  "timerDoneSpeech": "The {label} timer is done.",
+  "@timerDoneSpeech": {"placeholders": {"label": {"type": "String"}}},
+  "timerStarted": "Timer for {label} started.",
+  "@timerStarted": {"placeholders": {"label": {"type": "String"}}}
 }

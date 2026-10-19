@@ -13,6 +13,8 @@ import '../../authentication/application/session_controller.dart';
 import '../../clap/clap_platform.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../application/voice_providers.dart';
+import '../../timers/kiosk_timers.dart' show timerLabel;
+import '../../timers/kitchen_timers.dart';
 import '../data/wake_word.dart';
 
 enum _Phase { command, answer, notUnderstood, missing }
@@ -121,6 +123,7 @@ class _KioskWakeWordListenerState extends ConsumerState<KioskWakeWordListener> {
       String? error;
       var woke = false;
       WakeAnswer? answer;
+      Duration? timer;
       final done = _runDone = Completer<void>();
       _run = runWakeWordPipeline(ws, _audio.stream).listen(
         (event) {
@@ -131,6 +134,7 @@ class _KioskWakeWordListenerState extends ConsumerState<KioskWakeWordListener> {
               woke = true;
               _show(_Phase.command);
             case WakeHeard(:final text):
+              timer = parseTimerCommand(text);
               if (mounted) setState(() => _heard = text);
             case WakeAnswer():
               answer = event;
@@ -157,7 +161,13 @@ class _KioskWakeWordListenerState extends ConsumerState<KioskWakeWordListener> {
         _show(_Phase.missing);
         return;
       }
-      if (answer case final a?) {
+      if (timer case final duration?) {
+        // Timers run on the tablet; Home Assistant's own answer (it has no
+        // timers for this device) is replaced.
+        await ref.read(kitchenTimersProvider.notifier).start(duration);
+        if (!mounted) return;
+        await _speakText(context.l10n.timerStarted(timerLabel(duration)));
+      } else if (answer case final a?) {
         await _speakAnswer(a);
       } else if (woke) {
         _show(_Phase.notUnderstood);
@@ -176,12 +186,20 @@ class _KioskWakeWordListenerState extends ConsumerState<KioskWakeWordListener> {
     }
   }
 
-  Future<void> _speakAnswer(WakeAnswer a) async {
+  Future<void> _speakAnswer(WakeAnswer a) {
     final l10n = context.l10n;
     final speech = a.reply.speech;
-    _answer = speech.isEmpty
-        ? (a.reply.isError ? l10n.assistNotUnderstood : '✓')
-        : speech;
+    return _speakText(
+      speech,
+      shown: speech.isEmpty
+          ? (a.reply.isError ? l10n.assistNotUnderstood : '✓')
+          : speech,
+    );
+  }
+
+  Future<void> _speakText(String speech, {String? shown}) async {
+    final l10n = context.l10n;
+    _answer = shown ?? speech;
     _show(_Phase.answer);
     final out = ref.read(speechOutputProvider);
     if (speech.isNotEmpty && out.supported && ref.read(assistSpeakProvider)) {

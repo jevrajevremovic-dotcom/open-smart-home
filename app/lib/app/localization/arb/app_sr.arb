@@ -1044,5 +1044,14 @@
   "kioskAlertSettingHint": "Dim, ugljen-monoksid, curenje vode, aktiviran alarm ili zaglavljena brava prekrivaju ceo ekran i izgovore se, dok neko ne potvrdi.",
   "kioskOpenAlert": "Vrata ili prozor otvoreni duže od",
   "kioskOpenAlertNever": "Nikad",
-  "kioskOpenAlertMinutes": "{minutes} min"
+  "kioskOpenAlertMinutes": "{minutes} min",
+  "timerTitle": "Tajmer",
+  "timerNew": "Novi tajmer",
+  "timerStart": "Pokreni",
+  "timerStop": "Isključi",
+  "timerCancel": "Otkaži tajmer",
+  "timerAddMinute": "+1 min",
+  "timerDone": "Tajmer {label} je istekao",
+  "timerDoneSpeech": "Tajmer od {label} je istekao.",
+  "timerStarted": "Tajmer od {label} je pokrenut."
 }

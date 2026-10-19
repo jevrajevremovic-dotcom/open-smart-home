@@ -3674,6 +3674,39 @@ class AppLocalizationsSr extends AppLocalizations {
   String kioskOpenAlertMinutes(int minutes) {
     return '$minutes min';
   }
+
+  @override
+  String get timerTitle => 'Tajmer';
+
+  @override
+  String get timerNew => 'Novi tajmer';
+
+  @override
+  String get timerStart => 'Pokreni';
+
+  @override
+  String get timerStop => 'Isključi';
+
+  @override
+  String get timerCancel => 'Otkaži tajmer';
+
+  @override
+  String get timerAddMinute => '+1 min';
+
+  @override
+  String timerDone(String label) {
+    return 'Tajmer $label je istekao';
+  }
+
+  @override
+  String timerDoneSpeech(String label) {
+    return 'Tajmer od $label je istekao.';
+  }
+
+  @override
+  String timerStarted(String label) {
+    return 'Tajmer od $label je pokrenut.';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

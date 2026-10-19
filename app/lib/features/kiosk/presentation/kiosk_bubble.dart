@@ -25,6 +25,7 @@ import '../../notifications/presentation/notifications.dart';
 import '../../dashboard/presentation/dashboard_screen.dart'
     show ConnectionIndicator;
 import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
+import '../../timers/kiosk_timers.dart';
 import '../../weather/application/weather_providers.dart';
 import '../../weather/domain/weather.dart';
 import '../../weather/presentation/weather_labels.dart';
@@ -172,6 +173,12 @@ class _Chips extends ConsumerWidget {
                   ? null
                   : DeviceAccents.light.of(DeviceAccent.media),
               onTap: () => showMediaSheet(context, playerId: playing),
+            ),
+            _Chip(
+              key: const Key('kioskTimer'),
+              icon: Icons.timer_outlined,
+              tooltip: l10n.timerTitle,
+              onTap: () => showTimerPicker(context, ref),
             ),
             _Chip(
               key: const Key('kioskAssist'),

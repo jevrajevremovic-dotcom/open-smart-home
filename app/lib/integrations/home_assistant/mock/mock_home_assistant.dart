@@ -215,6 +215,10 @@ class MockHomeAssistantServer {
   /// Language of the demo Assist pipeline.
   String assistLanguage = 'en';
 
+  /// What the demo pipeline "hears" after the wake word (default: turn off
+  /// the lights in [assistLanguage]).
+  String? assistHeard;
+
   String uploadImage(Uint8List bytes, String filename) {
     final id = (++_imageSeq).toRadixString(16).padLeft(32, '0');
     final item = <String, Object?>{
@@ -2123,7 +2127,9 @@ class _MockSocket implements HaSocket {
         if (_assistBytes < 16000) return; // half a second
         _assistStage = 2;
         final sr = _server.assistLanguage.startsWith('sr');
-        final text = sr ? 'ugasi svetla' : 'turn off the lights';
+        final text =
+            _server.assistHeard ??
+            (sr ? 'ugasi svetla' : 'turn off the lights');
         _assistEvent('stt-vad-end', {'timestamp': 500});
         _assistEvent('stt-end', {
           'stt_output': {'text': text},

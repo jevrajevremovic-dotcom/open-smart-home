@@ -6362,6 +6362,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} min'**
   String kioskOpenAlertMinutes(int minutes);
+
+  /// No description provided for @timerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get timerTitle;
+
+  /// No description provided for @timerNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New timer'**
+  String get timerNew;
+
+  /// No description provided for @timerStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get timerStart;
+
+  /// No description provided for @timerStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get timerStop;
+
+  /// No description provided for @timerCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel timer'**
+  String get timerCancel;
+
+  /// No description provided for @timerAddMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'+1 min'**
+  String get timerAddMinute;
+
+  /// No description provided for @timerDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer {label} is done'**
+  String timerDone(String label);
+
+  /// No description provided for @timerDoneSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'The {label} timer is done.'**
+  String timerDoneSpeech(String label);
+
+  /// No description provided for @timerStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Timer for {label} started.'**
+  String timerStarted(String label);
 }
 
 class _AppLocalizationsDelegate

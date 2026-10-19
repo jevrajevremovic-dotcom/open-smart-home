@@ -3655,4 +3655,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String kioskOpenAlertMinutes(int minutes) {
     return '$minutes min';
   }
+
+  @override
+  String get timerTitle => 'Timer';
+
+  @override
+  String get timerNew => 'New timer';
+
+  @override
+  String get timerStart => 'Start';
+
+  @override
+  String get timerStop => 'Stop';
+
+  @override
+  String get timerCancel => 'Cancel timer';
+
+  @override
+  String get timerAddMinute => '+1 min';
+
+  @override
+  String timerDone(String label) {
+    return 'Timer $label is done';
+  }
+
+  @override
+  String timerDoneSpeech(String label) {
+    return 'The $label timer is done.';
+  }
+
+  @override
+  String timerStarted(String label) {
+    return 'Timer for $label started.';
+  }
 }

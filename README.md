@@ -42,7 +42,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Kiosk: iskačuća kamera kad neko pozvoni ili se pomeri ispred vrata
 - Kiosk: dvostruki pljesak za bilo koji uređaj ili scenu (Android, po želji, samo jačina zvuka na uređaju; otključavanje i sl. uz potvrdu)
 - Kiosk: stakleni paneli preko gradijenta, sat, ukućani, statusi po izboru, kamera, vreme, termostat, sobe, prečice, kalendar, mediji i Assist; PIN za izlaz, čuvar ekrana, povratak na početak
-- Assist: tekstualne i glasovne komande (govor se podrazumevano prepoznaje samo na uređaju)
+- Assist: tekstualne i glasovne komande (govor se podrazumevano prepoznaje samo na uređaju), izgovoreni odgovori, aplikacija kao asistent telefona; na zidnom tabletu ključna reč bez ruku (prepoznaje je Home Assistant, openWakeWord)
 - Android: widget „Scene” na početnom ekranu, prečice na ikonici, opciona obaveštenja o kritičnim upozorenjima (dim, CO, curenje vode, alarm) dok aplikacija radi
 - Energija: snaga uživo, potrošnja po satima/danima, solar, baterija, gas, najveći potrošači, procena troška
 

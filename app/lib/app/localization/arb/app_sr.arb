@@ -984,5 +984,13 @@
   "assistSpeak": "Izgovaraj odgovore",
   "assistSpeakHint": "Kad pitate glasom, odgovor se i izgovori (sintetizator govora na uređaju, ništa se ne šalje).",
   "assistDefault": "Asistent telefona",
-  "assistDefaultHint": "Izaberite Open Smart Home za „digitalnog asistenta”: dugi pritisak na Home ili dugme za napajanje otvara Assist koji odmah sluša."
+  "assistDefaultHint": "Izaberite Open Smart Home za „digitalnog asistenta”: dugi pritisak na Home ili dugme za napajanje otvara Assist koji odmah sluša.",
+  "wakeWordSetting": "Ključna reč (bez ruku)",
+  "wakeWordSettingHint": "Izgovorite ključnu reč podešenu u Home Assistantu (na primer „Okay Nabu”), pa komandu. Samo dok je kiosk na ekranu.",
+  "wakeWordPrivacyTitle": "Slušati ključnu reč?",
+  "wakeWordPrivacyBody": "Dok je kiosk na ekranu mikrofon je stalno uključen (Android prikazuje oznaku mikrofona), a zvuk se neprekidno šalje Vašem Home Assistant serveru, istom vezom kao i sve ostalo, da bi njegov prepoznavač ključne reči (openWakeWord) čuo ključnu reč. Na ovom tabletu se ništa ne snima niti čuva. Šta Home Assistant radi sa komandom posle ključne reči zavisi od njegovih Assist podešavanja: lokalno prepoznavanje (na primer Whisper) ostaje kod kuće, Home Assistant Cloud je šalje na internet.",
+  "wakeWordAllow": "Uključi",
+  "wakeWordActive": "Sluša se ključna reč",
+  "wakeWordMissing": "Home Assistant nema prepoznavač ključne reči. Instalirajte dodatak openWakeWord (Wyoming integracija ga sama pronalazi), pa ponovo uključite ovu opciju.",
+  "wakeWordNeedsServer": "Potrebna je veza sa Home Assistantom."
 }

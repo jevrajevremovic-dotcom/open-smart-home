@@ -126,6 +126,14 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Cilj može biti bilo koji uređaj (izbor korisnika). Kritične radnje — otključavanje, otvaranje garaže, isključivanje alarma — idu istim putem kao dodir: potvrda na ekranu (i opciono otisak/lice), pa zvuk spolja ili sa TV-a sam ne može da otključa vrata.
 - Podešavanje se ne prenosi „Prenosom podešavanja” na drugi uređaj.
 
+## Ključna reč (kiosk, Android)
+
+- Isključena dok je korisnik ne uključi; pre toga dijalog objašnjava da je mikrofon stalno uključen dok je kiosk na ekranu i da zvuk ide Home Assistantu, a sistem traži dozvolu za mikrofon.
+- Zvuk (16 kHz, 16-bit, mono, u delovima od 100 ms) ide **samo** na korisnikov Home Assistant, istom WebSocket vezom (i istim TLS pravilima) kao sve ostalo; aplikacija ga ne snima, ne čuva i ne loguje. Ključnu reč prepoznaje HA (openWakeWord).
+- Šta se dešava posle ključne reči zavisi od Assist podešavanja u HA: lokalni STT (npr. Whisper) ostaje u kući, Home Assistant Cloud šalje komandu na internet. To piše i u dijalogu.
+- Sluša samo dok je kiosk na ekranu, aplikacija u prvom planu, veza sa HA postoji i Assist prozor nije otvoren; Android prikazuje oznaku mikrofona, a kiosk sitnu ikonicu mikrofona. Bez prepoznavača u HA mikrofon se gasi.
+- Komande se izvršavaju sa ovlašćenjima prijavljenog naloga, kao tekstualni Assist; kritične radnje (otključavanje…) zavise od toga kako ih HA-ov Assist izlaže.
+
 ## Poruke iz Home Assistanta (mobile_app)
 
 - Po želji: korisnik imenuje uređaj i dodaje ga u HA; tek tada sistem traži dozvolu za obaveštenja.

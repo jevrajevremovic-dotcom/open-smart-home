@@ -72,9 +72,10 @@ class MainActivity : FlutterFragmentActivity() {
         EventChannel(messenger, "org.opensmarthome/battery")
             .setStreamHandler(BatteryHandler.get(applicationContext))
 
-        val levels = AudioLevelHandler(applicationContext)
-        audio = levels
-        EventChannel(messenger, "org.opensmarthome/audio_level").setStreamHandler(levels)
+        val microphone = AudioLevelHandler(applicationContext)
+        audio = microphone
+        EventChannel(messenger, "org.opensmarthome/audio_level").setStreamHandler(microphone.levels)
+        EventChannel(messenger, "org.opensmarthome/audio_pcm").setStreamHandler(microphone.pcm)
         MethodChannel(messenger, "org.opensmarthome/microphone").setMethodCallHandler { call, result ->
             when (call.method) {
                 "request" -> requestMicrophone(result)

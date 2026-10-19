@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -8,6 +9,10 @@ abstract interface class HaSocket {
   /// Incoming text frames. Completes when the connection closes.
   Stream<String> get messages;
   void send(String message);
+
+  /// A binary frame (Assist audio).
+  void sendBytes(Uint8List data);
+
   Future<void> close();
 }
 
@@ -26,6 +31,9 @@ class ChannelSocket implements HaSocket {
 
   @override
   void send(String message) => _channel.sink.add(message);
+
+  @override
+  void sendBytes(Uint8List data) => _channel.sink.add(data);
 
   @override
   Future<void> close() async => _channel.sink.close();

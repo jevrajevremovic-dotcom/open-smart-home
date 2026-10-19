@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../core/widgets/status_widgets.dart';
+import '../../assist/presentation/wake_word_settings.dart';
 import '../../clap/clap_settings.dart';
 import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
@@ -213,6 +214,7 @@ class KioskSettingsSection extends ConsumerWidget {
         ),
         const CameraPopupSettingsTile(),
         const ClapSettings(),
+        const WakeWordSettings(),
         if (!settings.bubble)
           SwitchListTile(
             contentPadding: EdgeInsets.zero,

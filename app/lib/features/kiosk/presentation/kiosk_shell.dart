@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../app/router/app_router.dart';
+import '../../assist/presentation/wake_word_listener.dart';
 import '../application/kiosk_controller.dart';
 import 'camera_popup.dart';
 import 'kiosk_ambient.dart';
@@ -107,6 +108,10 @@ class _KioskShellState extends ConsumerState<KioskShell> {
   @override
   Widget build(BuildContext context) {
     ref.listen(kioskEditingProvider, (_, _) => _restartTimers());
+    // Woken without a touch (the wake word).
+    ref.listen(kioskDimmedProvider, (_, dimmed) {
+      if (!dimmed && _dimmed) _onInteraction();
+    });
     ref.listen(kioskSettingsProvider, (_, next) {
       unawaited(_platform.keepScreenOn(next.keepScreenOn));
       _restartTimers();
@@ -125,12 +130,14 @@ class _KioskShellState extends ConsumerState<KioskShell> {
         onPointerDown: (_) => _onInteraction(),
         child: KioskCameraPopup(
           onShow: _onInteraction,
-          child: Stack(
-            children: [
-              widget.child,
-              if (_dimmed)
-                Positioned.fill(child: KioskAmbient(onWake: _onInteraction)),
-            ],
+          child: KioskWakeWordListener(
+            child: Stack(
+              children: [
+                widget.child,
+                if (_dimmed)
+                  Positioned.fill(child: KioskAmbient(onWake: _onInteraction)),
+              ],
+            ),
           ),
         ),
       ),

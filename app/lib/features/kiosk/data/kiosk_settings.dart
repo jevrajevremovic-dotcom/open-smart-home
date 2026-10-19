@@ -34,6 +34,7 @@ class KioskSettings {
     this.clapEnabled = false,
     this.clapTargetId,
     this.clapSensitivity = ClapSensitivity.medium,
+    this.wakeWordEnabled = false,
     this.popupTriggerIds = const [],
     this.popupCameraId,
     this.popupSeconds = 60,
@@ -83,6 +84,7 @@ class KioskSettings {
       clapTargetId: json['clapTargetId'] is String
           ? json['clapTargetId']! as String
           : null,
+      wakeWordEnabled: json['wakeWordEnabled'] == true,
       clapSensitivity: ClapSensitivity.values.firstWhere(
         (s) => s.name == json['clapSensitivity'],
         orElse: () => d.clapSensitivity,
@@ -169,6 +171,11 @@ class KioskSettings {
   final bool clapEnabled;
   final String? clapTargetId;
   final ClapSensitivity clapSensitivity;
+
+  /// Hands-free Assist: while the kiosk is shown, microphone audio streams
+  /// to the user's own Home Assistant, whose wake word engine (openWakeWord)
+  /// listens for the wake word. Opt-in.
+  final bool wakeWordEnabled;
 
   /// A doorbell, motion or contact sensor that wakes the screen and shows
   /// [popupCameraId] full screen for [popupSeconds].
@@ -282,6 +289,7 @@ class KioskSettings {
     bool? clapEnabled,
     String? clapTargetId,
     ClapSensitivity? clapSensitivity,
+    bool? wakeWordEnabled,
     List<String>? popupTriggerIds,
     String? popupCameraId,
     bool clearPopupCamera = false,
@@ -323,6 +331,7 @@ class KioskSettings {
     clapEnabled: clapEnabled ?? this.clapEnabled,
     clapTargetId: clapTargetId ?? this.clapTargetId,
     clapSensitivity: clapSensitivity ?? this.clapSensitivity,
+    wakeWordEnabled: wakeWordEnabled ?? this.wakeWordEnabled,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
     showCalendar: showCalendar ?? this.showCalendar,
     showCameras: showCameras ?? this.showCameras,
@@ -355,6 +364,7 @@ class KioskSettings {
     'clapEnabled': clapEnabled,
     'clapTargetId': clapTargetId,
     'clapSensitivity': clapSensitivity.name,
+    'wakeWordEnabled': wakeWordEnabled,
     'popupTriggerIds': popupTriggerIds,
     'popupCameraId': popupCameraId,
     'popupSeconds': popupSeconds,

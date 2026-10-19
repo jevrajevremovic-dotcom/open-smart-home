@@ -3449,4 +3449,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get assistDefaultHint =>
       'Choose Open Smart Home as the “digital assistant”: a long press of home or power opens Assist, listening.';
+
+  @override
+  String get wakeWordSetting => 'Wake word (hands-free)';
+
+  @override
+  String get wakeWordSettingHint =>
+      'Say the wake word set up in Home Assistant (for example “Okay Nabu”), then the command. Only while the kiosk is shown.';
+
+  @override
+  String get wakeWordPrivacyTitle => 'Listen for the wake word?';
+
+  @override
+  String get wakeWordPrivacyBody =>
+      'While the kiosk is on screen the microphone stays on (Android shows its microphone indicator) and the sound is streamed continuously to your Home Assistant server, over the same connection as everything else, so that its wake word engine (openWakeWord) can recognise the wake word. Nothing is recorded or stored on this tablet. What Home Assistant does with the command after the wake word depends on its Assist settings: local recognition (for example Whisper) stays at home, Home Assistant Cloud sends it to the internet.';
+
+  @override
+  String get wakeWordAllow => 'Turn on';
+
+  @override
+  String get wakeWordActive => 'Listening for the wake word';
+
+  @override
+  String get wakeWordMissing =>
+      'Home Assistant has no wake word engine. Install the openWakeWord add-on (the Wyoming integration finds it), then turn this on again.';
+
+  @override
+  String get wakeWordNeedsServer => 'Needs a connection to Home Assistant.';
 }

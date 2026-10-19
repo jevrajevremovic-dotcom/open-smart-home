@@ -197,6 +197,16 @@ Provereno u `homeassistant/components/mobile_app/webhook.py`. Šalje se kroz WS 
 
 Aplikacija šalje: `battery_level` (%), `battery_state` (atribut `charger`), `is_charging` (binary, `battery_charging`), `kiosk` (binary).
 
+## Ključna reč (`assist_pipeline/run`)
+
+Provereno u `homeassistant/components/assist_pipeline` (`websocket_api.py`, `default_pipeline.py`, `run.py`) i `websocket_api/http.py`:
+
+- Komanda: WS `assist_pipeline/run` `{start_stage: wake_word, end_stage: intent, input: {sample_rate: 16000, timeout: 0, noise_suppression_level: 2, auto_gain_dbfs: 0}}`. `input.timeout: 0` = bez isteka zbog tišine; ceo run i dalje ističe posle podrazumevanih 300 s (događaj `error` `timeout`), pa aplikacija pokreće novi. Koristi se preferirani Assist pipeline.
+- Događaji (`event: {type, data, timestamp}`): `run-start` (`runner_data.stt_binary_handler_id`), `wake_word-start`, `wake_word-end`, `stt-start`, `stt-vad-start/end`, `stt-end` (`stt_output.text`), `intent-start`, `intent-end` (`intent_output` = isti oblik kao `conversation/process`), `run-end`, `error` (`code`, `message`).
+- Zvuk: binarne WS poruke, prvi bajt je id binarnog rukovaoca, ostalo sirovi PCM 16 kHz/16-bit/mono; prazna poruka (samo id) završava zvuk. Aplikacija ga zaustavlja posle `stt-end`.
+- Greške pri proveri (pre `result`): `wake-engine-missing`, `wake-provider-missing` (nema openWakeWord-a), `pipeline-not-found`. Otkazivanje pretplate (`unsubscribe_events`) prekida run.
+- Odgovor izgovara tablet sam (lokalni TTS), pa se `tts` faza ne koristi.
+
 ## NFC nalepnice (`tag`)
 
 Provereno u `homeassistant/components/tag` i `mobile_app/webhook.py`, format URL-a u dokumentaciji companion aplikacija:

@@ -47,12 +47,16 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
   bool _listening = false;
   late final VoiceInput _voice = ref.read(voiceInputProvider);
   late final SpeechOutput _speech;
+  late final AssistOpenController _open;
 
   @override
   void initState() {
     super.initState();
     // Read now: dispose() must not touch ref.
     _speech = ref.read(speechOutputProvider);
+    // The kiosk wake word pauses while this sheet may use the microphone.
+    _open = ref.read(assistOpenProvider.notifier);
+    Future.microtask(_open.opened);
     if (widget.listenNow) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) unawaited(_listen());
@@ -135,6 +139,7 @@ class _AssistSheetState extends ConsumerState<AssistSheet> {
 
   @override
   void dispose() {
+    Future.microtask(_open.closed);
     if (_listening) unawaited(_voice.stop());
     if (_speech.supported) {
       unawaited(_speech.stop().catchError((Object _) {}));

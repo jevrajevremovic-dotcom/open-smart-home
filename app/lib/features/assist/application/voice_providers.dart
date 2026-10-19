@@ -62,3 +62,22 @@ class AssistSpeakController extends Notifier<bool> {
 final assistSpeakProvider = NotifierProvider<AssistSpeakController, bool>(
   AssistSpeakController.new,
 );
+
+/// Number of Assist sheets on screen (they may use the microphone, so the
+/// kiosk wake word pauses meanwhile).
+class AssistOpenController extends Notifier<int> {
+  @override
+  int build() => 0;
+
+  void opened() {
+    if (ref.mounted) state++;
+  }
+
+  void closed() {
+    if (ref.mounted && state > 0) state--;
+  }
+}
+
+final assistOpenProvider = NotifierProvider<AssistOpenController, int>(
+  AssistOpenController.new,
+);

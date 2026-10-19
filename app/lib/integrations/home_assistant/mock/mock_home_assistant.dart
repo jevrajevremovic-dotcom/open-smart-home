@@ -207,6 +207,14 @@ class MockHomeAssistantServer {
   /// Whether the signed-in demo user is an administrator (image/delete).
   bool imageAdmin = true;
 
+  /// Whether Assist has a wake word engine (openWakeWord). Without one,
+  /// `assist_pipeline/run` from the wake word stage fails like Home
+  /// Assistant does (`wake-engine-missing`).
+  bool wakeWordEngine = true;
+
+  /// Language of the demo Assist pipeline.
+  String assistLanguage = 'en';
+
   String uploadImage(Uint8List bytes, String filename) {
     final id = (++_imageSeq).toRadixString(16).padLeft(32, '0');
     final item = <String, Object?>{
@@ -1448,6 +1456,57 @@ class MockHomeAssistantServer {
     return next;
   }
 
+  /// `conversation/process` result (also the `intent_output` of an Assist
+  /// pipeline run): lights on/off, temperature, otherwise not understood.
+  Map<String, Object?> converse(
+    String text, {
+    String? language,
+    String? conversationId,
+  }) {
+    final t = text.toLowerCase();
+    final sr = language?.startsWith('sr') ?? false;
+    bool has(List<String> words) => words.any(t.contains);
+    Map<String, Object?> reply(String speech, String type) => {
+      'conversation_id': conversationId ?? 'mock-conversation',
+      'response': {
+        'response_type': type,
+        'speech': {
+          'plain': {'speech': speech},
+        },
+      },
+    };
+    final lights = [
+      for (final s in states)
+        if ((s['entity_id']! as String).startsWith('light.'))
+          s['entity_id']! as String,
+    ];
+    if (has(['svetl', 'light'])) {
+      final off = has(['ugasi', 'isključi', 'iskljuci', 'turn off', 'off']);
+      final on = has(['upali', 'uključi', 'ukljuci', 'turn on', ' on']);
+      if (off || on) {
+        callService('light', off ? 'turn_off' : 'turn_on', {
+          'entity_id': lights,
+        });
+        return reply(
+          sr
+              ? (off ? 'Ugasio sam svetla.' : 'Upalio sam svetla.')
+              : (off ? 'Turned off the lights.' : 'Turned on the lights.'),
+          'action_done',
+        );
+      }
+    }
+    if (has(['temperatur'])) {
+      return reply(
+        sr ? 'U dnevnoj sobi je 22,4 °C.' : 'The living room is 22.4 °C.',
+        'query_answer',
+      );
+    }
+    return reply(
+      sr ? 'Izvinite, nisam razumeo.' : "Sorry, I couldn't understand that.",
+      'error',
+    );
+  }
+
   String? stateForTest(String id) => _states[id]?['state'] as String?;
 
   void setStateForTest(String id, String state) {
@@ -1529,6 +1588,9 @@ class _MockSocket implements HaSocket {
         _emit(ok());
       case 'unsubscribe_events' when _todoSubs.containsKey(msg['subscription']):
         _todoSubs.remove(msg['subscription']);
+        _emit(ok());
+      case 'unsubscribe_events' when msg['subscription'] == _assistRun:
+        _assistRun = null;
         _emit(ok());
       case 'unsubscribe_events' when msg['subscription'] == _zwaveSub:
         _stopZwave();
@@ -1680,6 +1742,47 @@ class _MockSocket implements HaSocket {
             if (msg['name'] case final String name) 'name': name,
           };
           _emit(ok(_server.tags[tagId]));
+        }
+      case 'assist_pipeline/run':
+        final input = msg['input'];
+        if (msg['start_stage'] != 'wake_word' ||
+            input is! Map ||
+            input['sample_rate'] is! int) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'invalid_format', 'message': 'bad run'},
+          });
+        } else if (!_server.wakeWordEngine) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {
+              'code': 'wake-engine-missing',
+              'message': 'No wake word engine',
+            },
+          });
+        } else {
+          _assistRun = id;
+          _assistStage = 0;
+          _assistConversation = msg['conversation_id'] as String?;
+          _emit(ok());
+          _assistEvent('run-start', {
+            'pipeline': 'mock-pipeline',
+            'language': _server.assistLanguage,
+            'conversation_id': _assistConversation ?? 'mock-conversation',
+            'runner_data': {
+              'stt_binary_handler_id': _assistHandler,
+              'timeout': msg['timeout'] ?? 300,
+            },
+          });
+          _assistEvent('wake_word-start', {
+            'entity_id': 'wake_word.openwakeword',
+            'metadata': {'format': 'wav', 'codec': 'pcm'},
+            'timeout': input['timeout'] ?? 3,
+          });
         }
       case 'image/list':
         _emit(ok([for (final (item, _) in _server.images.values) item]));
@@ -1957,6 +2060,85 @@ class _MockSocket implements HaSocket {
 
   // --- Z-Wave inclusion simulation ---
   int? _zwaveSub;
+
+  /// Demo Assist pipeline run (`assist_pipeline/run`): any loud sound counts
+  /// as the wake word, then half a second of audio is "heard" as a command
+  /// to turn off the lights.
+  int? _assistRun;
+  int _assistStage = 0;
+  int _assistBytes = 0;
+  String? _assistConversation;
+
+  static const _assistHandler = 1;
+
+  void _assistEvent(String type, [Map<String, Object?>? data]) {
+    final id = _assistRun;
+    if (id == null) return;
+    _emit({
+      'id': id,
+      'type': 'event',
+      'event': {'type': type, 'data': data},
+    });
+  }
+
+  @override
+  void sendBytes(Uint8List data) {
+    if (_assistRun == null || data.isEmpty || data[0] != _assistHandler) {
+      return;
+    }
+    final audio = data.sublist(1);
+    if (audio.isEmpty) {
+      _assistStage = 2; // stream ended
+      return;
+    }
+    switch (_assistStage) {
+      case 0:
+        var peak = 0;
+        final view = ByteData.sublistView(audio);
+        for (var i = 0; i + 1 < audio.length; i += 2) {
+          peak = math.max(peak, view.getInt16(i, Endian.little).abs());
+        }
+        if (peak < 16000) return;
+        _assistStage = 1;
+        _assistBytes = 0;
+        _assistEvent('wake_word-end', {
+          'wake_word_output': {
+            'wake_word_id': 'ok_nabu',
+            'wake_word_phrase': 'Okay Nabu',
+            'timestamp': 0,
+          },
+        });
+        _assistEvent('stt-start', {
+          'engine': 'stt.mock',
+          'metadata': {'language': _server.assistLanguage},
+        });
+      case 1:
+        _assistBytes += audio.length;
+        if (_assistBytes < 16000) return; // half a second
+        _assistStage = 2;
+        final sr = _server.assistLanguage.startsWith('sr');
+        final text = sr ? 'ugasi svetla' : 'turn off the lights';
+        _assistEvent('stt-vad-end', {'timestamp': 500});
+        _assistEvent('stt-end', {
+          'stt_output': {'text': text},
+        });
+        _assistEvent('intent-start', {
+          'engine': 'conversation.home_assistant',
+          'language': _server.assistLanguage,
+          'intent_input': text,
+        });
+        _assistEvent('intent-end', {
+          'processed_locally': true,
+          'intent_output': _server.converse(
+            text,
+            language: _server.assistLanguage,
+            conversationId: _assistConversation,
+          ),
+        });
+        _assistEvent('run-end');
+    }
+  }
+
   final List<Timer> _zwaveTimers = [];
 
   void _zwaveAfter(int ms, Map<String, Object?> event) {
@@ -2248,55 +2430,8 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   }) async {
     await _requireAuth();
     await _latency();
-    final t = text.toLowerCase();
-    final sr = language?.startsWith('sr') ?? false;
-    bool has(List<String> words) => words.any(t.contains);
-    Map<String, Object?> reply(String speech, String type) => {
-      'conversation_id': conversationId ?? 'mock-conversation',
-      'response': {
-        'response_type': type,
-        'speech': {
-          'plain': {'speech': speech},
-        },
-      },
-    };
-    final lights = [
-      for (final s in server.states)
-        if ((s['entity_id']! as String).startsWith('light.'))
-          s['entity_id']! as String,
-    ];
-    if (has(['svetl', 'light'])) {
-      final off = has(['ugasi', 'isključi', 'iskljuci', 'turn off', 'off']);
-      final on = has(['upali', 'uključi', 'ukljuci', 'turn on', ' on']);
-      if (off || on) {
-        await callService(
-          'light',
-          off ? 'turn_off' : 'turn_on',
-          data: {'entity_id': lights},
-        );
-        return HaConversationReply.parse(
-          reply(
-            sr
-                ? (off ? 'Ugasio sam svetla.' : 'Upalio sam svetla.')
-                : (off ? 'Turned off the lights.' : 'Turned on the lights.'),
-            'action_done',
-          ),
-        );
-      }
-    }
-    if (has(['temperatur'])) {
-      return HaConversationReply.parse(
-        reply(
-          sr ? 'U dnevnoj sobi je 22,4 °C.' : 'The living room is 22.4 °C.',
-          'query_answer',
-        ),
-      );
-    }
     return HaConversationReply.parse(
-      reply(
-        sr ? 'Izvinite, nisam razumeo.' : "Sorry, I couldn't understand that.",
-        'error',
-      ),
+      server.converse(text, language: language, conversationId: conversationId),
     );
   }
 

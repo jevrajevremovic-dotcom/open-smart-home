@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -46,6 +47,9 @@ class SilentSocket implements HaSocket {
       _out.add(jsonEncode({'type': 'auth_ok', 'ha_version': 'x'}));
     }
   }
+
+  @override
+  void sendBytes(Uint8List data) {}
 
   @override
   Future<void> close() => _out.close();

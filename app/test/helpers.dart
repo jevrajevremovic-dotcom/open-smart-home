@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 
 import 'dart:async';
@@ -307,6 +309,41 @@ class FakeClapPlatform implements ClapPlatform {
   }
 
   void emit(Iterable<double> levels) => levels.forEach(_levels.add);
+
+  // ignore: close_sinks, lives as long as the test
+  final _pcm = StreamController<Uint8List>.broadcast();
+  int pcmListeners = 0;
+
+  @override
+  Stream<Uint8List> pcm() {
+    // ignore: close_sinks, closed by its listener's cancel
+    late final StreamController<Uint8List> c;
+    c = StreamController<Uint8List>(
+      onListen: () {
+        pcmListeners++;
+        final sub = _pcm.stream.listen(c.add);
+        c.onCancel = () {
+          pcmListeners--;
+          return sub.cancel();
+        };
+      },
+    );
+    return c.stream;
+  }
+
+  /// [chunks] of 100 ms audio; `loud` ones peak near full scale.
+  void emitAudio(int chunks, {bool loud = false}) {
+    for (var i = 0; i < chunks; i++) {
+      final bytes = Uint8List(3200);
+      if (loud) {
+        final view = ByteData.sublistView(bytes);
+        for (var j = 0; j < 1600; j++) {
+          view.setInt16(j * 2, j.isEven ? 30000 : -30000, Endian.little);
+        }
+      }
+      _pcm.add(bytes);
+    }
+  }
 }
 
 /// Records whether the connection service would run.

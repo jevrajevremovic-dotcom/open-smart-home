@@ -3467,6 +3467,33 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get assistDefaultHint =>
       'Izaberite Open Smart Home za „digitalnog asistenta”: dugi pritisak na Home ili dugme za napajanje otvara Assist koji odmah sluša.';
+
+  @override
+  String get wakeWordSetting => 'Ključna reč (bez ruku)';
+
+  @override
+  String get wakeWordSettingHint =>
+      'Izgovorite ključnu reč podešenu u Home Assistantu (na primer „Okay Nabu”), pa komandu. Samo dok je kiosk na ekranu.';
+
+  @override
+  String get wakeWordPrivacyTitle => 'Slušati ključnu reč?';
+
+  @override
+  String get wakeWordPrivacyBody =>
+      'Dok je kiosk na ekranu mikrofon je stalno uključen (Android prikazuje oznaku mikrofona), a zvuk se neprekidno šalje Vašem Home Assistant serveru, istom vezom kao i sve ostalo, da bi njegov prepoznavač ključne reči (openWakeWord) čuo ključnu reč. Na ovom tabletu se ništa ne snima niti čuva. Šta Home Assistant radi sa komandom posle ključne reči zavisi od njegovih Assist podešavanja: lokalno prepoznavanje (na primer Whisper) ostaje kod kuće, Home Assistant Cloud je šalje na internet.';
+
+  @override
+  String get wakeWordAllow => 'Uključi';
+
+  @override
+  String get wakeWordActive => 'Sluša se ključna reč';
+
+  @override
+  String get wakeWordMissing =>
+      'Home Assistant nema prepoznavač ključne reči. Instalirajte dodatak openWakeWord (Wyoming integracija ga sama pronalazi), pa ponovo uključite ovu opciju.';
+
+  @override
+  String get wakeWordNeedsServer => 'Potrebna je veza sa Home Assistantom.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

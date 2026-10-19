@@ -231,6 +231,19 @@ class HaWebSocketManager {
     return controller.stream;
   }
 
+  /// Sends [data] as a binary frame to the server-side binary handler
+  /// [handlerId] (first byte), as Assist audio streaming expects. An empty
+  /// [data] ends that audio stream. Dropped while disconnected.
+  void sendBinary(int handlerId, List<int> data) {
+    final socket = _socket;
+    if (socket == null || !_status.isConnected) return;
+    socket.sendBytes(
+      Uint8List(data.length + 1)
+        ..[0] = handlerId
+        ..setRange(1, data.length + 1, data),
+    );
+  }
+
   /// Typed `state_changed` events. Malformed events are logged and skipped.
   Stream<HaStateChangedEvent> stateChanges() =>
       events('state_changed').expand((event) {
@@ -517,13 +530,17 @@ class HaWebSocketManager {
     final error = message['error'];
     final code = error is Map ? error['code'] : null;
     completer.completeError(
-      AppFailure(switch (code) {
-        'unauthorized' => FailureKind.authorization,
-        'invalid_format' => FailureKind.validation,
-        'not_found' => FailureKind.unavailableEntity,
-        'not_supported' => FailureKind.unsupportedFeature,
-        _ => FailureKind.server,
-      }, debugMessage: 'command #$id failed: $code'),
+      AppFailure(
+        switch (code) {
+          'unauthorized' => FailureKind.authorization,
+          'invalid_format' => FailureKind.validation,
+          'not_found' => FailureKind.unavailableEntity,
+          'not_supported' => FailureKind.unsupportedFeature,
+          _ => FailureKind.server,
+        },
+        debugMessage: 'command #$id failed: $code',
+        code: code is String ? code : null,
+      ),
     );
   }
 

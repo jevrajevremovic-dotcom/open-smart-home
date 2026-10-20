@@ -4225,4 +4225,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backupFileTitle => 'As text (manually)';
+
+  @override
+  String get updateTitle => 'App updates';
+
+  @override
+  String updateCurrent(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get updateChecking => 'Checking…';
+
+  @override
+  String updateUpToDate(String version) {
+    return 'You have the latest version ($version).';
+  }
+
+  @override
+  String get updateNoReleases =>
+      'No published releases (or the release source isn\'t public).';
+
+  @override
+  String updateAvailable(String version) {
+    return 'Version $version is available';
+  }
+
+  @override
+  String updateDownloading(int percent) {
+    return 'Downloading… $percent %';
+  }
+
+  @override
+  String get updateInstalling =>
+      'Installing — Android may ask to confirm; the app then restarts.';
+
+  @override
+  String get updateNeedsPermission =>
+      'Allow \"Install unknown apps\" for this app, then tap Install again.';
+
+  @override
+  String get updateFailed => 'The check or download failed (no internet?).';
+
+  @override
+  String get updateRejected =>
+      'The download doesn\'t match its published checksum (SHA-256) — not installed.';
+
+  @override
+  String get updateInstall => 'Install';
+
+  @override
+  String get updateCheck => 'Check now';
+
+  @override
+  String get updateAuto => 'Check for new releases at start-up';
+
+  @override
+  String get updateAutoHint =>
+      'Asks GitHub (public releases) whether there\'s a new version; GitHub then sees the device\'s address. Nothing else is sent.';
 }

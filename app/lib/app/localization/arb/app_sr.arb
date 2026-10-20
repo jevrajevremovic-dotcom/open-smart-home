@@ -1200,5 +1200,20 @@
   "haBackupRestoreBody": "Podešavanja ovog uređaja biće zamenjena sačuvanim. PIN, fotografije i izbori za mikrofon i kameru ostaju kakvi su.",
   "haBackupDelete": "Obriši kopiju",
   "haBackupUnavailable": "Kopije iz Home Assistanta trenutno nisu dostupne (nema veze).",
-  "backupFileTitle": "Kao tekst (ručno)"
+  "backupFileTitle": "Kao tekst (ručno)",
+  "updateTitle": "Ažuriranje aplikacije",
+  "updateCurrent": "Verzija {version}",
+  "updateChecking": "Proveravam…",
+  "updateUpToDate": "Imate najnoviju verziju ({version}).",
+  "updateNoReleases": "Nema objavljenih izdanja (ili izvor izdanja nije javan).",
+  "updateAvailable": "Dostupna je nova verzija {version}",
+  "updateDownloading": "Preuzimam… {percent} %",
+  "updateInstalling": "Instaliram — Android može da traži potvrdu; aplikacija se zatim ponovo pokreće.",
+  "updateNeedsPermission": "Dozvolite „Instaliranje nepoznatih aplikacija” za ovu aplikaciju, pa dodirnite Instaliraj ponovo.",
+  "updateFailed": "Provera ili preuzimanje nije uspelo (nema interneta?).",
+  "updateRejected": "Preuzeta datoteka se ne poklapa sa objavljenim otiskom (SHA-256) — nije instalirana.",
+  "updateInstall": "Instaliraj",
+  "updateCheck": "Proveri sada",
+  "updateAuto": "Proveravaj nova izdanja pri pokretanju",
+  "updateAutoHint": "Pita GitHub (javna izdanja) da li postoji nova verzija; GitHub tada vidi adresu uređaja. Ništa drugo se ne šalje."
 }

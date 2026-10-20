@@ -40,6 +40,7 @@ import '../../household/family_messages.dart';
 import '../application/home_summaries.dart';
 
 import 'on_now_strip.dart';
+import '../../updates/update_section.dart';
 import 'weather_sky.dart';
 import '../../../app/brand.dart';
 part 'dashboard_summary.dart';
@@ -322,6 +323,7 @@ class DashboardBody extends ConsumerWidget {
     switch (card) {
       case DashboardCard.summary:
         return [
+          if (!kiosk) box(const UpdateBanner()),
           if (!kiosk) box(const _HomeSentence()),
           if (!kiosk) box(const OnNowStrip(padding: EdgeInsets.only(top: 12))),
           box(const DashboardSummaryRow()),

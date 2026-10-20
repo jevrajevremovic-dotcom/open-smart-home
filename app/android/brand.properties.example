@@ -7,5 +7,7 @@ applicationId=rs.example.pametnakuca
 accent=#1F6FB2
 # Shown on the service screen: who to call.
 support=+381 60 000 0000 · servis@example.rs
+# Where the app looks for updates: a public GitHub repository (owner/repo).
+updates=
 # Optional: path to a square PNG logo (copied into the build).
 logo=

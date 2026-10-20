@@ -10,8 +10,10 @@ if [[ ! -f $props ]]; then
 fi
 get() { grep -E "^$1=" "$props" | head -1 | cut -d= -f2- || true; }
 name=$(get name); accent=$(get accent); support=$(get support); logo=$(get logo)
+updates=$(get updates)
 defines=(--dart-define="BRAND_NAME=$name" --dart-define="BRAND_ACCENT=$accent"
   --dart-define="BRAND_SUPPORT=$support")
+[[ -n $updates ]] && defines+=(--dart-define="UPDATE_REPO=$updates")
 if [[ -n $logo ]]; then
   cp "$logo" assets/brand/logo.png
   defines+=(--dart-define=BRAND_LOGO=true)

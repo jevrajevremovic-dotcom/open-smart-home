@@ -44,3 +44,23 @@ $ANDROID_HOME/build-tools/<verzija>/apksigner verify --print-certs \
 Uređaj na kome je verzija potpisana drugim ključem ne prima ažuriranje
 (`INSTALL_FAILED_UPDATE_INCOMPATIBLE`): aplikacija se mora jednom obrisati, što briše njena
 lokalna podešavanja i prijavu. Pre toga sačuvajte podešavanja (rezervna kopija).
+
+## Objavljivanje izdanja (ažuriranje u aplikaciji)
+
+Instalirane aplikacije same nalaze nove verzije (Podešavanja → Servis → Ažuriranje aplikacije;
+automatska provera je opciona). Izvor su **GitHub Releases** javnog repozitorijuma
+(`UPDATE_REPO`, podrazumevano `jevrajevremovic-dotcom/open-smart-home`; brend ga zadaje sa
+`updates=` u `brand.properties`).
+
+```bash
+cd app && tool/release.sh 0.2.0 --notes "Šta je novo"
+```
+
+Skripta podiže verziju (i build broj, koji Android zahteva da raste), pravi APK-ove potpisane
+vašim ključem, piše `SHA256SUMS` i objavljuje izdanje `v0.2.0`. Aplikacija instalira samo APK
+čiji se SHA-256 poklapa sa `SHA256SUMS`, a Android sam odbija APK potpisan drugim ključem.
+Zatim komitujte `pubspec.yaml` i `lib/app/app_info.dart`.
+
+Repozitorijum mora biti **javan** da bi ga aplikacije videle bez tokena (tokeni se u aplikaciju
+ne ugrađuju). Ako izvorni kod treba da ostane privatan, napravite poseban javni repozitorijum
+samo za izdanja i navedite ga u `UPDATE_REPO` / `updates=`.

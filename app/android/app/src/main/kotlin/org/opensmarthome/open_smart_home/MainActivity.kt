@@ -43,6 +43,8 @@ class MainActivity : FlutterFragmentActivity() {
         EventChannel(messenger, "org.opensmarthome/nsd").setStreamHandler(handler)
         MethodChannel(messenger, "org.opensmarthome/device")
             .setMethodCallHandler(DeviceAdminHandler(this))
+        MethodChannel(messenger, "org.opensmarthome/updater")
+            .setMethodCallHandler(UpdateInstaller(this))
 
         // Opened as the phone's assistant (long press of home / power).
         assist = MethodChannel(messenger, "org.opensmarthome/assist").apply {

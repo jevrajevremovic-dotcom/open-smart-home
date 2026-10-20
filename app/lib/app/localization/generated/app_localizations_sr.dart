@@ -4247,6 +4247,65 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get backupFileTitle => 'Kao tekst (ručno)';
+
+  @override
+  String get updateTitle => 'Ažuriranje aplikacije';
+
+  @override
+  String updateCurrent(String version) {
+    return 'Verzija $version';
+  }
+
+  @override
+  String get updateChecking => 'Proveravam…';
+
+  @override
+  String updateUpToDate(String version) {
+    return 'Imate najnoviju verziju ($version).';
+  }
+
+  @override
+  String get updateNoReleases =>
+      'Nema objavljenih izdanja (ili izvor izdanja nije javan).';
+
+  @override
+  String updateAvailable(String version) {
+    return 'Dostupna je nova verzija $version';
+  }
+
+  @override
+  String updateDownloading(int percent) {
+    return 'Preuzimam… $percent %';
+  }
+
+  @override
+  String get updateInstalling =>
+      'Instaliram — Android može da traži potvrdu; aplikacija se zatim ponovo pokreće.';
+
+  @override
+  String get updateNeedsPermission =>
+      'Dozvolite „Instaliranje nepoznatih aplikacija” za ovu aplikaciju, pa dodirnite Instaliraj ponovo.';
+
+  @override
+  String get updateFailed =>
+      'Provera ili preuzimanje nije uspelo (nema interneta?).';
+
+  @override
+  String get updateRejected =>
+      'Preuzeta datoteka se ne poklapa sa objavljenim otiskom (SHA-256) — nije instalirana.';
+
+  @override
+  String get updateInstall => 'Instaliraj';
+
+  @override
+  String get updateCheck => 'Proveri sada';
+
+  @override
+  String get updateAuto => 'Proveravaj nova izdanja pri pokretanju';
+
+  @override
+  String get updateAutoHint =>
+      'Pita GitHub (javna izdanja) da li postoji nova verzija; GitHub tada vidi adresu uređaja. Ništa drugo se ne šalje.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

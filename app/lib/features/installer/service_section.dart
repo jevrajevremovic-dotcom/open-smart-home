@@ -13,6 +13,7 @@ import '../authentication/application/session_controller.dart';
 import '../devices/application/device_providers.dart';
 import '../kiosk/application/device_admin.dart';
 import '../kiosk/application/kiosk_controller.dart';
+import '../updates/update_section.dart';
 
 /// The installer's service screen: what runs where, what went wrong lately,
 /// and the panel tools. Never shows a token or password.
@@ -100,6 +101,8 @@ class ServiceSection extends ConsumerWidget {
             ),
           ),
         const SizedBox(height: 8),
+        const UpdateSection(),
+        const SizedBox(height: 16),
         FilledButton.tonalIcon(
           key: const Key('serviceSetup'),
           onPressed: () => context.push(AppRoutes.installerSetup),

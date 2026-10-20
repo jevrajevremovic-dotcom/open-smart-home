@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_REMOTE_MESSAGING" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- In-app updates (GitHub Releases, verified; see UpdateInstaller.kt). -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- Home Assistant NFC tags; the app installs on phones without NFC. -->
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc" android:required="false" />
@@ -136,6 +138,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
+        <receiver
+            android:name=".UpdateResultReceiver"
+            android:exported="false" />
         <!-- Device owner (installer provisioning only; see docs/INSTALLER.md). -->
         <receiver
             android:name=".KioskAdminReceiver"

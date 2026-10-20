@@ -7298,6 +7298,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'As text (manually)'**
   String get backupFileTitle;
+
+  /// No description provided for @updateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App updates'**
+  String get updateTitle;
+
+  /// No description provided for @updateCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String updateCurrent(String version);
+
+  /// No description provided for @updateChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking…'**
+  String get updateChecking;
+
+  /// No description provided for @updateUpToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'You have the latest version ({version}).'**
+  String updateUpToDate(String version);
+
+  /// No description provided for @updateNoReleases.
+  ///
+  /// In en, this message translates to:
+  /// **'No published releases (or the release source isn\'t public).'**
+  String get updateNoReleases;
+
+  /// No description provided for @updateAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} is available'**
+  String updateAvailable(String version);
+
+  /// No description provided for @updateDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading… {percent} %'**
+  String updateDownloading(int percent);
+
+  /// No description provided for @updateInstalling.
+  ///
+  /// In en, this message translates to:
+  /// **'Installing — Android may ask to confirm; the app then restarts.'**
+  String get updateInstalling;
+
+  /// No description provided for @updateNeedsPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow \"Install unknown apps\" for this app, then tap Install again.'**
+  String get updateNeedsPermission;
+
+  /// No description provided for @updateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The check or download failed (no internet?).'**
+  String get updateFailed;
+
+  /// No description provided for @updateRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'The download doesn\'t match its published checksum (SHA-256) — not installed.'**
+  String get updateRejected;
+
+  /// No description provided for @updateInstall.
+  ///
+  /// In en, this message translates to:
+  /// **'Install'**
+  String get updateInstall;
+
+  /// No description provided for @updateCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check now'**
+  String get updateCheck;
+
+  /// No description provided for @updateAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for new releases at start-up'**
+  String get updateAuto;
+
+  /// No description provided for @updateAutoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Asks GitHub (public releases) whether there\'s a new version; GitHub then sees the device\'s address. Nothing else is sent.'**
+  String get updateAutoHint;
 }
 
 class _AppLocalizationsDelegate

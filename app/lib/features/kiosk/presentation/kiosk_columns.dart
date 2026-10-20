@@ -23,6 +23,7 @@ import '../../todo/todo_lists.dart';
 import '../../todo/todo_screen.dart' show TodoListsCard;
 import '../../weather/presentation/weather_card.dart';
 import '../../dashboard/application/home_summaries.dart';
+import '../../dashboard/presentation/on_now_strip.dart';
 import '../../devices/application/device_groups.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/domain/device_command.dart';
@@ -39,7 +40,7 @@ import '../../energy/presentation/energy_format.dart';
 import '../../household/application/household_providers.dart';
 import '../../household/family_messages.dart';
 import '../../household/presentation/person_avatar.dart';
-import '../../rooms/presentation/room_card.dart' show roomColor, roomIcon;
+import '../../rooms/presentation/room_look.dart';
 import '../../rooms/presentation/room_photo.dart';
 import '../../timers/kiosk_timers.dart';
 import '../application/kiosk_controller.dart';
@@ -363,6 +364,7 @@ class _HomeOverview extends ConsumerWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
+        const OnNowStrip(padding: EdgeInsets.only(top: 12)),
         const SizedBox(height: 4),
         // The household's choice and order of cards (Edit, top right).
         for (final card in cards)
@@ -915,6 +917,7 @@ class _RoomRow extends ConsumerWidget {
     final scheme = theme.colorScheme;
     final summary = ref.watch(roomSummaryProvider(_areaOf(roomId)));
     final fg = selected ? scheme.onPrimary : scheme.onSurface;
+    final look = roomLookOf(ref, _areaOf(roomId), icon, name);
     return Padding(
       padding: const EdgeInsets.only(bottom: 2),
       child: Material(
@@ -930,10 +933,7 @@ class _RoomRow extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             child: Row(
               children: [
-                Icon(
-                  roomIcon(icon),
-                  color: selected ? fg : roomColor(icon, name),
-                ),
+                Icon(look.icon, color: selected ? fg : look.color),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(

@@ -141,27 +141,64 @@ class SectionHeader extends StatelessWidget {
   );
 }
 
-/// Centered hint for empty sections.
+/// Centered hint for empty sections: the icon in soft rings (a small
+/// illustration rather than a grey glyph), the text, and an optional way
+/// forward.
 class EmptyHint extends StatelessWidget {
-  const EmptyHint({super.key, required this.icon, required this.text});
+  const EmptyHint({
+    super.key,
+    required this.icon,
+    required this.text,
+    this.actionLabel,
+    this.onAction,
+  });
 
   final IconData icon;
   final String text;
+  final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.onSurfaceVariant;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
       child: Column(
         children: [
-          Icon(icon, size: 40, color: color),
-          const SizedBox(height: 8),
+          ExcludeSemantics(
+            child: Container(
+              width: 112,
+              height: 112,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: scheme.primaryContainer.withValues(alpha: 0.35),
+              ),
+              child: Container(
+                width: 76,
+                height: 76,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: scheme.primaryContainer,
+                ),
+                child: Icon(icon, size: 36, color: scheme.onPrimaryContainer),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
           Text(
             text,
             textAlign: TextAlign.center,
-            style: TextStyle(color: color),
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: scheme.onSurfaceVariant,
+            ),
           ),
+          if (actionLabel != null && onAction != null) ...[
+            const SizedBox(height: 12),
+            FilledButton.tonal(onPressed: onAction, child: Text(actionLabel!)),
+          ],
         ],
       ),
     );

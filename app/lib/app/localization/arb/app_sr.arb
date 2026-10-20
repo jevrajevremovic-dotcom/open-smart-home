@@ -1116,7 +1116,7 @@
   "roomPhoto": "Fotografija sobe",
   "roomPhotoChange": "Izaberi drugu fotografiju",
   "roomPhotoRemove": "Ukloni fotografiju",
-  "roomPhotoHint": "Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu.",
+  "roomPhotoHint": "Fotografija, ikonica i boja ostaju samo na ovom uređaju; ne šalju se u Home Assistant. Za zidni tablet izaberite ih na samom tabletu.",
   "themeAutoDark": "Tamno posle zalaska sunca",
   "themeAutoDarkHint": "Prati izlazak i zalazak sunca iz Home Assistanta (bez njega: tamno od 20 do 7).",
   "accentTitle": "Boja aplikacije",
@@ -1125,5 +1125,16 @@
   "accentGreen": "Zelena",
   "accentPurple": "Ljubičasta",
   "accentRose": "Roze",
-  "accentTeal": "Tirkizna"
+  "accentTeal": "Tirkizna",
+  "onNowTitle": "Sada uključeno",
+  "onNowLights": "{count, plural, =1{1 svetlo} few{{count} svetla} other{{count} svetala}}",
+  "onNowLightsOff": "Sva svetla su ugašena.",
+  "onNowTurnedOff": "Ugašeno: {name}",
+  "onNowHint": "Dodir otvara, dugi pritisak gasi",
+  "roomLook": "Izgled sobe",
+  "roomPhotoChoose": "Izaberi fotografiju",
+  "roomIconTitle": "Ikonica",
+  "roomColorTitle": "Boja",
+  "roomLookReset": "Kao u Home Assistantu",
+  "favoritesBrowse": "Pogledaj uređaje"
 }

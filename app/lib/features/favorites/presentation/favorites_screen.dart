@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../app/router/app_router.dart';
 
 import '../../devices/presentation/device_presentation.dart';
 
@@ -63,6 +66,8 @@ class FavoritesScreen extends ConsumerWidget {
                       child: EmptyHint(
                         icon: Icons.star_border,
                         text: l10n.favoritesEmpty,
+                        actionLabel: l10n.favoritesBrowse,
+                        onAction: () => context.push(AppRoutes.allDevices),
                       ),
                     )
                   : DeviceSliverGrid(deviceIds: ids),

@@ -8,6 +8,9 @@ import '../../kiosk/application/kiosk_controller.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../dashboard/application/home_summaries.dart';
 import '../../devices/presentation/device_presentation.dart';
+import '../../kiosk/presentation/glass.dart' show kioskPhotoStoreProvider;
+import 'room_look.dart';
+import 'room_photo.dart' show roomPhotosProvider;
 
 /// Maps common Material Design Icons names used for HA areas to Material
 /// icons. Unknown names fall back to a generic room icon.
@@ -95,12 +98,22 @@ class RoomCard extends ConsumerWidget {
     final scheme = theme.colorScheme;
     final dark = theme.brightness == Brightness.dark;
     final summary = ref.watch(roomSummaryProvider(roomId));
-    final color = roomColor(icon, name);
+    final look = roomLookOf(ref, roomId, icon, name);
+    final color = look.color;
+    // The room's own photo fills the card, darkened for white text.
+    final photoPath = roomId == null
+        ? null
+        : ref.watch(roomPhotosProvider.select((m) => m[roomId]));
+    final photo = photoPath == null
+        ? null
+        : ref.watch(kioskPhotoStoreProvider).image(photoPath);
     final base = dark ? scheme.surfaceContainer : scheme.surfaceContainerLowest;
     final top = Color.lerp(base, color, dark ? 0.16 : 0.10)!;
     final bottom = Color.lerp(base, color, dark ? 0.34 : 0.26)!;
-    final fg = scheme.onSurface;
-    final sub = scheme.onSurfaceVariant;
+    final fg = photo != null ? Colors.white : scheme.onSurface;
+    final sub = photo != null
+        ? Colors.white.withValues(alpha: 0.85)
+        : scheme.onSurfaceVariant;
     final lightsOn = summary.lightsOn > 0;
     final amber = context.deviceAccents.of(DeviceAccent.light);
 
@@ -116,122 +129,150 @@ class RoomCard extends ConsumerWidget {
       ].join(', '),
       excludeSemantics: true,
       child: DecoratedBox(
+        key: photo == null ? null : ValueKey('roomCardPhoto-$roomId'),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(radius),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [top, bottom],
-          ),
-        ),
-        child: Material(
-          type: MaterialType.transparency,
-          borderRadius: BorderRadius.circular(radius),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () => context.push(
-              AppRoutes.room(roomId, kiosk: ref.read(kioskActiveProvider)),
-            ),
-            child: Stack(
-              children: [
-                // The room's picture: a large, faint icon in the corner.
-                Positioned(
-                  right: -14,
-                  bottom: -18,
-                  child: Icon(
-                    roomIcon(icon),
-                    size: 112,
-                    color: color.withValues(alpha: dark ? 0.30 : 0.24),
-                  ),
+          image: photo == null
+              ? null
+              : DecorationImage(
+                  image: ResizeImage.resizeIfNeeded(800, null, photo),
+                  fit: BoxFit.cover,
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 16, 14, 14),
-                  // Long names and large text give way (fewer lines, a
-                  // smaller temperature) instead of overflowing the card.
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                name,
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  color: fg,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            if (summary.alertCount > 0)
-                              Tooltip(
-                                message: l10n.summaryAlerts,
-                                child: Icon(
-                                  Icons.warning_amber_rounded,
-                                  size: 20,
-                                  color: context.statusColors.warning,
-                                ),
-                              ),
-                          ],
-                        ),
+          gradient: photo != null
+              ? null
+              : LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [top, bottom],
+                ),
+        ),
+        child: DecoratedBox(
+          // Over a photo: dark at the top (name) and bottom (pills).
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius),
+            gradient: photo == null
+                ? null
+                : const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x99000000),
+                      Color(0x33000000),
+                      Color(0x99000000),
+                    ],
+                  ),
+          ),
+          child: Material(
+            type: MaterialType.transparency,
+            borderRadius: BorderRadius.circular(radius),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: () => context.push(
+                AppRoutes.room(roomId, kiosk: ref.read(kioskActiveProvider)),
+              ),
+              child: Stack(
+                children: [
+                  // The room's picture: a large, faint icon in the corner
+                  // (a photo, when there is one, takes its place).
+                  if (photo == null)
+                    Positioned(
+                      right: -14,
+                      bottom: -18,
+                      child: Icon(
+                        look.icon,
+                        size: 112,
+                        color: color.withValues(alpha: dark ? 0.30 : 0.24),
                       ),
-                      if (summary.temperature != null)
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 16, 14, 14),
+                    // Long names and large text give way (fewer lines, a
+                    // smaller temperature) instead of overflowing the card.
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         Flexible(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              formatNumber(
-                                l10n.localeName,
-                                summary.temperature!,
-                                unit: '°',
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  name,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: fg,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                              style: theme.textTheme.headlineMedium?.copyWith(
-                                color: fg,
-                                fontWeight: FontWeight.w300,
+                              if (summary.alertCount > 0)
+                                Tooltip(
+                                  message: l10n.summaryAlerts,
+                                  child: Icon(
+                                    Icons.warning_amber_rounded,
+                                    size: 20,
+                                    color: context.statusColors.warning,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        if (summary.temperature != null)
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                formatNumber(
+                                  l10n.localeName,
+                                  summary.temperature!,
+                                  unit: '°',
+                                ),
+                                style: theme.textTheme.headlineMedium?.copyWith(
+                                  color: fg,
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      Wrap(
-                        spacing: 6,
-                        runSpacing: 4,
-                        children: [
-                          if (lightsOn)
-                            _Pill(
-                              icon: Icons.lightbulb,
-                              text: '${summary.lightsOn}',
-                              background: amber.container,
-                              foreground: amber.onContainer,
-                            )
-                          else
-                            _Pill(
-                              icon: Icons.devices_other_outlined,
-                              text: '${summary.deviceCount}',
-                              background: base.withValues(alpha: 0.7),
-                              foreground: sub,
-                            ),
-                          if (summary.humidity != null)
-                            _Pill(
-                              icon: Icons.water_drop_outlined,
-                              text: formatNumber(
-                                l10n.localeName,
-                                summary.humidity!,
-                                unit: '%',
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 4,
+                          children: [
+                            if (lightsOn)
+                              _Pill(
+                                icon: Icons.lightbulb,
+                                text: '${summary.lightsOn}',
+                                background: amber.container,
+                                foreground: amber.onContainer,
+                              )
+                            else
+                              _Pill(
+                                icon: Icons.devices_other_outlined,
+                                text: '${summary.deviceCount}',
+                                background: base.withValues(alpha: 0.7),
+                                foreground: sub,
                               ),
-                              background: base.withValues(alpha: 0.7),
-                              foreground: sub,
-                            ),
-                        ],
-                      ),
-                    ],
+                            if (summary.humidity != null)
+                              _Pill(
+                                icon: Icons.water_drop_outlined,
+                                text: formatNumber(
+                                  l10n.localeName,
+                                  summary.humidity!,
+                                  unit: '%',
+                                ),
+                                background: base.withValues(alpha: 0.7),
+                                foreground: sub,
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

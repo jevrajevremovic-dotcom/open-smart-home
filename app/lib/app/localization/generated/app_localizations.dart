@@ -6792,7 +6792,7 @@ abstract class AppLocalizations {
   /// No description provided for @roomPhotoHint.
   ///
   /// In en, this message translates to:
-  /// **'The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.'**
+  /// **'Photo, icon and colour stay on this device only; they are not sent to Home Assistant. For the wall tablet, choose them on the tablet itself.'**
   String get roomPhotoHint;
 
   /// No description provided for @themeAutoDark.
@@ -6848,6 +6848,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Teal'**
   String get accentTeal;
+
+  /// No description provided for @onNowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'On now'**
+  String get onNowTitle;
+
+  /// No description provided for @onNowLights.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 light} other{{count} lights}}'**
+  String onNowLights(int count);
+
+  /// No description provided for @onNowLightsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'All lights are off.'**
+  String get onNowLightsOff;
+
+  /// No description provided for @onNowTurnedOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turned off: {name}'**
+  String onNowTurnedOff(String name);
+
+  /// No description provided for @onNowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to open, long-press to turn off'**
+  String get onNowHint;
+
+  /// No description provided for @roomLook.
+  ///
+  /// In en, this message translates to:
+  /// **'Room look'**
+  String get roomLook;
+
+  /// No description provided for @roomPhotoChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a photo'**
+  String get roomPhotoChoose;
+
+  /// No description provided for @roomIconTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get roomIconTitle;
+
+  /// No description provided for @roomColorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour'**
+  String get roomColorTitle;
+
+  /// No description provided for @roomLookReset.
+  ///
+  /// In en, this message translates to:
+  /// **'As in Home Assistant'**
+  String get roomLookReset;
+
+  /// No description provided for @favoritesBrowse.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse devices'**
+  String get favoritesBrowse;
 }
 
 class _AppLocalizationsDelegate

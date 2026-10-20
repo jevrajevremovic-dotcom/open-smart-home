@@ -3916,7 +3916,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get roomPhotoHint =>
-      'The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.';
+      'Photo, icon and colour stay on this device only; they are not sent to Home Assistant. For the wall tablet, choose them on the tablet itself.';
 
   @override
   String get themeAutoDark => 'Dark after sunset';
@@ -3945,4 +3945,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accentTeal => 'Teal';
+
+  @override
+  String get onNowTitle => 'On now';
+
+  @override
+  String onNowLights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lights',
+      one: '1 light',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onNowLightsOff => 'All lights are off.';
+
+  @override
+  String onNowTurnedOff(String name) {
+    return 'Turned off: $name';
+  }
+
+  @override
+  String get onNowHint => 'Tap to open, long-press to turn off';
+
+  @override
+  String get roomLook => 'Room look';
+
+  @override
+  String get roomPhotoChoose => 'Choose a photo';
+
+  @override
+  String get roomIconTitle => 'Icon';
+
+  @override
+  String get roomColorTitle => 'Colour';
+
+  @override
+  String get roomLookReset => 'As in Home Assistant';
+
+  @override
+  String get favoritesBrowse => 'Browse devices';
 }

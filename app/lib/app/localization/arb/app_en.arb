@@ -1624,7 +1624,7 @@
   "roomPhoto": "Room photo",
   "roomPhotoChange": "Choose another photo",
   "roomPhotoRemove": "Remove photo",
-  "roomPhotoHint": "The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.",
+  "roomPhotoHint": "Photo, icon and colour stay on this device only; they are not sent to Home Assistant. For the wall tablet, choose them on the tablet itself.",
   "themeAutoDark": "Dark after sunset",
   "themeAutoDarkHint": "Follows sunrise and sunset from Home Assistant (without it: dark from 20:00 to 7:00).",
   "accentTitle": "Accent colour",
@@ -1633,5 +1633,18 @@
   "accentGreen": "Green",
   "accentPurple": "Purple",
   "accentRose": "Rose",
-  "accentTeal": "Teal"
+  "accentTeal": "Teal",
+  "onNowTitle": "On now",
+  "onNowLights": "{count, plural, =1{1 light} other{{count} lights}}",
+  "@onNowLights": {"placeholders": {"count": {"type": "int"}}},
+  "onNowLightsOff": "All lights are off.",
+  "onNowTurnedOff": "Turned off: {name}",
+  "@onNowTurnedOff": {"placeholders": {"name": {"type": "String"}}},
+  "onNowHint": "Tap to open, long-press to turn off",
+  "roomLook": "Room look",
+  "roomPhotoChoose": "Choose a photo",
+  "roomIconTitle": "Icon",
+  "roomColorTitle": "Colour",
+  "roomLookReset": "As in Home Assistant",
+  "favoritesBrowse": "Browse devices"
 }

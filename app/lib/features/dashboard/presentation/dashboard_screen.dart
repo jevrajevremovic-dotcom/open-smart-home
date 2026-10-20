@@ -39,6 +39,8 @@ import '../../todo/todo_screen.dart';
 import '../../household/family_messages.dart';
 import '../application/home_summaries.dart';
 
+import 'on_now_strip.dart';
+import 'weather_sky.dart';
 part 'dashboard_summary.dart';
 part 'dashboard_sections.dart';
 
@@ -52,6 +54,8 @@ class DashboardScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
+        // A faint wash of the sky outside behind the greeting.
+        flexibleSpace: const WeatherSky(),
         title: const _HomeSwitcher(),
         actions: const [
           Padding(
@@ -318,6 +322,7 @@ class DashboardBody extends ConsumerWidget {
       case DashboardCard.summary:
         return [
           if (!kiosk) box(const _HomeSentence()),
+          if (!kiosk) box(const OnNowStrip(padding: EdgeInsets.only(top: 12))),
           box(const DashboardSummaryRow()),
         ];
       case DashboardCard.weather:
@@ -426,6 +431,8 @@ class DashboardBody extends ConsumerWidget {
                     child: EmptyHint(
                       icon: Icons.star_border,
                       text: l10n.favoritesEmpty,
+                      actionLabel: l10n.favoritesBrowse,
+                      onAction: () => context.push(AppRoutes.allDevices),
                     ),
                   )
                 : DeviceSliverGrid(deviceIds: favorites),

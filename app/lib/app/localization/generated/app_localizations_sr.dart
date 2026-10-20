@@ -3932,7 +3932,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get roomPhotoHint =>
-      'Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu.';
+      'Fotografija, ikonica i boja ostaju samo na ovom uređaju; ne šalju se u Home Assistant. Za zidni tablet izaberite ih na samom tabletu.';
 
   @override
   String get themeAutoDark => 'Tamno posle zalaska sunca';
@@ -3961,6 +3961,50 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get accentTeal => 'Tirkizna';
+
+  @override
+  String get onNowTitle => 'Sada uključeno';
+
+  @override
+  String onNowLights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count svetala',
+      few: '$count svetla',
+      one: '1 svetlo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onNowLightsOff => 'Sva svetla su ugašena.';
+
+  @override
+  String onNowTurnedOff(String name) {
+    return 'Ugašeno: $name';
+  }
+
+  @override
+  String get onNowHint => 'Dodir otvara, dugi pritisak gasi';
+
+  @override
+  String get roomLook => 'Izgled sobe';
+
+  @override
+  String get roomPhotoChoose => 'Izaberi fotografiju';
+
+  @override
+  String get roomIconTitle => 'Ikonica';
+
+  @override
+  String get roomColorTitle => 'Boja';
+
+  @override
+  String get roomLookReset => 'Kao u Home Assistantu';
+
+  @override
+  String get favoritesBrowse => 'Pogledaj uređaje';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

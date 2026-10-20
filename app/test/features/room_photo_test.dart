@@ -8,6 +8,7 @@ import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart';
 import 'package:open_smart_home/features/kiosk/data/kiosk_photo.dart';
 import 'package:open_smart_home/features/kiosk/presentation/glass.dart';
+import 'package:open_smart_home/features/rooms/presentation/room_look.dart';
 import 'package:open_smart_home/features/rooms/presentation/room_photo.dart';
 import 'package:open_smart_home/integrations/home_assistant/mock/mock_camera_image.dart';
 
@@ -61,8 +62,27 @@ void main() {
     expect(find.byKey(const ValueKey('roomPhoto-kitchen')), findsNothing);
     await tapKey(tester, 'roomPhoto');
     await settle(tester, 4);
+    await tapKey(tester, 'roomPhotoChange');
+    await settle(tester, 4);
+    // Own icon and colour, in the same sheet.
+    await tapKey(tester, 'roomIcon-mdi:shower');
+    await tapKey(tester, 'roomColor-3');
+    await settle(tester, 2);
+    expect(container.read(roomLooksProvider)['kitchen']?.icon, 'mdi:shower');
+    expect(
+      container.read(roomLooksProvider)['kitchen']?.color,
+      roomColorChoices[3],
+    );
+    Navigator.of(tester.element(find.byKey(const Key('roomPhotoChange'))))
+        .pop();
+    await settle(tester, 4);
     expect(find.byKey(const ValueKey('roomPhoto-kitchen')), findsOneWidget);
     expect(container.read(roomPhotosProvider), {'kitchen': 'p0'});
+
+    // The rooms list: the photo fills the kitchen's card.
+    await goTo(tester, AppRoutes.rooms);
+    await settle(tester, 4);
+    expect(find.byKey(const ValueKey('roomCardPhoto-kitchen')), findsOneWidget);
 
     // The kiosk shows it above the room.
     container.read(kioskActiveProvider.notifier).enter();
@@ -80,6 +100,12 @@ void main() {
     await tapKey(tester, 'roomPhoto');
     await settle(tester, 2);
     await tapKey(tester, 'roomPhotoRemove');
+    await settle(tester, 2);
+    await tapKey(tester, 'roomLookReset');
+    await settle(tester, 2);
+    expect(container.read(roomLooksProvider), isEmpty);
+    Navigator.of(tester.element(find.byKey(const Key('roomPhotoChange'))))
+        .pop();
     await settle(tester, 4);
     expect(find.byKey(const ValueKey('roomPhoto-kitchen')), findsNothing);
     expect(store.files, isEmpty);

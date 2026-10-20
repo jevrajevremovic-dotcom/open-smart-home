@@ -372,14 +372,26 @@ class DashboardBody extends ConsumerWidget {
                       label: l10n.activityTitle,
                     ),
                   ];
-                  // Phones: one row of equal buttons; wider: natural sizes.
+                  // Phones and narrow columns: equal buttons, icon over
+                  // label, as many per row as fit with every label whole
+                  // (five, or three and two with large text).
                   if (WindowSize.fromWidth(constraints.maxWidth) ==
                       WindowSize.compact) {
-                    return Row(
-                      spacing: 8,
+                    const gap = 8.0;
+                    final labels = [for (final l in links) l.label];
+                    var perRow = links.length;
+                    double width() =>
+                        (constraints.maxWidth - gap * (perRow - 1)) / perRow;
+                    while (perRow > 2 &&
+                        !_labelsFit(context, labels, width() - 16)) {
+                      perRow--;
+                    }
+                    return Wrap(
+                      spacing: gap,
+                      runSpacing: gap,
                       children: [
                         for (final link in links)
-                          Expanded(child: link.stacked()),
+                          SizedBox(width: width(), child: link.stacked()),
                       ],
                     );
                   }

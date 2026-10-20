@@ -146,17 +146,29 @@ class _SummaryWrap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final full = fullWidth;
-    final half = full == null ? null : (full - 12) / 2;
-    return Wrap(
+    if (full == null) {
+      return Wrap(spacing: 12, runSpacing: 12, children: children);
+    }
+    // Pairs of equal height, so a label on two lines does not leave its
+    // neighbour shorter.
+    final half = (full - 12) / 2;
+    return Column(
       spacing: 12,
-      runSpacing: 12,
       children: [
-        for (final (i, card) in children.indexed)
-          card.withWidth(
-            full != null && children.length.isOdd && i == children.length - 1
-                ? full
-                : half,
-          ),
+        for (var i = 0; i < children.length; i += 2)
+          if (i + 1 < children.length)
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 12,
+                children: [
+                  children[i].withWidth(half),
+                  children[i + 1].withWidth(half),
+                ],
+              ),
+            )
+          else
+            children[i].withWidth(full),
       ],
     );
   }
@@ -231,7 +243,7 @@ class _SummaryCard extends StatelessWidget {
                     children: [
                       Text(
                         label,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.labelMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
@@ -244,14 +256,19 @@ class _SummaryCard extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           children: [...previous, ?current],
                         ),
-                        child: Text(
-                          value ?? '—',
+                        // A long value ("All closed") shrinks to fit
+                        // rather than being cut off.
+                        child: FittedBox(
                           key: ValueKey(value),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          semanticsLabel: value ?? l10n.valueNotAvailable,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            color: color,
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            value ?? '—',
+                            maxLines: 1,
+                            semanticsLabel: value ?? l10n.valueNotAvailable,
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              color: color,
+                            ),
                           ),
                         ),
                       ),
@@ -266,4 +283,23 @@ class _SummaryCard extends StatelessWidget {
     );
     return tooltip == null ? card : Tooltip(message: tooltip, child: card);
   }
+}
+
+/// Whether every label fits on one line in [width] (button text style and
+/// the user's text size).
+bool _labelsFit(BuildContext context, List<String> labels, double width) {
+  final style = Theme.of(context).textTheme.labelLarge;
+  final scaler = MediaQuery.textScalerOf(context);
+  for (final label in labels) {
+    final painter = TextPainter(
+      text: TextSpan(text: label, style: style),
+      textScaler: scaler,
+      maxLines: 1,
+      textDirection: Directionality.of(context),
+    )..layout();
+    final fits = painter.width <= width;
+    painter.dispose();
+    if (!fits) return false;
+  }
+  return true;
 }

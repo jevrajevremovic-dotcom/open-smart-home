@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Paneli odozdo (izgled sobe, mediji, prečice…) otvaraju se iznad donje navigacije, a ne ispod nje.
 - Početna (telefon i tablet bez kioska): vrednost na kartici sažetka („Sve zatvoreno”/„All closed”) se smanji da stane umesto da se odseče, naziv sme u dva reda, a kartice u istom redu su iste visine. Prečice (Provera, Poruke, Energija, Kalendar, Aktivnost) ostaju jednake širine sa celim nazivom — pet u redu kad staju, inače tri pa dve.
 - Ispravljeno: kartice prostorija, kartice uređaja u kiosku i grupne kartice na uskom telefonu prelivale su se („bottom overflowed”) kad su imena dugačka ili je sistemski tekst veći; sada se ime skrati, a broj ili temperatura smanje. Novi test pregleda sve sobe, ekrane uređaja i kiosk sa dugačkim imenima i većim tekstom.
 - Kiosk ima samo jedan izgled, „Kolone”. Uklonjeni su stari stilovi „Mehurići” i „Staklo” i sve što je postojalo samo za njih: uređivač rasporeda panela, dodatne stranice kioska po dobu dana, pozadine i sopstvena pozadinska fotografija, statusni čipovi u zaglavlju, „lakši efekti” i prekidač za kalendar (kalendar se bira među karticama Početne). Ram za fotografije, noćni sat, iskačuća kamera i ostalo ostaju.
@@ -39,8 +40,6 @@
 ### Dodato
 - Kartice uređaja: dodir otvara brzi panel odozdo sa kontrolama uređaja (i istorijom za senzore) i dugmetom „Svi detalji”; dugi pritisak na svetlo, roletnu ili zvučnik otvara veliki klizač preko zamućenog ekrana (prevlačenje ili dodir na visinu, uz blagu vibraciju na svakih 10 %); na kiosku isto. Ikonica uređaja „leti” sa kartice u zaglavlje njegovog ekrana. Brojevi u sažetku se menjaju klizanjem, boja kartice se postepeno uliva, prekidač blago vibrira.
 
-### Izmenjeno
-- Paneli odozdo (izgled sobe, mediji, prečice…) otvaraju se iznad donje navigacije, a ne ispod nje.
 - Početna: traka „Sada uključeno” (svetla zajedno, pa svaki uključeni uređaj kao čip u svojoj boji) — dodir otvara, dugi pritisak gasi; i na kiosku. Zaglavlje sa pozdravom ima blagu nijansu neba napolju (toplo po suncu, sivo-plavo po kiši, tamnoplavo noću).
 - Izgled sobe (dugme sa paletom u zaglavlju sobe): fotografija, ikonica i boja po izboru; fotografija postaje pozadina kartice sobe (zatamnjena za čitljiv tekst), a ikonica i boja važe i u bočnoj traci kioska. Sve ostaje samo na uređaju.
 - Lepša prazna stanja: ikonica u krugovima u boji aplikacije i, gde ima smisla, dugme za sledeći korak („Pogledaj uređaje” kod praznog Omiljenog).

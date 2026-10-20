@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,8 +13,12 @@ import '../application/device_providers.dart';
 import '../data/home_state_repository.dart';
 import '../domain/capability.dart';
 import '../domain/device_command.dart';
+import '../domain/device_kind.dart';
 import '../domain/smart_home_device.dart';
+import 'big_slider.dart';
 import 'device_actions.dart';
+import 'device_detail_screen.dart' show deviceHeroTag;
+import 'device_sheet.dart';
 import 'device_presentation.dart';
 
 /// Compact card for one device. Watches only its own device, so a state
@@ -116,7 +123,10 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
             activeTrackColor: swatch?.icon,
             onChanged: _busy || !live
                 ? null
-                : (on) => _run(on ? const TurnOn() : const TurnOff()),
+                : (on) {
+                    unawaited(HapticFeedback.lightImpact());
+                    _run(on ? const TurnOn() : const TurnOff());
+                  },
           )
         : DevicePresentation.hasQuickActivate(device)
         ? IconButton.filledTonal(
@@ -136,7 +146,7 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
       button: true,
       excludeSemantics: action == null,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
+        duration: const Duration(milliseconds: 350),
         curve: Curves.easeOut,
         decoration: BoxDecoration(
           color: fill,
@@ -147,17 +157,34 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
           borderRadius: BorderRadius.circular(AppTheme.tileRadius),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
-            onTap: () => context.push(
-              widget.group != null
-                  ? AppRoutes.deviceGroup(
-                      widget.group!.id,
-                      kiosk: ref.read(kioskActiveProvider),
-                    )
-                  : AppRoutes.device(
-                      device.id,
-                      kiosk: ref.read(kioskActiveProvider),
-                    ),
-            ),
+            onTap: () {
+              final kiosk = ref.read(kioskActiveProvider);
+              if (widget.group != null) {
+                context.push(
+                  AppRoutes.deviceGroup(widget.group!.id, kiosk: kiosk),
+                );
+              } else if (kiosk || device.kind == DeviceKind.camera) {
+                context.push(AppRoutes.device(device.id, kiosk: kiosk));
+              } else {
+                // The main controls in a sheet, without leaving the list.
+                showDeviceSheet(context, device.id);
+              }
+            },
+            // A level to slide (light, blind, volume): the big slider;
+            // anything else: its full screen.
+            onLongPress: () {
+              unawaited(HapticFeedback.mediumImpact());
+              if (bigSliderFor(l10n, device) != null) {
+                showBigSlider(context, device.id);
+              } else {
+                context.push(
+                  AppRoutes.device(
+                    device.id,
+                    kiosk: ref.read(kioskActiveProvider),
+                  ),
+                );
+              }
+            },
             child: Opacity(
               opacity: device.available ? 1 : 0.6,
               child: Padding(
@@ -167,17 +194,20 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
                   children: [
                     Row(
                       children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: disc,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            DevicePresentation.icon(device),
-                            color: iconColor,
-                            size: 22,
+                        Hero(
+                          tag: deviceHeroTag(device.id),
+                          child: Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: disc,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              DevicePresentation.icon(device),
+                              color: iconColor,
+                              size: 22,
+                            ),
                           ),
                         ),
                         // The parts count gives way on a narrow card.

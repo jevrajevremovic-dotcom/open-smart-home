@@ -113,6 +113,7 @@ class RoomPhotoButton extends ConsumerWidget {
     tooltip: context.l10n.roomLook,
     icon: const Icon(Icons.palette_outlined),
     onPressed: () => showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       showDragHandle: true,

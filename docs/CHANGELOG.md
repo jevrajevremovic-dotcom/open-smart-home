@@ -37,6 +37,10 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Kartice uređaja: dodir otvara brzi panel odozdo sa kontrolama uređaja (i istorijom za senzore) i dugmetom „Svi detalji”; dugi pritisak na svetlo, roletnu ili zvučnik otvara veliki klizač preko zamućenog ekrana (prevlačenje ili dodir na visinu, uz blagu vibraciju na svakih 10 %); na kiosku isto. Ikonica uređaja „leti” sa kartice u zaglavlje njegovog ekrana. Brojevi u sažetku se menjaju klizanjem, boja kartice se postepeno uliva, prekidač blago vibrira.
+
+### Izmenjeno
+- Paneli odozdo (izgled sobe, mediji, prečice…) otvaraju se iznad donje navigacije, a ne ispod nje.
 - Početna: traka „Sada uključeno” (svetla zajedno, pa svaki uključeni uređaj kao čip u svojoj boji) — dodir otvara, dugi pritisak gasi; i na kiosku. Zaglavlje sa pozdravom ima blagu nijansu neba napolju (toplo po suncu, sivo-plavo po kiši, tamnoplavo noću).
 - Izgled sobe (dugme sa paletom u zaglavlju sobe): fotografija, ikonica i boja po izboru; fotografija postaje pozadina kartice sobe (zatamnjena za čitljiv tekst), a ikonica i boja važe i u bočnoj traci kioska. Sve ostaje samo na uređaju.
 - Lepša prazna stanja: ikonica u krugovima u boji aplikacije i, gde ima smisla, dugme za sledeći korak („Pogledaj uređaje” kod praznog Omiljenog).

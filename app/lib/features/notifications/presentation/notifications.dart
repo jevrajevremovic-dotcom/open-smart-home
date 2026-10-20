@@ -61,6 +61,7 @@ class NotificationsBanner extends ConsumerWidget {
 
 Future<void> showNotificationsSheet(BuildContext context) =>
     showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,

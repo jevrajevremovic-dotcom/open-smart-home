@@ -129,6 +129,7 @@ class AllCoversButtons extends ConsumerWidget {
 /// Small sheet with the whole-home buttons (from the lights summary).
 Future<void> showAllLightsSheet(BuildContext context) =>
     showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       builder: (context) => Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),

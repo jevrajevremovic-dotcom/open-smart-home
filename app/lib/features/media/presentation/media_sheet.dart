@@ -14,6 +14,7 @@ import 'media_player_view.dart';
 /// and power – without leaving the current screen (also in kiosk mode).
 Future<void> showMediaSheet(BuildContext context, {String? playerId}) =>
     showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,

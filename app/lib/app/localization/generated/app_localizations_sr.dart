@@ -4005,6 +4005,15 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get favoritesBrowse => 'Pogledaj uređaje';
+
+  @override
+  String get bigSliderPosition => 'Položaj';
+
+  @override
+  String get bigSliderHint => 'Dugi pritisak: veliki klizač';
+
+  @override
+  String get deviceSheetMore => 'Svi detalji';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

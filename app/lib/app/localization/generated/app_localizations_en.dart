@@ -3988,4 +3988,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get favoritesBrowse => 'Browse devices';
+
+  @override
+  String get bigSliderPosition => 'Position';
+
+  @override
+  String get bigSliderHint => 'Long press: big slider';
+
+  @override
+  String get deviceSheetMore => 'All details';
 }

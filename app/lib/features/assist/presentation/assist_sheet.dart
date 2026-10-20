@@ -17,6 +17,7 @@ import '../data/voice_input.dart';
 /// starts listening right away (opened as the phone's assistant).
 Future<void> showAssist(BuildContext context, {bool listen = false}) =>
     showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,

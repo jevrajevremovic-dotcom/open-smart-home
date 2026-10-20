@@ -205,6 +205,7 @@ class DeviceTimerSection extends ConsumerWidget {
         label: Text(l10n.timerSet),
         onPressed: () async {
           final choice = await showModalBottomSheet<(Duration, bool)>(
+            useRootNavigator: true,
             context: context,
             builder: (_) => _TimerSheet(isOn: device.state.isOn == true),
           );

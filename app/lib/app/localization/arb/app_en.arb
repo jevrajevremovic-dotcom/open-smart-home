@@ -1646,5 +1646,8 @@
   "roomIconTitle": "Icon",
   "roomColorTitle": "Colour",
   "roomLookReset": "As in Home Assistant",
-  "favoritesBrowse": "Browse devices"
+  "favoritesBrowse": "Browse devices",
+  "bigSliderPosition": "Position",
+  "bigSliderHint": "Long press: big slider",
+  "deviceSheetMore": "All details"
 }

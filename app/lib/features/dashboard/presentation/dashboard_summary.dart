@@ -249,9 +249,26 @@ class _SummaryCard extends StatelessWidget {
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      // A changed value fades in rather than jumping.
+                      // A changed value rolls in from below rather than
+                      // jumping.
                       AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 250),
+                        duration: const Duration(milliseconds: 300),
+                        transitionBuilder: (child, animation) => FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position:
+                                Tween(
+                                  begin: const Offset(0, 0.4),
+                                  end: Offset.zero,
+                                ).animate(
+                                  CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.easeOutCubic,
+                                  ),
+                                ),
+                            child: child,
+                          ),
+                        ),
                         layoutBuilder: (current, previous) => Stack(
                           alignment: Alignment.centerLeft,
                           children: [...previous, ?current],

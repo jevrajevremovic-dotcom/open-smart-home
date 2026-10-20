@@ -1136,5 +1136,8 @@
   "roomIconTitle": "Ikonica",
   "roomColorTitle": "Boja",
   "roomLookReset": "Kao u Home Assistantu",
-  "favoritesBrowse": "Pogledaj uređaje"
+  "favoritesBrowse": "Pogledaj uređaje",
+  "bigSliderPosition": "Položaj",
+  "bigSliderHint": "Dugi pritisak: veliki klizač",
+  "deviceSheetMore": "Svi detalji"
 }

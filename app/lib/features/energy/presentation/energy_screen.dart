@@ -402,6 +402,7 @@ class _TopConsumers extends StatelessWidget {
     final l10n = context.l10n;
     final total = report.consumption;
     showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       builder: (context) => SafeArea(

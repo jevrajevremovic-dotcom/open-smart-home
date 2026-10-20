@@ -30,6 +30,7 @@ import '../../devices/domain/device_command.dart';
 import '../../devices/domain/device_kind.dart';
 import '../../devices/domain/smart_home_device.dart';
 import '../../devices/presentation/device_actions.dart';
+import '../../devices/presentation/big_slider.dart';
 import '../../devices/presentation/device_history.dart';
 import '../../devices/presentation/device_detail_screen.dart'
     show deviceControlsFor;
@@ -296,6 +297,7 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
     if (_sheetOpen) return;
     _sheetOpen = true;
     await showModalBottomSheet<void>(
+      useRootNavigator: true,
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
@@ -1187,7 +1189,10 @@ class _AccessoryCard extends ConsumerWidget {
       child: InkWell(
         onTap: () =>
             ref.read(kioskColumnsDeviceProvider.notifier).select(group.key),
-        onLongPress: () => context.push(AppRoutes.device(d.id, kiosk: true)),
+        // A level to slide: the big slider; else the device's screen.
+        onLongPress: () => bigSliderFor(context.l10n, d) != null
+            ? showBigSlider(context, d.id)
+            : context.push(AppRoutes.device(d.id, kiosk: true)),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

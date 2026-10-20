@@ -6914,6 +6914,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Browse devices'**
   String get favoritesBrowse;
+
+  /// No description provided for @bigSliderPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Position'**
+  String get bigSliderPosition;
+
+  /// No description provided for @bigSliderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press: big slider'**
+  String get bigSliderHint;
+
+  /// No description provided for @deviceSheetMore.
+  ///
+  /// In en, this message translates to:
+  /// **'All details'**
+  String get deviceSheetMore;
 }
 
 class _AppLocalizationsDelegate

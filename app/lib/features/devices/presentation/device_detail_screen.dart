@@ -143,6 +143,9 @@ class DeviceDetailScreen extends ConsumerWidget {
   }
 }
 
+/// Hero tag of a device's icon, from its card to its screen.
+String deviceHeroTag(String id) => 'device-icon-$id';
+
 /// The controls for [d] (power, then what its kind needs), as on its
 /// screen; also used by the kiosk's detail column.
 List<Widget> deviceControlsFor(SmartHomeDevice d) {
@@ -197,10 +200,18 @@ class _Header extends StatelessWidget {
     );
     return Row(
       children: [
-        CircleAvatar(
-          radius: 32,
-          backgroundColor: color.withValues(alpha: 0.15),
-          child: Icon(DevicePresentation.icon(device), size: 34, color: color),
+        // Flies in from the device's card.
+        Hero(
+          tag: deviceHeroTag(device.id),
+          child: CircleAvatar(
+            radius: 32,
+            backgroundColor: color.withValues(alpha: 0.15),
+            child: Icon(
+              DevicePresentation.icon(device),
+              size: 34,
+              color: color,
+            ),
+          ),
         ),
         const SizedBox(width: 16),
         Expanded(

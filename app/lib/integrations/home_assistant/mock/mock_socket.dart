@@ -205,6 +205,27 @@ class _MockSocket implements HaSocket {
         final confirmId = msg['confirm_id'];
         if (confirmId is String) _server.confirmedPushes.add(confirmId);
         _emit(ok());
+      // Frontend storage (homeassistant/components/frontend/storage.py):
+      // per-user data, and system data that only an admin may write.
+      case 'frontend/get_user_data':
+        _emit(ok({'value': _server.userData[msg['key']]}));
+      case 'frontend/set_user_data':
+        _server.userData[msg['key']! as String] = msg['value'];
+        _emit(ok());
+      case 'frontend/get_system_data':
+        _emit(ok({'value': _server.systemData[msg['key']]}));
+      case 'frontend/set_system_data':
+        if (!_server.configAdmin) {
+          _emit({
+            'id': id,
+            'type': 'result',
+            'success': false,
+            'error': {'code': 'unauthorized', 'message': 'Unauthorized'},
+          });
+        } else {
+          _server.systemData[msg['key']! as String] = msg['value'];
+          _emit(ok());
+        }
       case 'tag/list':
         _emit(ok([for (final t in _server.tags.values) Map.of(t)]));
       case 'tag/create':

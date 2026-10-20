@@ -7208,6 +7208,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get setupBack;
+
+  /// No description provided for @haBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'In Home Assistant'**
+  String get haBackupTitle;
+
+  /// No description provided for @haBackupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app\'s settings (look, kiosk, cards, quick controls, rooms) are kept in your Home Assistant under the device\'s name, so after a reinstall or on another tablet they come back with one tap. Tokens, PIN, photos and microphone/camera choices are never kept.'**
+  String get haBackupHint;
+
+  /// No description provided for @haBackupName.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy name (device)'**
+  String get haBackupName;
+
+  /// No description provided for @haBackupSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get haBackupSave;
+
+  /// No description provided for @haBackupSavedHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as \"{name}\" — visible on every device in the home.'**
+  String haBackupSavedHome(String name);
+
+  /// No description provided for @haBackupSavedUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as \"{name}\" for your account (the whole home needs an administrator).'**
+  String haBackupSavedUser(String name);
+
+  /// No description provided for @haBackupNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved copies yet.'**
+  String get haBackupNone;
+
+  /// No description provided for @haBackupScopeHome.
+  ///
+  /// In en, this message translates to:
+  /// **'for the whole home'**
+  String get haBackupScopeHome;
+
+  /// No description provided for @haBackupScopeUser.
+  ///
+  /// In en, this message translates to:
+  /// **'your account only'**
+  String get haBackupScopeUser;
+
+  /// No description provided for @haBackupRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get haBackupRestore;
+
+  /// No description provided for @haBackupRestoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore \"{name}\"?'**
+  String haBackupRestoreTitle(String name);
+
+  /// No description provided for @haBackupRestoreBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This device\'s settings will be replaced by the saved ones. PIN, photos and microphone/camera choices stay as they are.'**
+  String get haBackupRestoreBody;
+
+  /// No description provided for @haBackupDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete copy'**
+  String get haBackupDelete;
+
+  /// No description provided for @haBackupUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Copies in Home Assistant aren\'t available right now (no connection).'**
+  String get haBackupUnavailable;
+
+  /// No description provided for @backupFileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'As text (manually)'**
+  String get backupFileTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -4193,6 +4193,60 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get setupBack => 'Nazad';
+
+  @override
+  String get haBackupTitle => 'U Home Assistantu';
+
+  @override
+  String get haBackupHint =>
+      'Podešavanja aplikacije (izgled, kiosk, kartice, brze kontrole, sobe) čuvaju se u vašem Home Assistantu pod imenom uređaja, pa se posle reinstalacije ili na drugom tabletu vraćaju jednim dodirom. Ne čuvaju se tokeni, PIN, fotografije ni izbori za mikrofon i kameru.';
+
+  @override
+  String get haBackupName => 'Ime kopije (uređaj)';
+
+  @override
+  String get haBackupSave => 'Sačuvaj';
+
+  @override
+  String haBackupSavedHome(String name) {
+    return 'Sačuvano kao „$name” — vidljivo na svim uređajima u kući.';
+  }
+
+  @override
+  String haBackupSavedUser(String name) {
+    return 'Sačuvano kao „$name” za vaš nalog (za celu kuću je potreban administrator).';
+  }
+
+  @override
+  String get haBackupNone => 'Još nema sačuvanih kopija.';
+
+  @override
+  String get haBackupScopeHome => 'za celu kuću';
+
+  @override
+  String get haBackupScopeUser => 'samo vaš nalog';
+
+  @override
+  String get haBackupRestore => 'Vrati';
+
+  @override
+  String haBackupRestoreTitle(String name) {
+    return 'Vratiti „$name”?';
+  }
+
+  @override
+  String get haBackupRestoreBody =>
+      'Podešavanja ovog uređaja biće zamenjena sačuvanim. PIN, fotografije i izbori za mikrofon i kameru ostaju kakvi su.';
+
+  @override
+  String get haBackupDelete => 'Obriši kopiju';
+
+  @override
+  String get haBackupUnavailable =>
+      'Kopije iz Home Assistanta trenutno nisu dostupne (nema veze).';
+
+  @override
+  String get backupFileTitle => 'Kao tekst (ručno)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

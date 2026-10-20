@@ -4171,4 +4171,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setupBack => 'Back';
+
+  @override
+  String get haBackupTitle => 'In Home Assistant';
+
+  @override
+  String get haBackupHint =>
+      'The app\'s settings (look, kiosk, cards, quick controls, rooms) are kept in your Home Assistant under the device\'s name, so after a reinstall or on another tablet they come back with one tap. Tokens, PIN, photos and microphone/camera choices are never kept.';
+
+  @override
+  String get haBackupName => 'Copy name (device)';
+
+  @override
+  String get haBackupSave => 'Save';
+
+  @override
+  String haBackupSavedHome(String name) {
+    return 'Saved as \"$name\" — visible on every device in the home.';
+  }
+
+  @override
+  String haBackupSavedUser(String name) {
+    return 'Saved as \"$name\" for your account (the whole home needs an administrator).';
+  }
+
+  @override
+  String get haBackupNone => 'No saved copies yet.';
+
+  @override
+  String get haBackupScopeHome => 'for the whole home';
+
+  @override
+  String get haBackupScopeUser => 'your account only';
+
+  @override
+  String get haBackupRestore => 'Restore';
+
+  @override
+  String haBackupRestoreTitle(String name) {
+    return 'Restore \"$name\"?';
+  }
+
+  @override
+  String get haBackupRestoreBody =>
+      'This device\'s settings will be replaced by the saved ones. PIN, photos and microphone/camera choices stay as they are.';
+
+  @override
+  String get haBackupDelete => 'Delete copy';
+
+  @override
+  String get haBackupUnavailable =>
+      'Copies in Home Assistant aren\'t available right now (no connection).';
+
+  @override
+  String get backupFileTitle => 'As text (manually)';
 }

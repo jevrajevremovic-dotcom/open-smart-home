@@ -1185,5 +1185,20 @@
   "setupPanelHint": "Za panel koji se ne može napustiti i sam se pokreće posle nestanka struje, uređaj se priprema kao „vlasnik uređaja” pre prijave Google naloga — vidi uputstvo za instalatere (docs/INSTALLER.md).",
   "setupDone": "Gotovo",
   "setupNext": "Dalje",
-  "setupBack": "Nazad"
+  "setupBack": "Nazad",
+  "haBackupTitle": "U Home Assistantu",
+  "haBackupHint": "Podešavanja aplikacije (izgled, kiosk, kartice, brze kontrole, sobe) čuvaju se u vašem Home Assistantu pod imenom uređaja, pa se posle reinstalacije ili na drugom tabletu vraćaju jednim dodirom. Ne čuvaju se tokeni, PIN, fotografije ni izbori za mikrofon i kameru.",
+  "haBackupName": "Ime kopije (uređaj)",
+  "haBackupSave": "Sačuvaj",
+  "haBackupSavedHome": "Sačuvano kao „{name}” — vidljivo na svim uređajima u kući.",
+  "haBackupSavedUser": "Sačuvano kao „{name}” za vaš nalog (za celu kuću je potreban administrator).",
+  "haBackupNone": "Još nema sačuvanih kopija.",
+  "haBackupScopeHome": "za celu kuću",
+  "haBackupScopeUser": "samo vaš nalog",
+  "haBackupRestore": "Vrati",
+  "haBackupRestoreTitle": "Vratiti „{name}”?",
+  "haBackupRestoreBody": "Podešavanja ovog uređaja biće zamenjena sačuvanim. PIN, fotografije i izbori za mikrofon i kameru ostaju kakvi su.",
+  "haBackupDelete": "Obriši kopiju",
+  "haBackupUnavailable": "Kopije iz Home Assistanta trenutno nisu dostupne (nema veze).",
+  "backupFileTitle": "Kao tekst (ručno)"
 }

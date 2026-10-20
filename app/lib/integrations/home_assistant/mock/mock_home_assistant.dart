@@ -343,6 +343,10 @@ class MockHomeAssistantServer {
   /// Whether the demo user may change configuration (tag/create, …).
   bool configAdmin = true;
 
+  /// `frontend/*_user_data` and `frontend/*_system_data` stores.
+  final Map<String, Object?> userData = {};
+  final Map<String, Object?> systemData = {};
+
   /// Like `tag.async_scan_tag`: an unknown tag is added, "last scanned"
   /// moves, and `tag_scanned` fires.
   void scanTag(String id) {

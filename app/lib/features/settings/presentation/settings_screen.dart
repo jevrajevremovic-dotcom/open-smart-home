@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../installer/service_section.dart';
+import 'ha_backup_section.dart';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -413,6 +414,10 @@ class _SectionBody extends ConsumerWidget {
     final l10n = context.l10n;
     final textTheme = Theme.of(context).textTheme;
     return [
+      const HaBackupSection(),
+      const SizedBox(height: 24),
+      Text(l10n.backupFileTitle, style: textTheme.titleSmall),
+      const SizedBox(height: 4),
       Text(l10n.backupHint, style: textTheme.bodySmall),
       const SizedBox(height: 8),
       Wrap(

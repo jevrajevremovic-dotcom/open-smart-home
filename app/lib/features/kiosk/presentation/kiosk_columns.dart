@@ -290,7 +290,7 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
                               width: 380,
                               // Another device slides in from the right.
                               child: AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 240),
                                 switchInCurve: const Interval(
                                   0.45,
                                   1,

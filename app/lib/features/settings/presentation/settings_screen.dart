@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../installer/service_section.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +40,8 @@ enum SettingsSection {
   security(Icons.lock_outline),
   nfc(Icons.nfc),
   privacy(Icons.privacy_tip_outlined),
-  backup(Icons.sync_alt);
+  backup(Icons.sync_alt),
+  service(Icons.build_outlined);
 
   const SettingsSection(this.icon);
 
@@ -56,6 +60,7 @@ enum SettingsSection {
     nfc => l10n.nfcTitle,
     privacy => l10n.privacySection,
     backup => l10n.backupSection,
+    service => l10n.serviceSection,
   };
 
   String hint(AppLocalizations l10n) => switch (this) {
@@ -68,6 +73,7 @@ enum SettingsSection {
     nfc => l10n.nfcSectionHint,
     privacy => l10n.settingsPrivacyHint,
     backup => l10n.settingsBackupHint,
+    service => l10n.serviceSectionHint,
   };
 }
 
@@ -245,6 +251,7 @@ class _SectionBody extends ConsumerWidget {
                 SettingsSection.nfc => const [NfcTagsSection()],
                 SettingsSection.privacy => _privacy(context, ref),
                 SettingsSection.backup => _backup(context, ref),
+                SettingsSection.service => const [ServiceSection()],
               },
             ],
           ),

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/app_info.dart';
 import '../../app/localization/l10n.dart';
 import '../../core/errors/app_failure.dart';
 import '../../core/logging/app_logger.dart';
@@ -112,7 +113,7 @@ class HaPushController extends AsyncNotifier<MobileAppRegistration?> {
       'device_id': _deviceId(),
       'app_id': 'org.opensmarthome.open_smart_home',
       'app_name': 'Open Smart Home',
-      'app_version': '0.1.0',
+      'app_version': appVersion,
       'device_name': deviceName,
       'manufacturer': 'Open Smart Home',
       'model': defaultTargetPlatform.name,

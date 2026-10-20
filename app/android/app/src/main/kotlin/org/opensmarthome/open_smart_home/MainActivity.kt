@@ -41,6 +41,8 @@ class MainActivity : FlutterFragmentActivity() {
         val handler = NsdDiscoveryHandler(applicationContext)
         nsd = handler
         EventChannel(messenger, "org.opensmarthome/nsd").setStreamHandler(handler)
+        MethodChannel(messenger, "org.opensmarthome/device")
+            .setMethodCallHandler(DeviceAdminHandler(this))
 
         // Opened as the phone's assistant (long press of home / power).
         assist = MethodChannel(messenger, "org.opensmarthome/assist").apply {

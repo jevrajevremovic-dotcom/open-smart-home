@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../../app/router/app_router.dart';
 import '../../assist/presentation/wake_word_listener.dart';
+import '../application/device_admin.dart';
 import '../application/kiosk_controller.dart';
 import 'camera_popup.dart';
 import '../../timers/kiosk_timers.dart';
@@ -35,11 +36,14 @@ class _KioskShellState extends ConsumerState<KioskShell> {
   bool _brightnessSet = false;
   bool _dimmed = false;
   late final KioskPlatform _platform = ref.read(kioskPlatformProvider);
+  late final DeviceAdminPlatform _admin = ref.read(deviceAdminProvider);
 
   @override
   void initState() {
     super.initState();
     unawaited(_platform.enterFullscreen());
+    // Installer-provisioned panels: the kiosk cannot be left at all.
+    unawaited(_admin.lockTask(true));
     unawaited(
       _platform.keepScreenOn(ref.read(kioskSettingsProvider).keepScreenOn),
     );
@@ -69,6 +73,7 @@ class _KioskShellState extends ConsumerState<KioskShell> {
     _returnTimer?.cancel();
     _dimTimer?.cancel();
     unawaited(_platform.exitFullscreen());
+    unawaited(_admin.lockTask(false));
     unawaited(_platform.keepScreenOn(false));
     super.dispose();
   }

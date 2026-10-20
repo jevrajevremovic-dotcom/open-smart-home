@@ -10,6 +10,7 @@ import '../../features/connection/presentation/token_screen.dart';
 import '../../features/dashboard/presentation/dashboard_screen.dart';
 import '../../features/devices/presentation/device_detail_screen.dart';
 import '../../features/add_device/presentation/add_device_screen.dart';
+import '../../features/installer/setup_wizard.dart';
 import '../../features/devices/presentation/device_bundle_screen.dart';
 import '../../features/activity/activity_screen.dart';
 import '../../features/dashboard/presentation/dashboard_layout_screen.dart';
@@ -68,6 +69,7 @@ abstract final class AppRoutes {
   static const noRoomId = '_unassigned';
 
   static const kiosk = '/kiosk';
+  static const installerSetup = '/installer-setup';
 
   /// In kiosk mode links stay under [kiosk], so the router never lets the
   /// user out of the kiosk shell.
@@ -331,6 +333,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.allDevices,
             builder: (_, _) => const AllDevicesScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.installerSetup,
+            builder: (_, _) => const InstallerSetupScreen(),
           ),
           GoRoute(
             path: '/device/:deviceId',

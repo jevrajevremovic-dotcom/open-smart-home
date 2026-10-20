@@ -3997,4 +3997,178 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deviceSheetMore => 'All details';
+
+  @override
+  String get serviceSection => 'Service';
+
+  @override
+  String get serviceSectionHint => 'Diagnostics, support and installer tools';
+
+  @override
+  String serviceSupport(String brand) {
+    return 'Support: $brand';
+  }
+
+  @override
+  String get serviceApp => 'App';
+
+  @override
+  String get serviceDevice => 'Device';
+
+  @override
+  String get serviceServer => 'Server';
+
+  @override
+  String get serviceConnected => 'connected';
+
+  @override
+  String get serviceDisconnected => 'not connected';
+
+  @override
+  String get serviceDevices => 'Devices';
+
+  @override
+  String serviceDevicesValue(int count, int unavailable) {
+    return '$count devices, unavailable: $unavailable';
+  }
+
+  @override
+  String get servicePanel => 'Wall panel';
+
+  @override
+  String get servicePanelManaged =>
+      'Managed (device owner): the kiosk cannot be left and starts after a restart';
+
+  @override
+  String get servicePanelNot => 'Ordinary device (not installer-managed)';
+
+  @override
+  String get servicePanelApply => 'Apply panel rules';
+
+  @override
+  String get servicePanelApplied =>
+      'Screen stays on while powered; the app is the home screen.';
+
+  @override
+  String get servicePanelFailed => 'Failed: the app is not the device owner.';
+
+  @override
+  String get servicePanelRelease => 'Release the device';
+
+  @override
+  String get servicePanelReleaseBody =>
+      'Removes installer management: the kiosk can be left and the normal home screen returns. Turning it back on needs the device prepared again (factory reset).';
+
+  @override
+  String get serviceProblems => 'Recent problems';
+
+  @override
+  String get serviceNoProblems => 'Nothing logged since the app started.';
+
+  @override
+  String get serviceCopy => 'Copy diagnostics';
+
+  @override
+  String get serviceCopied => 'Diagnostics copied.';
+
+  @override
+  String get serviceCopyHint =>
+      'No tokens or passwords: only versions, the device, the server\'s host and recent errors.';
+
+  @override
+  String get setupTitle => 'Setup wizard';
+
+  @override
+  String setupIntro(String brand) {
+    return 'Check and set up everything for this device, step by step. ($brand)';
+  }
+
+  @override
+  String get setupConnection => 'Connection to Home Assistant';
+
+  @override
+  String setupConnectionOk(String host, String version) {
+    return 'Connected to $host (Home Assistant $version)';
+  }
+
+  @override
+  String get setupConnectionMissing =>
+      'Not connected — check the address and network in Settings → Server.';
+
+  @override
+  String get setupRooms => 'Rooms';
+
+  @override
+  String setupRoomsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rooms',
+      one: '1 room',
+      zero: 'No rooms',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String setupNoRoom(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count devices without a room',
+      one: '1 device without a room',
+      zero: 'Every device has a room',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get setupRoomsHint =>
+      'Rooms and devices are arranged in Home Assistant (Settings → Areas).';
+
+  @override
+  String get setupMessages => 'Messages from Home Assistant';
+
+  @override
+  String setupMessagesOk(String name) {
+    return 'Registered as \"$name\"';
+  }
+
+  @override
+  String get setupMessagesHint =>
+      'Registers the device in Home Assistant (Mobile App), so automations can send it messages.';
+
+  @override
+  String get setupDeviceName => 'Device name in Home Assistant';
+
+  @override
+  String get setupDefaultDeviceName => 'Wall tablet';
+
+  @override
+  String get setupRegister => 'Register';
+
+  @override
+  String get setupKiosk => 'Kiosk and PIN';
+
+  @override
+  String get setupPinHint => 'No PIN to leave the kiosk yet';
+
+  @override
+  String get setupPinSaved => 'PIN saved.';
+
+  @override
+  String get setupPanel => 'Wall panel';
+
+  @override
+  String get setupPanelHint =>
+      'For a panel that cannot be left and starts by itself after a power cut, the device is prepared as \"device owner\" before any Google account is added — see the installer guide (docs/INSTALLER.md).';
+
+  @override
+  String get setupDone => 'Done';
+
+  @override
+  String get setupNext => 'Next';
+
+  @override
+  String get setupBack => 'Back';
 }

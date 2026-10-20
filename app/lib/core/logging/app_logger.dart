@@ -36,6 +36,11 @@ class AppLogger {
 
   static LogSink sink = _developerSink;
 
+  /// The last warnings and errors (already redacted), newest last, for the
+  /// installer's service screen. Kept in memory only.
+  static final List<LogRecord> recentProblems = [];
+  static const _keepProblems = 50;
+
   void debug(String message) => _log(LogLevel.debug, message);
   void info(String message) => _log(LogLevel.info, message);
   void warning(String message, [Object? error]) =>
@@ -54,9 +59,17 @@ class AppLogger {
     if (error != null) buffer.write(' | $error');
     // Stack traces are useful in development only.
     if (stackTrace != null && !kReleaseMode) buffer.write('\n$stackTrace');
-    sink(
-      LogRecord(level, tag, Redactor.redact(buffer.toString()), DateTime.now()),
+    final record = LogRecord(
+      level,
+      tag,
+      Redactor.redact(buffer.toString()),
+      DateTime.now(),
     );
+    if (level.index >= LogLevel.warning.index) {
+      recentProblems.add(record);
+      if (recentProblems.length > _keepProblems) recentProblems.removeAt(0);
+    }
+    sink(record);
   }
 
   static void _developerSink(LogRecord record) {

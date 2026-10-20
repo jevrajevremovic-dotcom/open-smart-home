@@ -4014,6 +4014,185 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get deviceSheetMore => 'Svi detalji';
+
+  @override
+  String get serviceSection => 'Servis';
+
+  @override
+  String get serviceSectionHint =>
+      'Dijagnostika, podrška i alati za instalatera';
+
+  @override
+  String serviceSupport(String brand) {
+    return 'Podrška: $brand';
+  }
+
+  @override
+  String get serviceApp => 'Aplikacija';
+
+  @override
+  String get serviceDevice => 'Uređaj';
+
+  @override
+  String get serviceServer => 'Server';
+
+  @override
+  String get serviceConnected => 'povezano';
+
+  @override
+  String get serviceDisconnected => 'nije povezano';
+
+  @override
+  String get serviceDevices => 'Uređaji';
+
+  @override
+  String serviceDevicesValue(int count, int unavailable) {
+    return '$count uređaja, nedostupno: $unavailable';
+  }
+
+  @override
+  String get servicePanel => 'Zidni panel';
+
+  @override
+  String get servicePanelManaged =>
+      'Upravljan (vlasnik uređaja): kiosk se ne može napustiti, pokreće se posle restarta';
+
+  @override
+  String get servicePanelNot =>
+      'Običan uređaj (bez instalaterskog upravljanja)';
+
+  @override
+  String get servicePanelApply => 'Primeni pravila panela';
+
+  @override
+  String get servicePanelApplied =>
+      'Ekran ostaje upaljen na struji; aplikacija je početni ekran.';
+
+  @override
+  String get servicePanelFailed =>
+      'Nije uspelo: aplikacija nije vlasnik uređaja.';
+
+  @override
+  String get servicePanelRelease => 'Vrati uređaj';
+
+  @override
+  String get servicePanelReleaseBody =>
+      'Uklanja instalatersko upravljanje: kiosk se može napustiti, vraća se običan početni ekran. Ponovo uključivanje traži novu pripremu uređaja (fabričko resetovanje).';
+
+  @override
+  String get serviceProblems => 'Nedavni problemi';
+
+  @override
+  String get serviceNoProblems => 'Nema zabeleženih problema od pokretanja.';
+
+  @override
+  String get serviceCopy => 'Kopiraj dijagnostiku';
+
+  @override
+  String get serviceCopied => 'Dijagnostika je kopirana.';
+
+  @override
+  String get serviceCopyHint =>
+      'Bez tokena i lozinki: samo verzije, uređaj, adresa servera (bez porta i putanje) i poslednje greške.';
+
+  @override
+  String get setupTitle => 'Čarobnjak za instalaciju';
+
+  @override
+  String setupIntro(String brand) {
+    return 'Proverite i podesite sve za ovaj uređaj, korak po korak. ($brand)';
+  }
+
+  @override
+  String get setupConnection => 'Veza sa Home Assistantom';
+
+  @override
+  String setupConnectionOk(String host, String version) {
+    return 'Povezano sa $host (Home Assistant $version)';
+  }
+
+  @override
+  String get setupConnectionMissing =>
+      'Nije povezano — proverite adresu i mrežu u Podešavanja → Server.';
+
+  @override
+  String get setupRooms => 'Prostorije';
+
+  @override
+  String setupRoomsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count prostorija',
+      few: '$count prostorije',
+      one: '1 prostorija',
+      zero: 'Nema prostorija',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String setupNoRoom(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count uređaja bez prostorije',
+      few: '$count uređaja bez prostorije',
+      one: '1 uređaj bez prostorije',
+      zero: 'Svi uređaji imaju prostoriju',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get setupRoomsHint =>
+      'Prostorije i raspored uređaja se uređuju u Home Assistantu (Podešavanja → Oblasti).';
+
+  @override
+  String get setupMessages => 'Poruke iz Home Assistanta';
+
+  @override
+  String setupMessagesOk(String name) {
+    return 'Registrovano kao „$name”';
+  }
+
+  @override
+  String get setupMessagesHint =>
+      'Registruje uređaj u Home Assistantu (Mobile App), da mu automatizacije šalju poruke.';
+
+  @override
+  String get setupDeviceName => 'Ime uređaja u Home Assistantu';
+
+  @override
+  String get setupDefaultDeviceName => 'Zidni tablet';
+
+  @override
+  String get setupRegister => 'Registruj';
+
+  @override
+  String get setupKiosk => 'Kiosk i PIN';
+
+  @override
+  String get setupPinHint => 'PIN za izlaz iz kioska još nije postavljen';
+
+  @override
+  String get setupPinSaved => 'PIN je sačuvan.';
+
+  @override
+  String get setupPanel => 'Zidni panel';
+
+  @override
+  String get setupPanelHint =>
+      'Za panel koji se ne može napustiti i sam se pokreće posle nestanka struje, uređaj se priprema kao „vlasnik uređaja” pre prijave Google naloga — vidi uputstvo za instalatere (docs/INSTALLER.md).';
+
+  @override
+  String get setupDone => 'Gotovo';
+
+  @override
+  String get setupNext => 'Dalje';
+
+  @override
+  String get setupBack => 'Nazad';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

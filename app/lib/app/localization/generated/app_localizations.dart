@@ -6932,6 +6932,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All details'**
   String get deviceSheetMore;
+
+  /// No description provided for @serviceSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get serviceSection;
+
+  /// No description provided for @serviceSectionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics, support and installer tools'**
+  String get serviceSectionHint;
+
+  /// No description provided for @serviceSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support: {brand}'**
+  String serviceSupport(String brand);
+
+  /// No description provided for @serviceApp.
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get serviceApp;
+
+  /// No description provided for @serviceDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get serviceDevice;
+
+  /// No description provided for @serviceServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server'**
+  String get serviceServer;
+
+  /// No description provided for @serviceConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'connected'**
+  String get serviceConnected;
+
+  /// No description provided for @serviceDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'not connected'**
+  String get serviceDisconnected;
+
+  /// No description provided for @serviceDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices'**
+  String get serviceDevices;
+
+  /// No description provided for @serviceDevicesValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} devices, unavailable: {unavailable}'**
+  String serviceDevicesValue(int count, int unavailable);
+
+  /// No description provided for @servicePanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall panel'**
+  String get servicePanel;
+
+  /// No description provided for @servicePanelManaged.
+  ///
+  /// In en, this message translates to:
+  /// **'Managed (device owner): the kiosk cannot be left and starts after a restart'**
+  String get servicePanelManaged;
+
+  /// No description provided for @servicePanelNot.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordinary device (not installer-managed)'**
+  String get servicePanelNot;
+
+  /// No description provided for @servicePanelApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply panel rules'**
+  String get servicePanelApply;
+
+  /// No description provided for @servicePanelApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Screen stays on while powered; the app is the home screen.'**
+  String get servicePanelApplied;
+
+  /// No description provided for @servicePanelFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed: the app is not the device owner.'**
+  String get servicePanelFailed;
+
+  /// No description provided for @servicePanelRelease.
+  ///
+  /// In en, this message translates to:
+  /// **'Release the device'**
+  String get servicePanelRelease;
+
+  /// No description provided for @servicePanelReleaseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Removes installer management: the kiosk can be left and the normal home screen returns. Turning it back on needs the device prepared again (factory reset).'**
+  String get servicePanelReleaseBody;
+
+  /// No description provided for @serviceProblems.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent problems'**
+  String get serviceProblems;
+
+  /// No description provided for @serviceNoProblems.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged since the app started.'**
+  String get serviceNoProblems;
+
+  /// No description provided for @serviceCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy diagnostics'**
+  String get serviceCopy;
+
+  /// No description provided for @serviceCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics copied.'**
+  String get serviceCopied;
+
+  /// No description provided for @serviceCopyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No tokens or passwords: only versions, the device, the server\'s host and recent errors.'**
+  String get serviceCopyHint;
+
+  /// No description provided for @setupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup wizard'**
+  String get setupTitle;
+
+  /// No description provided for @setupIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Check and set up everything for this device, step by step. ({brand})'**
+  String setupIntro(String brand);
+
+  /// No description provided for @setupConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection to Home Assistant'**
+  String get setupConnection;
+
+  /// No description provided for @setupConnectionOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected to {host} (Home Assistant {version})'**
+  String setupConnectionOk(String host, String version);
+
+  /// No description provided for @setupConnectionMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected — check the address and network in Settings → Server.'**
+  String get setupConnectionMissing;
+
+  /// No description provided for @setupRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get setupRooms;
+
+  /// No description provided for @setupRoomsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No rooms} =1{1 room} other{{count} rooms}}'**
+  String setupRoomsCount(int count);
+
+  /// No description provided for @setupNoRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Every device has a room} =1{1 device without a room} other{{count} devices without a room}}'**
+  String setupNoRoom(int count);
+
+  /// No description provided for @setupRoomsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms and devices are arranged in Home Assistant (Settings → Areas).'**
+  String get setupRoomsHint;
+
+  /// No description provided for @setupMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages from Home Assistant'**
+  String get setupMessages;
+
+  /// No description provided for @setupMessagesOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered as \"{name}\"'**
+  String setupMessagesOk(String name);
+
+  /// No description provided for @setupMessagesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Registers the device in Home Assistant (Mobile App), so automations can send it messages.'**
+  String get setupMessagesHint;
+
+  /// No description provided for @setupDeviceName.
+  ///
+  /// In en, this message translates to:
+  /// **'Device name in Home Assistant'**
+  String get setupDeviceName;
+
+  /// No description provided for @setupDefaultDeviceName.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall tablet'**
+  String get setupDefaultDeviceName;
+
+  /// No description provided for @setupRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get setupRegister;
+
+  /// No description provided for @setupKiosk.
+  ///
+  /// In en, this message translates to:
+  /// **'Kiosk and PIN'**
+  String get setupKiosk;
+
+  /// No description provided for @setupPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No PIN to leave the kiosk yet'**
+  String get setupPinHint;
+
+  /// No description provided for @setupPinSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN saved.'**
+  String get setupPinSaved;
+
+  /// No description provided for @setupPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall panel'**
+  String get setupPanel;
+
+  /// No description provided for @setupPanelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For a panel that cannot be left and starts by itself after a power cut, the device is prepared as \"device owner\" before any Google account is added — see the installer guide (docs/INSTALLER.md).'**
+  String get setupPanelHint;
+
+  /// No description provided for @setupDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get setupDone;
+
+  /// No description provided for @setupNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get setupNext;
+
+  /// No description provided for @setupBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get setupBack;
 }
 
 class _AppLocalizationsDelegate

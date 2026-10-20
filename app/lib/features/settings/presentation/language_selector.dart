@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/localization/app_locales.dart';
 import '../../../app/localization/l10n.dart';
 import '../application/appearance_controllers.dart';
+import '../../../app/brand.dart';
 
 class LanguageSelector extends ConsumerWidget {
   const LanguageSelector({super.key});
@@ -140,7 +141,8 @@ class AccentSelector extends ConsumerWidget {
 }
 
 String accentLabel(AppLocalizations l10n, AppAccent a) => switch (a) {
-  AppAccent.terracotta => l10n.accentTerracotta,
+  AppAccent.terracotta =>
+    Brand.accent != null ? Brand.name(l10n) : l10n.accentTerracotta,
   AppAccent.blue => l10n.accentBlue,
   AppAccent.green => l10n.accentGreen,
   AppAccent.purple => l10n.accentPurple,

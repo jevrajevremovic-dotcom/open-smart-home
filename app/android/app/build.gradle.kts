@@ -13,6 +13,13 @@ val keyProperties = Properties().apply {
 }
 val hasReleaseKey = keyProperties.getProperty("storeFile") != null
 
+// Installer brand: android/brand.properties (not in git; see docs/INSTALLER.md).
+val brandProperties = Properties().apply {
+    val file = rootProject.file("brand.properties")
+    // UTF-8, not the Latin-1 default: names like "Pametna Kuća".
+    if (file.exists()) file.reader(Charsets.UTF_8).use { load(it) }
+}
+
 android {
     namespace = "org.opensmarthome.open_smart_home"
     compileSdk = flutter.compileSdkVersion
@@ -27,7 +34,12 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "org.opensmarthome.open_smart_home"
+        // A brand gets its own id, so it installs next to (not over) the
+        // community app.
+        applicationId = brandProperties.getProperty("applicationId")
+            ?: "org.opensmarthome.open_smart_home"
+        manifestPlaceholders["appLabel"] =
+            brandProperties.getProperty("name") ?: "Open Smart Home"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

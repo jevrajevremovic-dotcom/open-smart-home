@@ -41,6 +41,7 @@ import '../application/home_summaries.dart';
 
 import 'on_now_strip.dart';
 import 'weather_sky.dart';
+import '../../../app/brand.dart';
 part 'dashboard_summary.dart';
 part 'dashboard_sections.dart';
 
@@ -87,7 +88,7 @@ class _HomeSwitcher extends ConsumerWidget {
     final title =
         ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
         ref.watch(serverConfigProvider).value?.locationName ??
-        context.l10n.appTitle;
+        Brand.name(context.l10n);
     final homes = ref.watch(savedHomesProvider).value ?? const [];
     final greeting = DashboardGreeting(
       homeName: title,

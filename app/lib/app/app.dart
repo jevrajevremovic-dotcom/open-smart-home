@@ -22,6 +22,7 @@ import 'localization/app_locales.dart';
 import 'localization/l10n.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
+import 'brand.dart';
 
 class SmartHomeApp extends ConsumerStatefulWidget {
   const SmartHomeApp({super.key});
@@ -80,7 +81,7 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
       }
     });
     return MaterialApp.router(
-      onGenerateTitle: (context) => context.l10n.appTitle,
+      onGenerateTitle: (context) => Brand.name(context.l10n),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(accent: accentColor(ref.watch(accentProvider))),
       darkTheme: AppTheme.dark(accent: accentColor(ref.watch(accentProvider))),

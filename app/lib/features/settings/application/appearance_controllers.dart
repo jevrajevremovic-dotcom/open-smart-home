@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/localization/app_locales.dart';
 import '../../../core/storage/app_preferences.dart';
 import '../../devices/application/device_providers.dart';
+import '../../../app/brand.dart';
 
 class ThemeModeController extends Notifier<ThemeMode> {
   @override
@@ -108,7 +109,8 @@ final accentProvider = NotifierProvider<AccentController, AppAccent>(
 
 /// The seed of [accent]; `null` keeps the hand-tuned warm default.
 Color? accentColor(AppAccent accent) => switch (accent) {
-  AppAccent.terracotta => null,
+  // The installer's colour, when the app carries a brand.
+  AppAccent.terracotta => Brand.accent,
   AppAccent.blue => const Color(0xFF2F6FDB),
   AppAccent.green => const Color(0xFF2E8B57),
   AppAccent.purple => const Color(0xFF7B4FD6),

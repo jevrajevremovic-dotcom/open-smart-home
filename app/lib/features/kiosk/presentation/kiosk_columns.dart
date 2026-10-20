@@ -53,6 +53,7 @@ import 'kiosk_media_panel.dart';
 import 'kiosk_quick_controls.dart';
 import 'pin_dialog.dart';
 import 'thermostat_dial.dart';
+import '../../../app/brand.dart';
 
 /// Chosen in the left column for the devices without a room (`null` is
 /// the home overview).
@@ -414,7 +415,7 @@ class _Sidebar extends ConsumerWidget {
     final title =
         ref.watch(homeSnapshotProvider.select((s) => s.locationName)) ??
         ref.watch(serverConfigProvider).value?.locationName ??
-        l10n.appTitle;
+        Brand.name(l10n);
     final rooms = ref.watch(roomsProvider);
     final devices = ref.watch(homeSnapshotProvider.select((s) => s.devices));
     final scenes = ref

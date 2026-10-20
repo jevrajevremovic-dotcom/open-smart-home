@@ -46,3 +46,7 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Installer brand (per installer, not in git): see docs/INSTALLER.md
+/android/brand.properties
+/assets/brand/logo.png

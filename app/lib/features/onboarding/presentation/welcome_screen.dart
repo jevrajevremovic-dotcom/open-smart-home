@@ -8,6 +8,7 @@ import '../../../core/widgets/responsive.dart';
 import '../../../core/widgets/status_widgets.dart';
 import '../../authentication/application/web_login.dart';
 import '../../settings/presentation/language_selector.dart';
+import '../../../app/brand.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
@@ -26,15 +27,10 @@ class WelcomeScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 32),
-                Icon(
-                  Icons.home_work_outlined,
-                  size: 96,
-                  color: scheme.primary,
-                  semanticLabel: l10n.appTitle,
-                ),
+                const Center(child: BrandLogo()),
                 const SizedBox(height: 24),
                 Text(
-                  l10n.appTitle,
+                  Brand.name(l10n),
                   style: textTheme.titleMedium,
                   textAlign: TextAlign.center,
                 ),

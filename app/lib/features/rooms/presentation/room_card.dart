@@ -146,51 +146,57 @@ class RoomCard extends ConsumerWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(18, 16, 14, 14),
+                  // Long names and large text give way (fewer lines, a
+                  // smaller temperature) instead of overflowing the card.
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              name,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: fg,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (summary.alertCount > 0)
-                            Tooltip(
-                              message: l10n.summaryAlerts,
-                              child: Icon(
-                                Icons.warning_amber_rounded,
-                                size: 20,
-                                color: context.statusColors.warning,
+                      Flexible(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                name,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  color: fg,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                        ],
+                            if (summary.alertCount > 0)
+                              Tooltip(
+                                message: l10n.summaryAlerts,
+                                child: Icon(
+                                  Icons.warning_amber_rounded,
+                                  size: 20,
+                                  color: context.statusColors.warning,
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                       if (summary.temperature != null)
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            formatNumber(
-                              l10n.localeName,
-                              summary.temperature!,
-                              unit: '°',
-                            ),
-                            style: theme.textTheme.headlineMedium?.copyWith(
-                              color: fg,
-                              fontWeight: FontWeight.w300,
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              formatNumber(
+                                l10n.localeName,
+                                summary.temperature!,
+                                unit: '°',
+                              ),
+                              style: theme.textTheme.headlineMedium?.copyWith(
+                                color: fg,
+                                fontWeight: FontWeight.w300,
+                              ),
                             ),
                           ),
                         ),
-                      const Spacer(),
                       Wrap(
                         spacing: 6,
                         runSpacing: 4,

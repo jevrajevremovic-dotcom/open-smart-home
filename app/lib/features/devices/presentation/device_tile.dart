@@ -180,31 +180,24 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
                             size: 22,
                           ),
                         ),
-                        const Spacer(),
-                        if (widget.group case final g?)
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: Tooltip(
-                              message: l10n.kioskBundleCount(g.count),
-                              child: Container(
-                                key: ValueKey('tileGroupCount-${g.id}'),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: disc,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  '${g.count}',
-                                  style: theme.textTheme.labelMedium?.copyWith(
-                                    color: onFillMuted,
+                        // The parts count gives way on a narrow card.
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: widget.group == null
+                                ? null
+                                : FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: _groupBadge(
+                                      widget.group!,
+                                      l10n,
+                                      theme,
+                                      disc,
+                                      onFillMuted,
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
                           ),
+                        ),
                         if (device.hasLowBattery)
                           Tooltip(
                             message: l10n.lowBattery,
@@ -277,6 +270,31 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
       ),
     );
   }
+
+  Widget _groupBadge(
+    ({String id, String name, int count}) g,
+    AppLocalizations l10n,
+    ThemeData theme,
+    Color disc,
+    Color foreground,
+  ) => Padding(
+    padding: const EdgeInsets.only(right: 4),
+    child: Tooltip(
+      message: l10n.kioskBundleCount(g.count),
+      child: Container(
+        key: ValueKey('tileGroupCount-${g.id}'),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        decoration: BoxDecoration(
+          color: disc,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(
+          '${g.count}',
+          style: theme.textTheme.labelMedium?.copyWith(color: foreground),
+        ),
+      ),
+    ),
+  );
 }
 
 /// Brightness inside a light's card: a thick track and the percentage.

@@ -13,6 +13,7 @@ import '../../media/presentation/media_artwork.dart';
 import '../../media/presentation/media_player_view.dart';
 import '../../media/presentation/media_sheet.dart';
 import 'glass.dart';
+import 'kiosk_motion.dart';
 
 /// The music player as a kiosk panel: artwork, what plays, a live
 /// position bar, transport and volume, tinted by the artwork. Follows the
@@ -96,14 +97,24 @@ class _KioskMediaPanelState extends ConsumerState<KioskMediaPanel> {
     );
 
     final info = <Widget>[
-      Text(
-        s.mediaTitle ?? d.name,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.titleLarge?.copyWith(
-          color: fg,
-          fontWeight: FontWeight.w700,
-        ),
+      Row(
+        children: [
+          if (playing) ...[
+            const EqualizerBars(color: fg, height: 16),
+            const SizedBox(width: 10),
+          ],
+          Expanded(
+            child: Text(
+              s.mediaTitle ?? d.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: fg,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
       ),
       Text(
         s.mediaTitle == null

@@ -14,6 +14,7 @@ import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../restricted/application/restricted_mode.dart';
 import '../application/kiosk_controller.dart';
+import 'kiosk_motion.dart';
 
 /// Every physical device of the home (entities grouped), sorted by name;
 /// what the quick controls are chosen from.
@@ -153,9 +154,11 @@ class _QuickControl extends ConsumerWidget {
                         : null,
                     child: SizedBox.square(
                       dimension: 44,
-                      child: Icon(
-                        DevicePresentation.icon(d),
-                        color: on ? Colors.white : scheme.onSurfaceVariant,
+                      child: Center(
+                        child: LiveDeviceIcon(
+                          device: d,
+                          color: on ? Colors.white : scheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ),

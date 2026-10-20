@@ -146,9 +146,23 @@ class _KioskShellState extends ConsumerState<KioskShell> {
                     child: Stack(
                       children: [
                         widget.child,
+                        // The idle screen fades in slowly (the clock rises
+                        // a little); waking is immediate.
                         if (_dimmed)
                           Positioned.fill(
-                            child: KioskAmbient(onWake: _onInteraction),
+                            child: TweenAnimationBuilder<double>(
+                              tween: Tween(begin: 0, end: 1),
+                              duration: const Duration(milliseconds: 700),
+                              curve: Curves.easeOut,
+                              builder: (_, t, child) => Opacity(
+                                opacity: t,
+                                child: Transform.scale(
+                                  scale: 0.98 + 0.02 * t,
+                                  child: child,
+                                ),
+                              ),
+                              child: KioskAmbient(onWake: _onInteraction),
+                            ),
                           ),
                       ],
                     ),

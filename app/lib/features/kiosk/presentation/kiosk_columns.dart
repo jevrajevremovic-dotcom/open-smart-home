@@ -51,6 +51,9 @@ import 'kiosk_bundle_detail.dart';
 import 'kiosk_leaving.dart';
 import 'kiosk_media_panel.dart';
 import 'kiosk_quick_controls.dart';
+import '../application/kiosk_now.dart';
+import '../../dashboard/presentation/weather_sky.dart';
+import 'kiosk_motion.dart';
 import 'pin_dialog.dart';
 import 'thermostat_dial.dart';
 import '../../../app/brand.dart';
@@ -205,7 +208,19 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
                   const CriticalAlertsBanner(),
                   Expanded(
                     child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 220),
+                      duration: const Duration(milliseconds: 260),
+                      // Fade-through: the old room is gone before the new
+                      // one comes, so the two never show at once.
+                      switchInCurve: const Interval(
+                        0.45,
+                        1,
+                        curve: Curves.easeOut,
+                      ),
+                      switchOutCurve: const Interval(
+                        0.45,
+                        1,
+                        curve: Curves.easeIn,
+                      ),
                       transitionBuilder: (child, animation) => FadeTransition(
                         opacity: animation,
                         child: SlideTransition(
@@ -273,7 +288,44 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
                             ),
                             SizedBox(
                               width: 380,
-                              child: _DetailColumn(roomId: roomId),
+                              // Another device slides in from the right.
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                switchInCurve: const Interval(
+                                  0.45,
+                                  1,
+                                  curve: Curves.easeOut,
+                                ),
+                                switchOutCurve: const Interval(
+                                  0.45,
+                                  1,
+                                  curve: Curves.easeIn,
+                                ),
+                                transitionBuilder: (child, animation) =>
+                                    FadeTransition(
+                                      opacity: animation,
+                                      child: SlideTransition(
+                                        position:
+                                            Tween(
+                                              begin: const Offset(0.08, 0),
+                                              end: Offset.zero,
+                                            ).animate(
+                                              CurvedAnimation(
+                                                parent: animation,
+                                                curve: Curves.easeOutCubic,
+                                              ),
+                                            ),
+                                        child: child,
+                                      ),
+                                    ),
+                                child: KeyedSubtree(
+                                  key: ValueKey(
+                                    '${roomId ?? 'home'}|'
+                                    '${ref.watch(kioskColumnsDeviceProvider)}',
+                                  ),
+                                  child: _DetailColumn(roomId: roomId),
+                                ),
+                              ),
                             ),
                           ],
                         ],
@@ -325,7 +377,8 @@ class _HomeOverview extends ConsumerWidget {
     final l10n = context.l10n;
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final now = DateTime.now();
+    // Refreshed every half minute: the greeting turns with the day.
+    final now = ref.watch(kioskNowProvider);
     final greeting = switch (now.hour) {
       >= 5 && < 12 => l10n.greetingMorning,
       >= 12 && < 18 => l10n.greetingAfternoon,
@@ -334,65 +387,83 @@ class _HomeOverview extends ConsumerWidget {
     };
     final hasLists = ref.watch(todoListsProvider).isNotEmpty;
     final cards = ref.watch(kioskSettingsProvider.select((s) => s.homeCards));
-    return ListView(
-      key: const Key('kioskColumnsOverview'),
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
+    return Stack(
       children: [
-        Row(
+        // The sky outside, faintly, behind the greeting.
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 220,
+          child: IgnorePointer(child: WeatherSky()),
+        ),
+        ListView(
+          key: const Key('kioskColumnsOverview'),
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
           children: [
-            Expanded(
-              child: Text(
-                greeting,
-                style: theme.textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.w700,
+            Row(
+              children: [
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 800),
+                    child: Text(
+                      greeting,
+                      key: ValueKey(greeting),
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
+                IconButton(
+                  key: const Key('kioskHomeCardsEdit'),
+                  tooltip: l10n.kioskHomeCards,
+                  onPressed: () => showDialog<void>(
+                    context: context,
+                    builder: (_) => const _HomeCardsDialog(),
+                  ),
+                  icon: const Icon(Icons.tune),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              ref.watch(homeSentenceProvider(l10n)),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: scheme.onSurfaceVariant,
+                fontWeight: FontWeight.w400,
               ),
             ),
-            IconButton(
-              key: const Key('kioskHomeCardsEdit'),
-              tooltip: l10n.kioskHomeCards,
-              onPressed: () => showDialog<void>(
-                context: context,
-                builder: (_) => const _HomeCardsDialog(),
-              ),
-              icon: const Icon(Icons.tune),
-            ),
+            const OnNowStrip(padding: EdgeInsets.only(top: 12)),
+            const SizedBox(height: 4),
+            // The household's choice and order of cards (Edit, top right).
+            for (final card in cards)
+              if (switch (card) {
+                HomeCard.cameras =>
+                  ref.watch(
+                        kioskSettingsProvider.select((s) => s.showCameras),
+                      ) &&
+                      ref.watch(cameraIdsProvider).isNotEmpty,
+                HomeCard.lists => hasLists,
+                _ => true,
+              }) ...[
+                const SizedBox(height: 16),
+                switch (card) {
+                  HomeCard.cameras => const _OverviewCameras(),
+                  HomeCard.weather => const WeatherSection(
+                    allowDeviceLocation: false,
+                  ),
+                  HomeCard.media => const NowPlayingCard(),
+                  HomeCard.calendar => const _OverviewCalendar(),
+                  HomeCard.lists => const TodoListsCard(),
+                },
+              ],
+            if (withQuickControls) ...[
+              const SizedBox(height: 24),
+              const KioskQuickControls(),
+            ],
           ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          ref.watch(homeSentenceProvider(l10n)),
-          style: theme.textTheme.titleMedium?.copyWith(
-            color: scheme.onSurfaceVariant,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        const OnNowStrip(padding: EdgeInsets.only(top: 12)),
-        const SizedBox(height: 4),
-        // The household's choice and order of cards (Edit, top right).
-        for (final card in cards)
-          if (switch (card) {
-            HomeCard.cameras =>
-              ref.watch(kioskSettingsProvider.select((s) => s.showCameras)) &&
-                  ref.watch(cameraIdsProvider).isNotEmpty,
-            HomeCard.lists => hasLists,
-            _ => true,
-          }) ...[
-            const SizedBox(height: 16),
-            switch (card) {
-              HomeCard.cameras => const _OverviewCameras(),
-              HomeCard.weather => const WeatherSection(
-                allowDeviceLocation: false,
-              ),
-              HomeCard.media => const NowPlayingCard(),
-              HomeCard.calendar => const _OverviewCalendar(),
-              HomeCard.lists => const TodoListsCard(),
-            },
-          ],
-        if (withQuickControls) ...[
-          const SizedBox(height: 24),
-          const KioskQuickControls(),
-        ],
       ],
     );
   }
@@ -1079,16 +1150,18 @@ class _RoomColumn extends ConsumerWidget {
                 size: 18,
                 color: scheme.onSurfaceVariant,
               ),
-              Text(
-                n(summary.humidity!, '%'),
+              CountUpText(
+                value: summary.humidity!,
+                format: (v) => n(v, '%'),
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(width: 14),
             ],
             if (summary.temperature != null) ...[
               Icon(Icons.thermostat, size: 18, color: scheme.onSurfaceVariant),
-              Text(
-                n(summary.temperature!, '°'),
+              CountUpText(
+                value: summary.temperature!,
+                format: (v) => n(v, '°'),
                 style: theme.textTheme.titleMedium,
               ),
             ],
@@ -1105,16 +1178,20 @@ class _RoomColumn extends ConsumerWidget {
               spacing: 12,
               runSpacing: 12,
               children: [
-                for (final g in accessories)
+                for (final (i, g) in accessories.indexed)
                   SizedBox(
                     width: width,
                     height: 136,
-                    child: _AccessoryCard(
-                      group: g,
-                      selected:
-                          g.key == selected ||
-                          g.members.any((m) => m.id == selected),
-                      roomName: room?.name,
+                    // The room's cards arrive as a wave.
+                    child: StaggeredEntrance(
+                      index: i,
+                      child: _AccessoryCard(
+                        group: g,
+                        selected:
+                            g.key == selected ||
+                            g.members.any((m) => m.id == selected),
+                        roomName: room?.name,
+                      ),
                     ),
                   ),
               ],
@@ -1174,112 +1251,126 @@ class _AccessoryCard extends ConsumerWidget {
     final status = !group.available
         ? l10n.stateUnavailable
         : DevicePresentation.status(l10n, d);
-    return Material(
-      key: ValueKey('kioskColumnsDevice-${group.key}'),
-      color: scheme.surface,
-      elevation: selected ? 3 : 0,
-      shadowColor: scheme.shadow.withValues(alpha: 0.2),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(22),
-        side: BorderSide(
-          color: selected ? scheme.primary : scheme.outlineVariant,
-          width: selected ? 2 : 1,
+    // A light turning on glows once in its colour.
+    return OnGlow(
+      on: on && d.kind.isLight,
+      color: accent.icon,
+      radius: 22,
+      child: Material(
+        key: ValueKey('kioskColumnsDevice-${group.key}'),
+        color: scheme.surface,
+        elevation: selected ? 3 : 0,
+        shadowColor: scheme.shadow.withValues(alpha: 0.2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22),
+          side: BorderSide(
+            color: selected ? scheme.primary : scheme.outlineVariant,
+            width: selected ? 2 : 1,
+          ),
         ),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () =>
-            ref.read(kioskColumnsDeviceProvider.notifier).select(group.key),
-        // A level to slide: the big slider; else the device's screen.
-        onLongPress: () => bigSliderFor(context.l10n, d) != null
-            ? showBigSlider(context, d.id)
-            : context.push(AppRoutes.device(d.id, kiosk: true)),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Material(
-                    color: iconBg,
-                    shape: const CircleBorder(),
-                    child: InkWell(
-                      key: ValueKey('kioskColumnsToggle-${d.id}'),
-                      customBorder: const CircleBorder(),
-                      onTap: quick
-                          ? () => runDeviceCommand(
-                              context,
-                              ref,
-                              d,
-                              d.state.isOn == true
-                                  ? const TurnOff()
-                                  : const TurnOn(),
-                            )
-                          : () => ref
-                                .read(kioskColumnsDeviceProvider.notifier)
-                                .select(group.key),
-                      child: SizedBox.square(
-                        dimension: 48,
-                        child: Icon(DevicePresentation.icon(d), color: iconFg),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  if (group.isGroup)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: scheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(99),
-                      ),
-                      child: Text(
-                        '${group.members.length}',
-                        style: theme.textTheme.labelMedium,
-                      ),
-                    ),
-                  if (tone == DeviceTone.warning || tone == DeviceTone.critical)
-                    Icon(
-                      Icons.error_outline,
-                      color: tone == DeviceTone.critical
-                          ? context.statusColors.critical
-                          : context.statusColors.warning,
-                    ),
-                ],
-              ),
-              // Name and state at the bottom; a long name gives up its
-              // second line rather than overflow the card.
-              Flexible(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () =>
+              ref.read(kioskColumnsDeviceProvider.notifier).select(group.key),
+          // A level to slide: the big slider; else the device's screen.
+          onLongPress: () => bigSliderFor(context.l10n, d) != null
+              ? showBigSlider(context, d.id)
+              : context.push(AppRoutes.device(d.id, kiosk: true)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
                   children: [
-                    Flexible(
-                      child: Text(
-                        DevicePresentation.shortName(group.name, roomName),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w600,
+                    Material(
+                      color: iconBg,
+                      shape: const CircleBorder(),
+                      child: InkWell(
+                        key: ValueKey('kioskColumnsToggle-${d.id}'),
+                        customBorder: const CircleBorder(),
+                        onTap: quick
+                            ? () => runDeviceCommand(
+                                context,
+                                ref,
+                                d,
+                                d.state.isOn == true
+                                    ? const TurnOff()
+                                    : const TurnOn(),
+                              )
+                            : () => ref
+                                  .read(kioskColumnsDeviceProvider.notifier)
+                                  .select(group.key),
+                        child: SizedBox.square(
+                          dimension: 48,
+                          child: Center(
+                            child: LiveDeviceIcon(device: d, color: iconFg),
+                          ),
                         ),
                       ),
                     ),
-                    Text(
-                      status,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
+                    const Spacer(),
+                    if (d.state.raw == 'playing' && d.available)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: EqualizerBars(color: accent.icon),
                       ),
-                    ),
+                    if (group.isGroup)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: scheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(99),
+                        ),
+                        child: Text(
+                          '${group.members.length}',
+                          style: theme.textTheme.labelMedium,
+                        ),
+                      ),
+                    if (tone == DeviceTone.warning ||
+                        tone == DeviceTone.critical)
+                      Icon(
+                        Icons.error_outline,
+                        color: tone == DeviceTone.critical
+                            ? context.statusColors.critical
+                            : context.statusColors.warning,
+                      ),
                   ],
                 ),
-              ),
-            ],
+                // Name and state at the bottom; a long name gives up its
+                // second line rather than overflow the card.
+                Flexible(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          DevicePresentation.shortName(group.name, roomName),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        status,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1562,8 +1653,9 @@ class _WeekEnergyCard extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             if (report.consumption != null)
-              Text(
-                formatKwh(l10n.localeName, report.consumption!),
+              CountUpText(
+                value: report.consumption!,
+                format: (v) => formatKwh(l10n.localeName, v),
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),

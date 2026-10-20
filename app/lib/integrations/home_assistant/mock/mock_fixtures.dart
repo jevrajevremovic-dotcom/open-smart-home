@@ -209,6 +209,7 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Grejalica garaža',
       'restored': true,
     }),
+    e('sun.sun', 'above_horizon', {'friendly_name': 'Sun'}),
     e('person.marko', 'home', {'friendly_name': 'Marko'}),
     e('person.ana', 'not_home', {'friendly_name': 'Ana'}),
     e('person.jelena', 'Posao', {'friendly_name': 'Jelena'}),

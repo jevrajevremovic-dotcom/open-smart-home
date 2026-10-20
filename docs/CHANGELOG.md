@@ -37,6 +37,7 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
+- Izgled: „Tamno posle zalaska sunca” — tema prati izlazak i zalazak sunca iz Home Assistanta (`sun.sun`; bez njega tamno od 20 do 7). Boja aplikacije po izboru (terakota, plava, zelena, ljubičasta, roze, tirkizna), sa Material tonovima koji čuvaju kontrast ≥ 4,5:1. Cifre su svuda iste širine, pa sat, temperature i vati ne „igraju” dok se menjaju.
 - Fotografija sobe: dugme sa slikom u zaglavlju prostorije bira fotografiju iz galerije; stoji kao zaglavlje sobe na telefonu i iznad sobe na kiosku. Čuva se samo na tom uređaju (ne ide u Home Assistant ni u rezervnu kopiju), pa se za zidni tablet bira na samom tabletu.
 - Kartica uključene sijalice ima boju njenog svetla (crveno, plavo… ili toplo/hladno belo po temperaturi), na telefonu i na kiosku. Tekst i ikonica se sami potamne ili posvetle dok kontrast ne bude bar 4,5:1 (ikonica 3:1), u svetloj i tamnoj temi; belo svetlo ostaje žuto kao do sada.
 - Ikonica trenutnog vremena je živa: sunce se polako okreće, oblaci plove, kiša pada ispod oblaka, sneg se vrti, munja zatreperi. Miruje kad je u sistemu uključeno „manje animacija”; prognoza po danima i noćni ekran ostaju mirni.

@@ -6794,6 +6794,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.'**
   String get roomPhotoHint;
+
+  /// No description provided for @themeAutoDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark after sunset'**
+  String get themeAutoDark;
+
+  /// No description provided for @themeAutoDarkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Follows sunrise and sunset from Home Assistant (without it: dark from 20:00 to 7:00).'**
+  String get themeAutoDarkHint;
+
+  /// No description provided for @accentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accent colour'**
+  String get accentTitle;
+
+  /// No description provided for @accentTerracotta.
+  ///
+  /// In en, this message translates to:
+  /// **'Terracotta'**
+  String get accentTerracotta;
+
+  /// No description provided for @accentBlue.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get accentBlue;
+
+  /// No description provided for @accentGreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get accentGreen;
+
+  /// No description provided for @accentPurple.
+  ///
+  /// In en, this message translates to:
+  /// **'Purple'**
+  String get accentPurple;
+
+  /// No description provided for @accentRose.
+  ///
+  /// In en, this message translates to:
+  /// **'Rose'**
+  String get accentRose;
+
+  /// No description provided for @accentTeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Teal'**
+  String get accentTeal;
 }
 
 class _AppLocalizationsDelegate

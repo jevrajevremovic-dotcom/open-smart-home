@@ -3917,4 +3917,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get roomPhotoHint =>
       'The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.';
+
+  @override
+  String get themeAutoDark => 'Dark after sunset';
+
+  @override
+  String get themeAutoDarkHint =>
+      'Follows sunrise and sunset from Home Assistant (without it: dark from 20:00 to 7:00).';
+
+  @override
+  String get accentTitle => 'Accent colour';
+
+  @override
+  String get accentTerracotta => 'Terracotta';
+
+  @override
+  String get accentBlue => 'Blue';
+
+  @override
+  String get accentGreen => 'Green';
+
+  @override
+  String get accentPurple => 'Purple';
+
+  @override
+  String get accentRose => 'Rose';
+
+  @override
+  String get accentTeal => 'Teal';
 }

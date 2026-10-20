@@ -1624,5 +1624,14 @@
   "roomPhoto": "Room photo",
   "roomPhotoChange": "Choose another photo",
   "roomPhotoRemove": "Remove photo",
-  "roomPhotoHint": "The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself."
+  "roomPhotoHint": "The photo stays on this device only; it is not sent to Home Assistant. For the wall tablet, choose it on the tablet itself.",
+  "themeAutoDark": "Dark after sunset",
+  "themeAutoDarkHint": "Follows sunrise and sunset from Home Assistant (without it: dark from 20:00 to 7:00).",
+  "accentTitle": "Accent colour",
+  "accentTerracotta": "Terracotta",
+  "accentBlue": "Blue",
+  "accentGreen": "Green",
+  "accentPurple": "Purple",
+  "accentRose": "Rose",
+  "accentTeal": "Teal"
 }

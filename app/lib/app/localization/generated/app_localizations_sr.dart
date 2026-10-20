@@ -3933,6 +3933,34 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get roomPhotoHint =>
       'Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu.';
+
+  @override
+  String get themeAutoDark => 'Tamno posle zalaska sunca';
+
+  @override
+  String get themeAutoDarkHint =>
+      'Prati izlazak i zalazak sunca iz Home Assistanta (bez njega: tamno od 20 do 7).';
+
+  @override
+  String get accentTitle => 'Boja aplikacije';
+
+  @override
+  String get accentTerracotta => 'Terakota';
+
+  @override
+  String get accentBlue => 'Plava';
+
+  @override
+  String get accentGreen => 'Zelena';
+
+  @override
+  String get accentPurple => 'Ljubičasta';
+
+  @override
+  String get accentRose => 'Roze';
+
+  @override
+  String get accentTeal => 'Tirkizna';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

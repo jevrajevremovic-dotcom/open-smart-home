@@ -38,7 +38,10 @@ void main() {
     });
 
     test('every fixture maps to a known kind', () {
-      final unknown = devices.values.where((d) => d.kind == DeviceKind.unknown);
+      // sun.sun is read for the theme only, never shown as a device.
+      final unknown = devices.values.where(
+        (d) => d.kind == DeviceKind.unknown && d.id != 'sun.sun',
+      );
       expect(unknown, isEmpty);
     });
 

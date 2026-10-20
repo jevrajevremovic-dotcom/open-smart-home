@@ -1116,5 +1116,14 @@
   "roomPhoto": "Fotografija sobe",
   "roomPhotoChange": "Izaberi drugu fotografiju",
   "roomPhotoRemove": "Ukloni fotografiju",
-  "roomPhotoHint": "Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu."
+  "roomPhotoHint": "Fotografija ostaje samo na ovom uređaju; ne šalje se u Home Assistant. Za zidni tablet izaberite je na samom tabletu.",
+  "themeAutoDark": "Tamno posle zalaska sunca",
+  "themeAutoDarkHint": "Prati izlazak i zalazak sunca iz Home Assistanta (bez njega: tamno od 20 do 7).",
+  "accentTitle": "Boja aplikacije",
+  "accentTerracotta": "Terakota",
+  "accentBlue": "Plava",
+  "accentGreen": "Zelena",
+  "accentPurple": "Ljubičasta",
+  "accentRose": "Roze",
+  "accentTeal": "Tirkizna"
 }

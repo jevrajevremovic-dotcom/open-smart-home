@@ -82,9 +82,9 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
     return MaterialApp.router(
       onGenerateTitle: (context) => context.l10n.appTitle,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: ref.watch(themeModeProvider),
+      theme: AppTheme.light(accent: accentColor(ref.watch(accentProvider))),
+      darkTheme: AppTheme.dark(accent: accentColor(ref.watch(accentProvider))),
+      themeMode: ref.watch(effectiveThemeModeProvider),
       locale: ref.watch(localeProvider),
       supportedLocales: AppLocalizations.supportedLocales,
       localeListResolutionCallback: AppLocales.resolve,

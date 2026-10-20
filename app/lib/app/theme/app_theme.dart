@@ -318,12 +318,34 @@ abstract final class AppTheme {
   /// different things (controls vs. places).
   static const double tileRadius = 18;
 
-  static ThemeData light() =>
-      _build(_lightScheme, StatusColors.light, DeviceAccents.light);
+  /// [accent]: another accent colour than the warm default (its Material
+  /// tones keep the contrast).
+  static ThemeData light({Color? accent}) => _build(
+    _accented(_lightScheme, accent),
+    StatusColors.light,
+    DeviceAccents.light,
+  );
   // What is on glows in the same pastels as in light mode: bright cards on
   // the dark page are the clearest "this is on".
-  static ThemeData dark() =>
-      _build(_darkScheme, StatusColors.dark, DeviceAccents.light);
+  static ThemeData dark({Color? accent}) => _build(
+    _accented(_darkScheme, accent),
+    StatusColors.dark,
+    DeviceAccents.light,
+  );
+
+  static ColorScheme _accented(ColorScheme base, Color? accent) {
+    if (accent == null) return base;
+    final tones = ColorScheme.fromSeed(
+      seedColor: accent,
+      brightness: base.brightness,
+    );
+    return base.copyWith(
+      primary: tones.primary,
+      onPrimary: tones.onPrimary,
+      primaryContainer: tones.primaryContainer,
+      onPrimaryContainer: tones.onPrimaryContainer,
+    );
+  }
 
   static final ColorScheme _lightScheme =
       ColorScheme.fromSeed(
@@ -390,7 +412,7 @@ abstract final class AppTheme {
     );
     TextStyle? tight(TextStyle? s, FontWeight w, [double spacing = -0.2]) =>
         s?.copyWith(fontWeight: w, letterSpacing: spacing);
-    final text = base.copyWith(
+    final tightened = base.copyWith(
       displaySmall: tight(base.displaySmall, FontWeight.w600, -0.8),
       headlineLarge: tight(base.headlineLarge, FontWeight.w600, -0.6),
       headlineMedium: tight(base.headlineMedium, FontWeight.w600, -0.5),
@@ -399,6 +421,27 @@ abstract final class AppTheme {
       titleMedium: tight(base.titleMedium, FontWeight.w600),
       titleSmall: tight(base.titleSmall, FontWeight.w600, -0.1),
       labelLarge: tight(base.labelLarge, FontWeight.w600, 0),
+    );
+    // Digits of equal width everywhere: a clock, a temperature or watts do
+    // not jitter as they change.
+    TextStyle? tabular(TextStyle? s) =>
+        s?.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+    final text = TextTheme(
+      displayLarge: tabular(tightened.displayLarge),
+      displayMedium: tabular(tightened.displayMedium),
+      displaySmall: tabular(tightened.displaySmall),
+      headlineLarge: tabular(tightened.headlineLarge),
+      headlineMedium: tabular(tightened.headlineMedium),
+      headlineSmall: tabular(tightened.headlineSmall),
+      titleLarge: tabular(tightened.titleLarge),
+      titleMedium: tabular(tightened.titleMedium),
+      titleSmall: tabular(tightened.titleSmall),
+      bodyLarge: tabular(tightened.bodyLarge),
+      bodyMedium: tabular(tightened.bodyMedium),
+      bodySmall: tabular(tightened.bodySmall),
+      labelLarge: tabular(tightened.labelLarge),
+      labelMedium: tabular(tightened.labelMedium),
+      labelSmall: tabular(tightened.labelSmall),
     );
 
     return ThemeData(

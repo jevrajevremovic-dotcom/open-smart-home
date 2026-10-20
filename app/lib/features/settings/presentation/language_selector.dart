@@ -62,8 +62,88 @@ class ThemeModeSelector extends ConsumerWidget {
         ),
       ],
       selected: {ref.watch(themeModeProvider)},
-      onSelectionChanged: (s) =>
-          ref.read(themeModeProvider.notifier).set(s.single),
+      // Following the sun decides by itself.
+      onSelectionChanged: ref.watch(autoDarkProvider)
+          ? null
+          : (s) => ref.read(themeModeProvider.notifier).set(s.single),
     );
   }
 }
+
+/// "Dark after sunset" switch, under the theme choice.
+class AutoDarkTile extends ConsumerWidget {
+  const AutoDarkTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    return SwitchListTile(
+      key: const Key('themeAutoDark'),
+      contentPadding: EdgeInsets.zero,
+      secondary: const Icon(Icons.wb_twilight_outlined),
+      title: Text(l10n.themeAutoDark),
+      subtitle: Text(l10n.themeAutoDarkHint),
+      value: ref.watch(autoDarkProvider),
+      onChanged: (v) => ref.read(autoDarkProvider.notifier).set(v),
+    );
+  }
+}
+
+/// The app's accent colour, as a row of swatches.
+class AccentSelector extends ConsumerWidget {
+  const AccentSelector({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final current = ref.watch(accentProvider);
+    final scheme = Theme.of(context).colorScheme;
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        for (final a in AppAccent.values)
+          Tooltip(
+            message: accentLabel(l10n, a),
+            child: Semantics(
+              selected: a == current,
+              button: true,
+              label: accentLabel(l10n, a),
+              child: InkResponse(
+                key: ValueKey('accent-${a.name}'),
+                radius: 28,
+                onTap: () => ref.read(accentProvider.notifier).set(a),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: accentColor(a) ?? const Color(0xFFB5521B),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: a == current
+                          ? scheme.onSurface
+                          : Colors.transparent,
+                      width: 3,
+                    ),
+                  ),
+                  child: a == current
+                      ? const Icon(Icons.check, color: Colors.white)
+                      : null,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+String accentLabel(AppLocalizations l10n, AppAccent a) => switch (a) {
+  AppAccent.terracotta => l10n.accentTerracotta,
+  AppAccent.blue => l10n.accentBlue,
+  AppAccent.green => l10n.accentGreen,
+  AppAccent.purple => l10n.accentPurple,
+  AppAccent.rose => l10n.accentRose,
+  AppAccent.teal => l10n.accentTeal,
+};

@@ -29,7 +29,9 @@ class NfcScanHost extends ConsumerStatefulWidget {
 
 class _NfcScanHostState extends ConsumerState<NfcScanHost> {
   static final _log = AppLogger('Nfc');
-  final List<String> _pending = [];
+
+  /// Scanned tags waiting for the connection: (id, held to the phone).
+  final List<(String, bool)> _pending = [];
   StreamSubscription<String>? _sub;
 
   @override
@@ -51,10 +53,45 @@ class _NfcScanHostState extends ConsumerState<NfcScanHost> {
     super.dispose();
   }
 
-  void _scanned(String id) {
-    _pending.add(id);
+  /// `nfc:<id>` (a tag held to the phone) or `link:<id>` (the same
+  /// address from a QR code, a web page or another app).
+  void _scanned(String raw) {
+    final physical = raw.startsWith('nfc:');
+    final id = raw.replaceFirst(RegExp('^(nfc|link):'), '');
+    _pending.add((id, physical));
     unawaited(_flush());
   }
+
+  /// A link could come from any app or web page: run it only if the user
+  /// says so.
+  Future<bool> _confirmLink(BuildContext context, String? name) async =>
+      await showDialog<bool>(
+        context: context,
+        builder: (dialog) {
+          final l10n = dialog.l10n;
+          return AlertDialog(
+            icon: const Icon(Icons.qr_code_2),
+            title: Text(l10n.nfcLinkConfirmTitle),
+            content: Text(
+              name == null
+                  ? l10n.nfcLinkConfirmUnnamed
+                  : l10n.nfcLinkConfirm(name),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dialog).pop(false),
+                child: Text(l10n.cancel),
+              ),
+              FilledButton(
+                key: const Key('nfcLinkConfirm'),
+                onPressed: () => Navigator.of(dialog).pop(true),
+                child: Text(l10n.nfcLinkRun),
+              ),
+            ],
+          );
+        },
+      ) ==
+      true;
 
   Future<void> _flush() async {
     final connected =
@@ -72,13 +109,19 @@ class _NfcScanHostState extends ConsumerState<NfcScanHost> {
         : ScaffoldMessenger.maybeOf(navigator);
     final l10n = navigator?.l10n;
     while (_pending.isNotEmpty) {
-      final id = _pending.removeAt(0);
+      final (id, physical) = _pending.removeAt(0);
       try {
-        await reportTagScan(manager, registration, id);
         final tags = await ref
             .read(haTagsProvider.future)
             .catchError((Object _) => const <HaTag>[]);
         final name = tags.where((t) => t.id == id).firstOrNull?.name;
+        if (!physical &&
+            (navigator == null ||
+                !navigator.mounted ||
+                !await _confirmLink(navigator, name))) {
+          continue;
+        }
+        await reportTagScan(manager, registration, id);
         if (l10n != null) {
           final text = name == null
               ? l10n.nfcScannedUnnamed

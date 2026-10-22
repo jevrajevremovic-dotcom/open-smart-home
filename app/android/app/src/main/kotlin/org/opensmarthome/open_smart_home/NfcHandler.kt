@@ -25,10 +25,28 @@ class NfcHandler(private val activity: Activity, private val channel: MethodChan
     MethodChannel.MethodCallHandler {
     private val main = Handler(Looper.getMainLooper())
     private var pendingWrite: MethodChannel.Result? = null
-    private var initialTag: String? = tagId(activity.intent)
+    private var initialTag: String? = scan(activity.intent)
 
     companion object {
         private val ID = Regex("^[A-Za-z0-9_-]{1,64}$")
+
+        /**
+         * `nfc:<id>` for a tag held to the phone (Android attaches the real
+         * [Tag]), `link:<id>` for the same address from a QR code, a web
+         * page or another app — which any app could send, so the app asks
+         * before telling Home Assistant.
+         */
+        fun scan(intent: Intent?): String? {
+            val id = tagId(intent) ?: return null
+            @Suppress("DEPRECATION")
+            val physical = intent?.action == NfcAdapter.ACTION_NDEF_DISCOVERED &&
+                (if (Build.VERSION.SDK_INT >= 33) {
+                    intent.getParcelableExtra(NfcAdapter.EXTRA_TAG, Tag::class.java)
+                } else {
+                    intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+                }) != null
+            return if (physical) "nfc:$id" else "link:$id"
+        }
 
         fun tagId(intent: Intent?): String? {
             val uri = intent?.data ?: ndefUri(intent) ?: return null
@@ -54,7 +72,7 @@ class NfcHandler(private val activity: Activity, private val channel: MethodChan
 
     /** A tag scanned while the app runs. */
     fun onNewIntent(intent: Intent) {
-        tagId(intent)?.let { channel.invokeMethod("scanned", it) }
+        scan(intent)?.let { channel.invokeMethod("scanned", it) }
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {

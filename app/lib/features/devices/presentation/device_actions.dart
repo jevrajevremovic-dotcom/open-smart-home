@@ -6,6 +6,8 @@ import '../../../app/theme/app_theme.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../app_lock/application/app_lock.dart';
+import '../../kiosk/application/kiosk_controller.dart';
+import '../../kiosk/presentation/pin_dialog.dart';
 import '../application/device_command_service.dart';
 import '../domain/device_command.dart';
 import '../domain/smart_home_device.dart';
@@ -28,6 +30,12 @@ Future<bool> runDeviceCommand(
   if (command.isCritical(device)) {
     confirmed = await _confirmCritical(context, device, command);
     if (!confirmed) return false;
+    // On the wall panel anyone passing by can tap: the kiosk PIN too.
+    if (ref.read(kioskActiveProvider) &&
+        context.mounted &&
+        !await confirmKioskPin(context, ref)) {
+      return false;
+    }
     // Optional second factor: fingerprint / face / device PIN.
     if (ref.read(appLockSettingsProvider).confirmCritical &&
         await ref.read(deviceAuthProvider).isAvailable()) {

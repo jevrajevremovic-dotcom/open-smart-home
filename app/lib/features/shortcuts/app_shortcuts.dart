@@ -138,8 +138,9 @@ class AppShortcutsBinder {
       _widgetInitialized = true;
       void open(Uri? uri) {
         final id = sceneIdFromWidgetUri(uri);
+        // Checked again before it runs: only a scene on the widget.
         if (id != null) {
-          ref.read(pendingShortcutProvider.notifier).set('scene:$id');
+          ref.read(pendingShortcutProvider.notifier).set('widgetScene:$id');
         }
       }
 
@@ -164,10 +165,18 @@ class AppShortcutsBinder {
   /// (a scene has no visible state of its own).
   Future<String?> runPendingScene() async {
     final type = ref.read(pendingShortcutProvider);
-    if (type == null || !type.startsWith('scene:')) return null;
+    if (type == null) return null;
+    final fromWidget = type.startsWith('widgetScene:');
+    if (!fromWidget && !type.startsWith('scene:')) return null;
     if (ref.read(syncStatusProvider) != SyncStatus.live) return null;
     ref.read(pendingShortcutProvider.notifier).set(null);
-    final device = ref.read(deviceProvider(type.substring(6)));
+    final id = type.substring(type.indexOf(':') + 1);
+    // Any app can send the widget's link: only a scene that is on the
+    // widget may run from it.
+    if (fromWidget && !ref.read(widgetScenesProvider).any((s) => s.$1 == id)) {
+      return null;
+    }
+    final device = ref.read(deviceProvider(id));
     final service = ref.read(deviceCommandServiceProvider);
     if (device == null || service == null) return null;
     try {

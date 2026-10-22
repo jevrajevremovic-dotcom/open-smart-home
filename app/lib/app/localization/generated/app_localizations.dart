@@ -7388,6 +7388,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Asks GitHub (public releases) whether there\'s a new version; GitHub then sees the device\'s address. Nothing else is sent.'**
   String get updateAutoHint;
+
+  /// No description provided for @nfcLinkConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Run this tag?'**
+  String get nfcLinkConfirmTitle;
+
+  /// No description provided for @nfcLinkConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'The link for tag \"{name}\" didn\'t come from an NFC tag held to the phone, but from a QR code, the web or another app. Run it in Home Assistant?'**
+  String nfcLinkConfirm(String name);
+
+  /// No description provided for @nfcLinkConfirmUnnamed.
+  ///
+  /// In en, this message translates to:
+  /// **'A Home Assistant tag link didn\'t come from an NFC tag held to the phone, but from a QR code, the web or another app. Run it?'**
+  String get nfcLinkConfirmUnnamed;
+
+  /// No description provided for @nfcLinkRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run'**
+  String get nfcLinkRun;
 }
 
 class _AppLocalizationsDelegate

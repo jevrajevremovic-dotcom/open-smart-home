@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Izmenjeno
+- Bezbednost: link iz widgeta pokreće samo scene koje su na widgetu (druga aplikacija više ne može da pokrene bilo koju scenu); skeniranje NFC oznake ide pravo u Home Assistant samo za fizičku oznaku, a link ili QR kod sa istom adresom prvo traži potvrdu; na zidnom tabletu otključavanje brave, isključenje alarma i slične kritične radnje traže kiosk PIN. `docs/SECURITY.md` ima novi pregled zaštite i spisak provere za Home Assistant, mrežu i uređaje.
 - Paneli odozdo (izgled sobe, mediji, prečice…) otvaraju se iznad donje navigacije, a ne ispod nje.
 - Početna (telefon i tablet bez kioska): vrednost na kartici sažetka („Sve zatvoreno”/„All closed”) se smanji da stane umesto da se odseče, naziv sme u dva reda, a kartice u istom redu su iste visine. Prečice (Provera, Poruke, Energija, Kalendar, Aktivnost) ostaju jednake širine sa celim nazivom — pet u redu kad staju, inače tri pa dve.
 - Ispravljeno: kartice prostorija, kartice uređaja u kiosku i grupne kartice na uskom telefonu prelivale su se („bottom overflowed”) kad su imena dugačka ili je sistemski tekst veći; sada se ime skrati, a broj ili temperatura smanje. Novi test pregleda sve sobe, ekrane uređaja i kiosk sa dugačkim imenima i većim tekstom.

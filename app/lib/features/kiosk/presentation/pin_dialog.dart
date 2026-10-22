@@ -33,9 +33,10 @@ Future<bool> showKioskExitDialog(BuildContext context, WidgetRef ref) async {
   return ok ?? false;
 }
 
-/// Asks for the kiosk PIN (when one is set) before the layout may be
-/// edited; does not leave kiosk mode. Returns `true` when allowed.
-Future<bool> unlockKioskEditing(BuildContext context, WidgetRef ref) async {
+/// Asks for the kiosk PIN (when one is set) before something only the
+/// household may do on the wall panel (unlocking a door, disarming);
+/// does not leave kiosk mode. Returns `true` when allowed.
+Future<bool> confirmKioskPin(BuildContext context, WidgetRef ref) async {
   if (!ref.read(kioskSettingsProvider).hasPin) return true;
   final controller = ref.read(kioskActiveProvider.notifier);
   final ok = await showDialog<bool>(

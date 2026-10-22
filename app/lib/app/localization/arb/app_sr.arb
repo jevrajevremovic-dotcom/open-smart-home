@@ -1215,5 +1215,9 @@
   "updateInstall": "Instaliraj",
   "updateCheck": "Proveri sada",
   "updateAuto": "Proveravaj nova izdanja pri pokretanju",
-  "updateAutoHint": "Pita GitHub (javna izdanja) da li postoji nova verzija; GitHub tada vidi adresu uređaja. Ništa drugo se ne šalje."
+  "updateAutoHint": "Pita GitHub (javna izdanja) da li postoji nova verzija; GitHub tada vidi adresu uređaja. Ništa drugo se ne šalje.",
+  "nfcLinkConfirmTitle": "Pokrenuti oznaku?",
+  "nfcLinkConfirm": "Link za oznaku „{name}” nije došao sa NFC oznake prislonjene uz telefon, već iz QR koda, sa veba ili iz druge aplikacije. Pokrenuti je u Home Assistantu?",
+  "nfcLinkConfirmUnnamed": "Link za Home Assistant oznaku nije došao sa NFC oznake prislonjene uz telefon, već iz QR koda, sa veba ili iz druge aplikacije. Pokrenuti je?",
+  "nfcLinkRun": "Pokreni"
 }

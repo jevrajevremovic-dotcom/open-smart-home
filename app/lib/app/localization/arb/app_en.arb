@@ -1739,5 +1739,10 @@
   "updateInstall": "Install",
   "updateCheck": "Check now",
   "updateAuto": "Check for new releases at start-up",
-  "updateAutoHint": "Asks GitHub (public releases) whether there's a new version; GitHub then sees the device's address. Nothing else is sent."
+  "updateAutoHint": "Asks GitHub (public releases) whether there's a new version; GitHub then sees the device's address. Nothing else is sent.",
+  "nfcLinkConfirmTitle": "Run this tag?",
+  "nfcLinkConfirm": "The link for tag \"{name}\" didn't come from an NFC tag held to the phone, but from a QR code, the web or another app. Run it in Home Assistant?",
+  "@nfcLinkConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "nfcLinkConfirmUnnamed": "A Home Assistant tag link didn't come from an NFC tag held to the phone, but from a QR code, the web or another app. Run it?",
+  "nfcLinkRun": "Run"
 }

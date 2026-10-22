@@ -1,5 +1,59 @@
 # Bezbednost
 
+Aplikacija upravlja kućom: ko ima pristup njoj (ili tokenu u njoj), ima pristup svemu što
+Home Assistant (HA) dozvoljava tom nalogu. Zato je bezbednost podeljena: deo radi aplikacija,
+deo se podešava u HA i na mreži.
+
+## Šta radi aplikacija
+
+| Pretnja | Zaštita |
+|---|---|
+| Krađa tokena sa telefona/tableta | Token samo u Android Keystore / iOS Keychain (šifrovano, vezano za uređaj); nikad u logovima, rezervnim kopijama ni dijagnostici. Android rezervna kopija aplikacije je isključena. |
+| Prisluškivanje mreže | Javne adrese samo preko HTTPS (HTTP traži izričito upozorenje); nevažeći sertifikati se nikad ne prihvataju automatski — samopotpisani samo uz izričit otisak (pin). Tailscale se prepoznaje kao šifrovan tunel. |
+| Prijava | Preko HA-ove sopstvene stranice (OAuth2) — HA-ova dvofaktorska potvrda (TOTP) radi. |
+| Slučajno ili tuđe otključavanje | Brave, alarm, garaža/kapija traže potvrdu; opciono otisak prsta (Podešavanja → Bezbednost). **Na zidnom tabletu i PIN kioska.** |
+| Izgubljen telefon | Zaključavanje aplikacije otiskom/PIN-om uređaja (Podešavanja → Bezbednost). |
+| Deca i gosti | Ograničen režim: sakriva brave, alarm i Assist. |
+| Druge aplikacije na telefonu | Link iz widgeta pokreće samo scenu koja je na widgetu; HA oznaka koja ne dolazi sa prave NFC oznake (QR, veb, druga aplikacija) traži potvrdu. |
+| Zidni tablet | Kiosk sa PIN-om; na pripremljenom panelu („vlasnik uređaja”) kiosk se ne može napustiti. |
+| Lažno ažuriranje | APK mora da se poklopi sa SHA-256 iz izdanja, a Android prihvata samo APK potpisan istim ključem. |
+| Curenje podataka | Sve radi lokalno; svaki izlaz na internet (vreme, GitHub provera) je opcion i naveden. Javni repozitorijum ne sadrži tajne. |
+
+## Šta treba podesiti (spisak)
+
+**Home Assistant**
+- [ ] Jaka lozinka i **dvofaktorska potvrda** za svaki nalog (Profil → Moduli za višefaktorsku potvrdu).
+- [ ] Administrator samo kome treba. Zidnom tabletu i deci dati **običan** nalog
+      (napomena: HA i običnom nalogu dozvoljava upravljanje svim uređajima; administrator
+      dodatno menja podešavanja, automatizacije i korisnike).
+- [ ] Glasovni asistent (Podešavanja → Glasovni asistenti → Izloži): HA podrazumevano izlaže
+      **roletne i garažna vrata** (domen `cover`) — skinite garažu i kapiju, da niko kroz
+      prozor ili sa tableta ne može glasom da ih otvori. Brave i alarm HA podrazumevano ne
+      izlaže; ostavite tako.
+- [ ] Alarm sa kodom za isključivanje.
+- [ ] Redovna ažuriranja HA i šifrovane rezervne kopije van kuće.
+- [ ] Uklonite stare uređaje iz Podešavanja → Uređaji → Mobile App i stare dugotrajne tokene
+      (Profil → Bezbednost).
+
+**Mreža**
+- [ ] **Nikad** ne otvarati port 8123 na ruteru. Van kuće: Tailscale ili Home Assistant Cloud.
+- [ ] Wi-Fi sa WPA2/WPA3 i jakom lozinkom; gosti na posebnoj (guest) mreži.
+- [ ] Ruter ažuriran, administratorska lozinka promenjena.
+
+**Uređaji**
+- [ ] Telefoni: zaključavanje ekrana i zaključavanje aplikacije.
+- [ ] Zidni tablet: PIN kioska; najbolje pripremljen kao „vlasnik uređaja” (docs/INSTALLER.md).
+- [ ] Ključ za potpis aplikacije čuvati van računara (docs/RELEASE.md).
+
+## Prijava problema
+
+Bezbednosni propust prijavite privatno vlasniku repozitorijuma (GitHub → Security →
+Report a vulnerability), ne kao javni issue.
+
+---
+
+# Detalji po delovima
+
 ## Autentifikacija
 
 ### MVP: Long-lived access token (implementirano)
@@ -114,7 +168,7 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 ## Widget za početni ekran (Android)
 
 - U widget se upisuju samo ID-jevi i imena scena (lokalno, u podacima aplikacije); nema tokena ni adrese servera.
-- Dodir samo otvara aplikaciju sa linkom `opensmarthome://scene?id=scene.…`; aplikacija prihvata isključivo `scene.*` ID-jeve i scenu pokreće tek kada je prijavljena i podaci su uživo. Brave, alarm i slično se ne mogu pokrenuti iz widgeta.
+- Dodir samo otvara aplikaciju sa linkom `opensmarthome://scene?id=scene.…`; aplikacija prihvata isključivo `scene.*` ID-jeve, i to samo scenu koja je trenutno na widgetu (link može poslati bilo koja aplikacija), i scenu pokreće tek kada je prijavljena i podaci su uživo. Brave, alarm i slično se ne mogu pokrenuti iz widgeta.
 - Posle odjave widget prikazuje samo poziv na prijavu.
 - Flutter deep linking je isključen (`flutter_deeplinking_enabled=false`): spoljni linkovi ne mogu da otvore proizvoljan ekran aplikacije.
 
@@ -192,4 +246,13 @@ Strane table se čuvaju kao slike preko HA integracije `image_upload`. Home Assi
 ## Senzori uređaja
 
 Uključuju se posebno (podrazumevano isključeno) i idu samo na vaš Home Assistant: procenat i stanje baterije, vrsta punjača i da li je kiosk uključen. Lokacija, Wi-Fi mreža i ništa drugo se ne šalju.
+
+## NFC oznake i QR kodovi
+
+- Oznaka prislonjena uz telefon (Android prilaže pravi `Tag`) odmah se javlja HA-u (`scan_tag`).
+- Ista adresa (`https://www.home-assistant.io/tag/…`) iz QR koda, sa veba ili iz druge aplikacije — koju može poslati bilo ko — prvo traži potvrdu u aplikaciji; bez potvrde HA ne dobija ništa.
+
+## Kritične radnje na zidnom tabletu
+
+- Otključavanje, otvaranje garaže/kapije i isključivanje alarma u kiosku posle potvrde traže i **PIN kioska** (ako je postavljen) — tablet je dostupan svakom ko prođe pored njega.
 

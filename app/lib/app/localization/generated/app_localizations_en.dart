@@ -4283,4 +4283,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get updateAutoHint =>
       'Asks GitHub (public releases) whether there\'s a new version; GitHub then sees the device\'s address. Nothing else is sent.';
+
+  @override
+  String get nfcLinkConfirmTitle => 'Run this tag?';
+
+  @override
+  String nfcLinkConfirm(String name) {
+    return 'The link for tag \"$name\" didn\'t come from an NFC tag held to the phone, but from a QR code, the web or another app. Run it in Home Assistant?';
+  }
+
+  @override
+  String get nfcLinkConfirmUnnamed =>
+      'A Home Assistant tag link didn\'t come from an NFC tag held to the phone, but from a QR code, the web or another app. Run it?';
+
+  @override
+  String get nfcLinkRun => 'Run';
 }

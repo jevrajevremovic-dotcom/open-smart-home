@@ -71,6 +71,25 @@ void main() {
     await unmount(tester);
   });
 
+  testWidgets('a link for a scene that is not on the widget does nothing', (
+    tester,
+  ) async {
+    // Any app can send this link; scene.other is not on the widget.
+    final widget = FakeHomeScreenWidget(
+      launchedWith: Uri.parse('opensmarthome://scene?id=scene.other'),
+    );
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: const Size(800, 1400),
+      homeWidget: widget,
+    );
+    await settle(tester, 12);
+    expect(sceneState(tester), 'unknown');
+    expect(find.textContaining('scene.other'), findsNothing);
+    await unmount(tester);
+  });
+
   testWidgets('signed out: the widget asks to sign in', (tester) async {
     final widget = FakeHomeScreenWidget();
     await pumpApp(tester, homeWidget: widget);

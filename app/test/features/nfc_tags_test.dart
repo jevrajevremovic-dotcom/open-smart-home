@@ -87,11 +87,25 @@ void main() {
     expect(find.text(en.nfcWritten('Ulaz')), findsOneWidget);
     expect(find.byKey(ValueKey('nfcTag-$id')), findsOneWidget);
 
-    nfc.scan(id);
+    nfc.scan('nfc:$id');
     await settle(tester, 6);
     expect(server.scannedTags, [id]);
     expect(server.firedEvents.last['event_type'], 'tag_scanned');
     expect(find.text(en.nfcScanned('Ulaz')), findsOneWidget);
+
+    // The same address from a QR code, the web or another app: asked
+    // first; cancelled, nothing reaches Home Assistant.
+    nfc.scan('link:$id');
+    await settle(tester, 4);
+    expect(find.text(en.nfcLinkConfirm('Ulaz')), findsOneWidget);
+    await tester.tap(find.text(en.cancel));
+    await settle(tester, 4);
+    expect(server.scannedTags, [id]);
+    nfc.scan('link:$id');
+    await settle(tester, 4);
+    await tapKey(tester, 'nfcLinkConfirm');
+    await settle(tester, 6);
+    expect(server.scannedTags, [id, id]);
     await unmount(tester);
   });
 
@@ -101,7 +115,7 @@ void main() {
     final nfc = FakeNfc();
     await pumpApp(tester, signedIn: true, nfc: nfc);
     await settle(tester, 10);
-    nfc.scan('ABC');
+    nfc.scan('nfc:ABC');
     await settle(tester, 4);
     expect(
       find.text(en.nfcScanFailed(en.nfcNeedsRegistration)),

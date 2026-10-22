@@ -4306,6 +4306,21 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get updateAutoHint =>
       'Pita GitHub (javna izdanja) da li postoji nova verzija; GitHub tada vidi adresu uređaja. Ništa drugo se ne šalje.';
+
+  @override
+  String get nfcLinkConfirmTitle => 'Pokrenuti oznaku?';
+
+  @override
+  String nfcLinkConfirm(String name) {
+    return 'Link za oznaku „$name” nije došao sa NFC oznake prislonjene uz telefon, već iz QR koda, sa veba ili iz druge aplikacije. Pokrenuti je u Home Assistantu?';
+  }
+
+  @override
+  String get nfcLinkConfirmUnnamed =>
+      'Link za Home Assistant oznaku nije došao sa NFC oznake prislonjene uz telefon, već iz QR koda, sa veba ili iz druge aplikacije. Pokrenuti je?';
+
+  @override
+  String get nfcLinkRun => 'Pokreni';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

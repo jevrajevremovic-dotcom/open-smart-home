@@ -177,7 +177,12 @@ void main() {
   });
 
   testWidgets('automatic checks are off until turned on', (tester) async {
-    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: const Size(800, 1600),
+      overrides: [updateInstallerProvider.overrideWithValue(_FakeInstaller())],
+    );
     await settle(tester, 6);
     await goTo(tester, AppRoutes.settingsSection('service'));
     await settle(tester, 4);
@@ -186,6 +191,15 @@ void main() {
     );
     expect(tile.value, isFalse);
     expect(find.byKey(const Key('updateBanner')), findsNothing);
+    await unmount(tester);
+  });
+
+  testWidgets('the demo (mock server) offers no updates', (tester) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await settle(tester, 6);
+    await goTo(tester, AppRoutes.settingsSection('service'));
+    await settle(tester, 4);
+    expect(find.byKey(const Key('updateAuto')), findsNothing);
     await unmount(tester);
   });
 }

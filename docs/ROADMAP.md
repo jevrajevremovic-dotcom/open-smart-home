@@ -52,5 +52,15 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 - Tajmer na uređaju („ugasi za 30 min”), izvršava HA ✅
 - Istorija potrošnje po uređaju ✅
 - Matter za potpuno nove uređaje preko Bluetooth-a ✅ (Google Play services; provera sa pravim uređajem na telefonu)
-- Uloge (instalater) — treba definisati šta tačno obuhvata
-- Release potpisivanje pravim ključem (ključ pravi i čuva vlasnik, nikad u repozitorijumu)
+- Verzija za instalatere ✅ (brend, vođeno podešavanje, servisni ekran, device owner, rezervna kopija u HA)
+- Release potpisivanje pravim ključem ✅ (ključ pravi i čuva vlasnik, nikad u repozitorijumu)
+- Ažuriranja sa GitHub Releases uz SHA-256 proveru ✅
+- Bezbednosna provera ✅ (widget, NFC linkovi, PIN za kritične radnje u kiosku — [SECURITY.md](SECURITY.md))
+
+## Dalje
+
+- Ko koristi tablet: profil ukućanina na zidnom tabletu (prečice, pozdrav, ko sme kritične radnje); uloge ukućanin / gost / instalater
+- Provera na pravim uređajima: Matter preko Bluetooth-a, NFC, iOS
+- Pristupačnost: prolaz sa TalkBack/VoiceOver
+- Distribucija: F-Droid i/ili Google Play
+- Pregled više kuća za instalatera (bez slanja kućnih podataka van kuće)

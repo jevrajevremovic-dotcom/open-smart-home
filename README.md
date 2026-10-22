@@ -2,7 +2,7 @@
 
 Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **MVP 0.1.0 + razvoj posle MVP-a**: kompletna aplikacija za telefon, tablet, web i zidni panel. Šta je urađeno po verzijama: [CHANGELOG](docs/CHANGELOG.md) · plan: [ROADMAP](docs/ROADMAP.md).
+> Status: **0.2.x**: kompletna aplikacija za telefon, tablet, web i zidni panel; Android izdanja na [GitHub Releases](https://github.com/jevrajevremovic-dotcom/open-smart-home/releases), a instalirana aplikacija se ažurira sama (uz proveru SHA-256). Šta je urađeno po verzijama: [CHANGELOG](docs/CHANGELOG.md) · plan: [ROADMAP](docs/ROADMAP.md).
 
 ## Mogućnosti
 
@@ -40,16 +40,26 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Kiosk: tamnije noću i najniža osvetljenost na čuvaru ekrana
 - Kiosk: iskačuća kamera kad neko pozvoni ili se pomeri ispred vrata
 - Kiosk: dvostruki pljesak za bilo koji uređaj ili scenu (Android, po želji, samo jačina zvuka na uređaju; otključavanje i sl. uz potvrdu)
-- Kiosk: stakleni paneli preko gradijenta, sat, ukućani, statusi po izboru, kamera, vreme, termostat, sobe, prečice, kalendar, mediji i Assist; PIN za izlaz, čuvar ekrana, povratak na početak; buđenje ekrana kad neko priđe (senzor iz HA ili kamera tableta); više stranica i raspored po dobu dana, foto-okvir, noćni sat, kuhinjski tajmeri, upozorenja preko celog ekrana, „Izlazim”, alarm, interfon, pozdrav ukućana, porodične poruke i objave iz HA
+- Kiosk: sat, ukućani, kamera, vreme, termostat, sobe, prečice, kalendar, mediji i Assist, sa nenametljivim animacijama; PIN za izlaz i za kritične radnje (brava, alarm), čuvar ekrana, povratak na početak; buđenje ekrana kad neko priđe (senzor iz HA ili kamera tableta); foto-okvir, noćni sat, kuhinjski tajmeri, upozorenja preko celog ekrana, „Izlazim”, alarm, interfon, pozdrav ukućana, porodične poruke i objave iz HA
 - Simulacija prisustva: svetla se uveče sama pale i gase dok niko nije kod kuće (automatizacija u Home Assistantu)
 - Assist: tekstualne i glasovne komande (govor se podrazumevano prepoznaje samo na uređaju), izgovoreni odgovori, aplikacija kao asistent telefona; na zidnom tabletu ključna reč bez ruku (prepoznaje je Home Assistant, openWakeWord)
 - Android: widget „Scene” na početnom ekranu, prečice na ikonici, opciona obaveštenja o kritičnim upozorenjima (dim, CO, curenje vode, alarm) dok aplikacija radi
 - Energija: snaga uživo, potrošnja po satima/danima, solar, baterija, gas, najveći potrošači, procena troška
 
+**Instalateri i održavanje**
+- Ažuriranja sa GitHub Releases (izdanje potpisano ključem vlasnika, preuzimanje provereno SHA-256 zbirom); automatska provera samo uz uključenje
+- Verzija sa sopstvenim imenom, bojom, logom i kontaktom podrške (`tool/build_brand.sh`), vođeno podešavanje i servisni ekran sa dijagnostikom bez tajni
+- Zidni tablet kao upravljani uređaj (device owner): aplikacija je početni ekran i ne može se izaći iz nje — vidi [INSTALLER.md](docs/INSTALLER.md)
+- Rezervna kopija podešavanja tableta u Home Assistantu, vraćanje jednim dodirom
+
 **Ostalo**
 - Srpski (latinica) i engleski, pristupačnost (čitači ekrana, krupan tekst do 150 %)
 - Offline keš poslednjeg stanja, automatsko ponovno povezivanje
 - Mock režim (demo kuća bez pravog HA), web verzija, lokalni gateway (Docker Compose)
+
+## Instalacija (Android)
+
+Sa [poslednjeg izdanja](https://github.com/jevrajevremovic-dotcom/open-smart-home/releases/latest) preuzmite `app-arm64-v8a-release.apk` (skoro svi telefoni i tableti; stariji 32-bitni: `armeabi-v7a`) i proverite ga sa `SHA256SUMS` iz istog izdanja. Posle toga aplikacija sama nudi nove verzije (Podešavanja → Servis). Za web verziju vidi „Web verzija” ispod.
 
 ## Arhitektura ukratko
 
@@ -183,7 +193,7 @@ Podešavanja → **Kiosk režim** → *Pokreni kiosk režim*. Preporučeno je i 
 - *Otvori u kiosk režimu pri pokretanju* vraća panel u kiosk i posle restarta aplikacije.
 - Veza sa serverom se obnavlja sama (backoff) i odmah kad se aplikacija vrati u prvi plan.
 
-Aplikacija ne može sama da zabrani izlazak iz operativnog sistema. Za potpuno zaključan panel koristite i sistemsku funkciju:
+Za potpuno zaključan panel na Androidu postavite aplikaciju za vlasnika uređaja (device owner, [INSTALLER.md](docs/INSTALLER.md)): tada je ona početni ekran i iz nje se ne izlazi. Bez toga aplikacija ne može sama da zabrani izlazak, pa koristite sistemsku funkciju:
 - **Android:** *Settings → Security → App pinning*, ili poseban kiosk launcher (npr. Fully Kiosk Browser / launcher MDM) koji pokreće aplikaciju pri paljenju uređaja.
 - **iOS/iPadOS:** *Settings → Accessibility → Guided Access*.
 - **Web:** pregledač u kiosk modu (npr. `chromium --kiosk http://homeassistant.local:8123/local/opensmarthome/`).
@@ -236,7 +246,7 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 
 ## Poznata ograničenja
 
-- Mobilni koristi long-lived token; OAuth2 je za sada samo na webu – vidi [SECURITY.md](docs/SECURITY.md#autentifikacija).
+- Home Assistant nema dozvole po uređaju: i nalog koji nije administratorski upravlja svim uređajima — vidi [SECURITY.md](docs/SECURITY.md).
 - Automatsko pronalaženje servera radi na Androidu i iOS-u; na webu nije moguće (pregledači ne podržavaju mDNS), pa se predlaže adresa stranice.
 - iOS ATS blokira čist HTTP ka javnim **nazivima domena** (IP adrese i `.local` rade). To je namerno; za udaljeni pristup koristite HTTPS.
 - Na webu se keš (kao i token) čuva samo dok je kartica otvorena.

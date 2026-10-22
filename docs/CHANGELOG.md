@@ -2,8 +2,17 @@
 
 ## [Unreleased]
 
+### Bezbednost
+- Link iz widgeta pokreće samo scene koje su na widgetu (druga aplikacija više ne može da pokrene bilo koju scenu); skeniranje NFC oznake ide pravo u Home Assistant samo za fizičku oznaku, a link ili QR kod sa istom adresom prvo traži potvrdu; na zidnom tabletu otključavanje brave, isključenje alarma i slične kritične radnje traže kiosk PIN. `docs/SECURITY.md` ima novi pregled zaštite i spisak provere za Home Assistant, mrežu i uređaje.
+
+## [0.2.1] – 2026-10-20
+
+### Dodato
+- Kiosk animacije: kartice sobe ulaze talasom, prelaz između soba i desna kolona bez preklapanja (staro nestane, novo dođe, detalji klize sa desna), čuvar ekrana se blago pojavi (buđenje je trenutno), svetlo se pri paljenju kratko zasija u svojoj boji, klima pokazuje plamen koji treperi dok greje i pahulju koja se vrti dok hladi, ventilator i usisivač se okreću dok rade, roletne se njišu u smeru kretanja, talasići pored muzike koja svira, brojevi (temperatura, vlažnost, kWh) „otkucaju” do nove vrednosti, pozdrav se smenjuje tokom dana uz nijansu neba iza njega. Sve stoji kad je ekran zatamnjen ili je u sistemu uključeno „manje animacija”.
+
+## [0.2.0] – 2026-10-20
+
 ### Izmenjeno
-- Bezbednost: link iz widgeta pokreće samo scene koje su na widgetu (druga aplikacija više ne može da pokrene bilo koju scenu); skeniranje NFC oznake ide pravo u Home Assistant samo za fizičku oznaku, a link ili QR kod sa istom adresom prvo traži potvrdu; na zidnom tabletu otključavanje brave, isključenje alarma i slične kritične radnje traže kiosk PIN. `docs/SECURITY.md` ima novi pregled zaštite i spisak provere za Home Assistant, mrežu i uređaje.
 - Paneli odozdo (izgled sobe, mediji, prečice…) otvaraju se iznad donje navigacije, a ne ispod nje.
 - Početna (telefon i tablet bez kioska): vrednost na kartici sažetka („Sve zatvoreno”/„All closed”) se smanji da stane umesto da se odseče, naziv sme u dva reda, a kartice u istom redu su iste visine. Prečice (Provera, Poruke, Energija, Kalendar, Aktivnost) ostaju jednake širine sa celim nazivom — pet u redu kad staju, inače tri pa dve.
 - Ispravljeno: kartice prostorija, kartice uređaja u kiosku i grupne kartice na uskom telefonu prelivale su se („bottom overflowed”) kad su imena dugačka ili je sistemski tekst veći; sada se ime skrati, a broj ili temperatura smanje. Novi test pregleda sve sobe, ekrane uređaja i kiosk sa dugačkim imenima i većim tekstom.
@@ -39,7 +48,6 @@
 - Novi vizuelni stil „topli minimalizam”: topla pozadina, bele zaobljene kartice bez okvira, pill dugmad, pozdrav i datum na početnom ekranu. Uključeni uređaji dobijaju boju svoje vrste (svetla žuto, hlađenje plavo, grejanje narandžasto, utičnice zeleno, mediji ljubičasto, roletne/senzori tirkizno), upozorenja i alarmi svoje boje. Sve kombinacije imaju kontrast teksta ≥ 4,5:1, posebno podešene za svetlu i tamnu temu.
 
 ### Dodato
-- Kiosk animacije: kartice sobe ulaze talasom, prelaz između soba i desna kolona bez preklapanja (staro nestane, novo dođe, detalji klize sa desna), čuvar ekrana se blago pojavi (buđenje je trenutno), svetlo se pri paljenju kratko zasija u svojoj boji, klima pokazuje plamen koji treperi dok greje i pahulju koja se vrti dok hladi, ventilator i usisivač se okreću dok rade, roletne se njišu u smeru kretanja, talasići pored muzike koja svira, brojevi (temperatura, vlažnost, kWh) „otkucaju” do nove vrednosti, pozdrav se smenjuje tokom dana uz nijansu neba iza njega. Sve stoji kad je ekran zatamnjen ili je u sistemu uključeno „manje animacija”.
 - Ažuriranje u aplikaciji preko GitHub Releases (Podešavanja → Servis): „Proveri sada”, opciona automatska provera pri pokretanju (isključena dok je ne uključite — GitHub tada vidi adresu uređaja), obaveštenje na Početnoj, preuzimanje APK-a za arhitekturu uređaja, provera SHA-256 prema `SHA256SUMS` izdanja i instalacija preko Androidovog instalera (na upravljanom zidnom panelu bez pitanja). `tool/release.sh` objavljuje izdanje.
 - Kratko uputstvo za ukućane: `docs/UPUTSTVO.md`.
 - Rezervna kopija podešavanja u Home Assistantu (Podešavanja → Rezervna kopija): čuva se pod imenom uređaja u HA-ovoj zvaničnoj pohrani za aplikacije (`frontend/set_system_data` — za celu kuću, kad čuva administrator; inače `frontend/set_user_data` — za taj nalog) i vraća jednim dodirom, i na drugom tabletu. Obuhvata izgled (tema, boja, tamno po suncu), Početnu, omiljene, izgled soba i ceo kiosk; nikad tokene, PIN, fotografije ni izbore za mikrofon i kameru.

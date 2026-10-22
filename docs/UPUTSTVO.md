@@ -20,6 +20,7 @@
 - **Dugi pritisak** na karticu uređaja: veliki klizač (svetlo, roletna, zvuk).
 - Gore levo: **tajmer**, **„Izlazim”** (provera kuće pre odlaska) i **poruke ukućanima**.
 - Ako niko ne dira tablet, vraća se na Početnu i posle se zatamni; dodir ga budi.
+- **Otključavanje vrata, isključenje alarma** i slične radnje na tabletu traže isti PIN.
 - **Izlazak iz kioska**: katanac gore desno → PIN (zna ga ___________).
 
 ## Kad nešto ne radi

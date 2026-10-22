@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../app/app_info.dart';
+import '../../core/config/app_config.dart';
 import '../../core/logging/app_logger.dart';
 import '../../core/storage/app_preferences.dart';
 
@@ -194,8 +195,24 @@ final githubReleasesProvider = Provider<GitHubReleases>(
   (ref) => GitHubReleases(),
 );
 final updateInstallerProvider = Provider<UpdateInstallerPlatform>(
-  (ref) => AndroidUpdateInstaller(),
+  // The demo (mock server) never updates itself to the real app.
+  (ref) => ref.watch(appConfigProvider).mockMode
+      ? const _NoUpdates()
+      : AndroidUpdateInstaller(),
 );
+
+class _NoUpdates implements UpdateInstallerPlatform {
+  const _NoUpdates();
+
+  @override
+  bool get supported => false;
+
+  @override
+  Future<String> abi() async => '';
+
+  @override
+  Future<String> install(String path) async => 'unsupported';
+}
 
 sealed class UpdateState {
   const UpdateState();

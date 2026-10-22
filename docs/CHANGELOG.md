@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Demo aplikacija za prikaz (`tool/build_demo.sh`): „Open Smart Home Demo” sa izmišljenom kućom, radi bez Home Assistanta i mreže, instalira se pored prave aplikacije i ne nudi ažuriranja.
 - Čarobnjak za prvo pokretanje: posle prve prijave na uređaju nekoliko kratkih koraka koji se mogu preskočiti — telefon ili zidni tablet, vraćanje podešavanja sačuvanih u Home Assistantu (ako postoje), tema i boja, omiljeni uređaji po prostorijama, poruke iz Home Assistanta (Android) i zaključavanje aplikacije. Zidni tablet nastavlja u čarobnjaku za panel (kiosk, PIN). Ne pojavljuje se posle ažuriranja ni kad se dodaje još jedan dom.
 
 ### Bezbednost

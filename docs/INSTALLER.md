@@ -81,3 +81,14 @@ tokena i lozinki — za prijavu kvara.
       vaš servisni pristup.
 - [ ] Rezervne kopije Home Assistanta uključene.
 - [ ] Klijentu objašnjeno koji podaci napuštaju kuću (kamere, prisustvo, pristup van kuće).
+
+## Demo aplikacija (za prikaz kupcima)
+
+`app/tool/build_demo.sh` pravi **Open Smart Home Demo** (`org.opensmarthome.open_smart_home.demo`): aplikaciju sa ugrađenom izmišljenom kućom, bez Home Assistanta i bez mreže. Ima svoj ID, pa se instalira **pored** prave aplikacije i ne dira njene podatke; ne nudi ažuriranja. To je profile build (demo server nikad ne ulazi u release), potpisan debug ključem — samo za prikaz.
+
+```bash
+cd app && tool/build_demo.sh
+adb install build/app/outputs/flutter-apk/app-arm64-v8a-profile.apk
+```
+
+U demo aplikaciji: Započni → „Demo dom (mock)” → prijava bilo kojim tokenom. Na vrhu stoji traka „MOCK REŽIM”, da se nikad ne pomeša sa pravom kućom.

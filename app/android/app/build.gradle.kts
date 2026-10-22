@@ -20,6 +20,10 @@ val brandProperties = Properties().apply {
     if (file.exists()) file.reader(Charsets.UTF_8).use { load(it) }
 }
 
+// Demo to show without a home (tool/build_demo.sh): its own id and name, so
+// it installs next to the real app and never over it.
+val demo = project.findProperty("demo") == "true"
+
 android {
     namespace = "org.opensmarthome.open_smart_home"
     compileSdk = flutter.compileSdkVersion
@@ -40,6 +44,11 @@ android {
             ?: "org.opensmarthome.open_smart_home"
         manifestPlaceholders["appLabel"] =
             brandProperties.getProperty("name") ?: "Open Smart Home"
+        if (demo) {
+            applicationIdSuffix = ".demo"
+            manifestPlaceholders["appLabel"] =
+                (brandProperties.getProperty("name") ?: "Open Smart Home") + " Demo"
+        }
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

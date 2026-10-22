@@ -183,6 +183,30 @@ void main() {
       await tapKey(tester, 'connectButton');
       await settle(tester, 20);
 
+      // First run: a personal phone, a favourite, then through to the end.
+      expect(find.text(en.firstRunWelcomeTitle), findsOneWidget);
+      await tapKey(tester, 'firstRunRolePhone');
+      await settle(tester);
+      for (var i = 0; i < 8; i++) {
+        if (find.text(en.firstRunFavoritesTitle).evaluate().isNotEmpty) break;
+        await tapKey(tester, 'firstRunNext');
+        await settle(tester, 5);
+      }
+      final chip = find.byWidgetPredicate(
+        (w) => w is FilterChip && '${w.key}'.contains('firstRunFav-'),
+      );
+      await tester.tap(chip.first);
+      await settle(tester);
+      expect(find.text(en.firstRunFavoritesCount(1)), findsOneWidget);
+      for (var i = 0; i < 8; i++) {
+        if (find.text(en.firstRunStart).evaluate().isNotEmpty) break;
+        await tapKey(tester, 'firstRunNext');
+        await settle(tester, 5);
+      }
+      expect(find.text(en.firstRunDoneTitle), findsOneWidget);
+      await tapKey(tester, 'firstRunNext');
+      await settle(tester, 20);
+
       expect(find.text('Demo dom (mock)'), findsOneWidget);
       expect(find.text(en.statusConnected), findsOneWidget);
       expect(find.text(en.summaryLights), findsOneWidget);
@@ -195,6 +219,35 @@ void main() {
       await unmount(tester);
     },
   );
+
+  testWidgets('first run as a wall tablet continues in the panel setup', (
+    tester,
+  ) async {
+    await pumpApp(tester);
+    await tester.tap(find.text(en.getStarted));
+    await settle(tester, 5);
+    await tester.enterText(
+      find.byKey(const Key('serverAddressField')),
+      'homeassistant.local:8123',
+    );
+    await tapKey(tester, 'checkServerButton');
+    await settle(tester);
+    await tester.enterText(find.byKey(const Key('tokenField')), 'demo-token');
+    await tapKey(tester, 'connectButton');
+    await settle(tester, 20);
+
+    await tapKey(tester, 'firstRunRoleWall');
+    await settle(tester);
+    for (var i = 0; i < 4; i++) {
+      if (find.text(en.firstRunWallNext).evaluate().isNotEmpty) break;
+      await tapKey(tester, 'firstRunNext');
+      await settle(tester, 5);
+    }
+    await tapKey(tester, 'firstRunNext');
+    await settle(tester, 10);
+    expect(find.byKey(const Key('setupStepper')), findsOneWidget);
+    await unmount(tester);
+  });
 
   testWidgets('phone layout uses a bottom NavigationBar', (tester) async {
     await pumpApp(tester, signedIn: true, size: const Size(390, 844));

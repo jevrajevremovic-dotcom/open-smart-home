@@ -11,6 +11,7 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Prijava korisničkim imenom i lozinkom na HA stranici (OAuth2, web i telefon) ili long-lived tokenom; samopotpisani sertifikat samo uz eksplicitno pinovanje otiska
 - Token u Keychain-u / Android Keystore-u, nikad u logovima; zaključavanje aplikacije otiskom/licem/PIN-om i potvrda pre otključavanja brava i alarma
 - **Više domova** (više HA servera) sa prebacivanjem
+- Kratak čarobnjak posle prve prijave (telefon ili zidni tablet, izgled, omiljeni, poruke, zaključavanje, vraćanje podešavanja iz HA)
 - **Van kuće**: uz kućnu i spoljna adresa (Nabu Casa, HTTPS domen, Tailscale) sa automatskim prebacivanjem; Tailscale adrese se prepoznaju kao VPN
 
 **Upravljanje uređajima**

@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Dodato
+- Čarobnjak za prvo pokretanje: posle prve prijave na uređaju nekoliko kratkih koraka koji se mogu preskočiti — telefon ili zidni tablet, vraćanje podešavanja sačuvanih u Home Assistantu (ako postoje), tema i boja, omiljeni uređaji po prostorijama, poruke iz Home Assistanta (Android) i zaključavanje aplikacije. Zidni tablet nastavlja u čarobnjaku za panel (kiosk, PIN). Ne pojavljuje se posle ažuriranja ni kad se dodaje još jedan dom.
+
 ### Bezbednost
 - Link iz widgeta pokreće samo scene koje su na widgetu (druga aplikacija više ne može da pokrene bilo koju scenu); skeniranje NFC oznake ide pravo u Home Assistant samo za fizičku oznaku, a link ili QR kod sa istom adresom prvo traži potvrdu; na zidnom tabletu otključavanje brave, isključenje alarma i slične kritične radnje traže kiosk PIN. `docs/SECURITY.md` ima novi pregled zaštite i spisak provere za Home Assistant, mrežu i uređaje.
 

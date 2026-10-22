@@ -7412,6 +7412,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Run'**
   String get nfcLinkRun;
+
+  /// No description provided for @firstRunSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get firstRunSkip;
+
+  /// No description provided for @firstRunWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome home!'**
+  String get firstRunWelcomeTitle;
+
+  /// No description provided for @firstRunWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are connected to {host}. Let\'s set the app up — it takes a minute, and everything can be changed later in Settings.'**
+  String firstRunWelcomeBody(String host);
+
+  /// No description provided for @firstRunRoleQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How will you use this device?'**
+  String get firstRunRoleQuestion;
+
+  /// No description provided for @firstRunRolePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'My phone or tablet'**
+  String get firstRunRolePhone;
+
+  /// No description provided for @firstRunRolePhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal, I carry it with me'**
+  String get firstRunRolePhoneHint;
+
+  /// No description provided for @firstRunRoleWall.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall tablet for the whole home'**
+  String get firstRunRoleWall;
+
+  /// No description provided for @firstRunRoleWallHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mounted on the wall, used by everyone (kiosk with a PIN)'**
+  String get firstRunRoleWallHint;
+
+  /// No description provided for @firstRunWallNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up the wall panel'**
+  String get firstRunWallNext;
+
+  /// No description provided for @firstRunRestoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring over existing settings'**
+  String get firstRunRestoreTitle;
+
+  /// No description provided for @firstRunRestoreBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Home Assistant keeps settings saved from other devices. If this one replaces or matches one of them, restore it with a tap — or just continue.'**
+  String get firstRunRestoreBody;
+
+  /// No description provided for @firstRunLookTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Look'**
+  String get firstRunLookTitle;
+
+  /// No description provided for @firstRunLookBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a light or dark theme and a colour you like.'**
+  String get firstRunLookBody;
+
+  /// No description provided for @firstRunFavoritesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourite devices'**
+  String get firstRunFavoritesTitle;
+
+  /// No description provided for @firstRunFavoritesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap what you use most — it will be at the top of Home.'**
+  String get firstRunFavoritesBody;
+
+  /// No description provided for @firstRunFavoritesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no controllable devices yet.'**
+  String get firstRunFavoritesNone;
+
+  /// No description provided for @firstRunFavoritesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing selected} =1{1 device selected} other{{count} devices selected}}'**
+  String firstRunFavoritesCount(int count);
+
+  /// No description provided for @firstRunMessagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages on this phone'**
+  String get firstRunMessagesTitle;
+
+  /// No description provided for @firstRunMessagesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant can tell this phone when something happens, e.g. a door left open. Messages come straight from your home, without a cloud.'**
+  String get firstRunMessagesBody;
+
+  /// No description provided for @firstRunSecurityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protection'**
+  String get firstRunSecurityTitle;
+
+  /// No description provided for @firstRunSecurityBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Whoever has your unlocked phone can control the home. We recommend at least confirming locks and the alarm.'**
+  String get firstRunSecurityBody;
+
+  /// No description provided for @firstRunDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All set'**
+  String get firstRunDoneTitle;
+
+  /// No description provided for @firstRunDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms, scenes and devices come from Home Assistant. Everything chosen here can be changed in Settings, and Home\'s cards with the ⚙ button next to the greeting.'**
+  String get firstRunDoneBody;
+
+  /// No description provided for @firstRunStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go'**
+  String get firstRunStart;
 }
 
 class _AppLocalizationsDelegate

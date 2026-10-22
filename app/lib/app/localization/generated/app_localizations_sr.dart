@@ -4321,6 +4321,98 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get nfcLinkRun => 'Pokreni';
+
+  @override
+  String get firstRunSkip => 'Preskoči';
+
+  @override
+  String get firstRunWelcomeTitle => 'Dobro došli kući!';
+
+  @override
+  String firstRunWelcomeBody(String host) {
+    return 'Povezani ste sa $host. Podesimo aplikaciju — traje minut, a sve se kasnije može promeniti u Podešavanjima.';
+  }
+
+  @override
+  String get firstRunRoleQuestion => 'Kako ćete koristiti ovaj uređaj?';
+
+  @override
+  String get firstRunRolePhone => 'Moj telefon ili tablet';
+
+  @override
+  String get firstRunRolePhoneHint => 'Lično, nosim ga sa sobom';
+
+  @override
+  String get firstRunRoleWall => 'Zidni tablet za celu kuću';
+
+  @override
+  String get firstRunRoleWallHint =>
+      'Stoji na zidu, koriste ga svi ukućani (kiosk sa PIN-om)';
+
+  @override
+  String get firstRunWallNext => 'Podesi zidni panel';
+
+  @override
+  String get firstRunRestoreTitle => 'Preuzmite postojeća podešavanja';
+
+  @override
+  String get firstRunRestoreBody =>
+      'U vašem Home Assistantu su sačuvana podešavanja sa drugih uređaja. Ako je ovo zamena ili još jedan isti uređaj, vratite jedno jednim dodirom — ili samo nastavite.';
+
+  @override
+  String get firstRunLookTitle => 'Izgled';
+
+  @override
+  String get firstRunLookBody =>
+      'Izaberite svetlu ili tamnu temu i boju koja vam se dopada.';
+
+  @override
+  String get firstRunFavoritesTitle => 'Omiljeni uređaji';
+
+  @override
+  String get firstRunFavoritesBody =>
+      'Dodirnite ono što najčešće koristite — biće na vrhu Početne.';
+
+  @override
+  String get firstRunFavoritesNone =>
+      'U Home Assistantu još nema uređaja kojima se upravlja.';
+
+  @override
+  String firstRunFavoritesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Izabrano $count uređaja',
+      few: 'Izabrana $count uređaja',
+      one: 'Izabran 1 uređaj',
+      zero: 'Ništa nije izabrano',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get firstRunMessagesTitle => 'Poruke na telefon';
+
+  @override
+  String get firstRunMessagesBody =>
+      'Home Assistant može da javi ovom telefonu kad se nešto desi, npr. da su vrata ostala otvorena. Poruke idu direktno iz vaše kuće, bez clouda.';
+
+  @override
+  String get firstRunSecurityTitle => 'Zaštita';
+
+  @override
+  String get firstRunSecurityBody =>
+      'Ko ima vaš otključan telefon, može da upravlja kućom. Preporučujemo bar potvrdu za brave i alarm.';
+
+  @override
+  String get firstRunDoneTitle => 'Sve je spremno';
+
+  @override
+  String get firstRunDoneBody =>
+      'Prostorije, scene i uređaji stižu iz Home Assistanta. Sve što ste ovde izabrali menjate u Podešavanjima, a kartice Početne dugmetom ⚙ pored pozdrava.';
+
+  @override
+  String get firstRunStart => 'Počnimo';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

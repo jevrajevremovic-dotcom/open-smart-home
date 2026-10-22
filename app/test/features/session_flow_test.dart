@@ -152,6 +152,21 @@ void main() {
   });
 
   group('router redirects', () {
+    test('first-run wizard is shown until finished, not over the kiosk', () {
+      String? go(String location, {bool kiosk = false}) => resolveRedirect(
+        location: location,
+        sessionLoading: false,
+        signedIn: true,
+        serverChosen: true,
+        kioskActive: kiosk,
+        firstRun: true,
+      );
+      expect(go(AppRoutes.home), AppRoutes.firstRun);
+      expect(go(AppRoutes.connectToken), AppRoutes.firstRun);
+      expect(go(AppRoutes.firstRun), isNull);
+      expect(go(AppRoutes.home, kiosk: true), AppRoutes.kiosk);
+    });
+
     test('loading goes to splash', () {
       expect(
         resolveRedirect(

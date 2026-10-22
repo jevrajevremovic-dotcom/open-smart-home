@@ -22,6 +22,8 @@ import '../../features/kiosk/presentation/kiosk_dashboard_screen.dart';
 import '../../features/kiosk/presentation/kiosk_shell.dart';
 import '../../features/restricted/application/restricted_mode.dart';
 import '../../features/weather/presentation/weather_screen.dart';
+import '../../features/first_run/first_run_controller.dart';
+import '../../features/first_run/first_run_screen.dart';
 import '../../features/onboarding/presentation/welcome_screen.dart';
 import '../../features/rooms/presentation/rooms_screen.dart';
 import '../../features/scenes/presentation/scenes_screen.dart';
@@ -70,6 +72,7 @@ abstract final class AppRoutes {
 
   static const kiosk = '/kiosk';
   static const installerSetup = '/installer-setup';
+  static const firstRun = '/first-run';
 
   /// In kiosk mode links stay under [kiosk], so the router never lets the
   /// user out of the kiosk shell.
@@ -107,6 +110,7 @@ String? resolveRedirect({
   bool kioskActive = false,
   bool addingHome = false,
   bool restricted = false,
+  bool firstRun = false,
 }) {
   if (sessionLoading) {
     return location == AppRoutes.splash ? null : AppRoutes.splash;
@@ -125,6 +129,10 @@ String? resolveRedirect({
   // (deep links, back navigation, …); leaving requires the PIN.
   if (kioskActive) return inKiosk ? null : AppRoutes.kiosk;
   if (inKiosk) return AppRoutes.home;
+  // Right after the first sign-in: the wizard, until finished or skipped.
+  if (firstRun) {
+    return location == AppRoutes.firstRun ? null : AppRoutes.firstRun;
+  }
   // Child / guest mode: no adding devices or homes.
   if (restricted &&
       (location.startsWith(AppRoutes.addDevice) || inOnboarding)) {
@@ -142,6 +150,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     ..listen(sessionControllerProvider, (_, _) => refresh.value++)
     ..listen(kioskActiveProvider, (_, _) => refresh.value++)
     ..listen(addingHomeProvider, (_, _) => refresh.value++)
+    ..listen(firstRunProvider, (_, _) => refresh.value++)
     ..listen(
       restrictedModeProvider.select((s) => s.enabled),
       (_, _) => refresh.value++,
@@ -164,6 +173,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         kioskActive: ref.read(kioskActiveProvider),
         addingHome: ref.read(addingHomeProvider),
         restricted: ref.read(restrictedModeProvider).enabled,
+        firstRun: ref.read(firstRunProvider),
       );
     },
     routes: [
@@ -249,6 +259,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.connectToken,
         builder: (_, _) => const TokenScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.firstRun,
+        builder: (_, _) => const FirstRunScreen(),
       ),
       ShellRoute(
         builder: (context, state, child) =>

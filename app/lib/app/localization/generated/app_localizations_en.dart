@@ -4298,4 +4298,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nfcLinkRun => 'Run';
+
+  @override
+  String get firstRunSkip => 'Skip';
+
+  @override
+  String get firstRunWelcomeTitle => 'Welcome home!';
+
+  @override
+  String firstRunWelcomeBody(String host) {
+    return 'You are connected to $host. Let\'s set the app up — it takes a minute, and everything can be changed later in Settings.';
+  }
+
+  @override
+  String get firstRunRoleQuestion => 'How will you use this device?';
+
+  @override
+  String get firstRunRolePhone => 'My phone or tablet';
+
+  @override
+  String get firstRunRolePhoneHint => 'Personal, I carry it with me';
+
+  @override
+  String get firstRunRoleWall => 'Wall tablet for the whole home';
+
+  @override
+  String get firstRunRoleWallHint =>
+      'Mounted on the wall, used by everyone (kiosk with a PIN)';
+
+  @override
+  String get firstRunWallNext => 'Set up the wall panel';
+
+  @override
+  String get firstRunRestoreTitle => 'Bring over existing settings';
+
+  @override
+  String get firstRunRestoreBody =>
+      'Your Home Assistant keeps settings saved from other devices. If this one replaces or matches one of them, restore it with a tap — or just continue.';
+
+  @override
+  String get firstRunLookTitle => 'Look';
+
+  @override
+  String get firstRunLookBody =>
+      'Pick a light or dark theme and a colour you like.';
+
+  @override
+  String get firstRunFavoritesTitle => 'Favourite devices';
+
+  @override
+  String get firstRunFavoritesBody =>
+      'Tap what you use most — it will be at the top of Home.';
+
+  @override
+  String get firstRunFavoritesNone =>
+      'Home Assistant has no controllable devices yet.';
+
+  @override
+  String firstRunFavoritesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count devices selected',
+      one: '1 device selected',
+      zero: 'Nothing selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get firstRunMessagesTitle => 'Messages on this phone';
+
+  @override
+  String get firstRunMessagesBody =>
+      'Home Assistant can tell this phone when something happens, e.g. a door left open. Messages come straight from your home, without a cloud.';
+
+  @override
+  String get firstRunSecurityTitle => 'Protection';
+
+  @override
+  String get firstRunSecurityBody =>
+      'Whoever has your unlocked phone can control the home. We recommend at least confirming locks and the alarm.';
+
+  @override
+  String get firstRunDoneTitle => 'All set';
+
+  @override
+  String get firstRunDoneBody =>
+      'Rooms, scenes and devices come from Home Assistant. Everything chosen here can be changed in Settings, and Home\'s cards with the ⚙ button next to the greeting.';
+
+  @override
+  String get firstRunStart => 'Let\'s go';
 }

@@ -40,6 +40,9 @@ void main() {
     expect(find.text(en.oauthHintNative), findsOneWidget);
     await tapKey(tester, 'oauthSignInNative');
     await settle(tester, 20);
+    // The first-run wizard comes first; skip it.
+    await tapKey(tester, 'firstRunSkip');
+    await settle(tester, 10);
 
     expect(find.text('Demo dom (mock)'), findsOneWidget);
     final stored = StoredCredential.parse(credentials.values.values.single);

@@ -13,6 +13,7 @@ import '../../../integrations/home_assistant/models/ha_models.dart';
 import '../../../integrations/home_assistant/websocket/connection_status.dart';
 import '../../../integrations/home_assistant/websocket/ha_websocket_manager.dart';
 import '../../connection/application/connection_route.dart';
+import '../../first_run/first_run_controller.dart';
 import '../data/server_profile.dart';
 import '../data/session_repository.dart';
 import '../domain/stored_credential.dart';
@@ -47,6 +48,7 @@ class SessionController extends AsyncNotifier<Session?> {
     if (webLogin.hasCallback) {
       try {
         await webLogin.complete();
+        ref.read(firstRunProvider.notifier).signedIn();
       } on AppFailure catch (e) {
         _log.warning('Web sign-in failed', e);
         // Report after build so listeners exist.
@@ -66,7 +68,9 @@ class SessionController extends AsyncNotifier<Session?> {
   ) async {
     await _repository.save(profile, credential);
     _log.info('Signed in to ${profile.address.host}');
+    final addedAnother = ref.read(addingHomeProvider);
     ref.read(addingHomeProvider.notifier).set(false);
+    if (!addedAnother) ref.read(firstRunProvider.notifier).signedIn();
     state = AsyncData(Session(profile));
   }
 

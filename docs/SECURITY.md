@@ -172,6 +172,8 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Posle odjave widget prikazuje samo poziv na prijavu.
 - Flutter deep linking je isključen (`flutter_deeplinking_enabled=false`): spoljni linkovi ne mogu da otvore proizvoljan ekran aplikacije.
 
+- Widgeti **Kuća**, **Termostat** i **Svetlo** čuvaju samo tekst za prikaz. Njihovi linkovi (`opensmarthome://climate?step=±1`, `opensmarthome://light?action=toggle`) ne nose ime uređaja koje bi se poštovalo: aplikacija ih izvršava samo na termostatu i svetlu koji su na widgetu, pa druga aplikacija ne može njima da otvori bravu ili upravlja nečim drugim.
+
 ## Dvostruki pljesak (kiosk, Android)
 
 - Isključen dok ga korisnik ne uključi; pre toga dijalog objašnjava da je mikrofon uključen dok je kiosk na ekranu, a sistem traži dozvolu za mikrofon.

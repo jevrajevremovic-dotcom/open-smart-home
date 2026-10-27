@@ -31,6 +31,7 @@ import '../../shortcuts/quick_tiles_settings.dart';
 import '../../assist/presentation/assist_settings.dart';
 import 'language_selector.dart';
 import '../../simple_mode/simple_mode.dart';
+import '../../shortcuts/home_widgets.dart';
 
 /// Settings categories; each one is its own screen (`/settings/<name>`).
 enum SettingsSection {
@@ -271,6 +272,7 @@ class _SectionBody extends ConsumerWidget {
       const ThemeModeSelector(),
       const AutoDarkTile(),
       const OledTile(),
+      const HomeWidgetSettings(),
       const SizedBox(height: 8),
       Text(l10n.accentTitle, style: textTheme.labelLarge),
       const SizedBox(height: 8),

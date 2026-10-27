@@ -8504,6 +8504,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The floor plan is kept on the device, so it is not available on the web.'**
   String get floorPlanUnsupported;
+
+  /// No description provided for @widgetHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get widgetHomeTitle;
+
+  /// No description provided for @widgetLightsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'💡 All lights off'**
+  String get widgetLightsOff;
+
+  /// No description provided for @widgetLightsOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{💡 1 light on} other{💡 {count} lights on}}'**
+  String widgetLightsOn(int count);
+
+  /// No description provided for @widgetAllClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'🚪 All closed'**
+  String get widgetAllClosed;
+
+  /// No description provided for @widgetOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{🚪 1 open} other{🚪 {count} open}}'**
+  String widgetOpen(int count);
+
+  /// No description provided for @widgetLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'🔒 Locked'**
+  String get widgetLocked;
+
+  /// No description provided for @widgetUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{🔓 1 unlocked} other{🔓 {count} unlocked}}'**
+  String widgetUnlocked(int count);
+
+  /// No description provided for @widgetUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated at {time}'**
+  String widgetUpdated(String time);
+
+  /// No description provided for @widgetNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now {temperature}'**
+  String widgetNow(String temperature);
+
+  /// No description provided for @widgetSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widgets'**
+  String get widgetSettingsTitle;
+
+  /// No description provided for @widgetSettingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add \"Home\", \"Thermostat\" and \"Light\" with a long press on the phone\'s home screen → Widgets. They refresh while the app runs.'**
+  String get widgetSettingsHint;
+
+  /// No description provided for @widgetThermostat.
+  ///
+  /// In en, this message translates to:
+  /// **'Thermostat on the widget'**
+  String get widgetThermostat;
+
+  /// No description provided for @widgetLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light on the widget'**
+  String get widgetLight;
 }
 
 class _AppLocalizationsDelegate

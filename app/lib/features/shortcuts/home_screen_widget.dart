@@ -16,6 +16,10 @@ abstract interface class HomeScreenWidgetPlatform {
   /// Scenes as (id, name); [emptyText] is shown when there are none.
   Future<void> setScenes(List<(String, String)> scenes, String emptyText);
 
+  /// What the home, thermostat or light widget ([kind]: `status`,
+  /// `thermostat`, `light`) shows; `null` = not set up. Display text only.
+  Future<void> setHomeWidget(String kind, Map<String, Object?>? data);
+
   /// The widget link that launched the app, if any.
   Future<Uri?> initialUri();
 
@@ -45,6 +49,18 @@ class AndroidHomeScreenWidget implements HomeScreenWidgetPlatform {
           for (final (id, name) in scenes) {'id': id, 'name': name},
         ]),
         'emptyText': emptyText,
+      });
+    } on Object catch (e) {
+      _log.debug('widget update failed: ${e.runtimeType}');
+    }
+  }
+
+  @override
+  Future<void> setHomeWidget(String kind, Map<String, Object?>? data) async {
+    try {
+      await _channel.invokeMethod<void>('setHomeWidget', {
+        'kind': kind,
+        'json': data == null ? null : jsonEncode(data),
       });
     } on Object catch (e) {
       _log.debug('widget update failed: ${e.runtimeType}');

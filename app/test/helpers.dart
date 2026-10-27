@@ -279,6 +279,13 @@ class FakeHomeScreenWidget implements HomeScreenWidgetPlatform {
     updates++;
   }
 
+  /// What each home widget kind shows (`status`, `thermostat`, `light`).
+  final homeWidgets = <String, Map<String, Object?>?>{};
+
+  @override
+  Future<void> setHomeWidget(String kind, Map<String, Object?>? data) async =>
+      homeWidgets[kind] = data;
+
   @override
   Future<Uri?> initialUri() async => launchedWith;
 

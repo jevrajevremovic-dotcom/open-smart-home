@@ -1401,5 +1401,18 @@
   "floorPlanAdd": "Dodaj uređaj",
   "floorPlanChangePhoto": "Druga slika",
   "floorPlanEditHint": "Prevucite uređaje na njihova mesta.",
-  "floorPlanUnsupported": "Tlocrt se čuva na uređaju, pa u web verziji nije dostupan."
+  "floorPlanUnsupported": "Tlocrt se čuva na uređaju, pa u web verziji nije dostupan.",
+  "widgetHomeTitle": "Kuća",
+  "widgetLightsOff": "💡 Sva svetla ugašena",
+  "widgetLightsOn": "{count, plural, =1{💡 Upaljeno 1 svetlo} few{💡 Upaljena {count} svetla} other{💡 Upaljeno {count} svetala}}",
+  "widgetAllClosed": "🚪 Sve zatvoreno",
+  "widgetOpen": "{count, plural, =1{🚪 Otvoreno: 1} other{🚪 Otvoreno: {count}}}",
+  "widgetLocked": "🔒 Zaključano",
+  "widgetUnlocked": "{count, plural, =1{🔓 Otključano: 1} other{🔓 Otključano: {count}}}",
+  "widgetUpdated": "Ažurirano u {time}",
+  "widgetNow": "Sada {temperature}",
+  "widgetSettingsTitle": "Widgeti na početnom ekranu",
+  "widgetSettingsHint": "„Kuća”, „Termostat” i „Svetlo” dodajete dugim pritiskom na početni ekran telefona → Widgeti. Osvežavaju se dok aplikacija radi.",
+  "widgetThermostat": "Termostat na widgetu",
+  "widgetLight": "Svetlo na widgetu"
 }

@@ -5009,6 +5009,75 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get floorPlanUnsupported =>
       'Tlocrt se čuva na uređaju, pa u web verziji nije dostupan.';
+
+  @override
+  String get widgetHomeTitle => 'Kuća';
+
+  @override
+  String get widgetLightsOff => '💡 Sva svetla ugašena';
+
+  @override
+  String widgetLightsOn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '💡 Upaljeno $count svetala',
+      few: '💡 Upaljena $count svetla',
+      one: '💡 Upaljeno 1 svetlo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get widgetAllClosed => '🚪 Sve zatvoreno';
+
+  @override
+  String widgetOpen(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '🚪 Otvoreno: $count',
+      one: '🚪 Otvoreno: 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get widgetLocked => '🔒 Zaključano';
+
+  @override
+  String widgetUnlocked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '🔓 Otključano: $count',
+      one: '🔓 Otključano: 1',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String widgetUpdated(String time) {
+    return 'Ažurirano u $time';
+  }
+
+  @override
+  String widgetNow(String temperature) {
+    return 'Sada $temperature';
+  }
+
+  @override
+  String get widgetSettingsTitle => 'Widgeti na početnom ekranu';
+
+  @override
+  String get widgetSettingsHint =>
+      '„Kuća”, „Termostat” i „Svetlo” dodajete dugim pritiskom na početni ekran telefona → Widgeti. Osvežavaju se dok aplikacija radi.';
+
+  @override
+  String get widgetThermostat => 'Termostat na widgetu';
+
+  @override
+  String get widgetLight => 'Svetlo na widgetu';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

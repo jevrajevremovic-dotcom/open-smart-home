@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Novi Android widgeti: **Kuća** (svetla, otvoreno, brave, alarm ili temperatura; dodir otvara proveru kuće), **Termostat** (− i + po pola stepena) i **Svetlo** (dodir pali i gasi). Izbor termostata i svetla je u Podešavanja → Izgled. Kao i widget sa scenama, čuvaju samo tekst za prikaz (nikad token); dodir otvara aplikaciju, a ona radnju izvršava samo na uređaju koji je na widgetu. Osvežavaju se dok aplikacija radi i pišu kada su ažurirani.
 - **Tlocrt** (Još, i kao kartica Početne na zidnom tabletu): slika osnove stana sa uređajima postavljenim prstom. Upaljeno se vidi u boji, otvoreno i otključano sa crvenim obodom; dodir pali i gasi, dugi pritisak otvara uređaj, dva prsta zumiraju. Uređivanje na tabletu traži PIN. Slika i raspored se čuvaju na uređaju (na webu nije dostupno).
 - **Jednostavni režim** (Podešavanja → Bezbednost): do 8 velikih dugmadi (svetla, utičnice, scene, roletne, grejanje sa velikim − i +), krupan tekst, sat i datum, bez menija. Ostaje i posle restarta; izlaz je katanac gore desno (uz PIN tableta ako je postavljen). Za uređaj kod bake i deke.
 - Brza pretraga: **Ctrl+K** (⌘K) bilo gde, ili lupa u bočnoj navigaciji na širokom ekranu. Ukucajte deo imena (kvačice nisu bitne: „kuh”, „cas”), Enter otvara sobu, pokreće scenu ili pali/gasi uređaj; strelice biraju.

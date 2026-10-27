@@ -4980,4 +4980,72 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get floorPlanUnsupported =>
       'The floor plan is kept on the device, so it is not available on the web.';
+
+  @override
+  String get widgetHomeTitle => 'Home';
+
+  @override
+  String get widgetLightsOff => '💡 All lights off';
+
+  @override
+  String widgetLightsOn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '💡 $count lights on',
+      one: '💡 1 light on',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get widgetAllClosed => '🚪 All closed';
+
+  @override
+  String widgetOpen(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '🚪 $count open',
+      one: '🚪 1 open',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get widgetLocked => '🔒 Locked';
+
+  @override
+  String widgetUnlocked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '🔓 $count unlocked',
+      one: '🔓 1 unlocked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String widgetUpdated(String time) {
+    return 'Updated at $time';
+  }
+
+  @override
+  String widgetNow(String temperature) {
+    return 'Now $temperature';
+  }
+
+  @override
+  String get widgetSettingsTitle => 'Home screen widgets';
+
+  @override
+  String get widgetSettingsHint =>
+      'Add \"Home\", \"Thermostat\" and \"Light\" with a long press on the phone\'s home screen → Widgets. They refresh while the app runs.';
+
+  @override
+  String get widgetThermostat => 'Thermostat on the widget';
+
+  @override
+  String get widgetLight => 'Light on the widget';
 }

@@ -172,6 +172,40 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/scenes_widget_info" />
         </receiver>
+        <!-- Home, thermostat and light widgets (display text only; see HomeWidgets.kt). -->
+        <receiver
+            android:name=".StatusWidgetProvider"
+            android:exported="true"
+            android:label="@string/status_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/status_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".ThermostatWidgetProvider"
+            android:exported="true"
+            android:label="@string/thermostat_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/thermostat_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".LightWidgetProvider"
+            android:exported="true"
+            android:label="@string/light_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/light_widget_info" />
+        </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

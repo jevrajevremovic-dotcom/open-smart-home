@@ -167,6 +167,14 @@ class MainActivity : FlutterFragmentActivity() {
                         )
                         result.success(null)
                     }
+                    "setHomeWidget" -> {
+                        HomeWidgets.save(
+                            applicationContext,
+                            call.argument<String>("kind") ?: "",
+                            call.argument<String>("json"),
+                        )
+                        result.success(null)
+                    }
                     // The widget link that started the app, read once.
                     "initialLink" -> {
                         result.success(widgetLink(intent))

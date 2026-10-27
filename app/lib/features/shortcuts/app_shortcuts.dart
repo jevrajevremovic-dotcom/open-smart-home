@@ -19,6 +19,7 @@ import '../devices/application/device_command_service.dart';
 import '../favorites/application/favorites_controller.dart';
 import '../restricted/application/restricted_mode.dart';
 import 'home_screen_widget.dart';
+import 'home_widgets.dart';
 
 /// Long-press shortcuts on the app icon (Android / iOS).
 abstract interface class AppShortcutsPlatform {
@@ -139,6 +140,18 @@ class AppShortcutsBinder {
     if (!_widgetInitialized) {
       _widgetInitialized = true;
       void open(Uri? uri) {
+        // Thermostat ± and the light: run on the widget's own device.
+        if (homeWidgetActionFromUri(uri) case final a?) {
+          ref
+              .read(pendingShortcutProvider.notifier)
+              .set('widgetAction:${a.kind}:${a.step}');
+          return;
+        }
+        // The home widget opens the house check.
+        if (uri?.scheme == 'opensmarthome' && uri?.host == 'check') {
+          ref.read(pendingShortcutProvider.notifier).set('check');
+          return;
+        }
         final id = sceneIdFromWidgetUri(uri);
         // Checked again before it runs: only a scene on the widget.
         if (id != null) {
@@ -218,6 +231,17 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
       ..showSnackBar(SnackBar(content: Text(ctx.l10n.sceneActivated(name))));
   }
 
+  /// A thermostat or light widget tap, once the home is live.
+  Future<void> _runWidgetAction() async {
+    final type = ref.read(pendingShortcutProvider);
+    if (type == null || !type.startsWith('widgetAction:')) return;
+    if (ref.read(syncStatusProvider) != SyncStatus.live) return;
+    ref.read(pendingShortcutProvider.notifier).set(null);
+    final parts = type.split(':');
+    final step = int.tryParse(parts.last) ?? 0;
+    await runHomeWidgetAction(ref, (kind: parts[1], step: step));
+  }
+
   void _handle(String? type) {
     if (type == null) return;
     final router = ref.read(routerProvider);
@@ -248,7 +272,11 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
           if (ctx != null) showAssist(ctx);
         });
       default:
-        unawaited(_runScene());
+        if (type.startsWith('widgetAction:')) {
+          unawaited(_runWidgetAction());
+        } else {
+          unawaited(_runScene());
+        }
     }
   }
 
@@ -265,7 +293,10 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
       )
       ..listen(pendingShortcutProvider, (_, next) => _handle(next))
       ..listen(syncStatusProvider, (_, s) {
-        if (s == SyncStatus.live) unawaited(_runScene());
+        if (s == SyncStatus.live) {
+          unawaited(_runScene());
+          unawaited(_runWidgetAction());
+        }
       });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _binder.bind(l10n);

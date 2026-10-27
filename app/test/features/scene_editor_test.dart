@@ -59,7 +59,12 @@ void main() {
     await tapKey(tester, 'sceneSave');
     await settle(tester, 8);
     expect(find.text(en.sceneSaved), findsOneWidget);
-    final entities = server.scenes.values.single['entities']! as Map;
+    // The demo home's own movie night is there too.
+    final entities =
+        server.scenes.values.singleWhere(
+              (s) => s['name'] == 'Veče',
+            )['entities']!
+            as Map;
     expect(entities.keys, containsAll(['light.living_room_main']));
 
     server.callService('light', 'turn_off', {

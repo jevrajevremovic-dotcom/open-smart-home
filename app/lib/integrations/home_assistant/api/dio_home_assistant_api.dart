@@ -276,6 +276,13 @@ class DioHomeAssistantApi implements HomeAssistantApi {
   }
 
   @override
+  Future<Map<String, Object?>> fetchScene(String id) async {
+    _automationPath(id); // same id rules
+    final body = await _authorized('GET', '/api/config/scene/config/$id');
+    return body is Map<String, Object?> ? body : const {};
+  }
+
+  @override
   Future<void> deleteScene(String id) async {
     _automationPath(id);
     await _authorized('DELETE', '/api/config/scene/config/$id');

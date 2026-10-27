@@ -182,6 +182,17 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   }
 
   @override
+  Future<Map<String, Object?>> fetchScene(String id) async {
+    await _requireAuth();
+    await _latency();
+    final config = server.scenes[id];
+    if (config == null) {
+      throw const AppFailure(FailureKind.server, statusCode: 404);
+    }
+    return config;
+  }
+
+  @override
   Future<Map<String, Object?>> fetchAutomation(String id) async {
     await _requireAuth();
     await _latency();

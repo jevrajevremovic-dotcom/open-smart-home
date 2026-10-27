@@ -43,6 +43,8 @@ class MockHomeAssistantServer {
     for (final s in states ?? buildMockStates(_clock())) {
       _states[s['entity_id']! as String] = s;
     }
+    // The demo home's movie night, as a UI scene with its lights' colours.
+    if (states == null) scenes.addAll(mockSceneConfigs);
   }
 
   static const String version = '2026.10.0-mock';

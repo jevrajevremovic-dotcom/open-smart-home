@@ -45,6 +45,7 @@ import 'on_now_strip.dart';
 import '../../updates/update_section.dart';
 import 'weather_sky.dart';
 import '../../../app/brand.dart';
+import '../../scenes/presentation/scene_colors.dart';
 part 'dashboard_summary.dart';
 part 'dashboard_sections.dart';
 

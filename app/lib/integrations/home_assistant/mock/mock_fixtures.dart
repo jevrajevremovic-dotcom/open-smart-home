@@ -199,7 +199,11 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'state_class': 'total_increasing',
       'unit_of_measurement': 'kWh',
     }),
-    e('scene.movie_night', 'unknown', {'friendly_name': 'Filmsko veče'}),
+    e('scene.movie_night', 'unknown', {
+      'friendly_name': 'Filmsko veče',
+      'id': 'movie_night',
+      'entity_id': ['light.living_room_ambient', 'light.living_room_main'],
+    }),
     e('automation.hallway_night_light', 'on', {
       'friendly_name': 'Noćno svetlo u hodniku',
       'last_triggered': null,
@@ -538,3 +542,19 @@ List<Map<String, Object?>> buildMockFloors() => [
   {'floor_id': 'ground', 'name': 'Prizemlje', 'level': 0, 'icon': null},
   {'floor_id': 'first', 'name': 'Sprat', 'level': 1, 'icon': null},
 ];
+
+/// UI scene configs of the demo home (`/api/config/scene/config/<id>`).
+const mockSceneConfigs = <String, Map<String, Object?>>{
+  'movie_night': {
+    'id': 'movie_night',
+    'name': 'Filmsko veče',
+    'entities': {
+      'light.living_room_ambient': {
+        'state': 'on',
+        'brightness': 90,
+        'rgb_color': [120, 60, 255],
+      },
+      'light.living_room_main': {'state': 'off'},
+    },
+  },
+};

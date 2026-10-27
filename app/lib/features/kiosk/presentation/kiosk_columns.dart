@@ -47,6 +47,7 @@ import '../../timers/kiosk_timers.dart';
 import '../../extras/air_advice.dart';
 import '../../extras/celebrations.dart';
 import '../../extras/extras_sheet.dart';
+import '../../scenes/presentation/scene_colors.dart';
 import '../application/kiosk_controller.dart';
 import '../application/kiosk_people.dart';
 import '../data/kiosk_settings.dart';
@@ -826,12 +827,10 @@ class _SceneCircle extends ConsumerWidget {
               customBorder: const CircleBorder(),
               onTap: () =>
                   runDeviceCommand(context, ref, scene, const Activate()),
-              child: SizedBox.square(
-                dimension: 56,
-                child: Icon(
-                  DevicePresentation.icon(scene),
-                  color: scheme.onSurface,
-                ),
+              // The scene's own colours, when Home Assistant has them.
+              child: SceneSwatch(
+                sceneId: scene.id,
+                icon: DevicePresentation.icon(scene),
               ),
             ),
           ),

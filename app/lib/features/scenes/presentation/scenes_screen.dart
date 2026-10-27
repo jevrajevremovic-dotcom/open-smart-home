@@ -17,6 +17,7 @@ import '../../devices/domain/device_kind.dart';
 import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_grid.dart';
 import '../../devices/presentation/device_presentation.dart';
+import 'scene_colors.dart';
 
 /// Ids of routines of one kind, sorted by name.
 final routineIdsProvider = Provider.family<ValueList<String>, DeviceKind>((
@@ -115,7 +116,11 @@ class _RoutineTile extends ConsumerWidget {
     if (d == null) return const SizedBox.shrink();
     return Card.outlined(
       child: ListTile(
-        leading: Icon(DevicePresentation.icon(d)),
+        leading: SceneSwatch(
+          sceneId: d.id,
+          icon: DevicePresentation.icon(d),
+          size: 40,
+        ),
         title: Text(d.name),
         subtitle: Text(DevicePresentation.status(l10n, d)),
         onTap: () => context.push(AppRoutes.device(d.id)),

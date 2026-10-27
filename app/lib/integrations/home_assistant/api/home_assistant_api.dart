@@ -115,6 +115,10 @@ abstract interface class HomeAssistantApi {
 
   /// Creates / deletes a UI scene (`/api/config/scene/config/<id>`).
   Future<void> saveScene(String id, Map<String, Object?> config);
+
+  /// A UI scene's config (`GET /api/config/scene/config/<id>`): its
+  /// `entities` with the states the scene sets.
+  Future<Map<String, Object?>> fetchScene(String id);
   Future<void> deleteScene(String id);
 
   /// `GET` of an image served by Home Assistant itself (e.g. a person's

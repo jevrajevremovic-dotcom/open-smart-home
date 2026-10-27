@@ -128,7 +128,12 @@ class SceneButtons extends ConsumerWidget {
               final d = ref.watch(deviceProvider(id));
               if (d == null) return const SizedBox.shrink();
               return ActionChip(
-                avatar: const Icon(Icons.play_arrow),
+                avatar: SceneSwatch(
+                  sceneId: id,
+                  icon: Icons.play_arrow,
+                  size: 24,
+                  fallback: Colors.transparent,
+                ),
                 label: Text(d.name),
                 onPressed: d.available
                     ? () async {

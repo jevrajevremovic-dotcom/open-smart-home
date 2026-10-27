@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Slider that sends a command only when the user lets go.
 ///
@@ -60,7 +61,20 @@ class _CommandSliderState extends State<CommandSlider> {
     _local = null;
   }
 
+  /// A tick at every tenth of the range, as on the big slider.
+  int? _lastStep;
+
+  void _changed(double v) {
+    final step = ((v - widget.min) / (widget.max - widget.min) * 10).floor();
+    if (_lastStep != null && step != _lastStep) {
+      unawaited(HapticFeedback.selectionClick());
+    }
+    _lastStep = step;
+    setState(() => _local = v);
+  }
+
   Future<void> _commit(double value) async {
+    _lastStep = null;
     _settleTimer?.cancel();
     // Fall back to the reported value if the device never confirms.
     _settleTimer = Timer(const Duration(seconds: 4), () {
@@ -103,9 +117,7 @@ class _CommandSliderState extends State<CommandSlider> {
                 divisions: widget.divisions,
                 label: widget.format(shown),
                 semanticFormatterCallback: widget.format,
-                onChanged: widget.enabled
-                    ? (v) => setState(() => _local = v)
-                    : null,
+                onChanged: widget.enabled ? _changed : null,
                 onChangeEnd: widget.enabled ? _commit : null,
               ),
             ),

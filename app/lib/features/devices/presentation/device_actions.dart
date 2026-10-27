@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
@@ -48,6 +49,13 @@ Future<bool> runDeviceCommand(
       if (!passed) return false;
     }
   }
+  // A tap the hand can feel: every command from the UI (sliders tick on
+  // their own). Android's "touch feedback" setting turns it off.
+  unawaited(
+    command.isCritical(device)
+        ? HapticFeedback.heavyImpact()
+        : HapticFeedback.lightImpact(),
+  );
   try {
     await service.execute(device, command, confirmed: confirmed);
     // Who did it, in Home Assistant's logbook.

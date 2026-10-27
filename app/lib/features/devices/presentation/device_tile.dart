@@ -123,10 +123,7 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
             activeTrackColor: swatch?.icon,
             onChanged: _busy || !live
                 ? null
-                : (on) {
-                    unawaited(HapticFeedback.lightImpact());
-                    _run(on ? const TurnOn() : const TurnOff());
-                  },
+                : (on) => _run(on ? const TurnOn() : const TurnOff()),
           )
         : DevicePresentation.hasQuickActivate(device)
         ? IconButton.filledTonal(

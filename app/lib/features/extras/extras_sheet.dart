@@ -8,6 +8,7 @@ import 'batteries.dart';
 import 'coming_home.dart';
 import 'guest_wifi.dart';
 import 'party.dart';
+import 'sunrise_wake.dart';
 import 'vacation.dart';
 
 /// One tool in "More".
@@ -73,6 +74,13 @@ class _ExtrasSheet extends ConsumerWidget {
         label: l10n.partyTitle,
         open: showParty,
       ),
+      if (!restricted)
+        (
+          key: const Key('extraSunrise'),
+          icon: Icons.wb_twilight,
+          label: l10n.sunriseTitle,
+          open: showSunriseWake,
+        ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).
     final navigator = Navigator.of(context);

@@ -1877,5 +1877,18 @@
   "partyOn": "Party! 🎉",
   "partyLights": "{count, plural, =1{1 light dancing} other{{count} lights dancing}}",
   "@partyLights": {"placeholders": {"count": {"type": "int"}}},
-  "partyStop": "End the party"
+  "partyStop": "End the party",
+  "sunriseTitle": "Sunrise alarm",
+  "sunriseHint": "The light comes up slowly before you wake, from a dim warm glow to daylight, like a real sunrise. Runs in Home Assistant, even with the phone off.",
+  "sunriseWakeAt": "Fully bright at",
+  "sunriseMinutes": "Sunrise takes {minutes} min",
+  "@sunriseMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+  "sunriseLights": "Lights",
+  "sunriseSave": "Turn on the alarm",
+  "sunriseUpdate": "Save changes",
+  "sunriseRemove": "Turn off the alarm",
+  "sunriseSaved": "Sunrise alarm: bright by {time}.",
+  "@sunriseSaved": {"placeholders": {"time": {"type": "String"}}},
+  "sunriseRemoved": "Sunrise alarm turned off.",
+  "sunriseAlias": "Sunrise alarm (Open Smart Home)"
 }

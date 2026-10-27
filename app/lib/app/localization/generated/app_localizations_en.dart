@@ -4729,4 +4729,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partyStop => 'End the party';
+
+  @override
+  String get sunriseTitle => 'Sunrise alarm';
+
+  @override
+  String get sunriseHint =>
+      'The light comes up slowly before you wake, from a dim warm glow to daylight, like a real sunrise. Runs in Home Assistant, even with the phone off.';
+
+  @override
+  String get sunriseWakeAt => 'Fully bright at';
+
+  @override
+  String sunriseMinutes(int minutes) {
+    return 'Sunrise takes $minutes min';
+  }
+
+  @override
+  String get sunriseLights => 'Lights';
+
+  @override
+  String get sunriseSave => 'Turn on the alarm';
+
+  @override
+  String get sunriseUpdate => 'Save changes';
+
+  @override
+  String get sunriseRemove => 'Turn off the alarm';
+
+  @override
+  String sunriseSaved(String time) {
+    return 'Sunrise alarm: bright by $time.';
+  }
+
+  @override
+  String get sunriseRemoved => 'Sunrise alarm turned off.';
+
+  @override
+  String get sunriseAlias => 'Sunrise alarm (Open Smart Home)';
 }

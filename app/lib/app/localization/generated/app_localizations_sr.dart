@@ -4757,6 +4757,44 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get partyStop => 'Kraj žurke';
+
+  @override
+  String get sunriseTitle => 'Buđenje svetlom';
+
+  @override
+  String get sunriseHint =>
+      'Svetlo se pali polako pre buđenja, od tople prigušene svetlosti do dnevne, kao pravo svitanje. Radi u Home Assistantu, i kad je telefon ugašen.';
+
+  @override
+  String get sunriseWakeAt => 'Potpuno svetlo u';
+
+  @override
+  String sunriseMinutes(int minutes) {
+    return 'Svitanje traje $minutes min';
+  }
+
+  @override
+  String get sunriseLights => 'Svetla';
+
+  @override
+  String get sunriseSave => 'Uključi buđenje';
+
+  @override
+  String get sunriseUpdate => 'Sačuvaj izmene';
+
+  @override
+  String get sunriseRemove => 'Isključi buđenje';
+
+  @override
+  String sunriseSaved(String time) {
+    return 'Buđenje svetlom: svetlo do $time.';
+  }
+
+  @override
+  String get sunriseRemoved => 'Buđenje svetlom je isključeno.';
+
+  @override
+  String get sunriseAlias => 'Buđenje svetlom (Open Smart Home)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Buđenje svetlom** (Još): izabrana svetla se pale polako pre buđenja, od tople prigušene svetlosti (2200 K) do dnevne (4000 K), za 5–40 minuta, u izabrane dane. Automatizacija u Home Assistantu (`time` okidač, uslov po danima, `light.turn_on` sa `transition`), pa radi i kad je telefon ugašen; svitanje koje počinje pre ponoći prelazi na prethodni dan.
 - **Žurka** (Još): izabrana svetla u boji menjaju boje u krug (svako malo pomereno), po želji krene muzika na izabranom plejeru, a ekran pleše u bojama. „Kraj žurke” vraća svako svetlo tačno kako je bilo (upaljeno/ugašeno, jačina, boja).
 - **Provetrite sobu**: kad senzor u sobi pokaže CO₂ od 1200 ppm naviše ili vlažnost od 70 % naviše, Početna (telefon i zidni tablet) predloži provetravanje te sobe; nestaje čim se vazduh popravi. Demo kuća ima CO₂ senzor u spavaćoj sobi.
 - **Wi-Fi za goste** (Još, i na zidnom tabletu): QR kod koji gost skenira kamerom telefona i spoji se, bez diktiranja šifre. Šifra se čuva u zaštićenom skladištu uređaja (kao token); na tabletu izmena traži PIN. Novi paket: `qr_flutter` (BSD).

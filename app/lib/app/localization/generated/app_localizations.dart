@@ -8078,6 +8078,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'End the party'**
   String get partyStop;
+
+  /// No description provided for @sunriseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise alarm'**
+  String get sunriseTitle;
+
+  /// No description provided for @sunriseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The light comes up slowly before you wake, from a dim warm glow to daylight, like a real sunrise. Runs in Home Assistant, even with the phone off.'**
+  String get sunriseHint;
+
+  /// No description provided for @sunriseWakeAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Fully bright at'**
+  String get sunriseWakeAt;
+
+  /// No description provided for @sunriseMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise takes {minutes} min'**
+  String sunriseMinutes(int minutes);
+
+  /// No description provided for @sunriseLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights'**
+  String get sunriseLights;
+
+  /// No description provided for @sunriseSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on the alarm'**
+  String get sunriseSave;
+
+  /// No description provided for @sunriseUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get sunriseUpdate;
+
+  /// No description provided for @sunriseRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off the alarm'**
+  String get sunriseRemove;
+
+  /// No description provided for @sunriseSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise alarm: bright by {time}.'**
+  String sunriseSaved(String time);
+
+  /// No description provided for @sunriseRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise alarm turned off.'**
+  String get sunriseRemoved;
+
+  /// No description provided for @sunriseAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunrise alarm (Open Smart Home)'**
+  String get sunriseAlias;
 }
 
 class _AppLocalizationsDelegate

@@ -1330,5 +1330,16 @@
   "partyStart": "Počni žurku",
   "partyOn": "Žurka! 🎉",
   "partyLights": "{count, plural, =1{1 svetlo pleše} few{{count} svetla plešu} other{{count} svetala pleše}}",
-  "partyStop": "Kraj žurke"
+  "partyStop": "Kraj žurke",
+  "sunriseTitle": "Buđenje svetlom",
+  "sunriseHint": "Svetlo se pali polako pre buđenja, od tople prigušene svetlosti do dnevne, kao pravo svitanje. Radi u Home Assistantu, i kad je telefon ugašen.",
+  "sunriseWakeAt": "Potpuno svetlo u",
+  "sunriseMinutes": "Svitanje traje {minutes} min",
+  "sunriseLights": "Svetla",
+  "sunriseSave": "Uključi buđenje",
+  "sunriseUpdate": "Sačuvaj izmene",
+  "sunriseRemove": "Isključi buđenje",
+  "sunriseSaved": "Buđenje svetlom: svetlo do {time}.",
+  "sunriseRemoved": "Buđenje svetlom je isključeno.",
+  "sunriseAlias": "Buđenje svetlom (Open Smart Home)"
 }

@@ -7736,6 +7736,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'opens {device} ({via})'**
   String unlockLogOpen(String device, String via);
+
+  /// No description provided for @vacationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'On holiday'**
+  String get vacationTitle;
+
+  /// No description provided for @vacationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Get the home ready while you are away, with one tap. On your return, heating and the simulation go back to how they were.'**
+  String get vacationHint;
+
+  /// No description provided for @vacationTidy.
+  ///
+  /// In en, this message translates to:
+  /// **'Tidy up'**
+  String get vacationTidy;
+
+  /// No description provided for @vacationTidyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights and music off, and the rest — as \"Leaving\" does'**
+  String get vacationTidyHint;
+
+  /// No description provided for @vacationHeating.
+  ///
+  /// In en, this message translates to:
+  /// **'Heating at {temperature} °C'**
+  String vacationHeating(String temperature);
+
+  /// No description provided for @vacationHeatingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 thermostat} other{{count} thermostats}}; the old temperatures are remembered'**
+  String vacationHeatingHint(int count);
+
+  /// No description provided for @vacationSimulation.
+  ///
+  /// In en, this message translates to:
+  /// **'Presence simulation'**
+  String get vacationSimulation;
+
+  /// No description provided for @vacationSimulationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights go on and off by themselves in the evening'**
+  String get vacationSimulationHint;
+
+  /// No description provided for @vacationSimulationMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set up yet'**
+  String get vacationSimulationMissing;
+
+  /// No description provided for @vacationSimulationSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up'**
+  String get vacationSimulationSetUp;
+
+  /// No description provided for @vacationAlarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Arm the alarm (away)'**
+  String get vacationAlarm;
+
+  /// No description provided for @vacationStart.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re off'**
+  String get vacationStart;
+
+  /// No description provided for @vacationLocalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This device remembers what to undo — mark your return on it.'**
+  String get vacationLocalNote;
+
+  /// No description provided for @vacationActive.
+  ///
+  /// In en, this message translates to:
+  /// **'You are on holiday'**
+  String get vacationActive;
+
+  /// No description provided for @vacationActiveSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Since {date}'**
+  String vacationActiveSince(String date);
+
+  /// No description provided for @vacationEndHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When you are back: heating to the old temperatures, the simulation as it was.'**
+  String get vacationEndHint;
+
+  /// No description provided for @vacationAlarmStillOn.
+  ///
+  /// In en, this message translates to:
+  /// **'The alarm is still on — disarm it with the keypad or code.'**
+  String get vacationAlarmStillOn;
+
+  /// No description provided for @vacationEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re back'**
+  String get vacationEnd;
 }
 
 class _AppLocalizationsDelegate

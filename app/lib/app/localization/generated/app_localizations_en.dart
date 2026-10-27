@@ -4515,4 +4515,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String unlockLogOpen(String device, String via) {
     return 'opens $device ($via)';
   }
+
+  @override
+  String get vacationTitle => 'On holiday';
+
+  @override
+  String get vacationHint =>
+      'Get the home ready while you are away, with one tap. On your return, heating and the simulation go back to how they were.';
+
+  @override
+  String get vacationTidy => 'Tidy up';
+
+  @override
+  String get vacationTidyHint =>
+      'Lights and music off, and the rest — as \"Leaving\" does';
+
+  @override
+  String vacationHeating(String temperature) {
+    return 'Heating at $temperature °C';
+  }
+
+  @override
+  String vacationHeatingHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count thermostats',
+      one: '1 thermostat',
+    );
+    return '$_temp0; the old temperatures are remembered';
+  }
+
+  @override
+  String get vacationSimulation => 'Presence simulation';
+
+  @override
+  String get vacationSimulationHint =>
+      'Lights go on and off by themselves in the evening';
+
+  @override
+  String get vacationSimulationMissing => 'Not set up yet';
+
+  @override
+  String get vacationSimulationSetUp => 'Set up';
+
+  @override
+  String get vacationAlarm => 'Arm the alarm (away)';
+
+  @override
+  String get vacationStart => 'We\'re off';
+
+  @override
+  String get vacationLocalNote =>
+      'This device remembers what to undo — mark your return on it.';
+
+  @override
+  String get vacationActive => 'You are on holiday';
+
+  @override
+  String vacationActiveSince(String date) {
+    return 'Since $date';
+  }
+
+  @override
+  String get vacationEndHint =>
+      'When you are back: heating to the old temperatures, the simulation as it was.';
+
+  @override
+  String get vacationAlarmStillOn =>
+      'The alarm is still on — disarm it with the keypad or code.';
+
+  @override
+  String get vacationEnd => 'We\'re back';
 }

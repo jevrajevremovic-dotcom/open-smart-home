@@ -4542,6 +4542,78 @@ class AppLocalizationsSr extends AppLocalizations {
   String unlockLogOpen(String device, String via) {
     return 'otvara: $device ($via)';
   }
+
+  @override
+  String get vacationTitle => 'Na odmoru';
+
+  @override
+  String get vacationHint =>
+      'Jednim dodirom spremite kuću dok ste odsutni. Po povratku se grejanje i simulacija vraćaju kako su bili.';
+
+  @override
+  String get vacationTidy => 'Sredi kuću';
+
+  @override
+  String get vacationTidyHint =>
+      'Ugasi svetla i muziku, spusti šta treba — kao „Izlazim”';
+
+  @override
+  String vacationHeating(String temperature) {
+    return 'Grejanje na $temperature °C';
+  }
+
+  @override
+  String vacationHeatingHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count termostata',
+      few: '$count termostata',
+      one: '1 termostat',
+    );
+    return '$_temp0; stare temperature se pamte';
+  }
+
+  @override
+  String get vacationSimulation => 'Simulacija prisustva';
+
+  @override
+  String get vacationSimulationHint => 'Svetla se uveče sama pale i gase';
+
+  @override
+  String get vacationSimulationMissing => 'Još nije podešena';
+
+  @override
+  String get vacationSimulationSetUp => 'Podesi';
+
+  @override
+  String get vacationAlarm => 'Uključi alarm (odsutni)';
+
+  @override
+  String get vacationStart => 'Krećemo na odmor';
+
+  @override
+  String get vacationLocalNote =>
+      'Šta treba vratiti pamti ovaj uređaj — povratak označite na njemu.';
+
+  @override
+  String get vacationActive => 'Na odmoru ste';
+
+  @override
+  String vacationActiveSince(String date) {
+    return 'Od $date';
+  }
+
+  @override
+  String get vacationEndHint =>
+      'Kad se vratite: grejanje na stare temperature, simulacija kako je bila.';
+
+  @override
+  String get vacationAlarmStillOn =>
+      'Alarm je i dalje uključen — isključite ga tastaturom ili kodom.';
+
+  @override
+  String get vacationEnd => 'Vratili smo se';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

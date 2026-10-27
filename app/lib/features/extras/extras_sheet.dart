@@ -5,6 +5,7 @@ import '../../app/localization/l10n.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../restricted/application/restricted_mode.dart';
 import 'batteries.dart';
+import 'vacation.dart';
 
 /// One tool in "More".
 typedef _Extra = ({
@@ -42,6 +43,13 @@ class _ExtrasSheet extends ConsumerWidget {
           icon: Icons.battery_alert_outlined,
           label: l10n.batteriesTitle,
           open: showBatteries,
+        ),
+      if (!restricted)
+        (
+          key: const Key('extraVacation'),
+          icon: Icons.luggage_outlined,
+          label: l10n.vacationTitle,
+          open: showVacation,
         ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).

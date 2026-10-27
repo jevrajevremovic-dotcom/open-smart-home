@@ -118,7 +118,10 @@ void main() {
       expect(server.logbookMessages, [
         {
           'name': 'Marko',
-          'message': en.unlockLogUnlock('Brava ulazna vrata', en.unlockLogViaPanel),
+          'message': en.unlockLogUnlock(
+            'Brava ulazna vrata',
+            en.unlockLogViaPanel,
+          ),
           'entity_id': 'lock.front_door',
         },
       ]);

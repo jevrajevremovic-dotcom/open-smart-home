@@ -5,6 +5,7 @@ import '../../app/localization/l10n.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../restricted/application/restricted_mode.dart';
 import 'batteries.dart';
+import 'coming_home.dart';
 import 'vacation.dart';
 
 /// One tool in "More".
@@ -50,6 +51,13 @@ class _ExtrasSheet extends ConsumerWidget {
           icon: Icons.luggage_outlined,
           label: l10n.vacationTitle,
           open: showVacation,
+        ),
+      if (!restricted && !kiosk)
+        (
+          key: const Key('extraComingHome'),
+          icon: Icons.directions_car_outlined,
+          label: l10n.comingHomeTitle,
+          open: showComingHome,
         ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).

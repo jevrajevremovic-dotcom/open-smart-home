@@ -1291,5 +1291,20 @@
   "vacationActiveSince": "Od {date}",
   "vacationEndHint": "Kad se vratite: grejanje na stare temperature, simulacija kako je bila.",
   "vacationAlarmStillOn": "Alarm je i dalje uključen — isključite ga tastaturom ili kodom.",
-  "vacationEnd": "Vratili smo se"
+  "vacationEnd": "Vratili smo se",
+  "comingHomeTitle": "Stižem kući",
+  "comingHomeHint": "Jednim dodirom (i sa ikonice aplikacije): upali šta treba, ugrej kuću i javi ukućanima.",
+  "comingHomeWho": "Ko stiže",
+  "comingHomeNoOne": "Bez imena",
+  "comingHomeRoutine": "Scena ili skripta",
+  "comingHomeNone": "Ništa",
+  "comingHomeHeatingOff": "Grejanje: ne menjaj",
+  "comingHomeHeating": "Grejanje na {temperature} °C",
+  "comingHomeAnnounce": "Javi ukućanima",
+  "comingHomeAnnounceHint": "Poruka se vidi u aplikaciji i na zidnom tabletu",
+  "comingHomeRun": "Stižem kući",
+  "comingHomeShortcutHint": "Isto radi i dugi pritisak na ikonicu aplikacije → „Stižem kući”.",
+  "comingHomeDone": "Kuća zna da stižete.",
+  "comingHomeMessage": "{name} stiže kući 🏠",
+  "comingHomeMessageNoName": "Neko stiže kući 🏠"
 }

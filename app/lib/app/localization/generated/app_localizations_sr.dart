@@ -4614,6 +4614,58 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get vacationEnd => 'Vratili smo se';
+
+  @override
+  String get comingHomeTitle => 'Stižem kući';
+
+  @override
+  String get comingHomeHint =>
+      'Jednim dodirom (i sa ikonice aplikacije): upali šta treba, ugrej kuću i javi ukućanima.';
+
+  @override
+  String get comingHomeWho => 'Ko stiže';
+
+  @override
+  String get comingHomeNoOne => 'Bez imena';
+
+  @override
+  String get comingHomeRoutine => 'Scena ili skripta';
+
+  @override
+  String get comingHomeNone => 'Ništa';
+
+  @override
+  String get comingHomeHeatingOff => 'Grejanje: ne menjaj';
+
+  @override
+  String comingHomeHeating(String temperature) {
+    return 'Grejanje na $temperature °C';
+  }
+
+  @override
+  String get comingHomeAnnounce => 'Javi ukućanima';
+
+  @override
+  String get comingHomeAnnounceHint =>
+      'Poruka se vidi u aplikaciji i na zidnom tabletu';
+
+  @override
+  String get comingHomeRun => 'Stižem kući';
+
+  @override
+  String get comingHomeShortcutHint =>
+      'Isto radi i dugi pritisak na ikonicu aplikacije → „Stižem kući”.';
+
+  @override
+  String get comingHomeDone => 'Kuća zna da stižete.';
+
+  @override
+  String comingHomeMessage(String name) {
+    return '$name stiže kući 🏠';
+  }
+
+  @override
+  String get comingHomeMessageNoName => 'Neko stiže kući 🏠';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

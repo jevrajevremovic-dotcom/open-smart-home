@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../extras/coming_home.dart';
 import '../../app/localization/l10n.dart';
 import '../../app/router/app_router.dart';
 import '../assist/presentation/assist_sheet.dart';
@@ -123,6 +124,7 @@ class AppShortcutsBinder {
     final items = [
       for (final (id, name) in scenes) ('scene:$id', name, 'ic_scene'),
       ('check', l10n.houseCheckTitle, 'ic_check'),
+      if (!restricted) ('coming', l10n.comingHomeTitle, 'ic_coming_home'),
       if (!restricted) ('assist', l10n.assistTitle, 'ic_assist'),
       if (!restricted) ('kiosk', l10n.kioskStart, 'ic_kiosk'),
     ];
@@ -231,6 +233,13 @@ class _ShortcutsHostState extends ConsumerState<ShortcutsHost> {
         router
           ..go(AppRoutes.home)
           ..push(AppRoutes.houseCheck);
+      case 'coming':
+        ref.read(pendingShortcutProvider.notifier).set(null);
+        router.go(AppRoutes.home);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final ctx = router.routerDelegate.navigatorKey.currentContext;
+          if (ctx != null && ctx.mounted) unawaited(runComingHome(ctx, ref));
+        });
       case 'assist':
         ref.read(pendingShortcutProvider.notifier).set(null);
         router.go(AppRoutes.home);

@@ -7844,6 +7844,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We\'re back'**
   String get vacationEnd;
+
+  /// No description provided for @comingHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming home'**
+  String get comingHomeTitle;
+
+  /// No description provided for @comingHomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One tap (also from the app icon): turn on what you like, warm the house and tell the household.'**
+  String get comingHomeHint;
+
+  /// No description provided for @comingHomeWho.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is coming'**
+  String get comingHomeWho;
+
+  /// No description provided for @comingHomeNoOne.
+  ///
+  /// In en, this message translates to:
+  /// **'No name'**
+  String get comingHomeNoOne;
+
+  /// No description provided for @comingHomeRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Scene or script'**
+  String get comingHomeRoutine;
+
+  /// No description provided for @comingHomeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing'**
+  String get comingHomeNone;
+
+  /// No description provided for @comingHomeHeatingOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Heating: leave as is'**
+  String get comingHomeHeatingOff;
+
+  /// No description provided for @comingHomeHeating.
+  ///
+  /// In en, this message translates to:
+  /// **'Heating to {temperature} °C'**
+  String comingHomeHeating(String temperature);
+
+  /// No description provided for @comingHomeAnnounce.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell the household'**
+  String get comingHomeAnnounce;
+
+  /// No description provided for @comingHomeAnnounceHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The message shows in the app and on the wall panel'**
+  String get comingHomeAnnounceHint;
+
+  /// No description provided for @comingHomeRun.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m coming home'**
+  String get comingHomeRun;
+
+  /// No description provided for @comingHomeShortcutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A long press on the app icon → \"Coming home\" does the same.'**
+  String get comingHomeShortcutHint;
+
+  /// No description provided for @comingHomeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'The home knows you are coming.'**
+  String get comingHomeDone;
+
+  /// No description provided for @comingHomeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is coming home 🏠'**
+  String comingHomeMessage(String name);
+
+  /// No description provided for @comingHomeMessageNoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone is coming home 🏠'**
+  String get comingHomeMessageNoName;
 }
 
 class _AppLocalizationsDelegate

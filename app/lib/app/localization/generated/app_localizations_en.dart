@@ -4587,4 +4587,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vacationEnd => 'We\'re back';
+
+  @override
+  String get comingHomeTitle => 'Coming home';
+
+  @override
+  String get comingHomeHint =>
+      'One tap (also from the app icon): turn on what you like, warm the house and tell the household.';
+
+  @override
+  String get comingHomeWho => 'Who is coming';
+
+  @override
+  String get comingHomeNoOne => 'No name';
+
+  @override
+  String get comingHomeRoutine => 'Scene or script';
+
+  @override
+  String get comingHomeNone => 'Nothing';
+
+  @override
+  String get comingHomeHeatingOff => 'Heating: leave as is';
+
+  @override
+  String comingHomeHeating(String temperature) {
+    return 'Heating to $temperature °C';
+  }
+
+  @override
+  String get comingHomeAnnounce => 'Tell the household';
+
+  @override
+  String get comingHomeAnnounceHint =>
+      'The message shows in the app and on the wall panel';
+
+  @override
+  String get comingHomeRun => 'I\'m coming home';
+
+  @override
+  String get comingHomeShortcutHint =>
+      'A long press on the app icon → \"Coming home\" does the same.';
+
+  @override
+  String get comingHomeDone => 'The home knows you are coming.';
+
+  @override
+  String comingHomeMessage(String name) {
+    return '$name is coming home 🏠';
+  }
+
+  @override
+  String get comingHomeMessageNoName => 'Someone is coming home 🏠';
 }

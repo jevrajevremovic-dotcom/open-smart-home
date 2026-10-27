@@ -1832,5 +1832,22 @@
   "@vacationActiveSince": {"placeholders": {"date": {"type": "String"}}},
   "vacationEndHint": "When you are back: heating to the old temperatures, the simulation as it was.",
   "vacationAlarmStillOn": "The alarm is still on — disarm it with the keypad or code.",
-  "vacationEnd": "We're back"
+  "vacationEnd": "We're back",
+  "comingHomeTitle": "Coming home",
+  "comingHomeHint": "One tap (also from the app icon): turn on what you like, warm the house and tell the household.",
+  "comingHomeWho": "Who is coming",
+  "comingHomeNoOne": "No name",
+  "comingHomeRoutine": "Scene or script",
+  "comingHomeNone": "Nothing",
+  "comingHomeHeatingOff": "Heating: leave as is",
+  "comingHomeHeating": "Heating to {temperature} °C",
+  "@comingHomeHeating": {"placeholders": {"temperature": {"type": "String"}}},
+  "comingHomeAnnounce": "Tell the household",
+  "comingHomeAnnounceHint": "The message shows in the app and on the wall panel",
+  "comingHomeRun": "I'm coming home",
+  "comingHomeShortcutHint": "A long press on the app icon → \"Coming home\" does the same.",
+  "comingHomeDone": "The home knows you are coming.",
+  "comingHomeMessage": "{name} is coming home 🏠",
+  "@comingHomeMessage": {"placeholders": {"name": {"type": "String"}}},
+  "comingHomeMessageNoName": "Someone is coming home 🏠"
 }

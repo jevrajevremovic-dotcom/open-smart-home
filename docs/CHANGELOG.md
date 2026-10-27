@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Stižem kući** (Još, i dugi pritisak na ikonicu aplikacije): jednim dodirom pokreće izabranu scenu ili skriptu, greje kuću na izabranu temperaturu i ostavlja ukućanima poruku „Marko stiže kući” (vidi se i na zidnom tabletu).
 - **Na odmoru** (Još): jednim dodirom sredi kuću kao „Izlazim”, spusti grejanje na izabranu temperaturu (10–20 °C), uključi simulaciju prisustva i alarm. „Vratili smo se” vraća stare temperature i simulaciju kako je bila; alarm se isključuje kodom, kao i inače. Šta treba vratiti pamti uređaj na kom je pokrenuto.
 - Dnevnik „ko je otključao”: posle otključavanja, otvaranja garaže/kapije ili isključenja alarma aplikacija upisuje u Home Assistant dnevnik ko je to uradio (`logbook.log`), npr. „Marko otključava: Ulazna vrata (zidni tablet)”. Na tabletu je to ukućanin koji je izabran ili upisao svoj PIN, na telefonu njegovo ime u HA.
 - „Još” (Početna i zidni tablet): mesto za manje alate. Prvi je **Baterije**: svi uređaji na baterije, od najpraznije, i po želji podsetnik u Home Assistantu (automatizacija ostavlja poruku ukućanima i javlja telefonu kad baterija padne na 15 % ili niže).

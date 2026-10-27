@@ -8006,6 +8006,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove'**
   String get guestWifiRemove;
+
+  /// No description provided for @airAdviceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Air the room: {place}'**
+  String airAdviceTitle(String place);
+
+  /// No description provided for @airAdviceCo2.
+  ///
+  /// In en, this message translates to:
+  /// **'CO₂ {ppm} ppm — the air is stuffy, open a window for a few minutes'**
+  String airAdviceCo2(int ppm);
+
+  /// No description provided for @airAdviceHumidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity {percent} % — air it so mould doesn\'t settle'**
+  String airAdviceHumidity(int percent);
 }
 
 class _AppLocalizationsDelegate

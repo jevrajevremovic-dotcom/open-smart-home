@@ -1861,5 +1861,11 @@
   "guestWifiPasswordHint": "At least 8 characters",
   "guestWifiOpen": "Network without a password",
   "guestWifiHidden": "Hidden network",
-  "guestWifiRemove": "Remove"
+  "guestWifiRemove": "Remove",
+  "airAdviceTitle": "Air the room: {place}",
+  "@airAdviceTitle": {"placeholders": {"place": {"type": "String"}}},
+  "airAdviceCo2": "CO₂ {ppm} ppm — the air is stuffy, open a window for a few minutes",
+  "@airAdviceCo2": {"placeholders": {"ppm": {"type": "int"}}},
+  "airAdviceHumidity": "Humidity {percent} % — air it so mould doesn't settle",
+  "@airAdviceHumidity": {"placeholders": {"percent": {"type": "int"}}}
 }

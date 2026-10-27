@@ -1318,5 +1318,8 @@
   "guestWifiPasswordHint": "Najmanje 8 znakova",
   "guestWifiOpen": "Mreža bez šifre",
   "guestWifiHidden": "Skrivena mreža",
-  "guestWifiRemove": "Ukloni"
+  "guestWifiRemove": "Ukloni",
+  "airAdviceTitle": "Provetrite: {place}",
+  "airAdviceCo2": "CO₂ {ppm} ppm — vazduh je zagušljiv, otvorite prozor na par minuta",
+  "airAdviceHumidity": "Vlažnost {percent} % — provetrite da se ne uhvati buđ"
 }

@@ -4677,4 +4677,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestWifiRemove => 'Remove';
+
+  @override
+  String airAdviceTitle(String place) {
+    return 'Air the room: $place';
+  }
+
+  @override
+  String airAdviceCo2(int ppm) {
+    return 'CO₂ $ppm ppm — the air is stuffy, open a window for a few minutes';
+  }
+
+  @override
+  String airAdviceHumidity(int percent) {
+    return 'Humidity $percent % — air it so mould doesn\'t settle';
+  }
 }

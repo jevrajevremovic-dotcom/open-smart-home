@@ -249,6 +249,12 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Prozor spavaća soba',
       'device_class': 'window',
     }),
+    e('sensor.bedroom_co2', '1350', {
+      'friendly_name': 'CO₂ spavaća soba',
+      'device_class': 'carbon_dioxide',
+      'state_class': 'measurement',
+      'unit_of_measurement': 'ppm',
+    }),
     e('sensor.bedroom_window_battery', '8', {
       'friendly_name': 'Senzor prozora spavaća soba – baterija',
       'device_class': 'battery',
@@ -406,6 +412,9 @@ buildMockRegistries() {
       device('d_garage_heater', 'Grejalica', 'Shelly', 'Plug S', 'garage', [
         ['shelly', 'c4:5b:be:00:33:44'],
       ]),
+      device('d_bedroom_air', 'Senzor vazduha', 'Aqara', 'TVOC', 'bedroom', [
+        ['zha', '00:15:8d:00:0a:0b:0c:0d'],
+      ]),
       device(
         'd_bedroom_window',
         'Senzor prozora',
@@ -461,6 +470,7 @@ buildMockRegistries() {
       entity('automation.hallway_night_light', 'automation', areaId: 'hallway'),
       entity('switch.garage_heater', 'shelly', deviceId: 'd_garage_heater'),
       entity('weather.forecast_home', 'met'),
+      entity('sensor.bedroom_co2', 'zha', deviceId: 'd_bedroom_air'),
       entity(
         'binary_sensor.bedroom_window',
         'mqtt',

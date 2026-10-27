@@ -222,6 +222,8 @@ void main() {
     expect(find.byKey(const Key('kioskQuickControls')), findsOneWidget);
     await tapKey(tester, 'kioskQuickControlsEdit');
     await settle(tester, 3);
+    await tester.enterText(find.byKey(const Key('kioskQuickSearch')), 'hodnik');
+    await settle(tester, 2);
     await tester.tap(
       find.byKey(const ValueKey('kioskQuickPick-light.hallway')),
     );

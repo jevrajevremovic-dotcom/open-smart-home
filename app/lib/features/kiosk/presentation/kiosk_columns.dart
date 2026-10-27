@@ -44,6 +44,7 @@ import '../../household/presentation/person_avatar.dart';
 import '../../rooms/presentation/room_look.dart';
 import '../../rooms/presentation/room_photo.dart';
 import '../../timers/kiosk_timers.dart';
+import '../../extras/air_advice.dart';
 import '../../extras/extras_sheet.dart';
 import '../application/kiosk_controller.dart';
 import '../application/kiosk_people.dart';
@@ -446,6 +447,7 @@ class _HomeOverview extends ConsumerWidget {
               ),
             ),
             const OnNowStrip(padding: EdgeInsets.only(top: 12)),
+            const AirAdviceCard(padding: EdgeInsets.only(top: 12)),
             const SizedBox(height: 4),
             // The household's choice and order of cards (Edit, top right).
             for (final card in cards)

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../application/dashboard_layout.dart';
 import '../application/home_sentence.dart';
+import '../../extras/air_advice.dart';
 import '../../extras/extras_sheet.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
@@ -327,6 +328,7 @@ class DashboardBody extends ConsumerWidget {
           if (!kiosk) box(const UpdateBanner()),
           if (!kiosk) box(const _HomeSentence()),
           if (!kiosk) box(const OnNowStrip(padding: EdgeInsets.only(top: 12))),
+          box(const AirAdviceCard(padding: EdgeInsets.only(top: 12))),
           box(const DashboardSummaryRow()),
         ];
       case DashboardCard.weather:

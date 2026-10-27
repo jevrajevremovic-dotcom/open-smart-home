@@ -140,6 +140,8 @@ void main() {
           )
           .first,
     );
+    // Built only now (the overview is lazy): let its events load.
+    await settle(tester, 10);
     expect(
       find.descendant(of: calendar, matching: find.text('Vrtić')),
       findsWidgets,

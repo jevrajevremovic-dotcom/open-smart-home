@@ -4704,6 +4704,21 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get guestWifiRemove => 'Ukloni';
+
+  @override
+  String airAdviceTitle(String place) {
+    return 'Provetrite: $place';
+  }
+
+  @override
+  String airAdviceCo2(int ppm) {
+    return 'CO₂ $ppm ppm — vazduh je zagušljiv, otvorite prozor na par minuta';
+  }
+
+  @override
+  String airAdviceHumidity(int percent) {
+    return 'Vlažnost $percent % — provetrite da se ne uhvati buđ';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

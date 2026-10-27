@@ -8378,6 +8378,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search (Ctrl+K)'**
   String get paletteTooltip;
+
+  /// No description provided for @simpleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Simple mode'**
+  String get simpleTitle;
+
+  /// No description provided for @simpleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Just a few big buttons and large text, no menus — e.g. on grandparents\' tablet.'**
+  String get simpleHint;
+
+  /// No description provided for @simpleChosen.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 button} other{{count} buttons}}'**
+  String simpleChosen(int count);
+
+  /// No description provided for @simpleChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose'**
+  String get simpleChoose;
+
+  /// No description provided for @simpleChooseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Buttons (at most {max})'**
+  String simpleChooseTitle(int max);
+
+  /// No description provided for @simpleStartMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Start simple mode'**
+  String get simpleStartMode;
+
+  /// No description provided for @simpleEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No buttons yet. Leave (the lock at the top right) and choose them in Settings.'**
+  String get simpleEmpty;
+
+  /// No description provided for @simpleOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get simpleOn;
+
+  /// No description provided for @simpleOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get simpleOff;
+
+  /// No description provided for @simpleStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get simpleStart;
+
+  /// No description provided for @simpleLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave simple mode'**
+  String get simpleLeave;
+
+  /// No description provided for @simpleLeaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave simple mode?'**
+  String get simpleLeaveTitle;
+
+  /// No description provided for @simpleLeaveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The full app with all its menus comes back.'**
+  String get simpleLeaveBody;
 }
 
 class _AppLocalizationsDelegate

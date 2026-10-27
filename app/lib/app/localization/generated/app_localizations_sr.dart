@@ -4931,6 +4931,58 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get paletteTooltip => 'Pretraga (Ctrl+K)';
+
+  @override
+  String get simpleTitle => 'Jednostavni režim';
+
+  @override
+  String get simpleHint =>
+      'Samo nekoliko velikih dugmadi i krupan tekst, bez menija — npr. na tabletu kod bake i deke.';
+
+  @override
+  String simpleChosen(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dugmadi',
+      few: '$count dugmeta',
+      one: '1 dugme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get simpleChoose => 'Izaberi';
+
+  @override
+  String simpleChooseTitle(int max) {
+    return 'Dugmad (najviše $max)';
+  }
+
+  @override
+  String get simpleStartMode => 'Pokreni jednostavni režim';
+
+  @override
+  String get simpleEmpty =>
+      'Još nema dugmadi. Izađite (katanac gore desno) i izaberite ih u Podešavanjima.';
+
+  @override
+  String get simpleOn => 'Uključeno';
+
+  @override
+  String get simpleOff => 'Isključeno';
+
+  @override
+  String get simpleStart => 'Pokreni';
+
+  @override
+  String get simpleLeave => 'Izađi iz jednostavnog režima';
+
+  @override
+  String get simpleLeaveTitle => 'Izaći iz jednostavnog režima?';
+
+  @override
+  String get simpleLeaveBody => 'Vratiće se cela aplikacija sa svim menijima.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

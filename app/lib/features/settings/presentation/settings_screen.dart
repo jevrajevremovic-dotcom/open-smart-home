@@ -30,6 +30,7 @@ import '../../nfc_tags/nfc_tags_ui.dart';
 import '../../shortcuts/quick_tiles_settings.dart';
 import '../../assist/presentation/assist_settings.dart';
 import 'language_selector.dart';
+import '../../simple_mode/simple_mode.dart';
 
 /// Settings categories; each one is its own screen (`/settings/<name>`).
 enum SettingsSection {
@@ -399,6 +400,8 @@ class _SectionBody extends ConsumerWidget {
         ),
       ],
       const RestrictedSettingsTile(),
+      const Divider(height: 24),
+      const SimpleModeSettings(),
       ListTile(
         key: const Key('openPresenceSim'),
         contentPadding: EdgeInsets.zero,

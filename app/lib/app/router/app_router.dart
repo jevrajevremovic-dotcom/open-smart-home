@@ -34,6 +34,7 @@ import '../../features/presence_sim/presence_sim_screen.dart';
 import '../../features/todo/todo_screen.dart';
 import '../../features/board/board_screen.dart';
 import 'app_shell.dart';
+import '../../features/simple_mode/simple_mode.dart';
 
 abstract final class AppRoutes {
   static const splash = '/splash';
@@ -73,6 +74,7 @@ abstract final class AppRoutes {
   static const kiosk = '/kiosk';
   static const installerSetup = '/installer-setup';
   static const firstRun = '/first-run';
+  static const simple = '/simple';
 
   /// In kiosk mode links stay under [kiosk], so the router never lets the
   /// user out of the kiosk shell.
@@ -111,6 +113,7 @@ String? resolveRedirect({
   bool addingHome = false,
   bool restricted = false,
   bool firstRun = false,
+  bool simple = false,
 }) {
   if (sessionLoading) {
     return location == AppRoutes.splash ? null : AppRoutes.splash;
@@ -129,6 +132,9 @@ String? resolveRedirect({
   // (deep links, back navigation, …); leaving requires the PIN.
   if (kioskActive) return inKiosk ? null : AppRoutes.kiosk;
   if (inKiosk) return AppRoutes.home;
+  // Simple mode: the big buttons only; leaving needs the PIN.
+  if (simple) return location == AppRoutes.simple ? null : AppRoutes.simple;
+  if (location == AppRoutes.simple) return AppRoutes.home;
   // Right after the first sign-in: the wizard, until finished or skipped.
   if (firstRun) {
     return location == AppRoutes.firstRun ? null : AppRoutes.firstRun;
@@ -151,6 +157,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     ..listen(kioskActiveProvider, (_, _) => refresh.value++)
     ..listen(addingHomeProvider, (_, _) => refresh.value++)
     ..listen(firstRunProvider, (_, _) => refresh.value++)
+    ..listen(simpleModeActiveProvider, (_, _) => refresh.value++)
     ..listen(
       restrictedModeProvider.select((s) => s.enabled),
       (_, _) => refresh.value++,
@@ -174,6 +181,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         addingHome: ref.read(addingHomeProvider),
         restricted: ref.read(restrictedModeProvider).enabled,
         firstRun: ref.read(firstRunProvider),
+        simple: ref.read(simpleModeActiveProvider),
       );
     },
     routes: [
@@ -259,6 +267,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.connectToken,
         builder: (_, _) => const TokenScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.simple,
+        builder: (_, _) => const SimpleModeScreen(),
       ),
       GoRoute(
         path: AppRoutes.firstRun,

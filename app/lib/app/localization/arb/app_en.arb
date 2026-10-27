@@ -1935,5 +1935,20 @@
   "paletteNothing": "Nothing matches.",
   "paletteRoom": "Room",
   "paletteKeys": "Enter: run or switch · ↑↓ choose · Esc close",
-  "paletteTooltip": "Search (Ctrl+K)"
+  "paletteTooltip": "Search (Ctrl+K)",
+  "simpleTitle": "Simple mode",
+  "simpleHint": "Just a few big buttons and large text, no menus — e.g. on grandparents' tablet.",
+  "simpleChosen": "{count, plural, =1{1 button} other{{count} buttons}}",
+  "@simpleChosen": {"placeholders": {"count": {"type": "int"}}},
+  "simpleChoose": "Choose",
+  "simpleChooseTitle": "Buttons (at most {max})",
+  "@simpleChooseTitle": {"placeholders": {"max": {"type": "int"}}},
+  "simpleStartMode": "Start simple mode",
+  "simpleEmpty": "No buttons yet. Leave (the lock at the top right) and choose them in Settings.",
+  "simpleOn": "On",
+  "simpleOff": "Off",
+  "simpleStart": "Start",
+  "simpleLeave": "Leave simple mode",
+  "simpleLeaveTitle": "Leave simple mode?",
+  "simpleLeaveBody": "The full app with all its menus comes back."
 }

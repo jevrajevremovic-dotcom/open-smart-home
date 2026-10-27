@@ -1380,5 +1380,18 @@
   "paletteNothing": "Ništa se ne poklapa.",
   "paletteRoom": "Prostorija",
   "paletteKeys": "Enter: pokreni ili uključi/isključi · ↑↓ izbor · Esc zatvori",
-  "paletteTooltip": "Pretraga (Ctrl+K)"
+  "paletteTooltip": "Pretraga (Ctrl+K)",
+  "simpleTitle": "Jednostavni režim",
+  "simpleHint": "Samo nekoliko velikih dugmadi i krupan tekst, bez menija — npr. na tabletu kod bake i deke.",
+  "simpleChosen": "{count, plural, =1{1 dugme} few{{count} dugmeta} other{{count} dugmadi}}",
+  "simpleChoose": "Izaberi",
+  "simpleChooseTitle": "Dugmad (najviše {max})",
+  "simpleStartMode": "Pokreni jednostavni režim",
+  "simpleEmpty": "Još nema dugmadi. Izađite (katanac gore desno) i izaberite ih u Podešavanjima.",
+  "simpleOn": "Uključeno",
+  "simpleOff": "Isključeno",
+  "simpleStart": "Pokreni",
+  "simpleLeave": "Izađi iz jednostavnog režima",
+  "simpleLeaveTitle": "Izaći iz jednostavnog režima?",
+  "simpleLeaveBody": "Vratiće se cela aplikacija sa svim menijima."
 }

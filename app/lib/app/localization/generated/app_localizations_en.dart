@@ -4903,4 +4903,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paletteTooltip => 'Search (Ctrl+K)';
+
+  @override
+  String get simpleTitle => 'Simple mode';
+
+  @override
+  String get simpleHint =>
+      'Just a few big buttons and large text, no menus — e.g. on grandparents\' tablet.';
+
+  @override
+  String simpleChosen(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count buttons',
+      one: '1 button',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get simpleChoose => 'Choose';
+
+  @override
+  String simpleChooseTitle(int max) {
+    return 'Buttons (at most $max)';
+  }
+
+  @override
+  String get simpleStartMode => 'Start simple mode';
+
+  @override
+  String get simpleEmpty =>
+      'No buttons yet. Leave (the lock at the top right) and choose them in Settings.';
+
+  @override
+  String get simpleOn => 'On';
+
+  @override
+  String get simpleOff => 'Off';
+
+  @override
+  String get simpleStart => 'Start';
+
+  @override
+  String get simpleLeave => 'Leave simple mode';
+
+  @override
+  String get simpleLeaveTitle => 'Leave simple mode?';
+
+  @override
+  String get simpleLeaveBody => 'The full app with all its menus comes back.';
 }

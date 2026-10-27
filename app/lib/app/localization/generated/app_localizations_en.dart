@@ -4884,4 +4884,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get themeOledHint =>
       'For AMOLED screens: black pixels switch off — saves battery and does not glow in the dark.';
+
+  @override
+  String get paletteHint => 'Room, device or scene…';
+
+  @override
+  String get paletteEmpty =>
+      'Type part of a name — e.g. \"kit\" for the kitchen.';
+
+  @override
+  String get paletteNothing => 'Nothing matches.';
+
+  @override
+  String get paletteRoom => 'Room';
+
+  @override
+  String get paletteKeys => 'Enter: run or switch · ↑↓ choose · Esc close';
+
+  @override
+  String get paletteTooltip => 'Search (Ctrl+K)';
 }

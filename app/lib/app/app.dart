@@ -23,6 +23,7 @@ import 'localization/l10n.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 import 'brand.dart';
+import '../features/search/command_palette.dart';
 
 class SmartHomeApp extends ConsumerStatefulWidget {
   const SmartHomeApp({super.key});
@@ -104,9 +105,11 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
           child: NfcScanHost(
             child: AlertNotificationsHost(
               child: ShortcutsHost(
-                child: QuickTilesHost(
-                  child: AssistLaunchHost(
-                    child: AppLockGate(child: child ?? const SizedBox()),
+                child: CommandPaletteHost(
+                  child: QuickTilesHost(
+                    child: AssistLaunchHost(
+                      child: AppLockGate(child: child ?? const SizedBox()),
+                    ),
                   ),
                 ),
               ),

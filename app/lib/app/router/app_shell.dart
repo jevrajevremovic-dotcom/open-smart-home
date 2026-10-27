@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/widgets/responsive.dart';
 import '../localization/l10n.dart';
 import 'app_router.dart';
+import '../../features/search/command_palette.dart';
 
 /// Adaptive navigation: bottom [NavigationBar] on phones, [NavigationRail]
 /// on tablets and larger screens (extended with labels on large screens).
@@ -64,6 +65,13 @@ class AppShell extends StatelessWidget {
                   labelType: extended
                       ? NavigationRailLabelType.none
                       : NavigationRailLabelType.all,
+                  // Find anything (also Ctrl+K).
+                  leading: IconButton(
+                    key: const Key('railSearch'),
+                    tooltip: l10n.paletteTooltip,
+                    onPressed: () => showCommandPalette(context),
+                    icon: const Icon(Icons.search),
+                  ),
                   destinations: [
                     for (final (icon, selected, label) in destinations)
                       NavigationRailDestination(

@@ -8342,6 +8342,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For AMOLED screens: black pixels switch off — saves battery and does not glow in the dark.'**
   String get themeOledHint;
+
+  /// No description provided for @paletteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Room, device or scene…'**
+  String get paletteHint;
+
+  /// No description provided for @paletteEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Type part of a name — e.g. \"kit\" for the kitchen.'**
+  String get paletteEmpty;
+
+  /// No description provided for @paletteNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches.'**
+  String get paletteNothing;
+
+  /// No description provided for @paletteRoom.
+  ///
+  /// In en, this message translates to:
+  /// **'Room'**
+  String get paletteRoom;
+
+  /// No description provided for @paletteKeys.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter: run or switch · ↑↓ choose · Esc close'**
+  String get paletteKeys;
+
+  /// No description provided for @paletteTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Search (Ctrl+K)'**
+  String get paletteTooltip;
 }
 
 class _AppLocalizationsDelegate

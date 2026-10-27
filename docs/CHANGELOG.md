@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Brza pretraga: **Ctrl+K** (⌘K) bilo gde, ili lupa u bočnoj navigaciji na širokom ekranu. Ukucajte deo imena (kvačice nisu bitne: „kuh”, „cas”), Enter otvara sobu, pokreće scenu ili pali/gasi uređaj; strelice biraju.
 - Prevlačenje po kartici svetla (telefon): prstom levo-desno preko cele kartice menja se jačina, uz otkucaj na svakih 10 %; skroz levo gasi, iz ugašenog udesno pali. Na zidnom tabletu prevlačenje i dalje menja sobe.
 - Scene u boji: dugme scene (Početna, Scene, kiosk) pokazuje boje svetala koja scena pali, iz njenog podešavanja u Home Assistantu (`GET /api/config/scene/config/<id>`, samo scene napravljene u HA interfejsu); ostale zadržavaju ikonicu. Demo kuća: „Filmsko veče” sa ljubičastim ambijentalnim svetlom.
 - Kartica sobe: pored temperature tanka linija za poslednja 24 sata (iz istorije senzora u Home Assistantu), da se odmah vidi da li se soba greje ili hladi. Čuva se 15 minuta, pa listanje ne šalje nove upite.

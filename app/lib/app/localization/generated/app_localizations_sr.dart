@@ -4912,6 +4912,25 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get themeOledHint =>
       'Za AMOLED ekrane: crni pikseli se gase — manje troši bateriju i ne svetli u mraku.';
+
+  @override
+  String get paletteHint => 'Soba, uređaj ili scena…';
+
+  @override
+  String get paletteEmpty => 'Kucajte deo imena — npr. „kuh” za kuhinju.';
+
+  @override
+  String get paletteNothing => 'Ništa se ne poklapa.';
+
+  @override
+  String get paletteRoom => 'Prostorija';
+
+  @override
+  String get paletteKeys =>
+      'Enter: pokreni ili uključi/isključi · ↑↓ izbor · Esc zatvori';
+
+  @override
+  String get paletteTooltip => 'Pretraga (Ctrl+K)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

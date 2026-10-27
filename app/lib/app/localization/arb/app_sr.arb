@@ -1374,5 +1374,11 @@
   "bedtimeEnd": "Kraj",
   "bedtimeGoodNight": "Laku noć. 🌙",
   "themeOled": "Potpuno crna tamna tema",
-  "themeOledHint": "Za AMOLED ekrane: crni pikseli se gase — manje troši bateriju i ne svetli u mraku."
+  "themeOledHint": "Za AMOLED ekrane: crni pikseli se gase — manje troši bateriju i ne svetli u mraku.",
+  "paletteHint": "Soba, uređaj ili scena…",
+  "paletteEmpty": "Kucajte deo imena — npr. „kuh” za kuhinju.",
+  "paletteNothing": "Ništa se ne poklapa.",
+  "paletteRoom": "Prostorija",
+  "paletteKeys": "Enter: pokreni ili uključi/isključi · ↑↓ izbor · Esc zatvori",
+  "paletteTooltip": "Pretraga (Ctrl+K)"
 }

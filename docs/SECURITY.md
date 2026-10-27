@@ -247,6 +247,11 @@ Strane table se čuvaju kao slike preko HA integracije `image_upload`. Home Assi
 
 Uključuju se posebno (podrazumevano isključeno) i idu samo na vaš Home Assistant: procenat i stanje baterije, vrsta punjača i da li je kiosk uključen. Lokacija, Wi-Fi mreža i ništa drugo se ne šalju.
 
+## Wi-Fi za goste
+
+- Ime mreže je u podešavanjima aplikacije, a **šifra u zaštićenom skladištu** uređaja (Keystore/Keychain; na webu samo dok je kartica otvorena). Ne ide u Home Assistant, rezervnu kopiju ni logove.
+- QR kod i šifru vidi svako ko otvori ekran (na tabletu i prolaznik) — upisujte samo **mrežu za goste**. Na zidnom tabletu izmena traži PIN.
+
 ## NFC oznake i QR kodovi
 
 - Oznaka prislonjena uz telefon (Android prilaže pravi `Tag`) odmah se javlja HA-u (`scan_tag`).

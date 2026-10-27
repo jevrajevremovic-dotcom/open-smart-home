@@ -1306,5 +1306,17 @@
   "comingHomeShortcutHint": "Isto radi i dugi pritisak na ikonicu aplikacije → „Stižem kući”.",
   "comingHomeDone": "Kuća zna da stižete.",
   "comingHomeMessage": "{name} stiže kući 🏠",
-  "comingHomeMessageNoName": "Neko stiže kući 🏠"
+  "comingHomeMessageNoName": "Neko stiže kući 🏠",
+  "guestWifiTitle": "Wi-Fi za goste",
+  "guestWifiNotSet": "Još nije podešen. Upišite mrežu za goste, pa je gosti dobijaju skeniranjem koda — bez diktiranja šifre.",
+  "guestWifiScan": "Skenirajte kamerom telefona",
+  "guestWifiSetUp": "Podesi",
+  "guestWifiChange": "Promeni",
+  "guestWifiWarning": "Upišite samo mrežu za goste: kod i šifru vidi svako ko otvori ovaj ekran. Šifra se čuva u zaštićenom skladištu uređaja i ne napušta ga.",
+  "guestWifiSsid": "Ime mreže (SSID)",
+  "guestWifiPassword": "Šifra",
+  "guestWifiPasswordHint": "Najmanje 8 znakova",
+  "guestWifiOpen": "Mreža bez šifre",
+  "guestWifiHidden": "Skrivena mreža",
+  "guestWifiRemove": "Ukloni"
 }

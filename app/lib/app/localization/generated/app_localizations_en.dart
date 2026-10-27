@@ -4639,4 +4639,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingHomeMessageNoName => 'Someone is coming home 🏠';
+
+  @override
+  String get guestWifiTitle => 'Guest Wi-Fi';
+
+  @override
+  String get guestWifiNotSet =>
+      'Not set up yet. Enter the guest network; guests then join by scanning the code — no spelling out the password.';
+
+  @override
+  String get guestWifiScan => 'Scan with the phone\'s camera';
+
+  @override
+  String get guestWifiSetUp => 'Set up';
+
+  @override
+  String get guestWifiChange => 'Change';
+
+  @override
+  String get guestWifiWarning =>
+      'Enter the guest network only: anyone who opens this screen sees the code and password. The password is kept in the device\'s protected storage and never leaves it.';
+
+  @override
+  String get guestWifiSsid => 'Network name (SSID)';
+
+  @override
+  String get guestWifiPassword => 'Password';
+
+  @override
+  String get guestWifiPasswordHint => 'At least 8 characters';
+
+  @override
+  String get guestWifiOpen => 'Network without a password';
+
+  @override
+  String get guestWifiHidden => 'Hidden network';
+
+  @override
+  String get guestWifiRemove => 'Remove';
 }

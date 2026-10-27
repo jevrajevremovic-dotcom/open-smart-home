@@ -4666,6 +4666,44 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get comingHomeMessageNoName => 'Neko stiže kući 🏠';
+
+  @override
+  String get guestWifiTitle => 'Wi-Fi za goste';
+
+  @override
+  String get guestWifiNotSet =>
+      'Još nije podešen. Upišite mrežu za goste, pa je gosti dobijaju skeniranjem koda — bez diktiranja šifre.';
+
+  @override
+  String get guestWifiScan => 'Skenirajte kamerom telefona';
+
+  @override
+  String get guestWifiSetUp => 'Podesi';
+
+  @override
+  String get guestWifiChange => 'Promeni';
+
+  @override
+  String get guestWifiWarning =>
+      'Upišite samo mrežu za goste: kod i šifru vidi svako ko otvori ovaj ekran. Šifra se čuva u zaštićenom skladištu uređaja i ne napušta ga.';
+
+  @override
+  String get guestWifiSsid => 'Ime mreže (SSID)';
+
+  @override
+  String get guestWifiPassword => 'Šifra';
+
+  @override
+  String get guestWifiPasswordHint => 'Najmanje 8 znakova';
+
+  @override
+  String get guestWifiOpen => 'Mreža bez šifre';
+
+  @override
+  String get guestWifiHidden => 'Skrivena mreža';
+
+  @override
+  String get guestWifiRemove => 'Ukloni';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

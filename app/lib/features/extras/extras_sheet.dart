@@ -6,6 +6,7 @@ import '../kiosk/application/kiosk_controller.dart';
 import '../restricted/application/restricted_mode.dart';
 import 'batteries.dart';
 import 'coming_home.dart';
+import 'guest_wifi.dart';
 import 'vacation.dart';
 
 /// One tool in "More".
@@ -59,6 +60,12 @@ class _ExtrasSheet extends ConsumerWidget {
           label: l10n.comingHomeTitle,
           open: showComingHome,
         ),
+      (
+        key: const Key('extraGuestWifi'),
+        icon: Icons.wifi,
+        label: l10n.guestWifiTitle,
+        open: showGuestWifi,
+      ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).
     final navigator = Navigator.of(context);

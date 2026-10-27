@@ -7934,6 +7934,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Someone is coming home 🏠'**
   String get comingHomeMessageNoName;
+
+  /// No description provided for @guestWifiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest Wi-Fi'**
+  String get guestWifiTitle;
+
+  /// No description provided for @guestWifiNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set up yet. Enter the guest network; guests then join by scanning the code — no spelling out the password.'**
+  String get guestWifiNotSet;
+
+  /// No description provided for @guestWifiScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan with the phone\'s camera'**
+  String get guestWifiScan;
+
+  /// No description provided for @guestWifiSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up'**
+  String get guestWifiSetUp;
+
+  /// No description provided for @guestWifiChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get guestWifiChange;
+
+  /// No description provided for @guestWifiWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the guest network only: anyone who opens this screen sees the code and password. The password is kept in the device\'s protected storage and never leaves it.'**
+  String get guestWifiWarning;
+
+  /// No description provided for @guestWifiSsid.
+  ///
+  /// In en, this message translates to:
+  /// **'Network name (SSID)'**
+  String get guestWifiSsid;
+
+  /// No description provided for @guestWifiPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get guestWifiPassword;
+
+  /// No description provided for @guestWifiPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get guestWifiPasswordHint;
+
+  /// No description provided for @guestWifiOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Network without a password'**
+  String get guestWifiOpen;
+
+  /// No description provided for @guestWifiHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden network'**
+  String get guestWifiHidden;
+
+  /// No description provided for @guestWifiRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get guestWifiRemove;
 }
 
 class _AppLocalizationsDelegate

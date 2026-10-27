@@ -1849,5 +1849,17 @@
   "comingHomeDone": "The home knows you are coming.",
   "comingHomeMessage": "{name} is coming home 🏠",
   "@comingHomeMessage": {"placeholders": {"name": {"type": "String"}}},
-  "comingHomeMessageNoName": "Someone is coming home 🏠"
+  "comingHomeMessageNoName": "Someone is coming home 🏠",
+  "guestWifiTitle": "Guest Wi-Fi",
+  "guestWifiNotSet": "Not set up yet. Enter the guest network; guests then join by scanning the code — no spelling out the password.",
+  "guestWifiScan": "Scan with the phone's camera",
+  "guestWifiSetUp": "Set up",
+  "guestWifiChange": "Change",
+  "guestWifiWarning": "Enter the guest network only: anyone who opens this screen sees the code and password. The password is kept in the device's protected storage and never leaves it.",
+  "guestWifiSsid": "Network name (SSID)",
+  "guestWifiPassword": "Password",
+  "guestWifiPasswordHint": "At least 8 characters",
+  "guestWifiOpen": "Network without a password",
+  "guestWifiHidden": "Hidden network",
+  "guestWifiRemove": "Remove"
 }

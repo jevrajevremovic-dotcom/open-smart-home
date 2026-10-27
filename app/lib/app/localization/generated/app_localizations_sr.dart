@@ -4905,6 +4905,13 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get bedtimeGoodNight => 'Laku noć. 🌙';
+
+  @override
+  String get themeOled => 'Potpuno crna tamna tema';
+
+  @override
+  String get themeOledHint =>
+      'Za AMOLED ekrane: crni pikseli se gase — manje troši bateriju i ne svetli u mraku.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

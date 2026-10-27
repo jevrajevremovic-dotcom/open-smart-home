@@ -8330,6 +8330,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Good night. 🌙'**
   String get bedtimeGoodNight;
+
+  /// No description provided for @themeOled.
+  ///
+  /// In en, this message translates to:
+  /// **'Pure black dark theme'**
+  String get themeOled;
+
+  /// No description provided for @themeOledHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For AMOLED screens: black pixels switch off — saves battery and does not glow in the dark.'**
+  String get themeOledHint;
 }
 
 class _AppLocalizationsDelegate

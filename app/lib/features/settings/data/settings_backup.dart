@@ -42,6 +42,7 @@ abstract final class SettingsBackup {
       'version': _version,
       'theme': ref.read(themeModeProvider).name,
       'autoDark': ref.read(autoDarkProvider),
+      'oled': ref.read(oledProvider),
       'accent': ref.read(accentProvider).name,
       'language': locale == null ? null : AppLocales.toTag(locale),
       'favorites': ref.read(favoritesProvider),
@@ -78,6 +79,9 @@ abstract final class SettingsBackup {
   ) async {
     if (json['app'] != _marker || json['version'] != 1) {
       return false;
+    }
+    if (json['oled'] case final bool on) {
+      await ref.read(oledProvider.notifier).set(on);
     }
     if (json['autoDark'] case final bool on) {
       await ref.read(autoDarkProvider.notifier).set(on);

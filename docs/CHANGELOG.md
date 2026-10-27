@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Potpuno crna tamna tema** (Podešavanja → Izgled): za AMOLED telefone i noćni zidni tablet — crna pozadina, kartice za nijansu tamnije; prenosi se sa ostalim podešavanjima.
 - Vibracija: svaka komanda iz aplikacije se oseti kratkim „klikom” (otključavanje i slične radnje jačim), a klizači otkucaju na svakih 10 %. Isključuje se Androidovim podešavanjem „Povratne informacije na dodir”.
 - **Priča za laku noć** (Još): četiri kratke originalne priče na srpskom i engleskom. Telefon ili tablet ih čita naglas (Android) ili ih roditelj čita sa ekrana; svetla u izabranoj sobi pređu u toplo prigušeno, polako se gase dok traje priča i na kraju se ugase.
 - **Sezonski ukrasi** na zidnom tabletu: sneg od 1. decembra do Božića (7. januara), konfete za Novu godinu, bundeve i lišće nedelju dana pred Noć veštica. Diskretno, ne smeta dodirima, staje kad je ekran zatamnjen ili je uključeno „manje animacija”; isključuje se u Podešavanja → Kiosk.

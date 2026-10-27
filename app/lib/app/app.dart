@@ -84,7 +84,10 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
       onGenerateTitle: (context) => Brand.name(context.l10n),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(accent: accentColor(ref.watch(accentProvider))),
-      darkTheme: AppTheme.dark(accent: accentColor(ref.watch(accentProvider))),
+      darkTheme: AppTheme.dark(
+        accent: accentColor(ref.watch(accentProvider)),
+        oled: ref.watch(oledProvider),
+      ),
       themeMode: ref.watch(effectiveThemeModeProvider),
       locale: ref.watch(localeProvider),
       supportedLocales: AppLocalizations.supportedLocales,

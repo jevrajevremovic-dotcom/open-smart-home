@@ -61,6 +61,24 @@ final autoDarkProvider = NotifierProvider<AutoDarkController, bool>(
   AutoDarkController.new,
 );
 
+/// Pure black dark theme (AMOLED screens).
+class OledController extends Notifier<bool> {
+  static const _key = 'theme.oled';
+
+  @override
+  bool build() =>
+      ref.watch(appPreferencesProvider).readJson(_key)?['enabled'] == true;
+
+  Future<void> set(bool enabled) async {
+    state = enabled;
+    await ref
+        .read(appPreferencesProvider)
+        .writeJson(_key, enabled ? {'enabled': true} : null);
+  }
+}
+
+final oledProvider = NotifierProvider<OledController, bool>(OledController.new);
+
 /// Minute clock for the fallback without `sun.sun`.
 final _minuteProvider = Provider<DateTime>((ref) {
   final now = DateTime.now();

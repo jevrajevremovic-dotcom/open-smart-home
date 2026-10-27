@@ -1927,5 +1927,7 @@
   "@bedtimeMinutes": {"placeholders": {"minutes": {"type": "int"}}},
   "bedtimeNext": "Next",
   "bedtimeEnd": "The end",
-  "bedtimeGoodNight": "Good night. 🌙"
+  "bedtimeGoodNight": "Good night. 🌙",
+  "themeOled": "Pure black dark theme",
+  "themeOledHint": "For AMOLED screens: black pixels switch off — saves battery and does not glow in the dark."
 }

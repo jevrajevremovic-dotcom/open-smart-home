@@ -269,6 +269,7 @@ class _SectionBody extends ConsumerWidget {
       const SizedBox(height: 8),
       const ThemeModeSelector(),
       const AutoDarkTile(),
+      const OledTile(),
       const SizedBox(height: 8),
       Text(l10n.accentTitle, style: textTheme.labelLarge),
       const SizedBox(height: 8),

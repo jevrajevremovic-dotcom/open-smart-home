@@ -327,10 +327,23 @@ abstract final class AppTheme {
   );
   // What is on glows in the same pastels as in light mode: bright cards on
   // the dark page are the clearest "this is on".
-  static ThemeData dark({Color? accent}) => _build(
-    _accented(_darkScheme, accent),
+  /// [oled]: a truly black page (AMOLED pixels off), cards a shade
+  /// darker too — saves battery and does not glow in a dark room.
+  static ThemeData dark({Color? accent, bool oled = false}) => _build(
+    _accented(oled ? _oledScheme : _darkScheme, accent),
     StatusColors.dark,
     DeviceAccents.light,
+  );
+
+  static final ColorScheme _oledScheme = _darkScheme.copyWith(
+    surface: Colors.black,
+    surfaceContainerLowest: Colors.black,
+    surfaceContainerLow: const Color(0xFF111113),
+    surfaceContainer: const Color(0xFF17171A),
+    surfaceContainerHigh: const Color(0xFF1E1E22),
+    surfaceContainerHighest: const Color(0xFF27272C),
+    secondaryContainer: const Color(0xFF26231F),
+    outlineVariant: const Color(0xFF2A2A2F),
   );
 
   static ColorScheme _accented(ColorScheme base, Color? accent) {

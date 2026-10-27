@@ -4877,4 +4877,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bedtimeGoodNight => 'Good night. 🌙';
+
+  @override
+  String get themeOled => 'Pure black dark theme';
+
+  @override
+  String get themeOledHint =>
+      'For AMOLED screens: black pixels switch off — saves battery and does not glow in the dark.';
 }

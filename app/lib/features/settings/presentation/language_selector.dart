@@ -90,6 +90,25 @@ class AutoDarkTile extends ConsumerWidget {
   }
 }
 
+/// Pure black dark theme, under the theme choice.
+class OledTile extends ConsumerWidget {
+  const OledTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    return SwitchListTile(
+      key: const Key('themeOled'),
+      contentPadding: EdgeInsets.zero,
+      secondary: const Icon(Icons.contrast),
+      title: Text(l10n.themeOled),
+      subtitle: Text(l10n.themeOledHint),
+      value: ref.watch(oledProvider),
+      onChanged: (v) => ref.read(oledProvider.notifier).set(v),
+    );
+  }
+}
+
 /// The app's accent colour, as a row of swatches.
 class AccentSelector extends ConsumerWidget {
   const AccentSelector({super.key});

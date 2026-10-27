@@ -1372,5 +1372,7 @@
   "bedtimeMinutes": "oko {minutes} min",
   "bedtimeNext": "Dalje",
   "bedtimeEnd": "Kraj",
-  "bedtimeGoodNight": "Laku noć. 🌙"
+  "bedtimeGoodNight": "Laku noć. 🌙",
+  "themeOled": "Potpuno crna tamna tema",
+  "themeOledHint": "Za AMOLED ekrane: crni pikseli se gase — manje troši bateriju i ne svetli u mraku."
 }

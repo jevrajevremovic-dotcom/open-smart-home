@@ -4847,4 +4847,34 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get seasonalSettingHint =>
       'Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed.';
+
+  @override
+  String get bedtimeTitle => 'Bedtime story';
+
+  @override
+  String get bedtimeHint =>
+      'The tablet or phone reads a short story while the lights in the chosen room slowly go down.';
+
+  @override
+  String get bedtimeLights => 'Lights to dim';
+
+  @override
+  String get bedtimeNoLights => 'No lights';
+
+  @override
+  String get bedtimeAloud => 'Read aloud';
+
+  @override
+  String bedtimeMinutes(int minutes) {
+    return 'about $minutes min';
+  }
+
+  @override
+  String get bedtimeNext => 'Next';
+
+  @override
+  String get bedtimeEnd => 'The end';
+
+  @override
+  String get bedtimeGoodNight => 'Good night. 🌙';
 }

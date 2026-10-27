@@ -5,6 +5,7 @@ import '../../app/localization/l10n.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../restricted/application/restricted_mode.dart';
 import 'batteries.dart';
+import 'bedtime.dart';
 import 'coming_home.dart';
 import 'guest_wifi.dart';
 import 'party.dart';
@@ -87,6 +88,12 @@ class _ExtrasSheet extends ConsumerWidget {
         icon: Icons.auto_awesome_outlined,
         label: l10n.wrappedTitle,
         open: showWeekWrapped,
+      ),
+      (
+        key: const Key('extraBedtime'),
+        icon: Icons.nightlight_outlined,
+        label: l10n.bedtimeTitle,
+        open: showBedtime,
       ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).

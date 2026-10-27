@@ -8276,6 +8276,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed.'**
   String get seasonalSettingHint;
+
+  /// No description provided for @bedtimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedtime story'**
+  String get bedtimeTitle;
+
+  /// No description provided for @bedtimeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The tablet or phone reads a short story while the lights in the chosen room slowly go down.'**
+  String get bedtimeHint;
+
+  /// No description provided for @bedtimeLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights to dim'**
+  String get bedtimeLights;
+
+  /// No description provided for @bedtimeNoLights.
+  ///
+  /// In en, this message translates to:
+  /// **'No lights'**
+  String get bedtimeNoLights;
+
+  /// No description provided for @bedtimeAloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Read aloud'**
+  String get bedtimeAloud;
+
+  /// No description provided for @bedtimeMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'about {minutes} min'**
+  String bedtimeMinutes(int minutes);
+
+  /// No description provided for @bedtimeNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get bedtimeNext;
+
+  /// No description provided for @bedtimeEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'The end'**
+  String get bedtimeEnd;
+
+  /// No description provided for @bedtimeGoodNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Good night. 🌙'**
+  String get bedtimeGoodNight;
 }
 
 class _AppLocalizationsDelegate

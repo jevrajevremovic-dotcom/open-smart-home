@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Priča za laku noć** (Još): četiri kratke originalne priče na srpskom i engleskom. Telefon ili tablet ih čita naglas (Android) ili ih roditelj čita sa ekrana; svetla u izabranoj sobi pređu u toplo prigušeno, polako se gase dok traje priča i na kraju se ugase.
 - **Sezonski ukrasi** na zidnom tabletu: sneg od 1. decembra do Božića (7. januara), konfete za Novu godinu, bundeve i lišće nedelju dana pred Noć veštica. Diskretno, ne smeta dodirima, staje kad je ekran zatamnjen ili je uključeno „manje animacija”; isključuje se u Podešavanja → Kiosk.
 - **Rođendani**: u Podešavanja → Kiosk → Ukućani na tabletu dodirom na ukućanina upisuje se rođendan (samo dan i mesec). Tog dana kiosk pokazuje „Srećan rođendan, Ana!” i konfete.
 - **Ova nedelja** (Još): priča od nekoliko kartica o poslednjih 7 dana u kući — koliko puta su otvarana vrata i prozori, koliko puta je paljeno svetlo i koje najčešće, ko je koliko puta dolazio kući, otključavanja, najživlji dan i struja ove u odnosu na prošlu nedelju. Sve se broji iz dnevnika Home Assistanta, ništa se ne procenjuje.

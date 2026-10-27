@@ -1363,5 +1363,14 @@
   "birthdayGreeting": "Srećan rođendan, {names}!",
   "birthdayPick": "Rođendan (dan i mesec)",
   "seasonalSetting": "Sezonski ukrasi",
-  "seasonalSettingHint": "Sneg od decembra do Božića, konfete za Novu godinu i rođendane ukućana, bundeve pred Noć veštica. Staje kad je ekran zatamnjen."
+  "seasonalSettingHint": "Sneg od decembra do Božića, konfete za Novu godinu i rođendane ukućana, bundeve pred Noć veštica. Staje kad je ekran zatamnjen.",
+  "bedtimeTitle": "Priča za laku noć",
+  "bedtimeHint": "Tablet ili telefon pročita kratku priču, a svetla u izabranoj sobi se za to vreme polako gase.",
+  "bedtimeLights": "Svetla koja se gase",
+  "bedtimeNoLights": "Bez svetala",
+  "bedtimeAloud": "Čitaj naglas",
+  "bedtimeMinutes": "oko {minutes} min",
+  "bedtimeNext": "Dalje",
+  "bedtimeEnd": "Kraj",
+  "bedtimeGoodNight": "Laku noć. 🌙"
 }

@@ -1917,5 +1917,15 @@
   "@birthdayGreeting": {"placeholders": {"names": {"type": "String"}}},
   "birthdayPick": "Birthday (day and month)",
   "seasonalSetting": "Seasonal decorations",
-  "seasonalSettingHint": "Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed."
+  "seasonalSettingHint": "Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed.",
+  "bedtimeTitle": "Bedtime story",
+  "bedtimeHint": "The tablet or phone reads a short story while the lights in the chosen room slowly go down.",
+  "bedtimeLights": "Lights to dim",
+  "bedtimeNoLights": "No lights",
+  "bedtimeAloud": "Read aloud",
+  "bedtimeMinutes": "about {minutes} min",
+  "@bedtimeMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+  "bedtimeNext": "Next",
+  "bedtimeEnd": "The end",
+  "bedtimeGoodNight": "Good night. 🌙"
 }

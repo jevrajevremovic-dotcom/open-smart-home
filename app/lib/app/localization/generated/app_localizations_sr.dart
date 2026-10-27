@@ -4875,6 +4875,36 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get seasonalSettingHint =>
       'Sneg od decembra do Božića, konfete za Novu godinu i rođendane ukućana, bundeve pred Noć veštica. Staje kad je ekran zatamnjen.';
+
+  @override
+  String get bedtimeTitle => 'Priča za laku noć';
+
+  @override
+  String get bedtimeHint =>
+      'Tablet ili telefon pročita kratku priču, a svetla u izabranoj sobi se za to vreme polako gase.';
+
+  @override
+  String get bedtimeLights => 'Svetla koja se gase';
+
+  @override
+  String get bedtimeNoLights => 'Bez svetala';
+
+  @override
+  String get bedtimeAloud => 'Čitaj naglas';
+
+  @override
+  String bedtimeMinutes(int minutes) {
+    return 'oko $minutes min';
+  }
+
+  @override
+  String get bedtimeNext => 'Dalje';
+
+  @override
+  String get bedtimeEnd => 'Kraj';
+
+  @override
+  String get bedtimeGoodNight => 'Laku noć. 🌙';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -126,13 +126,11 @@ class _FallPainter extends CustomPainter {
     Color(0xFF2DBE6C),
     Color(0xFFB065E8),
   ];
-  static const _spooky = ['🎃', '🍂', '🦇', '🍁'];
-  final _glyphs = <String, TextPainter>{};
 
   int get _count => switch (kind) {
     Celebration.snow => 55,
     Celebration.confetti => 70,
-    Celebration.halloween => 14,
+    Celebration.halloween => 18,
   };
 
   @override
@@ -163,16 +161,44 @@ class _FallPainter extends CustomPainter {
             ..drawRect(const Rect.fromLTWH(-4, -2, 8, 4), paint)
             ..restore();
         case Celebration.halloween:
-          final glyph = _spooky[i % _spooky.length];
-          final tp = _glyphs[glyph] ??= TextPainter(
-            text: TextSpan(text: glyph, style: const TextStyle(fontSize: 28)),
-            textDirection: TextDirection.ltr,
-          )..layout();
           canvas
             ..save()
             ..translate(x, y)
             ..rotate(math.sin(t + s[3] * 6) * 0.4);
-          tp.paint(canvas, Offset(-tp.width / 2, -tp.height / 2));
+          if (i.isEven) {
+            // A little pumpkin: three orange lobes and a green stem.
+            final r = 8 + 6 * s[2];
+            paint.color = const Color(0xFFF07F1E).withValues(alpha: 0.85);
+            for (final dx in [-r * 0.45, r * 0.45, 0.0]) {
+              canvas.drawOval(
+                Rect.fromCenter(
+                  center: Offset(dx, 0),
+                  width: r * 1.3,
+                  height: r * 1.6,
+                ),
+                paint,
+              );
+            }
+            paint.color = const Color(0xFF3E7D2B);
+            canvas.drawRect(
+              Rect.fromLTWH(-r * 0.12, -r * 1.05, r * 0.24, r * 0.4),
+              paint,
+            );
+          } else {
+            // An autumn leaf.
+            final r = 6 + 5 * s[2];
+            paint.color =
+                (i % 4 == 1 ? const Color(0xFFC8501E) : const Color(0xFFE0A030))
+                    .withValues(alpha: 0.75);
+            canvas.drawOval(
+              Rect.fromCenter(
+                center: Offset.zero,
+                width: r * 1.1,
+                height: r * 2.2,
+              ),
+              paint,
+            );
+          }
           canvas.restore();
       }
     }

@@ -250,7 +250,7 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'device_class': 'window',
     }),
     e('sensor.bedroom_co2', '1350', {
-      'friendly_name': 'CO₂ spavaća soba',
+      'friendly_name': 'CO2 spavaća soba',
       'device_class': 'carbon_dioxide',
       'state_class': 'measurement',
       'unit_of_measurement': 'ppm',

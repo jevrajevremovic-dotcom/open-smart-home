@@ -4685,7 +4685,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String airAdviceCo2(int ppm) {
-    return 'CO₂ $ppm ppm — the air is stuffy, open a window for a few minutes';
+    return 'CO2 $ppm ppm — the air is stuffy, open a window for a few minutes';
   }
 
   @override

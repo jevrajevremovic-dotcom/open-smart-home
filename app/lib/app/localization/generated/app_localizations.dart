@@ -8016,7 +8016,7 @@ abstract class AppLocalizations {
   /// No description provided for @airAdviceCo2.
   ///
   /// In en, this message translates to:
-  /// **'CO₂ {ppm} ppm — the air is stuffy, open a window for a few minutes'**
+  /// **'CO2 {ppm} ppm — the air is stuffy, open a window for a few minutes'**
   String airAdviceCo2(int ppm);
 
   /// No description provided for @airAdviceHumidity.

@@ -60,6 +60,7 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 ## Dalje
 
 - Ko koristi tablet ✅ (dodir na sliku: pozdrav i brze kontrole; lični PIN za kritične radnje)
+- „Još” ✅: baterije, dnevnik ko je otključao, Na odmoru, Stižem kući, Wi-Fi za goste, provetravanje, Žurka, buđenje svetlom, Ova nedelja, sezonski ukrasi, rođendani, priča za laku noć
 - Provera na pravim uređajima: Matter preko Bluetooth-a, NFC, iOS
 - Pristupačnost: prolaz sa TalkBack/VoiceOver
 - Distribucija: F-Droid i/ili Google Play

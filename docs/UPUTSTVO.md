@@ -11,6 +11,7 @@
 - **Prostorije**: kartica sobe otvara sve u toj sobi; dugme sa paletom gore desno menja
   fotografiju, ikonicu i boju sobe.
 - **Glas**: dugme Assist (dole desno) — recite npr. „ugasi svetla u dnevnoj sobi”.
+- **Još** (na Početnoj, i gore levo na tabletu): baterije, Na odmoru, Stižem kući, Wi-Fi za goste, Žurka, Buđenje svetlom, Ova nedelja i Priča za laku noć.
 
 ## Zidni tablet
 
@@ -20,6 +21,7 @@
 - **Dugi pritisak** na karticu uređaja: veliki klizač (svetlo, roletna, zvuk).
 - Gore levo: **tajmer**, **„Izlazim”** (provera kuće pre odlaska) i **poruke ukućanima**.
 - Ako niko ne dira tablet, vraća se na Početnu i posle se zatamni; dodir ga budi.
+- **Gostima** pokažite Wi-Fi kod: Još → Wi-Fi za goste (skeniraju ga kamerom telefona).
 - **Ko je za tabletom**: dodirnite svoju sliku ispod imena doma — tablet vas pozdravlja i pokazuje vaše brze kontrole. Ponovni dodir (ili nekoliko minuta bez dodira) vraća zajednički prikaz.
 - **Otključavanje vrata, isključenje alarma** i slične radnje na tabletu traže vaš lični PIN ili PIN tableta. Deca bez PIN-a to ne mogu.
 - **Izlazak iz kioska**: katanac gore desno → PIN (zna ga ___________).

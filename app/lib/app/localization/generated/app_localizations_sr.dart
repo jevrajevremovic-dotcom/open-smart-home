@@ -4712,7 +4712,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String airAdviceCo2(int ppm) {
-    return 'CO₂ $ppm ppm — vazduh je zagušljiv, otvorite prozor na par minuta';
+    return 'CO2 $ppm ppm — vazduh je zagušljiv, otvorite prozor na par minuta';
   }
 
   @override

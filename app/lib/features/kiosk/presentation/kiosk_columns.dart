@@ -793,6 +793,8 @@ class _SideIcon extends StatelessWidget {
     return IconButton(
       tooltip: tooltip,
       onPressed: onTap,
+      // Six fit in a row in the left column.
+      visualDensity: VisualDensity.compact,
       icon: badge > 0
           ? Badge.count(
               count: badge,

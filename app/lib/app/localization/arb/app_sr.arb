@@ -1320,7 +1320,7 @@
   "guestWifiHidden": "Skrivena mreža",
   "guestWifiRemove": "Ukloni",
   "airAdviceTitle": "Provetrite: {place}",
-  "airAdviceCo2": "CO₂ {ppm} ppm — vazduh je zagušljiv, otvorite prozor na par minuta",
+  "airAdviceCo2": "CO2 {ppm} ppm — vazduh je zagušljiv, otvorite prozor na par minuta",
   "airAdviceHumidity": "Vlažnost {percent} % — provetrite da se ne uhvati buđ",
   "partyTitle": "Žurka",
   "partyHint": "Svetla u boji menjaju boje u krug dok je žurka uključena. Posle se sva vraćaju kako su bila.",

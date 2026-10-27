@@ -4860,6 +4860,21 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get wrappedUnavailable =>
       'Dnevnik Home Assistanta trenutno nije dostupan.';
+
+  @override
+  String birthdayGreeting(String names) {
+    return 'Srećan rođendan, $names!';
+  }
+
+  @override
+  String get birthdayPick => 'Rođendan (dan i mesec)';
+
+  @override
+  String get seasonalSetting => 'Sezonski ukrasi';
+
+  @override
+  String get seasonalSettingHint =>
+      'Sneg od decembra do Božića, konfete za Novu godinu i rođendane ukućana, bundeve pred Noć veštica. Staje kad je ekran zatamnjen.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

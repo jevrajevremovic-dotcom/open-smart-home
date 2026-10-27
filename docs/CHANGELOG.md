@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Dodato
+- **Sezonski ukrasi** na zidnom tabletu: sneg od 1. decembra do Božića (7. januara), konfete za Novu godinu, bundeve i lišće nedelju dana pred Noć veštica. Diskretno, ne smeta dodirima, staje kad je ekran zatamnjen ili je uključeno „manje animacija”; isključuje se u Podešavanja → Kiosk.
+- **Rođendani**: u Podešavanja → Kiosk → Ukućani na tabletu dodirom na ukućanina upisuje se rođendan (samo dan i mesec). Tog dana kiosk pokazuje „Srećan rođendan, Ana!” i konfete.
 - **Ova nedelja** (Još): priča od nekoliko kartica o poslednjih 7 dana u kući — koliko puta su otvarana vrata i prozori, koliko puta je paljeno svetlo i koje najčešće, ko je koliko puta dolazio kući, otključavanja, najživlji dan i struja ove u odnosu na prošlu nedelju. Sve se broji iz dnevnika Home Assistanta, ništa se ne procenjuje.
 - **Buđenje svetlom** (Još): izabrana svetla se pale polako pre buđenja, od tople prigušene svetlosti (2200 K) do dnevne (4000 K), za 5–40 minuta, u izabrane dane. Automatizacija u Home Assistantu (`time` okidač, uslov po danima, `light.turn_on` sa `transition`), pa radi i kad je telefon ugašen; svitanje koje počinje pre ponoći prelazi na prethodni dan.
 - **Žurka** (Još): izabrana svetla u boji menjaju boje u krug (svako malo pomereno), po želji krene muzika na izabranom plejeru, a ekran pleše u bojama. „Kraj žurke” vraća svako svetlo tačno kako je bilo (upaljeno/ugašeno, jačina, boja).

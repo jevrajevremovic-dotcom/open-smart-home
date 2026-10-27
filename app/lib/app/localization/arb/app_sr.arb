@@ -1359,5 +1359,9 @@
   "wrappedOutro": "Dobra nedelja!",
   "wrappedOutroCaption": "Vidimo se sledeće nedelje 👋",
   "wrappedEmpty": "Dnevnik Home Assistanta za ovu nedelju je prazan — još nema šta da se prebroji.",
-  "wrappedUnavailable": "Dnevnik Home Assistanta trenutno nije dostupan."
+  "wrappedUnavailable": "Dnevnik Home Assistanta trenutno nije dostupan.",
+  "birthdayGreeting": "Srećan rođendan, {names}!",
+  "birthdayPick": "Rođendan (dan i mesec)",
+  "seasonalSetting": "Sezonski ukrasi",
+  "seasonalSettingHint": "Sneg od decembra do Božića, konfete za Novu godinu i rođendane ukućana, bundeve pred Noć veštica. Staje kad je ekran zatamnjen."
 }

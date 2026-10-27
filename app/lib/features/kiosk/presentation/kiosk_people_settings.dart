@@ -13,6 +13,30 @@ import 'pin_dialog.dart';
 class KioskPeopleSettings extends ConsumerWidget {
   const KioskPeopleSettings({super.key});
 
+  /// The year is only for the picker; it is not kept.
+  Future<void> _pickBirthday(
+    BuildContext context,
+    WidgetRef ref,
+    String personId,
+    (int, int)? current,
+  ) async {
+    final controller = ref.read(kioskPeopleProvider.notifier);
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      helpText: context.l10n.birthdayPick,
+      initialDate: current == null
+          ? now
+          : DateTime(now.year, current.$1, current.$2),
+      firstDate: DateTime(now.year),
+      lastDate: DateTime(now.year, 12, 31),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+    );
+    if (picked != null) {
+      await controller.setBirthday(personId, (picked.month, picked.day));
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
@@ -43,18 +67,26 @@ class KioskPeopleSettings extends ConsumerWidget {
                 deviceProvider(id).select((d) => d?.name ?? id),
               );
               final hasPin = settings[id]?.hasPin ?? false;
+              final birthday = settings[id]?.birthday;
+              final local = MaterialLocalizations.of(context);
               return ListTile(
                 key: ValueKey('kioskPersonSettings-$id'),
                 contentPadding: EdgeInsets.zero,
                 leading: PersonAvatar(personId: id, size: 36),
                 title: Text(name),
                 subtitle: Text(
-                  hasPin
-                      ? l10n.kioskPersonPinSet
-                      : pinRequired
-                      ? l10n.kioskPersonNoPinLocked
-                      : l10n.kioskPersonNoPin,
+                  [
+                    if (birthday case (final m, final d))
+                      '🎂 ${local.formatShortMonthDay(DateTime(2000, m, d))}',
+                    if (hasPin)
+                      l10n.kioskPersonPinSet
+                    else if (pinRequired)
+                      l10n.kioskPersonNoPinLocked
+                    else
+                      l10n.kioskPersonNoPin,
+                  ].join(' · '),
                 ),
+                onTap: () => _pickBirthday(context, ref, id, birthday),
                 trailing: Wrap(
                   spacing: 4,
                   children: [

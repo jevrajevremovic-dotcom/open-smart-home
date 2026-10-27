@@ -4832,4 +4832,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get wrappedUnavailable =>
       'Home Assistant\'s logbook is not available right now.';
+
+  @override
+  String birthdayGreeting(String names) {
+    return 'Happy birthday, $names!';
+  }
+
+  @override
+  String get birthdayPick => 'Birthday (day and month)';
+
+  @override
+  String get seasonalSetting => 'Seasonal decorations';
+
+  @override
+  String get seasonalSettingHint =>
+      'Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed.';
 }

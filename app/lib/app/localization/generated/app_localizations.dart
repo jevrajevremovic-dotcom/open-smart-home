@@ -8252,6 +8252,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home Assistant\'s logbook is not available right now.'**
   String get wrappedUnavailable;
+
+  /// No description provided for @birthdayGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy birthday, {names}!'**
+  String birthdayGreeting(String names);
+
+  /// No description provided for @birthdayPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday (day and month)'**
+  String get birthdayPick;
+
+  /// No description provided for @seasonalSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Seasonal decorations'**
+  String get seasonalSetting;
+
+  /// No description provided for @seasonalSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed.'**
+  String get seasonalSettingHint;
 }
 
 class _AppLocalizationsDelegate

@@ -45,6 +45,7 @@ import '../../rooms/presentation/room_look.dart';
 import '../../rooms/presentation/room_photo.dart';
 import '../../timers/kiosk_timers.dart';
 import '../../extras/air_advice.dart';
+import '../../extras/celebrations.dart';
 import '../../extras/extras_sheet.dart';
 import '../application/kiosk_controller.dart';
 import '../application/kiosk_people.dart';
@@ -413,6 +414,7 @@ class _HomeOverview extends ConsumerWidget {
           key: const Key('kioskColumnsOverview'),
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
           children: [
+            const _BirthdayBanner(),
             Row(
               children: [
                 Expanded(
@@ -688,6 +690,47 @@ class _Sidebar extends ConsumerWidget {
           for (final a in automations.take(5)) _AutomationRow(device: a),
         ],
       ],
+    );
+  }
+}
+
+/// "Happy birthday, Ana!" on the day (birthdays are set per member).
+class _BirthdayBanner extends ConsumerWidget {
+  const _BirthdayBanner();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ids = ref.watch(birthdaysTodayProvider);
+    if (ids.isEmpty) return const SizedBox.shrink();
+    final names = [for (final id in ids) ?ref.watch(deviceProvider(id))?.name]
+        .map(firstName)
+        .join(', ');
+    final scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Card(
+        key: const Key('kioskBirthday'),
+        elevation: 0,
+        color: scheme.primaryContainer,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
+            children: [
+              const Text('🎂', style: TextStyle(fontSize: 40)),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  context.l10n.birthdayGreeting(names),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: scheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

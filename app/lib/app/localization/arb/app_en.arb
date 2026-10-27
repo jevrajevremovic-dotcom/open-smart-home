@@ -1912,5 +1912,10 @@
   "wrappedOutro": "What a week!",
   "wrappedOutroCaption": "See you next week 👋",
   "wrappedEmpty": "Home Assistant's logbook for this week is empty — nothing to count yet.",
-  "wrappedUnavailable": "Home Assistant's logbook is not available right now."
+  "wrappedUnavailable": "Home Assistant's logbook is not available right now.",
+  "birthdayGreeting": "Happy birthday, {names}!",
+  "@birthdayGreeting": {"placeholders": {"names": {"type": "String"}}},
+  "birthdayPick": "Birthday (day and month)",
+  "seasonalSetting": "Seasonal decorations",
+  "seasonalSettingHint": "Snow from December to Christmas, confetti for New Year and household birthdays, pumpkins before Halloween. Stops while the screen is dimmed."
 }

@@ -12,6 +12,7 @@ import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'camera_popup_settings.dart';
 import 'aod_settings.dart';
+import '../../extras/celebrations.dart';
 import 'kiosk_people_settings.dart';
 import 'night_brightness_settings.dart';
 import 'pin_dialog.dart';
@@ -185,6 +186,15 @@ class KioskSettingsSection extends ConsumerWidget {
                 ),
             ],
           ),
+        ),
+        SwitchListTile(
+          key: const Key('kioskSeasonal'),
+          contentPadding: EdgeInsets.zero,
+          secondary: const Icon(Icons.ac_unit),
+          title: Text(l10n.seasonalSetting),
+          subtitle: Text(l10n.seasonalSettingHint),
+          value: ref.watch(seasonalProvider),
+          onChanged: (v) => ref.read(seasonalProvider.notifier).set(v),
         ),
         const KioskPeopleSettings(),
         const SizedBox(height: 8),

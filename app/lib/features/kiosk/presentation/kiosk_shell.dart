@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../app/router/app_router.dart';
 import '../../assist/presentation/wake_word_listener.dart';
 import '../application/device_admin.dart';
+import '../../extras/celebrations.dart';
 import '../application/kiosk_controller.dart';
 import 'camera_popup.dart';
 import '../../timers/kiosk_timers.dart';
@@ -146,6 +147,8 @@ class _KioskShellState extends ConsumerState<KioskShell> {
                     child: Stack(
                       children: [
                         widget.child,
+                        // Snow in December, confetti on a birthday…
+                        const Positioned.fill(child: CelebrationLayer()),
                         // The idle screen fades in slowly (the clock rises
                         // a little); waking is immediate.
                         if (_dimmed)

@@ -8144,6 +8144,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sunrise alarm (Open Smart Home)'**
   String get sunriseAlias;
+
+  /// No description provided for @wrappedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get wrappedTitle;
+
+  /// No description provided for @wrappedIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week at home'**
+  String get wrappedIntro;
+
+  /// No description provided for @wrappedIntroCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'The last 7 days, from Home Assistant\'s logbook. Tap the right side to go on.'**
+  String get wrappedIntroCaption;
+
+  /// No description provided for @wrappedDoors.
+  ///
+  /// In en, this message translates to:
+  /// **'Doors and windows opened'**
+  String get wrappedDoors;
+
+  /// No description provided for @wrappedTopDoor.
+  ///
+  /// In en, this message translates to:
+  /// **'Busiest: {name}'**
+  String wrappedTopDoor(String name);
+
+  /// No description provided for @wrappedLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Times a light went on'**
+  String get wrappedLights;
+
+  /// No description provided for @wrappedTopLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Favourite: {name} ({count}×)'**
+  String wrappedTopLight(String name, int count);
+
+  /// No description provided for @wrappedArrivals.
+  ///
+  /// In en, this message translates to:
+  /// **'Homecomings'**
+  String get wrappedArrivals;
+
+  /// No description provided for @wrappedTopArrival.
+  ///
+  /// In en, this message translates to:
+  /// **'Most often: {name} ({count}×)'**
+  String wrappedTopArrival(String name, int count);
+
+  /// No description provided for @wrappedUnlocks.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocks'**
+  String get wrappedUnlocks;
+
+  /// No description provided for @wrappedBusiestDay.
+  ///
+  /// In en, this message translates to:
+  /// **'The liveliest day at home'**
+  String get wrappedBusiestDay;
+
+  /// No description provided for @wrappedEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'kWh of electricity this week'**
+  String get wrappedEnergy;
+
+  /// No description provided for @wrappedEnergyUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'since Monday'**
+  String get wrappedEnergyUnit;
+
+  /// No description provided for @wrappedEnergyLastWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'since Monday · last week {kwh} kWh'**
+  String wrappedEnergyLastWeek(String kwh);
+
+  /// No description provided for @wrappedOutro.
+  ///
+  /// In en, this message translates to:
+  /// **'What a week!'**
+  String get wrappedOutro;
+
+  /// No description provided for @wrappedOutroCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'See you next week 👋'**
+  String get wrappedOutroCaption;
+
+  /// No description provided for @wrappedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant\'s logbook for this week is empty — nothing to count yet.'**
+  String get wrappedEmpty;
+
+  /// No description provided for @wrappedUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant\'s logbook is not available right now.'**
+  String get wrappedUnavailable;
 }
 
 class _AppLocalizationsDelegate

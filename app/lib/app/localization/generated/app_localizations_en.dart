@@ -4767,4 +4767,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sunriseAlias => 'Sunrise alarm (Open Smart Home)';
+
+  @override
+  String get wrappedTitle => 'This week';
+
+  @override
+  String get wrappedIntro => 'Your week at home';
+
+  @override
+  String get wrappedIntroCaption =>
+      'The last 7 days, from Home Assistant\'s logbook. Tap the right side to go on.';
+
+  @override
+  String get wrappedDoors => 'Doors and windows opened';
+
+  @override
+  String wrappedTopDoor(String name) {
+    return 'Busiest: $name';
+  }
+
+  @override
+  String get wrappedLights => 'Times a light went on';
+
+  @override
+  String wrappedTopLight(String name, int count) {
+    return 'Favourite: $name ($count×)';
+  }
+
+  @override
+  String get wrappedArrivals => 'Homecomings';
+
+  @override
+  String wrappedTopArrival(String name, int count) {
+    return 'Most often: $name ($count×)';
+  }
+
+  @override
+  String get wrappedUnlocks => 'Unlocks';
+
+  @override
+  String get wrappedBusiestDay => 'The liveliest day at home';
+
+  @override
+  String get wrappedEnergy => 'kWh of electricity this week';
+
+  @override
+  String get wrappedEnergyUnit => 'since Monday';
+
+  @override
+  String wrappedEnergyLastWeek(String kwh) {
+    return 'since Monday · last week $kwh kWh';
+  }
+
+  @override
+  String get wrappedOutro => 'What a week!';
+
+  @override
+  String get wrappedOutroCaption => 'See you next week 👋';
+
+  @override
+  String get wrappedEmpty =>
+      'Home Assistant\'s logbook for this week is empty — nothing to count yet.';
+
+  @override
+  String get wrappedUnavailable =>
+      'Home Assistant\'s logbook is not available right now.';
 }

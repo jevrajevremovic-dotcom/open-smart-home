@@ -9,6 +9,7 @@ import 'coming_home.dart';
 import 'guest_wifi.dart';
 import 'party.dart';
 import 'sunrise_wake.dart';
+import 'week_wrapped.dart';
 import 'vacation.dart';
 
 /// One tool in "More".
@@ -81,6 +82,12 @@ class _ExtrasSheet extends ConsumerWidget {
           label: l10n.sunriseTitle,
           open: showSunriseWake,
         ),
+      (
+        key: const Key('extraWrapped'),
+        icon: Icons.auto_awesome_outlined,
+        label: l10n.wrappedTitle,
+        open: showWeekWrapped,
+      ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).
     final navigator = Navigator.of(context);

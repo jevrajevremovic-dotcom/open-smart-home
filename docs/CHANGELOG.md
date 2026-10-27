@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Ova nedelja** (Još): priča od nekoliko kartica o poslednjih 7 dana u kući — koliko puta su otvarana vrata i prozori, koliko puta je paljeno svetlo i koje najčešće, ko je koliko puta dolazio kući, otključavanja, najživlji dan i struja ove u odnosu na prošlu nedelju. Sve se broji iz dnevnika Home Assistanta, ništa se ne procenjuje.
 - **Buđenje svetlom** (Još): izabrana svetla se pale polako pre buđenja, od tople prigušene svetlosti (2200 K) do dnevne (4000 K), za 5–40 minuta, u izabrane dane. Automatizacija u Home Assistantu (`time` okidač, uslov po danima, `light.turn_on` sa `transition`), pa radi i kad je telefon ugašen; svitanje koje počinje pre ponoći prelazi na prethodni dan.
 - **Žurka** (Još): izabrana svetla u boji menjaju boje u krug (svako malo pomereno), po želji krene muzika na izabranom plejeru, a ekran pleše u bojama. „Kraj žurke” vraća svako svetlo tačno kako je bilo (upaljeno/ugašeno, jačina, boja).
 - **Provetrite sobu**: kad senzor u sobi pokaže CO₂ od 1200 ppm naviše ili vlažnost od 70 % naviše, Početna (telefon i zidni tablet) predloži provetravanje te sobe; nestaje čim se vazduh popravi. Demo kuća ima CO₂ senzor u spavaćoj sobi.

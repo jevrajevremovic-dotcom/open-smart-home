@@ -4795,6 +4795,71 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get sunriseAlias => 'Buđenje svetlom (Open Smart Home)';
+
+  @override
+  String get wrappedTitle => 'Ova nedelja';
+
+  @override
+  String get wrappedIntro => 'Vaša nedelja u kući';
+
+  @override
+  String get wrappedIntroCaption =>
+      'Poslednjih 7 dana, iz dnevnika Home Assistanta. Dodirnite desno za dalje.';
+
+  @override
+  String get wrappedDoors => 'Vrata i prozori otvoreni';
+
+  @override
+  String wrappedTopDoor(String name) {
+    return 'Najprometnije: $name';
+  }
+
+  @override
+  String get wrappedLights => 'Puta je upaljeno svetlo';
+
+  @override
+  String wrappedTopLight(String name, int count) {
+    return 'Najomiljenije: $name ($count×)';
+  }
+
+  @override
+  String get wrappedArrivals => 'Dolazaka kući';
+
+  @override
+  String wrappedTopArrival(String name, int count) {
+    return 'Najčešće: $name ($count×)';
+  }
+
+  @override
+  String get wrappedUnlocks => 'Otključavanja';
+
+  @override
+  String get wrappedBusiestDay => 'Najživlji dan u kući';
+
+  @override
+  String get wrappedEnergy => 'kWh struje ove nedelje';
+
+  @override
+  String get wrappedEnergyUnit => 'od ponedeljka do sada';
+
+  @override
+  String wrappedEnergyLastWeek(String kwh) {
+    return 'od ponedeljka do sada · prošle nedelje $kwh kWh';
+  }
+
+  @override
+  String get wrappedOutro => 'Dobra nedelja!';
+
+  @override
+  String get wrappedOutroCaption => 'Vidimo se sledeće nedelje 👋';
+
+  @override
+  String get wrappedEmpty =>
+      'Dnevnik Home Assistanta za ovu nedelju je prazan — još nema šta da se prebroji.';
+
+  @override
+  String get wrappedUnavailable =>
+      'Dnevnik Home Assistanta trenutno nije dostupan.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

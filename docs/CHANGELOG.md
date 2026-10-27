@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Kartica sobe: pored temperature tanka linija za poslednja 24 sata (iz istorije senzora u Home Assistantu), da se odmah vidi da li se soba greje ili hladi. Čuva se 15 minuta, pa listanje ne šalje nove upite.
 - **Potpuno crna tamna tema** (Podešavanja → Izgled): za AMOLED telefone i noćni zidni tablet — crna pozadina, kartice za nijansu tamnije; prenosi se sa ostalim podešavanjima.
 - Vibracija: svaka komanda iz aplikacije se oseti kratkim „klikom” (otključavanje i slične radnje jačim), a klizači otkucaju na svakih 10 %. Isključuje se Androidovim podešavanjem „Povratne informacije na dodir”.
 - **Priča za laku noć** (Još): četiri kratke originalne priče na srpskom i engleskom. Telefon ili tablet ih čita naglas (Android) ili ih roditelj čita sa ekrana; svetla u izabranoj sobi pređu u toplo prigušeno, polako se gase dok traje priča i na kraju se ugase.

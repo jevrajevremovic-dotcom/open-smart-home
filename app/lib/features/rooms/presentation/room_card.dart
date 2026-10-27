@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,6 +12,7 @@ import '../../devices/presentation/device_presentation.dart';
 import '../../kiosk/presentation/glass.dart' show kioskPhotoStoreProvider;
 import 'room_look.dart';
 import 'room_photo.dart' show roomPhotosProvider;
+import 'room_sparkline.dart';
 
 /// Maps common Material Design Icons names used for HA areas to Material
 /// icons. Unknown names fall back to a generic room icon.
@@ -224,16 +226,26 @@ class RoomCard extends ConsumerWidget {
                             child: FittedBox(
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                formatNumber(
-                                  l10n.localeName,
-                                  summary.temperature!,
-                                  unit: '°',
-                                ),
-                                style: theme.textTheme.headlineMedium?.copyWith(
-                                  color: fg,
-                                  fontWeight: FontWeight.w300,
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    formatNumber(
+                                      l10n.localeName,
+                                      summary.temperature!,
+                                      unit: '°',
+                                    ),
+                                    style: theme.textTheme.headlineMedium
+                                        ?.copyWith(
+                                          color: fg,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  // The last day: warming or cooling?
+                                  RoomSparkline(roomId: roomId, color: fg),
+                                ],
                               ),
                             ),
                           ),

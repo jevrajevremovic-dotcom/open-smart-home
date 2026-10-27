@@ -6,7 +6,10 @@ import 'package:open_smart_home/features/kiosk/application/kiosk_controller.dart
 import 'package:open_smart_home/integrations/home_assistant/home_assistant_providers.dart';
 
 import '../helpers.dart' show FakeShortcuts;
-import '../widgets/app_widget_test.dart' show pumpApp, settle, unmount;
+
+import 'package:open_smart_home/features/household/family_messages.dart';
+
+import '../widgets/app_widget_test.dart' show en, pumpApp, settle, unmount;
 
 void main() {
   testWidgets('launcher shortcuts: scene, house check, Assist and kiosk', (
@@ -23,6 +26,7 @@ void main() {
     expect(shortcuts.items.map((i) => i.$1), [
       'scene:scene.movie_night',
       'check',
+      'coming',
       'assist',
       'kiosk',
     ]);
@@ -44,6 +48,13 @@ void main() {
     shortcuts.tap('check');
     await settle(tester, 6);
     expect(find.byKey(const Key('houseCheckMode')), findsOneWidget);
+
+    shortcuts.tap('coming');
+    await settle(tester, 6);
+    expect(
+      container.read(familyMessagesProvider).map((m) => m.text),
+      contains(en.comingHomeMessageNoName),
+    );
 
     shortcuts.tap('assist');
     await settle(tester, 6);

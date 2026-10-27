@@ -29,6 +29,7 @@ import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
 import 'package:open_smart_home/features/shortcuts/quick_tiles.dart';
 import 'package:open_smart_home/features/assist/data/speech_output.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:open_smart_home/features/media/now_playing_notification.dart';
 
 /// In-memory replacement for the platform keychain/keystore.
 class InMemoryCredentialStore implements CredentialStore {
@@ -113,6 +114,7 @@ Future<List<Override>> testOverrides({
   AppShortcutsPlatform? shortcuts,
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
+  NowPlayingPlatform? nowPlaying,
   ClapPlatform? clap,
   ApproachPlatform? approach,
   DeviceBatteryPlatform? battery,
@@ -171,6 +173,9 @@ Future<List<Override>> testOverrides({
     ),
     assistLaunchProvider.overrideWithValue(
       assistLaunch ?? FakeAssistLaunch(supported: false),
+    ),
+    nowPlayingPlatformProvider.overrideWithValue(
+      nowPlaying ?? FakeNowPlaying(supported: false),
     ),
     homeScreenWidgetProvider.overrideWithValue(
       homeWidget ?? FakeHomeScreenWidget(supported: false),
@@ -598,4 +603,31 @@ class FakeAssistLaunch implements AssistLaunchPlatform {
 
   @override
   Future<void> openAssistantSettings() async => settingsOpened++;
+}
+
+class FakeNowPlaying implements NowPlayingPlatform {
+  FakeNowPlaying({this.supported = true});
+
+  @override
+  final bool supported;
+  final _presses = StreamController<String>.broadcast();
+
+  /// What the notification shows; `null` = hidden.
+  ({String title, String text, bool playing})? shown;
+
+  @override
+  Future<void> show({
+    required String title,
+    required String text,
+    required bool playing,
+    required Map<String, String> labels,
+  }) async => shown = (title: title, text: text, playing: playing);
+
+  @override
+  Future<void> hide() async => shown = null;
+
+  @override
+  Stream<String> get presses => _presses.stream;
+
+  void press(String button) => _presses.add(button);
 }

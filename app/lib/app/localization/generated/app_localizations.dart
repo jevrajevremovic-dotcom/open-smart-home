@@ -8582,6 +8582,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light on the widget'**
   String get widgetLight;
+
+  /// No description provided for @nowPlayingSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Music in the notifications'**
+  String get nowPlayingSetting;
+
+  /// No description provided for @nowPlayingSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'While a speaker at home plays, the notifications show the title with pause and next — without opening the app. Works while the app runs (also in the background, if the background connection is on).'**
+  String get nowPlayingSettingHint;
+
+  /// No description provided for @nowPlayingPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get nowPlayingPause;
+
+  /// No description provided for @nowPlayingPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get nowPlayingPlay;
+
+  /// No description provided for @nowPlayingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nowPlayingNext;
+
+  /// No description provided for @nowPlayingChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Now playing'**
+  String get nowPlayingChannel;
 }
 
 class _AppLocalizationsDelegate

@@ -5078,6 +5078,25 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get widgetLight => 'Svetlo na widgetu';
+
+  @override
+  String get nowPlayingSetting => 'Muzika u obaveštenju';
+
+  @override
+  String get nowPlayingSettingHint =>
+      'Dok neki zvučnik u kući svira, u obaveštenjima su naslov i dugmad pauza i sledeća — bez otvaranja aplikacije. Radi dok aplikacija radi (i u pozadini, ako je uključena veza u pozadini).';
+
+  @override
+  String get nowPlayingPause => 'Pauza';
+
+  @override
+  String get nowPlayingPlay => 'Pusti';
+
+  @override
+  String get nowPlayingNext => 'Sledeća';
+
+  @override
+  String get nowPlayingChannel => 'Sada svira';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

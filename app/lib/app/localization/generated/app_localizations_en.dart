@@ -5048,4 +5048,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get widgetLight => 'Light on the widget';
+
+  @override
+  String get nowPlayingSetting => 'Music in the notifications';
+
+  @override
+  String get nowPlayingSettingHint =>
+      'While a speaker at home plays, the notifications show the title with pause and next — without opening the app. Works while the app runs (also in the background, if the background connection is on).';
+
+  @override
+  String get nowPlayingPause => 'Pause';
+
+  @override
+  String get nowPlayingPlay => 'Play';
+
+  @override
+  String get nowPlayingNext => 'Next';
+
+  @override
+  String get nowPlayingChannel => 'Now playing';
 }

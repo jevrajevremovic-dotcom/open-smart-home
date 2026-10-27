@@ -1414,5 +1414,11 @@
   "widgetSettingsTitle": "Widgeti na početnom ekranu",
   "widgetSettingsHint": "„Kuća”, „Termostat” i „Svetlo” dodajete dugim pritiskom na početni ekran telefona → Widgeti. Osvežavaju se dok aplikacija radi.",
   "widgetThermostat": "Termostat na widgetu",
-  "widgetLight": "Svetlo na widgetu"
+  "widgetLight": "Svetlo na widgetu",
+  "nowPlayingSetting": "Muzika u obaveštenju",
+  "nowPlayingSettingHint": "Dok neki zvučnik u kući svira, u obaveštenjima su naslov i dugmad pauza i sledeća — bez otvaranja aplikacije. Radi dok aplikacija radi (i u pozadini, ako je uključena veza u pozadini).",
+  "nowPlayingPause": "Pauza",
+  "nowPlayingPlay": "Pusti",
+  "nowPlayingNext": "Sledeća",
+  "nowPlayingChannel": "Sada svira"
 }

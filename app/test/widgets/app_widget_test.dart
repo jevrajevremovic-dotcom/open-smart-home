@@ -21,6 +21,7 @@ import 'package:open_smart_home/features/device_sensors/device_sensors.dart';
 import 'package:open_smart_home/features/nfc_tags/nfc_tags.dart';
 import 'package:open_smart_home/features/shortcuts/quick_tiles.dart';
 import 'package:open_smart_home/features/assist/data/speech_output.dart';
+import 'package:open_smart_home/features/media/now_playing_notification.dart';
 
 import '../helpers.dart';
 
@@ -39,6 +40,7 @@ Future<InMemoryCredentialStore> pumpApp(
   AppShortcutsPlatform? shortcuts,
   AlertNotifier? alerts,
   HomeScreenWidgetPlatform? homeWidget,
+  NowPlayingPlatform? nowPlaying,
   ClapPlatform? clap,
   ApproachPlatform? approach,
   DeviceBatteryPlatform? battery,
@@ -67,6 +69,7 @@ Future<InMemoryCredentialStore> pumpApp(
     shortcuts: shortcuts,
     alerts: alerts,
     homeWidget: homeWidget,
+    nowPlaying: nowPlaying,
     clap: clap,
     approach: approach,
     battery: battery,

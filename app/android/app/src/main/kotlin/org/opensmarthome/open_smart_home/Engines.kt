@@ -20,6 +20,7 @@ object Engines {
         // Before Dart starts, so the app can ask for queued tile taps.
         QuickTiles.attach(context, engine)
         Speech.attach(context, engine)
+        NowPlaying.attach(context, engine)
         engine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
         FlutterEngineCache.getInstance().put(MAIN, engine)
         return engine

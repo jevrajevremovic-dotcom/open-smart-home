@@ -172,6 +172,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/scenes_widget_info" />
         </receiver>
+        <!-- Now-playing notification buttons (this app's own notification only). -->
+        <receiver
+            android:name=".NowPlayingReceiver"
+            android:exported="false" />
         <!-- Home, thermostat and light widgets (display text only; see HomeWidgets.kt). -->
         <receiver
             android:name=".StatusWidgetProvider"

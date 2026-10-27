@@ -1976,5 +1976,11 @@
   "widgetSettingsTitle": "Home screen widgets",
   "widgetSettingsHint": "Add \"Home\", \"Thermostat\" and \"Light\" with a long press on the phone's home screen → Widgets. They refresh while the app runs.",
   "widgetThermostat": "Thermostat on the widget",
-  "widgetLight": "Light on the widget"
+  "widgetLight": "Light on the widget",
+  "nowPlayingSetting": "Music in the notifications",
+  "nowPlayingSettingHint": "While a speaker at home plays, the notifications show the title with pause and next — without opening the app. Works while the app runs (also in the background, if the background connection is on).",
+  "nowPlayingPause": "Pause",
+  "nowPlayingPlay": "Play",
+  "nowPlayingNext": "Next",
+  "nowPlayingChannel": "Now playing"
 }

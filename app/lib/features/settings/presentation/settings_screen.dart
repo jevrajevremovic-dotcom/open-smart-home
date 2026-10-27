@@ -32,6 +32,7 @@ import '../../assist/presentation/assist_settings.dart';
 import 'language_selector.dart';
 import '../../simple_mode/simple_mode.dart';
 import '../../shortcuts/home_widgets.dart';
+import '../../media/now_playing_notification.dart';
 
 /// Settings categories; each one is its own screen (`/settings/<name>`).
 enum SettingsSection {
@@ -341,6 +342,7 @@ class _SectionBody extends ConsumerWidget {
     final l10n = context.l10n;
     return [
       const HaPushTile(),
+      const NowPlayingNotificationTile(),
       if (ref.watch(alertNotifierProvider).supported)
         SwitchListTile(
           key: const Key('alertNotifySwitch'),

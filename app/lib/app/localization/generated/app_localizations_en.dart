@@ -4692,4 +4692,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String airAdviceHumidity(int percent) {
     return 'Humidity $percent % — air it so mould doesn\'t settle';
   }
+
+  @override
+  String get partyTitle => 'Party';
+
+  @override
+  String get partyHint =>
+      'Colour lights cycle through colours while the party is on. Afterwards they all go back to how they were.';
+
+  @override
+  String get partyNoLights =>
+      'No colour lights — a party needs at least one RGB light.';
+
+  @override
+  String get partyMusic => 'Music';
+
+  @override
+  String get partyNoMusic => 'No music';
+
+  @override
+  String get partyStart => 'Start the party';
+
+  @override
+  String get partyOn => 'Party! 🎉';
+
+  @override
+  String partyLights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lights dancing',
+      one: '1 light dancing',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partyStop => 'End the party';
 }

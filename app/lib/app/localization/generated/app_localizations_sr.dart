@@ -4719,6 +4719,44 @@ class AppLocalizationsSr extends AppLocalizations {
   String airAdviceHumidity(int percent) {
     return 'Vlažnost $percent % — provetrite da se ne uhvati buđ';
   }
+
+  @override
+  String get partyTitle => 'Žurka';
+
+  @override
+  String get partyHint =>
+      'Svetla u boji menjaju boje u krug dok je žurka uključena. Posle se sva vraćaju kako su bila.';
+
+  @override
+  String get partyNoLights =>
+      'Nema svetala u boji — žurka treba bar jedno RGB svetlo.';
+
+  @override
+  String get partyMusic => 'Muzika';
+
+  @override
+  String get partyNoMusic => 'Bez muzike';
+
+  @override
+  String get partyStart => 'Počni žurku';
+
+  @override
+  String get partyOn => 'Žurka! 🎉';
+
+  @override
+  String partyLights(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count svetala pleše',
+      few: '$count svetla plešu',
+      one: '1 svetlo pleše',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partyStop => 'Kraj žurke';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -1867,5 +1867,15 @@
   "airAdviceCo2": "CO₂ {ppm} ppm — the air is stuffy, open a window for a few minutes",
   "@airAdviceCo2": {"placeholders": {"ppm": {"type": "int"}}},
   "airAdviceHumidity": "Humidity {percent} % — air it so mould doesn't settle",
-  "@airAdviceHumidity": {"placeholders": {"percent": {"type": "int"}}}
+  "@airAdviceHumidity": {"placeholders": {"percent": {"type": "int"}}},
+  "partyTitle": "Party",
+  "partyHint": "Colour lights cycle through colours while the party is on. Afterwards they all go back to how they were.",
+  "partyNoLights": "No colour lights — a party needs at least one RGB light.",
+  "partyMusic": "Music",
+  "partyNoMusic": "No music",
+  "partyStart": "Start the party",
+  "partyOn": "Party! 🎉",
+  "partyLights": "{count, plural, =1{1 light dancing} other{{count} lights dancing}}",
+  "@partyLights": {"placeholders": {"count": {"type": "int"}}},
+  "partyStop": "End the party"
 }

@@ -7,6 +7,7 @@ import '../restricted/application/restricted_mode.dart';
 import 'batteries.dart';
 import 'coming_home.dart';
 import 'guest_wifi.dart';
+import 'party.dart';
 import 'vacation.dart';
 
 /// One tool in "More".
@@ -65,6 +66,12 @@ class _ExtrasSheet extends ConsumerWidget {
         icon: Icons.wifi,
         label: l10n.guestWifiTitle,
         open: showGuestWifi,
+      ),
+      (
+        key: const Key('extraParty'),
+        icon: Icons.celebration_outlined,
+        label: l10n.partyTitle,
+        open: showParty,
       ),
     ];
     // Opens the tool after this sheet is gone (from the caller's context).

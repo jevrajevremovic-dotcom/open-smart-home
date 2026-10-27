@@ -8024,6 +8024,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Humidity {percent} % — air it so mould doesn\'t settle'**
   String airAdviceHumidity(int percent);
+
+  /// No description provided for @partyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Party'**
+  String get partyTitle;
+
+  /// No description provided for @partyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Colour lights cycle through colours while the party is on. Afterwards they all go back to how they were.'**
+  String get partyHint;
+
+  /// No description provided for @partyNoLights.
+  ///
+  /// In en, this message translates to:
+  /// **'No colour lights — a party needs at least one RGB light.'**
+  String get partyNoLights;
+
+  /// No description provided for @partyMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get partyMusic;
+
+  /// No description provided for @partyNoMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'No music'**
+  String get partyNoMusic;
+
+  /// No description provided for @partyStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the party'**
+  String get partyStart;
+
+  /// No description provided for @partyOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Party! 🎉'**
+  String get partyOn;
+
+  /// No description provided for @partyLights.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 light dancing} other{{count} lights dancing}}'**
+  String partyLights(int count);
+
+  /// No description provided for @partyStop.
+  ///
+  /// In en, this message translates to:
+  /// **'End the party'**
+  String get partyStop;
 }
 
 class _AppLocalizationsDelegate

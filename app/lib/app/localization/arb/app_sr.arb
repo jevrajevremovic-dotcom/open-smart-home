@@ -1321,5 +1321,14 @@
   "guestWifiRemove": "Ukloni",
   "airAdviceTitle": "Provetrite: {place}",
   "airAdviceCo2": "CO₂ {ppm} ppm — vazduh je zagušljiv, otvorite prozor na par minuta",
-  "airAdviceHumidity": "Vlažnost {percent} % — provetrite da se ne uhvati buđ"
+  "airAdviceHumidity": "Vlažnost {percent} % — provetrite da se ne uhvati buđ",
+  "partyTitle": "Žurka",
+  "partyHint": "Svetla u boji menjaju boje u krug dok je žurka uključena. Posle se sva vraćaju kako su bila.",
+  "partyNoLights": "Nema svetala u boji — žurka treba bar jedno RGB svetlo.",
+  "partyMusic": "Muzika",
+  "partyNoMusic": "Bez muzike",
+  "partyStart": "Počni žurku",
+  "partyOn": "Žurka! 🎉",
+  "partyLights": "{count, plural, =1{1 svetlo pleše} few{{count} svetla plešu} other{{count} svetala pleše}}",
+  "partyStop": "Kraj žurke"
 }

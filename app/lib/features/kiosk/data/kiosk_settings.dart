@@ -6,7 +6,7 @@ import '../../clap/clap_detector.dart';
 enum AodFocus { none, nextEvent, list, device, energy, media, home }
 
 /// Cards of the kiosk's home overview.
-enum HomeCard { cameras, weather, media, calendar, lists }
+enum HomeCard { cameras, weather, media, calendar, lists, floorPlan }
 
 /// What wakes the idle kiosk screen besides a touch.
 enum ApproachWake { off, sensor, camera }

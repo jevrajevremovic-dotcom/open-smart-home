@@ -4954,4 +4954,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get simpleLeaveBody => 'The full app with all its menus comes back.';
+
+  @override
+  String get floorPlanTitle => 'Floor plan';
+
+  @override
+  String get floorPlanEmpty =>
+      'Load a picture of your home\'s plan (a drawing or a photo of it), then place devices on it. A tap on a device on the plan switches it.';
+
+  @override
+  String get floorPlanPick => 'Choose the plan picture';
+
+  @override
+  String get floorPlanEdit => 'Edit';
+
+  @override
+  String get floorPlanAdd => 'Add a device';
+
+  @override
+  String get floorPlanChangePhoto => 'Another picture';
+
+  @override
+  String get floorPlanEditHint => 'Drag the devices to their places.';
+
+  @override
+  String get floorPlanUnsupported =>
+      'The floor plan is kept on the device, so it is not available on the web.';
 }

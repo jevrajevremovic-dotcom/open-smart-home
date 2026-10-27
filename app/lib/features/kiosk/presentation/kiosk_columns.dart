@@ -62,6 +62,7 @@ import 'kiosk_motion.dart';
 import 'pin_dialog.dart';
 import 'thermostat_dial.dart';
 import '../../../app/brand.dart';
+import '../../floor_plan/floor_plan.dart';
 
 /// Chosen in the left column for the devices without a room (`null` is
 /// the home overview).
@@ -461,6 +462,7 @@ class _HomeOverview extends ConsumerWidget {
                       ) &&
                       ref.watch(cameraIdsProvider).isNotEmpty,
                 HomeCard.lists => hasLists,
+                HomeCard.floorPlan => ref.watch(hasFloorPlanProvider),
                 _ => true,
               }) ...[
                 const SizedBox(height: 16),
@@ -472,6 +474,7 @@ class _HomeOverview extends ConsumerWidget {
                   HomeCard.media => const NowPlayingCard(),
                   HomeCard.calendar => const _OverviewCalendar(),
                   HomeCard.lists => const TodoListsCard(),
+                  HomeCard.floorPlan => const FloorPlanCard(),
                 },
               ],
             if (withQuickControls) ...[
@@ -907,6 +910,7 @@ class _HomeCardsDialogState extends ConsumerState<_HomeCardsDialog> {
       HomeCard.media => l10n.mediaTitle,
       HomeCard.calendar => l10n.calendarTitle,
       HomeCard.lists => l10n.todoTitle,
+      HomeCard.floorPlan => l10n.floorPlanTitle,
     };
     IconData icon(HomeCard c) => switch (c) {
       HomeCard.cameras => Icons.videocam_outlined,
@@ -914,6 +918,7 @@ class _HomeCardsDialogState extends ConsumerState<_HomeCardsDialog> {
       HomeCard.media => Icons.music_note_outlined,
       HomeCard.calendar => Icons.calendar_month_outlined,
       HomeCard.lists => Icons.checklist,
+      HomeCard.floorPlan => Icons.map_outlined,
     };
     return AlertDialog(
       title: Text(l10n.kioskHomeCards),

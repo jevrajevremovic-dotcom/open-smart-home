@@ -1950,5 +1950,13 @@
   "simpleStart": "Start",
   "simpleLeave": "Leave simple mode",
   "simpleLeaveTitle": "Leave simple mode?",
-  "simpleLeaveBody": "The full app with all its menus comes back."
+  "simpleLeaveBody": "The full app with all its menus comes back.",
+  "floorPlanTitle": "Floor plan",
+  "floorPlanEmpty": "Load a picture of your home's plan (a drawing or a photo of it), then place devices on it. A tap on a device on the plan switches it.",
+  "floorPlanPick": "Choose the plan picture",
+  "floorPlanEdit": "Edit",
+  "floorPlanAdd": "Add a device",
+  "floorPlanChangePhoto": "Another picture",
+  "floorPlanEditHint": "Drag the devices to their places.",
+  "floorPlanUnsupported": "The floor plan is kept on the device, so it is not available on the web."
 }

@@ -395,6 +395,7 @@ void main() {
       HomeCard.media,
       HomeCard.calendar,
       HomeCard.lists,
+      HomeCard.floorPlan,
     ]);
     expect(find.byType(WeatherSection), findsNothing);
     expect(find.byKey(const Key('kioskColumnsCameras')), findsNothing);

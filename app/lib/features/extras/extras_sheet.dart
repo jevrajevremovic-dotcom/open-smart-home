@@ -12,6 +12,7 @@ import 'party.dart';
 import 'sunrise_wake.dart';
 import 'week_wrapped.dart';
 import 'vacation.dart';
+import '../floor_plan/floor_plan.dart';
 
 /// One tool in "More".
 typedef _Extra = ({
@@ -88,6 +89,12 @@ class _ExtrasSheet extends ConsumerWidget {
         icon: Icons.auto_awesome_outlined,
         label: l10n.wrappedTitle,
         open: showWeekWrapped,
+      ),
+      (
+        key: const Key('extraFloorPlan'),
+        icon: Icons.map_outlined,
+        label: l10n.floorPlanTitle,
+        open: showFloorPlan,
       ),
       (
         key: const Key('extraBedtime'),

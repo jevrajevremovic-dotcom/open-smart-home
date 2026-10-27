@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Tlocrt** (Još, i kao kartica Početne na zidnom tabletu): slika osnove stana sa uređajima postavljenim prstom. Upaljeno se vidi u boji, otvoreno i otključano sa crvenim obodom; dodir pali i gasi, dugi pritisak otvara uređaj, dva prsta zumiraju. Uređivanje na tabletu traži PIN. Slika i raspored se čuvaju na uređaju (na webu nije dostupno).
 - **Jednostavni režim** (Podešavanja → Bezbednost): do 8 velikih dugmadi (svetla, utičnice, scene, roletne, grejanje sa velikim − i +), krupan tekst, sat i datum, bez menija. Ostaje i posle restarta; izlaz je katanac gore desno (uz PIN tableta ako je postavljen). Za uređaj kod bake i deke.
 - Brza pretraga: **Ctrl+K** (⌘K) bilo gde, ili lupa u bočnoj navigaciji na širokom ekranu. Ukucajte deo imena (kvačice nisu bitne: „kuh”, „cas”), Enter otvara sobu, pokreće scenu ili pali/gasi uređaj; strelice biraju.
 - Prevlačenje po kartici svetla (telefon): prstom levo-desno preko cele kartice menja se jačina, uz otkucaj na svakih 10 %; skroz levo gasi, iz ugašenog udesno pali. Na zidnom tabletu prevlačenje i dalje menja sobe.

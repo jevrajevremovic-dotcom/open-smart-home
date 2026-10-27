@@ -4983,6 +4983,32 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get simpleLeaveBody => 'Vratiće se cela aplikacija sa svim menijima.';
+
+  @override
+  String get floorPlanTitle => 'Tlocrt';
+
+  @override
+  String get floorPlanEmpty =>
+      'Učitajte sliku osnove stana ili kuće (crtež ili fotografija plana), pa na nju postavite uređaje. Dodir na uređaj na planu ga pali i gasi.';
+
+  @override
+  String get floorPlanPick => 'Izaberi sliku plana';
+
+  @override
+  String get floorPlanEdit => 'Uredi';
+
+  @override
+  String get floorPlanAdd => 'Dodaj uređaj';
+
+  @override
+  String get floorPlanChangePhoto => 'Druga slika';
+
+  @override
+  String get floorPlanEditHint => 'Prevucite uređaje na njihova mesta.';
+
+  @override
+  String get floorPlanUnsupported =>
+      'Tlocrt se čuva na uređaju, pa u web verziji nije dostupan.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

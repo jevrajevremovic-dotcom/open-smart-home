@@ -1393,5 +1393,13 @@
   "simpleStart": "Pokreni",
   "simpleLeave": "Izađi iz jednostavnog režima",
   "simpleLeaveTitle": "Izaći iz jednostavnog režima?",
-  "simpleLeaveBody": "Vratiće se cela aplikacija sa svim menijima."
+  "simpleLeaveBody": "Vratiće se cela aplikacija sa svim menijima.",
+  "floorPlanTitle": "Tlocrt",
+  "floorPlanEmpty": "Učitajte sliku osnove stana ili kuće (crtež ili fotografija plana), pa na nju postavite uređaje. Dodir na uređaj na planu ga pali i gasi.",
+  "floorPlanPick": "Izaberi sliku plana",
+  "floorPlanEdit": "Uredi",
+  "floorPlanAdd": "Dodaj uređaj",
+  "floorPlanChangePhoto": "Druga slika",
+  "floorPlanEditHint": "Prevucite uređaje na njihova mesta.",
+  "floorPlanUnsupported": "Tlocrt se čuva na uređaju, pa u web verziji nije dostupan."
 }

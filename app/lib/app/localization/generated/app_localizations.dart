@@ -8456,6 +8456,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The full app with all its menus comes back.'**
   String get simpleLeaveBody;
+
+  /// No description provided for @floorPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor plan'**
+  String get floorPlanTitle;
+
+  /// No description provided for @floorPlanEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Load a picture of your home\'s plan (a drawing or a photo of it), then place devices on it. A tap on a device on the plan switches it.'**
+  String get floorPlanEmpty;
+
+  /// No description provided for @floorPlanPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the plan picture'**
+  String get floorPlanPick;
+
+  /// No description provided for @floorPlanEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get floorPlanEdit;
+
+  /// No description provided for @floorPlanAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a device'**
+  String get floorPlanAdd;
+
+  /// No description provided for @floorPlanChangePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Another picture'**
+  String get floorPlanChangePhoto;
+
+  /// No description provided for @floorPlanEditHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the devices to their places.'**
+  String get floorPlanEditHint;
+
+  /// No description provided for @floorPlanUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'The floor plan is kept on the device, so it is not available on the web.'**
+  String get floorPlanUnsupported;
 }
 
 class _AppLocalizationsDelegate

@@ -1255,5 +1255,16 @@
   "kioskPersonPinSet": "Lični PIN postavljen — sme da otključava",
   "kioskPersonNoPin": "Bez ličnog PIN-a",
   "kioskPersonSetPin": "Lični PIN — {name}",
-  "kioskPersonNoPinLocked": "Bez ličnog PIN-a — ne može da otključava"
+  "kioskPersonNoPinLocked": "Bez ličnog PIN-a — ne može da otključava",
+  "extrasTitle": "Još",
+  "extrasShort": "Još",
+  "batteriesTitle": "Baterije",
+  "batteriesNone": "Nijedan uređaj ne javlja bateriju.",
+  "batteriesSummary": "{count, plural, =1{1 uređaj na bateriju} few{{count} uređaja na baterije} other{{count} uređaja na baterije}} · {low, plural, =0{sve u redu} =1{1 pri kraju} few{{low} pri kraju} other{{low} pri kraju}}",
+  "batteryReminder": "Javi kad je baterija pri kraju",
+  "batteryReminderHint": "Home Assistant ostavlja poruku ukućanima (i šalje na ovaj telefon, ako je registrovan) kad baterija padne na {percent} % ili niže.",
+  "batteryReminderAlias": "Baterija pri kraju (Open Smart Home)",
+  "batteryReminderMessage": "Baterija je pri kraju: {name} ({percent} %)",
+  "batteryLowShort": "Slaba baterija",
+  "batteryOk": "Baterija u redu"
 }

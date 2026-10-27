@@ -4436,4 +4436,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskPersonNoPinLocked => 'No own PIN — cannot unlock';
+
+  @override
+  String get extrasTitle => 'More';
+
+  @override
+  String get extrasShort => 'More';
+
+  @override
+  String get batteriesTitle => 'Batteries';
+
+  @override
+  String get batteriesNone => 'No device reports a battery.';
+
+  @override
+  String batteriesSummary(int count, int low) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count battery devices',
+      one: '1 battery device',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      low,
+      locale: localeName,
+      other: '$low running low',
+      one: '1 running low',
+      zero: 'all fine',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get batteryReminder => 'Tell me when a battery runs low';
+
+  @override
+  String batteryReminderHint(int percent) {
+    return 'Home Assistant leaves the household a message (and tells this phone, if registered) when a battery drops to $percent % or below.';
+  }
+
+  @override
+  String get batteryReminderAlias => 'Battery running low (Open Smart Home)';
+
+  @override
+  String batteryReminderMessage(String name, String percent) {
+    return 'Battery running low: $name ($percent %)';
+  }
+
+  @override
+  String get batteryLowShort => 'Battery low';
+
+  @override
+  String get batteryOk => 'Battery fine';
 }

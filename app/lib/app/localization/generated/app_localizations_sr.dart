@@ -4461,6 +4461,60 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get kioskPersonNoPinLocked =>
       'Bez ličnog PIN-a — ne može da otključava';
+
+  @override
+  String get extrasTitle => 'Još';
+
+  @override
+  String get extrasShort => 'Još';
+
+  @override
+  String get batteriesTitle => 'Baterije';
+
+  @override
+  String get batteriesNone => 'Nijedan uređaj ne javlja bateriju.';
+
+  @override
+  String batteriesSummary(int count, int low) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count uređaja na baterije',
+      few: '$count uređaja na baterije',
+      one: '1 uređaj na bateriju',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      low,
+      locale: localeName,
+      other: '$low pri kraju',
+      few: '$low pri kraju',
+      one: '1 pri kraju',
+      zero: 'sve u redu',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get batteryReminder => 'Javi kad je baterija pri kraju';
+
+  @override
+  String batteryReminderHint(int percent) {
+    return 'Home Assistant ostavlja poruku ukućanima (i šalje na ovaj telefon, ako je registrovan) kad baterija padne na $percent % ili niže.';
+  }
+
+  @override
+  String get batteryReminderAlias => 'Baterija pri kraju (Open Smart Home)';
+
+  @override
+  String batteryReminderMessage(String name, String percent) {
+    return 'Baterija je pri kraju: $name ($percent %)';
+  }
+
+  @override
+  String get batteryLowShort => 'Slaba baterija';
+
+  @override
+  String get batteryOk => 'Baterija u redu';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

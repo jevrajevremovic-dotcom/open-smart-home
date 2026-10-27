@@ -44,6 +44,7 @@ import '../../household/presentation/person_avatar.dart';
 import '../../rooms/presentation/room_look.dart';
 import '../../rooms/presentation/room_photo.dart';
 import '../../timers/kiosk_timers.dart';
+import '../../extras/extras_sheet.dart';
 import '../application/kiosk_controller.dart';
 import '../application/kiosk_people.dart';
 import '../data/kiosk_settings.dart';
@@ -561,6 +562,12 @@ class _Sidebar extends ConsumerWidget {
                     icon: Icons.directions_walk,
                     tooltip: l10n.kioskLeaving,
                     onTap: () => showKioskLeaving(context),
+                  ),
+                  _SideIcon(
+                    key: const Key('kioskExtras'),
+                    icon: Icons.apps,
+                    tooltip: l10n.extrasTitle,
+                    onTap: () => showExtras(context),
                   ),
                   _SideIcon(
                     key: const Key('kioskMessages'),

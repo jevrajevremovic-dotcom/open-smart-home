@@ -7628,6 +7628,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No own PIN — cannot unlock'**
   String get kioskPersonNoPinLocked;
+
+  /// No description provided for @extrasTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get extrasTitle;
+
+  /// No description provided for @extrasShort.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get extrasShort;
+
+  /// No description provided for @batteriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Batteries'**
+  String get batteriesTitle;
+
+  /// No description provided for @batteriesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No device reports a battery.'**
+  String get batteriesNone;
+
+  /// No description provided for @batteriesSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 battery device} other{{count} battery devices}} · {low, plural, =0{all fine} =1{1 running low} other{{low} running low}}'**
+  String batteriesSummary(int count, int low);
+
+  /// No description provided for @batteryReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me when a battery runs low'**
+  String get batteryReminder;
+
+  /// No description provided for @batteryReminderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant leaves the household a message (and tells this phone, if registered) when a battery drops to {percent} % or below.'**
+  String batteryReminderHint(int percent);
+
+  /// No description provided for @batteryReminderAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery running low (Open Smart Home)'**
+  String get batteryReminderAlias;
+
+  /// No description provided for @batteryReminderMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery running low: {name} ({percent} %)'**
+  String batteryReminderMessage(String name, String percent);
+
+  /// No description provided for @batteryLowShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery low'**
+  String get batteryLowShort;
+
+  /// No description provided for @batteryOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery fine'**
+  String get batteryOk;
 }
 
 class _AppLocalizationsDelegate

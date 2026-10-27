@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../application/dashboard_layout.dart';
 import '../application/home_sentence.dart';
+import '../../extras/extras_sheet.dart';
 import '../../../app/localization/l10n.dart';
 import '../../../app/router/app_router.dart';
 import '../../../app/theme/app_theme.dart';
@@ -378,6 +379,12 @@ class DashboardBody extends ConsumerWidget {
                       onPressed: () => context.push(AppRoutes.activity),
                       icon: Icons.history,
                       label: l10n.activityTitle,
+                    ),
+                    _QuickLink(
+                      key: const Key('openExtras'),
+                      onPressed: () => showExtras(context),
+                      icon: Icons.apps,
+                      label: l10n.extrasShort,
                     ),
                   ];
                   // Phones and narrow columns: equal buttons, icon over

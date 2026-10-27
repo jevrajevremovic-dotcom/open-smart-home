@@ -1189,6 +1189,9 @@ class MockHomeAssistantServer {
     }
   }
 
+  /// `logbook.log` entries written by the app.
+  final List<Map<String, Object?>> logbookMessages = [];
+
   /// Applies a subset of real Home Assistant services to the mock state.
   List<Map<String, Object?>> callService(
     String domain,
@@ -1213,6 +1216,10 @@ class MockHomeAssistantServer {
           );
         }
       }
+      return const [];
+    }
+    if (domain == 'logbook' && service == 'log') {
+      logbookMessages.add(Map.of(data));
       return const [];
     }
     if (domain == 'zha' && service == 'permit' && zhaAvailable) {

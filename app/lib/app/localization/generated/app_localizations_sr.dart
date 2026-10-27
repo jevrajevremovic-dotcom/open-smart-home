@@ -4515,6 +4515,33 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get batteryOk => 'Baterija u redu';
+
+  @override
+  String get unlockLogPanel => 'Zidni tablet';
+
+  @override
+  String get unlockLogPhone => 'Telefon';
+
+  @override
+  String get unlockLogViaPanel => 'zidni tablet';
+
+  @override
+  String get unlockLogViaPhone => 'telefon';
+
+  @override
+  String unlockLogUnlock(String device, String via) {
+    return 'otključava: $device ($via)';
+  }
+
+  @override
+  String unlockLogDisarm(String device, String via) {
+    return 'isključuje alarm: $device ($via)';
+  }
+
+  @override
+  String unlockLogOpen(String device, String via) {
+    return 'otvara: $device ($via)';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

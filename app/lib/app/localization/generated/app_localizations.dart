@@ -7694,6 +7694,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Battery fine'**
   String get batteryOk;
+
+  /// No description provided for @unlockLogPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall panel'**
+  String get unlockLogPanel;
+
+  /// No description provided for @unlockLogPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get unlockLogPhone;
+
+  /// No description provided for @unlockLogViaPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'wall panel'**
+  String get unlockLogViaPanel;
+
+  /// No description provided for @unlockLogViaPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'phone'**
+  String get unlockLogViaPhone;
+
+  /// No description provided for @unlockLogUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'unlocks {device} ({via})'**
+  String unlockLogUnlock(String device, String via);
+
+  /// No description provided for @unlockLogDisarm.
+  ///
+  /// In en, this message translates to:
+  /// **'disarms {device} ({via})'**
+  String unlockLogDisarm(String device, String via);
+
+  /// No description provided for @unlockLogOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'opens {device} ({via})'**
+  String unlockLogOpen(String device, String via);
 }
 
 class _AppLocalizationsDelegate

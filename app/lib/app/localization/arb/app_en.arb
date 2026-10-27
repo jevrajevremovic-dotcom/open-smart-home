@@ -1801,5 +1801,15 @@
   "batteryReminderMessage": "Battery running low: {name} ({percent} %)",
   "@batteryReminderMessage": {"placeholders": {"name": {"type": "String"}, "percent": {"type": "String"}}},
   "batteryLowShort": "Battery low",
-  "batteryOk": "Battery fine"
+  "batteryOk": "Battery fine",
+  "unlockLogPanel": "Wall panel",
+  "unlockLogPhone": "Phone",
+  "unlockLogViaPanel": "wall panel",
+  "unlockLogViaPhone": "phone",
+  "unlockLogUnlock": "unlocks {device} ({via})",
+  "@unlockLogUnlock": {"placeholders": {"device": {"type": "String"}, "via": {"type": "String"}}},
+  "unlockLogDisarm": "disarms {device} ({via})",
+  "@unlockLogDisarm": {"placeholders": {"device": {"type": "String"}, "via": {"type": "String"}}},
+  "unlockLogOpen": "opens {device} ({via})",
+  "@unlockLogOpen": {"placeholders": {"device": {"type": "String"}, "via": {"type": "String"}}}
 }

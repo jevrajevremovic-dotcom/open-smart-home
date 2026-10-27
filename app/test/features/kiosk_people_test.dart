@@ -112,8 +112,16 @@ void main() {
 
       await tryUnlock('1357');
       expect(server.stateForTest('lock.front_door'), 'unlocked');
-      // The PIN also told the panel who is there.
+      // The PIN also told the panel who is there…
       expect(container.read(kioskUserProvider), 'person.marko');
+      // …and Home Assistant's logbook says who unlocked.
+      expect(server.logbookMessages, [
+        {
+          'name': 'Marko',
+          'message': en.unlockLogUnlock('Brava ulazna vrata', en.unlockLogViaPanel),
+          'entity_id': 'lock.front_door',
+        },
+      ]);
       // Kiosk mode itself is still on: a member's PIN does not exit it.
       expect(container.read(kioskActiveProvider), isTrue);
       await unmount(tester);

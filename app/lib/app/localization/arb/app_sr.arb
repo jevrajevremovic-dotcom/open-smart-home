@@ -1266,5 +1266,12 @@
   "batteryReminderAlias": "Baterija pri kraju (Open Smart Home)",
   "batteryReminderMessage": "Baterija je pri kraju: {name} ({percent} %)",
   "batteryLowShort": "Slaba baterija",
-  "batteryOk": "Baterija u redu"
+  "batteryOk": "Baterija u redu",
+  "unlockLogPanel": "Zidni tablet",
+  "unlockLogPhone": "Telefon",
+  "unlockLogViaPanel": "zidni tablet",
+  "unlockLogViaPhone": "telefon",
+  "unlockLogUnlock": "otključava: {device} ({via})",
+  "unlockLogDisarm": "isključuje alarm: {device} ({via})",
+  "unlockLogOpen": "otvara: {device} ({via})"
 }

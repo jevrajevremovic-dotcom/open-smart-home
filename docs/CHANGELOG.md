@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Dnevnik „ko je otključao”: posle otključavanja, otvaranja garaže/kapije ili isključenja alarma aplikacija upisuje u Home Assistant dnevnik ko je to uradio (`logbook.log`), npr. „Marko otključava: Ulazna vrata (zidni tablet)”. Na tabletu je to ukućanin koji je izabran ili upisao svoj PIN, na telefonu njegovo ime u HA.
 - „Još” (Početna i zidni tablet): mesto za manje alate. Prvi je **Baterije**: svi uređaji na baterije, od najpraznije, i po želji podsetnik u Home Assistantu (automatizacija ostavlja poruku ukućanima i javlja telefonu kad baterija padne na 15 % ili niže).
 - Ko koristi tablet: na zidnom tabletu ukućanin dodirne svoju sliku (ispod imena doma) i dobija pozdrav sa imenom i svoje brze kontrole; ponovni dodir, zatamnjenje ili povratak na početak posle neaktivnosti vraćaju zajednički prikaz. Ukućani mogu dobiti lični PIN (Podešavanja → Kiosk → Ukućani na tabletu): otključavanje, isključenje alarma i slične radnje prihvataju lični PIN ili PIN tableta, a ko nema PIN (npr. deca) ne može. Lični PIN ne izlazi iz kioska i nikad nije u rezervnoj kopiji.
 - Demo aplikacija za prikaz (`tool/build_demo.sh`): „Open Smart Home Demo” sa izmišljenom kućom, radi bez Home Assistanta i mreže, instalira se pored prave aplikacije i ne nudi ažuriranja.

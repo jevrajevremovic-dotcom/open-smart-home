@@ -4488,4 +4488,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get batteryOk => 'Battery fine';
+
+  @override
+  String get unlockLogPanel => 'Wall panel';
+
+  @override
+  String get unlockLogPhone => 'Phone';
+
+  @override
+  String get unlockLogViaPanel => 'wall panel';
+
+  @override
+  String get unlockLogViaPhone => 'phone';
+
+  @override
+  String unlockLogUnlock(String device, String via) {
+    return 'unlocks $device ($via)';
+  }
+
+  @override
+  String unlockLogDisarm(String device, String via) {
+    return 'disarms $device ($via)';
+  }
+
+  @override
+  String unlockLogOpen(String device, String via) {
+    return 'opens $device ($via)';
+  }
 }

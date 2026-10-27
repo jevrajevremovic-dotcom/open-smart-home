@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +8,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../../core/errors/app_failure.dart';
 import '../../../core/errors/failure_messages.dart';
 import '../../app_lock/application/app_lock.dart';
+import '../../extras/unlock_log.dart';
 import '../../kiosk/application/kiosk_controller.dart';
 import '../../kiosk/presentation/pin_dialog.dart';
 import '../application/device_command_service.dart';
@@ -47,6 +50,10 @@ Future<bool> runDeviceCommand(
   }
   try {
     await service.execute(device, command, confirmed: confirmed);
+    // Who did it, in Home Assistant's logbook.
+    if (confirmed) {
+      unawaited(logCriticalAction(ref, l10n, device, command));
+    }
     return true;
   } on AppFailure catch (failure) {
     messenger

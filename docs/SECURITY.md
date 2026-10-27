@@ -258,4 +258,5 @@ Uključuju se posebno (podrazumevano isključeno) i idu samo na vaš Home Assist
 - Pogrešni PIN-ovi (kiosk i lični zajedno) zaključavaju unos na 30 s posle 5 pokušaja. Lični PIN ne izlazi iz kioska.
 - Lični PIN-ovi se čuvaju samo kao heš sa solju (scrypt, kao PIN kioska), samo na tom tabletu, i nikad nisu u prenosu podešavanja ni u rezervnoj kopiji u Home Assistantu.
 - Izbor „ko je za tabletom” (dodir na sliku) menja samo pozdrav i brze kontrole — **nije prijava** i ne daje nikakvu dozvolu.
+- Svaka kritična radnja se upisuje u **dnevnik Home Assistanta** (`logbook.log`) sa imenom: ukućanin na tabletu (izabran ili po ličnom PIN-u), inače „Zidni tablet”, ili ime telefona. Ime izabrano dodirom nije dokaz identiteta — samo lični PIN to jeste.
 

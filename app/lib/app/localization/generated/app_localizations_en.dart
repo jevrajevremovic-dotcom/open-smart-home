@@ -4389,4 +4389,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get firstRunStart => 'Let\'s go';
+
+  @override
+  String kioskGreetingName(String greeting, String name) {
+    return '$greeting, $name';
+  }
+
+  @override
+  String kioskPersonButton(String name) {
+    return '$name is using the panel';
+  }
+
+  @override
+  String kioskPersonEnterPin(String name) {
+    return 'PIN — $name';
+  }
+
+  @override
+  String get kioskCriticalPinHint => 'Your own PIN or the panel\'s PIN';
+
+  @override
+  String kioskQuickControlsFor(String name) {
+    return 'Quick controls — $name';
+  }
+
+  @override
+  String get kioskQuickControlsShared => 'Use the shared ones';
+
+  @override
+  String get kioskPeopleTitle => 'Household on the panel';
+
+  @override
+  String get kioskPeopleHint =>
+      'On the panel, a member taps their picture and gets their own greeting and quick controls. Unlocking doors, disarming the alarm and similar actions need the member\'s own PIN or the panel\'s PIN — members without a PIN (e.g. children) cannot. Members are Home Assistant\'s people.';
+
+  @override
+  String get kioskPersonPinSet => 'Own PIN set — may unlock';
+
+  @override
+  String get kioskPersonNoPin => 'No own PIN';
+
+  @override
+  String kioskPersonSetPin(String name) {
+    return 'Own PIN — $name';
+  }
+
+  @override
+  String get kioskPersonNoPinLocked => 'No own PIN — cannot unlock';
 }

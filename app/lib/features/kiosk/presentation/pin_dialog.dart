@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/localization/l10n.dart';
 import '../../../core/security/pin_hasher.dart';
+import '../../devices/application/device_providers.dart';
 import '../application/kiosk_controller.dart';
+import '../application/kiosk_people.dart';
 
 /// Asks for the PIN and leaves kiosk mode when it matches. Without a
 /// configured PIN it exits immediately. Returns `true` on exit.
@@ -33,19 +35,30 @@ Future<bool> showKioskExitDialog(BuildContext context, WidgetRef ref) async {
   return ok ?? false;
 }
 
-/// Asks for the kiosk PIN (when one is set) before something only the
-/// household may do on the wall panel (unlocking a door, disarming);
-/// does not leave kiosk mode. Returns `true` when allowed.
+/// Before something only grown-ups may do on the wall panel (unlocking a
+/// door, disarming): asks for the panel's PIN or a household member's own
+/// PIN, when any is set; does not leave kiosk mode. Members without a PIN
+/// (children) cannot. Returns `true` when allowed.
 Future<bool> confirmKioskPin(BuildContext context, WidgetRef ref) async {
-  if (!ref.read(kioskSettingsProvider).hasPin) return true;
+  if (!ref.read(kioskCriticalPinRequiredProvider)) return true;
   final controller = ref.read(kioskActiveProvider.notifier);
+  final user = ref.read(kioskUserProvider);
+  final name = user == null ? null : ref.read(deviceProvider(user))?.name;
   final ok = await showDialog<bool>(
     context: context,
     builder: (_) => PinEntryDialog(
-      title: context.l10n.kioskEnterPin,
+      title: name == null
+          ? context.l10n.kioskEnterPin
+          : context.l10n.kioskPersonEnterPin(name),
+      helper: context.l10n.kioskCriticalPinHint,
       onSubmit: (pin) async {
         final l10n = context.l10n;
-        return switch (await controller.verifyPin(pin)) {
+        final (check, person) = await controller.verifyCriticalPin(pin);
+        // A member's PIN also tells the panel who is there.
+        if (person != null) {
+          ref.read(kioskUserProvider.notifier).select(person);
+        }
+        return switch (check) {
           PinCheck.accepted => null,
           PinCheck.wrong => l10n.kioskWrongPin,
           PinCheck.lockedOut => l10n.kioskLockedOut(
@@ -58,14 +71,20 @@ Future<bool> confirmKioskPin(BuildContext context, WidgetRef ref) async {
   return ok ?? false;
 }
 
-/// Asks for a new PIN twice and stores it. Returns `true` when saved.
-Future<bool> showSetPinDialog(BuildContext context, WidgetRef ref) async {
+/// Asks for a new PIN twice and stores it with [save] (the panel's PIN
+/// by default). Returns `true` when saved.
+Future<bool> showSetPinDialog(
+  BuildContext context,
+  WidgetRef ref, {
+  String? title,
+  Future<void> Function(String pin)? save,
+}) async {
   final l10n = context.l10n;
   String? first;
   final ok = await showDialog<bool>(
     context: context,
     builder: (_) => PinEntryDialog(
-      title: l10n.kioskSetPin,
+      title: title ?? l10n.kioskSetPin,
       helper: l10n.kioskPinHint,
       onSubmit: (pin) async {
         if (!PinHasher.validPin.hasMatch(pin)) return l10n.kioskPinInvalid;
@@ -81,7 +100,11 @@ Future<bool> showSetPinDialog(BuildContext context, WidgetRef ref) async {
       title: l10n.kioskPinConfirm,
       onSubmit: (pin) async {
         if (pin != first) return l10n.kioskPinMismatch;
-        await ref.read(kioskSettingsProvider.notifier).setPin(pin);
+        if (save != null) {
+          await save(pin);
+        } else {
+          await ref.read(kioskSettingsProvider.notifier).setPin(pin);
+        }
         return null;
       },
     ),

@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- Ko koristi tablet: na zidnom tabletu ukućanin dodirne svoju sliku (ispod imena doma) i dobija pozdrav sa imenom i svoje brze kontrole; ponovni dodir, zatamnjenje ili povratak na početak posle neaktivnosti vraćaju zajednički prikaz. Ukućani mogu dobiti lični PIN (Podešavanja → Kiosk → Ukućani na tabletu): otključavanje, isključenje alarma i slične radnje prihvataju lični PIN ili PIN tableta, a ko nema PIN (npr. deca) ne može. Lični PIN ne izlazi iz kioska i nikad nije u rezervnoj kopiji.
 - Demo aplikacija za prikaz (`tool/build_demo.sh`): „Open Smart Home Demo” sa izmišljenom kućom, radi bez Home Assistanta i mreže, instalira se pored prave aplikacije i ne nudi ažuriranja.
 - Čarobnjak za prvo pokretanje: posle prve prijave na uređaju nekoliko kratkih koraka koji se mogu preskočiti — telefon ili zidni tablet, vraćanje podešavanja sačuvanih u Home Assistantu (ako postoje), tema i boja, omiljeni uređaji po prostorijama, poruke iz Home Assistanta (Android) i zaključavanje aplikacije. Zidni tablet nastavlja u čarobnjaku za panel (kiosk, PIN). Ne pojavljuje se posle ažuriranja ni kad se dodaje još jedan dom.
 

@@ -14,6 +14,7 @@ import '../../devices/presentation/device_actions.dart';
 import '../../devices/presentation/device_presentation.dart';
 import '../../restricted/application/restricted_mode.dart';
 import '../application/kiosk_controller.dart';
+import '../application/kiosk_people.dart';
 import 'kiosk_motion.dart';
 
 /// Every physical device of the home (entities grouped), sorted by name;
@@ -43,9 +44,12 @@ class KioskQuickControls extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final keys = ref.watch(
-      kioskSettingsProvider.select((s) => s.quickControls),
-    );
+    // Whoever is at the panel may have their own.
+    final keys = ref.watch(kioskQuickControlsProvider);
+    final user = ref.watch(kioskUserProvider);
+    final userName = user == null
+        ? null
+        : ref.watch(deviceProvider(user).select((d) => d?.name));
     final bundles = {for (final b in ref.watch(homeBundlesProvider)) b.key: b};
     final chosen = [for (final k in keys) ?bundles[k]];
     return Column(
@@ -56,7 +60,9 @@ class KioskQuickControls extends ConsumerWidget {
           children: [
             Expanded(
               child: Text(
-                l10n.kioskQuickControls,
+                userName == null
+                    ? l10n.kioskQuickControls
+                    : l10n.kioskQuickControlsFor(userName),
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -255,9 +261,8 @@ class _QuickControlsPicker extends ConsumerStatefulWidget {
 }
 
 class _QuickControlsPickerState extends ConsumerState<_QuickControlsPicker> {
-  late final List<String> _chosen = [
-    ...ref.read(kioskSettingsProvider).quickControls,
-  ];
+  late final String? _user = ref.read(kioskUserProvider);
+  late final List<String> _chosen = [...ref.read(kioskQuickControlsProvider)];
   String _query = '';
 
   @override
@@ -268,8 +273,20 @@ class _QuickControlsPickerState extends ConsumerState<_QuickControlsPicker> {
       for (final b in ref.watch(homeBundlesProvider))
         if (q.isEmpty || b.name.toLowerCase().contains(q)) b,
     ];
+    final userName = _user == null
+        ? null
+        : ref.watch(deviceProvider(_user).select((d) => d?.name));
+    final ownList =
+        _user != null &&
+        ref.watch(
+          kioskPeopleProvider.select((m) => m[_user]?.quickControls != null),
+        );
     return AlertDialog(
-      title: Text(l10n.kioskQuickControls),
+      title: Text(
+        userName == null
+            ? l10n.kioskQuickControls
+            : l10n.kioskQuickControlsFor(userName),
+      ),
       contentPadding: const EdgeInsets.fromLTRB(8, 12, 8, 0),
       content: SizedBox(
         width: 480,
@@ -313,6 +330,18 @@ class _QuickControlsPickerState extends ConsumerState<_QuickControlsPicker> {
         ),
       ),
       actions: [
+        if (ownList)
+          TextButton(
+            key: const Key('kioskQuickShared'),
+            onPressed: () {
+              final navigator = Navigator.of(context);
+              ref
+                  .read(kioskPeopleProvider.notifier)
+                  .setQuickControls(_user, null);
+              navigator.pop();
+            },
+            child: Text(l10n.kioskQuickControlsShared),
+          ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(l10n.cancel),
@@ -321,9 +350,16 @@ class _QuickControlsPickerState extends ConsumerState<_QuickControlsPicker> {
           key: const Key('kioskQuickSave'),
           onPressed: () {
             final navigator = Navigator.of(context);
-            ref
-                .read(kioskSettingsProvider.notifier)
-                .update((s) => s.copyWith(quickControls: [..._chosen]));
+            final user = _user;
+            if (user != null) {
+              ref.read(kioskPeopleProvider.notifier).setQuickControls(user, [
+                ..._chosen,
+              ]);
+            } else {
+              ref
+                  .read(kioskSettingsProvider.notifier)
+                  .update((s) => s.copyWith(quickControls: [..._chosen]));
+            }
             navigator.pop();
           },
           child: Text(l10n.save),

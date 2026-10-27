@@ -1243,5 +1243,17 @@
   "firstRunSecurityBody": "Ko ima vaš otključan telefon, može da upravlja kućom. Preporučujemo bar potvrdu za brave i alarm.",
   "firstRunDoneTitle": "Sve je spremno",
   "firstRunDoneBody": "Prostorije, scene i uređaji stižu iz Home Assistanta. Sve što ste ovde izabrali menjate u Podešavanjima, a kartice Početne dugmetom ⚙ pored pozdrava.",
-  "firstRunStart": "Počnimo"
+  "firstRunStart": "Počnimo",
+  "kioskGreetingName": "{greeting}, {name}",
+  "kioskPersonButton": "{name} koristi tablet",
+  "kioskPersonEnterPin": "PIN — {name}",
+  "kioskCriticalPinHint": "Vaš lični PIN ili PIN tableta",
+  "kioskQuickControlsFor": "Brze kontrole — {name}",
+  "kioskQuickControlsShared": "Koristi zajedničke",
+  "kioskPeopleTitle": "Ukućani na tabletu",
+  "kioskPeopleHint": "Na tabletu ukućanin dodirne svoju sliku i dobija svoj pozdrav i svoje brze kontrole. Otključavanje vrata, isključenje alarma i slične radnje dozvoljene su samo uz lični PIN ukućanina ili PIN tableta — ko nema PIN (npr. deca), ne može. Ukućani su osobe iz Home Assistanta.",
+  "kioskPersonPinSet": "Lični PIN postavljen — sme da otključava",
+  "kioskPersonNoPin": "Bez ličnog PIN-a",
+  "kioskPersonSetPin": "Lični PIN — {name}",
+  "kioskPersonNoPinLocked": "Bez ličnog PIN-a — ne može da otključava"
 }

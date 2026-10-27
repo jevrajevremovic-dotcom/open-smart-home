@@ -45,6 +45,7 @@ import '../../rooms/presentation/room_look.dart';
 import '../../rooms/presentation/room_photo.dart';
 import '../../timers/kiosk_timers.dart';
 import '../application/kiosk_controller.dart';
+import '../application/kiosk_people.dart';
 import '../data/kiosk_settings.dart';
 import 'kiosk_alarm.dart';
 import 'kiosk_bundle_detail.dart';
@@ -146,6 +147,8 @@ class _KioskColumnsLayoutState extends ConsumerState<KioskColumnsLayout> {
         if (!mounted) return;
         ref.read(kioskColumnsRoomProvider.notifier).select(null);
         ref.read(kioskColumnsDeviceProvider.notifier).select(null);
+        // Whoever was at the panel has left: everyone's view again.
+        ref.read(kioskUserProvider.notifier).select(null);
       },
     );
   }
@@ -379,12 +382,19 @@ class _HomeOverview extends ConsumerWidget {
     final scheme = theme.colorScheme;
     // Refreshed every half minute: the greeting turns with the day.
     final now = ref.watch(kioskNowProvider);
-    final greeting = switch (now.hour) {
+    final dayGreeting = switch (now.hour) {
       >= 5 && < 12 => l10n.greetingMorning,
       >= 12 && < 18 => l10n.greetingAfternoon,
       >= 18 && < 23 => l10n.greetingEvening,
       _ => l10n.greetingNight,
     };
+    final user = ref.watch(kioskUserProvider);
+    final userName = user == null
+        ? null
+        : ref.watch(deviceProvider(user).select((d) => d?.name));
+    final greeting = userName == null
+        ? dayGreeting
+        : l10n.kioskGreetingName(dayGreeting, firstName(userName));
     final hasLists = ref.watch(todoListsProvider).isNotEmpty;
     final cards = ref.watch(kioskSettingsProvider.select((s) => s.homeCards));
     return Stack(
@@ -519,6 +529,7 @@ class _Sidebar extends ConsumerWidget {
     );
 
     return ListView(
+      key: const Key('kioskColumnsLeft'),
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
       children: [
         Row(
@@ -585,6 +596,17 @@ class _Sidebar extends ConsumerWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
+        ),
+        const SizedBox(height: 10),
+        // Who is at the panel: their greeting and quick controls; tapping
+        // again (or a while untouched) goes back to everyone.
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final id in ref.watch(peopleIdsProvider).take(6))
+              _PersonButton(personId: id),
+          ],
         ),
         const SizedBox(height: 12),
         // Search = ask Assist (by text or by voice).
@@ -656,19 +678,48 @@ class _Sidebar extends ConsumerWidget {
           label(l10n.automationsTitle),
           for (final a in automations.take(5)) _AutomationRow(device: a),
         ],
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final id in ref.watch(peopleIdsProvider).take(6))
-              PersonAvatar(personId: id, size: 44),
-          ],
-        ),
       ],
     );
   }
 }
+
+class _PersonButton extends ConsumerWidget {
+  const _PersonButton({required this.personId});
+
+  final String personId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scheme = Theme.of(context).colorScheme;
+    final chosen = ref.watch(kioskUserProvider) == personId;
+    final name = ref.watch(deviceProvider(personId).select((d) => d?.name));
+    return Semantics(
+      button: true,
+      selected: chosen,
+      label: name == null ? null : context.l10n.kioskPersonButton(name),
+      child: InkWell(
+        key: ValueKey('kioskPerson-$personId'),
+        customBorder: const CircleBorder(),
+        onTap: () => ref.read(kioskUserProvider.notifier).toggle(personId),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: chosen ? scheme.primary : Colors.transparent,
+              width: 3,
+            ),
+          ),
+          child: PersonAvatar(personId: personId, size: 44),
+        ),
+      ),
+    );
+  }
+}
+
+/// "Ana Petrović" → "Ana".
+String firstName(String name) => name.trim().split(RegExp(r'\s+')).first;
 
 class _SideIcon extends StatelessWidget {
   const _SideIcon({

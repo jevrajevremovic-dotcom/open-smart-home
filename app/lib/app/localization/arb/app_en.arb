@@ -1770,5 +1770,22 @@
   "firstRunSecurityBody": "Whoever has your unlocked phone can control the home. We recommend at least confirming locks and the alarm.",
   "firstRunDoneTitle": "All set",
   "firstRunDoneBody": "Rooms, scenes and devices come from Home Assistant. Everything chosen here can be changed in Settings, and Home's cards with the ⚙ button next to the greeting.",
-  "firstRunStart": "Let's go"
+  "firstRunStart": "Let's go",
+  "kioskGreetingName": "{greeting}, {name}",
+  "@kioskGreetingName": {"placeholders": {"greeting": {"type": "String"}, "name": {"type": "String"}}},
+  "kioskPersonButton": "{name} is using the panel",
+  "@kioskPersonButton": {"placeholders": {"name": {"type": "String"}}},
+  "kioskPersonEnterPin": "PIN — {name}",
+  "@kioskPersonEnterPin": {"placeholders": {"name": {"type": "String"}}},
+  "kioskCriticalPinHint": "Your own PIN or the panel's PIN",
+  "kioskQuickControlsFor": "Quick controls — {name}",
+  "@kioskQuickControlsFor": {"placeholders": {"name": {"type": "String"}}},
+  "kioskQuickControlsShared": "Use the shared ones",
+  "kioskPeopleTitle": "Household on the panel",
+  "kioskPeopleHint": "On the panel, a member taps their picture and gets their own greeting and quick controls. Unlocking doors, disarming the alarm and similar actions need the member's own PIN or the panel's PIN — members without a PIN (e.g. children) cannot. Members are Home Assistant's people.",
+  "kioskPersonPinSet": "Own PIN set — may unlock",
+  "kioskPersonNoPin": "No own PIN",
+  "kioskPersonSetPin": "Own PIN — {name}",
+  "@kioskPersonSetPin": {"placeholders": {"name": {"type": "String"}}},
+  "kioskPersonNoPinLocked": "No own PIN — cannot unlock"
 }

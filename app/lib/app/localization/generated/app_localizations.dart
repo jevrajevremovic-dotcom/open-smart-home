@@ -7556,6 +7556,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Let\'s go'**
   String get firstRunStart;
+
+  /// No description provided for @kioskGreetingName.
+  ///
+  /// In en, this message translates to:
+  /// **'{greeting}, {name}'**
+  String kioskGreetingName(String greeting, String name);
+
+  /// No description provided for @kioskPersonButton.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is using the panel'**
+  String kioskPersonButton(String name);
+
+  /// No description provided for @kioskPersonEnterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN — {name}'**
+  String kioskPersonEnterPin(String name);
+
+  /// No description provided for @kioskCriticalPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own PIN or the panel\'s PIN'**
+  String get kioskCriticalPinHint;
+
+  /// No description provided for @kioskQuickControlsFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick controls — {name}'**
+  String kioskQuickControlsFor(String name);
+
+  /// No description provided for @kioskQuickControlsShared.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the shared ones'**
+  String get kioskQuickControlsShared;
+
+  /// No description provided for @kioskPeopleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Household on the panel'**
+  String get kioskPeopleTitle;
+
+  /// No description provided for @kioskPeopleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'On the panel, a member taps their picture and gets their own greeting and quick controls. Unlocking doors, disarming the alarm and similar actions need the member\'s own PIN or the panel\'s PIN — members without a PIN (e.g. children) cannot. Members are Home Assistant\'s people.'**
+  String get kioskPeopleHint;
+
+  /// No description provided for @kioskPersonPinSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Own PIN set — may unlock'**
+  String get kioskPersonPinSet;
+
+  /// No description provided for @kioskPersonNoPin.
+  ///
+  /// In en, this message translates to:
+  /// **'No own PIN'**
+  String get kioskPersonNoPin;
+
+  /// No description provided for @kioskPersonSetPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Own PIN — {name}'**
+  String kioskPersonSetPin(String name);
+
+  /// No description provided for @kioskPersonNoPinLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'No own PIN — cannot unlock'**
+  String get kioskPersonNoPinLocked;
 }
 
 class _AppLocalizationsDelegate

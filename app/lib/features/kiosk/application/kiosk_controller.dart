@@ -10,6 +10,7 @@ import '../../../core/security/pin_hasher.dart';
 import '../../../core/storage/app_preferences.dart';
 import '../../authentication/application/session_controller.dart';
 import '../data/kiosk_settings.dart';
+import 'kiosk_people.dart';
 
 class KioskSettingsController extends Notifier<KioskSettings> {
   @override
@@ -87,6 +88,21 @@ class KioskSessionController extends Notifier<bool> {
   /// layout, without leaving kiosk mode.
   Future<PinCheck> verifyPin(String pin) => _check(pin, exit: false);
 
+  /// Before a critical action: the panel's PIN or a member's own PIN
+  /// (same lockout). Also returns whose PIN it was, if a member's.
+  Future<(PinCheck, String?)> verifyCriticalPin(String pin) async {
+    if (remainingLockout != null) return (PinCheck.lockedOut, null);
+    final person = ref.read(kioskPeopleProvider.notifier).personWithPin(pin);
+    if (person != null) {
+      _failures = 0;
+      _lockedUntil = null;
+      return (PinCheck.accepted, person);
+    }
+    // Only the panel's own PIN from here (none set: only members' PINs).
+    if (!ref.read(kioskSettingsProvider).hasPin) return (_fail(), null);
+    return (await _check(pin, exit: false), null);
+  }
+
   Future<PinCheck> _check(String pin, {required bool exit}) async {
     if (remainingLockout != null) return PinCheck.lockedOut;
     final settings = ref.read(kioskSettingsProvider);
@@ -102,6 +118,10 @@ class KioskSessionController extends Notifier<bool> {
       }
       return PinCheck.accepted;
     }
+    return _fail();
+  }
+
+  PinCheck _fail() {
     _failures++;
     _log.warning('Wrong kiosk PIN ($_failures/$maxAttempts)');
     if (_failures >= maxAttempts) {

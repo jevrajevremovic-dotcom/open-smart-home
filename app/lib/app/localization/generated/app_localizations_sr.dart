@@ -4413,6 +4413,54 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get firstRunStart => 'Počnimo';
+
+  @override
+  String kioskGreetingName(String greeting, String name) {
+    return '$greeting, $name';
+  }
+
+  @override
+  String kioskPersonButton(String name) {
+    return '$name koristi tablet';
+  }
+
+  @override
+  String kioskPersonEnterPin(String name) {
+    return 'PIN — $name';
+  }
+
+  @override
+  String get kioskCriticalPinHint => 'Vaš lični PIN ili PIN tableta';
+
+  @override
+  String kioskQuickControlsFor(String name) {
+    return 'Brze kontrole — $name';
+  }
+
+  @override
+  String get kioskQuickControlsShared => 'Koristi zajedničke';
+
+  @override
+  String get kioskPeopleTitle => 'Ukućani na tabletu';
+
+  @override
+  String get kioskPeopleHint =>
+      'Na tabletu ukućanin dodirne svoju sliku i dobija svoj pozdrav i svoje brze kontrole. Otključavanje vrata, isključenje alarma i slične radnje dozvoljene su samo uz lični PIN ukućanina ili PIN tableta — ko nema PIN (npr. deca), ne može. Ukućani su osobe iz Home Assistanta.';
+
+  @override
+  String get kioskPersonPinSet => 'Lični PIN postavljen — sme da otključava';
+
+  @override
+  String get kioskPersonNoPin => 'Bez ličnog PIN-a';
+
+  @override
+  String kioskPersonSetPin(String name) {
+    return 'Lični PIN — $name';
+  }
+
+  @override
+  String get kioskPersonNoPinLocked =>
+      'Bez ličnog PIN-a — ne može da otključava';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

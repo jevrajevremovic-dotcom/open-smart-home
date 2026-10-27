@@ -12,6 +12,7 @@ import '../application/kiosk_controller.dart';
 import '../data/kiosk_settings.dart';
 import 'camera_popup_settings.dart';
 import 'aod_settings.dart';
+import 'kiosk_people_settings.dart';
 import 'night_brightness_settings.dart';
 import 'pin_dialog.dart';
 
@@ -185,6 +186,7 @@ class KioskSettingsSection extends ConsumerWidget {
             ],
           ),
         ),
+        const KioskPeopleSettings(),
         const SizedBox(height: 8),
         InlineNotice.info(l10n.kioskOsHint),
       ],

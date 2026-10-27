@@ -6,6 +6,7 @@
 - **Dugi pritisak na svetlo, roletnu ili zvučnik** otvara veliki klizač: prevucite prstom gore-dole
   ili dodirnite željenu visinu.
 - **Prekidač na kartici** pali i gasi odmah.
+- **Prevucite prstom levo-desno po kartici svetla** da promenite jačinu (skroz levo gasi).
 - **„Sada uključeno”** na Početnoj pokazuje šta radi. Dodir otvara uređaj, **dugi pritisak ga
   gasi** (na „N svetla” gasi sva svetla u kući).
 - **Prostorije**: kartica sobe otvara sve u toj sobi; dugme sa paletom gore desno menja

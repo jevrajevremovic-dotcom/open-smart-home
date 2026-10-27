@@ -74,6 +74,9 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
   /// Brightness while the in-card slider is being dragged.
   double? _dragging;
 
+  /// The tenth the swipe was last in (a tick when it changes).
+  int? _swipeStep;
+
   Future<void> _run(DeviceCommand command) async {
     setState(() => _busy = true);
     await runDeviceCommand(context, ref, widget.device, command);
@@ -110,11 +113,19 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
 
     final live = ref.watch(syncStatusProvider) == SyncStatus.live;
     // A light that is on and dims: its slider sits in the card.
-    final dimmableOn =
+    final dims =
         device.available &&
         device.kind.isLight &&
-        device.state.isOn == true &&
         device.supports(Capability.brightness);
+    final dimmableOn = dims && (device.state.isOn == true || _dragging != null);
+    // Sideways across the whole card sets the brightness (on a phone; the
+    // wall panel swipes between rooms instead).
+    final swipe =
+        dims &&
+        live &&
+        !_busy &&
+        widget.group == null &&
+        !ref.watch(kioskActiveProvider);
     final Widget? action = !device.available
         ? null
         : DevicePresentation.hasQuickToggle(device)
@@ -153,142 +164,175 @@ class _DeviceCardState extends ConsumerState<_DeviceCard> {
           type: MaterialType.transparency,
           borderRadius: BorderRadius.circular(AppTheme.tileRadius),
           clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () {
-              final kiosk = ref.read(kioskActiveProvider);
-              if (widget.group != null) {
-                context.push(
-                  AppRoutes.deviceGroup(widget.group!.id, kiosk: kiosk),
-                );
-              } else if (kiosk || device.kind == DeviceKind.camera) {
-                context.push(AppRoutes.device(device.id, kiosk: kiosk));
-              } else {
-                // The main controls in a sheet, without leaving the list.
-                showDeviceSheet(context, device.id);
-              }
-            },
-            // A level to slide (light, blind, volume): the big slider;
-            // anything else: its full screen.
-            onLongPress: () {
-              unawaited(HapticFeedback.mediumImpact());
-              if (bigSliderFor(l10n, device) != null) {
-                showBigSlider(context, device.id);
-              } else {
-                context.push(
-                  AppRoutes.device(
-                    device.id,
-                    kiosk: ref.read(kioskActiveProvider),
-                  ),
-                );
-              }
-            },
-            child: Opacity(
-              opacity: device.available ? 1 : 0.6,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(14, 14, 8, 14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Hero(
-                          tag: deviceHeroTag(device.id),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: disc,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              DevicePresentation.icon(device),
-                              color: iconColor,
-                              size: 22,
-                            ),
-                          ),
-                        ),
-                        // The parts count gives way on a narrow card.
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: widget.group == null
-                                ? null
-                                : FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: _groupBadge(
-                                      widget.group!,
-                                      l10n,
-                                      theme,
-                                      disc,
-                                      onFillMuted,
-                                    ),
-                                  ),
-                          ),
-                        ),
-                        if (device.hasLowBattery)
-                          Tooltip(
-                            message: l10n.lowBattery,
-                            child: Icon(
-                              Icons.battery_alert,
-                              color: swatch == accents.warning
-                                  ? onFill
-                                  : status.warning,
-                              size: 20,
-                            ),
-                          ),
-                        ?action,
-                      ],
+          child: GestureDetector(
+            key: ValueKey('tileSwipe-${device.id}'),
+            onHorizontalDragStart: swipe
+                ? (_) => setState(() {
+                    _dragging = device.state.isOn == true
+                        ? (device.state.brightnessPercent ?? 0).toDouble()
+                        : 0;
+                    _swipeStep = (_dragging! / 10).floor();
+                  })
+                : null,
+            onHorizontalDragUpdate: swipe
+                ? (d) {
+                    final width = context.size?.width ?? 160;
+                    final v = ((_dragging ?? 0) + d.delta.dx / width * 100)
+                        .clamp(0.0, 100.0);
+                    final step = (v / 10).floor();
+                    if (step != _swipeStep) {
+                      _swipeStep = step;
+                      unawaited(HapticFeedback.selectionClick());
+                    }
+                    setState(() => _dragging = v);
+                  }
+                : null,
+            onHorizontalDragEnd: swipe
+                ? (_) async {
+                    final v = (_dragging ?? 0).round();
+                    await _run(
+                      v < 1 ? const TurnOff() : SetBrightness(v.clamp(1, 100)),
+                    );
+                    if (mounted) setState(() => _dragging = null);
+                  }
+                : null,
+            child: InkWell(
+              onTap: () {
+                final kiosk = ref.read(kioskActiveProvider);
+                if (widget.group != null) {
+                  context.push(
+                    AppRoutes.deviceGroup(widget.group!.id, kiosk: kiosk),
+                  );
+                } else if (kiosk || device.kind == DeviceKind.camera) {
+                  context.push(AppRoutes.device(device.id, kiosk: kiosk));
+                } else {
+                  // The main controls in a sheet, without leaving the list.
+                  showDeviceSheet(context, device.id);
+                }
+              },
+              // A level to slide (light, blind, volume): the big slider;
+              // anything else: its full screen.
+              onLongPress: () {
+                unawaited(HapticFeedback.mediumImpact());
+                if (bigSliderFor(l10n, device) != null) {
+                  showBigSlider(context, device.id);
+                } else {
+                  context.push(
+                    AppRoutes.device(
+                      device.id,
+                      kiosk: ref.read(kioskActiveProvider),
                     ),
-                    const Spacer(),
-                    Text(
-                      widget.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: onFill,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    if (dimmableOn)
-                      _BrightnessSlider(
-                        key: ValueKey('tileBrightness-${device.id}'),
-                        value:
-                            (_dragging ??
-                                    (device.state.brightnessPercent ?? 0)
-                                        .toDouble())
-                                .clamp(0, 100),
-                        color: swatch?.onContainer ?? scheme.primary,
-                        track: swatch?.icon ?? scheme.outlineVariant,
-                        enabled: live && !_busy,
-                        onChanged: (v) => setState(() => _dragging = v),
-                        onChangeEnd: (v) async {
-                          await _run(SetBrightness(v.round().clamp(1, 100)));
-                          if (mounted) setState(() => _dragging = null);
-                        },
-                      )
-                    else
+                  );
+                }
+              },
+              child: Opacity(
+                opacity: device.available ? 1 : 0.6,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 14, 8, 14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Row(
                         children: [
-                          if (!device.available) ...[
-                            Icon(Icons.cloud_off, size: 14, color: iconColor),
-                            const SizedBox(width: 4),
-                          ],
-                          Expanded(
-                            child: Text(
-                              statusText,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: onFillMuted,
-                                fontWeight: tone == DeviceTone.critical
-                                    ? FontWeight.bold
-                                    : null,
+                          Hero(
+                            tag: deviceHeroTag(device.id),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: disc,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                DevicePresentation.icon(device),
+                                color: iconColor,
+                                size: 22,
                               ),
                             ),
                           ),
+                          // The parts count gives way on a narrow card.
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: widget.group == null
+                                  ? null
+                                  : FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: _groupBadge(
+                                        widget.group!,
+                                        l10n,
+                                        theme,
+                                        disc,
+                                        onFillMuted,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                          if (device.hasLowBattery)
+                            Tooltip(
+                              message: l10n.lowBattery,
+                              child: Icon(
+                                Icons.battery_alert,
+                                color: swatch == accents.warning
+                                    ? onFill
+                                    : status.warning,
+                                size: 20,
+                              ),
+                            ),
+                          ?action,
                         ],
                       ),
-                  ],
+                      const Spacer(),
+                      Text(
+                        widget.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: onFill,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      if (dimmableOn)
+                        _BrightnessSlider(
+                          key: ValueKey('tileBrightness-${device.id}'),
+                          value:
+                              (_dragging ??
+                                      (device.state.brightnessPercent ?? 0)
+                                          .toDouble())
+                                  .clamp(0, 100),
+                          color: swatch?.onContainer ?? scheme.primary,
+                          track: swatch?.icon ?? scheme.outlineVariant,
+                          enabled: live && !_busy,
+                          onChanged: (v) => setState(() => _dragging = v),
+                          onChangeEnd: (v) async {
+                            await _run(SetBrightness(v.round().clamp(1, 100)));
+                            if (mounted) setState(() => _dragging = null);
+                          },
+                        )
+                      else
+                        Row(
+                          children: [
+                            if (!device.available) ...[
+                              Icon(Icons.cloud_off, size: 14, color: iconColor),
+                              const SizedBox(width: 4),
+                            ],
+                            Expanded(
+                              child: Text(
+                                statusText,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: onFillMuted,
+                                  fontWeight: tone == DeviceTone.critical
+                                      ? FontWeight.bold
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

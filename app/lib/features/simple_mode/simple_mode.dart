@@ -279,85 +279,81 @@ class _SimpleTileState extends ConsumerState<_SimpleTile> {
             opacity: d.available ? 1 : 0.5,
             child: Padding(
               padding: const EdgeInsets.all(16),
-              // On a narrow phone with large text the words shrink to fit
-              // the button instead of spilling out of it.
-              child: LayoutBuilder(
-                builder: (context, box) => FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.topLeft,
-                  child: SizedBox(
-                    width: box.maxWidth,
-                    // At least the button's height (name at the bottom),
-                    // more when large text needs it — then it all shrinks.
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: box.maxHeight),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              DevicePresentation.icon(d),
-                              size: 48,
-                              color: fg,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // On a narrow phone with large text the words shrink to
+                  // fit instead of spilling out; the buttons below never do.
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (context, box) => FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.topLeft,
+                        child: SizedBox(
+                          width: box.maxWidth,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: box.maxHeight,
                             ),
-                            const Spacer(),
-                            Text(
-                              d.name,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                color: fg,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            if (climate && target != null)
-                              Row(
+                            child: IntrinsicHeight(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _Big(
-                                    key: ValueKey('simpleDown-${d.id}'),
-                                    icon: Icons.remove,
-                                    onTap: () => _run(
-                                      d,
-                                      SetTargetTemperature(target - 0.5),
+                                  Icon(
+                                    DevicePresentation.icon(d),
+                                    size: 48,
+                                    color: fg,
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    d.name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.titleLarge?.copyWith(
+                                      color: fg,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      child: Text(
-                                        status,
-                                        style: theme.textTheme.headlineMedium
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    status,
+                                    style:
+                                        (climate
+                                                ? theme.textTheme.headlineMedium
+                                                : theme.textTheme.headlineSmall)
                                             ?.copyWith(color: fg),
-                                      ),
-                                    ),
-                                  ),
-                                  _Big(
-                                    key: ValueKey('simpleUp-${d.id}'),
-                                    icon: Icons.add,
-                                    onTap: () => _run(
-                                      d,
-                                      SetTargetTemperature(target + 0.5),
-                                    ),
                                   ),
                                 ],
-                              )
-                            else
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  status,
-                                  style: theme.textTheme.headlineSmall
-                                      ?.copyWith(color: fg),
-                                ),
                               ),
-                          ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                  if (climate && target != null) ...[
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _Big(
+                          key: ValueKey('simpleDown-${d.id}'),
+                          icon: Icons.remove,
+                          label: l10n.simpleCooler,
+                          onTap: () =>
+                              _run(d, SetTargetTemperature(target - 0.5)),
+                        ),
+                        _Big(
+                          key: ValueKey('simpleUp-${d.id}'),
+                          icon: Icons.add,
+                          label: l10n.simpleWarmer,
+                          onTap: () =>
+                              _run(d, SetTargetTemperature(target + 0.5)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
               ),
             ),
           ),
@@ -368,13 +364,22 @@ class _SimpleTileState extends ConsumerState<_SimpleTile> {
 }
 
 class _Big extends StatelessWidget {
-  const _Big({super.key, required this.icon, required this.onTap});
+  const _Big({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   final IconData icon;
+
+  /// What TalkBack says ("Warmer").
+  final String label;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) => IconButton.filledTonal(
+    tooltip: label,
     onPressed: onTap,
     iconSize: 30,
     padding: const EdgeInsets.all(10),

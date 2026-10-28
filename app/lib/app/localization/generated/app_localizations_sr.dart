@@ -5097,6 +5097,12 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get nowPlayingChannel => 'Sada svira';
+
+  @override
+  String get simpleWarmer => 'Toplije';
+
+  @override
+  String get simpleCooler => 'Hladnije';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

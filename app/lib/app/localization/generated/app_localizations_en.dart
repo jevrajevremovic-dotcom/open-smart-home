@@ -5067,4 +5067,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nowPlayingChannel => 'Now playing';
+
+  @override
+  String get simpleWarmer => 'Warmer';
+
+  @override
+  String get simpleCooler => 'Cooler';
 }

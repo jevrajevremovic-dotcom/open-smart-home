@@ -1420,5 +1420,7 @@
   "nowPlayingPause": "Pauza",
   "nowPlayingPlay": "Pusti",
   "nowPlayingNext": "Sledeća",
-  "nowPlayingChannel": "Sada svira"
+  "nowPlayingChannel": "Sada svira",
+  "simpleWarmer": "Toplije",
+  "simpleCooler": "Hladnije"
 }

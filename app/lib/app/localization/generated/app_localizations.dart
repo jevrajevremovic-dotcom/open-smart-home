@@ -8618,6 +8618,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Now playing'**
   String get nowPlayingChannel;
+
+  /// No description provided for @simpleWarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Warmer'**
+  String get simpleWarmer;
+
+  /// No description provided for @simpleCooler.
+  ///
+  /// In en, this message translates to:
+  /// **'Cooler'**
+  String get simpleCooler;
 }
 
 class _AppLocalizationsDelegate

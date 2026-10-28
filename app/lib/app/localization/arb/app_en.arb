@@ -1982,5 +1982,7 @@
   "nowPlayingPause": "Pause",
   "nowPlayingPlay": "Play",
   "nowPlayingNext": "Next",
-  "nowPlayingChannel": "Now playing"
+  "nowPlayingChannel": "Now playing",
+  "simpleWarmer": "Warmer",
+  "simpleCooler": "Cooler"
 }

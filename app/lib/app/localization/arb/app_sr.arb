@@ -1422,5 +1422,7 @@
   "nowPlayingNext": "Sledeća",
   "nowPlayingChannel": "Sada svira",
   "simpleWarmer": "Toplije",
-  "simpleCooler": "Hladnije"
+  "simpleCooler": "Hladnije",
+  "serviceLicenses": "Licence otvorenog koda",
+  "serviceLicensesHint": "Aplikacija i svi paketi koje koristi"
 }

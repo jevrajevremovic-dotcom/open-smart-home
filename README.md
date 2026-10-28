@@ -1,8 +1,28 @@
 # Open Smart Home
 
-Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
+Open-source, lokalno orijentisana Smart Home aplikacija za Android telefone, tablete, zidne panele i **web pregledač**. Aplikacija je korisnički interfejs; komunikaciju sa uređajima (Zigbee, Z-Wave, Matter, Thread, Wi-Fi, MQTT…) obavlja lokalni **Home Assistant** server.
 
-> Status: **0.2.x**: kompletna aplikacija za telefon, tablet, web i zidni panel; Android izdanja na [GitHub Releases](https://github.com/jevrajevremovic-dotcom/open-smart-home/releases), a instalirana aplikacija se ažurira sama (uz proveru SHA-256). Šta je urađeno po verzijama: [CHANGELOG](docs/CHANGELOG.md) · plan: [ROADMAP](docs/ROADMAP.md).
+> Status: **1.0** — stabilno izdanje, posle dve nedelje probnog rada na zidnom tabletu i telefonima. Android izdanja su na [GitHub Releases](https://github.com/jevrajevremovic-dotcom/open-smart-home/releases), a instalirana aplikacija se ažurira sama (uz proveru SHA-256). Po verzijama: [CHANGELOG](docs/CHANGELOG.md) · [Privatnost](docs/PRIVACY.md) · [Bezbednost](docs/SECURITY.md) · [Uputstvo za ukućane](docs/UPUTSTVO.md) · [Za instalatere](docs/INSTALLER.md).
+
+<p>
+  <img src="docs/screenshots/phone-home.jpg" width="200" alt="Početna na telefonu">
+  <img src="docs/screenshots/phone-rooms.jpg" width="200" alt="Prostorije">
+  <img src="docs/screenshots/phone-room.jpg" width="200" alt="Dnevna soba">
+</p>
+<p>
+  <img src="docs/screenshots/tablet-kiosk.jpg" width="620" alt="Zidni tablet (kiosk)">
+</p>
+<p>
+  <img src="docs/screenshots/tablet-more.jpg" width="620" alt="Meni „Još” na zidnom tabletu">
+</p>
+
+<sub>Slike su iz demo kuće ugrađene u aplikaciju (zato traka „MOCK REŽIM”).</sub>
+
+| Platforma | 1.0 |
+|---|---|
+| Android telefon i tablet (7.0+) | ✅ podržano, testirano na uređajima |
+| Web (pregledač, hostovano iz Home Assistanta) | ✅ podržano |
+| iOS / iPadOS | ⚠️ kod postoji, ali nije građen ni testiran (nema Mac-a) — nije deo 1.0 |
 
 ## Mogućnosti
 
@@ -52,6 +72,14 @@ Open-source, lokalno orijentisana Smart Home aplikacija za Android i iOS telefon
 - Verzija sa sopstvenim imenom, bojom, logom i kontaktom podrške (`tool/build_brand.sh`), vođeno podešavanje i servisni ekran sa dijagnostikom bez tajni
 - Zidni tablet kao upravljani uređaj (device owner): aplikacija je početni ekran i ne može se izaći iz nje — vidi [INSTALLER.md](docs/INSTALLER.md)
 - Rezervna kopija podešavanja tableta u Home Assistantu, vraćanje jednim dodirom
+
+**Svakodnevno**
+- „Još”: baterije (sa podsetnikom u HA), Na odmoru, Stižem kući, Wi-Fi za goste (QR), Žurka, buđenje svetlom, „Ova nedelja”, tlocrt i priča za laku noć
+- Ko koristi tablet: dodir na sliku ukućanina daje lični pozdrav i brze kontrole; lični PIN za otključavanje i alarm (ko ga nema, ne može); svako otključavanje u HA dnevniku sa imenom
+- Jednostavni režim za starije: do 8 velikih dugmadi, krupan tekst, bez menija
+- Brza pretraga (Ctrl+K), prevlačenje po kartici svetla, scene u boji, grafikon temperature na kartici sobe, savet za provetravanje, potpuno crna tema, vibracija
+- Android widgeti (Scene, Kuća, Termostat, Svetlo) i muzika u obaveštenju
+- Sezonski ukrasi i rođendani na zidnom tabletu
 
 **Ostalo**
 - Srpski (latinica) i engleski, pristupačnost (čitači ekrana, krupan tekst do 150 %)
@@ -252,9 +280,12 @@ docs/             ARCHITECTURE, SECURITY, API_INTEGRATION, ROADMAP, CHANGELOG
 - iOS ATS blokira čist HTTP ka javnim **nazivima domena** (IP adrese i `.local` rade). To je namerno; za udaljeni pristup koristite HTTPS.
 - Na webu se keš (kao i token) čuva samo dok je kartica otvorena.
 - Na webu nema pinovanja sertifikata (vidi „Web verzija”).
+- Widgeti, obaveštenja i muzika u obaveštenju osvežavaju se dok aplikacija radi (ili u pozadini, ako je uključena veza u pozadini).
+- Tlocrt, fotografije soba i foto-okvir čuvaju se na uređaju, pa ih na webu nema.
+- Govor na srpskom zavisi od glasa instaliranog u Androidu (podešavanja izgovora teksta).
 
 ## Doprinos i licenca
 
 Doprinosi su dobrodošli – vidi [CONTRIBUTING.md](CONTRIBUTING.md). Problemi i rešenja: [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
-Licenca: [Apache License 2.0](LICENSE) – vidi i [NOTICE](NOTICE). Projekat nije povezan sa Home Assistant projektom niti ga on podržava.
+Licenca: [Apache License 2.0](LICENSE) – vidi i [NOTICE](NOTICE) i [pakete trećih strana](docs/THIRD_PARTY.md); u aplikaciji: Podešavanja → Servis → Licence otvorenog koda. Projekat nije povezan sa Home Assistant projektom niti ga on podržava.

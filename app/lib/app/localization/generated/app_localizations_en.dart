@@ -5073,4 +5073,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get simpleCooler => 'Cooler';
+
+  @override
+  String get serviceLicenses => 'Open source licences';
+
+  @override
+  String get serviceLicensesHint => 'The app and every package it uses';
 }

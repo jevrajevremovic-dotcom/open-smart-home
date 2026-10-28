@@ -1984,5 +1984,7 @@
   "nowPlayingNext": "Next",
   "nowPlayingChannel": "Now playing",
   "simpleWarmer": "Warmer",
-  "simpleCooler": "Cooler"
+  "simpleCooler": "Cooler",
+  "serviceLicenses": "Open source licences",
+  "serviceLicensesHint": "The app and every package it uses"
 }

@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [1.0.0] – 2026-10-28
+
+Prvo stabilno izdanje, posle dve nedelje probnog rada na zidnom tabletu i telefonima. Podržani su Android (telefon, tablet, zidni panel) i web; iOS kod postoji, ali nije građen ni testiran. Šta napušta kuću: [PRIVACY.md](PRIVACY.md); paketi i licence: [THIRD_PARTY.md](THIRD_PARTY.md).
+
+Ovaj odeljak obuhvata i izmene iz izdanja 0.2.2–0.2.6 (objavljenih bez posebnih odeljaka) i sređivanja 0.3.
+
+### Dodato (1.0)
+- Izjava o privatnosti, spisak paketa trećih strana, i u aplikaciji Podešavanja → Servis → Licence otvorenog koda.
+- README sa slikama ekrana i tabelom podržanih platformi; dopunjena uputstva za ukućane i instalatere.
+
 ### Ispravljeno
 - Sezonski ukrasi padaju minut posle buđenja ili dodira tableta, pa se za 3 sekunde povuku i tablet prestaje da ih crta — ranije su se crtali bez prestanka dok ekran nije zatamnjen.
 - **Bezbednost:** prečica sa ikonice aplikacije („scene:…”) mogla je da se pošalje iz bilo koje druge aplikacije i pokrene bilo koju scenu, skriptu ili HA dugme (npr. otvaranje kapije, ako je ono dugme u HA). Sada se pokreće samo scena koja je stvarno među prečicama, kao kod widgeta.

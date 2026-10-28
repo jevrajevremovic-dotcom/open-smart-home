@@ -176,6 +176,22 @@ class ServiceSection extends ConsumerWidget {
             ],
           ),
         ],
+        ListTile(
+          key: const Key('serviceLicenses'),
+          contentPadding: EdgeInsets.zero,
+          dense: true,
+          leading: const Icon(Icons.gavel_outlined),
+          title: Text(l10n.serviceLicenses),
+          subtitle: Text(l10n.serviceLicensesHint),
+          trailing: const Icon(Icons.chevron_right),
+          // Every package's licence, as Flutter collects them.
+          onTap: () => showLicensePage(
+            context: context,
+            applicationName: Brand.name(l10n),
+            applicationVersion: appVersion,
+            applicationLegalese: 'Apache License 2.0',
+          ),
+        ),
         const SizedBox(height: 16),
         Text(l10n.serviceProblems, style: theme.textTheme.titleSmall),
         const SizedBox(height: 4),

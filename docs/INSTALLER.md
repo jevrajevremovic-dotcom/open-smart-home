@@ -81,6 +81,10 @@ tokena i lozinki — za prijavu kvara.
       vaš servisni pristup.
 - [ ] Rezervne kopije Home Assistanta uključene.
 - [ ] Klijentu objašnjeno koji podaci napuštaju kuću (kamere, prisustvo, pristup van kuće).
+- [ ] Ukućani dodati kao osobe u HA; lični PIN-ovi postavljeni odraslima (Podešavanja → Kiosk → Ukućani na tabletu) — bez PIN-a se ne otključava.
+- [ ] Garaža i kapija nisu izložene Assistu, osim ako to klijent izričito želi.
+- [ ] Podešavanja tableta sačuvana u HA (Podešavanja → Prenos na drugi uređaj → U Home Assistantu), da se posle kvara vrate jednim dodirom.
+- [ ] Klijentu predata [izjava o privatnosti](PRIVACY.md) i [uputstvo za ukućane](UPUTSTVO.md).
 
 ## Demo aplikacija (za prikaz kupcima)
 

@@ -8630,6 +8630,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cooler'**
   String get simpleCooler;
+
+  /// No description provided for @serviceLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open source licences'**
+  String get serviceLicenses;
+
+  /// No description provided for @serviceLicensesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app and every package it uses'**
+  String get serviceLicensesHint;
 }
 
 class _AppLocalizationsDelegate

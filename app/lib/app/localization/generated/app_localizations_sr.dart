@@ -5103,6 +5103,12 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get simpleCooler => 'Hladnije';
+
+  @override
+  String get serviceLicenses => 'Licence otvorenog koda';
+
+  @override
+  String get serviceLicensesHint => 'Aplikacija i svi paketi koje koristi';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

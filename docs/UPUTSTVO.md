@@ -12,7 +12,11 @@
 - **Prostorije**: kartica sobe otvara sve u toj sobi; dugme sa paletom gore desno menja
   fotografiju, ikonicu i boju sobe.
 - **Glas**: dugme Assist (dole desno) — recite npr. „ugasi svetla u dnevnoj sobi”.
-- **Još** (na Početnoj, i gore levo na tabletu): baterije, Na odmoru, Stižem kući, Wi-Fi za goste, Žurka, Buđenje svetlom, Ova nedelja i Priča za laku noć.
+- **Još** (na Početnoj, i gore levo na tabletu): baterije, Na odmoru, Stižem kući, Wi-Fi za goste, Žurka, Buđenje svetlom, Ova nedelja, Tlocrt i Priča za laku noć.
+- **Stižem kući** sa puta: dugi pritisak na ikonicu aplikacije → „Stižem kući” (ugreje kuću i javi ukućanima).
+- **Na odmoru**: Još → Na odmoru pre puta; po povratku isto mesto → „Vratili smo se”.
+- **Widgeti**: dugi pritisak na početni ekran telefona → Widgeti → Open Smart Home (Scene, Kuća, Termostat, Svetlo).
+- **Muzika u obaveštenju**: Podešavanja → Obaveštenja; pauza i sledeća pesma bez otvaranja aplikacije.
 
 ## Zidni tablet
 
@@ -27,6 +31,12 @@
 - **Otključavanje vrata, isključenje alarma** i slične radnje na tabletu traže vaš lični PIN ili PIN tableta. Deca bez PIN-a to ne mogu.
 - **Izlazak iz kioska**: katanac gore desno → PIN (zna ga ___________).
 
+## Jednostavni režim (npr. kod bake i deke)
+
+- Samo nekoliko velikih dugmadi: dodir pali i gasi, kod grejanja − i + menjaju za pola stepena.
+- Podešava se u Podešavanja → Bezbednost → Jednostavni režim (izaberite dugmad, pa „Pokreni”).
+- Izlaz: katanac gore desno (uz PIN tableta, ako je postavljen).
+
 ## Kad nešto ne radi
 
 1. Gore piše „Nema veze”? Sačekajte minut — veza se sama obnavlja.
@@ -38,5 +48,5 @@
 
 - Sve radi u kući, bez interneta. Van kuće radi samo ako je podešen pristup van kuće.
 - Kamere, prisustvo ukućana i navike ne napuštaju kuću, osim ako to sami ne uključite.
-- Podešavanja tableta se čuvaju u Home Assistantu (Podešavanja → Rezervna kopija), pa se posle
+- Podešavanja tableta se čuvaju u Home Assistantu (Podešavanja → Prenos na drugi uređaj → U Home Assistantu), pa se posle
   kvara vraćaju jednim dodirom.

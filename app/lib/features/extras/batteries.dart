@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -142,6 +145,51 @@ class _BatteriesSheet extends ConsumerStatefulWidget {
 
 class _BatteriesSheetState extends ConsumerState<_BatteriesSheet> {
   bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // After the first frame: it needs the localizations.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_refreshReminder());
+    });
+  }
+
+  /// Sensors added since the reminder was saved join it (and removed ones
+  /// leave), without asking.
+  Future<void> _refreshReminder() async {
+    final api = ref.read(homeAssistantApiProvider);
+    if (api == null || !ref.read(batteryReminderSetProvider)) return;
+    final l10n = context.l10n;
+    final sensors = {
+      for (final b in ref.read(batteriesProvider))
+        if (b.sensorId != null) b.sensorId!,
+    };
+    try {
+      final saved = await api.fetchAutomation(batteryReminderId);
+      final triggers = saved['triggers'];
+      final ids = triggers is List && triggers.isNotEmpty
+          ? (triggers.first as Map)['entity_id']
+          : null;
+      final old = {if (ids is List) ...ids.whereType<String>()};
+      if (sensors.isEmpty || setEquals(old, sensors)) return;
+      final notify = [
+        for (final a in (saved['actions'] as List?) ?? const [])
+          if (a is Map && '${a['action']}'.startsWith('notify.'))
+            '${a['action']}',
+      ];
+      await api.saveAutomation(
+        batteryReminderId,
+        batteryReminderAutomation(
+          l10n,
+          sensorIds: sensors.toList()..sort(),
+          notify: notify,
+        ),
+      );
+    } on Object {
+      // Next time; the old reminder keeps working meanwhile.
+    }
+  }
 
   Future<void> _toggleReminder(bool on, List<String> sensors) async {
     final l10n = context.l10n;

@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Ispravljeno
+- Podsetnik za baterije prati i senzore dodate posle njegovog uključivanja: pri otvaranju „Baterije” spisak u Home Assistantu se sam osveži.
 - Žurka: kad se ekran žurke zatvori na drugi način (npr. zidni tablet se posle neaktivnosti vrati na početak), svetla više ne nastavljaju da menjaju boje — vraćaju se kako su bila.
 - Tlocrt je sada pravi ekran (i u kiosku): uređaj otvoren sa plana se prikazuje preko njega, a ne ispod.
 - „Na odmoru”: zatvaranje prozora dok se kuća sređuje više ne prekida ostatak (grejanje, simulacija).

@@ -60,4 +60,33 @@ void main() {
     expect(find.text(en.batteryReminder), findsOneWidget);
     await unmount(tester);
   });
+
+  testWidgets('a reminder saved with old sensors is brought up to date', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 1600));
+    await settle(tester, 10);
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    );
+    final server = container.read(mockHomeAssistantServerProvider);
+    server.saveAutomation(
+      batteryReminderId,
+      batteryReminderAutomation(
+        AppLocalizationsEn(),
+        sensorIds: ['sensor.gone_battery'],
+        notify: const [],
+      ),
+    );
+    await settle(tester, 3);
+    await tapKey(tester, 'openExtras');
+    await settle(tester, 5);
+    await tapKey(tester, 'extraBatteries');
+    await settle(tester, 15);
+    final trigger =
+        (server.automations[batteryReminderId]!['triggers']! as List).first
+            as Map;
+    expect(trigger['entity_id'], ['sensor.bedroom_window_battery']);
+    await unmount(tester);
+  });
 }

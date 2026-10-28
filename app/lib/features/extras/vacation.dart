@@ -188,6 +188,8 @@ class _VacationSheetState extends ConsumerState<_VacationSheet> {
   bool _busy = false;
 
   Future<void> _start() async {
+    // Read now: the sheet may be closed while the house is tidied.
+    final vacation = ref.read(vacationProvider.notifier);
     setState(() => _busy = true);
     // Lights, music, covers… as "Leaving" would (heating is lowered below).
     if (_tidy) {
@@ -196,16 +198,15 @@ class _VacationSheetState extends ConsumerState<_VacationSheet> {
         if (fix == null || item.problem == HouseCheckProblem.climateOn) {
           continue;
         }
-        if (!mounted) return;
+        if (!mounted) break;
         await runDeviceCommand(context, ref, item.device, fix);
       }
     }
-    await ref
-        .read(vacationProvider.notifier)
-        .start(
-          temperature: _heating ? _temperature : null,
-          simulation: _simulation,
-        );
+    await vacation.start(
+      temperature: _heating ? _temperature : null,
+      simulation: _simulation,
+    );
+    if (!mounted) return;
     final alarm = ref.read(kioskAlarmProvider);
     if (_alarm &&
         alarm != null &&

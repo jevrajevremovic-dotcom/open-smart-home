@@ -256,6 +256,9 @@ class _PartyScreenState extends ConsumerState<_PartyScreen>
 
   @override
   void dispose() {
+    // Closed some other way (the wall panel going back to its start):
+    // the lights must not keep dancing.
+    if (!_stopping) unawaited(widget.runner.stop());
     _hue.dispose();
     super.dispose();
   }

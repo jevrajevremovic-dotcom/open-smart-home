@@ -35,6 +35,7 @@ import '../../features/todo/todo_screen.dart';
 import '../../features/board/board_screen.dart';
 import 'app_shell.dart';
 import '../../features/simple_mode/simple_mode.dart';
+import '../../features/floor_plan/floor_plan.dart';
 
 abstract final class AppRoutes {
   static const splash = '/splash';
@@ -75,6 +76,9 @@ abstract final class AppRoutes {
   static const installerSetup = '/installer-setup';
   static const firstRun = '/first-run';
   static const simple = '/simple';
+  static const floorPlan = '/floor-plan';
+  static String floorPlanFor({bool kiosk = false}) =>
+      '${kiosk ? AppRoutes.kiosk : ''}$floorPlan';
 
   /// In kiosk mode links stay under [kiosk], so the router never lets the
   /// user out of the kiosk shell.
@@ -237,6 +241,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                 builder: (_, _) => const KioskScale(child: WeatherScreen()),
               ),
               GoRoute(
+                path: 'floor-plan',
+                builder: (_, _) => const FloorPlanScreen(),
+              ),
+              GoRoute(
                 path: 'rooms/:roomId',
                 builder: (_, state) {
                   final id = state.pathParameters['roomId']!;
@@ -307,6 +315,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.weather,
             builder: (_, _) => const WeatherScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.floorPlan,
+            builder: (_, _) => const FloorPlanScreen(),
           ),
           GoRoute(
             path: AppRoutes.calendar,

@@ -76,9 +76,12 @@ class CelebrationLayer extends ConsumerStatefulWidget {
 class _CelebrationLayerState extends ConsumerState<CelebrationLayer>
     with SingleTickerProviderStateMixin {
   final _time = ValueNotifier<double>(0);
-  late final Ticker _ticker = createTicker(
-    (elapsed) => _time.value = elapsed.inMicroseconds / 1e6,
-  );
+  // About 25 pictures a second: slow snow needs no more, and the wall
+  // panel is spared half the drawing.
+  late final Ticker _ticker = createTicker((elapsed) {
+    final t = elapsed.inMicroseconds / 1e6;
+    if (t - _time.value >= 0.04 || t < _time.value) _time.value = t;
+  });
 
   @override
   void dispose() {

@@ -272,22 +272,23 @@ class _PinState extends ConsumerState<_Pin> {
   }
 }
 
-/// The plan on its own screen: zoom with two fingers, tap to switch,
-/// "Edit" to place devices (on the wall panel only with the PIN).
-Future<void> showFloorPlan(BuildContext context) => showDialog<void>(
-  context: context,
-  useSafeArea: false,
-  builder: (_) => const _FloorPlanScreen(),
+/// The plan on its own screen (a page, so a device opened from it comes
+/// on top): zoom with two fingers, tap to switch, "Edit" to place devices
+/// (on the wall panel only with the PIN).
+Future<void> showFloorPlan(BuildContext context) => context.push(
+  AppRoutes.floorPlanFor(
+    kiosk: ProviderScope.containerOf(context).read(kioskActiveProvider),
+  ),
 );
 
-class _FloorPlanScreen extends ConsumerStatefulWidget {
-  const _FloorPlanScreen();
+class FloorPlanScreen extends ConsumerStatefulWidget {
+  const FloorPlanScreen({super.key});
 
   @override
-  ConsumerState<_FloorPlanScreen> createState() => _FloorPlanScreenState();
+  ConsumerState<FloorPlanScreen> createState() => _FloorPlanScreenState();
 }
 
-class _FloorPlanScreenState extends ConsumerState<_FloorPlanScreen> {
+class _FloorPlanScreenState extends ConsumerState<FloorPlanScreen> {
   bool _editing = false;
 
   Future<void> _pickPhoto() async {
@@ -351,11 +352,6 @@ class _FloorPlanScreenState extends ConsumerState<_FloorPlanScreen> {
       key: const Key('floorPlanScreen'),
       appBar: AppBar(
         title: Text(l10n.floorPlanTitle),
-        leading: IconButton(
-          tooltip: l10n.close,
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.close),
-        ),
         actions: [
           if (hasPlan && !_editing)
             TextButton.icon(
@@ -382,7 +378,7 @@ class _FloorPlanScreenState extends ConsumerState<_FloorPlanScreen> {
             )
           : !hasPlan
           ? Center(
-              child: Padding(
+              child: SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

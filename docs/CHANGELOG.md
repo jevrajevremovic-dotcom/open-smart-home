@@ -3,6 +3,10 @@
 ## [Unreleased]
 
 ### Ispravljeno
+- Žurka: kad se ekran žurke zatvori na drugi način (npr. zidni tablet se posle neaktivnosti vrati na početak), svetla više ne nastavljaju da menjaju boje — vraćaju se kako su bila.
+- Tlocrt je sada pravi ekran (i u kiosku): uređaj otvoren sa plana se prikazuje preko njega, a ne ispod.
+- „Na odmoru”: zatvaranje prozora dok se kuća sređuje više ne prekida ostatak (grejanje, simulacija).
+- Sezonski ukrasi se crtaju oko 25 puta u sekundi umesto 60 — upola manje posla za zidni tablet, a i dalje glatko.
 - Krupan tekst na uskom telefonu (novi test: svi noviji ekrani pri 100, 130 i 160 % teksta, sa dugačkim imenima, na telefonu i zidnom tabletu): dugmad jednostavnog režima se više ne prelivaju (tekst se smanji), padajuća lista ukućana u „Stižem kući” i izbor „Ekran u mirovanju” staju u širinu, natpis „Osvetljenje u mirovanju” je iznad klizača, a kartice „Ova nedelja” se pomeraju umesto da se prelivaju.
 
 ### Dodato

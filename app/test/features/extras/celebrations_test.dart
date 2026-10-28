@@ -48,6 +48,23 @@ void main() {
     expect(container.read(celebrationProvider), Celebration.confetti);
     expect(find.byKey(const ValueKey('celebration-confetti')), findsOneWidget);
 
+    // Untouched for a while: it fades and stops drawing; a touch, again.
+    double opacity() => tester
+        .widget<AnimatedOpacity>(
+          find.ancestor(
+            of: find.byKey(const ValueKey('celebration-confetti')),
+            matching: find.byType(AnimatedOpacity),
+          ),
+        )
+        .opacity;
+    expect(opacity(), 1);
+    await tester.pump(CelebrationLayer.showFor);
+    await settle(tester, 40);
+    expect(opacity(), 0);
+    await tester.tapAt(const Offset(640, 400));
+    await settle(tester, 2);
+    expect(opacity(), 1);
+
     await container.read(seasonalProvider.notifier).set(false);
     await settle(tester, 2);
     expect(find.byKey(const ValueKey('celebration-confetti')), findsNothing);

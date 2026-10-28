@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/storage/app_preferences.dart';
+import '../kiosk/application/kiosk_controller.dart';
 import '../kiosk/application/kiosk_now.dart';
 import '../kiosk/application/kiosk_people.dart';
 import '../kiosk/presentation/kiosk_motion.dart';
@@ -65,9 +67,13 @@ final celebrationProvider = Provider<Celebration?>((ref) {
 });
 
 /// Falling snow, confetti or pumpkins over the wall panel; never in the
-/// way of a tap, still when the screen is dimmed or motion is reduced.
+/// way of a tap. They fall for [showFor] after the panel wakes or is
+/// touched, then fade away, so an idle panel is not drawing all day; and
+/// never while the screen is dimmed or motion is reduced.
 class CelebrationLayer extends ConsumerStatefulWidget {
   const CelebrationLayer({super.key});
+
+  static const showFor = Duration(minutes: 1);
 
   @override
   ConsumerState<CelebrationLayer> createState() => _CelebrationLayerState();
@@ -83,8 +89,28 @@ class _CelebrationLayerState extends ConsumerState<CelebrationLayer>
     if (t - _time.value >= 0.04 || t < _time.value) _time.value = t;
   });
 
+  /// Falling now (else fading out, then still and gone).
+  bool _falling = true;
+  Timer? _quiet;
+
+  @override
+  void initState() {
+    super.initState();
+    _again();
+  }
+
+  /// A touch or waking up: let it fall for a while.
+  void _again() {
+    _quiet?.cancel();
+    _quiet = Timer(CelebrationLayer.showFor, () {
+      if (mounted) setState(() => _falling = false);
+    });
+    if (!_falling) setState(() => _falling = true);
+  }
+
   @override
   void dispose() {
+    _quiet?.cancel();
     _ticker.dispose();
     _time.dispose();
     super.dispose();
@@ -92,20 +118,40 @@ class _CelebrationLayerState extends ConsumerState<CelebrationLayer>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(kioskDimmedProvider, (_, dimmed) {
+      if (!dimmed) _again();
+    });
     final kind = ref.watch(celebrationProvider);
     final moving = kioskMotion(context, ref);
     final run = kind != null && moving;
-    if (run && !_ticker.isActive) _ticker.start();
     if (!run && _ticker.isActive) _ticker.stop();
-    if (!run) return const SizedBox.shrink();
-    return IgnorePointer(
-      child: RepaintBoundary(
-        child: CustomPaint(
-          key: ValueKey('celebration-${kind.name}'),
-          size: Size.infinite,
-          painter: _FallPainter(kind, _time),
-        ),
-      ),
+    // Touches pass through; they only start another fall.
+    return Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (_) => _again(),
+      child: !run
+          ? const SizedBox.expand()
+          : AnimatedOpacity(
+              opacity: _falling ? 1 : 0,
+              duration: const Duration(seconds: 3),
+              onEnd: () {
+                if (!_falling && _ticker.isActive) _ticker.stop();
+              },
+              child: Builder(
+                builder: (context) {
+                  if (_falling && !_ticker.isActive) _ticker.start();
+                  return IgnorePointer(
+                    child: RepaintBoundary(
+                      child: CustomPaint(
+                        key: ValueKey('celebration-${kind.name}'),
+                        size: Size.infinite,
+                        painter: _FallPainter(kind, _time),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

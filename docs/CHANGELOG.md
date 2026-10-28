@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Ispravljeno
+- Krupan tekst na uskom telefonu (novi test: svi noviji ekrani pri 100, 130 i 160 % teksta, sa dugačkim imenima, na telefonu i zidnom tabletu): dugmad jednostavnog režima se više ne prelivaju (tekst se smanji), padajuća lista ukućana u „Stižem kući” i izbor „Ekran u mirovanju” staju u širinu, natpis „Osvetljenje u mirovanju” je iznad klizača, a kartice „Ova nedelja” se pomeraju umesto da se prelivaju.
+
 ### Dodato
 - **Muzika u obaveštenju** (Podešavanja → Obaveštenja, po želji): dok zvučnik u kući svira, u obaveštenjima su naslov i dugmad Pauza/Pusti i Sledeća, bez otvaranja aplikacije. Dugmad idu glavnom delu aplikacije, koji šalje komandu svojom vezom; radi dok aplikacija radi (i u pozadini uz vezu u pozadini). Alarm se iz obaveštenja namerno ne isključuje (bezbednost).
 - Novi Android widgeti: **Kuća** (svetla, otvoreno, brave, alarm ili temperatura; dodir otvara proveru kuće), **Termostat** (− i + po pola stepena) i **Svetlo** (dodir pali i gasi). Izbor termostata i svetla je u Podešavanja → Izgled. Kao i widget sa scenama, čuvaju samo tekst za prikaz (nikad token); dodir otvara aplikaciju, a ona radnju izvršava samo na uređaju koji je na widgetu. Osvežavaju se dok aplikacija radi i pišu kada su ažurirani.

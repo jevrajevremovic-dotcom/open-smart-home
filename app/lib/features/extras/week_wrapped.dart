@@ -384,8 +384,9 @@ class _StoryCard extends StatelessWidget {
           ],
         ),
       ),
+      // Very large text scrolls instead of spilling off the card.
       child: Center(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(32),
           child: AnimatedScale(
             scale: active || !moving ? 1 : 0.9,

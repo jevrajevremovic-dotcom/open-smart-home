@@ -278,56 +278,86 @@ class _SimpleTileState extends ConsumerState<_SimpleTile> {
           child: Opacity(
             opacity: d.available ? 1 : 0.5,
             child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(DevicePresentation.icon(d), size: 52, color: fg),
-                  const Spacer(),
-                  Text(
-                    d.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      color: fg,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  if (climate && target != null)
-                    Row(
-                      children: [
-                        _Big(
-                          key: ValueKey('simpleDown-${d.id}'),
-                          icon: Icons.remove,
-                          onTap: () =>
-                              _run(d, SetTargetTemperature(target - 0.5)),
-                        ),
-                        Expanded(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              status,
-                              style: theme.textTheme.headlineMedium?.copyWith(
+              padding: const EdgeInsets.all(16),
+              // On a narrow phone with large text the words shrink to fit
+              // the button instead of spilling out of it.
+              child: LayoutBuilder(
+                builder: (context, box) => FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: box.maxWidth,
+                    // At least the button's height (name at the bottom),
+                    // more when large text needs it — then it all shrinks.
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: box.maxHeight),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              DevicePresentation.icon(d),
+                              size: 48,
+                              color: fg,
+                            ),
+                            const Spacer(),
+                            Text(
+                              d.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.titleLarge?.copyWith(
                                 color: fg,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 4),
+                            if (climate && target != null)
+                              Row(
+                                children: [
+                                  _Big(
+                                    key: ValueKey('simpleDown-${d.id}'),
+                                    icon: Icons.remove,
+                                    onTap: () => _run(
+                                      d,
+                                      SetTargetTemperature(target - 0.5),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        status,
+                                        style: theme.textTheme.headlineMedium
+                                            ?.copyWith(color: fg),
+                                      ),
+                                    ),
+                                  ),
+                                  _Big(
+                                    key: ValueKey('simpleUp-${d.id}'),
+                                    icon: Icons.add,
+                                    onTap: () => _run(
+                                      d,
+                                      SetTargetTemperature(target + 0.5),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            else
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  status,
+                                  style: theme.textTheme.headlineSmall
+                                      ?.copyWith(color: fg),
+                                ),
+                              ),
+                          ],
                         ),
-                        _Big(
-                          key: ValueKey('simpleUp-${d.id}'),
-                          icon: Icons.add,
-                          onTap: () =>
-                              _run(d, SetTargetTemperature(target + 0.5)),
-                        ),
-                      ],
-                    )
-                  else
-                    Text(
-                      status,
-                      style: theme.textTheme.headlineSmall?.copyWith(color: fg),
+                      ),
                     ),
-                ],
+                  ),
+                ),
               ),
             ),
           ),

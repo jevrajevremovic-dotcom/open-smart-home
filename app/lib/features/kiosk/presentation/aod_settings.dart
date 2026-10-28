@@ -60,9 +60,11 @@ class AodSettings extends ConsumerWidget {
         ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(l10n.aodFocus),
-          trailing: DropdownButton<AodFocus>(
+          // Under the title: long labels and large text fit a phone.
+          subtitle: DropdownButton<AodFocus>(
             key: const Key('aodFocus'),
             value: s.aodFocus,
+            isExpanded: true,
             items: [
               for (final f in AodFocus.values)
                 DropdownMenuItem(value: f, child: Text(focusLabel(f))),

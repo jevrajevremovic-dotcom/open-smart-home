@@ -185,6 +185,7 @@ class _ComingHomeSheet extends ConsumerWidget {
             DropdownButtonFormField<String?>(
               key: const Key('comingHomePerson'),
               initialValue: people.contains(c.personId) ? c.personId : null,
+              isExpanded: true,
               decoration: InputDecoration(labelText: l10n.comingHomeWho),
               items: [
                 DropdownMenuItem(

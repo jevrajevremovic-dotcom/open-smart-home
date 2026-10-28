@@ -50,22 +50,29 @@ class NightBrightnessSettings extends ConsumerWidget {
         if (s.darkScreensaver)
           Padding(
             padding: const EdgeInsets.only(left: 16),
-            child: Row(
+            // The label above the slider: both fit a narrow phone.
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(l10n.aodBrightness),
-                Expanded(
-                  child: Slider(
-                    key: const Key('aodBrightness'),
-                    value: s.aodBrightness,
-                    min: 0.05,
-                    max: 1,
-                    divisions: 19,
-                    label: '${(s.aodBrightness * 100).round()} %',
-                    onChanged: (v) =>
-                        controller.update((k) => k.copyWith(aodBrightness: v)),
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Slider(
+                        key: const Key('aodBrightness'),
+                        value: s.aodBrightness,
+                        min: 0.05,
+                        max: 1,
+                        divisions: 19,
+                        label: '${(s.aodBrightness * 100).round()} %',
+                        onChanged: (v) => controller.update(
+                          (k) => k.copyWith(aodBrightness: v),
+                        ),
+                      ),
+                    ),
+                    Text('${(s.aodBrightness * 100).round()} %'),
+                  ],
                 ),
-                Text('${(s.aodBrightness * 100).round()} %'),
               ],
             ),
           ),

@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Ispravljeno
+- **Bezbednost:** prečica sa ikonice aplikacije („scene:…”) mogla je da se pošalje iz bilo koje druge aplikacije i pokrene bilo koju scenu, skriptu ili HA dugme (npr. otvaranje kapije, ako je ono dugme u HA). Sada se pokreće samo scena koja je stvarno među prečicama, kao kod widgeta.
 - Pristupačnost (novi automatski test: svako dugme ima ime za čitač ekrana i veličinu za prst, na „Još”, Baterijama, Na odmoru, pretrazi, čarobnjaku, jednostavnom režimu i kiosku): u jednostavnom režimu dugmad − i + za grejanje ostaju puna veličina i na uskom telefonu i čitač ih izgovara kao „Hladnije”/„Toplije”.
 - Podsetnik za baterije prati i senzore dodate posle njegovog uključivanja: pri otvaranju „Baterije” spisak u Home Assistantu se sam osveži.
 - Žurka: kad se ekran žurke zatvori na drugi način (npr. zidni tablet se posle neaktivnosti vrati na početak), svetla više ne nastavljaju da menjaju boje — vraćaju se kako su bila.

@@ -186,11 +186,13 @@ class AppShortcutsBinder {
     if (ref.read(syncStatusProvider) != SyncStatus.live) return null;
     ref.read(pendingShortcutProvider.notifier).set(null);
     final id = type.substring(type.indexOf(':') + 1);
-    // Any app can send the widget's link: only a scene that is on the
-    // widget may run from it.
-    if (fromWidget && !ref.read(widgetScenesProvider).any((s) => s.$1 == id)) {
-      return null;
-    }
+    // Any app can send the widget's link, or start this app with a
+    // launcher shortcut's extra: only a scene that is on the widget, or
+    // on the launcher shortcuts, may run from them.
+    final allowed = fromWidget
+        ? ref.read(widgetScenesProvider)
+        : ref.read(shortcutScenesProvider);
+    if (!allowed.any((s) => s.$1 == id)) return null;
     final device = ref.read(deviceProvider(id));
     final service = ref.read(deviceCommandServiceProvider);
     if (device == null || service == null) return null;

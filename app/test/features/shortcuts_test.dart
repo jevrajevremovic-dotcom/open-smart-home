@@ -68,4 +68,31 @@ void main() {
     expect(find.byKey(const Key('kioskExit')), findsOneWidget);
     await unmount(tester);
   });
+
+  testWidgets(
+    'a launcher link for anything not on the shortcuts does nothing',
+    (tester) async {
+      final shortcuts = FakeShortcuts();
+      await pumpApp(
+        tester,
+        signedIn: true,
+        size: const Size(800, 1400),
+        shortcuts: shortcuts,
+      );
+      await settle(tester, 10);
+      // Another app starting this one with a made-up shortcut: an automation
+      // (it could as well be a garage door button).
+      shortcuts.tap('scene:automation.hallway_night_light');
+      await settle(tester, 6);
+      expect(
+        find.text(en.sceneActivated('Noćno svetlo u hodniku')),
+        findsNothing,
+      );
+      // The real one still works.
+      shortcuts.tap('scene:scene.movie_night');
+      await settle(tester, 6);
+      expect(find.text(en.sceneActivated('Filmsko veče')), findsOneWidget);
+      await unmount(tester);
+    },
+  );
 }

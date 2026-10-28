@@ -165,6 +165,11 @@ Ograničenje: LLAT ne ističe sam; korisnik ga opoziva u HA profilu. Zato aplika
 - Samo iz podataka uživo (ne iz offline keša), da staro upozorenje ne izazove lažnu uzbunu; rešeno upozorenje se uklanja.
 - Na zaključanom ekranu Android prikazuje samo da postoji upozorenje (`visibility: private`), bez imena uređaja.
 
+## Prečice sa ikonice aplikacije (Android)
+
+- Prečica „scene:…” (dugi pritisak na ikonicu) stiže kao podatak uz pokretanje aplikacije, a takvo pokretanje može da pošalje i druga aplikacija. Zato se izvršava **samo scena koja je trenutno među prečicama**; sve drugo (druge scene, skripte, HA dugmad) se odbija.
+- „Stižem kući” sa prečice radi samo ono što je korisnik sam podesio na tom telefonu (scena, temperatura, poruka ukućanima).
+
 ## Widget za početni ekran (Android)
 
 - U widget se upisuju samo ID-jevi i imena scena (lokalno, u podacima aplikacije); nema tokena ni adrese servera.

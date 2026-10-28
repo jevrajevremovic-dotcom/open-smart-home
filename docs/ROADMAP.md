@@ -69,6 +69,6 @@ Gateway: Docker Compose za Home Assistant, Mosquitto, Zigbee2MQTT, Z-Wave JS UI,
 ## Put do 1.0
 
 - **0.3 — sređivanje** ✅: pregled koda novijih delova, krupan tekst na uskom telefonu (automatski test do 160 %), pristupačnost (automatska provera imena i veličine dugmadi), bezbednosni pregled ulaza iz drugih aplikacija, manje crtanja na zidnom tabletu.
-- **0.9 — probni rad**: dve nedelje svakodnevne upotrebe na tabletu i telefonima; provera na pravim uređajima (widgeti, NFC, buđenje svetlom, priča na srpskom glasu, Matter preko Bluetooth-a); odluka o iOS-u.
-- **1.0**: README sa slikama ekrana, ažurirana uputstva, sređen CHANGELOG, spisak licenci paketa i kratka izjava o privatnosti; po želji F-Droid.
+- **0.9 — probni rad** ✅: dve nedelje svakodnevne upotrebe na tabletu i telefonima; provera na pravim uređajima (widgeti, NFC, buđenje svetlom, priča na srpskom glasu, Matter preko Bluetooth-a); odluka o iOS-u (1.0: Android i web; iOS nije deo izdanja).
+- **1.0** ✅ (čeka objavu): README sa slikama ekrana, ažurirana uputstva, sređen CHANGELOG, spisak licenci paketa i kratka izjava o privatnosti; po želji F-Droid.
 

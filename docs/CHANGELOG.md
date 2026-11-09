@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.1.0] – 2026-11-09
+
 ### Dodato
 - **Wear OS sat**: mala aplikacija za sat (`open-smart-home-wear.apk`, instalira se posebno) prikazuje ista dugmad kao Android Auto, sa stanjem uključeno/isključeno; dodir ide telefonu, koji šalje komandu. Sat zna samo nazive i stanja. Podešavanje se zove „Android Auto i sat”; `tool/release.sh --wear` gradi i objavljuje i aplikaciju za sat (istim ključem).
 - **Android Auto**: do šest dugmadi na ekranu automobila (Podešavanja → Izgled → Android Auto) — garaža i kapija (otvori/zatvori), zaključavanje, svetla, scene; otključavanje i alarm nisu ponuđeni. Dodir ide istim putem kao brzi prekidači (aplikacija u pozadini šalje komandu, nativni deo ne zna ni adresu ni token). Car App Library, kategorija IoT; u release verziji razgovara samo sa potpisanim Android Auto hostovima. Aplikaciju sa GitHub-a Android Auto prikazuje tek kad se u njegovim podešavanjima za programere uključi „Nepoznati izvori”. Demo kuća ima garažna vrata i kapiju.

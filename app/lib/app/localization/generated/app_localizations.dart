@@ -9528,13 +9528,13 @@ abstract class AppLocalizations {
   /// No description provided for @carButtonsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Android Auto'**
+  /// **'Android Auto and watch'**
   String get carButtonsTitle;
 
   /// No description provided for @carButtonsHint.
   ///
   /// In en, this message translates to:
-  /// **'Up to six buttons on the car screen: garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode).'**
+  /// **'Up to six buttons on the car screen and on the watch (Wear OS): garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode); the watch app is installed separately (open-smart-home-wear.apk).'**
   String get carButtonsHint;
 
   /// No description provided for @carButtonSlot.

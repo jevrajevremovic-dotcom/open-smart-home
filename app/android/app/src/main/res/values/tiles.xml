@@ -8,5 +8,5 @@
     <string name="car_sent">Sent: %1$s</string>
     <string name="car_on">On</string>
     <string name="car_off">Off</string>
-    <string name="car_empty">Choose up to six buttons in the app: Settings → Appearance → Android Auto (e.g. the garage door or the gate).</string>
+    <string name="car_empty">Choose up to six buttons in the app: Settings → Appearance → Android Auto and watch (e.g. the garage door or the gate).</string>
 </resources>

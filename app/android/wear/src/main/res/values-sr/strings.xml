@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Open Smart Home</string>
+    <string name="button_on">%1$s · uključeno</string>
+    <string name="button_off">%1$s · isključeno</string>
+    <string name="sent">Poslato: %1$s</string>
+    <string name="no_phone">Telefon nije dostupan</string>
+    <string name="waiting">Čekam telefon…</string>
+    <string name="empty">Izaberite dugmad u aplikaciji na telefonu: Podešavanja → Izgled → Android Auto i sat.</string>
+</resources>

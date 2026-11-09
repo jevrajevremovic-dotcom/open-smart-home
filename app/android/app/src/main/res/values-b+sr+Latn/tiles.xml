@@ -8,5 +8,5 @@
     <string name="car_sent">Poslato: %1$s</string>
     <string name="car_on">Uključeno</string>
     <string name="car_off">Isključeno</string>
-    <string name="car_empty">Izaberite do šest dugmadi u aplikaciji: Podešavanja → Izgled → Android Auto (npr. garaža ili kapija).</string>
+    <string name="car_empty">Izaberite do šest dugmadi u aplikaciji: Podešavanja → Izgled → Android Auto i sat (npr. garaža ili kapija).</string>
 </resources>

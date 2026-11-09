@@ -5692,11 +5692,11 @@ class AppLocalizationsSr extends AppLocalizations {
       'Hvala na poseti! Za dalje korišćenje potreban je PIN domaćina.';
 
   @override
-  String get carButtonsTitle => 'Android Auto';
+  String get carButtonsTitle => 'Android Auto i sat';
 
   @override
   String get carButtonsHint =>
-      'Do šest dugmadi na ekranu automobila: garažna vrata i kapija (otvori/zatvori), zaključavanje, svetla, scene. Otključavanje i alarm nisu ponuđeni. Aplikacija sa GitHub-a se u Android Auto pojavi tek kad u podešavanjima Android Auto uključite „Nepoznati izvori” (režim za programere).';
+      'Do šest dugmadi na ekranu automobila i na satu (Wear OS): garažna vrata i kapija (otvori/zatvori), zaključavanje, svetla, scene. Otključavanje i alarm nisu ponuđeni. Aplikacija sa GitHub-a se u Android Auto pojavi tek kad u podešavanjima Android Auto uključite „Nepoznati izvori” (režim za programere); aplikacija za sat se instalira posebno (open-smart-home-wear.apk).';
 
   @override
   String carButtonSlot(int n) {

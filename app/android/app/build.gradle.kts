@@ -105,4 +105,6 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.6.1")
     // Android Auto (Car App Library, IoT category): the tiles in the car.
     implementation("androidx.car.app:app:1.4.0")
+    // Wear OS companion: the same buttons on the watch (Wear Data Layer).
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
 }

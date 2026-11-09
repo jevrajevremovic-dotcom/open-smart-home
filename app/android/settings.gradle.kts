@@ -24,3 +24,5 @@ plugins {
 }
 
 include(":app")
+// Wear OS companion (built on its own: ./gradlew :wear:assembleRelease).
+include(":wear")

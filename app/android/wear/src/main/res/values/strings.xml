@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Open Smart Home</string>
+    <string name="button_on">%1$s · on</string>
+    <string name="button_off">%1$s · off</string>
+    <string name="sent">Sent: %1$s</string>
+    <string name="no_phone">Phone not reachable</string>
+    <string name="waiting">Waiting for the phone…</string>
+    <string name="empty">Choose buttons in the phone app: Settings → Appearance → Android Auto and watch.</string>
+</resources>

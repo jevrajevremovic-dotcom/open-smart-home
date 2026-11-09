@@ -43,7 +43,9 @@ object QuickTiles {
                         result.success(null)
                     }
                     "updateCar" -> {
-                        prefs(app).edit().putString("car", call.argument<String>("buttons")).apply()
+                        val buttons = call.argument<String>("buttons")
+                        prefs(app).edit().putString("car", buttons).apply()
+                        WearBridge.publish(app, buttons)
                         result.success(null)
                     }
                     "takePending" -> {

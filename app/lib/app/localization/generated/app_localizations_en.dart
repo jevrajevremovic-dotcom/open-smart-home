@@ -5659,11 +5659,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Thanks for visiting! The host\'s PIN is needed to go on.';
 
   @override
-  String get carButtonsTitle => 'Android Auto';
+  String get carButtonsTitle => 'Android Auto and watch';
 
   @override
   String get carButtonsHint =>
-      'Up to six buttons on the car screen: garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode).';
+      'Up to six buttons on the car screen and on the watch (Wear OS): garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode); the watch app is installed separately (open-smart-home-wear.apk).';
 
   @override
   String carButtonSlot(int n) {

@@ -43,6 +43,10 @@ abstract interface class QuickTilesPlatform {
   /// Labels and on/off of the three tiles (`null` = not set up).
   Future<void> update(List<QuickTileState?> tiles);
 
+  /// The same for the car's buttons (Android Auto); their taps come back
+  /// as [carIndexBase] + index.
+  Future<void> updateCar(List<QuickTileState?> buttons);
+
   /// Taps queued while the app was not listening (or just now).
   Future<List<int>> takePending();
 
@@ -74,6 +78,12 @@ class AndroidQuickTiles implements QuickTilesPlatform {
   Future<void> update(List<QuickTileState?> tiles) =>
       _channel.invokeMethod('update', {
         'tiles': jsonEncode([for (final t in tiles) t?.toJson()]),
+      });
+
+  @override
+  Future<void> updateCar(List<QuickTileState?> buttons) =>
+      _channel.invokeMethod('updateCar', {
+        'buttons': jsonEncode([for (final t in buttons) t?.toJson()]),
       });
 
   @override
@@ -121,23 +131,49 @@ DeviceCommand? quickTileCommand(SmartHomeDevice d) {
   return command;
 }
 
-/// The device of each tile, per home.
+/// Buttons on the car screen (Android Auto).
+const carButtonCount = 6;
+
+/// Taps on car buttons arrive as this + index (tiles: 0, 1, 2).
+const carIndexBase = 100;
+
+/// What a car button may do: what a tile may, and also open or close the
+/// garage door or the gate and lock a lock — the reason to have it in the
+/// car. Never unlock or disarm.
+DeviceCommand? carCommand(SmartHomeDevice d) {
+  if (d.kind == DeviceKind.garageDoor) {
+    final command = clapCommandFor(d);
+    return command is OpenCover || command is CloseCover ? command : null;
+  }
+  if (d.kind == DeviceKind.lock) {
+    final command = clapCommandFor(d);
+    return command is LockDevice ? command : null;
+  }
+  return quickTileCommand(d);
+}
+
+/// The device of each tile (or car button), per home.
 class QuickTilesController extends Notifier<List<String?>> {
+  QuickTilesController([this._prefix = 'quickTiles', this._count = 3]);
+
+  final String _prefix;
+  final int _count;
+
   String? get _key {
     final p = ref.read(activeProfileProvider);
-    return p == null ? null : 'quickTiles::${p.id}';
+    return p == null ? null : '$_prefix::${p.id}';
   }
 
   @override
   List<String?> build() {
     final p = ref.watch(activeProfileProvider);
-    if (p == null) return List.filled(quickTileCount, null);
+    if (p == null) return List.filled(_count, null);
     final json = ref
         .watch(appPreferencesProvider)
-        .readJson('quickTiles::${p.id}');
+        .readJson('$_prefix::${p.id}');
     final ids = json?['ids'];
     return [
-      for (var i = 0; i < quickTileCount; i++)
+      for (var i = 0; i < _count; i++)
         ids is List && i < ids.length && ids[i] is String
             ? ids[i] as String
             : null,
@@ -159,9 +195,22 @@ final quickTilesProvider =
       QuickTilesController.new,
     );
 
+final carButtonsProvider =
+    NotifierProvider<QuickTilesController, List<String?>>(
+      () => QuickTilesController('carButtons', carButtonCount),
+    );
+
 /// The tiles as the menu shows them, from live device state.
-final quickTileStatesProvider = Provider<List<QuickTileState?>>((ref) {
-  final ids = ref.watch(quickTilesProvider);
+final quickTileStatesProvider = Provider<List<QuickTileState?>>(
+  (ref) => _states(ref, ref.watch(quickTilesProvider)),
+);
+
+/// The car's buttons, the same way.
+final carButtonStatesProvider = Provider<List<QuickTileState?>>(
+  (ref) => _states(ref, ref.watch(carButtonsProvider)),
+);
+
+List<QuickTileState?> _states(Ref ref, List<String?> ids) {
   return [
     for (final id in ids)
       if (id == null)
@@ -174,7 +223,7 @@ final quickTileStatesProvider = Provider<List<QuickTileState?>>((ref) {
       else
         null,
   ];
-});
+}
 
 /// Keeps the tiles current and runs their taps once Home Assistant is live
 /// (the app may just have been started in the background by the tap).
@@ -192,6 +241,7 @@ class _QuickTilesHostState extends ConsumerState<QuickTilesHost> {
   StreamSubscription<void>? _sub;
   final List<int> _queue = [];
   List<QuickTileState?>? _sent;
+  List<QuickTileState?>? _sentCar;
 
   @override
   void initState() {
@@ -215,13 +265,23 @@ class _QuickTilesHostState extends ConsumerState<QuickTilesHost> {
     final platform = ref.read(quickTilesPlatformProvider);
     if (!platform.supported) return;
     final tiles = ref.read(quickTileStatesProvider);
-    if (_sent != null && listEquals(_sent, tiles)) return;
-    _sent = tiles;
-    unawaited(
-      platform.update(tiles).catchError((Object e) {
-        _log.info('tiles not updated: ${e.runtimeType}');
-      }),
-    );
+    if (_sent == null || !listEquals(_sent, tiles)) {
+      _sent = tiles;
+      unawaited(
+        platform.update(tiles).catchError((Object e) {
+          _log.info('tiles not updated: ${e.runtimeType}');
+        }),
+      );
+    }
+    final car = ref.read(carButtonStatesProvider);
+    if (_sentCar == null || !listEquals(_sentCar, car)) {
+      _sentCar = car;
+      unawaited(
+        platform.updateCar(car).catchError((Object e) {
+          _log.info('car buttons not updated: ${e.runtimeType}');
+        }),
+      );
+    }
   }
 
   Future<void> _takePending() async {
@@ -239,14 +299,25 @@ class _QuickTilesHostState extends ConsumerState<QuickTilesHost> {
     if (ref.read(syncStatusProvider) != SyncStatus.live) return;
     final service = ref.read(deviceCommandServiceProvider);
     final ids = ref.read(quickTilesProvider);
+    final carIds = ref.read(carButtonsProvider);
     while (_queue.isNotEmpty && service != null) {
-      final index = _queue.removeAt(0);
-      final id = index < ids.length ? ids[index] : null;
+      final tap = _queue.removeAt(0);
+      final car = tap >= carIndexBase;
+      final index = car ? tap - carIndexBase : tap;
+      final list = car ? carIds : ids;
+      final id = index >= 0 && index < list.length ? list[index] : null;
       final device = id == null ? null : ref.read(deviceProvider(id));
-      final command = device == null ? null : quickTileCommand(device);
+      final command = device == null
+          ? null
+          : car
+          ? carCommand(device)
+          : quickTileCommand(device);
       if (device == null || command == null) continue;
       try {
-        await service.execute(device, command);
+        // A car button was set up for exactly this (the garage, the
+        // gate) and pressed on the car's own screen: that is the
+        // confirmation. Tiles never carry critical commands.
+        await service.execute(device, command, confirmed: car);
       } on Object catch (e) {
         _log.warning('tile command failed', e.runtimeType);
       }
@@ -257,6 +328,7 @@ class _QuickTilesHostState extends ConsumerState<QuickTilesHost> {
   Widget build(BuildContext context) {
     ref
       ..listen(quickTileStatesProvider, (_, _) => _push())
+      ..listen(carButtonStatesProvider, (_, _) => _push())
       ..listen(syncStatusProvider, (_, next) {
         if (next == SyncStatus.live) unawaited(_run());
       });

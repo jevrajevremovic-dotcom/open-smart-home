@@ -1571,5 +1571,9 @@
   "guestTimeHint": "Kad vreme istekne, aplikacija se zaključa dok se ne unese PIN.",
   "guestUntil": "Važi do {time}",
   "guestExpired": "Vreme za goste je isteklo",
-  "guestExpiredHint": "Hvala na poseti! Za dalje korišćenje potreban je PIN domaćina."
+  "guestExpiredHint": "Hvala na poseti! Za dalje korišćenje potreban je PIN domaćina.",
+  "carButtonsTitle": "Android Auto",
+  "carButtonsHint": "Do šest dugmadi na ekranu automobila: garažna vrata i kapija (otvori/zatvori), zaključavanje, svetla, scene. Otključavanje i alarm nisu ponuđeni. Aplikacija sa GitHub-a se u Android Auto pojavi tek kad u podešavanjima Android Auto uključite „Nepoznati izvori” (režim za programere).",
+  "carButtonSlot": "Dugme {n}",
+  "carButtonChoose": "Šta radi dugme {n} u autu"
 }

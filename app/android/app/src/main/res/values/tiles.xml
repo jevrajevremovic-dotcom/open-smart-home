@@ -4,4 +4,9 @@
     <string name="quick_tile_2">Smart Home 2</string>
     <string name="quick_tile_3">Smart Home 3</string>
     <string name="quick_tile_unset">Not set up</string>
+    <string name="car_title">Home</string>
+    <string name="car_sent">Sent: %1$s</string>
+    <string name="car_on">On</string>
+    <string name="car_off">Off</string>
+    <string name="car_empty">Choose up to six buttons in the app: Settings → Appearance → Android Auto (e.g. the garage door or the gate).</string>
 </resources>

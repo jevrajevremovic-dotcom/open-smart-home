@@ -103,4 +103,6 @@ dependencies {
     // Kiosk wake-on-approach (front camera); same version mobile_scanner uses.
     implementation("androidx.camera:camera-camera2:1.6.1")
     implementation("androidx.camera:camera-lifecycle:1.6.1")
+    // Android Auto (Car App Library, IoT category): the tiles in the car.
+    implementation("androidx.car.app:app:1.4.0")
 }

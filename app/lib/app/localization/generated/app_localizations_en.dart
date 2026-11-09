@@ -5657,4 +5657,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guestExpiredHint =>
       'Thanks for visiting! The host\'s PIN is needed to go on.';
+
+  @override
+  String get carButtonsTitle => 'Android Auto';
+
+  @override
+  String get carButtonsHint =>
+      'Up to six buttons on the car screen: garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode).';
+
+  @override
+  String carButtonSlot(int n) {
+    return 'Button $n';
+  }
+
+  @override
+  String carButtonChoose(int n) {
+    return 'What car button $n does';
+  }
 }

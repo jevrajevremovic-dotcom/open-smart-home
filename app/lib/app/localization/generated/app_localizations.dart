@@ -9524,6 +9524,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Thanks for visiting! The host\'s PIN is needed to go on.'**
   String get guestExpiredHint;
+
+  /// No description provided for @carButtonsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Android Auto'**
+  String get carButtonsTitle;
+
+  /// No description provided for @carButtonsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to six buttons on the car screen: garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode).'**
+  String get carButtonsHint;
+
+  /// No description provided for @carButtonSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Button {n}'**
+  String carButtonSlot(int n);
+
+  /// No description provided for @carButtonChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'What car button {n} does'**
+  String carButtonChoose(int n);
 }
 
 class _AppLocalizationsDelegate

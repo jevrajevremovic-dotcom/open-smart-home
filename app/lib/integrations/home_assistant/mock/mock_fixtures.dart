@@ -128,6 +128,16 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'hvac_action': 'heating',
       'supported_features': 409, // TARGET_TEMPERATURE | PRESET_MODE | FAN_MODE | TURN_OFF | TURN_ON
     }),
+    e('cover.garage_door', 'closed', {
+      'friendly_name': 'Garaža',
+      'device_class': 'garage',
+      'supported_features': 3,
+    }),
+    e('cover.driveway_gate', 'closed', {
+      'friendly_name': 'Kapija',
+      'device_class': 'gate',
+      'supported_features': 3,
+    }),
     e('cover.living_room_blinds', 'open', {
       'friendly_name': 'Roletne dnevna soba',
       'device_class': 'blind',
@@ -535,6 +545,8 @@ buildMockRegistries() {
       ),
       entity('climate.living_room', 'esphome', deviceId: 'd_living_ac'),
       entity('cover.living_room_blinds', 'zwave_js', deviceId: 'd_blinds'),
+      entity('cover.garage_door', 'shelly', areaId: 'garage'),
+      entity('cover.driveway_gate', 'shelly', areaId: 'yard'),
       entity('lock.front_door', 'zwave_js', deviceId: 'd_front_lock'),
       entity('camera.front_yard', 'onvif', deviceId: 'd_camera'),
       entity('binary_sensor.front_yard_person', 'onvif', deviceId: 'd_camera'),

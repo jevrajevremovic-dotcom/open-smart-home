@@ -42,6 +42,10 @@ object QuickTiles {
                         for (tile in listening.toList()) tile.render()
                         result.success(null)
                     }
+                    "updateCar" -> {
+                        prefs(app).edit().putString("car", call.argument<String>("buttons")).apply()
+                        result.success(null)
+                    }
                     "takePending" -> {
                         val p = prefs(app)
                         val pending = p.getString("pending", "[]")
@@ -57,8 +61,16 @@ object QuickTiles {
 
     private fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
-    fun state(context: Context, index: Int): Pair<String, Boolean?>? {
-        val json = prefs(context).getString("tiles", null) ?: return null
+    fun state(context: Context, index: Int): Pair<String, Boolean?>? = read(context, "tiles", index)
+
+    /** A car button (Android Auto); its tap is [CAR_BASE] + index. */
+    fun carState(context: Context, index: Int): Pair<String, Boolean?>? = read(context, "car", index)
+
+    const val CAR_BASE = 100
+    const val CAR_COUNT = 6
+
+    private fun read(context: Context, key: String, index: Int): Pair<String, Boolean?>? {
+        val json = prefs(context).getString(key, null) ?: return null
         val list = runCatching { JSONArray(json) }.getOrNull() ?: return null
         val item = list.optJSONObject(index) ?: return null
         val label = item.optString("label").takeIf { it.isNotEmpty() } ?: return null

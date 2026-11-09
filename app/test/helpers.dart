@@ -547,6 +547,11 @@ class FakeQuickTiles implements QuickTilesPlatform {
   @override
   Future<void> update(List<QuickTileState?> tiles) async => shown = tiles;
 
+  List<QuickTileState?> car = const [];
+
+  @override
+  Future<void> updateCar(List<QuickTileState?> buttons) async => car = buttons;
+
   @override
   Future<List<int>> takePending() async {
     final p = [..._pending];

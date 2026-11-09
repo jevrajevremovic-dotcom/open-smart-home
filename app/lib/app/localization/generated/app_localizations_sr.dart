@@ -5690,6 +5690,23 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get guestExpiredHint =>
       'Hvala na poseti! Za dalje korišćenje potreban je PIN domaćina.';
+
+  @override
+  String get carButtonsTitle => 'Android Auto';
+
+  @override
+  String get carButtonsHint =>
+      'Do šest dugmadi na ekranu automobila: garažna vrata i kapija (otvori/zatvori), zaključavanje, svetla, scene. Otključavanje i alarm nisu ponuđeni. Aplikacija sa GitHub-a se u Android Auto pojavi tek kad u podešavanjima Android Auto uključite „Nepoznati izvori” (režim za programere).';
+
+  @override
+  String carButtonSlot(int n) {
+    return 'Dugme $n';
+  }
+
+  @override
+  String carButtonChoose(int n) {
+    return 'Šta radi dugme $n u autu';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

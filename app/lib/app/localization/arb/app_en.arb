@@ -2171,5 +2171,11 @@
   "guestUntil": "Until {time}",
   "@guestUntil": {"placeholders": {"time": {"type": "String"}}},
   "guestExpired": "Guest time is up",
-  "guestExpiredHint": "Thanks for visiting! The host's PIN is needed to go on."
+  "guestExpiredHint": "Thanks for visiting! The host's PIN is needed to go on.",
+  "carButtonsTitle": "Android Auto",
+  "carButtonsHint": "Up to six buttons on the car screen: garage door and gate (open/close), locking, lights, scenes. Unlocking and the alarm are not offered. An app from GitHub shows up in Android Auto only after turning on “Unknown sources” in Android Auto settings (developer mode).",
+  "carButtonSlot": "Button {n}",
+  "@carButtonSlot": {"placeholders": {"n": {"type": "int"}}},
+  "carButtonChoose": "What car button {n} does",
+  "@carButtonChoose": {"placeholders": {"n": {"type": "int"}}}
 }

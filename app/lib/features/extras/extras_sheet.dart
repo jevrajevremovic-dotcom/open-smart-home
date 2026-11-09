@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../app/localization/l10n.dart';
 import '../kiosk/application/kiosk_controller.dart';
@@ -13,6 +14,7 @@ import 'sunrise_wake.dart';
 import 'week_wrapped.dart';
 import 'vacation.dart';
 import '../floor_plan/floor_plan.dart';
+import '../../app/router/app_router.dart';
 
 /// One tool in "More".
 typedef _Extra = ({
@@ -44,6 +46,13 @@ class _ExtrasSheet extends ConsumerWidget {
       restrictedModeProvider.select((s) => s.enabled),
     );
     final extras = <_Extra>[
+      if (!restricted && !kiosk)
+        (
+          key: const Key('extraRecipes'),
+          icon: Icons.auto_fix_high_outlined,
+          label: l10n.recipesTitle,
+          open: (context) => context.push(AppRoutes.recipes),
+        ),
       if (!restricted)
         (
           key: const Key('extraBatteries'),

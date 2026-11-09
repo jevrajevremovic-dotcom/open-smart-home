@@ -75,6 +75,19 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Ulazna vrata',
       'device_class': 'door',
     }),
+    e('binary_sensor.kitchen_leak', 'off', {
+      'friendly_name': 'Curenje sudopera',
+      'device_class': 'moisture',
+    }),
+    e('binary_sensor.hallway_smoke', 'off', {
+      'friendly_name': 'Dim hodnik',
+      'device_class': 'smoke',
+    }),
+    e('valve.main_water', 'open', {
+      'friendly_name': 'Glavni ventil za vodu',
+      'device_class': 'water',
+      'supported_features': 1 | 2, // OPEN | CLOSE
+    }),
     e('climate.living_room', 'heat', {
       'friendly_name': 'Klima dnevna soba',
       'hvac_modes': ['off', 'heat', 'cool', 'auto'],
@@ -473,6 +486,9 @@ buildMockRegistries() {
       entity('scene.movie_night', 'homeassistant', areaId: 'living_room'),
       entity('automation.hallway_night_light', 'automation', areaId: 'hallway'),
       entity('switch.garage_heater', 'shelly', deviceId: 'd_garage_heater'),
+      entity('binary_sensor.kitchen_leak', 'zha', areaId: 'kitchen'),
+      entity('binary_sensor.hallway_smoke', 'zha', areaId: 'hallway'),
+      entity('valve.main_water', 'zwave_js', areaId: 'kitchen'),
       entity('weather.forecast_home', 'met'),
       entity('sensor.bedroom_co2', 'zha', deviceId: 'd_bedroom_air'),
       entity(

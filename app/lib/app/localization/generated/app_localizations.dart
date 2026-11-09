@@ -8642,6 +8642,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The app and every package it uses'**
   String get serviceLicensesHint;
+
+  /// No description provided for @recipesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipesTitle;
+
+  /// No description provided for @recipesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready-made automations in a few taps. They are saved in Home Assistant as ordinary automations, so they run with every phone off.'**
+  String get recipesHint;
+
+  /// No description provided for @recipesOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get recipesOn;
+
+  /// No description provided for @recipesAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a recipe'**
+  String get recipesAdd;
+
+  /// No description provided for @recipeRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get recipeRemove;
+
+  /// No description provided for @recipeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipe \"{name}\" is on.'**
+  String recipeSaved(String name);
+
+  /// No description provided for @recipeLeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Water leak'**
+  String get recipeLeak;
+
+  /// No description provided for @recipeLeakHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When a sensor feels water: close the valve and tell the household.'**
+  String get recipeLeakHint;
+
+  /// No description provided for @recipeSmoke.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke or CO'**
+  String get recipeSmoke;
+
+  /// No description provided for @recipeSmokeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn every light on (to see the way out) and tell the household.'**
+  String get recipeSmokeHint;
+
+  /// No description provided for @recipeFollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights follow presence'**
+  String get recipeFollow;
+
+  /// No description provided for @recipeFollowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights come on when someone enters and go off when the room has been empty for a few minutes.'**
+  String get recipeFollowHint;
+
+  /// No description provided for @recipeNightLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Night light'**
+  String get recipeNightLight;
+
+  /// No description provided for @recipeNightLightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'At night, on movement, a dim light for a few minutes — for the way to the bathroom.'**
+  String get recipeNightLightHint;
+
+  /// No description provided for @recipeLeftOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Left open'**
+  String get recipeLeftOpen;
+
+  /// No description provided for @recipeLeftOpenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell when a door or window has been open too long.'**
+  String get recipeLeftOpenHint;
+
+  /// No description provided for @recipeLastOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Last one out'**
+  String get recipeLastOut;
+
+  /// No description provided for @recipeLastOutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When everyone has left: all lights off, and a message.'**
+  String get recipeLastOutHint;
+
+  /// No description provided for @recipeWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch'**
+  String get recipeWatch;
+
+  /// No description provided for @recipeValves.
+  ///
+  /// In en, this message translates to:
+  /// **'Close (valve or pump switch)'**
+  String get recipeValves;
+
+  /// No description provided for @recipeLights.
+  ///
+  /// In en, this message translates to:
+  /// **'Lights'**
+  String get recipeLights;
+
+  /// No description provided for @recipeNoSensors.
+  ///
+  /// In en, this message translates to:
+  /// **'The home has no matching sensor.'**
+  String get recipeNoSensors;
+
+  /// No description provided for @recipeNoTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'The home has no matching device.'**
+  String get recipeNoTargets;
+
+  /// No description provided for @recipeOffAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Off after {minutes} min without movement'**
+  String recipeOffAfter(int minutes);
+
+  /// No description provided for @recipeNightFor.
+  ///
+  /// In en, this message translates to:
+  /// **'On for {minutes} min'**
+  String recipeNightFor(int minutes);
+
+  /// No description provided for @recipeLeftOpenAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell after {minutes} min'**
+  String recipeLeftOpenAfter(int minutes);
+
+  /// No description provided for @recipeOnlyDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Only when it is dark'**
+  String get recipeOnlyDark;
+
+  /// No description provided for @recipeTellPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell this phone too'**
+  String get recipeTellPhone;
+
+  /// No description provided for @recipeTellAll.
+  ///
+  /// In en, this message translates to:
+  /// **'The household always gets a message in the app and on the panel'**
+  String get recipeTellAll;
+
+  /// No description provided for @recipePhoneMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone is not registered (Settings → Notifications)'**
+  String get recipePhoneMissing;
+
+  /// No description provided for @recipeSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get recipeSave;
+
+  /// No description provided for @recipeRunsInHa.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a Home Assistant automation: you can also see and change it there.'**
+  String get recipeRunsInHa;
+
+  /// No description provided for @recipeLeakMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Water leak: {sensor}!'**
+  String recipeLeakMessage(String sensor);
+
+  /// No description provided for @recipeLeakClosedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Water leak: {sensor}! The water is shut off.'**
+  String recipeLeakClosedMessage(String sensor);
+
+  /// No description provided for @recipeSmokeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Smoke or CO: {sensor}! All lights are on.'**
+  String recipeSmokeMessage(String sensor);
+
+  /// No description provided for @recipeLeftOpenMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{sensor} has been open for {minutes} min.'**
+  String recipeLeftOpenMessage(String sensor, int minutes);
+
+  /// No description provided for @recipeLastOutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone has left — the lights are off.'**
+  String get recipeLastOutMessage;
 }
 
 class _AppLocalizationsDelegate

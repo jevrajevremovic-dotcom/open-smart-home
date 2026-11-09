@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Dodato
+- **Recepti** (Još): gotove automatizacije u nekoliko dodira, sačuvane u Home Assistantu (rade i kad su svi telefoni ugašeni) i ponovo izmenljive iz aplikacije — curenje vode (zatvori ventil ili isključi pumpu, javi), dim ili CO (upali sva svetla, javi), svetlo prati prisustvo (po želji samo po mraku), noćno svetlo, ostalo otvoreno i poslednji izlazi (`zone.home` = 0: ugasi svetla, javi). Demo kuća ima senzor curenja, senzor dima i glavni ventil za vodu.
+
 ## [1.0.0] – 2026-10-28
 
 Prvo stabilno izdanje, posle dve nedelje probnog rada na zidnom tabletu i telefonima. Podržani su Android (telefon, tablet, zidni panel) i web; iOS kod postoji, ali nije građen ni testiran. Šta napušta kuću: [PRIVACY.md](PRIVACY.md); paketi i licence: [THIRD_PARTY.md](THIRD_PARTY.md).

@@ -5109,6 +5109,143 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get serviceLicensesHint => 'Aplikacija i svi paketi koje koristi';
+
+  @override
+  String get recipesTitle => 'Recepti';
+
+  @override
+  String get recipesHint =>
+      'Gotove automatizacije u nekoliko dodira. Čuvaju se u Home Assistantu kao obične automatizacije, pa rade i kad su svi telefoni ugašeni.';
+
+  @override
+  String get recipesOn => 'Uključeno';
+
+  @override
+  String get recipesAdd => 'Dodaj recept';
+
+  @override
+  String get recipeRemove => 'Ukloni';
+
+  @override
+  String recipeSaved(String name) {
+    return 'Recept „$name” je uključen.';
+  }
+
+  @override
+  String get recipeLeak => 'Curenje vode';
+
+  @override
+  String get recipeLeakHint =>
+      'Kad senzor oseti vodu: zatvori ventil i javi ukućanima.';
+
+  @override
+  String get recipeSmoke => 'Dim ili CO';
+
+  @override
+  String get recipeSmokeHint =>
+      'Upali sva svetla (da se vidi izlaz) i javi ukućanima.';
+
+  @override
+  String get recipeFollow => 'Svetlo prati prisustvo';
+
+  @override
+  String get recipeFollowHint =>
+      'Svetlo se pali kad neko uđe u sobu, a gasi kad soba nekoliko minuta bude prazna.';
+
+  @override
+  String get recipeNightLight => 'Noćno svetlo';
+
+  @override
+  String get recipeNightLightHint =>
+      'Noću, na pokret, prigušeno svetlo na par minuta — za put do kupatila.';
+
+  @override
+  String get recipeLeftOpen => 'Ostalo otvoreno';
+
+  @override
+  String get recipeLeftOpenHint =>
+      'Javi kad su vrata ili prozor predugo otvoreni.';
+
+  @override
+  String get recipeLastOut => 'Poslednji izlazi';
+
+  @override
+  String get recipeLastOutHint =>
+      'Kad svi ukućani odu: ugasi sva svetla i javi.';
+
+  @override
+  String get recipeWatch => 'Prati';
+
+  @override
+  String get recipeValves => 'Zatvori (ventil ili prekidač pumpe)';
+
+  @override
+  String get recipeLights => 'Svetla';
+
+  @override
+  String get recipeNoSensors => 'U kući nema odgovarajućeg senzora.';
+
+  @override
+  String get recipeNoTargets => 'U kući nema odgovarajućeg uređaja.';
+
+  @override
+  String recipeOffAfter(int minutes) {
+    return 'Ugasi posle $minutes min bez pokreta';
+  }
+
+  @override
+  String recipeNightFor(int minutes) {
+    return 'Svetli $minutes min';
+  }
+
+  @override
+  String recipeLeftOpenAfter(int minutes) {
+    return 'Javi posle $minutes min';
+  }
+
+  @override
+  String get recipeOnlyDark => 'Samo kad je mrak';
+
+  @override
+  String get recipeTellPhone => 'Javi i ovom telefonu';
+
+  @override
+  String get recipeTellAll =>
+      'Ukućani uvek dobijaju poruku u aplikaciji i na tabletu';
+
+  @override
+  String get recipePhoneMissing =>
+      'Telefon nije registrovan (Podešavanja → Obaveštenja)';
+
+  @override
+  String get recipeSave => 'Uključi';
+
+  @override
+  String get recipeRunsInHa =>
+      'Ovo je automatizacija u Home Assistantu: vidi se i menja i tamo.';
+
+  @override
+  String recipeLeakMessage(String sensor) {
+    return 'Curenje vode: $sensor!';
+  }
+
+  @override
+  String recipeLeakClosedMessage(String sensor) {
+    return 'Curenje vode: $sensor! Voda je zatvorena.';
+  }
+
+  @override
+  String recipeSmokeMessage(String sensor) {
+    return 'Dim ili CO: $sensor! Sva svetla su upaljena.';
+  }
+
+  @override
+  String recipeLeftOpenMessage(String sensor, int minutes) {
+    return '$sensor je otvoreno već $minutes min.';
+  }
+
+  @override
+  String get recipeLastOutMessage => 'Svi su izašli — svetla su ugašena.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

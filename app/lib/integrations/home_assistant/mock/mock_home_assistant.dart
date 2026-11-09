@@ -1447,6 +1447,10 @@ class MockHomeAssistantServer {
               (attrs['preset_modes']! as List).contains(mode)) {
             attrs['preset_mode'] = mode;
           }
+        case ('valve', 'open_valve'):
+          state = 'open';
+        case ('valve', 'close_valve'):
+          state = 'closed';
         case ('cover', 'open_cover'):
           state = 'open';
           attrs['current_position'] = 100;

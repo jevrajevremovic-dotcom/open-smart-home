@@ -5079,4 +5079,141 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get serviceLicensesHint => 'The app and every package it uses';
+
+  @override
+  String get recipesTitle => 'Recipes';
+
+  @override
+  String get recipesHint =>
+      'Ready-made automations in a few taps. They are saved in Home Assistant as ordinary automations, so they run with every phone off.';
+
+  @override
+  String get recipesOn => 'On';
+
+  @override
+  String get recipesAdd => 'Add a recipe';
+
+  @override
+  String get recipeRemove => 'Remove';
+
+  @override
+  String recipeSaved(String name) {
+    return 'Recipe \"$name\" is on.';
+  }
+
+  @override
+  String get recipeLeak => 'Water leak';
+
+  @override
+  String get recipeLeakHint =>
+      'When a sensor feels water: close the valve and tell the household.';
+
+  @override
+  String get recipeSmoke => 'Smoke or CO';
+
+  @override
+  String get recipeSmokeHint =>
+      'Turn every light on (to see the way out) and tell the household.';
+
+  @override
+  String get recipeFollow => 'Lights follow presence';
+
+  @override
+  String get recipeFollowHint =>
+      'Lights come on when someone enters and go off when the room has been empty for a few minutes.';
+
+  @override
+  String get recipeNightLight => 'Night light';
+
+  @override
+  String get recipeNightLightHint =>
+      'At night, on movement, a dim light for a few minutes — for the way to the bathroom.';
+
+  @override
+  String get recipeLeftOpen => 'Left open';
+
+  @override
+  String get recipeLeftOpenHint =>
+      'Tell when a door or window has been open too long.';
+
+  @override
+  String get recipeLastOut => 'Last one out';
+
+  @override
+  String get recipeLastOutHint =>
+      'When everyone has left: all lights off, and a message.';
+
+  @override
+  String get recipeWatch => 'Watch';
+
+  @override
+  String get recipeValves => 'Close (valve or pump switch)';
+
+  @override
+  String get recipeLights => 'Lights';
+
+  @override
+  String get recipeNoSensors => 'The home has no matching sensor.';
+
+  @override
+  String get recipeNoTargets => 'The home has no matching device.';
+
+  @override
+  String recipeOffAfter(int minutes) {
+    return 'Off after $minutes min without movement';
+  }
+
+  @override
+  String recipeNightFor(int minutes) {
+    return 'On for $minutes min';
+  }
+
+  @override
+  String recipeLeftOpenAfter(int minutes) {
+    return 'Tell after $minutes min';
+  }
+
+  @override
+  String get recipeOnlyDark => 'Only when it is dark';
+
+  @override
+  String get recipeTellPhone => 'Tell this phone too';
+
+  @override
+  String get recipeTellAll =>
+      'The household always gets a message in the app and on the panel';
+
+  @override
+  String get recipePhoneMissing =>
+      'This phone is not registered (Settings → Notifications)';
+
+  @override
+  String get recipeSave => 'Turn on';
+
+  @override
+  String get recipeRunsInHa =>
+      'This is a Home Assistant automation: you can also see and change it there.';
+
+  @override
+  String recipeLeakMessage(String sensor) {
+    return 'Water leak: $sensor!';
+  }
+
+  @override
+  String recipeLeakClosedMessage(String sensor) {
+    return 'Water leak: $sensor! The water is shut off.';
+  }
+
+  @override
+  String recipeSmokeMessage(String sensor) {
+    return 'Smoke or CO: $sensor! All lights are on.';
+  }
+
+  @override
+  String recipeLeftOpenMessage(String sensor, int minutes) {
+    return '$sensor has been open for $minutes min.';
+  }
+
+  @override
+  String get recipeLastOutMessage => 'Everyone has left — the lights are off.';
 }

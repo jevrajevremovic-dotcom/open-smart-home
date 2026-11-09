@@ -36,6 +36,7 @@ import '../../features/board/board_screen.dart';
 import 'app_shell.dart';
 import '../../features/simple_mode/simple_mode.dart';
 import '../../features/floor_plan/floor_plan.dart';
+import '../../features/recipes/recipes_screen.dart';
 
 abstract final class AppRoutes {
   static const splash = '/splash';
@@ -77,6 +78,7 @@ abstract final class AppRoutes {
   static const firstRun = '/first-run';
   static const simple = '/simple';
   static const floorPlan = '/floor-plan';
+  static const recipes = '/recipes';
   static String floorPlanFor({bool kiosk = false}) =>
       '${kiosk ? AppRoutes.kiosk : ''}$floorPlan';
 
@@ -319,6 +321,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.floorPlan,
             builder: (_, _) => const FloorPlanScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.recipes,
+            builder: (_, _) => const RecipesScreen(),
           ),
           GoRoute(
             path: AppRoutes.calendar,

@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Upozorenje sa potvrdom** (recept): curenje, dim, CO ili aktiviran alarm šalju izabranim telefonima poruku sa dugmetom „Primljeno” (na kanalu za kritična upozorenja). Ako niko ne potvrdi u izabranom roku (1–15 min), javlja se i ostalim ukućanima, pa još jednom; kad neko potvrdi, poruka nestaje sa svih telefona, a ukućani vide da je preuzeto. Radi kao HA automatizacija (`wait_for_trigger` na `mobile_app_notification_action`, isti događaj kao kod zvanične HA aplikacije).
 - **Recepti** (Još): gotove automatizacije u nekoliko dodira, sačuvane u Home Assistantu (rade i kad su svi telefoni ugašeni) i ponovo izmenljive iz aplikacije — curenje vode (zatvori ventil ili isključi pumpu, javi), dim ili CO (upali sva svetla, javi), svetlo prati prisustvo (po želji samo po mraku), noćno svetlo, ostalo otvoreno i poslednji izlazi (`zone.home` = 0: ugasi svetla, javi). Demo kuća ima senzor curenja, senzor dima i glavni ventil za vodu.
 
 ## [1.0.0] – 2026-10-28

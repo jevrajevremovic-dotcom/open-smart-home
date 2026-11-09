@@ -21,6 +21,7 @@ import '../alerts/alert_notifications.dart';
 import '../assist/application/voice_providers.dart';
 import '../settings/application/appearance_controllers.dart';
 import '../authentication/application/session_controller.dart';
+import '../recipes/recipes.dart' show escalationTag;
 
 /// This app registered with Home Assistant's `mobile_app` integration
 /// (documented native app API), so automations can send it messages with
@@ -387,6 +388,8 @@ class _HaPushHostState extends ConsumerState<HaPushHost> {
           'tag': tag,
           'entity': entity is String ? entity : null,
         }),
+        // An alert waiting for someone's "Got it" (recipe escalation).
+        critical: tag == escalationTag,
       ),
     );
   }

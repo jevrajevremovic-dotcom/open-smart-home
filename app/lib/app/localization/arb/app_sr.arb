@@ -1461,5 +1461,16 @@
   "recipeLeakClosedMessage": "Curenje vode: {sensor}! Voda je zatvorena.",
   "recipeSmokeMessage": "Dim ili CO: {sensor}! Sva svetla su upaljena.",
   "recipeLeftOpenMessage": "{sensor} je otvoreno već {minutes} min.",
-  "recipeLastOutMessage": "Svi su izašli — svetla su ugašena."
+  "recipeLastOutMessage": "Svi su izašli — svetla su ugašena.",
+  "recipeEscalation": "Upozorenje sa potvrdom",
+  "recipeEscalationHint": "Curenje, dim, CO ili alarm: prvi telefoni dobijaju poruku sa dugmetom „Primljeno”. Ako niko ne potvrdi na vreme, javlja se i ostalima, pa još jednom.",
+  "escalationAck": "Primljeno",
+  "escalationFirst": "{what}: pogledajte odmah. Dodirnite „Primljeno”.",
+  "escalationSecond": "Niko nije potvrdio: {what}!",
+  "escalationThird": "I dalje niko nije potvrdio: {what}!",
+  "escalationDone": "{what}: neko je potvrdio i preuzeo.",
+  "escalationWait": "Čekaj potvrdu {minutes} min",
+  "escalationFirstPhones": "Prvo javi",
+  "escalationOtherPhones": "Ako niko ne potvrdi, javi i",
+  "escalationNoPhones": "Nijedan telefon nije registrovan u Home Assistantu (Podešavanja → Obaveštenja na svakom telefonu)."
 }

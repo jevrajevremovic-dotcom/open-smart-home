@@ -2031,5 +2031,21 @@
   "@recipeSmokeMessage": {"placeholders": {"sensor": {"type": "String"}}},
   "recipeLeftOpenMessage": "{sensor} has been open for {minutes} min.",
   "@recipeLeftOpenMessage": {"placeholders": {"sensor": {"type": "String"}, "minutes": {"type": "int"}}},
-  "recipeLastOutMessage": "Everyone has left — the lights are off."
+  "recipeLastOutMessage": "Everyone has left — the lights are off.",
+  "recipeEscalation": "Alert with confirmation",
+  "recipeEscalationHint": "Leak, smoke, CO or the alarm: the first phones get a message with a \"Got it\" button. If nobody answers in time, the others are told too, and once more.",
+  "escalationAck": "Got it",
+  "escalationFirst": "{what}: please check now. Tap \"Got it\".",
+  "@escalationFirst": {"placeholders": {"what": {"type": "String"}}},
+  "escalationSecond": "Nobody has answered: {what}!",
+  "@escalationSecond": {"placeholders": {"what": {"type": "String"}}},
+  "escalationThird": "Still nobody has answered: {what}!",
+  "@escalationThird": {"placeholders": {"what": {"type": "String"}}},
+  "escalationDone": "{what}: someone answered and is on it.",
+  "@escalationDone": {"placeholders": {"what": {"type": "String"}}},
+  "escalationWait": "Wait {minutes} min for an answer",
+  "@escalationWait": {"placeholders": {"minutes": {"type": "int"}}},
+  "escalationFirstPhones": "Tell first",
+  "escalationOtherPhones": "If nobody answers, also tell",
+  "escalationNoPhones": "No phone is registered in Home Assistant (Settings → Notifications on each phone)."
 }

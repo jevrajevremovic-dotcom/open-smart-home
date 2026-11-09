@@ -189,6 +189,9 @@ Future<List<Override>> testOverrides({
 
 /// Records alert notifications instead of showing them.
 class FakeAlertNotifier implements AlertNotifier {
+  /// Keys of messages shown on the critical alerts' channel.
+  final criticalMessages = <String>[];
+
   FakeAlertNotifier({this.supported = true, this.permission = true});
 
   @override
@@ -233,7 +236,9 @@ class FakeAlertNotifier implements AlertNotifier {
     String body, {
     List<(String, String)> actions = const [],
     String? payload,
+    bool critical = false,
   }) async {
+    if (critical) criticalMessages.add(key);
     messages.add((title, body));
     messageDetails.add((key: key, actions: actions, payload: payload));
   }

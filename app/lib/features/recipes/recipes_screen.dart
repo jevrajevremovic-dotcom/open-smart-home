@@ -10,6 +10,7 @@ import '../devices/domain/device_kind.dart';
 import '../devices/domain/smart_home_device.dart';
 import '../devices/presentation/device_presentation.dart';
 import '../ha_notify/ha_push.dart';
+import '../add_device/application/add_device_providers.dart';
 import 'recipes.dart';
 
 IconData _icon(RecipeKind k) => switch (k) {
@@ -19,6 +20,7 @@ IconData _icon(RecipeKind k) => switch (k) {
   RecipeKind.nightLight => Icons.nightlight_outlined,
   RecipeKind.leftOpen => Icons.door_front_door_outlined,
   RecipeKind.lastOut => Icons.logout,
+  RecipeKind.escalation => Icons.notification_important_outlined,
 };
 
 /// What each recipe watches and acts on.
@@ -30,6 +32,11 @@ bool _sensorFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
     d.kind == DeviceKind.motionSensor || d.kind == DeviceKind.occupancySensor,
   RecipeKind.leftOpen => d.kind == DeviceKind.contactSensor,
   RecipeKind.lastOut => false,
+  RecipeKind.escalation =>
+    d.kind == DeviceKind.waterLeakSensor ||
+        d.kind == DeviceKind.smokeSensor ||
+        d.kind == DeviceKind.coSensor ||
+        d.kind == DeviceKind.alarm,
 };
 
 bool _targetFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
@@ -46,6 +53,7 @@ bool _hasTargets(RecipeKind k) =>
     k == RecipeKind.nightLight;
 
 bool _hasMinutes(RecipeKind k) =>
+    k == RecipeKind.escalation ||
     k == RecipeKind.followPresence ||
     k == RecipeKind.nightLight ||
     k == RecipeKind.leftOpen;
@@ -169,9 +177,13 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
                           phone: phone,
                           minutes: k == RecipeKind.leftOpen
                               ? 15
-                              : k == RecipeKind.nightLight
+                              : k == RecipeKind.nightLight ||
+                                    k == RecipeKind.escalation
                               ? 2
                               : 5,
+                          targets: k == RecipeKind.escalation
+                              ? [?phone]
+                              : const [],
                           onlyAtNight: k == RecipeKind.followPresence,
                         ),
                       ),
@@ -274,10 +286,24 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
               (v) => setState(() => _r = _r.copyWith(targets: v)),
               empty: l10n.recipeNoTargets,
             ),
+          if (k == RecipeKind.escalation) ...[
+            _phones(
+              l10n.escalationFirstPhones,
+              _r.targets,
+              (v) => setState(() => _r = _r.copyWith(targets: v)),
+            ),
+            _phones(
+              l10n.escalationOtherPhones,
+              _r.others,
+              (v) => setState(() => _r = _r.copyWith(others: v)),
+            ),
+          ],
           if (_hasMinutes(k)) ...[
             const SizedBox(height: 12),
             Text(
-              k == RecipeKind.leftOpen
+              k == RecipeKind.escalation
+                  ? l10n.escalationWait(_r.minutes)
+                  : k == RecipeKind.leftOpen
                   ? l10n.recipeLeftOpenAfter(_r.minutes)
                   : k == RecipeKind.nightLight
                   ? l10n.recipeNightFor(_r.minutes)
@@ -286,8 +312,16 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
             Slider(
               value: _r.minutes.toDouble(),
               min: 1,
-              max: k == RecipeKind.leftOpen ? 60 : 30,
-              divisions: k == RecipeKind.leftOpen ? 59 : 29,
+              max: k == RecipeKind.leftOpen
+                  ? 60
+                  : k == RecipeKind.escalation
+                  ? 15
+                  : 30,
+              divisions: k == RecipeKind.leftOpen
+                  ? 59
+                  : k == RecipeKind.escalation
+                  ? 14
+                  : 29,
               label: '${_r.minutes}',
               onChanged: (v) =>
                   setState(() => _r = _r.copyWith(minutes: v.round())),
@@ -334,6 +368,51 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
           ),
         ],
       ),
+    );
+  }
+
+  /// Phones registered in Home Assistant (`notify.mobile_app_…`).
+  Widget _phones(
+    String title,
+    List<String> chosen,
+    void Function(List<String>) onChanged,
+  ) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final services = ref.watch(haServicesProvider).value?['notify'] ?? {};
+    final phones = [
+      for (final s in services)
+        if (s.startsWith('mobile_app_')) 'notify.$s',
+    ]..sort();
+    String label(String id) =>
+        id.substring('notify.mobile_app_'.length).replaceAll('_', ' ');
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 12),
+        Text(title, style: theme.textTheme.titleSmall),
+        if (phones.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(
+              l10n.escalationNoPhones,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+        for (final p in phones)
+          CheckboxListTile(
+            key: ValueKey('recipePhone-$title-$p'),
+            contentPadding: EdgeInsets.zero,
+            secondary: const Icon(Icons.smartphone),
+            title: Text(label(p)),
+            value: chosen.contains(p),
+            onChanged: (v) => onChanged(
+              v == true ? [...chosen, p] : [...chosen.where((x) => x != p)],
+            ),
+          ),
+      ],
     );
   }
 

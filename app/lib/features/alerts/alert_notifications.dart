@@ -44,12 +44,15 @@ abstract interface class AlertNotifier {
   /// A message sent by a Home Assistant automation (`notify.mobile_app_…`),
   /// on its own, less intrusive channel; [actions] become buttons
   /// (id, label). [key] replaces an earlier message with the same key.
+  /// [critical]: on the critical alerts' channel (an alert that waits for
+  /// someone's answer).
   Future<void> showMessage(
     String key,
     String? title,
     String body, {
     List<(String, String)> actions = const [],
     String? payload,
+    bool critical = false,
   });
 
   Future<void> cancel(String deviceId);
@@ -167,6 +170,7 @@ class LocalAlertNotifier implements AlertNotifier {
     String body, {
     List<(String, String)> actions = const [],
     String? payload,
+    bool critical = false,
   }) async {
     try {
       await _plugin.show(
@@ -176,11 +180,14 @@ class LocalAlertNotifier implements AlertNotifier {
         payload: payload,
         notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
-            'ha_messages',
-            'Home Assistant',
-            channelDescription: 'Messages from Home Assistant automations',
-            importance: Importance.high,
-            priority: Priority.high,
+            critical ? 'critical_alerts' : 'ha_messages',
+            critical ? 'Critical alerts' : 'Home Assistant',
+            channelDescription: critical
+                ? 'Smoke, CO, water leak, alarm, jammed lock'
+                : 'Messages from Home Assistant automations',
+            importance: critical ? Importance.max : Importance.high,
+            priority: critical ? Priority.max : Priority.high,
+            category: critical ? AndroidNotificationCategory.alarm : null,
             visibility: NotificationVisibility.private,
             styleInformation: BigTextStyleInformation(body),
             actions: [

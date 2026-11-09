@@ -8864,6 +8864,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Everyone has left — the lights are off.'**
   String get recipeLastOutMessage;
+
+  /// No description provided for @recipeEscalation.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert with confirmation'**
+  String get recipeEscalation;
+
+  /// No description provided for @recipeEscalationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leak, smoke, CO or the alarm: the first phones get a message with a \"Got it\" button. If nobody answers in time, the others are told too, and once more.'**
+  String get recipeEscalationHint;
+
+  /// No description provided for @escalationAck.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get escalationAck;
+
+  /// No description provided for @escalationFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'{what}: please check now. Tap \"Got it\".'**
+  String escalationFirst(String what);
+
+  /// No description provided for @escalationSecond.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has answered: {what}!'**
+  String escalationSecond(String what);
+
+  /// No description provided for @escalationThird.
+  ///
+  /// In en, this message translates to:
+  /// **'Still nobody has answered: {what}!'**
+  String escalationThird(String what);
+
+  /// No description provided for @escalationDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{what}: someone answered and is on it.'**
+  String escalationDone(String what);
+
+  /// No description provided for @escalationWait.
+  ///
+  /// In en, this message translates to:
+  /// **'Wait {minutes} min for an answer'**
+  String escalationWait(int minutes);
+
+  /// No description provided for @escalationFirstPhones.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell first'**
+  String get escalationFirstPhones;
+
+  /// No description provided for @escalationOtherPhones.
+  ///
+  /// In en, this message translates to:
+  /// **'If nobody answers, also tell'**
+  String get escalationOtherPhones;
+
+  /// No description provided for @escalationNoPhones.
+  ///
+  /// In en, this message translates to:
+  /// **'No phone is registered in Home Assistant (Settings → Notifications on each phone).'**
+  String get escalationNoPhones;
 }
 
 class _AppLocalizationsDelegate

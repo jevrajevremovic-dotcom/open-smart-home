@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/features/recipes/recipes.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/ha_notify/ha_push.dart';
@@ -205,6 +206,50 @@ void main() {
     );
     await settle(tester, 4);
     expect(notifier.shown.containsKey('ha-tag-door'), isFalse);
+    await unmount(tester);
+  });
+
+  testWidgets('an alert waiting for "Got it": critical, and answered', (
+    tester,
+  ) async {
+    final notifier = FakeAlertNotifier();
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: const Size(800, 1600),
+      alerts: notifier,
+    );
+    await settle(tester, 10);
+    final server = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    ).read(mockHomeAssistantServerProvider);
+    await goTo(tester, AppRoutes.settingsSection('notifications'));
+    await tapKey(tester, 'haPushTile');
+    await settle(tester, 3);
+    await tester.tap(find.byKey(const Key('haPushRegister')));
+    await settle(tester, 8);
+    final webhook = server.mobileApps.keys.single;
+
+    // As the escalation recipe sends it.
+    server.sendPush(
+      webhook,
+      title: 'Upozorenje',
+      message: 'Curenje sudopera: pogledajte odmah.',
+      data: {
+        'tag': escalationTag,
+        'actions': [
+          {'action': escalationAck, 'title': 'Primljeno'},
+        ],
+      },
+    );
+    await settle(tester, 4);
+    expect(notifier.criticalMessages, ['ha-tag-$escalationTag']);
+    notifier.tapMessage(escalationAck);
+    await settle(tester, 4);
+    expect(server.firedEvents.last, {
+      'event_type': 'mobile_app_notification_action',
+      'event_data': {'action': escalationAck, 'tag': escalationTag},
+    });
     await unmount(tester);
   });
 }

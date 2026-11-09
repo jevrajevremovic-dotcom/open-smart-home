@@ -28,7 +28,17 @@ enum RecipeKind {
 
   /// The last one out: lights off, a message.
   lastOut,
+
+  /// A leak, smoke, CO or the alarm: the chosen phones with a "Got it"
+  /// button; nobody answers in time, the others too, and again.
+  escalation,
 }
+
+/// The button an escalation waits for (`mobile_app_notification_action`).
+const escalationAck = 'OSH_ACK';
+
+/// Tag of the escalation's notifications (cleared when answered).
+const escalationTag = 'osh_alert';
 
 /// Id prefix of every recipe automation.
 const recipePrefix = 'osh_recipe_';
@@ -43,6 +53,7 @@ class Recipe {
     this.minutes = 5,
     this.onlyAtNight = false,
     this.phone,
+    this.others = const [],
   });
 
   /// Back from the saved automation (its `variables`), or null.
@@ -65,6 +76,7 @@ class Recipe {
       minutes: (v['osh_minutes'] as num?)?.toInt() ?? 5,
       onlyAtNight: v['osh_night'] == true,
       phone: v['osh_phone'] as String?,
+      others: list(v['osh_others']),
     );
   }
 
@@ -81,12 +93,16 @@ class Recipe {
   /// `notify.mobile_app_…` of this phone, to tell it too.
   final String? phone;
 
+  /// Escalation: who is told when the first ones do not answer.
+  final List<String> others;
+
   /// One per kind for the whole-home ones; per first sensor otherwise
   /// (a night light per hallway).
   String get id => switch (kind) {
     RecipeKind.leak ||
     RecipeKind.smoke ||
-    RecipeKind.lastOut => '$recipePrefix${kind.name}',
+    RecipeKind.lastOut ||
+    RecipeKind.escalation => '$recipePrefix${kind.name}',
     _ =>
       '$recipePrefix${kind.name}_'
           '${haSlug(sensors.isEmpty ? 'x' : sensors.first)}',
@@ -95,6 +111,7 @@ class Recipe {
   /// Enough chosen to work.
   bool get complete => switch (kind) {
     RecipeKind.lastOut => true,
+    RecipeKind.escalation => sensors.isNotEmpty && targets.isNotEmpty,
     RecipeKind.followPresence ||
     RecipeKind.nightLight => sensors.isNotEmpty && targets.isNotEmpty,
     _ => sensors.isNotEmpty,
@@ -107,6 +124,7 @@ class Recipe {
     bool? onlyAtNight,
     String? phone,
     bool clearPhone = false,
+    List<String>? others,
   }) => Recipe(
     kind: kind,
     sensors: sensors ?? this.sensors,
@@ -114,6 +132,7 @@ class Recipe {
     minutes: minutes ?? this.minutes,
     onlyAtNight: onlyAtNight ?? this.onlyAtNight,
     phone: clearPhone ? null : phone ?? this.phone,
+    others: others ?? this.others,
   );
 
   /// A household message (the app and the wall panel show it) and, when
@@ -164,6 +183,7 @@ class Recipe {
         'osh_minutes': minutes,
         'osh_night': onlyAtNight,
         'osh_phone': ?phone,
+        'osh_others': others,
       },
     };
     switch (kind) {
@@ -293,6 +313,8 @@ class Recipe {
             l10n.recipeLeftOpenMessage('{{ trigger.to_state.name }}', minutes),
           ),
         };
+      case RecipeKind.escalation:
+        return {...config, ..._escalation(l10n, title)};
       case RecipeKind.lastOut:
         return {
           ...config,
@@ -315,6 +337,122 @@ class Recipe {
   }
 }
 
+extension on Recipe {
+  /// Tells [phones] with a "Got it" button, under one tag.
+  List<Map<String, Object?>> _ask(
+    List<String> phones,
+    String title,
+    String message,
+    String ack,
+  ) => [
+    for (final p in phones)
+      {
+        'action': p,
+        'continue_on_error': true,
+        'data': {
+          'title': title,
+          'message': message,
+          'data': {
+            'tag': escalationTag,
+            'entity_id': '{{ trigger.entity_id }}',
+            'actions': [
+              {'action': escalationAck, 'title': ack},
+            ],
+          },
+        },
+      },
+  ];
+
+  /// The answer (from any phone), or nothing for [minutes].
+  Map<String, Object?> _wait() => {
+    'wait_for_trigger': [
+      {
+        'trigger': 'event',
+        'event_type': 'mobile_app_notification_action',
+        'event_data': {'action': escalationAck},
+      },
+    ],
+    'timeout': {'minutes': minutes},
+    'continue_on_timeout': true,
+  };
+
+  /// Answered: the question goes away on every phone, and the household
+  /// sees that it was taken care of.
+  List<Map<String, Object?>> _answered(String done) => [
+    for (final p in {...targets, ...others})
+      {
+        'action': p,
+        'continue_on_error': true,
+        'data': {
+          'message': 'clear_notification',
+          'data': {'tag': escalationTag},
+        },
+      },
+    {
+      'action': 'persistent_notification.create',
+      'data': {
+        'notification_id':
+            '${FamilyMessage.prefix}${FamilyMessage.everyone}_'
+            '{{ now().timestamp() | int }}',
+        'message': done,
+      },
+    },
+  ];
+
+  /// Documented script features only: `wait_for_trigger` on the event the
+  /// apps fire for a pressed button, `if`/`then`/`else`, `wait.trigger`.
+  Map<String, Object?> _escalation(AppLocalizations l10n, String title) {
+    const what = '{{ trigger.to_state.name }}';
+    const noAnswer = {
+      'condition': 'template',
+      'value_template': '{{ wait.trigger is none }}',
+    };
+    final ack = l10n.escalationAck;
+    final everyone = [
+      ...{...targets, ...others},
+    ];
+    return {
+      'mode': 'single',
+      'triggers': [
+        for (final id in sensors)
+          {
+            'trigger': 'state',
+            'entity_id': id,
+            'to': id.startsWith('alarm_control_panel.') ? 'triggered' : 'on',
+          },
+      ],
+      'conditions': <Object>[],
+      'actions': [
+        ..._ask(targets, title, l10n.escalationFirst(what), ack),
+        {
+          'action': 'persistent_notification.create',
+          'data': {
+            'notification_id':
+                '${FamilyMessage.prefix}${FamilyMessage.everyone}_'
+                '{{ now().timestamp() | int }}',
+            'title': title,
+            'message': l10n.escalationFirst(what),
+          },
+        },
+        _wait(),
+        {
+          'if': [noAnswer],
+          'then': [
+            ..._ask(everyone, title, l10n.escalationSecond(what), ack),
+            _wait(),
+            {
+              'if': [noAnswer],
+              'then': _ask(everyone, title, l10n.escalationThird(what), ack),
+              'else': _answered(l10n.escalationDone(what)),
+            },
+          ],
+          'else': _answered(l10n.escalationDone(what)),
+        },
+      ],
+    };
+  }
+}
+
 String recipeTitle(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.leak => l10n.recipeLeak,
   RecipeKind.smoke => l10n.recipeSmoke,
@@ -322,6 +460,7 @@ String recipeTitle(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.nightLight => l10n.recipeNightLight,
   RecipeKind.leftOpen => l10n.recipeLeftOpen,
   RecipeKind.lastOut => l10n.recipeLastOut,
+  RecipeKind.escalation => l10n.recipeEscalation,
 };
 
 String recipeHint(AppLocalizations l10n, RecipeKind k) => switch (k) {
@@ -331,6 +470,7 @@ String recipeHint(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.nightLight => l10n.recipeNightLightHint,
   RecipeKind.leftOpen => l10n.recipeLeftOpenHint,
   RecipeKind.lastOut => l10n.recipeLastOutHint,
+  RecipeKind.escalation => l10n.recipeEscalationHint,
 };
 
 /// Recipe automations in the home, by id (their entities carry the id).

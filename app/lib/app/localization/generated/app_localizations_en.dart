@@ -5216,4 +5216,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipeLastOutMessage => 'Everyone has left — the lights are off.';
+
+  @override
+  String get recipeEscalation => 'Alert with confirmation';
+
+  @override
+  String get recipeEscalationHint =>
+      'Leak, smoke, CO or the alarm: the first phones get a message with a \"Got it\" button. If nobody answers in time, the others are told too, and once more.';
+
+  @override
+  String get escalationAck => 'Got it';
+
+  @override
+  String escalationFirst(String what) {
+    return '$what: please check now. Tap \"Got it\".';
+  }
+
+  @override
+  String escalationSecond(String what) {
+    return 'Nobody has answered: $what!';
+  }
+
+  @override
+  String escalationThird(String what) {
+    return 'Still nobody has answered: $what!';
+  }
+
+  @override
+  String escalationDone(String what) {
+    return '$what: someone answered and is on it.';
+  }
+
+  @override
+  String escalationWait(int minutes) {
+    return 'Wait $minutes min for an answer';
+  }
+
+  @override
+  String get escalationFirstPhones => 'Tell first';
+
+  @override
+  String get escalationOtherPhones => 'If nobody answers, also tell';
+
+  @override
+  String get escalationNoPhones =>
+      'No phone is registered in Home Assistant (Settings → Notifications on each phone).';
 }

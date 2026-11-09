@@ -5246,6 +5246,51 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get recipeLastOutMessage => 'Svi su izašli — svetla su ugašena.';
+
+  @override
+  String get recipeEscalation => 'Upozorenje sa potvrdom';
+
+  @override
+  String get recipeEscalationHint =>
+      'Curenje, dim, CO ili alarm: prvi telefoni dobijaju poruku sa dugmetom „Primljeno”. Ako niko ne potvrdi na vreme, javlja se i ostalima, pa još jednom.';
+
+  @override
+  String get escalationAck => 'Primljeno';
+
+  @override
+  String escalationFirst(String what) {
+    return '$what: pogledajte odmah. Dodirnite „Primljeno”.';
+  }
+
+  @override
+  String escalationSecond(String what) {
+    return 'Niko nije potvrdio: $what!';
+  }
+
+  @override
+  String escalationThird(String what) {
+    return 'I dalje niko nije potvrdio: $what!';
+  }
+
+  @override
+  String escalationDone(String what) {
+    return '$what: neko je potvrdio i preuzeo.';
+  }
+
+  @override
+  String escalationWait(int minutes) {
+    return 'Čekaj potvrdu $minutes min';
+  }
+
+  @override
+  String get escalationFirstPhones => 'Prvo javi';
+
+  @override
+  String get escalationOtherPhones => 'Ako niko ne potvrdi, javi i';
+
+  @override
+  String get escalationNoPhones =>
+      'Nijedan telefon nije registrovan u Home Assistantu (Podešavanja → Obaveštenja na svakom telefonu).';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

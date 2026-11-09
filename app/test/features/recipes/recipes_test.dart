@@ -50,7 +50,10 @@ void main() {
     final triggers = c['triggers']! as List;
     expect((triggers[1] as Map)['for'], {'minutes': 4});
     final choose = ((c['actions']! as List).single as Map)['choose'] as List;
-    expect((choose.first as Map)['conditions'], contains(isA<Map>()));
+    expect(
+      (choose.first as Map)['conditions'],
+      contains(isA<Map<Object?, Object?>>()),
+    );
     expect(Recipe.fromAutomation(c)!.onlyAtNight, isTrue);
   });
 
@@ -61,6 +64,47 @@ void main() {
       'entity_id': 'zone.home',
       'below': 1,
     });
+  });
+
+  test('escalation: ask the first phones, wait, then everyone, twice', () {
+    const r = Recipe(
+      kind: RecipeKind.escalation,
+      sensors: ['binary_sensor.kitchen_leak', 'alarm_control_panel.home'],
+      targets: ['notify.mobile_app_marko'],
+      others: ['notify.mobile_app_ana'],
+      minutes: 3,
+    );
+    final c = r.automation(en);
+    expect(r.id, 'osh_recipe_escalation');
+    final triggers = c['triggers']! as List;
+    expect((triggers[0] as Map)['to'], 'on');
+    expect((triggers[1] as Map)['to'], 'triggered');
+    final actions = c['actions']! as List;
+    final first = actions.first as Map;
+    expect(first['action'], 'notify.mobile_app_marko');
+    final buttons = ((first['data']! as Map)['data']! as Map)['actions'];
+    expect(buttons, [
+      {'action': escalationAck, 'title': en.escalationAck},
+    ]);
+    final wait = actions[2] as Map;
+    expect(wait['timeout'], {'minutes': 3});
+    expect(((wait['wait_for_trigger']! as List).single as Map)['event_data'], {
+      'action': escalationAck,
+    });
+    final branch = actions[3] as Map;
+    final then = branch['then']! as List;
+    // Nobody answered: both phones are asked.
+    expect(
+      [for (final a in then.take(2)) (a as Map)['action']],
+      ['notify.mobile_app_marko', 'notify.mobile_app_ana'],
+    );
+    // Answered: the question is cleared everywhere.
+    final done = branch['else']! as List;
+    expect(
+      ((done.first as Map)['data']! as Map)['message'],
+      'clear_notification',
+    );
+    expect(Recipe.fromAutomation(c)!.others, ['notify.mobile_app_ana']);
   });
 
   testWidgets('More → Recipes: a leak recipe saved, edited, removed', (

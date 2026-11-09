@@ -41,7 +41,23 @@ enum RecipeKind {
 
   /// Care: the "Help" button on the simple screen.
   help,
+
+  /// Garden: zones watered one after another at a time of day; skipped
+  /// when it rains or will rain, or the soil is still moist.
+  irrigation,
 }
+
+/// Weather conditions (HA's documented `weather` states) that mean rain.
+const rainyConditions = [
+  'rainy',
+  'pouring',
+  'lightning-rainy',
+  'snowy-rainy',
+  'hail',
+];
+
+/// Rain expected today (mm) above which watering is skipped.
+const rainSkipMm = 2;
 
 /// Events the simple screen fires (`osh_check_in`, `osh_help`).
 const careCheckInEvent = 'osh_check_in';
@@ -70,6 +86,8 @@ class Recipe {
     this.waitMinutes = 5,
     this.who = '',
     this.at = '10:00',
+    this.weather,
+    this.threshold = 40,
   });
 
   /// Back from the saved automation (its `variables`), or null.
@@ -96,6 +114,8 @@ class Recipe {
       waitMinutes: (v['osh_wait'] as num?)?.toInt() ?? 5,
       who: v['osh_who'] as String? ?? '',
       at: v['osh_at'] as String? ?? '10:00',
+      weather: v['osh_weather'] as String?,
+      threshold: (v['osh_threshold'] as num?)?.toInt() ?? 40,
     );
   }
 
@@ -121,8 +141,15 @@ class Recipe {
   /// Care: the person looked after ("Grandma").
   final String who;
 
-  /// Care: "I'm fine" expected by this time (`HH:MM`).
+  /// Care: "I'm fine" expected by this time; garden: when to water
+  /// (`HH:MM`).
   final String at;
+
+  /// Garden: skip when this weather entity says rain.
+  final String? weather;
+
+  /// Garden: water only while the soil moisture is below this (%).
+  final int threshold;
 
   /// One per kind for the whole-home ones; per first sensor otherwise
   /// (a night light per hallway).
@@ -134,6 +161,9 @@ class Recipe {
     RecipeKind.inactivity ||
     RecipeKind.checkIn ||
     RecipeKind.help => '$recipePrefix${kind.name}',
+    RecipeKind.irrigation =>
+      '$recipePrefix${kind.name}_'
+          '${haSlug(targets.isEmpty ? 'x' : targets.first)}',
     _ =>
       '$recipePrefix${kind.name}_'
           '${haSlug(sensors.isEmpty ? 'x' : sensors.first)}',
@@ -144,7 +174,9 @@ class Recipe {
     RecipeKind.lastOut => true,
     RecipeKind.escalation ||
     RecipeKind.inactivity => sensors.isNotEmpty && targets.isNotEmpty,
-    RecipeKind.checkIn || RecipeKind.help => targets.isNotEmpty,
+    RecipeKind.checkIn ||
+    RecipeKind.help ||
+    RecipeKind.irrigation => targets.isNotEmpty,
     RecipeKind.followPresence ||
     RecipeKind.nightLight => sensors.isNotEmpty && targets.isNotEmpty,
     _ => sensors.isNotEmpty,
@@ -161,6 +193,9 @@ class Recipe {
     int? waitMinutes,
     String? who,
     String? at,
+    String? weather,
+    bool clearWeather = false,
+    int? threshold,
   }) => Recipe(
     kind: kind,
     sensors: sensors ?? this.sensors,
@@ -172,6 +207,8 @@ class Recipe {
     waitMinutes: waitMinutes ?? this.waitMinutes,
     who: who ?? this.who,
     at: at ?? this.at,
+    weather: clearWeather ? null : weather ?? this.weather,
+    threshold: threshold ?? this.threshold,
   );
 
   /// A household message (the app and the wall panel show it) and, when
@@ -226,6 +263,8 @@ class Recipe {
         'osh_wait': waitMinutes,
         'osh_who': who,
         'osh_at': at,
+        'osh_weather': ?weather,
+        'osh_threshold': threshold,
       },
     };
     switch (kind) {
@@ -437,6 +476,64 @@ class Recipe {
             ],
           ),
         };
+      case RecipeKind.irrigation:
+        final w = weather;
+        return {
+          ...config,
+          'mode': 'single',
+          'triggers': [
+            {'trigger': 'time', 'at': '$at:00'},
+          ],
+          'conditions': [
+            // Every chosen soil sensor below the threshold (still dry).
+            if (sensors.isNotEmpty)
+              {
+                'condition': 'numeric_state',
+                'entity_id': sensors,
+                'below': threshold,
+              },
+            if (w != null)
+              {
+                'condition': 'template',
+                'value_template':
+                    "{{ states('$w') not in ${_jinjaList(rainyConditions)} }}",
+              },
+          ],
+          'actions': [
+            if (w != null) ...[
+              // Today's forecast (documented `weather.get_forecasts`);
+              // without one, it waters.
+              {
+                'action': 'weather.get_forecasts',
+                'continue_on_error': true,
+                'target': {'entity_id': w},
+                'data': {'type': 'daily'},
+                'response_variable': 'osh_forecast',
+              },
+              {
+                'condition': 'template',
+                'value_template':
+                    "{% set f = osh_forecast['$w'].forecast "
+                    "if osh_forecast is defined and '$w' in osh_forecast "
+                    'else [] %}'
+                    '{{ f | count == 0 or '
+                    '(f[0].precipitation | float(0)) < $rainSkipMm }}',
+              },
+            ],
+            for (final t in targets) ...[
+              {
+                'action': t.startsWith('valve.')
+                    ? 'valve.open_valve'
+                    : 'switch.turn_on',
+                'target': {'entity_id': t},
+              },
+              {
+                'delay': {'minutes': minutes},
+              },
+              _shut(t),
+            ],
+          ],
+        };
       case RecipeKind.lastOut:
         return {
           ...config,
@@ -458,6 +555,9 @@ class Recipe {
     }
   }
 }
+
+String _jinjaList(List<String> items) =>
+    '[${items.map((i) => "'$i'").join(', ')}]';
 
 /// `HH:MM` → how long after 06:00 (at least a quarter of an hour).
 String _since6(String at) {
@@ -602,6 +702,7 @@ String recipeTitle(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.inactivity => l10n.recipeInactivity,
   RecipeKind.checkIn => l10n.recipeCheckIn,
   RecipeKind.help => l10n.recipeHelp,
+  RecipeKind.irrigation => l10n.recipeIrrigation,
 };
 
 String recipeHint(AppLocalizations l10n, RecipeKind k) => switch (k) {
@@ -615,6 +716,7 @@ String recipeHint(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.inactivity => l10n.recipeInactivityHint,
   RecipeKind.checkIn => l10n.recipeCheckInHint,
   RecipeKind.help => l10n.recipeHelpHint,
+  RecipeKind.irrigation => l10n.recipeIrrigationHint,
 };
 
 /// Recipe automations in the home, by id (their entities carry the id).

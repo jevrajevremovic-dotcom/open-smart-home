@@ -5537,6 +5537,44 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get priceNoWindow => 'Cene još nisu objavljene tako daleko unapred.';
+
+  @override
+  String get recipeIrrigation => 'Zalivanje bašte';
+
+  @override
+  String get recipeIrrigationHint =>
+      'Zone se zalivaju jedna za drugom u izabrano vreme. Preskače se kad pada ili će padati kiša, ili kad je zemlja još vlažna.';
+
+  @override
+  String get irrigationAt => 'Kada';
+
+  @override
+  String get irrigationZones => 'Zone (ventili ili prekidači pumpe)';
+
+  @override
+  String get irrigationSoil => 'Senzori vlage zemlje (nije obavezno)';
+
+  @override
+  String irrigationMinutes(int minutes) {
+    return 'Svaka zona $minutes min';
+  }
+
+  @override
+  String irrigationThreshold(int percent) {
+    return 'Zaliva samo kad je zemlja suvlja od $percent %';
+  }
+
+  @override
+  String get irrigationSkipRain => 'Preskoči kad pada kiša';
+
+  @override
+  String irrigationSkipRainHint(int mm) {
+    return 'I kad prognoza za danas kaže $mm mm kiše ili više';
+  }
+
+  @override
+  String get irrigationNoWeather =>
+      'Home Assistant nema vremensku prognozu (weather entitet).';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -1533,5 +1533,15 @@
   "priceCheapest": "Najjeftinije: {from}–{to}, prosečno {price}",
   "priceFromNow": "od sada",
   "priceTomorrow": "sutra",
-  "priceNoWindow": "Cene još nisu objavljene tako daleko unapred."
+  "priceNoWindow": "Cene još nisu objavljene tako daleko unapred.",
+  "recipeIrrigation": "Zalivanje bašte",
+  "recipeIrrigationHint": "Zone se zalivaju jedna za drugom u izabrano vreme. Preskače se kad pada ili će padati kiša, ili kad je zemlja još vlažna.",
+  "irrigationAt": "Kada",
+  "irrigationZones": "Zone (ventili ili prekidači pumpe)",
+  "irrigationSoil": "Senzori vlage zemlje (nije obavezno)",
+  "irrigationMinutes": "Svaka zona {minutes} min",
+  "irrigationThreshold": "Zaliva samo kad je zemlja suvlja od {percent} %",
+  "irrigationSkipRain": "Preskoči kad pada kiša",
+  "irrigationSkipRainHint": "I kad prognoza za danas kaže {mm} mm kiše ili više",
+  "irrigationNoWeather": "Home Assistant nema vremensku prognozu (weather entitet)."
 }

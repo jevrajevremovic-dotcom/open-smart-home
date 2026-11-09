@@ -5504,4 +5504,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get priceNoWindow => 'Prices are not published that far ahead yet.';
+
+  @override
+  String get recipeIrrigation => 'Garden watering';
+
+  @override
+  String get recipeIrrigationHint =>
+      'Zones are watered one after another at the chosen time. Skipped when it rains or will rain, or the soil is still moist.';
+
+  @override
+  String get irrigationAt => 'When';
+
+  @override
+  String get irrigationZones => 'Zones (valves or pump switches)';
+
+  @override
+  String get irrigationSoil => 'Soil moisture sensors (optional)';
+
+  @override
+  String irrigationMinutes(int minutes) {
+    return 'Each zone $minutes min';
+  }
+
+  @override
+  String irrigationThreshold(int percent) {
+    return 'Waters only while the soil is drier than $percent %';
+  }
+
+  @override
+  String get irrigationSkipRain => 'Skip when it rains';
+
+  @override
+  String irrigationSkipRainHint(int mm) {
+    return 'Also when today\'s forecast says $mm mm of rain or more';
+  }
+
+  @override
+  String get irrigationNoWeather =>
+      'Home Assistant has no weather forecast (weather entity).';
 }

@@ -92,6 +92,22 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Dim hodnik',
       'device_class': 'smoke',
     }),
+    e('valve.garden_lawn', 'closed', {
+      'friendly_name': 'Zalivanje travnjak',
+      'device_class': 'water',
+      'supported_features': 3,
+    }),
+    e('valve.garden_beds', 'closed', {
+      'friendly_name': 'Zalivanje leje',
+      'device_class': 'water',
+      'supported_features': 3,
+    }),
+    e('sensor.garden_soil_moisture', '31', {
+      'friendly_name': 'Vlažnost zemlje',
+      'device_class': 'moisture',
+      'unit_of_measurement': '%',
+      'state_class': 'measurement',
+    }),
     e('valve.main_water', 'open', {
       'friendly_name': 'Glavni ventil za vodu',
       'device_class': 'water',
@@ -530,6 +546,9 @@ buildMockRegistries() {
       entity('binary_sensor.kitchen_leak', 'zha', areaId: 'kitchen'),
       entity('binary_sensor.hallway_smoke', 'zha', areaId: 'hallway'),
       entity('valve.main_water', 'zwave_js', areaId: 'kitchen'),
+      entity('valve.garden_lawn', 'zha', areaId: 'yard'),
+      entity('valve.garden_beds', 'zha', areaId: 'yard'),
+      entity('sensor.garden_soil_moisture', 'zha', areaId: 'yard'),
       entity('weather.forecast_home', 'met'),
       entity('sensor.bedroom_co2', 'zha', deviceId: 'd_bedroom_air'),
       entity(

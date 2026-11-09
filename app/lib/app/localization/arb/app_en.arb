@@ -2121,5 +2121,18 @@
   "@priceCheapest": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}, "price": {"type": "String"}}},
   "priceFromNow": "from now",
   "priceTomorrow": "tomorrow",
-  "priceNoWindow": "Prices are not published that far ahead yet."
+  "priceNoWindow": "Prices are not published that far ahead yet.",
+  "recipeIrrigation": "Garden watering",
+  "recipeIrrigationHint": "Zones are watered one after another at the chosen time. Skipped when it rains or will rain, or the soil is still moist.",
+  "irrigationAt": "When",
+  "irrigationZones": "Zones (valves or pump switches)",
+  "irrigationSoil": "Soil moisture sensors (optional)",
+  "irrigationMinutes": "Each zone {minutes} min",
+  "@irrigationMinutes": {"placeholders": {"minutes": {"type": "int"}}},
+  "irrigationThreshold": "Waters only while the soil is drier than {percent} %",
+  "@irrigationThreshold": {"placeholders": {"percent": {"type": "int"}}},
+  "irrigationSkipRain": "Skip when it rains",
+  "irrigationSkipRainHint": "Also when today's forecast says {mm} mm of rain or more",
+  "@irrigationSkipRainHint": {"placeholders": {"mm": {"type": "int"}}},
+  "irrigationNoWeather": "Home Assistant has no weather forecast (weather entity)."
 }

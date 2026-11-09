@@ -136,4 +136,96 @@ void main() {
     expect(server.automations['osh_recipe_leak'], isNull);
     await unmount(tester);
   });
+
+  test('irrigation: zones in turn, skipped on rain or moist soil', () {
+    const r = Recipe(
+      kind: RecipeKind.irrigation,
+      sensors: ['sensor.garden_soil_moisture'],
+      targets: ['valve.garden_lawn', 'switch.garden_pump'],
+      minutes: 12,
+      at: '06:30',
+      weather: 'weather.forecast_home',
+      threshold: 35,
+    );
+    final c = r.automation(en);
+    expect(r.id, 'osh_recipe_irrigation_valve_garden_lawn');
+    expect(c['triggers'], [
+      {'trigger': 'time', 'at': '06:30:00'},
+    ]);
+    final conditions = c['conditions']! as List;
+    expect(conditions.first, {
+      'condition': 'numeric_state',
+      'entity_id': ['sensor.garden_soil_moisture'],
+      'below': 35,
+    });
+    expect(
+      (conditions[1] as Map)['value_template'],
+      contains("states('weather.forecast_home') not in ['rainy'"),
+    );
+    final actions = c['actions']! as List;
+    expect((actions[0] as Map)['action'], 'weather.get_forecasts');
+    expect((actions[0] as Map)['response_variable'], 'osh_forecast');
+    expect((actions[1] as Map)['value_template'], contains('precipitation'));
+    expect(
+      [for (final a in actions.skip(2)) (a as Map)['action'] ?? 'delay'],
+      [
+        'valve.open_valve',
+        'delay',
+        'valve.close_valve',
+        'switch.turn_on',
+        'delay',
+        'switch.turn_off',
+      ],
+    );
+    expect((actions[3] as Map)['delay'], {'minutes': 12});
+    final back = Recipe.fromAutomation(c)!;
+    expect(back.weather, 'weather.forecast_home');
+    expect(back.threshold, 35);
+    expect(back.at, '06:30');
+
+    // Without a forecast or soil sensors: just the schedule.
+    final plain = const Recipe(
+      kind: RecipeKind.irrigation,
+      targets: ['valve.garden_beds'],
+    ).automation(en);
+    expect(plain['conditions'], isEmpty);
+    expect(
+      ((plain['actions']! as List).first as Map)['action'],
+      'valve.open_valve',
+    );
+  });
+
+  testWidgets('garden watering saved from the recipes screen', (tester) async {
+    await pumpApp(tester, signedIn: true, size: const Size(800, 2400));
+    await settle(tester, 10);
+    final container = ProviderScope.containerOf(
+      tester.element(find.byType(SmartHomeApp)),
+    );
+    final server = container.read(mockHomeAssistantServerProvider);
+    await tapKey(tester, 'openExtras');
+    await settle(tester, 5);
+    await tapKey(tester, 'extraRecipes');
+    await settle(tester, 4);
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('recipe-irrigation')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tapKey(tester, 'recipe-irrigation');
+    await settle(tester, 4);
+    await tapKey(tester, 'recipePick-sensor.garden_soil_moisture');
+    await tapKey(tester, 'recipePick-valve.garden_lawn');
+    await settle(tester);
+    await tester.ensureVisible(find.byKey(const Key('recipeSave')));
+    await tapKey(tester, 'recipeSave');
+    await settle(tester, 6);
+    final saved = Recipe.fromAutomation(
+      server.automations['osh_recipe_irrigation_valve_garden_lawn']!,
+    )!;
+    expect(saved.targets, ['valve.garden_lawn']);
+    expect(saved.sensors, ['sensor.garden_soil_moisture']);
+    expect(saved.weather, 'weather.forecast_home');
+    expect(saved.at, '06:00');
+    await unmount(tester);
+  });
 }

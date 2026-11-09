@@ -9296,6 +9296,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Prices are not published that far ahead yet.'**
   String get priceNoWindow;
+
+  /// No description provided for @recipeIrrigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Garden watering'**
+  String get recipeIrrigation;
+
+  /// No description provided for @recipeIrrigationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Zones are watered one after another at the chosen time. Skipped when it rains or will rain, or the soil is still moist.'**
+  String get recipeIrrigationHint;
+
+  /// No description provided for @irrigationAt.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get irrigationAt;
+
+  /// No description provided for @irrigationZones.
+  ///
+  /// In en, this message translates to:
+  /// **'Zones (valves or pump switches)'**
+  String get irrigationZones;
+
+  /// No description provided for @irrigationSoil.
+  ///
+  /// In en, this message translates to:
+  /// **'Soil moisture sensors (optional)'**
+  String get irrigationSoil;
+
+  /// No description provided for @irrigationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Each zone {minutes} min'**
+  String irrigationMinutes(int minutes);
+
+  /// No description provided for @irrigationThreshold.
+  ///
+  /// In en, this message translates to:
+  /// **'Waters only while the soil is drier than {percent} %'**
+  String irrigationThreshold(int percent);
+
+  /// No description provided for @irrigationSkipRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip when it rains'**
+  String get irrigationSkipRain;
+
+  /// No description provided for @irrigationSkipRainHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Also when today\'s forecast says {mm} mm of rain or more'**
+  String irrigationSkipRainHint(int mm);
+
+  /// No description provided for @irrigationNoWeather.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no weather forecast (weather entity).'**
+  String get irrigationNoWeather;
 }
 
 class _AppLocalizationsDelegate

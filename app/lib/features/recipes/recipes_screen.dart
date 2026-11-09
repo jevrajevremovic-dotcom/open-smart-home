@@ -24,6 +24,7 @@ IconData _icon(RecipeKind k) => switch (k) {
   RecipeKind.inactivity => Icons.accessibility_new,
   RecipeKind.checkIn => Icons.waving_hand_outlined,
   RecipeKind.help => Icons.sos_outlined,
+  RecipeKind.irrigation => Icons.grass,
 };
 
 /// What each recipe watches and acts on.
@@ -45,6 +46,9 @@ bool _sensorFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
         d.kind == DeviceKind.occupancySensor ||
         d.kind == DeviceKind.contactSensor,
   RecipeKind.checkIn || RecipeKind.help => false,
+  // Soil moisture sensors (numeric, %).
+  RecipeKind.irrigation =>
+    d.id.startsWith('sensor.') && d.metadata.haDeviceClass == 'moisture',
 };
 
 bool _targetFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
@@ -52,11 +56,14 @@ bool _targetFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
   RecipeKind.leak =>
     d.id.startsWith('valve.') || d.kind == DeviceKind.switchDevice,
   RecipeKind.followPresence || RecipeKind.nightLight => d.kind.isLight,
+  RecipeKind.irrigation =>
+    d.id.startsWith('valve.') || d.kind == DeviceKind.switchDevice,
   _ => false,
 };
 
 bool _hasTargets(RecipeKind k) =>
     k == RecipeKind.leak ||
+    k == RecipeKind.irrigation ||
     k == RecipeKind.followPresence ||
     k == RecipeKind.nightLight;
 
@@ -196,6 +203,8 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
                           phone: phone,
                           minutes: k == RecipeKind.leftOpen
                               ? 15
+                              : k == RecipeKind.irrigation
+                              ? 10
                               : k == RecipeKind.nightLight
                               ? 2
                               : k == RecipeKind.inactivity
@@ -203,6 +212,13 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
                               : 5,
                           targets: _escalates(k) ? [?phone] : const [],
                           onlyAtNight: k == RecipeKind.followPresence,
+                          at: k == RecipeKind.irrigation ? '06:00' : '10:00',
+                          weather: k == RecipeKind.irrigation
+                              ? devices.values
+                                    .where((d) => d.id.startsWith('weather.'))
+                                    .firstOrNull
+                                    ?.id
+                              : null,
                         ),
                       ),
               ),
@@ -276,6 +292,10 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
         devices.values.where((d) => !d.isAuxiliary && test(d)).toList()
           ..sort((a, b) => a.name.compareTo(b.name));
     final phone = ref.watch(haPushProvider).value?.notifyService;
+    final weatherId = devices.values
+        .where((d) => d.id.startsWith('weather.'))
+        .firstOrNull
+        ?.id;
     return DraggableScrollableSheet(
       expand: false,
       initialChildSize: 0.85,
@@ -297,12 +317,14 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
               onChanged: (v) => setState(() => _r = _r.copyWith(who: v)),
             ),
           ],
-          if (k == RecipeKind.checkIn)
+          if (k == RecipeKind.checkIn || k == RecipeKind.irrigation)
             ListTile(
               key: const Key('recipeAt'),
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.schedule),
-              title: Text(l10n.careBy),
+              title: Text(
+                k == RecipeKind.irrigation ? l10n.irrigationAt : l10n.careBy,
+              ),
               trailing: Text(_r.at, style: theme.textTheme.titleLarge),
               onTap: () async {
                 final p = _r.at.split(':');
@@ -336,7 +358,9 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
           if (k != RecipeKind.lastOut &&
               !(k == RecipeKind.checkIn || k == RecipeKind.help))
             _pick(
-              l10n.recipeWatch,
+              k == RecipeKind.irrigation
+                  ? l10n.irrigationSoil
+                  : l10n.recipeWatch,
               sorted((d) => _sensorFor(k, d)),
               _r.sensors,
               (v) => setState(() => _r = _r.copyWith(sensors: v)),
@@ -344,7 +368,11 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
             ),
           if (_hasTargets(k))
             _pick(
-              k == RecipeKind.leak ? l10n.recipeValves : l10n.recipeLights,
+              k == RecipeKind.leak
+                  ? l10n.recipeValves
+                  : k == RecipeKind.irrigation
+                  ? l10n.irrigationZones
+                  : l10n.recipeLights,
               sorted((d) => _targetFor(k, d)),
               _r.targets,
               (v) => setState(() => _r = _r.copyWith(targets: v)),
@@ -390,6 +418,50 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
               label: '${_r.minutes}',
               onChanged: (v) =>
                   setState(() => _r = _r.copyWith(minutes: v.round())),
+            ),
+          ],
+          if (k == RecipeKind.irrigation) ...[
+            const SizedBox(height: 12),
+            Text(l10n.irrigationMinutes(_r.minutes)),
+            Slider(
+              key: const Key('irrigationMinutes'),
+              value: _r.minutes.clamp(1, 60).toDouble(),
+              min: 1,
+              max: 60,
+              divisions: 59,
+              label: '${_r.minutes}',
+              onChanged: (v) =>
+                  setState(() => _r = _r.copyWith(minutes: v.round())),
+            ),
+            if (_r.sensors.isNotEmpty) ...[
+              Text(l10n.irrigationThreshold(_r.threshold)),
+              Slider(
+                value: _r.threshold.clamp(10, 80).toDouble(),
+                min: 10,
+                max: 80,
+                divisions: 14,
+                label: '${_r.threshold} %',
+                onChanged: (v) =>
+                    setState(() => _r = _r.copyWith(threshold: v.round())),
+              ),
+            ],
+            SwitchListTile(
+              key: const Key('irrigationRain'),
+              contentPadding: EdgeInsets.zero,
+              title: Text(l10n.irrigationSkipRain),
+              subtitle: Text(
+                weatherId == null
+                    ? l10n.irrigationNoWeather
+                    : l10n.irrigationSkipRainHint(rainSkipMm),
+              ),
+              value: _r.weather != null,
+              onChanged: weatherId == null
+                  ? null
+                  : (v) => setState(
+                      () => _r = v
+                          ? _r.copyWith(weather: weatherId)
+                          : _r.copyWith(clearWeather: true),
+                    ),
             ),
           ],
           if (k == RecipeKind.followPresence)

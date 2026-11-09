@@ -1379,6 +1379,40 @@ class MockHomeAssistantServer {
       'thumbnail': thumbnail,
       'children_media_class': folder ? 'video' : null,
     };
+    // Pictures of the snapshot automation: when the yard camera saw a
+    // person in the last day, plus one from last week (to be cleaned up).
+    const snaps = 'media-source://media_source/local/open_smart_home/';
+    if (id != null &&
+        id.startsWith(snaps) &&
+        automations.containsKey('osh_snap_${id.substring(snaps.length)}')) {
+      final now = _clock();
+      String name(DateTime t) =>
+          '${t.year}${_two(t.month)}${_two(t.day)}-'
+          '${_two(t.hour)}${_two(t.minute)}${_two(t.second)}.jpg';
+      final times = [
+        for (final (i, p) in history(
+          'binary_sensor.front_yard_person',
+          now.subtract(const Duration(hours: 24)),
+          now,
+        ).indexed)
+          if (i > 0 && p['state'] == 'on')
+            DateTime.parse(p['last_changed']! as String)
+                .toLocal()
+                .add(const Duration(seconds: 4)),
+        now.subtract(const Duration(days: 9)),
+      ];
+      return {
+        ...item(id, 'Snapshots', folder: true),
+        'children': [
+          for (final t in times)
+            {
+              ...item('$id/${name(t)}', name(t)),
+              'media_class': 'image',
+              'media_content_type': 'image/jpeg',
+            },
+        ],
+      };
+    }
     if (id == 'media-source://frigate/clips') {
       return {
         ...item(id!, 'Snimci', folder: true),
@@ -1399,6 +1433,11 @@ class MockHomeAssistantServer {
       ],
     };
   }
+
+  static String _two(int v) => v.toString().padLeft(2, '0');
+
+  /// Media removed through `media_source/local_source/remove`.
+  final List<String> removedMedia = [];
 
   /// `logbook.log` entries written by the app.
   final List<Map<String, Object?>> logbookMessages = [];

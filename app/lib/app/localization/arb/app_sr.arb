@@ -1651,5 +1651,10 @@
   "zigbeeOpenDevice": "Otvori uređaj",
   "zigbeeWeakTitle": "Slabe veze",
   "zigbeeWeakNone": "Nema slabih veza.",
-  "zigbeeWeakHint": "Obično pomaže uređaj na struju (pametna utičnica, sijalica) na pola puta, ili da koordinator bude dalje od rutera, USB 3 portova i metala, na USB produžnom kablu."
+  "zigbeeWeakHint": "Obično pomaže uređaj na struju (pametna utičnica, sijalica) na pola puta, ili da koordinator bude dalje od rutera, USB 3 portova i metala, na USB produžnom kablu.",
+  "cameraDayStrip": "Poslednja 24 sata: {count} događaja",
+  "cameraSnapshotTaken": "Snimak",
+  "cameraSnapshotSetting": "Sačuvaj sliku kod svakog događaja",
+  "cameraSnapshotHint": "Home Assistant snimi sliku kad senzori kamere nešto primete (najviše jednu u 30 s), u svoj folder /media/open_smart_home. Slike ostaju na serveru; starije od 7 dana se brišu.",
+  "cameraSnapshotAlias": "Slike događaja: {name}"
 }

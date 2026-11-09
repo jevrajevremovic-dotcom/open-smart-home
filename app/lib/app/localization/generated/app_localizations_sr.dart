@@ -6008,6 +6008,26 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get zigbeeWeakHint =>
       'Obično pomaže uređaj na struju (pametna utičnica, sijalica) na pola puta, ili da koordinator bude dalje od rutera, USB 3 portova i metala, na USB produžnom kablu.';
+
+  @override
+  String cameraDayStrip(int count) {
+    return 'Poslednja 24 sata: $count događaja';
+  }
+
+  @override
+  String get cameraSnapshotTaken => 'Snimak';
+
+  @override
+  String get cameraSnapshotSetting => 'Sačuvaj sliku kod svakog događaja';
+
+  @override
+  String get cameraSnapshotHint =>
+      'Home Assistant snimi sliku kad senzori kamere nešto primete (najviše jednu u 30 s), u svoj folder /media/open_smart_home. Slike ostaju na serveru; starije od 7 dana se brišu.';
+
+  @override
+  String cameraSnapshotAlias(String name) {
+    return 'Slike događaja: $name';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -126,7 +126,9 @@ abstract interface class HomeAssistantApi {
 
   /// `GET` of an image served by Home Assistant itself (e.g. a person's
   /// `entity_picture`, `/api/image/serve/...`). Only server-relative
-  /// `/api/` paths are accepted, so the token never goes to another host.
+  /// `/api/` paths, and signed `/media/local/` paths from
+  /// `media_source/resolve_media`, are accepted, so the token never goes
+  /// to another host.
   Future<Uint8List> fetchImage(String path);
 
   /// `POST /api/image/upload` (Home Assistant's `image_upload`, multipart
@@ -147,3 +149,15 @@ Map<String, Set<String>> parseServiceList(Object? json) => {
             ...services.keys.whereType<String>(),
         },
 };
+
+/// A signed picture of HA's local media folder, as `resolve_media`
+/// answers (`/media/local/…?authSig=…`), server-relative only.
+bool isSignedLocalMedia(String path) {
+  final uri = Uri.tryParse(path);
+  return uri != null &&
+      !uri.hasScheme &&
+      !uri.hasAuthority &&
+      path.startsWith('/media/local/') &&
+      !path.contains('..') &&
+      uri.queryParameters.containsKey('authSig');
+}

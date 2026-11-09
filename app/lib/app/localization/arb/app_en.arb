@@ -2270,5 +2270,12 @@
   "zigbeeOpenDevice": "Open device",
   "zigbeeWeakTitle": "Weak links",
   "zigbeeWeakNone": "No weak links.",
-  "zigbeeWeakHint": "Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable."
+  "zigbeeWeakHint": "Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable.",
+  "cameraDayStrip": "Last 24 hours: {count} events",
+  "@cameraDayStrip": {"placeholders": {"count": {"type": "int"}}},
+  "cameraSnapshotTaken": "Picture",
+  "cameraSnapshotSetting": "Save a picture at every event",
+  "cameraSnapshotHint": "Home Assistant takes a picture when the camera's sensors notice something (at most one per 30 s), into its folder /media/open_smart_home. The pictures stay on the server; older than 7 days are removed.",
+  "cameraSnapshotAlias": "Event pictures: {name}",
+  "@cameraSnapshotAlias": {"placeholders": {"name": {"type": "String"}}}
 }

@@ -5970,4 +5970,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get zigbeeWeakHint =>
       'Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable.';
+
+  @override
+  String cameraDayStrip(int count) {
+    return 'Last 24 hours: $count events';
+  }
+
+  @override
+  String get cameraSnapshotTaken => 'Picture';
+
+  @override
+  String get cameraSnapshotSetting => 'Save a picture at every event';
+
+  @override
+  String get cameraSnapshotHint =>
+      'Home Assistant takes a picture when the camera\'s sensors notice something (at most one per 30 s), into its folder /media/open_smart_home. The pictures stay on the server; older than 7 days are removed.';
+
+  @override
+  String cameraSnapshotAlias(String name) {
+    return 'Event pictures: $name';
+  }
 }

@@ -233,12 +233,26 @@ class _MockSocket implements HaSocket {
         final content = msg['media_content_id'] as String?;
         _emit(ok(_server.browseMedia(content)));
       case 'media_source/resolve_media':
+        const local = 'media-source://media_source/local/';
+        final content = '${msg['media_content_id']}';
         _emit(
-          ok({
-            'url': '/media/local/clip.mp4?authSig=demo',
-            'mime_type': 'video/mp4',
-          }),
+          ok(
+            content.startsWith(local)
+                ? {
+                    'url':
+                        '/media/local/${content.substring(local.length)}'
+                        '?authSig=demo',
+                    'mime_type': 'image/jpeg',
+                  }
+                : {
+                    'url': '/media/local/clip.mp4?authSig=demo',
+                    'mime_type': 'video/mp4',
+                  },
+          ),
         );
+      case 'media_source/local_source/remove':
+        _server.removedMedia.add('${msg['media_content_id']}');
+        _emit(ok());
       case 'tag/list':
         _emit(ok([for (final t in _server.tags.values) Map.of(t)]));
       case 'tag/create':

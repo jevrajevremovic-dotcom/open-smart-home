@@ -14,6 +14,7 @@ Open Smart Home je aplikacija za **vaš** Home Assistant. Nema naloga, servera n
 - Sat (Wear OS) dobija od telefona samo nazive i stanje dugmadi za auto i sat, a telefonu šalje samo koje je dugme pritisnuto — direktno preko Google Play services (Bluetooth/Wi-Fi), samo između aplikacija potpisanih istim ključem. Android Auto dobija isto. Adresa servera i token ostaju samo u aplikaciji na telefonu.
 - Predlozi iz navika i ostale analize dnevnika (baterije, nedeljni pregled) računaju se na uređaju iz podataka vašeg HA.
 - MAC adresa servera za buđenje (Wake-on-LAN) čuva se u podešavanjima aplikacije; paket za buđenje ide samo na kućnu mrežu.
+- Slike događaja kamere (ako ih uključite) čuva vaš HA u svom /media folderu; aplikacija ih samo prikazuje i briše starije od 7 dana.
 - Obrada kamere tableta za buđenje ekrana i ključne reči (ako je uključeno) radi na uređaju ili u vašem HA.
 
 ## Šta izlazi na internet — samo ako uključite

@@ -306,6 +306,15 @@ class MockHomeAssistantApi implements HomeAssistantApi {
         return mockAlbumArt(title);
       }
     }
+    // Pictures the snapshot automation saved (resolve_media's answer).
+    if (path.startsWith('/media/local/open_smart_home/') &&
+        isSignedLocalMedia(path)) {
+      final name = Uri.parse(path).pathSegments.last;
+      final m = RegExp(r'(\d{8})-(\d{6})').firstMatch(name);
+      final when = m == null ? null : DateTime.tryParse('${m[1]}T${m[2]}');
+      await _latency();
+      return mockCameraFrame(0, when ?? server.now());
+    }
     const proxy = '/api/camera_proxy/';
     if (path.startsWith(proxy)) {
       final id = Uri.decodeComponent(path.substring(proxy.length));

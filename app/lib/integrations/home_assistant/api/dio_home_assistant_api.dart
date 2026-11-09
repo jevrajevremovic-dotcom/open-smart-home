@@ -350,7 +350,7 @@ class DioHomeAssistantApi implements HomeAssistantApi {
 
   @override
   Future<Uint8List> fetchImage(String path) async {
-    if (localPicturePath(path) == null) {
+    if (localPicturePath(path) == null && !isSignedLocalMedia(path)) {
       throw const AppFailure(
         FailureKind.validation,
         debugMessage: 'refusing non-local image path',

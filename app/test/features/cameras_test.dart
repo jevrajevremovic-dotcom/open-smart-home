@@ -93,7 +93,7 @@ void main() {
     await goTo(tester, AppRoutes.device('camera.front_yard'));
     await settle(tester, 6);
     expect(find.byKey(const Key('cameraEvents')), findsOneWidget);
-    expect(find.text('Osoba u dvorištu'), findsWidgets);
+    expect(find.textContaining('Osoba u dvorištu'), findsWidgets);
 
     await tester.ensureVisible(find.byKey(const Key('cameraRecordings')));
     await tapKey(tester, 'cameraRecordings');

@@ -10004,6 +10004,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable.'**
   String get zigbeeWeakHint;
+
+  /// No description provided for @cameraDayStrip.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 24 hours: {count} events'**
+  String cameraDayStrip(int count);
+
+  /// No description provided for @cameraSnapshotTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Picture'**
+  String get cameraSnapshotTaken;
+
+  /// No description provided for @cameraSnapshotSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a picture at every event'**
+  String get cameraSnapshotSetting;
+
+  /// No description provided for @cameraSnapshotHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant takes a picture when the camera\'s sensors notice something (at most one per 30 s), into its folder /media/open_smart_home. The pictures stay on the server; older than 7 days are removed.'**
+  String get cameraSnapshotHint;
+
+  /// No description provided for @cameraSnapshotAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Event pictures: {name}'**
+  String cameraSnapshotAlias(String name);
 }
 
 class _AppLocalizationsDelegate

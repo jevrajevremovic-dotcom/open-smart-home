@@ -101,7 +101,7 @@ void main() {
     expect(find.byKey(const Key('recordingsScreen')), findsOneWidget);
     await tapKey(tester, 'media-media-source://frigate/clips');
     await settle(tester, 4);
-    expect(find.text('Kamera bašta — osoba (18:00)'), findsOneWidget);
+    expect(find.text('Dvorište — osoba (18:00)'), findsOneWidget);
     await tapKey(tester, 'media-media-source://frigate/clips/0');
     await settle(tester, 4);
     expect(find.byKey(const Key('clipPlayer')), findsOneWidget);

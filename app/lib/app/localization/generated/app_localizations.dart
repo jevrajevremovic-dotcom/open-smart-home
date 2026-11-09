@@ -9122,6 +9122,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Events (24 h)'**
   String get cameraEvents;
+
+  /// No description provided for @healthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why isn\'t it working?'**
+  String get healthTitle;
+
+  /// No description provided for @healthOk.
+  ///
+  /// In en, this message translates to:
+  /// **'No outages in the last 7 days.'**
+  String get healthOk;
+
+  /// No description provided for @healthOutages.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} short outage in the last 7 days.} other{{count} short outages in the last 7 days.}}'**
+  String healthOutages(int count);
+
+  /// No description provided for @healthOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Not responding to Home Assistant'**
+  String get healthOffline;
+
+  /// No description provided for @healthOfflineSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Not responding since {time}.'**
+  String healthOfflineSince(String time);
+
+  /// No description provided for @healthFlaky.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Dropped out {count} time in 7 days} other{Dropped out {count} times in 7 days}}'**
+  String healthFlaky(int count);
+
+  /// No description provided for @healthWeakSignal.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak signal'**
+  String get healthWeakSignal;
+
+  /// No description provided for @healthLowBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery is almost empty'**
+  String get healthLowBattery;
+
+  /// No description provided for @healthAdviceOfflineBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'The most common reason is a flat battery — replace it. If it still doesn\'t work, the device may be too far away: move it closer or pair it again.'**
+  String get healthAdviceOfflineBattery;
+
+  /// No description provided for @healthAdviceOfflineMesh.
+  ///
+  /// In en, this message translates to:
+  /// **'Check that the device has power. If it is far from the others, put a mains-powered device (a plug or a bulb) in between — it relays the signal. If that doesn\'t help, pair it again.'**
+  String get healthAdviceOfflineMesh;
+
+  /// No description provided for @healthAdviceOfflineWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Check power and whether Wi-Fi reaches that spot. Unplug the device for 10 seconds. If you changed the router or the Wi-Fi password, the device has to be connected again.'**
+  String get healthAdviceOfflineWifi;
+
+  /// No description provided for @healthAdviceOfflineCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'This device works through the maker\'s server: check the internet and your account in the maker\'s app, then look at Settings → Devices & services in HA.'**
+  String get healthAdviceOfflineCloud;
+
+  /// No description provided for @healthAdviceOfflineBluetooth.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth reaches only a few metres: move the device closer to Home Assistant or to a Bluetooth proxy (for example ESPHome).'**
+  String get healthAdviceOfflineBluetooth;
+
+  /// No description provided for @healthAdviceOfflineGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Check power and the connection, then look at Settings → Devices & services in HA for an integration error.'**
+  String get healthAdviceOfflineGeneric;
+
+  /// No description provided for @healthAdviceWeakMesh.
+  ///
+  /// In en, this message translates to:
+  /// **'Put a mains-powered device between this one and the coordinator. Put the coordinator on a USB extension cable, away from the computer and USB 3 ports.'**
+  String get healthAdviceWeakMesh;
+
+  /// No description provided for @healthAdviceWeakWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the router closer or add an access point; walls and metal weaken the signal.'**
+  String get healthAdviceWeakWifi;
+
+  /// No description provided for @healthAdviceFlaky.
+  ///
+  /// In en, this message translates to:
+  /// **'The device keeps dropping out and coming back — usually a weak signal or unstable power.'**
+  String get healthAdviceFlaky;
+
+  /// No description provided for @healthAdviceLowBattery.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the battery before the device stops responding.'**
+  String get healthAdviceLowBattery;
+
+  /// No description provided for @healthListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices not working'**
+  String get healthListTitle;
+
+  /// No description provided for @healthListNone.
+  ///
+  /// In en, this message translates to:
+  /// **'All devices respond and have a good signal.'**
+  String get healthListNone;
 }
 
 class _AppLocalizationsDelegate

@@ -5381,4 +5381,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cameraEvents => 'Events (24 h)';
+
+  @override
+  String get healthTitle => 'Why isn\'t it working?';
+
+  @override
+  String get healthOk => 'No outages in the last 7 days.';
+
+  @override
+  String healthOutages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count short outages in the last 7 days.',
+      one: '$count short outage in the last 7 days.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get healthOffline => 'Not responding to Home Assistant';
+
+  @override
+  String healthOfflineSince(String time) {
+    return 'Not responding since $time.';
+  }
+
+  @override
+  String healthFlaky(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Dropped out $count times in 7 days',
+      one: 'Dropped out $count time in 7 days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get healthWeakSignal => 'Weak signal';
+
+  @override
+  String get healthLowBattery => 'Battery is almost empty';
+
+  @override
+  String get healthAdviceOfflineBattery =>
+      'The most common reason is a flat battery — replace it. If it still doesn\'t work, the device may be too far away: move it closer or pair it again.';
+
+  @override
+  String get healthAdviceOfflineMesh =>
+      'Check that the device has power. If it is far from the others, put a mains-powered device (a plug or a bulb) in between — it relays the signal. If that doesn\'t help, pair it again.';
+
+  @override
+  String get healthAdviceOfflineWifi =>
+      'Check power and whether Wi-Fi reaches that spot. Unplug the device for 10 seconds. If you changed the router or the Wi-Fi password, the device has to be connected again.';
+
+  @override
+  String get healthAdviceOfflineCloud =>
+      'This device works through the maker\'s server: check the internet and your account in the maker\'s app, then look at Settings → Devices & services in HA.';
+
+  @override
+  String get healthAdviceOfflineBluetooth =>
+      'Bluetooth reaches only a few metres: move the device closer to Home Assistant or to a Bluetooth proxy (for example ESPHome).';
+
+  @override
+  String get healthAdviceOfflineGeneric =>
+      'Check power and the connection, then look at Settings → Devices & services in HA for an integration error.';
+
+  @override
+  String get healthAdviceWeakMesh =>
+      'Put a mains-powered device between this one and the coordinator. Put the coordinator on a USB extension cable, away from the computer and USB 3 ports.';
+
+  @override
+  String get healthAdviceWeakWifi =>
+      'Move the router closer or add an access point; walls and metal weaken the signal.';
+
+  @override
+  String get healthAdviceFlaky =>
+      'The device keeps dropping out and coming back — usually a weak signal or unstable power.';
+
+  @override
+  String get healthAdviceLowBattery =>
+      'Replace the battery before the device stops responding.';
+
+  @override
+  String get healthListTitle => 'Devices not working';
+
+  @override
+  String get healthListNone => 'All devices respond and have a good signal.';
 }

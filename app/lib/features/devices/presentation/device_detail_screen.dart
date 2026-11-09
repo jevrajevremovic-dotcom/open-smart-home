@@ -25,6 +25,7 @@ import '../../kiosk/application/kiosk_controller.dart';
 import '../../restricted/application/restricted_mode.dart';
 import '../../media/presentation/tv_remote.dart';
 import 'device_edit.dart';
+import 'device_health_view.dart';
 import 'device_history.dart';
 import 'device_presentation.dart';
 import 'stale_data_banner.dart';
@@ -133,6 +134,8 @@ class DeviceDetailScreen extends ConsumerWidget {
                   DeviceHistorySection(device: device),
                 ],
                 const SizedBox(height: 24),
+                DeviceHealthSection(device: device),
+                const SizedBox(height: 12),
                 _InfoSection(device: device),
               ],
             ),

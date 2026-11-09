@@ -71,6 +71,11 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Pokret hodnik',
       'device_class': 'motion',
     }),
+    e('sensor.hallway_motion_linkquality', '38', {
+      'friendly_name': 'Pokret hodnik signal',
+      'unit_of_measurement': 'lqi',
+      'state_class': 'measurement',
+    }),
     e('binary_sensor.front_door', 'off', {
       'friendly_name': 'Ulazna vrata',
       'device_class': 'door',
@@ -476,6 +481,11 @@ buildMockRegistries() {
         deviceId: 'd_living_climate_sensor',
       ),
       entity('binary_sensor.hallway_motion', 'zha', deviceId: 'd_hall_motion'),
+      entity(
+        'sensor.hallway_motion_linkquality',
+        'zha',
+        deviceId: 'd_hall_motion',
+      ),
       entity(
         'binary_sensor.front_door',
         'mqtt',

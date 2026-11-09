@@ -5412,6 +5412,96 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get cameraEvents => 'Događaji (24 h)';
+
+  @override
+  String get healthTitle => 'Zašto ne radi?';
+
+  @override
+  String get healthOk => 'Bez prekida u poslednjih 7 dana.';
+
+  @override
+  String healthOutages(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kratkih prekida u poslednjih 7 dana.',
+      few: '$count kratka prekida u poslednjih 7 dana.',
+      one: '$count kratak prekid u poslednjih 7 dana.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get healthOffline => 'Ne javlja se Home Assistantu';
+
+  @override
+  String healthOfflineSince(String time) {
+    return 'Ne javlja se od $time.';
+  }
+
+  @override
+  String healthFlaky(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Gubio se $count puta za 7 dana',
+      few: 'Gubio se $count puta za 7 dana',
+      one: 'Gubio se $count put za 7 dana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get healthWeakSignal => 'Slab signal';
+
+  @override
+  String get healthLowBattery => 'Baterija je skoro prazna';
+
+  @override
+  String get healthAdviceOfflineBattery =>
+      'Najčešći razlog je prazna baterija — zamenite je. Ako ni posle toga ne radi, uređaj je možda predaleko: približite ga ili ga ponovo uparite.';
+
+  @override
+  String get healthAdviceOfflineMesh =>
+      'Proverite da li je uređaj na struji. Ako je daleko od ostalih, između postavite uređaj koji je stalno na struji (utičnicu ili sijalicu) — on prenosi signal. Ako ni to ne pomogne, ponovo ga uparite.';
+
+  @override
+  String get healthAdviceOfflineWifi =>
+      'Proverite struju i da li Wi-Fi radi na tom mestu. Isključite uređaj iz struje na 10 sekundi. Ako ste menjali ruter ili šifru Wi-Fi mreže, uređaj treba ponovo povezati.';
+
+  @override
+  String get healthAdviceOfflineCloud =>
+      'Ovaj uređaj radi preko servera proizvođača: proverite internet i nalog u aplikaciji proizvođača, pa u HA pogledajte Podešavanja → Uređaji i servisi.';
+
+  @override
+  String get healthAdviceOfflineBluetooth =>
+      'Bluetooth seže nekoliko metara: približite uređaj Home Assistantu ili Bluetooth proksiju (na primer ESPHome).';
+
+  @override
+  String get healthAdviceOfflineGeneric =>
+      'Proverite struju i vezu, pa u HA pogledajte Podešavanja → Uređaji i servisi da li integracija javlja grešku.';
+
+  @override
+  String get healthAdviceWeakMesh =>
+      'Između ovog uređaja i koordinatora postavite uređaj koji je stalno na struji. Koordinator stavite na USB produžni kabl, dalje od računara i USB 3 portova.';
+
+  @override
+  String get healthAdviceWeakWifi =>
+      'Približite ruter ili dodajte pristupnu tačku; zidovi i metal slabe signal.';
+
+  @override
+  String get healthAdviceFlaky =>
+      'Uređaj se gubi i vraća — najčešće zbog slabog signala ili nestabilnog napajanja.';
+
+  @override
+  String get healthAdviceLowBattery =>
+      'Zamenite bateriju pre nego što uređaj prestane da se javlja.';
+
+  @override
+  String get healthListTitle => 'Uređaji koji ne rade';
+
+  @override
+  String get healthListNone => 'Svi uređaji se javljaju i imaju dobar signal.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

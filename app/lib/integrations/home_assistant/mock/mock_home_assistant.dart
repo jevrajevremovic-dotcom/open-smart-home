@@ -1215,7 +1215,7 @@ class MockHomeAssistantServer {
           for (var i = 0; i < 3; i++)
             item(
               'media-source://frigate/clips/$i',
-              'Kamera bašta — osoba (${18 + i}:0$i)',
+              'Dvorište — osoba (${18 + i}:0$i)',
               thumbnail: '/api/camera_proxy/camera.front_yard',
             ),
         ],

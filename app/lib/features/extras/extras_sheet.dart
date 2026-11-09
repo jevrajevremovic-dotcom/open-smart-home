@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../devices/presentation/device_health_view.dart';
 import '../../app/localization/l10n.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../restricted/application/restricted_mode.dart';
@@ -59,6 +60,13 @@ class _ExtrasSheet extends ConsumerWidget {
           icon: Icons.battery_alert_outlined,
           label: l10n.batteriesTitle,
           open: showBatteries,
+        ),
+      if (!restricted)
+        (
+          key: const Key('extraHealth'),
+          icon: Icons.healing_outlined,
+          label: l10n.healthListTitle,
+          open: showDeviceHealth,
         ),
       if (!restricted)
         (

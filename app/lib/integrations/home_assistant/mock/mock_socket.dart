@@ -226,6 +226,17 @@ class _MockSocket implements HaSocket {
           _server.systemData[msg['key']! as String] = msg['value'];
           _emit(ok());
         }
+      // A tiny media source: one folder of clips, as Frigate offers them.
+      case 'media_source/browse_media':
+        final content = msg['media_content_id'] as String?;
+        _emit(ok(_server.browseMedia(content)));
+      case 'media_source/resolve_media':
+        _emit(
+          ok({
+            'url': '/media/local/clip.mp4?authSig=demo',
+            'mime_type': 'video/mp4',
+          }),
+        );
       case 'tag/list':
         _emit(ok([for (final t in _server.tags.values) Map.of(t)]));
       case 'tag/create':

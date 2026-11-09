@@ -5355,4 +5355,30 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get careButtonsHint =>
       'For someone living alone: tell the family with one tap. With the \"Check-in\" and \"Call for help\" recipes the family gets an alert with confirmation.';
+
+  @override
+  String get cameraRecordings => 'Recordings';
+
+  @override
+  String get cameraRecordingsNone =>
+      'Home Assistant has no recordings. Recordings come from Frigate, Reolink, Synology or a local media folder.';
+
+  @override
+  String get cameraRecordingsEmpty => 'No recordings here.';
+
+  @override
+  String get cameraRecordingsFailed =>
+      'Recordings are not available right now.';
+
+  @override
+  String get cameraClipFailed => 'This clip cannot be played on this device.';
+
+  @override
+  String get cameraClipPlay => 'Play';
+
+  @override
+  String get cameraClipPause => 'Pause';
+
+  @override
+  String get cameraEvents => 'Events (24 h)';
 }

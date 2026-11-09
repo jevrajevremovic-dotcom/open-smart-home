@@ -9074,6 +9074,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For someone living alone: tell the family with one tap. With the \"Check-in\" and \"Call for help\" recipes the family gets an alert with confirmation.'**
   String get careButtonsHint;
+
+  /// No description provided for @cameraRecordings.
+  ///
+  /// In en, this message translates to:
+  /// **'Recordings'**
+  String get cameraRecordings;
+
+  /// No description provided for @cameraRecordingsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant has no recordings. Recordings come from Frigate, Reolink, Synology or a local media folder.'**
+  String get cameraRecordingsNone;
+
+  /// No description provided for @cameraRecordingsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No recordings here.'**
+  String get cameraRecordingsEmpty;
+
+  /// No description provided for @cameraRecordingsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Recordings are not available right now.'**
+  String get cameraRecordingsFailed;
+
+  /// No description provided for @cameraClipFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'This clip cannot be played on this device.'**
+  String get cameraClipFailed;
+
+  /// No description provided for @cameraClipPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get cameraClipPlay;
+
+  /// No description provided for @cameraClipPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get cameraClipPause;
+
+  /// No description provided for @cameraEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events (24 h)'**
+  String get cameraEvents;
 }
 
 class _AppLocalizationsDelegate

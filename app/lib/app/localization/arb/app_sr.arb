@@ -1496,5 +1496,13 @@
   "careFineSent": "Javljeno porodici. Hvala!",
   "careNotSent": "Nije poslato — nema veze sa kućom.",
   "careButtonsSetting": "Dugmad „Dobro sam” i „Pomoć”",
-  "careButtonsHint": "Za nekoga ko živi sam: javljanje porodici jednim dodirom. Uz recepte „Javljanje” i „Poziv u pomoć” porodica dobija upozorenje sa potvrdom."
+  "careButtonsHint": "Za nekoga ko živi sam: javljanje porodici jednim dodirom. Uz recepte „Javljanje” i „Poziv u pomoć” porodica dobija upozorenje sa potvrdom.",
+  "cameraRecordings": "Snimci",
+  "cameraRecordingsNone": "Home Assistant nema snimaka. Snimke pokazuju Frigate, Reolink, Synology ili lokalna fascikla sa medijima.",
+  "cameraRecordingsEmpty": "Ovde nema snimaka.",
+  "cameraRecordingsFailed": "Snimci trenutno nisu dostupni.",
+  "cameraClipFailed": "Ovaj snimak ne može da se pusti na ovom uređaju.",
+  "cameraClipPlay": "Pusti",
+  "cameraClipPause": "Pauza",
+  "cameraEvents": "Događaji (24 h)"
 }

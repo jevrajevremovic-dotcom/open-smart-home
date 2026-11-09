@@ -75,6 +75,10 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Ulazna vrata',
       'device_class': 'door',
     }),
+    e('binary_sensor.front_yard_person', 'off', {
+      'friendly_name': 'Osoba u dvorištu',
+      'device_class': 'occupancy',
+    }),
     e('binary_sensor.kitchen_leak', 'off', {
       'friendly_name': 'Curenje sudopera',
       'device_class': 'moisture',
@@ -481,6 +485,7 @@ buildMockRegistries() {
       entity('cover.living_room_blinds', 'zwave_js', deviceId: 'd_blinds'),
       entity('lock.front_door', 'zwave_js', deviceId: 'd_front_lock'),
       entity('camera.front_yard', 'onvif', deviceId: 'd_camera'),
+      entity('binary_sensor.front_yard_person', 'onvif', deviceId: 'd_camera'),
       entity('sensor.house_power', 'esphome', deviceId: 'd_energy'),
       entity('sensor.house_energy', 'esphome', deviceId: 'd_energy'),
       entity('scene.movie_night', 'homeassistant', areaId: 'living_room'),

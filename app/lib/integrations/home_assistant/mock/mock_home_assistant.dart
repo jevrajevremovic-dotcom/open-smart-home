@@ -1191,6 +1191,44 @@ class MockHomeAssistantServer {
     }
   }
 
+  /// `media_source/browse_media`: a root, a clips folder, three clips.
+  Map<String, Object?> browseMedia(String? id) {
+    Map<String, Object?> item(
+      String id,
+      String title, {
+      bool folder = false,
+      String? thumbnail,
+    }) => {
+      'title': title,
+      'media_class': folder ? 'directory' : 'video',
+      'media_content_type': folder ? '' : 'video/mp4',
+      'media_content_id': id,
+      'can_play': !folder,
+      'can_expand': folder,
+      'thumbnail': thumbnail,
+      'children_media_class': folder ? 'video' : null,
+    };
+    if (id == 'media-source://frigate/clips') {
+      return {
+        ...item(id!, 'Snimci', folder: true),
+        'children': [
+          for (var i = 0; i < 3; i++)
+            item(
+              'media-source://frigate/clips/$i',
+              'Kamera bašta — osoba (${18 + i}:0$i)',
+              thumbnail: '/api/camera_proxy/camera.front_yard',
+            ),
+        ],
+      };
+    }
+    return {
+      ...item('', 'Mediji', folder: true),
+      'children': [
+        item('media-source://frigate/clips', 'Frigate', folder: true),
+      ],
+    };
+  }
+
   /// `logbook.log` entries written by the app.
   final List<Map<String, Object?>> logbookMessages = [];
 

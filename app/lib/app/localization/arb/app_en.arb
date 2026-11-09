@@ -2077,5 +2077,13 @@
   "careFineSent": "The family knows. Thank you!",
   "careNotSent": "Not sent — no connection to the home.",
   "careButtonsSetting": "\"I'm fine\" and \"Help\" buttons",
-  "careButtonsHint": "For someone living alone: tell the family with one tap. With the \"Check-in\" and \"Call for help\" recipes the family gets an alert with confirmation."
+  "careButtonsHint": "For someone living alone: tell the family with one tap. With the \"Check-in\" and \"Call for help\" recipes the family gets an alert with confirmation.",
+  "cameraRecordings": "Recordings",
+  "cameraRecordingsNone": "Home Assistant has no recordings. Recordings come from Frigate, Reolink, Synology or a local media folder.",
+  "cameraRecordingsEmpty": "No recordings here.",
+  "cameraRecordingsFailed": "Recordings are not available right now.",
+  "cameraClipFailed": "This clip cannot be played on this device.",
+  "cameraClipPlay": "Play",
+  "cameraClipPause": "Pause",
+  "cameraEvents": "Events (24 h)"
 }

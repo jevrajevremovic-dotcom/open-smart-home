@@ -84,4 +84,29 @@ void main() {
     expect(find.byKey(const Key('cameraImage')), findsOneWidget);
     await unmount(tester);
   });
+
+  testWidgets('camera events from its sensors; recordings browser', (
+    tester,
+  ) async {
+    await pumpApp(tester, signedIn: true, size: const Size(900, 1600));
+    await settle(tester, 10);
+    await goTo(tester, AppRoutes.device('camera.front_yard'));
+    await settle(tester, 6);
+    expect(find.byKey(const Key('cameraEvents')), findsOneWidget);
+    expect(find.text('Osoba u dvorištu'), findsWidgets);
+
+    await tester.ensureVisible(find.byKey(const Key('cameraRecordings')));
+    await tapKey(tester, 'cameraRecordings');
+    await settle(tester, 4);
+    expect(find.byKey(const Key('recordingsScreen')), findsOneWidget);
+    await tapKey(tester, 'media-media-source://frigate/clips');
+    await settle(tester, 4);
+    expect(find.text('Kamera bašta — osoba (18:00)'), findsOneWidget);
+    await tapKey(tester, 'media-media-source://frigate/clips/0');
+    await settle(tester, 4);
+    expect(find.byKey(const Key('clipPlayer')), findsOneWidget);
+    // No video plugin in tests: the player says so instead of hanging.
+    expect(find.byKey(const Key('clipFailed')), findsOneWidget);
+    await unmount(tester);
+  });
 }

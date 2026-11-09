@@ -6,7 +6,10 @@ import '../../../app/localization/l10n.dart';
 import '../../devices/application/device_providers.dart';
 import '../../devices/domain/smart_home_device.dart';
 import '../../devices/domain/capability.dart';
+import '../../restricted/application/restricted_mode.dart';
+import '../application/camera_events.dart';
 import '../application/camera_providers.dart';
+import 'camera_recordings.dart';
 import 'live_camera.dart';
 
 /// Live-ish camera picture (refreshed snapshots) with a small time label.
@@ -130,16 +133,16 @@ class _Badge extends StatelessWidget {
 }
 
 /// Camera section of the device screen.
-class CameraDetail extends StatefulWidget {
+class CameraDetail extends ConsumerStatefulWidget {
   const CameraDetail({super.key, required this.device});
 
   final SmartHomeDevice device;
 
   @override
-  State<CameraDetail> createState() => _CameraDetailState();
+  ConsumerState<CameraDetail> createState() => _CameraDetailState();
 }
 
-class _CameraDetailState extends State<CameraDetail> {
+class _CameraDetailState extends ConsumerState<CameraDetail> {
   bool _live = false;
 
   @override
@@ -207,6 +210,65 @@ class _CameraDetailState extends State<CameraDetail> {
               ),
           ],
         ),
+        // Recordings are private: not in the guest mode.
+        if (!ref.watch(restrictedModeProvider.select((r) => r.enabled))) ...[
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              key: const Key('cameraRecordings'),
+              onPressed: () => openRecordings(context),
+              icon: const Icon(Icons.video_library_outlined),
+              label: Text(l10n.cameraRecordings),
+            ),
+          ),
+        ],
+        const SizedBox(height: 8),
+        _CameraEvents(cameraId: device.id),
+      ],
+    );
+  }
+}
+
+/// The last day's motion, people, rings and AI descriptions.
+class _CameraEvents extends ConsumerWidget {
+  const _CameraEvents({required this.cameraId});
+
+  final String cameraId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final events = ref.watch(cameraEventsProvider(cameraId)).value;
+    if (events == null || events.isEmpty) return const SizedBox.shrink();
+    final time = DateFormat.Hm(l10n.localeName);
+    return Column(
+      key: const Key('cameraEvents'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
+          child: Text(l10n.cameraEvents, style: theme.textTheme.titleMedium),
+        ),
+        for (final e in events)
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+            leading: Icon(
+              e.ai ? Icons.auto_awesome_outlined : Icons.motion_photos_on,
+              color: theme.colorScheme.primary,
+            ),
+            title: Text(e.title),
+            subtitle: e.description == null || e.description!.isEmpty
+                ? null
+                : Text(e.description!),
+            trailing: Text(
+              time.format(e.when),
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
+            ),
+          ),
       ],
     );
   }

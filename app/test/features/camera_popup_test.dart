@@ -41,9 +41,15 @@ void main() {
     await settle(tester, 2);
     await tester.tap(find.text('Kamera bašta').last);
     await settle(tester, 2);
-    await tester.tap(
-      find.byKey(const ValueKey('kioskPopupTrigger-binary_sensor.front_door')),
+    final door = find.byKey(
+      const ValueKey('kioskPopupTrigger-binary_sensor.front_door'),
     );
+    await tester.scrollUntilVisible(
+      door,
+      100,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(door);
     await tester.tap(find.byKey(const Key('kioskPopupSave')));
     await settle(tester, 3);
     expect(find.textContaining('Kamera bašta'), findsWidgets);

@@ -5386,6 +5386,32 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get careButtonsHint =>
       'Za nekoga ko živi sam: javljanje porodici jednim dodirom. Uz recepte „Javljanje” i „Poziv u pomoć” porodica dobija upozorenje sa potvrdom.';
+
+  @override
+  String get cameraRecordings => 'Snimci';
+
+  @override
+  String get cameraRecordingsNone =>
+      'Home Assistant nema snimaka. Snimke pokazuju Frigate, Reolink, Synology ili lokalna fascikla sa medijima.';
+
+  @override
+  String get cameraRecordingsEmpty => 'Ovde nema snimaka.';
+
+  @override
+  String get cameraRecordingsFailed => 'Snimci trenutno nisu dostupni.';
+
+  @override
+  String get cameraClipFailed =>
+      'Ovaj snimak ne može da se pusti na ovom uređaju.';
+
+  @override
+  String get cameraClipPlay => 'Pusti';
+
+  @override
+  String get cameraClipPause => 'Pauza';
+
+  @override
+  String get cameraEvents => 'Događaji (24 h)';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -5824,4 +5824,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wolFailed => 'Could not send. Is this phone on Wi-Fi?';
+
+  @override
+  String get batteryLeftNow => 'Replace it soon';
+
+  @override
+  String batteryLeftDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '$count day',
+    );
+    return 'About $_temp0 left';
+  }
+
+  @override
+  String batteryLeftWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks',
+      one: '$count week',
+    );
+    return 'About $_temp0 left';
+  }
+
+  @override
+  String batteryLeftMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '$count month',
+    );
+    return 'About $_temp0 left';
+  }
 }

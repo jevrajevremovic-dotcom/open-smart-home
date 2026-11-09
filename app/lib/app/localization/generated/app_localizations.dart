@@ -9800,6 +9800,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not send. Is this phone on Wi-Fi?'**
   String get wolFailed;
+
+  /// No description provided for @batteryLeftNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace it soon'**
+  String get batteryLeftNow;
+
+  /// No description provided for @batteryLeftDays.
+  ///
+  /// In en, this message translates to:
+  /// **'About {count, plural, one{{count} day} other{{count} days}} left'**
+  String batteryLeftDays(int count);
+
+  /// No description provided for @batteryLeftWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'About {count, plural, one{{count} week} other{{count} weeks}} left'**
+  String batteryLeftWeeks(int count);
+
+  /// No description provided for @batteryLeftMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'About {count, plural, one{{count} month} other{{count} months}} left'**
+  String batteryLeftMonths(int count);
 }
 
 class _AppLocalizationsDelegate

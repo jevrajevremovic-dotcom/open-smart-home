@@ -333,6 +333,12 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'state_class': 'measurement',
       'unit_of_measurement': 'ppm',
     }),
+    e('sensor.front_lock_battery', '31', {
+      'friendly_name': 'Brava ulazna vrata – baterija',
+      'device_class': 'battery',
+      'state_class': 'measurement',
+      'unit_of_measurement': '%',
+    }),
     e('sensor.bedroom_window_battery', '8', {
       'friendly_name': 'Senzor prozora spavaća soba – baterija',
       'device_class': 'battery',
@@ -548,6 +554,12 @@ buildMockRegistries() {
       entity('cover.garage_door', 'shelly', areaId: 'garage'),
       entity('cover.driveway_gate', 'shelly', areaId: 'yard'),
       entity('lock.front_door', 'zwave_js', deviceId: 'd_front_lock'),
+      entity(
+        'sensor.front_lock_battery',
+        'zwave_js',
+        deviceId: 'd_front_lock',
+        category: 'diagnostic',
+      ),
       entity('camera.front_yard', 'onvif', deviceId: 'd_camera'),
       entity('binary_sensor.front_yard_person', 'onvif', deviceId: 'd_camera'),
       entity('sensor.house_power', 'esphome', deviceId: 'd_energy'),

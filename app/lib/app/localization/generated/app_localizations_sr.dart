@@ -5858,6 +5858,45 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get wolFailed =>
       'Slanje nije uspelo. Da li je telefon na Wi-Fi mreži?';
+
+  @override
+  String get batteryLeftNow => 'Treba je zameniti uskoro';
+
+  @override
+  String batteryLeftDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dana',
+      few: '$count dana',
+      one: '$count dan',
+    );
+    return 'Još oko $_temp0';
+  }
+
+  @override
+  String batteryLeftWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nedelja',
+      few: '$count nedelje',
+      one: '$count nedelju',
+    );
+    return 'Još oko $_temp0';
+  }
+
+  @override
+  String batteryLeftMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meseci',
+      few: '$count meseca',
+      one: '$count mesec',
+    );
+    return 'Još oko $_temp0';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

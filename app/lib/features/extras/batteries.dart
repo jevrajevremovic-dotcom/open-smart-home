@@ -18,6 +18,7 @@ import '../devices/domain/smart_home_device.dart';
 import '../ha_notify/ha_push.dart';
 import '../household/family_messages.dart';
 import '../kiosk/application/kiosk_controller.dart';
+import 'battery_forecast.dart';
 
 /// One battery-powered device: its main entity (to open), name, level.
 typedef BatteryInfo = ({
@@ -225,6 +226,7 @@ class _BatteriesSheetState extends ConsumerState<_BatteriesSheet> {
         if (b.sensorId != null) b.sensorId!,
     ];
     final reminder = ref.watch(batteryReminderSetProvider);
+    final forecast = ref.watch(batteryForecastProvider).value ?? const {};
     return DraggableScrollableSheet(
       expand: false,
       initialChildSize: 0.7,
@@ -273,16 +275,28 @@ class _BatteriesSheetState extends ConsumerState<_BatteriesSheet> {
               title: Text(b.name),
               subtitle: b.percent == null
                   ? Text(b.low ? l10n.batteryLowShort : l10n.batteryOk)
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: LinearProgressIndicator(
-                          value: b.percent! / 100,
-                          minHeight: 6,
-                          color: b.low ? colors.warning : null,
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: LinearProgressIndicator(
+                              value: b.percent! / 100,
+                              minHeight: 6,
+                              color: b.low ? colors.warning : null,
+                            ),
+                          ),
                         ),
-                      ),
+                        if (forecast[b.sensorId] case final days?
+                            when days < 120)
+                          Padding(
+                            key: ValueKey('batteryLeft-${b.id}'),
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(batteryLeftLabel(l10n, days)),
+                          ),
+                      ],
                     ),
               trailing: b.percent == null
                   ? null
@@ -303,4 +317,12 @@ class _BatteriesSheetState extends ConsumerState<_BatteriesSheet> {
       ),
     );
   }
+}
+
+/// "About 3 weeks left": days under two weeks, then weeks, then months.
+String batteryLeftLabel(AppLocalizations l10n, double days) {
+  if (days < 1) return l10n.batteryLeftNow;
+  if (days < 14) return l10n.batteryLeftDays(days.round());
+  if (days < 60) return l10n.batteryLeftWeeks((days / 7).round());
+  return l10n.batteryLeftMonths((days / 30).round());
 }

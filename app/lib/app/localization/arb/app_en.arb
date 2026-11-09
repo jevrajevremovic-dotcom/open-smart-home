@@ -2225,5 +2225,12 @@
   "wolWake": "Wake",
   "wolSent": "Sent. The server needs a minute or two to start.",
   "wolBadMac": "That is not a MAC address (six pairs of hex digits, e.g. AA:BB:CC:DD:EE:FF).",
-  "wolFailed": "Could not send. Is this phone on Wi-Fi?"
+  "wolFailed": "Could not send. Is this phone on Wi-Fi?",
+  "batteryLeftNow": "Replace it soon",
+  "batteryLeftDays": "About {count, plural, one{{count} day} other{{count} days}} left",
+  "@batteryLeftDays": {"placeholders": {"count": {"type": "int"}}},
+  "batteryLeftWeeks": "About {count, plural, one{{count} week} other{{count} weeks}} left",
+  "@batteryLeftWeeks": {"placeholders": {"count": {"type": "int"}}},
+  "batteryLeftMonths": "About {count, plural, one{{count} month} other{{count} months}} left",
+  "@batteryLeftMonths": {"placeholders": {"count": {"type": "int"}}}
 }

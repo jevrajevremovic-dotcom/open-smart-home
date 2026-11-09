@@ -1617,5 +1617,9 @@
   "wolWake": "Probudi",
   "wolSent": "Poslato. Serveru treba minut-dva da se pokrene.",
   "wolBadMac": "To nije MAC adresa (šest parova heksadecimalnih cifara, npr. AA:BB:CC:DD:EE:FF).",
-  "wolFailed": "Slanje nije uspelo. Da li je telefon na Wi-Fi mreži?"
+  "wolFailed": "Slanje nije uspelo. Da li je telefon na Wi-Fi mreži?",
+  "batteryLeftNow": "Treba je zameniti uskoro",
+  "batteryLeftDays": "Još oko {count, plural, one{{count} dan} few{{count} dana} other{{count} dana}}",
+  "batteryLeftWeeks": "Još oko {count, plural, one{{count} nedelju} few{{count} nedelje} other{{count} nedelja}}",
+  "batteryLeftMonths": "Još oko {count, plural, one{{count} mesec} few{{count} meseca} other{{count} meseci}}"
 }

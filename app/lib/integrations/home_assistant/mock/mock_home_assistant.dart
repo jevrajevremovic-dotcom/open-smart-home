@@ -1100,6 +1100,12 @@ class MockHomeAssistantServer {
   /// `energy/get_prefs` payload; `null` simulates "Energy not configured".
   Map<String, Object?>? energyPrefs = buildMockEnergyPrefs();
 
+  /// Percent per day the demo batteries lose.
+  static const _batteryDrain = {
+    'sensor.bedroom_window_battery': 0.5,
+    'sensor.front_lock_battery': 1.2,
+  };
+
   /// `recorder/statistics_during_period` with `types: [change]`, generated
   /// from [mockHourlyEnergy]. Only past buckets are returned.
   Map<String, Object?> statistics({
@@ -1112,6 +1118,26 @@ class MockHomeAssistantServer {
     final result = <String, Object?>{};
     for (final id in ids) {
       final rows = <Map<String, Object?>>[];
+      if (_batteryDrain[id] case final perDay?) {
+        // Daily means of a battery going down steadily; a value above 100
+        // means it was replaced then (the old one was almost empty).
+        final current = double.tryParse('${_states[id]?['state']}') ?? 0;
+        for (
+          var t = DateTime(start.year, start.month, start.day);
+          t.isBefore(end) && t.isBefore(now);
+          t = t.add(const Duration(days: 1))
+        ) {
+          var v = current + perDay * now.difference(t).inHours / 24;
+          if (v > 100) v -= 95;
+          rows.add({
+            'start': t.millisecondsSinceEpoch,
+            'end': t.add(const Duration(days: 1)).millisecondsSinceEpoch,
+            'mean': double.parse(v.toStringAsFixed(1)),
+          });
+        }
+        result[id] = rows;
+        continue;
+      }
       var t = start.toLocal();
       while (t.isBefore(end) && t.isBefore(now)) {
         final next = period == 'hour'

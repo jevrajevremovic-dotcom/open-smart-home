@@ -1,3 +1,5 @@
+import '../../extras/week_wrapped.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../installer/service_section.dart';
@@ -356,6 +358,29 @@ class _SectionBody extends ConsumerWidget {
             if (!v) return alerts.disable();
             final messenger = ScaffoldMessenger.of(context);
             if (!await alerts.enable()) {
+              messenger
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(content: Text(l10n.alertsPermissionDenied)),
+                );
+            }
+          },
+        ),
+      if (ref.watch(alertNotifierProvider).supported)
+        SwitchListTile(
+          key: const Key('weekReportSwitch'),
+          contentPadding: EdgeInsets.zero,
+          secondary: const Icon(Icons.auto_graph),
+          title: Text(l10n.weekReportSetting),
+          subtitle: Text(l10n.weekReportSettingHint),
+          value: ref.watch(weekReportProvider),
+          onChanged: (v) async {
+            final week = ref.read(weekReportProvider.notifier);
+            if (!v) return week.set(false);
+            final messenger = ScaffoldMessenger.of(context);
+            if (await ref.read(alertNotifierProvider).requestPermission()) {
+              await week.set(true);
+            } else {
               messenger
                 ..hideCurrentSnackBar()
                 ..showSnackBar(

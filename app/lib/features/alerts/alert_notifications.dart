@@ -14,6 +14,7 @@ import '../dashboard/application/home_summaries.dart';
 import '../devices/application/device_providers.dart';
 import '../devices/data/home_state_repository.dart';
 import '../devices/presentation/device_presentation.dart';
+import '../extras/week_wrapped.dart';
 import '../kiosk/application/kiosk_controller.dart';
 
 /// A tapped notification or one of its buttons ([actionId]).
@@ -248,6 +249,8 @@ final alertNotificationsProvider =
       AlertNotificationsController.new,
     );
 
+final _weekLog = AppLogger('WeekReport');
+
 /// Sits below MaterialApp: notifies about new critical alerts (only from
 /// live data, never from the offline cache) and clears resolved ones.
 class AlertNotificationsHost extends ConsumerStatefulWidget {
@@ -268,13 +271,69 @@ class _AlertNotificationsHostState
 
   AlertNotifier get _notifier => ref.read(alertNotifierProvider);
 
+  bool _weekBusy = false;
+
+  /// Hourly: Sunday evening comes while the app runs, too.
+  late final Timer _hourly = Timer.periodic(
+    const Duration(hours: 1),
+    (_) => _sync(),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _hourly;
+  }
+
   @override
   void dispose() {
+    _hourly.cancel();
     unawaited(_tapSub?.cancel());
     super.dispose();
   }
 
+  Future<void> _sendWeek() async {
+    final controller = ref.read(weekReportProvider.notifier);
+    final now = DateTime.now();
+    if (_weekBusy || !weekReportPending(now, controller.lastSent)) return;
+    _weekBusy = true;
+    try {
+      final l10n = context.l10n;
+      // Kept alive while it loads (the provider is auto-dispose).
+      final keep = ref.listenManual(weekStatsProvider, (_, _) {});
+      final WeekStats stats;
+      try {
+        stats = await ref.read(weekStatsProvider.future);
+      } finally {
+        keep.close();
+      }
+      final body = weekReportBody(l10n, stats);
+      if (body.isNotEmpty) {
+        await _notifier.showMessage(
+          'osh_week',
+          l10n.weekReportTitle,
+          body,
+          payload: weekReportPayload,
+        );
+      }
+      await controller.markSent(now);
+    } on Object catch (e) {
+      _weekLog.debug('week report failed: ${e.runtimeType}');
+    } finally {
+      _weekBusy = false;
+    }
+  }
+
   void _onTap(NotificationTap tap) {
+    if (tap.payload == weekReportPayload) {
+      final context = ref
+          .read(routerProvider)
+          .routerDelegate
+          .navigatorKey
+          .currentContext;
+      if (context != null) unawaited(showWeekWrapped(context));
+      return;
+    }
     // Messages from Home Assistant carry JSON; alerts a device id.
     if (tap.payload.startsWith('{')) return;
     final deviceId = tap.payload;
@@ -289,12 +348,14 @@ class _AlertNotificationsHostState
     final notifier = _notifier;
     if (!notifier.supported) return;
     final enabled = ref.read(alertNotificationsProvider);
-    if (enabled && !_initialized) {
+    final weekly = ref.read(weekReportProvider);
+    if ((enabled || weekly) && !_initialized) {
       _initialized = true;
       _tapSub = notifier.taps.listen(_onTap);
       unawaited(notifier.initialize());
     }
     final live = ref.read(syncStatusProvider) == SyncStatus.live;
+    if (weekly && live) unawaited(_sendWeek());
     final ids = ref.read(dashboardSummaryProvider).criticalIds.toSet();
     if (!enabled || ref.read(activeProfileProvider) == null) {
       for (final id in _shown) {
@@ -326,6 +387,7 @@ class _AlertNotificationsHostState
       )
       ..listen(syncStatusProvider, (_, _) => _sync())
       ..listen(alertNotificationsProvider, (_, _) => _sync())
+      ..listen(weekReportProvider, (_, _) => _sync())
       ..listen(activeProfileProvider, (_, _) => _sync());
     return widget.child;
   }

@@ -6,9 +6,11 @@ import 'package:intl/intl.dart';
 
 import '../../app/localization/l10n.dart';
 import '../../app/theme/app_theme.dart';
+import '../../core/storage/app_preferences.dart';
 import '../../integrations/home_assistant/models/ha_history.dart';
 import '../authentication/application/session_controller.dart';
 import '../devices/application/device_providers.dart';
+import '../devices/domain/device_kind.dart';
 import '../devices/domain/smart_home_device.dart';
 import '../energy/application/energy_providers.dart';
 import '../energy/data/energy_repository.dart';
@@ -28,6 +30,8 @@ class WeekStats {
     this.busiestDay,
     this.thisWeekKwh,
     this.lastWeekKwh,
+    this.doorbell = 0,
+    this.longestOpen,
   });
 
   final int doorOpenings;
@@ -47,8 +51,19 @@ class WeekStats {
   final double? thisWeekKwh;
   final double? lastWeekKwh;
 
+  /// Times the doorbell rang.
+  final int doorbell;
+
+  /// The door or window left open longest (at least half an hour), or
+  /// the light left on longest (at least eight hours): name and how long.
+  final (String, Duration, bool light)? longestOpen;
+
   bool get isEmpty =>
-      doorOpenings == 0 && lightsOn == 0 && arrivals.isEmpty && unlocks == 0;
+      doorOpenings == 0 &&
+      lightsOn == 0 &&
+      arrivals.isEmpty &&
+      unlocks == 0 &&
+      doorbell == 0;
 
   WeekStats withEnergy(double? thisWeek, double? lastWeek) => WeekStats(
     doorOpenings: doorOpenings,
@@ -61,6 +76,8 @@ class WeekStats {
     busiestDay: busiestDay,
     thisWeekKwh: thisWeek,
     lastWeekKwh: lastWeek,
+    doorbell: doorbell,
+    longestOpen: longestOpen,
   );
 }
 
@@ -77,6 +94,33 @@ WeekStats weekStats(
   final arrivals = <String, int>{};
   final days = <int, int>{};
   var unlocks = 0;
+  var doorbell = 0;
+  // Since when each door/light is open/on, walking forward in time.
+  final since = <String, DateTime>{};
+  (String, Duration, bool)? longestDoor;
+  (String, Duration, bool)? longestLight;
+  for (final e in [...entries]..sort((a, b) => a.when.compareTo(b.when))) {
+    final id = e.entityId;
+    if (id == null) continue;
+    final d = devices[id];
+    final isLight = id.startsWith('light.');
+    final isDoor =
+        id.startsWith('binary_sensor.') &&
+        _doorClasses.contains(d?.metadata.haDeviceClass);
+    if (!isLight && !isDoor) continue;
+    if (e.state == 'on') {
+      since.putIfAbsent(id, () => e.when);
+    } else if (since.remove(id) case final from?) {
+      final open = e.when.difference(from);
+      final name = d?.name ?? e.name ?? id;
+      if (isLight && open > (longestLight?.$2 ?? const Duration(hours: 8))) {
+        longestLight = (name, open, true);
+      }
+      if (isDoor && open > (longestDoor?.$2 ?? const Duration(minutes: 30))) {
+        longestDoor = (name, open, false);
+      }
+    }
+  }
   for (final e in entries) {
     final id = e.entityId;
     if (id == null) continue;
@@ -93,6 +137,11 @@ WeekStats weekStats(
       arrivals.update(name, (v) => v + 1, ifAbsent: () => 1);
     } else if (id.startsWith('lock.') && e.state == 'unlocked') {
       unlocks++;
+    } else if (d?.kind == DeviceKind.doorbell ||
+        (id.startsWith('binary_sensor.') &&
+            e.state == 'on' &&
+            id.contains('doorbell'))) {
+      doorbell++;
     }
   }
   MapEntry<String, int>? top(Map<String, int> m) => m.entries.isEmpty
@@ -110,6 +159,9 @@ WeekStats weekStats(
     busiestDay: days.entries.isEmpty
         ? null
         : days.entries.reduce((a, b) => b.value > a.value ? b : a).key,
+    doorbell: doorbell,
+    // A door left open matters more than a light left on.
+    longestOpen: longestDoor ?? longestLight,
   );
 }
 
@@ -217,6 +269,20 @@ class _WrappedScreenState extends ConsumerState<_WrappedScreen> {
           title: l10n.wrappedUnlocks,
           value: s.unlocks,
           caption: null,
+        ),
+      if (s.doorbell > 0)
+        (
+          emoji: '🔔',
+          title: l10n.wrappedDoorbell,
+          value: s.doorbell,
+          caption: null,
+        ),
+      if (s.longestOpen case (final name, final open, final light))
+        (
+          emoji: light ? '🕯️' : '🪟',
+          title: light ? l10n.wrappedLongestOn : l10n.wrappedLongestOpen,
+          value: null,
+          caption: '$name · ${wrappedDuration(l10n, open)}',
         ),
       if (s.busiestDay != null)
         (
@@ -474,3 +540,67 @@ class _Closing extends StatelessWidget {
     ),
   );
 }
+
+/// "3 h 20 min", "2 days 4 h".
+String wrappedDuration(AppLocalizations l10n, Duration d) {
+  if (d.inDays >= 1) return l10n.wrappedDays(d.inDays, d.inHours % 24);
+  return l10n.wrappedHours(d.inHours, d.inMinutes % 60);
+}
+
+/// Payload of the weekly notification (opens the week's story).
+const weekReportPayload = 'osh:week';
+
+/// When this week's summary is due: the last Sunday 19:00 not after [now].
+DateTime weekReportDue(DateTime now) {
+  final sunday = DateTime(now.year, now.month, now.day - now.weekday % 7, 19);
+  return sunday.isAfter(now)
+      ? sunday.subtract(const Duration(days: 7))
+      : sunday;
+}
+
+/// Time to notify: past Sunday 19:00 (until Tuesday), not yet sent.
+bool weekReportPending(DateTime now, DateTime? lastSent) {
+  final due = weekReportDue(now);
+  return now.difference(due) < const Duration(days: 2) &&
+      (lastSent == null || lastSent.isBefore(due));
+}
+
+/// One line for the notification: "Doors 34× · lights 51× · …".
+String weekReportBody(AppLocalizations l10n, WeekStats s) => [
+  if (s.doorOpenings > 0) l10n.weekReportDoors(s.doorOpenings),
+  if (s.lightsOn > 0) l10n.weekReportLights(s.lightsOn),
+  if (s.doorbell > 0) l10n.weekReportDoorbell(s.doorbell),
+  if (s.longestOpen case (final name, final open, _))
+    l10n.weekReportLongest(name, wrappedDuration(l10n, open)),
+  if (s.thisWeekKwh != null)
+    l10n.weekReportEnergy(s.thisWeekKwh!.toStringAsFixed(1)),
+].join(' · ');
+
+/// The week as a notification on Sunday evening (opt-in). Remembers when
+/// it was last sent, so each week comes once.
+class WeekReportController extends Notifier<bool> {
+  static const _key = 'week.notify';
+
+  @override
+  bool build() =>
+      ref.watch(appPreferencesProvider).readJson(_key)?['enabled'] == true;
+
+  DateTime? get lastSent => DateTime.tryParse(
+    '${ref.read(appPreferencesProvider).readJson(_key)?['sent']}',
+  );
+
+  Future<void> set(bool enabled) async {
+    state = enabled;
+    await ref
+        .read(appPreferencesProvider)
+        .writeJson(_key, enabled ? {'enabled': true} : null);
+  }
+
+  Future<void> markSent(DateTime at) => ref
+      .read(appPreferencesProvider)
+      .writeJson(_key, {'enabled': state, 'sent': at.toIso8601String()});
+}
+
+final weekReportProvider = NotifierProvider<WeekReportController, bool>(
+  WeekReportController.new,
+);

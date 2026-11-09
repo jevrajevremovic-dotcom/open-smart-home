@@ -9824,6 +9824,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About {count, plural, one{{count} month} other{{count} months}} left'**
   String batteryLeftMonths(int count);
+
+  /// No description provided for @wrappedDoorbell.
+  ///
+  /// In en, this message translates to:
+  /// **'Times the doorbell rang'**
+  String get wrappedDoorbell;
+
+  /// No description provided for @wrappedLongestOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the longest'**
+  String get wrappedLongestOpen;
+
+  /// No description provided for @wrappedLongestOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On the longest'**
+  String get wrappedLongestOn;
+
+  /// No description provided for @wrappedDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d {hours} h'**
+  String wrappedDays(int days, int hours);
+
+  /// No description provided for @wrappedHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h {minutes} min'**
+  String wrappedHours(int hours, int minutes);
+
+  /// No description provided for @weekReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week at home'**
+  String get weekReportTitle;
+
+  /// No description provided for @weekReportDoors.
+  ///
+  /// In en, this message translates to:
+  /// **'doors {count}×'**
+  String weekReportDoors(int count);
+
+  /// No description provided for @weekReportLights.
+  ///
+  /// In en, this message translates to:
+  /// **'lights {count}×'**
+  String weekReportLights(int count);
+
+  /// No description provided for @weekReportDoorbell.
+  ///
+  /// In en, this message translates to:
+  /// **'doorbell {count}×'**
+  String weekReportDoorbell(int count);
+
+  /// No description provided for @weekReportLongest.
+  ///
+  /// In en, this message translates to:
+  /// **'longest: {name} {time}'**
+  String weekReportLongest(String name, String time);
+
+  /// No description provided for @weekReportEnergy.
+  ///
+  /// In en, this message translates to:
+  /// **'electricity {kwh} kWh'**
+  String weekReportEnergy(String kwh);
+
+  /// No description provided for @weekReportSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly summary'**
+  String get weekReportSetting;
+
+  /// No description provided for @weekReportSettingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'On Sunday evening a short notification: doors, lights, doorbell, what was left open longest, electricity. Worked out on the phone.'**
+  String get weekReportSettingHint;
+
+  /// No description provided for @kioskWeekBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'How did the week go? Tap for the summary.'**
+  String get kioskWeekBanner;
 }
 
 class _AppLocalizationsDelegate

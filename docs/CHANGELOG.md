@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Nedeljni pregled**: „Ova nedelja” sada broji i koliko je puta zvonilo zvono i pokazuje šta je najduže bilo otvoreno (vrata/prozor, bar pola sata) ili upaljeno (svetlo, bar 8 sati). Po želji (Podešavanja → Obaveštenja → Pregled nedelje) nedeljom posle 19 h stiže kratko obaveštenje sa brojkama; dodir otvara priču. Na zidnom tabletu od nedelje uveče do ponedeljka u podne stoji kartica „Kako je prošla nedelja?”. Sve se računa na uređaju.
 - **Koliko još traje baterija** (Još → Baterije): iz dugoročne statistike Home Assistanta za poslednjih 90 dana aplikacija procenjuje kad će baterija pasti na 5 % („još oko 3 nedelje”), računajući samo od poslednje zamene. Bez procene kad je pad prespor ili podataka premalo. Demo kuća ima i bateriju brave.
 - **Provera veze** (kartica „nema veze” na početnom ekranu → Proveri vezu): korak po korak — da li je telefon na mreži, da li se Home Assistant javlja na kućnoj i na spoljnoj adresi (ili se tamo javlja nešto drugo, ili je sertifikat problem) i da li prijava još važi — i uz svaki korak šta da se uradi. Do tada aplikacija i dalje pokazuje poslednje poznato stanje sa vremenom.
 - **Buđenje servera (Wake-on-LAN)**: na istom ekranu se upiše MAC adresa servera i „Probudi” pošalje magični paket na kućnu mrežu (Android; ne u pregledaču).

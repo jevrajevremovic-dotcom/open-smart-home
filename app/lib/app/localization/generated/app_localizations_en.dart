@@ -5860,4 +5860,61 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return 'About $_temp0 left';
   }
+
+  @override
+  String get wrappedDoorbell => 'Times the doorbell rang';
+
+  @override
+  String get wrappedLongestOpen => 'Open the longest';
+
+  @override
+  String get wrappedLongestOn => 'On the longest';
+
+  @override
+  String wrappedDays(int days, int hours) {
+    return '$days d $hours h';
+  }
+
+  @override
+  String wrappedHours(int hours, int minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String get weekReportTitle => 'Your week at home';
+
+  @override
+  String weekReportDoors(int count) {
+    return 'doors $count×';
+  }
+
+  @override
+  String weekReportLights(int count) {
+    return 'lights $count×';
+  }
+
+  @override
+  String weekReportDoorbell(int count) {
+    return 'doorbell $count×';
+  }
+
+  @override
+  String weekReportLongest(String name, String time) {
+    return 'longest: $name $time';
+  }
+
+  @override
+  String weekReportEnergy(String kwh) {
+    return 'electricity $kwh kWh';
+  }
+
+  @override
+  String get weekReportSetting => 'Weekly summary';
+
+  @override
+  String get weekReportSettingHint =>
+      'On Sunday evening a short notification: doors, lights, doorbell, what was left open longest, electricity. Worked out on the phone.';
+
+  @override
+  String get kioskWeekBanner => 'How did the week go? Tap for the summary.';
 }

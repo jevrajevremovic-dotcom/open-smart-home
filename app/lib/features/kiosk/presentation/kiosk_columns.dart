@@ -1,3 +1,5 @@
+import '../../extras/week_wrapped.dart';
+
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -417,6 +419,7 @@ class _HomeOverview extends ConsumerWidget {
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 28),
           children: [
             const _BirthdayBanner(),
+            const _WeekBanner(),
             Row(
               children: [
                 Expanded(
@@ -732,6 +735,50 @@ class _BirthdayBanner extends ConsumerWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Sunday evening until Monday noon: the week's story, one tap away.
+class _WeekBanner extends ConsumerWidget {
+  const _WeekBanner();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final now = ref.watch(kioskNowProvider);
+    final show =
+        (now.weekday == DateTime.sunday && now.hour >= 17) ||
+        (now.weekday == DateTime.monday && now.hour < 12);
+    if (!show) return const SizedBox.shrink();
+    final scheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Card(
+        key: const Key('kioskWeek'),
+        elevation: 0,
+        color: scheme.secondaryContainer,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => showWeekWrapped(context),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            child: Row(
+              children: [
+                const Text('✨', style: TextStyle(fontSize: 32)),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    context.l10n.kioskWeekBanner,
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(color: scheme.onSecondaryContainer),
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: scheme.onSecondaryContainer),
+              ],
+            ),
           ),
         ),
       ),

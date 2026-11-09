@@ -5897,6 +5897,63 @@ class AppLocalizationsSr extends AppLocalizations {
     );
     return 'Još oko $_temp0';
   }
+
+  @override
+  String get wrappedDoorbell => 'Puta je zvonilo zvono';
+
+  @override
+  String get wrappedLongestOpen => 'Najduže otvoreno';
+
+  @override
+  String get wrappedLongestOn => 'Najduže upaljeno';
+
+  @override
+  String wrappedDays(int days, int hours) {
+    return '$days d $hours h';
+  }
+
+  @override
+  String wrappedHours(int hours, int minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String get weekReportTitle => 'Vaša nedelja u kući';
+
+  @override
+  String weekReportDoors(int count) {
+    return 'vrata $count×';
+  }
+
+  @override
+  String weekReportLights(int count) {
+    return 'svetla $count×';
+  }
+
+  @override
+  String weekReportDoorbell(int count) {
+    return 'zvono $count×';
+  }
+
+  @override
+  String weekReportLongest(String name, String time) {
+    return 'najduže: $name $time';
+  }
+
+  @override
+  String weekReportEnergy(String kwh) {
+    return 'struja $kwh kWh';
+  }
+
+  @override
+  String get weekReportSetting => 'Pregled nedelje';
+
+  @override
+  String get weekReportSettingHint =>
+      'Nedeljom uveče kratko obaveštenje: vrata, svetla, zvono, šta je najduže bilo otvoreno, struja. Računa se na telefonu.';
+
+  @override
+  String get kioskWeekBanner => 'Kako je prošla nedelja? Dodirnite za pregled.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -1621,5 +1621,19 @@
   "batteryLeftNow": "Treba je zameniti uskoro",
   "batteryLeftDays": "Još oko {count, plural, one{{count} dan} few{{count} dana} other{{count} dana}}",
   "batteryLeftWeeks": "Još oko {count, plural, one{{count} nedelju} few{{count} nedelje} other{{count} nedelja}}",
-  "batteryLeftMonths": "Još oko {count, plural, one{{count} mesec} few{{count} meseca} other{{count} meseci}}"
+  "batteryLeftMonths": "Još oko {count, plural, one{{count} mesec} few{{count} meseca} other{{count} meseci}}",
+  "wrappedDoorbell": "Puta je zvonilo zvono",
+  "wrappedLongestOpen": "Najduže otvoreno",
+  "wrappedLongestOn": "Najduže upaljeno",
+  "wrappedDays": "{days} d {hours} h",
+  "wrappedHours": "{hours} h {minutes} min",
+  "weekReportTitle": "Vaša nedelja u kući",
+  "weekReportDoors": "vrata {count}×",
+  "weekReportLights": "svetla {count}×",
+  "weekReportDoorbell": "zvono {count}×",
+  "weekReportLongest": "najduže: {name} {time}",
+  "weekReportEnergy": "struja {kwh} kWh",
+  "weekReportSetting": "Pregled nedelje",
+  "weekReportSettingHint": "Nedeljom uveče kratko obaveštenje: vrata, svetla, zvono, šta je najduže bilo otvoreno, struja. Računa se na telefonu.",
+  "kioskWeekBanner": "Kako je prošla nedelja? Dodirnite za pregled."
 }

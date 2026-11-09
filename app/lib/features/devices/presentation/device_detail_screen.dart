@@ -1,3 +1,6 @@
+import '../../energy/application/cheap_run.dart';
+import '../../energy/presentation/cheap_run_section.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -121,6 +124,12 @@ class DeviceDetailScreen extends ConsumerWidget {
                     case final power? when !ref.watch(kioskActiveProvider)) ...[
                   const SizedBox(height: 16),
                   ApplianceDoneSection(power: power),
+                ],
+                if (supportsCheapRun(device) &&
+                    syncStatus == SyncStatus.live &&
+                    !ref.watch(kioskActiveProvider)) ...[
+                  const SizedBox(height: 16),
+                  CheapRunSection(device: device),
                 ],
                 if ((device.kind == DeviceKind.climate ||
                         device.kind == DeviceKind.thermostat) &&

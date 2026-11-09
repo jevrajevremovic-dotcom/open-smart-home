@@ -24,15 +24,6 @@ class _ElectricityPriceSectionState
   int _hours = 2;
   int? _selected;
 
-  String _price(String locale, double v, String? unit) {
-    final digits = v.abs() < 1 ? 3 : 2;
-    final text = NumberFormat.decimalPatternDigits(
-      locale: locale,
-      decimalDigits: digits,
-    ).format(v);
-    return unit == null ? text : '$text $unit';
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -67,10 +58,10 @@ class _ElectricityPriceSectionState
         : null;
     final caption = selected != null
         ? '${DateFormat.E(locale).add_Hm().format(hours[selected])} · '
-              '${_price(locale, values[selected], prices.unit)}'
+              '${formatPrice(locale, values[selected], prices.unit)}'
         : current == null
         ? ''
-        : l10n.priceNow(_price(locale, current.price, prices.unit));
+        : l10n.priceNow(formatPrice(locale, current.price, prices.unit));
     final maxValue = values.isEmpty ? 0.0 : values.reduce(math.max);
     return Card.outlined(
       key: const Key('priceSection'),
@@ -158,13 +149,7 @@ class _ElectricityPriceSectionState
             Text(
               best == null
                   ? l10n.priceNoWindow
-                  : l10n.priceCheapest(
-                      best.$1.isAfter(now)
-                          ? '${_dayPrefix(l10n, best.$1, now)}${hm.format(best.$1)}'
-                          : l10n.priceFromNow,
-                      hm.format(best.$2),
-                      _price(locale, best.$3, prices.unit),
-                    ),
+                  : cheapestLabel(l10n, best, now, prices.unit),
               key: const Key('priceCheapest'),
               style: theme.textTheme.titleSmall,
             ),
@@ -173,7 +158,33 @@ class _ElectricityPriceSectionState
       ),
     );
   }
+}
 
-  String _dayPrefix(AppLocalizations l10n, DateTime t, DateTime now) =>
-      t.day != now.day ? '${l10n.priceTomorrow} ' : '';
+/// A price with three decimals below 1 (0,125 €/kWh), else two.
+String formatPrice(String locale, double v, String? unit) {
+  final digits = v.abs() < 1 ? 3 : 2;
+  final text = NumberFormat.decimalPatternDigits(
+    locale: locale,
+    decimalDigits: digits,
+  ).format(v);
+  return unit == null ? text : '$text $unit';
+}
+
+/// "Cheapest: tomorrow 02:00–05:00, on average 0,081 €/kWh".
+String cheapestLabel(
+  AppLocalizations l10n,
+  (DateTime, DateTime, double) best,
+  DateTime now,
+  String? unit,
+) {
+  final hm = DateFormat.Hm(l10n.localeName);
+  final (start, end, price) = best;
+  return l10n.priceCheapest(
+    start.isAfter(now)
+        ? '${start.day != now.day ? '${l10n.priceTomorrow} ' : ''}'
+              '${hm.format(start)}'
+        : l10n.priceFromNow,
+    hm.format(end),
+    formatPrice(l10n.localeName, price, unit),
+  );
 }

@@ -2191,5 +2191,15 @@
   "habitTimes": "{seen} of {outOf} times",
   "@habitTimes": {"placeholders": {"seen": {"type": "int"}, "outOf": {"type": "int"}}},
   "habitCreate": "Make it automatic",
-  "habitDismiss": "No thanks"
+  "habitDismiss": "No thanks",
+  "cheapRunTitle": "Run when electricity is cheapest",
+  "cheapRunHint": "Home Assistant switches it on when the window starts and off when it ends — once, even with this phone off. For a water heater, or a plug with a machine that is ready to go.",
+  "cheapRunPlan": "Schedule",
+  "cheapRunDone": "Scheduled in Home Assistant",
+  "cheapRunPlanned": "Scheduled: {from}–{to}",
+  "@cheapRunPlanned": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}}},
+  "cheapRunCancel": "Cancel",
+  "cheapRunCancelled": "Cancelled",
+  "cheapRunAlias": "Cheapest electricity: {name}",
+  "@cheapRunAlias": {"placeholders": {"name": {"type": "String"}}}
 }

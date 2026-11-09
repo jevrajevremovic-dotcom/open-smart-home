@@ -5713,4 +5713,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get habitDismiss => 'No thanks';
+
+  @override
+  String get cheapRunTitle => 'Run when electricity is cheapest';
+
+  @override
+  String get cheapRunHint =>
+      'Home Assistant switches it on when the window starts and off when it ends — once, even with this phone off. For a water heater, or a plug with a machine that is ready to go.';
+
+  @override
+  String get cheapRunPlan => 'Schedule';
+
+  @override
+  String get cheapRunDone => 'Scheduled in Home Assistant';
+
+  @override
+  String cheapRunPlanned(String from, String to) {
+    return 'Scheduled: $from–$to';
+  }
+
+  @override
+  String get cheapRunCancel => 'Cancel';
+
+  @override
+  String get cheapRunCancelled => 'Cancelled';
+
+  @override
+  String cheapRunAlias(String name) {
+    return 'Cheapest electricity: $name';
+  }
 }

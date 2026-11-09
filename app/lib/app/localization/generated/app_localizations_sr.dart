@@ -5746,6 +5746,35 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get habitDismiss => 'Ne treba';
+
+  @override
+  String get cheapRunTitle => 'Uključi kad je struja najjeftinija';
+
+  @override
+  String get cheapRunHint =>
+      'Home Assistant uključi uređaj na početku termina i isključi ga na kraju — jednom, i kad je telefon ugašen. Za bojler ili utičnicu sa mašinom koja čeka.';
+
+  @override
+  String get cheapRunPlan => 'Zakaži';
+
+  @override
+  String get cheapRunDone => 'Zakazano u Home Assistantu';
+
+  @override
+  String cheapRunPlanned(String from, String to) {
+    return 'Zakazano: $from–$to';
+  }
+
+  @override
+  String get cheapRunCancel => 'Otkaži';
+
+  @override
+  String get cheapRunCancelled => 'Otkazano';
+
+  @override
+  String cheapRunAlias(String name) {
+    return 'Najjeftinija struja: $name';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

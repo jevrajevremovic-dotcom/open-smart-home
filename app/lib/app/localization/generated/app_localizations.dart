@@ -9608,6 +9608,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No thanks'**
   String get habitDismiss;
+
+  /// No description provided for @cheapRunTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Run when electricity is cheapest'**
+  String get cheapRunTitle;
+
+  /// No description provided for @cheapRunHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant switches it on when the window starts and off when it ends — once, even with this phone off. For a water heater, or a plug with a machine that is ready to go.'**
+  String get cheapRunHint;
+
+  /// No description provided for @cheapRunPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get cheapRunPlan;
+
+  /// No description provided for @cheapRunDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled in Home Assistant'**
+  String get cheapRunDone;
+
+  /// No description provided for @cheapRunPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled: {from}–{to}'**
+  String cheapRunPlanned(String from, String to);
+
+  /// No description provided for @cheapRunCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cheapRunCancel;
+
+  /// No description provided for @cheapRunCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cheapRunCancelled;
+
+  /// No description provided for @cheapRunAlias.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheapest electricity: {name}'**
+  String cheapRunAlias(String name);
 }
 
 class _AppLocalizationsDelegate

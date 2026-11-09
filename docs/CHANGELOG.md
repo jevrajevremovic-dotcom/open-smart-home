@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Dodato
+- **Uključi kad je struja najjeftinija** (na utičnici ili prekidaču, kad HA ima senzor cene): izaberete 1–6 sati, aplikacija pokaže najjeftiniji termin danas/sutra i na „Zakaži” napravi automatizaciju u HA koja uređaj uključi na početku i isključi na kraju, pa sama sebe isključi — radi i kad je telefon ugašen. Zakazano se vidi i može otkazati na istom mestu.
 - **Predlozi iz navika** (Scene i automatizacije): aplikacija u dnevniku Home Assistanta za poslednje dve nedelje traži ono što ukućani rade ručno skoro svaki dan — u isto vreme (npr. „oko 22:30 isključi Dnevna soba“, po potrebi samo radnim danima ili vikendom) ili odmah posle nečega (vrata se otvore → upali svetlo u hodniku; ako je to uvek uveče, samo kad je mrak). „Napravi automatizaciju“ otvara editor sa popunjenim predlogom, ništa se ne čuva bez pregleda; „Ne treba“ ga trajno sklanja. Promene koje su napravile automatizacije se ne računaju, otključavanje i isključenje alarma se nikad ne predlažu. Računa se na uređaju, ništa ne izlazi iz kuće.
 
 ## [1.1.0] – 2026-11-09

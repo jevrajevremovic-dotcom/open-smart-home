@@ -1585,5 +1585,13 @@
   "habitAfter": "Posle: {trigger}",
   "habitTimes": "{seen} od {outOf} puta",
   "habitCreate": "Napravi automatizaciju",
-  "habitDismiss": "Ne treba"
+  "habitDismiss": "Ne treba",
+  "cheapRunTitle": "Uključi kad je struja najjeftinija",
+  "cheapRunHint": "Home Assistant uključi uređaj na početku termina i isključi ga na kraju — jednom, i kad je telefon ugašen. Za bojler ili utičnicu sa mašinom koja čeka.",
+  "cheapRunPlan": "Zakaži",
+  "cheapRunDone": "Zakazano u Home Assistantu",
+  "cheapRunPlanned": "Zakazano: {from}–{to}",
+  "cheapRunCancel": "Otkaži",
+  "cheapRunCancelled": "Otkazano",
+  "cheapRunAlias": "Najjeftinija struja: {name}"
 }

@@ -9656,6 +9656,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cheapest electricity: {name}'**
   String cheapRunAlias(String name);
+
+  /// No description provided for @checkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the connection'**
+  String get checkTitle;
+
+  /// No description provided for @checkNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone is on a network'**
+  String get checkNetwork;
+
+  /// No description provided for @checkNetworkFix.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone has no network. Turn on Wi-Fi or mobile data.'**
+  String get checkNetworkFix;
+
+  /// No description provided for @checkHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant at the home address'**
+  String get checkHome;
+
+  /// No description provided for @checkHomeFix.
+  ///
+  /// In en, this message translates to:
+  /// **'The server does not answer at the home address. Is it on, and is this phone on the home Wi-Fi? Away from home you need a remote address.'**
+  String get checkHomeFix;
+
+  /// No description provided for @checkRemote.
+  ///
+  /// In en, this message translates to:
+  /// **'Remote address (away from home)'**
+  String get checkRemote;
+
+  /// No description provided for @checkRemoteNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set up (Settings → Connection).'**
+  String get checkRemoteNone;
+
+  /// No description provided for @checkRemoteFix.
+  ///
+  /// In en, this message translates to:
+  /// **'The remote address does not answer. Are Tailscale or Nabu Casa on, on the server and on this phone?'**
+  String get checkRemoteFix;
+
+  /// No description provided for @checkNotHa.
+  ///
+  /// In en, this message translates to:
+  /// **'Something answers at the address, but it is not Home Assistant. Check the address and port.'**
+  String get checkNotHa;
+
+  /// No description provided for @checkCertificate.
+  ///
+  /// In en, this message translates to:
+  /// **'The server\'s certificate changed or is not trusted. Sign in again to check it.'**
+  String get checkCertificate;
+
+  /// No description provided for @checkSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in is valid'**
+  String get checkSignIn;
+
+  /// No description provided for @checkSignInFix.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant no longer accepts this sign-in (the token was removed or expired). Sign in again.'**
+  String get checkSignInFix;
+
+  /// No description provided for @checkSignInOther.
+  ///
+  /// In en, this message translates to:
+  /// **'The sign-in could not be checked.'**
+  String get checkSignInOther;
+
+  /// No description provided for @checkSignInSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked once the server answers.'**
+  String get checkSignInSkipped;
+
+  /// No description provided for @checkAllOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything answers. The connection should be back in a moment.'**
+  String get checkAllOk;
+
+  /// No description provided for @checkAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get checkAgain;
+
+  /// No description provided for @wolTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wake the server'**
+  String get wolTitle;
+
+  /// No description provided for @wolHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If the server sleeps or is off and supports Wake-on-LAN, this phone can wake it from the home network.'**
+  String get wolHint;
+
+  /// No description provided for @wolHintDown.
+  ///
+  /// In en, this message translates to:
+  /// **'The server does not answer. If it supports Wake-on-LAN, wake it from here (this phone must be on the home Wi-Fi).'**
+  String get wolHintDown;
+
+  /// No description provided for @wolMac.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC address of the server\'s network card'**
+  String get wolMac;
+
+  /// No description provided for @wolWake.
+  ///
+  /// In en, this message translates to:
+  /// **'Wake'**
+  String get wolWake;
+
+  /// No description provided for @wolSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent. The server needs a minute or two to start.'**
+  String get wolSent;
+
+  /// No description provided for @wolBadMac.
+  ///
+  /// In en, this message translates to:
+  /// **'That is not a MAC address (six pairs of hex digits, e.g. AA:BB:CC:DD:EE:FF).'**
+  String get wolBadMac;
+
+  /// No description provided for @wolFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send. Is this phone on Wi-Fi?'**
+  String get wolFailed;
 }
 
 class _AppLocalizationsDelegate

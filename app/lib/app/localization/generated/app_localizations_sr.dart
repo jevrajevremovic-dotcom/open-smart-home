@@ -5775,6 +5775,89 @@ class AppLocalizationsSr extends AppLocalizations {
   String cheapRunAlias(String name) {
     return 'Najjeftinija struja: $name';
   }
+
+  @override
+  String get checkTitle => 'Proveri vezu';
+
+  @override
+  String get checkNetwork => 'Telefon je na mreži';
+
+  @override
+  String get checkNetworkFix =>
+      'Telefon nema mrežu. Uključite Wi-Fi ili mobilne podatke.';
+
+  @override
+  String get checkHome => 'Home Assistant na kućnoj adresi';
+
+  @override
+  String get checkHomeFix =>
+      'Server se ne javlja na kućnoj adresi. Da li je uključen i da li je telefon na kućnoj Wi-Fi mreži? Ako ste van kuće, potrebna je spoljna adresa.';
+
+  @override
+  String get checkRemote => 'Spoljna adresa (van kuće)';
+
+  @override
+  String get checkRemoteNone => 'Nije podešena (Podešavanja → Veza).';
+
+  @override
+  String get checkRemoteFix =>
+      'Spoljna adresa se ne javlja. Da li su Tailscale ili Nabu Casa uključeni, na serveru i na telefonu?';
+
+  @override
+  String get checkNotHa =>
+      'Na adresi se javlja nešto, ali to nije Home Assistant. Proverite adresu i port.';
+
+  @override
+  String get checkCertificate =>
+      'Sertifikat servera se promenio ili mu se ne veruje. Prijavite se ponovo da biste ga proverili.';
+
+  @override
+  String get checkSignIn => 'Prijava važi';
+
+  @override
+  String get checkSignInFix =>
+      'Home Assistant više ne prihvata ovu prijavu (token je obrisan ili je istekao). Prijavite se ponovo.';
+
+  @override
+  String get checkSignInOther => 'Prijava nije mogla da se proveri.';
+
+  @override
+  String get checkSignInSkipped => 'Proverava se kad se server javi.';
+
+  @override
+  String get checkAllOk =>
+      'Sve se javlja. Veza bi trebalo da se vrati za koji trenutak.';
+
+  @override
+  String get checkAgain => 'Proveri ponovo';
+
+  @override
+  String get wolTitle => 'Probudi server';
+
+  @override
+  String get wolHint =>
+      'Ako server spava ili je ugašen, a podržava Wake-on-LAN, telefon na kućnoj mreži može da ga probudi.';
+
+  @override
+  String get wolHintDown =>
+      'Server se ne javlja. Ako podržava Wake-on-LAN, probudite ga odavde (telefon mora biti na kućnoj Wi-Fi mreži).';
+
+  @override
+  String get wolMac => 'MAC adresa mrežne kartice servera';
+
+  @override
+  String get wolWake => 'Probudi';
+
+  @override
+  String get wolSent => 'Poslato. Serveru treba minut-dva da se pokrene.';
+
+  @override
+  String get wolBadMac =>
+      'To nije MAC adresa (šest parova heksadecimalnih cifara, npr. AA:BB:CC:DD:EE:FF).';
+
+  @override
+  String get wolFailed =>
+      'Slanje nije uspelo. Da li je telefon na Wi-Fi mreži?';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

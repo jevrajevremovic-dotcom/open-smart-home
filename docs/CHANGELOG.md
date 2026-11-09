@@ -3,6 +3,8 @@
 ## [Unreleased]
 
 ### Dodato
+- **Provera veze** (kartica „nema veze” na početnom ekranu → Proveri vezu): korak po korak — da li je telefon na mreži, da li se Home Assistant javlja na kućnoj i na spoljnoj adresi (ili se tamo javlja nešto drugo, ili je sertifikat problem) i da li prijava još važi — i uz svaki korak šta da se uradi. Do tada aplikacija i dalje pokazuje poslednje poznato stanje sa vremenom.
+- **Buđenje servera (Wake-on-LAN)**: na istom ekranu se upiše MAC adresa servera i „Probudi” pošalje magični paket na kućnu mrežu (Android; ne u pregledaču).
 - **Uključi kad je struja najjeftinija** (na utičnici ili prekidaču, kad HA ima senzor cene): izaberete 1–6 sati, aplikacija pokaže najjeftiniji termin danas/sutra i na „Zakaži” napravi automatizaciju u HA koja uređaj uključi na početku i isključi na kraju, pa sama sebe isključi — radi i kad je telefon ugašen. Zakazano se vidi i može otkazati na istom mestu.
 - **Predlozi iz navika** (Scene i automatizacije): aplikacija u dnevniku Home Assistanta za poslednje dve nedelje traži ono što ukućani rade ručno skoro svaki dan — u isto vreme (npr. „oko 22:30 isključi Dnevna soba“, po potrebi samo radnim danima ili vikendom) ili odmah posle nečega (vrata se otvore → upali svetlo u hodniku; ako je to uvek uveče, samo kad je mrak). „Napravi automatizaciju“ otvara editor sa popunjenim predlogom, ništa se ne čuva bez pregleda; „Ne treba“ ga trajno sklanja. Promene koje su napravile automatizacije se ne računaju, otključavanje i isključenje alarma se nikad ne predlažu. Računa se na uređaju, ništa ne izlazi iz kuće.
 

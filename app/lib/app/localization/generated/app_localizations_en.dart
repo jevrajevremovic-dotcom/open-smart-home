@@ -5742,4 +5742,86 @@ class AppLocalizationsEn extends AppLocalizations {
   String cheapRunAlias(String name) {
     return 'Cheapest electricity: $name';
   }
+
+  @override
+  String get checkTitle => 'Check the connection';
+
+  @override
+  String get checkNetwork => 'This phone is on a network';
+
+  @override
+  String get checkNetworkFix =>
+      'This phone has no network. Turn on Wi-Fi or mobile data.';
+
+  @override
+  String get checkHome => 'Home Assistant at the home address';
+
+  @override
+  String get checkHomeFix =>
+      'The server does not answer at the home address. Is it on, and is this phone on the home Wi-Fi? Away from home you need a remote address.';
+
+  @override
+  String get checkRemote => 'Remote address (away from home)';
+
+  @override
+  String get checkRemoteNone => 'Not set up (Settings → Connection).';
+
+  @override
+  String get checkRemoteFix =>
+      'The remote address does not answer. Are Tailscale or Nabu Casa on, on the server and on this phone?';
+
+  @override
+  String get checkNotHa =>
+      'Something answers at the address, but it is not Home Assistant. Check the address and port.';
+
+  @override
+  String get checkCertificate =>
+      'The server\'s certificate changed or is not trusted. Sign in again to check it.';
+
+  @override
+  String get checkSignIn => 'Sign-in is valid';
+
+  @override
+  String get checkSignInFix =>
+      'Home Assistant no longer accepts this sign-in (the token was removed or expired). Sign in again.';
+
+  @override
+  String get checkSignInOther => 'The sign-in could not be checked.';
+
+  @override
+  String get checkSignInSkipped => 'Checked once the server answers.';
+
+  @override
+  String get checkAllOk =>
+      'Everything answers. The connection should be back in a moment.';
+
+  @override
+  String get checkAgain => 'Check again';
+
+  @override
+  String get wolTitle => 'Wake the server';
+
+  @override
+  String get wolHint =>
+      'If the server sleeps or is off and supports Wake-on-LAN, this phone can wake it from the home network.';
+
+  @override
+  String get wolHintDown =>
+      'The server does not answer. If it supports Wake-on-LAN, wake it from here (this phone must be on the home Wi-Fi).';
+
+  @override
+  String get wolMac => 'MAC address of the server\'s network card';
+
+  @override
+  String get wolWake => 'Wake';
+
+  @override
+  String get wolSent => 'Sent. The server needs a minute or two to start.';
+
+  @override
+  String get wolBadMac =>
+      'That is not a MAC address (six pairs of hex digits, e.g. AA:BB:CC:DD:EE:FF).';
+
+  @override
+  String get wolFailed => 'Could not send. Is this phone on Wi-Fi?';
 }

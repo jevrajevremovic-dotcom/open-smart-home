@@ -33,22 +33,37 @@ class ConnectionProblemCard extends ConsumerWidget {
             if (status.failure != null)
               InlineNotice.warning(failureMessage(l10n, status.failure!)),
             const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: status.isTerminal
-                  ? FilledButton.icon(
-                      onPressed: () => ref
-                          .read(sessionControllerProvider.notifier)
-                          .signOut(),
-                      icon: const Icon(Icons.login),
-                      label: Text(l10n.signInAgain),
-                    )
-                  : OutlinedButton.icon(
-                      onPressed: () =>
-                          ref.read(webSocketManagerProvider)?.retryNow(),
-                      icon: const Icon(Icons.refresh),
-                      label: Text(l10n.retryNow),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                if (status.isTerminal)
+                  FilledButton.icon(
+                    onPressed: () =>
+                        ref.read(sessionControllerProvider.notifier).signOut(),
+                    icon: const Icon(Icons.login),
+                    label: Text(l10n.signInAgain),
+                  )
+                else ...[
+                  OutlinedButton.icon(
+                    onPressed: () =>
+                        ref.read(webSocketManagerProvider)?.retryNow(),
+                    icon: const Icon(Icons.refresh),
+                    label: Text(l10n.retryNow),
+                  ),
+                  TextButton.icon(
+                    key: const Key('connectionCheck'),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const ConnectionCheckScreen(),
+                      ),
                     ),
+                    icon: const Icon(Icons.troubleshoot),
+                    label: Text(l10n.checkTitle),
+                  ),
+                ],
+              ],
             ),
           ],
         ),

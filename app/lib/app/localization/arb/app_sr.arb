@@ -1559,5 +1559,17 @@
   "aiAutoUnknownEntities": "Ne može da se sačuva — ovi uređaji ne postoje u kući: {ids}",
   "aiAutoUnknownActions": "Ne može da se sačuva — Home Assistant nema ove akcije: {actions}",
   "aiAutoBlocked": "Ne čuva se iz aplikacije (pokreće kod, restartuje HA ili šalje podatke napolje): {actions}. Takvu automatizaciju napravite u samom HA.",
-  "aiAutoSensitive": "Pažnja: otključava, isključuje alarm ili otvara ({actions}). Proverite da li to želite."
+  "aiAutoSensitive": "Pažnja: otključava, isključuje alarm ili otvara ({actions}). Proverite da li to želite.",
+  "guestRooms": "Samo ove sobe",
+  "guestRoomsAll": "Nijedna nije izabrana: vide se sve sobe.",
+  "guestRoomsSome": "Vide se samo uređaji iz izabranih soba.",
+  "guestTime": "Koliko dugo",
+  "guestTimeAlways": "Dok ga ne isključim",
+  "guestTimeHours": "{count} h",
+  "guestTimeMidnight": "Do ponoći",
+  "guestTimeDays": "{count, plural, one{{count} dan} other{{count} dana}}",
+  "guestTimeHint": "Kad vreme istekne, aplikacija se zaključa dok se ne unese PIN.",
+  "guestUntil": "Važi do {time}",
+  "guestExpired": "Vreme za goste je isteklo",
+  "guestExpiredHint": "Hvala na poseti! Za dalje korišćenje potreban je PIN domaćina."
 }

@@ -9452,6 +9452,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Careful: it unlocks, disarms or opens ({actions}). Make sure you want that.'**
   String aiAutoSensitive(String actions);
+
+  /// No description provided for @guestRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Only these rooms'**
+  String get guestRooms;
+
+  /// No description provided for @guestRoomsAll.
+  ///
+  /// In en, this message translates to:
+  /// **'None chosen: every room is shown.'**
+  String get guestRoomsAll;
+
+  /// No description provided for @guestRoomsSome.
+  ///
+  /// In en, this message translates to:
+  /// **'Only devices in the chosen rooms are shown.'**
+  String get guestRoomsSome;
+
+  /// No description provided for @guestTime.
+  ///
+  /// In en, this message translates to:
+  /// **'For how long'**
+  String get guestTime;
+
+  /// No description provided for @guestTimeAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'Until I turn it off'**
+  String get guestTimeAlways;
+
+  /// No description provided for @guestTimeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} h'**
+  String guestTimeHours(int count);
+
+  /// No description provided for @guestTimeMidnight.
+  ///
+  /// In en, this message translates to:
+  /// **'Until midnight'**
+  String get guestTimeMidnight;
+
+  /// No description provided for @guestTimeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} day} other{{count} days}}'**
+  String guestTimeDays(int count);
+
+  /// No description provided for @guestTimeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'When the time is up, the app locks until the PIN is entered.'**
+  String get guestTimeHint;
+
+  /// No description provided for @guestUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {time}'**
+  String guestUntil(String time);
+
+  /// No description provided for @guestExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest time is up'**
+  String get guestExpired;
+
+  /// No description provided for @guestExpiredHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for visiting! The host\'s PIN is needed to go on.'**
+  String get guestExpiredHint;
 }
 
 class _AppLocalizationsDelegate

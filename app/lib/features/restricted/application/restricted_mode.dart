@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,6 +19,8 @@ class RestrictedSettings {
     this.hideCameras = true,
     this.pinHash,
     this.pinSalt,
+    this.rooms,
+    this.until,
   });
 
   factory RestrictedSettings.fromJson(Map<String, Object?>? j) =>
@@ -26,6 +30,14 @@ class RestrictedSettings {
         hideCameras: j?['hideCameras'] != false,
         pinHash: j?['pinHash'] as String?,
         pinSalt: j?['pinSalt'] as String?,
+        rooms: switch (j?['rooms']) {
+          final List<Object?> list => [
+            for (final r in list)
+              if (r is String) r,
+          ],
+          _ => null,
+        },
+        until: DateTime.tryParse('${j?['until']}'),
       );
 
   final bool enabled;
@@ -36,12 +48,20 @@ class RestrictedSettings {
   final String? pinHash;
   final String? pinSalt;
 
+  /// A guest sees only these rooms (`null`: every room).
+  final List<String>? rooms;
+
+  /// A guest's access ends here; then the app locks until the PIN.
+  final DateTime? until;
+
   Map<String, Object?> toJson() => {
     'enabled': enabled,
     'hideSecurity': hideSecurity,
     'hideCameras': hideCameras,
     'pinHash': pinHash,
     'pinSalt': pinSalt,
+    'rooms': ?rooms,
+    'until': ?until?.toIso8601String(),
   };
 
   RestrictedSettings copyWith({
@@ -50,12 +70,18 @@ class RestrictedSettings {
     bool? hideCameras,
     String? pinHash,
     String? pinSalt,
+    List<String>? rooms,
+    bool clearRooms = false,
+    DateTime? until,
+    bool clearUntil = false,
   }) => RestrictedSettings(
     enabled: enabled ?? this.enabled,
     hideSecurity: hideSecurity ?? this.hideSecurity,
     hideCameras: hideCameras ?? this.hideCameras,
     pinHash: pinHash ?? this.pinHash,
     pinSalt: pinSalt ?? this.pinSalt,
+    rooms: clearRooms ? null : rooms ?? this.rooms,
+    until: clearUntil ? null : until ?? this.until,
   );
 
   Set<DeviceKind> get hiddenKinds => !enabled
@@ -70,7 +96,9 @@ class RestrictedSettings {
           if (hideCameras) ...{DeviceKind.camera, DeviceKind.doorbell},
         };
 
-  bool hides(SmartHomeDevice d) => hiddenKinds.contains(d.kind);
+  bool hides(SmartHomeDevice d) =>
+      hiddenKinds.contains(d.kind) ||
+      (enabled && rooms != null && !rooms!.contains(d.roomId));
 }
 
 class RestrictedController extends Notifier<RestrictedSettings> {
@@ -86,18 +114,37 @@ class RestrictedController extends Notifier<RestrictedSettings> {
     await ref.read(appPreferencesProvider).writeJson(_key, s.toJson());
   }
 
-  Future<void> setOptions({bool? hideSecurity, bool? hideCameras}) => _save(
-    state.copyWith(hideSecurity: hideSecurity, hideCameras: hideCameras),
+  Future<void> setOptions({
+    bool? hideSecurity,
+    bool? hideCameras,
+    List<String>? rooms,
+    bool clearRooms = false,
+    DateTime? until,
+    bool clearUntil = false,
+  }) => _save(
+    state.copyWith(
+      hideSecurity: hideSecurity,
+      hideCameras: hideCameras,
+      rooms: rooms,
+      clearRooms: clearRooms,
+      until: until,
+      clearUntil: clearUntil,
+    ),
   );
 
-  /// Turns the mode on with a new PIN (stored only as a PBKDF2 hash).
-  Future<void> enable(String pin) {
+  /// Turns the mode on with a new PIN (stored only as a PBKDF2 hash); for
+  /// a guest, maybe only [rooms] and only until [until].
+  Future<void> enable(String pin, {List<String>? rooms, DateTime? until}) {
     final salt = PinHasher.newSalt();
     return _save(
       state.copyWith(
         enabled: true,
         pinSalt: salt,
         pinHash: PinHasher.hash(pin, salt),
+        rooms: rooms,
+        clearRooms: rooms == null,
+        until: until,
+        clearUntil: until == null,
       ),
     );
   }
@@ -123,3 +170,16 @@ final restrictedModeProvider =
     NotifierProvider<RestrictedController, RestrictedSettings>(
       RestrictedController.new,
     );
+
+/// A guest's time is up: the app shows only the PIN. Turns true by
+/// itself at [RestrictedSettings.until].
+final guestExpiredProvider = Provider<bool>((ref) {
+  final s = ref.watch(restrictedModeProvider);
+  final until = s.until;
+  if (!s.enabled || until == null) return false;
+  final left = until.difference(DateTime.now());
+  if (left <= Duration.zero) return true;
+  final timer = Timer(left, ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
+  return false;
+});

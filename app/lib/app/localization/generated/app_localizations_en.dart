@@ -5607,4 +5607,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String aiAutoSensitive(String actions) {
     return 'Careful: it unlocks, disarms or opens ($actions). Make sure you want that.';
   }
+
+  @override
+  String get guestRooms => 'Only these rooms';
+
+  @override
+  String get guestRoomsAll => 'None chosen: every room is shown.';
+
+  @override
+  String get guestRoomsSome => 'Only devices in the chosen rooms are shown.';
+
+  @override
+  String get guestTime => 'For how long';
+
+  @override
+  String get guestTimeAlways => 'Until I turn it off';
+
+  @override
+  String guestTimeHours(int count) {
+    return '$count h';
+  }
+
+  @override
+  String get guestTimeMidnight => 'Until midnight';
+
+  @override
+  String guestTimeDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '$count day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guestTimeHint =>
+      'When the time is up, the app locks until the PIN is entered.';
+
+  @override
+  String guestUntil(String time) {
+    return 'Until $time';
+  }
+
+  @override
+  String get guestExpired => 'Guest time is up';
+
+  @override
+  String get guestExpiredHint =>
+      'Thanks for visiting! The host\'s PIN is needed to go on.';
 }

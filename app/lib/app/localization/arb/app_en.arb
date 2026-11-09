@@ -2156,5 +2156,20 @@
   "aiAutoBlocked": "Not saved from the app (runs code, restarts HA or sends data out): {actions}. Write such an automation in HA itself.",
   "@aiAutoBlocked": {"placeholders": {"actions": {"type": "String"}}},
   "aiAutoSensitive": "Careful: it unlocks, disarms or opens ({actions}). Make sure you want that.",
-  "@aiAutoSensitive": {"placeholders": {"actions": {"type": "String"}}}
+  "@aiAutoSensitive": {"placeholders": {"actions": {"type": "String"}}},
+  "guestRooms": "Only these rooms",
+  "guestRoomsAll": "None chosen: every room is shown.",
+  "guestRoomsSome": "Only devices in the chosen rooms are shown.",
+  "guestTime": "For how long",
+  "guestTimeAlways": "Until I turn it off",
+  "guestTimeHours": "{count} h",
+  "@guestTimeHours": {"placeholders": {"count": {"type": "int"}}},
+  "guestTimeMidnight": "Until midnight",
+  "guestTimeDays": "{count, plural, one{{count} day} other{{count} days}}",
+  "@guestTimeDays": {"placeholders": {"count": {"type": "int"}}},
+  "guestTimeHint": "When the time is up, the app locks until the PIN is entered.",
+  "guestUntil": "Until {time}",
+  "@guestUntil": {"placeholders": {"time": {"type": "String"}}},
+  "guestExpired": "Guest time is up",
+  "guestExpiredHint": "Thanks for visiting! The host's PIN is needed to go on."
 }

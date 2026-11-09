@@ -5640,6 +5640,56 @@ class AppLocalizationsSr extends AppLocalizations {
   String aiAutoSensitive(String actions) {
     return 'Pažnja: otključava, isključuje alarm ili otvara ($actions). Proverite da li to želite.';
   }
+
+  @override
+  String get guestRooms => 'Samo ove sobe';
+
+  @override
+  String get guestRoomsAll => 'Nijedna nije izabrana: vide se sve sobe.';
+
+  @override
+  String get guestRoomsSome => 'Vide se samo uređaji iz izabranih soba.';
+
+  @override
+  String get guestTime => 'Koliko dugo';
+
+  @override
+  String get guestTimeAlways => 'Dok ga ne isključim';
+
+  @override
+  String guestTimeHours(int count) {
+    return '$count h';
+  }
+
+  @override
+  String get guestTimeMidnight => 'Do ponoći';
+
+  @override
+  String guestTimeDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dana',
+      one: '$count dan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get guestTimeHint =>
+      'Kad vreme istekne, aplikacija se zaključa dok se ne unese PIN.';
+
+  @override
+  String guestUntil(String time) {
+    return 'Važi do $time';
+  }
+
+  @override
+  String get guestExpired => 'Vreme za goste je isteklo';
+
+  @override
+  String get guestExpiredHint =>
+      'Hvala na poseti! Za dalje korišćenje potreban je PIN domaćina.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

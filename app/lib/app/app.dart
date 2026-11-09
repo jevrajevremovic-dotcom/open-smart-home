@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/alerts/alert_notifications.dart';
+import '../features/restricted/presentation/guest_expired_gate.dart';
 import '../features/app_lock/application/app_lock.dart';
 import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/authentication/application/session_controller.dart';
@@ -112,7 +113,11 @@ class _SmartHomeAppState extends ConsumerState<SmartHomeApp> {
                     child: CommandPaletteHost(
                       child: QuickTilesHost(
                         child: AssistLaunchHost(
-                          child: AppLockGate(child: child ?? const SizedBox()),
+                          child: AppLockGate(
+                            child: GuestExpiredGate(
+                              child: child ?? const SizedBox(),
+                            ),
+                          ),
                         ),
                       ),
                     ),

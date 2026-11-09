@@ -5502,6 +5502,41 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get healthListNone => 'Svi uređaji se javljaju i imaju dobar signal.';
+
+  @override
+  String get priceTitle => 'Cena struje po satu';
+
+  @override
+  String priceSource(String name) {
+    return 'Iz senzora „$name” u Home Assistantu';
+  }
+
+  @override
+  String priceNow(String price) {
+    return 'Sada: $price';
+  }
+
+  @override
+  String get priceCheapestFor => 'Najjeftinije za:';
+
+  @override
+  String priceHours(int count) {
+    return '$count h';
+  }
+
+  @override
+  String priceCheapest(String from, String to, String price) {
+    return 'Najjeftinije: $from–$to, prosečno $price';
+  }
+
+  @override
+  String get priceFromNow => 'od sada';
+
+  @override
+  String get priceTomorrow => 'sutra';
+
+  @override
+  String get priceNoWindow => 'Cene još nisu objavljene tako daleko unapred.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

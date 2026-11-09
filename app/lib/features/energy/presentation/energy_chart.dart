@@ -123,7 +123,7 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
                     height: 180,
                     child: CustomPaint(
                       size: Size(constraints.maxWidth, 180),
-                      painter: _BarsPainter(
+                      painter: EnergyBarsPainter(
                         shaded: [
                           for (final b in buckets)
                             widget.report.range == EnergyRange.today &&
@@ -146,7 +146,7 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
           ),
         if (!_table) ...[
           const SizedBox(height: 4),
-          _AxisLabels(
+          EnergyAxisLabels(
             labels: [
               for (final b in buckets) _slotLabel(locale, b.start, short: true),
             ],
@@ -181,8 +181,8 @@ class _ConsumptionChartState extends State<ConsumptionChart> {
   }
 }
 
-class _BarsPainter extends CustomPainter {
-  _BarsPainter({
+class EnergyBarsPainter extends CustomPainter {
+  EnergyBarsPainter({
     required this.shaded,
     required this.shade,
     required this.values,
@@ -243,7 +243,7 @@ class _BarsPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_BarsPainter old) =>
+  bool shouldRepaint(EnergyBarsPainter old) =>
       old.values != values ||
       old.maxValue != maxValue ||
       old.selected != selected ||
@@ -254,8 +254,8 @@ class _BarsPainter extends CustomPainter {
 /// A few evenly spaced labels (first, quarters, last) – never one per bar.
 const double _labelWidth = 56;
 
-class _AxisLabels extends StatelessWidget {
-  const _AxisLabels({required this.labels});
+class EnergyAxisLabels extends StatelessWidget {
+  const EnergyAxisLabels({super.key, required this.labels});
 
   final List<String> labels;
 

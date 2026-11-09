@@ -9242,6 +9242,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All devices respond and have a good signal.'**
   String get healthListNone;
+
+  /// No description provided for @priceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity price by the hour'**
+  String get priceTitle;
+
+  /// No description provided for @priceSource.
+  ///
+  /// In en, this message translates to:
+  /// **'From the “{name}” sensor in Home Assistant'**
+  String priceSource(String name);
+
+  /// No description provided for @priceNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Now: {price}'**
+  String priceNow(String price);
+
+  /// No description provided for @priceCheapestFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheapest for:'**
+  String get priceCheapestFor;
+
+  /// No description provided for @priceHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} h'**
+  String priceHours(int count);
+
+  /// No description provided for @priceCheapest.
+  ///
+  /// In en, this message translates to:
+  /// **'Cheapest: {from}–{to}, {price} on average'**
+  String priceCheapest(String from, String to, String price);
+
+  /// No description provided for @priceFromNow.
+  ///
+  /// In en, this message translates to:
+  /// **'from now'**
+  String get priceFromNow;
+
+  /// No description provided for @priceTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get priceTomorrow;
+
+  /// No description provided for @priceNoWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices are not published that far ahead yet.'**
+  String get priceNoWindow;
 }
 
 class _AppLocalizationsDelegate

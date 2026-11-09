@@ -2108,5 +2108,18 @@
   "healthAdviceFlaky": "The device keeps dropping out and coming back — usually a weak signal or unstable power.",
   "healthAdviceLowBattery": "Replace the battery before the device stops responding.",
   "healthListTitle": "Devices not working",
-  "healthListNone": "All devices respond and have a good signal."
+  "healthListNone": "All devices respond and have a good signal.",
+  "priceTitle": "Electricity price by the hour",
+  "priceSource": "From the “{name}” sensor in Home Assistant",
+  "@priceSource": {"placeholders": {"name": {"type": "String"}}},
+  "priceNow": "Now: {price}",
+  "@priceNow": {"placeholders": {"price": {"type": "String"}}},
+  "priceCheapestFor": "Cheapest for:",
+  "priceHours": "{count} h",
+  "@priceHours": {"placeholders": {"count": {"type": "int"}}},
+  "priceCheapest": "Cheapest: {from}–{to}, {price} on average",
+  "@priceCheapest": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}, "price": {"type": "String"}}},
+  "priceFromNow": "from now",
+  "priceTomorrow": "tomorrow",
+  "priceNoWindow": "Prices are not published that far ahead yet."
 }

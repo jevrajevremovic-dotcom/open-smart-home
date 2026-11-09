@@ -21,6 +21,7 @@ import '../data/tariff.dart';
 import 'energy_chart.dart';
 import 'energy_format.dart';
 import 'low_tariff_reminder_button.dart';
+import 'price_section.dart';
 import '../../../core/widgets/skeleton.dart';
 
 /// Energy overview: live power, consumption for today / this week / this
@@ -74,6 +75,8 @@ class EnergyScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     const _ReportSection(),
+                    const SizedBox(height: 16),
+                    const ElectricityPriceSection(),
                   ],
                 ),
               ),

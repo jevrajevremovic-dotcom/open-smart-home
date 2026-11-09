@@ -5469,4 +5469,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get healthListNone => 'All devices respond and have a good signal.';
+
+  @override
+  String get priceTitle => 'Electricity price by the hour';
+
+  @override
+  String priceSource(String name) {
+    return 'From the “$name” sensor in Home Assistant';
+  }
+
+  @override
+  String priceNow(String price) {
+    return 'Now: $price';
+  }
+
+  @override
+  String get priceCheapestFor => 'Cheapest for:';
+
+  @override
+  String priceHours(int count) {
+    return '$count h';
+  }
+
+  @override
+  String priceCheapest(String from, String to, String price) {
+    return 'Cheapest: $from–$to, $price on average';
+  }
+
+  @override
+  String get priceFromNow => 'from now';
+
+  @override
+  String get priceTomorrow => 'tomorrow';
+
+  @override
+  String get priceNoWindow => 'Prices are not published that far ahead yet.';
 }

@@ -209,6 +209,32 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'friendly_name': 'Kamera bašta',
       'supported_features': 0,
     }),
+    // Hourly prices as the Nord Pool integration (HACS) publishes them:
+    // cheap at night and midday, dear in the morning and evening.
+    e('sensor.electricity_price', _price(now.hour).toStringAsFixed(3), {
+      'friendly_name': 'Cena struje',
+      'unit_of_measurement': 'EUR/kWh',
+      'state_class': 'measurement',
+      for (final (key, day) in [('raw_today', 0), ('raw_tomorrow', 1)])
+        key: [
+          for (var h = 0; h < 24; h++)
+            {
+              'start': DateTime(
+                now.year,
+                now.month,
+                now.day + day,
+                h,
+              ).toIso8601String(),
+              'end': DateTime(
+                now.year,
+                now.month,
+                now.day + day,
+                h + 1,
+              ).toIso8601String(),
+              'value': _price(h) + day * 0.004,
+            },
+        ],
+    }),
     e('sensor.house_power', '742', {
       'friendly_name': 'Trenutna snaga',
       'device_class': 'power',
@@ -588,4 +614,15 @@ const mockSceneConfigs = <String, Map<String, Object?>>{
       'light.living_room_main': {'state': 'off'},
     },
   },
+};
+
+/// Demo price for hour [h] (EUR/kWh).
+double _price(int h) => switch (h) {
+  < 5 => 0.06 + h * 0.004,
+  < 7 => 0.10,
+  < 10 => 0.21,
+  < 15 => 0.09,
+  < 18 => 0.14,
+  < 22 => 0.24,
+  _ => 0.11,
 };

@@ -1524,5 +1524,14 @@
   "healthAdviceFlaky": "Uređaj se gubi i vraća — najčešće zbog slabog signala ili nestabilnog napajanja.",
   "healthAdviceLowBattery": "Zamenite bateriju pre nego što uređaj prestane da se javlja.",
   "healthListTitle": "Uređaji koji ne rade",
-  "healthListNone": "Svi uređaji se javljaju i imaju dobar signal."
+  "healthListNone": "Svi uređaji se javljaju i imaju dobar signal.",
+  "priceTitle": "Cena struje po satu",
+  "priceSource": "Iz senzora „{name}” u Home Assistantu",
+  "priceNow": "Sada: {price}",
+  "priceCheapestFor": "Najjeftinije za:",
+  "priceHours": "{count} h",
+  "priceCheapest": "Najjeftinije: {from}–{to}, prosečno {price}",
+  "priceFromNow": "od sada",
+  "priceTomorrow": "sutra",
+  "priceNoWindow": "Cene još nisu objavljene tako daleko unapred."
 }

@@ -5261,4 +5261,98 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get escalationNoPhones =>
       'No phone is registered in Home Assistant (Settings → Notifications on each phone).';
+
+  @override
+  String get recipeInactivity => 'No movement';
+
+  @override
+  String get recipeInactivityHint =>
+      'Care: if there is no movement anywhere for some hours during the day (8–22), tell the family with a \"Got it\" button.';
+
+  @override
+  String get recipeCheckIn => '\"I\'m fine\" check-in';
+
+  @override
+  String get recipeCheckInHint =>
+      'Care: if nobody taps \"I\'m fine\" on the simple screen by the chosen time, tell the family.';
+
+  @override
+  String get recipeHelp => 'Call for help';
+
+  @override
+  String get recipeHelpHint =>
+      'Care: the \"Help\" button on the simple screen tells the family at once, until someone answers.';
+
+  @override
+  String get careWho => 'Who is looked after (e.g. Grandma)';
+
+  @override
+  String get careSomeone => 'The household member';
+
+  @override
+  String get careBy => 'By';
+
+  @override
+  String careStillFor(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'No movement for $hours hours',
+      one: 'No movement for 1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String careStillWhat(String who, int hours) {
+    return '$who: no movement for $hours h';
+  }
+
+  @override
+  String careNoCheckInWhat(String who, String time) {
+    return '$who has not checked in by $time';
+  }
+
+  @override
+  String careHelpWhat(String who) {
+    return '$who is asking for help';
+  }
+
+  @override
+  String get careFine => 'I\'m fine';
+
+  @override
+  String get careHelp => 'Help';
+
+  @override
+  String get careHelpAsk => 'Call for help?';
+
+  @override
+  String get careHelpYes => 'Yes, call';
+
+  @override
+  String careHelpMessage(String who) {
+    return '$who is asking for help!';
+  }
+
+  @override
+  String careFineMessage(String who) {
+    return '$who: I\'m fine ✓';
+  }
+
+  @override
+  String get careHelpSent => 'The family has been told. Help is on the way.';
+
+  @override
+  String get careFineSent => 'The family knows. Thank you!';
+
+  @override
+  String get careNotSent => 'Not sent — no connection to the home.';
+
+  @override
+  String get careButtonsSetting => '\"I\'m fine\" and \"Help\" buttons';
+
+  @override
+  String get careButtonsHint =>
+      'For someone living alone: tell the family with one tap. With the \"Check-in\" and \"Call for help\" recipes the family gets an alert with confirmation.';
 }

@@ -5291,6 +5291,101 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get escalationNoPhones =>
       'Nijedan telefon nije registrovan u Home Assistantu (Podešavanja → Obaveštenja na svakom telefonu).';
+
+  @override
+  String get recipeInactivity => 'Nema pokreta';
+
+  @override
+  String get recipeInactivityHint =>
+      'Briga o starijima: ako danju (8–22h) nigde nema pokreta nekoliko sati, javi porodici sa dugmetom „Primljeno”.';
+
+  @override
+  String get recipeCheckIn => 'Javljanje „Dobro sam”';
+
+  @override
+  String get recipeCheckInHint =>
+      'Briga o starijima: ako do izabranog sata niko ne dodirne „Dobro sam” u jednostavnom režimu, javi porodici.';
+
+  @override
+  String get recipeHelp => 'Poziv u pomoć';
+
+  @override
+  String get recipeHelpHint =>
+      'Briga o starijima: dugme „Pomoć” u jednostavnom režimu odmah javlja porodici, dok neko ne potvrdi.';
+
+  @override
+  String get careWho => 'O kome se brinemo (npr. Baka)';
+
+  @override
+  String get careSomeone => 'Ukućanin';
+
+  @override
+  String get careBy => 'Do kada';
+
+  @override
+  String careStillFor(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'Bez pokreta $hours sati',
+      few: 'Bez pokreta $hours sata',
+      one: 'Bez pokreta 1 sat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String careStillWhat(String who, int hours) {
+    return '$who: nema pokreta već $hours h';
+  }
+
+  @override
+  String careNoCheckInWhat(String who, String time) {
+    return '$who se nije javio/la do $time';
+  }
+
+  @override
+  String careHelpWhat(String who) {
+    return '$who traži pomoć';
+  }
+
+  @override
+  String get careFine => 'Dobro sam';
+
+  @override
+  String get careHelp => 'Pomoć';
+
+  @override
+  String get careHelpAsk => 'Pozvati pomoć?';
+
+  @override
+  String get careHelpYes => 'Da, pozovi';
+
+  @override
+  String careHelpMessage(String who) {
+    return '$who traži pomoć!';
+  }
+
+  @override
+  String careFineMessage(String who) {
+    return '$who: dobro sam ✓';
+  }
+
+  @override
+  String get careHelpSent => 'Porodica je obaveštena. Pomoć stiže.';
+
+  @override
+  String get careFineSent => 'Javljeno porodici. Hvala!';
+
+  @override
+  String get careNotSent => 'Nije poslato — nema veze sa kućom.';
+
+  @override
+  String get careButtonsSetting => 'Dugmad „Dobro sam” i „Pomoć”';
+
+  @override
+  String get careButtonsHint =>
+      'Za nekoga ko živi sam: javljanje porodici jednim dodirom. Uz recepte „Javljanje” i „Poziv u pomoć” porodica dobija upozorenje sa potvrdom.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

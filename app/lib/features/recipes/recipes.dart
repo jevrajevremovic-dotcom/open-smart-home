@@ -32,7 +32,20 @@ enum RecipeKind {
   /// A leak, smoke, CO or the alarm: the chosen phones with a "Got it"
   /// button; nobody answers in time, the others too, and again.
   escalation,
+
+  /// Care: no movement anywhere for some hours during the day.
+  inactivity,
+
+  /// Care: no "I'm fine" from the simple screen by a time of day.
+  checkIn,
+
+  /// Care: the "Help" button on the simple screen.
+  help,
 }
+
+/// Events the simple screen fires (`osh_check_in`, `osh_help`).
+const careCheckInEvent = 'osh_check_in';
+const careHelpEvent = 'osh_help';
 
 /// The button an escalation waits for (`mobile_app_notification_action`).
 const escalationAck = 'OSH_ACK';
@@ -54,6 +67,9 @@ class Recipe {
     this.onlyAtNight = false,
     this.phone,
     this.others = const [],
+    this.waitMinutes = 5,
+    this.who = '',
+    this.at = '10:00',
   });
 
   /// Back from the saved automation (its `variables`), or null.
@@ -77,6 +93,9 @@ class Recipe {
       onlyAtNight: v['osh_night'] == true,
       phone: v['osh_phone'] as String?,
       others: list(v['osh_others']),
+      waitMinutes: (v['osh_wait'] as num?)?.toInt() ?? 5,
+      who: v['osh_who'] as String? ?? '',
+      at: v['osh_at'] as String? ?? '10:00',
     );
   }
 
@@ -96,13 +115,25 @@ class Recipe {
   /// Escalation: who is told when the first ones do not answer.
   final List<String> others;
 
+  /// Escalation: how long to wait for a "Got it".
+  final int waitMinutes;
+
+  /// Care: the person looked after ("Grandma").
+  final String who;
+
+  /// Care: "I'm fine" expected by this time (`HH:MM`).
+  final String at;
+
   /// One per kind for the whole-home ones; per first sensor otherwise
   /// (a night light per hallway).
   String get id => switch (kind) {
     RecipeKind.leak ||
     RecipeKind.smoke ||
     RecipeKind.lastOut ||
-    RecipeKind.escalation => '$recipePrefix${kind.name}',
+    RecipeKind.escalation ||
+    RecipeKind.inactivity ||
+    RecipeKind.checkIn ||
+    RecipeKind.help => '$recipePrefix${kind.name}',
     _ =>
       '$recipePrefix${kind.name}_'
           '${haSlug(sensors.isEmpty ? 'x' : sensors.first)}',
@@ -111,7 +142,9 @@ class Recipe {
   /// Enough chosen to work.
   bool get complete => switch (kind) {
     RecipeKind.lastOut => true,
-    RecipeKind.escalation => sensors.isNotEmpty && targets.isNotEmpty,
+    RecipeKind.escalation ||
+    RecipeKind.inactivity => sensors.isNotEmpty && targets.isNotEmpty,
+    RecipeKind.checkIn || RecipeKind.help => targets.isNotEmpty,
     RecipeKind.followPresence ||
     RecipeKind.nightLight => sensors.isNotEmpty && targets.isNotEmpty,
     _ => sensors.isNotEmpty,
@@ -125,6 +158,9 @@ class Recipe {
     String? phone,
     bool clearPhone = false,
     List<String>? others,
+    int? waitMinutes,
+    String? who,
+    String? at,
   }) => Recipe(
     kind: kind,
     sensors: sensors ?? this.sensors,
@@ -133,6 +169,9 @@ class Recipe {
     onlyAtNight: onlyAtNight ?? this.onlyAtNight,
     phone: clearPhone ? null : phone ?? this.phone,
     others: others ?? this.others,
+    waitMinutes: waitMinutes ?? this.waitMinutes,
+    who: who ?? this.who,
+    at: at ?? this.at,
   );
 
   /// A household message (the app and the wall panel show it) and, when
@@ -184,6 +223,9 @@ class Recipe {
         'osh_night': onlyAtNight,
         'osh_phone': ?phone,
         'osh_others': others,
+        'osh_wait': waitMinutes,
+        'osh_who': who,
+        'osh_at': at,
       },
     };
     switch (kind) {
@@ -314,7 +356,87 @@ class Recipe {
           ),
         };
       case RecipeKind.escalation:
-        return {...config, ..._escalation(l10n, title)};
+        return {
+          ...config,
+          ..._escalation(
+            l10n,
+            title,
+            what: '{{ trigger.to_state.name }}',
+            triggers: [
+              for (final id in sensors)
+                {
+                  'trigger': 'state',
+                  'entity_id': id,
+                  'to': id.startsWith('alarm_control_panel.')
+                      ? 'triggered'
+                      : 'on',
+                },
+            ],
+          ),
+        };
+      case RecipeKind.inactivity:
+        final hours = (minutes / 60).round();
+        return {
+          ...config,
+          ..._escalation(
+            l10n,
+            title,
+            what: l10n.careStillWhat(_name(l10n), hours),
+            triggers: [
+              {
+                'trigger': 'state',
+                'entity_id': sensors,
+                'to': 'off',
+                'for': {'minutes': minutes},
+              },
+            ],
+            conditions: [
+              // Every chosen sensor still (a list means "all of them").
+              {'condition': 'state', 'entity_id': sensors, 'state': 'off'},
+              // Daytime only: a still night is sleep.
+              {'condition': 'time', 'after': '08:00:00', 'before': '22:00:00'},
+            ],
+          ),
+        };
+      case RecipeKind.checkIn:
+        return {
+          ...config,
+          ..._escalation(
+            l10n,
+            title,
+            what: l10n.careNoCheckInWhat(_name(l10n), at),
+            triggers: [
+              {'trigger': 'time', 'at': '06:00:00'},
+            ],
+            // From six until [at], waiting for "I'm fine"; only without it
+            // does the rest run.
+            prelude: [
+              {
+                'wait_for_trigger': [
+                  {'trigger': 'event', 'event_type': careCheckInEvent},
+                ],
+                'timeout': _since6(at),
+                'continue_on_timeout': true,
+              },
+              {
+                'condition': 'template',
+                'value_template': '{{ wait.trigger is none }}',
+              },
+            ],
+          ),
+        };
+      case RecipeKind.help:
+        return {
+          ...config,
+          ..._escalation(
+            l10n,
+            title,
+            what: l10n.careHelpWhat(_name(l10n)),
+            triggers: [
+              {'trigger': 'event', 'event_type': careHelpEvent},
+            ],
+          ),
+        };
       case RecipeKind.lastOut:
         return {
           ...config,
@@ -337,6 +459,18 @@ class Recipe {
   }
 }
 
+/// `HH:MM` → how long after 06:00 (at least a quarter of an hour).
+String _since6(String at) {
+  final p = at.split(':');
+  final total =
+      ((int.tryParse(p.first) ?? 10) * 60 +
+              (p.length > 1 ? int.tryParse(p[1]) ?? 0 : 0) -
+              6 * 60)
+          .clamp(15, 18 * 60);
+  String two(int v) => v.toString().padLeft(2, '0');
+  return '${two(total ~/ 60)}:${two(total % 60)}:00';
+}
+
 extension on Recipe {
   /// Tells [phones] with a "Got it" button, under one tag.
   List<Map<String, Object?>> _ask(
@@ -354,7 +488,8 @@ extension on Recipe {
           'message': message,
           'data': {
             'tag': escalationTag,
-            'entity_id': '{{ trigger.entity_id }}',
+            if (kind == RecipeKind.escalation)
+              'entity_id': '{{ trigger.entity_id }}',
             'actions': [
               {'action': escalationAck, 'title': ack},
             ],
@@ -363,7 +498,10 @@ extension on Recipe {
       },
   ];
 
-  /// The answer (from any phone), or nothing for [minutes].
+  String _name(AppLocalizations l10n) =>
+      who.trim().isEmpty ? l10n.careSomeone : who.trim();
+
+  /// The answer (from any phone), or nothing for [waitMinutes].
   Map<String, Object?> _wait() => {
     'wait_for_trigger': [
       {
@@ -372,7 +510,7 @@ extension on Recipe {
         'event_data': {'action': escalationAck},
       },
     ],
-    'timeout': {'minutes': minutes},
+    'timeout': {'minutes': waitMinutes},
     'continue_on_timeout': true,
   };
 
@@ -401,8 +539,14 @@ extension on Recipe {
 
   /// Documented script features only: `wait_for_trigger` on the event the
   /// apps fire for a pressed button, `if`/`then`/`else`, `wait.trigger`.
-  Map<String, Object?> _escalation(AppLocalizations l10n, String title) {
-    const what = '{{ trigger.to_state.name }}';
+  Map<String, Object?> _escalation(
+    AppLocalizations l10n,
+    String title, {
+    required String what,
+    required List<Map<String, Object?>> triggers,
+    List<Map<String, Object?>> conditions = const [],
+    List<Map<String, Object?>> prelude = const [],
+  }) {
     const noAnswer = {
       'condition': 'template',
       'value_template': '{{ wait.trigger is none }}',
@@ -413,16 +557,10 @@ extension on Recipe {
     ];
     return {
       'mode': 'single',
-      'triggers': [
-        for (final id in sensors)
-          {
-            'trigger': 'state',
-            'entity_id': id,
-            'to': id.startsWith('alarm_control_panel.') ? 'triggered' : 'on',
-          },
-      ],
-      'conditions': <Object>[],
+      'triggers': triggers,
+      'conditions': conditions,
       'actions': [
+        ...prelude,
         ..._ask(targets, title, l10n.escalationFirst(what), ack),
         {
           'action': 'persistent_notification.create',
@@ -461,6 +599,9 @@ String recipeTitle(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.leftOpen => l10n.recipeLeftOpen,
   RecipeKind.lastOut => l10n.recipeLastOut,
   RecipeKind.escalation => l10n.recipeEscalation,
+  RecipeKind.inactivity => l10n.recipeInactivity,
+  RecipeKind.checkIn => l10n.recipeCheckIn,
+  RecipeKind.help => l10n.recipeHelp,
 };
 
 String recipeHint(AppLocalizations l10n, RecipeKind k) => switch (k) {
@@ -471,6 +612,9 @@ String recipeHint(AppLocalizations l10n, RecipeKind k) => switch (k) {
   RecipeKind.leftOpen => l10n.recipeLeftOpenHint,
   RecipeKind.lastOut => l10n.recipeLastOutHint,
   RecipeKind.escalation => l10n.recipeEscalationHint,
+  RecipeKind.inactivity => l10n.recipeInactivityHint,
+  RecipeKind.checkIn => l10n.recipeCheckInHint,
+  RecipeKind.help => l10n.recipeHelpHint,
 };
 
 /// Recipe automations in the home, by id (their entities carry the id).

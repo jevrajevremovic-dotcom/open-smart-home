@@ -107,6 +107,9 @@ abstract interface class HomeAssistantApi {
   /// `/api/config/automation/config/<id>`; admin only).
   Future<void> saveAutomation(String id, Map<String, Object?> config);
   Future<void> deleteAutomation(String id);
+
+  /// `POST /api/events/<event_type>` (documented; administrators only).
+  Future<void> fireEvent(String eventType, Map<String, Object?> data);
   Future<Map<String, Object?>> fetchAutomation(String id);
 
   /// Creates or replaces a UI script (`/api/config/script/config/<id>`,

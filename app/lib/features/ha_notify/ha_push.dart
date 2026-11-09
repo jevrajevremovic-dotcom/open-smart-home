@@ -134,6 +134,36 @@ class HaPushController extends AsyncNotifier<MobileAppRegistration?> {
     state = AsyncData(registration);
   }
 
+  /// Fires [eventType] in Home Assistant as this device: through its
+  /// Mobile App registration (any user may), else the REST API (which
+  /// needs an administrator). Returns `false` when it could not be sent.
+  Future<bool> fireEvent(String eventType, Map<String, Object?> data) async {
+    final registration = state.value;
+    final manager = ref.read(webSocketManagerProvider);
+    try {
+      if (registration != null && manager != null) {
+        await manager.sendCommand({
+          'type': 'webhook/handle',
+          'webhook_id': registration.webhookId,
+          'method': 'POST',
+          'headers': {'Content-Type': 'application/json'},
+          'body': jsonEncode({
+            'type': 'fire_event',
+            'data': {'event_type': eventType, 'event_data': data},
+          }),
+        });
+        return true;
+      }
+      final api = ref.read(homeAssistantApiProvider);
+      if (api == null) return false;
+      await api.fireEvent(eventType, data);
+      return true;
+    } on Object catch (e) {
+      _log.warning('event not sent', e.runtimeType);
+      return false;
+    }
+  }
+
   /// Forgets the registration here; the device itself is removed in Home
   /// Assistant (Settings → Devices → Mobile App). [removedInHa]: Home
   /// Assistant already removed it, which settings then explain.

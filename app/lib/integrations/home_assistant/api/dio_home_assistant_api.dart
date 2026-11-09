@@ -257,6 +257,16 @@ class DioHomeAssistantApi implements HomeAssistantApi {
     await _authorized('DELETE', _automationPath(id));
   }
 
+  static final _eventType = RegExp(r'^[a-z0-9_]+$');
+
+  @override
+  Future<void> fireEvent(String eventType, Map<String, Object?> data) async {
+    if (!_eventType.hasMatch(eventType)) {
+      throw ArgumentError.value(eventType, 'eventType');
+    }
+    await _authorized('POST', '/api/events/$eventType', data: data);
+  }
+
   @override
   Future<Map<String, Object?>> fetchAutomation(String id) async {
     final body = await _authorized('GET', _automationPath(id));

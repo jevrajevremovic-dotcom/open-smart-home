@@ -182,6 +182,13 @@ class MockHomeAssistantApi implements HomeAssistantApi {
   }
 
   @override
+  Future<void> fireEvent(String eventType, Map<String, Object?> data) async {
+    await _requireAuth();
+    await _latency();
+    server.firedEvents.add({'event_type': eventType, 'event_data': data});
+  }
+
+  @override
   Future<Map<String, Object?>> fetchScene(String id) async {
     await _requireAuth();
     await _latency();

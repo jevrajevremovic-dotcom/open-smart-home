@@ -72,7 +72,7 @@ void main() {
       sensors: ['binary_sensor.kitchen_leak', 'alarm_control_panel.home'],
       targets: ['notify.mobile_app_marko'],
       others: ['notify.mobile_app_ana'],
-      minutes: 3,
+      waitMinutes: 3,
     );
     final c = r.automation(en);
     expect(r.id, 'osh_recipe_escalation');

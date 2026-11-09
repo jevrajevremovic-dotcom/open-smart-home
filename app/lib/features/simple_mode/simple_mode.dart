@@ -16,15 +16,25 @@ import '../devices/presentation/device_presentation.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../kiosk/application/kiosk_now.dart';
 import '../kiosk/presentation/pin_dialog.dart';
+import '../ha_notify/ha_push.dart';
+import '../household/family_messages.dart';
+import '../recipes/recipes.dart' show careCheckInEvent, careHelpEvent;
 
 /// "Simple mode" on this device: a few big buttons and nothing else, for
 /// someone who wants the lights and the heating, not an app.
 @immutable
 class SimpleMode {
-  const SimpleMode({this.enabled = false, this.items = const []});
+  const SimpleMode({
+    this.enabled = false,
+    this.items = const [],
+    this.care = false,
+    this.name = '',
+  });
 
   factory SimpleMode.fromJson(Map<String, Object?>? json) => SimpleMode(
     enabled: json?['enabled'] == true,
+    care: json?['care'] == true,
+    name: json?['name'] as String? ?? '',
     items: [
       if (json?['items'] case final List<Object?> list)
         for (final i in list.take(maxItems))
@@ -39,7 +49,30 @@ class SimpleMode {
   /// Device and scene ids, in order.
   final List<String> items;
 
-  Map<String, Object?> toJson() => {'enabled': enabled, 'items': items};
+  /// "I'm fine" and "Help" on the screen (for someone living alone).
+  final bool care;
+
+  /// Who uses it, in the messages ("Grandma").
+  final String name;
+
+  SimpleMode copyWith({
+    bool? enabled,
+    List<String>? items,
+    bool? care,
+    String? name,
+  }) => SimpleMode(
+    enabled: enabled ?? this.enabled,
+    items: items ?? this.items,
+    care: care ?? this.care,
+    name: name ?? this.name,
+  );
+
+  Map<String, Object?> toJson() => {
+    'enabled': enabled,
+    'items': items,
+    'care': care,
+    'name': name,
+  };
 }
 
 class SimpleModeController extends Notifier<SimpleMode> {
@@ -54,15 +87,13 @@ class SimpleModeController extends Notifier<SimpleMode> {
     await ref.read(appPreferencesProvider).writeJson(_key, m.toJson());
   }
 
-  Future<void> setEnabled(bool on) =>
-      _save(SimpleMode(enabled: on, items: state.items));
+  Future<void> setEnabled(bool on) => _save(state.copyWith(enabled: on));
 
-  Future<void> setItems(List<String> items) => _save(
-    SimpleMode(
-      enabled: state.enabled,
-      items: items.take(SimpleMode.maxItems).toList(),
-    ),
-  );
+  Future<void> setItems(List<String> items) =>
+      _save(state.copyWith(items: items.take(SimpleMode.maxItems).toList()));
+
+  Future<void> setCare(bool on, String name) =>
+      _save(state.copyWith(care: on, name: name.trim()));
 }
 
 final simpleModeProvider = NotifierProvider<SimpleModeController, SimpleMode>(
@@ -175,6 +206,10 @@ class SimpleModeScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
+                if (ref.watch(simpleModeProvider.select((m) => m.care))) ...[
+                  const SizedBox(height: 12),
+                  const _CareButtons(),
+                ],
                 const SizedBox(height: 16),
                 Expanded(
                   child: items.isEmpty
@@ -209,6 +244,113 @@ class SimpleModeScreen extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// "I'm fine" (green) and "Help" (red), big, on top. They fire events
+/// the care recipes in Home Assistant wait for, and leave a household
+/// message (the app and the wall panel show it).
+class _CareButtons extends ConsumerWidget {
+  const _CareButtons();
+
+  Future<void> _send(
+    BuildContext context,
+    WidgetRef ref, {
+    required bool help,
+  }) async {
+    final l10n = context.l10n;
+    final messenger = ScaffoldMessenger.of(context);
+    final name = ref.read(simpleModeProvider).name;
+    final who = name.isEmpty ? l10n.careSomeone : name;
+    if (help) {
+      final sure = await showDialog<bool>(
+        context: context,
+        builder: (dialog) => AlertDialog(
+          icon: const Icon(Icons.sos, size: 48),
+          title: Text(l10n.careHelpAsk),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialog).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              key: const Key('careHelpConfirm'),
+              style: FilledButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () => Navigator.of(dialog).pop(true),
+              child: Text(l10n.careHelpYes),
+            ),
+          ],
+        ),
+      );
+      if (sure != true) return;
+    }
+    final sent = await ref.read(haPushProvider.notifier).fireEvent(
+      help ? careHelpEvent : careCheckInEvent,
+      {'who': who},
+    );
+    var told = false;
+    try {
+      await sendFamilyMessage(
+        ref,
+        l10n,
+        personId: null,
+        text: help ? l10n.careHelpMessage(who) : l10n.careFineMessage(who),
+      );
+      told = true;
+    } on Object {
+      told = false;
+    }
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          sent || told
+              ? (help ? l10n.careHelpSent : l10n.careFineSent)
+              : l10n.careNotSent,
+          style: const TextStyle(fontSize: 22),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    Widget big(Key key, Color color, IconData icon, String label, bool help) =>
+        Expanded(
+          child: SizedBox(
+            height: 72,
+            child: FilledButton.icon(
+              key: key,
+              style: FilledButton.styleFrom(
+                backgroundColor: color,
+                foregroundColor: Colors.white,
+                textStyle: Theme.of(context).textTheme.titleLarge,
+              ),
+              onPressed: () => _send(context, ref, help: help),
+              icon: Icon(icon, size: 30),
+              label: Text(label),
+            ),
+          ),
+        );
+    return Row(
+      children: [
+        big(
+          const Key('careFine'),
+          const Color(0xFF2E7D32),
+          Icons.check_circle_outline,
+          l10n.careFine,
+          false,
+        ),
+        const SizedBox(width: 12),
+        big(
+          const Key('careHelp'),
+          const Color(0xFFC62828),
+          Icons.sos_outlined,
+          l10n.careHelp,
+          true,
+        ),
+      ],
     );
   }
 }
@@ -425,6 +567,25 @@ class SimpleModeSettings extends ConsumerWidget {
             child: Text(l10n.simpleChoose),
           ),
         ),
+        SwitchListTile(
+          key: const Key('simpleCare'),
+          contentPadding: EdgeInsets.zero,
+          secondary: const Icon(Icons.favorite_border),
+          title: Text(l10n.careButtonsSetting),
+          subtitle: Text(l10n.careButtonsHint),
+          value: mode.care,
+          onChanged: (v) =>
+              ref.read(simpleModeProvider.notifier).setCare(v, mode.name),
+        ),
+        if (mode.care)
+          TextFormField(
+            key: const Key('simpleCareName'),
+            initialValue: mode.name,
+            decoration: InputDecoration(labelText: l10n.careWho),
+            onChanged: (v) =>
+                ref.read(simpleModeProvider.notifier).setCare(true, v),
+          ),
+        const SizedBox(height: 8),
         Align(
           alignment: Alignment.centerLeft,
           child: FilledButton.tonalIcon(

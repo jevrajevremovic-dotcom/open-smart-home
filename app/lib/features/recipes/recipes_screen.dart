@@ -21,6 +21,9 @@ IconData _icon(RecipeKind k) => switch (k) {
   RecipeKind.leftOpen => Icons.door_front_door_outlined,
   RecipeKind.lastOut => Icons.logout,
   RecipeKind.escalation => Icons.notification_important_outlined,
+  RecipeKind.inactivity => Icons.accessibility_new,
+  RecipeKind.checkIn => Icons.waving_hand_outlined,
+  RecipeKind.help => Icons.sos_outlined,
 };
 
 /// What each recipe watches and acts on.
@@ -37,6 +40,11 @@ bool _sensorFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
         d.kind == DeviceKind.smokeSensor ||
         d.kind == DeviceKind.coSensor ||
         d.kind == DeviceKind.alarm,
+  RecipeKind.inactivity =>
+    d.kind == DeviceKind.motionSensor ||
+        d.kind == DeviceKind.occupancySensor ||
+        d.kind == DeviceKind.contactSensor,
+  RecipeKind.checkIn || RecipeKind.help => false,
 };
 
 bool _targetFor(RecipeKind k, SmartHomeDevice d) => switch (k) {
@@ -52,8 +60,19 @@ bool _hasTargets(RecipeKind k) =>
     k == RecipeKind.followPresence ||
     k == RecipeKind.nightLight;
 
-bool _hasMinutes(RecipeKind k) =>
+/// Ends with the "Got it" escalation (phones, waiting).
+bool _escalates(RecipeKind k) =>
     k == RecipeKind.escalation ||
+    k == RecipeKind.inactivity ||
+    k == RecipeKind.checkIn ||
+    k == RecipeKind.help;
+
+bool _care(RecipeKind k) =>
+    k == RecipeKind.inactivity ||
+    k == RecipeKind.checkIn ||
+    k == RecipeKind.help;
+
+bool _hasMinutes(RecipeKind k) =>
     k == RecipeKind.followPresence ||
     k == RecipeKind.nightLight ||
     k == RecipeKind.leftOpen;
@@ -177,13 +196,12 @@ class _RecipesScreenState extends ConsumerState<RecipesScreen> {
                           phone: phone,
                           minutes: k == RecipeKind.leftOpen
                               ? 15
-                              : k == RecipeKind.nightLight ||
-                                    k == RecipeKind.escalation
+                              : k == RecipeKind.nightLight
                               ? 2
+                              : k == RecipeKind.inactivity
+                              ? 240
                               : 5,
-                          targets: k == RecipeKind.escalation
-                              ? [?phone]
-                              : const [],
+                          targets: _escalates(k) ? [?phone] : const [],
                           onlyAtNight: k == RecipeKind.followPresence,
                         ),
                       ),
@@ -270,7 +288,53 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
           Text(recipeTitle(l10n, k), style: theme.textTheme.titleLarge),
           const SizedBox(height: 4),
           Text(recipeHint(l10n, k)),
-          if (k != RecipeKind.lastOut)
+          if (_care(k)) ...[
+            const SizedBox(height: 12),
+            TextFormField(
+              key: const Key('recipeWho'),
+              initialValue: _r.who,
+              decoration: InputDecoration(labelText: l10n.careWho),
+              onChanged: (v) => setState(() => _r = _r.copyWith(who: v)),
+            ),
+          ],
+          if (k == RecipeKind.checkIn)
+            ListTile(
+              key: const Key('recipeAt'),
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.schedule),
+              title: Text(l10n.careBy),
+              trailing: Text(_r.at, style: theme.textTheme.titleLarge),
+              onTap: () async {
+                final p = _r.at.split(':');
+                final t = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay(
+                    hour: int.tryParse(p.first) ?? 10,
+                    minute: int.tryParse(p.last) ?? 0,
+                  ),
+                );
+                if (t == null) return;
+                String two(int v) => v.toString().padLeft(2, '0');
+                setState(
+                  () => _r = _r.copyWith(at: '${two(t.hour)}:${two(t.minute)}'),
+                );
+              },
+            ),
+          if (k == RecipeKind.inactivity) ...[
+            const SizedBox(height: 12),
+            Text(l10n.careStillFor((_r.minutes / 60).round())),
+            Slider(
+              value: (_r.minutes / 60).clamp(1, 8).toDouble(),
+              min: 1,
+              max: 8,
+              divisions: 7,
+              label: '${(_r.minutes / 60).round()} h',
+              onChanged: (v) =>
+                  setState(() => _r = _r.copyWith(minutes: v.round() * 60)),
+            ),
+          ],
+          if (k != RecipeKind.lastOut &&
+              !(k == RecipeKind.checkIn || k == RecipeKind.help))
             _pick(
               l10n.recipeWatch,
               sorted((d) => _sensorFor(k, d)),
@@ -286,7 +350,7 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
               (v) => setState(() => _r = _r.copyWith(targets: v)),
               empty: l10n.recipeNoTargets,
             ),
-          if (k == RecipeKind.escalation) ...[
+          if (_escalates(k)) ...[
             _phones(
               l10n.escalationFirstPhones,
               _r.targets,
@@ -297,13 +361,22 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
               _r.others,
               (v) => setState(() => _r = _r.copyWith(others: v)),
             ),
+            const SizedBox(height: 12),
+            Text(l10n.escalationWait(_r.waitMinutes)),
+            Slider(
+              value: _r.waitMinutes.clamp(1, 15).toDouble(),
+              min: 1,
+              max: 15,
+              divisions: 14,
+              label: '${_r.waitMinutes}',
+              onChanged: (v) =>
+                  setState(() => _r = _r.copyWith(waitMinutes: v.round())),
+            ),
           ],
           if (_hasMinutes(k)) ...[
             const SizedBox(height: 12),
             Text(
-              k == RecipeKind.escalation
-                  ? l10n.escalationWait(_r.minutes)
-                  : k == RecipeKind.leftOpen
+              k == RecipeKind.leftOpen
                   ? l10n.recipeLeftOpenAfter(_r.minutes)
                   : k == RecipeKind.nightLight
                   ? l10n.recipeNightFor(_r.minutes)
@@ -312,16 +385,8 @@ class _RecipeSheetState extends ConsumerState<_RecipeSheet> {
             Slider(
               value: _r.minutes.toDouble(),
               min: 1,
-              max: k == RecipeKind.leftOpen
-                  ? 60
-                  : k == RecipeKind.escalation
-                  ? 15
-                  : 30,
-              divisions: k == RecipeKind.leftOpen
-                  ? 59
-                  : k == RecipeKind.escalation
-                  ? 14
-                  : 29,
+              max: k == RecipeKind.leftOpen ? 60 : 30,
+              divisions: k == RecipeKind.leftOpen ? 59 : 29,
               label: '${_r.minutes}',
               onChanged: (v) =>
                   setState(() => _r = _r.copyWith(minutes: v.round())),

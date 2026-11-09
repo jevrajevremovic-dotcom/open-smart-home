@@ -8930,6 +8930,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No phone is registered in Home Assistant (Settings → Notifications on each phone).'**
   String get escalationNoPhones;
+
+  /// No description provided for @recipeInactivity.
+  ///
+  /// In en, this message translates to:
+  /// **'No movement'**
+  String get recipeInactivity;
+
+  /// No description provided for @recipeInactivityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Care: if there is no movement anywhere for some hours during the day (8–22), tell the family with a \"Got it\" button.'**
+  String get recipeInactivityHint;
+
+  /// No description provided for @recipeCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'\"I\'m fine\" check-in'**
+  String get recipeCheckIn;
+
+  /// No description provided for @recipeCheckInHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Care: if nobody taps \"I\'m fine\" on the simple screen by the chosen time, tell the family.'**
+  String get recipeCheckInHint;
+
+  /// No description provided for @recipeHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Call for help'**
+  String get recipeHelp;
+
+  /// No description provided for @recipeHelpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Care: the \"Help\" button on the simple screen tells the family at once, until someone answers.'**
+  String get recipeHelpHint;
+
+  /// No description provided for @careWho.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is looked after (e.g. Grandma)'**
+  String get careWho;
+
+  /// No description provided for @careSomeone.
+  ///
+  /// In en, this message translates to:
+  /// **'The household member'**
+  String get careSomeone;
+
+  /// No description provided for @careBy.
+  ///
+  /// In en, this message translates to:
+  /// **'By'**
+  String get careBy;
+
+  /// No description provided for @careStillFor.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =1{No movement for 1 hour} other{No movement for {hours} hours}}'**
+  String careStillFor(int hours);
+
+  /// No description provided for @careStillWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'{who}: no movement for {hours} h'**
+  String careStillWhat(String who, int hours);
+
+  /// No description provided for @careNoCheckInWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'{who} has not checked in by {time}'**
+  String careNoCheckInWhat(String who, String time);
+
+  /// No description provided for @careHelpWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'{who} is asking for help'**
+  String careHelpWhat(String who);
+
+  /// No description provided for @careFine.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m fine'**
+  String get careFine;
+
+  /// No description provided for @careHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get careHelp;
+
+  /// No description provided for @careHelpAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Call for help?'**
+  String get careHelpAsk;
+
+  /// No description provided for @careHelpYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, call'**
+  String get careHelpYes;
+
+  /// No description provided for @careHelpMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{who} is asking for help!'**
+  String careHelpMessage(String who);
+
+  /// No description provided for @careFineMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{who}: I\'m fine ✓'**
+  String careFineMessage(String who);
+
+  /// No description provided for @careHelpSent.
+  ///
+  /// In en, this message translates to:
+  /// **'The family has been told. Help is on the way.'**
+  String get careHelpSent;
+
+  /// No description provided for @careFineSent.
+  ///
+  /// In en, this message translates to:
+  /// **'The family knows. Thank you!'**
+  String get careFineSent;
+
+  /// No description provided for @careNotSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sent — no connection to the home.'**
+  String get careNotSent;
+
+  /// No description provided for @careButtonsSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'\"I\'m fine\" and \"Help\" buttons'**
+  String get careButtonsSetting;
+
+  /// No description provided for @careButtonsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For someone living alone: tell the family with one tap. With the \"Check-in\" and \"Call for help\" recipes the family gets an alert with confirmation.'**
+  String get careButtonsHint;
 }
 
 class _AppLocalizationsDelegate

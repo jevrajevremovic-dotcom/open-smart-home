@@ -5674,4 +5674,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String carButtonChoose(int n) {
     return 'What car button $n does';
   }
+
+  @override
+  String get habitsTitle => 'From your habits';
+
+  @override
+  String get habitsHint =>
+      'You do these by hand almost every day. Found in Home Assistant\'s logbook, on this device; nothing leaves your home. You can change everything before saving.';
+
+  @override
+  String habitAt(String time) {
+    return 'Around $time';
+  }
+
+  @override
+  String get habitWeekdays => 'on weekdays';
+
+  @override
+  String get habitWeekend => 'at weekends';
+
+  @override
+  String habitDays(int seen, int outOf) {
+    return '$seen of $outOf days';
+  }
+
+  @override
+  String habitAfter(String trigger) {
+    return 'After: $trigger';
+  }
+
+  @override
+  String habitTimes(int seen, int outOf) {
+    return '$seen of $outOf times';
+  }
+
+  @override
+  String get habitCreate => 'Make it automatic';
+
+  @override
+  String get habitDismiss => 'No thanks';
 }

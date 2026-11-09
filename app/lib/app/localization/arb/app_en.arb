@@ -2177,5 +2177,19 @@
   "carButtonSlot": "Button {n}",
   "@carButtonSlot": {"placeholders": {"n": {"type": "int"}}},
   "carButtonChoose": "What car button {n} does",
-  "@carButtonChoose": {"placeholders": {"n": {"type": "int"}}}
+  "@carButtonChoose": {"placeholders": {"n": {"type": "int"}}},
+  "habitsTitle": "From your habits",
+  "habitsHint": "You do these by hand almost every day. Found in Home Assistant's logbook, on this device; nothing leaves your home. You can change everything before saving.",
+  "habitAt": "Around {time}",
+  "@habitAt": {"placeholders": {"time": {"type": "String"}}},
+  "habitWeekdays": "on weekdays",
+  "habitWeekend": "at weekends",
+  "habitDays": "{seen} of {outOf} days",
+  "@habitDays": {"placeholders": {"seen": {"type": "int"}, "outOf": {"type": "int"}}},
+  "habitAfter": "After: {trigger}",
+  "@habitAfter": {"placeholders": {"trigger": {"type": "String"}}},
+  "habitTimes": "{seen} of {outOf} times",
+  "@habitTimes": {"placeholders": {"seen": {"type": "int"}, "outOf": {"type": "int"}}},
+  "habitCreate": "Make it automatic",
+  "habitDismiss": "No thanks"
 }

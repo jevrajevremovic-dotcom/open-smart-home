@@ -1575,5 +1575,15 @@
   "carButtonsTitle": "Android Auto i sat",
   "carButtonsHint": "Do šest dugmadi na ekranu automobila i na satu (Wear OS): garažna vrata i kapija (otvori/zatvori), zaključavanje, svetla, scene. Otključavanje i alarm nisu ponuđeni. Aplikacija sa GitHub-a se u Android Auto pojavi tek kad u podešavanjima Android Auto uključite „Nepoznati izvori” (režim za programere); aplikacija za sat se instalira posebno (open-smart-home-wear.apk).",
   "carButtonSlot": "Dugme {n}",
-  "carButtonChoose": "Šta radi dugme {n} u autu"
+  "carButtonChoose": "Šta radi dugme {n} u autu",
+  "habitsTitle": "Predlozi iz navika",
+  "habitsHint": "Ovo radite ručno skoro svaki dan. Pronađeno u dnevniku Home Assistanta, na ovom uređaju; ništa ne izlazi iz kuće. Pre čuvanja možete sve izmeniti.",
+  "habitAt": "Oko {time}",
+  "habitWeekdays": "radnim danima",
+  "habitWeekend": "vikendom",
+  "habitDays": "{seen} od {outOf} dana",
+  "habitAfter": "Posle: {trigger}",
+  "habitTimes": "{seen} od {outOf} puta",
+  "habitCreate": "Napravi automatizaciju",
+  "habitDismiss": "Ne treba"
 }

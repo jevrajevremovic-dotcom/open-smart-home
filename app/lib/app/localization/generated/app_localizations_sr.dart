@@ -5707,6 +5707,45 @@ class AppLocalizationsSr extends AppLocalizations {
   String carButtonChoose(int n) {
     return 'Šta radi dugme $n u autu';
   }
+
+  @override
+  String get habitsTitle => 'Predlozi iz navika';
+
+  @override
+  String get habitsHint =>
+      'Ovo radite ručno skoro svaki dan. Pronađeno u dnevniku Home Assistanta, na ovom uređaju; ništa ne izlazi iz kuće. Pre čuvanja možete sve izmeniti.';
+
+  @override
+  String habitAt(String time) {
+    return 'Oko $time';
+  }
+
+  @override
+  String get habitWeekdays => 'radnim danima';
+
+  @override
+  String get habitWeekend => 'vikendom';
+
+  @override
+  String habitDays(int seen, int outOf) {
+    return '$seen od $outOf dana';
+  }
+
+  @override
+  String habitAfter(String trigger) {
+    return 'Posle: $trigger';
+  }
+
+  @override
+  String habitTimes(int seen, int outOf) {
+    return '$seen od $outOf puta';
+  }
+
+  @override
+  String get habitCreate => 'Napravi automatizaciju';
+
+  @override
+  String get habitDismiss => 'Ne treba';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

@@ -246,7 +246,7 @@ class _AutomationEditorScreenState
         ).toConfig(id),
       );
       messenger.showSnackBar(SnackBar(content: Text(l10n.autoSaved)));
-      navigator.pop();
+      navigator.pop(true);
     } on Object {
       if (mounted) {
         setState(() {

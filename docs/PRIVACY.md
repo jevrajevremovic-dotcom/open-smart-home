@@ -12,6 +12,7 @@ Open Smart Home je aplikacija za **vaš** Home Assistant. Nema naloga, servera n
 - Lični PIN-ovi ukućana i PIN tableta su samo na tom tabletu, kao heš.
 - Šifra Wi-Fi mreže za goste je u zaštićenom skladištu uređaja.
 - Sat (Wear OS) dobija od telefona samo nazive i stanje dugmadi za auto i sat, a telefonu šalje samo koje je dugme pritisnuto — direktno preko Google Play services (Bluetooth/Wi-Fi), samo između aplikacija potpisanih istim ključem. Android Auto dobija isto. Adresa servera i token ostaju samo u aplikaciji na telefonu.
+- Predlozi iz navika i ostale analize dnevnika (baterije, nedeljni pregled) računaju se na uređaju iz podataka vašeg HA.
 - Obrada kamere tableta za buđenje ekrana i ključne reči (ako je uključeno) radi na uređaju ili u vašem HA.
 
 ## Šta izlazi na internet — samo ako uključite

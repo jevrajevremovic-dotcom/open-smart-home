@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Dodato
+- **Predlozi iz navika** (Scene i automatizacije): aplikacija u dnevniku Home Assistanta za poslednje dve nedelje traži ono što ukućani rade ručno skoro svaki dan — u isto vreme (npr. „oko 22:30 isključi Dnevna soba“, po potrebi samo radnim danima ili vikendom) ili odmah posle nečega (vrata se otvore → upali svetlo u hodniku; ako je to uvek uveče, samo kad je mrak). „Napravi automatizaciju“ otvara editor sa popunjenim predlogom, ništa se ne čuva bez pregleda; „Ne treba“ ga trajno sklanja. Promene koje su napravile automatizacije se ne računaju, otključavanje i isključenje alarma se nikad ne predlažu. Računa se na uređaju, ništa ne izlazi iz kuće.
+
 ## [1.1.0] – 2026-11-09
 
 ### Dodato

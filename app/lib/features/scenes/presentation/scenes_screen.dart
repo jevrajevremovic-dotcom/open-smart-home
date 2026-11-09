@@ -1,5 +1,6 @@
 import '../../automations/presentation/ai_automation_screen.dart';
 import '../../automations/presentation/automation_editor_screen.dart';
+import '../../automations/presentation/habit_suggestions.dart';
 import '../../automations/presentation/scene_editor_screen.dart';
 import '../../restricted/application/restricted_mode.dart';
 
@@ -112,6 +113,8 @@ class ScenesScreen extends ConsumerWidget {
                             ],
                           ),
                   ),
+                  if (!ref.watch(restrictedModeProvider).enabled)
+                    const HabitSuggestionsSection(),
                   for (final id in automations) _AutomationTile(deviceId: id),
                 ],
               ),

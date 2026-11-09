@@ -9548,6 +9548,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What car button {n} does'**
   String carButtonChoose(int n);
+
+  /// No description provided for @habitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'From your habits'**
+  String get habitsTitle;
+
+  /// No description provided for @habitsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You do these by hand almost every day. Found in Home Assistant\'s logbook, on this device; nothing leaves your home. You can change everything before saving.'**
+  String get habitsHint;
+
+  /// No description provided for @habitAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Around {time}'**
+  String habitAt(String time);
+
+  /// No description provided for @habitWeekdays.
+  ///
+  /// In en, this message translates to:
+  /// **'on weekdays'**
+  String get habitWeekdays;
+
+  /// No description provided for @habitWeekend.
+  ///
+  /// In en, this message translates to:
+  /// **'at weekends'**
+  String get habitWeekend;
+
+  /// No description provided for @habitDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{seen} of {outOf} days'**
+  String habitDays(int seen, int outOf);
+
+  /// No description provided for @habitAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'After: {trigger}'**
+  String habitAfter(String trigger);
+
+  /// No description provided for @habitTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{seen} of {outOf} times'**
+  String habitTimes(int seen, int outOf);
+
+  /// No description provided for @habitCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it automatic'**
+  String get habitCreate;
+
+  /// No description provided for @habitDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'No thanks'**
+  String get habitDismiss;
 }
 
 class _AppLocalizationsDelegate

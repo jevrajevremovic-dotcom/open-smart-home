@@ -36,6 +36,7 @@ class HaLogbookEntry {
     this.state,
     this.message,
     this.byUser = false,
+    this.automated = false,
   });
 
   final DateTime when;
@@ -48,6 +49,11 @@ class HaLogbookEntry {
 
   /// Caused by a person (app / dashboard) rather than an automation.
   final bool byUser;
+
+  /// Caused by an automation or script (HA's `context_event_type` /
+  /// `context_entity_id`); neither this nor [byUser] = a switch on the
+  /// wall or the device itself.
+  final bool automated;
 
   static List<HaLogbookEntry> parse(Object? json) => [
     if (json is List)
@@ -64,6 +70,16 @@ class HaLogbookEntry {
             state: e['state'] is String ? e['state']! as String : null,
             message: e['message'] is String ? e['message']! as String : null,
             byUser: e['context_user_id'] is String,
+            automated:
+                const {
+                  'automation_triggered',
+                  'script_started',
+                }.contains(e['context_event_type']) ||
+                switch (e['context_entity_id']) {
+                  final String c =>
+                    c.startsWith('automation.') || c.startsWith('script.'),
+                  _ => false,
+                },
           ),
   ]..sort((a, b) => b.when.compareTo(a.when));
 }

@@ -166,6 +166,67 @@ class MockHomeAssistantServer {
         key,
   ];
 
+  /// Who caused a synthetic change: today half are by hand, earlier days
+  /// mostly automations, so the toggling every few hours does not look
+  /// like a daily habit.
+  Map<String, Object?> logbookContext(
+    String entityId,
+    int index,
+    Map<String, Object?> point,
+    DateTime end,
+  ) {
+    final at = DateTime.parse(point['last_changed']! as String);
+    final daysAgo = end.difference(at).inDays;
+    final byHand =
+        index.isEven && (daysAgo == 0 || (at.day + entityId.length) % 4 == 0);
+    return byHand
+        ? {'context_user_id': 'mock-user'}
+        : {
+            'context_event_type': 'automation_triggered',
+            'context_entity_id': 'automation.mock',
+          };
+  }
+
+  /// Two habits of the demo home, every day in [start]–[end]: the living
+  /// room light switched off by hand around 22:30, and on weekday
+  /// evenings the hallway light switched on right after the front door.
+  List<Map<String, Object?>> habitLogbook(DateTime start, DateTime end) {
+    final out = <Map<String, Object?>>[];
+    Map<String, Object?> entry(
+      DateTime t,
+      String id,
+      String state,
+      bool user,
+    ) => {
+      'when': t.toUtc().toIso8601String(),
+      'entity_id': id,
+      'state': state,
+      'name': friendlyName(id),
+      if (user) 'context_user_id': 'mock-user',
+    };
+    final first = DateTime(start.year, start.month, start.day);
+    for (
+      var day = first;
+      day.isBefore(end);
+      day = day.add(const Duration(days: 1))
+    ) {
+      final jitter = day.day % 3 * 4 - 4;
+      final off = day.add(Duration(hours: 22, minutes: 30 + jitter));
+      if (off.isAfter(start) && off.isBefore(end)) {
+        out.add(entry(off, 'light.living_room_main', 'off', true));
+      }
+      if (day.weekday > 5) continue;
+      final door = day.add(Duration(hours: 18, minutes: 10 + jitter));
+      final light = door.add(const Duration(seconds: 50));
+      if (door.isAfter(start) && light.isBefore(end)) {
+        out
+          ..add(entry(door, 'binary_sensor.front_door', 'on', false))
+          ..add(entry(light, 'light.hallway', 'on', true));
+      }
+    }
+    return out;
+  }
+
   String? friendlyName(String entityId) => switch (_states[entityId]) {
     {'attributes': {'friendly_name': final String name}} => name,
     _ => null,

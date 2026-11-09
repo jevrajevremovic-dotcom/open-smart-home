@@ -140,7 +140,13 @@ class MockHomeAssistantApi implements HomeAssistantApi {
     await _requireAuth();
     await _latency();
     // Like HA, the whole-home logbook leaves out continuous sensors.
-    final ids = entityId != null ? [entityId] : server.logbookEntityIds();
+    // The front door's opening times come from the demo habits instead.
+    final ids = entityId != null
+        ? [entityId]
+        : [
+            for (final id in server.logbookEntityIds())
+              if (id != 'binary_sensor.front_door') id,
+          ];
     return HaLogbookEntry.parse([
       for (final id in ids)
         for (final (i, p) in server.history(id, start, end).indexed)
@@ -150,8 +156,9 @@ class MockHomeAssistantApi implements HomeAssistantApi {
               'state': p['state'],
               'entity_id': id,
               'name': server.friendlyName(id),
-              if (i.isEven) 'context_user_id': 'mock-user',
+              ...server.logbookContext(id, i, p, end),
             },
+      if (entityId == null) ...server.habitLogbook(start, end),
     ]);
   }
 

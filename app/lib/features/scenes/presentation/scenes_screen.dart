@@ -1,3 +1,4 @@
+import '../../automations/presentation/ai_automation_screen.dart';
 import '../../automations/presentation/automation_editor_screen.dart';
 import '../../automations/presentation/scene_editor_screen.dart';
 import '../../restricted/application/restricted_mode.dart';
@@ -82,15 +83,33 @@ class ScenesScreen extends ConsumerWidget {
                     // Not for children / guests.
                     trailing: ref.watch(restrictedModeProvider).enabled
                         ? null
-                        : IconButton.filledTonal(
-                            key: const Key('newAutomation'),
-                            tooltip: l10n.autoNew,
-                            onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (_) => const AutomationEditorScreen(),
+                        : Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (ref.watch(aiTaskAvailableProvider))
+                                IconButton(
+                                  key: const Key('newAiAutomation'),
+                                  tooltip: l10n.aiAutoTitle,
+                                  onPressed: () => Navigator.of(context).push(
+                                    MaterialPageRoute<void>(
+                                      builder: (_) =>
+                                          const AiAutomationScreen(),
+                                    ),
+                                  ),
+                                  icon: const Icon(Icons.auto_awesome),
+                                ),
+                              IconButton.filledTonal(
+                                key: const Key('newAutomation'),
+                                tooltip: l10n.autoNew,
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                    builder: (_) =>
+                                        const AutomationEditorScreen(),
+                                  ),
+                                ),
+                                icon: const Icon(Icons.add),
                               ),
-                            ),
-                            icon: const Icon(Icons.add),
+                            ],
                           ),
                   ),
                   for (final id in automations) _AutomationTile(deviceId: id),

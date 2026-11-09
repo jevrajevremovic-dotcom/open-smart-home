@@ -9356,6 +9356,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home Assistant has no weather forecast (weather entity).'**
   String get irrigationNoWeather;
+
+  /// No description provided for @aiAutoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe an automation'**
+  String get aiAutoTitle;
+
+  /// No description provided for @aiAutoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write what you want, and the AI set up in your Home Assistant writes the automation. You review it before it is saved.'**
+  String get aiAutoHint;
+
+  /// No description provided for @aiAutoExample.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. when someone moves in the hallway at night, turn the light on at 30 %'**
+  String get aiAutoExample;
+
+  /// No description provided for @aiAutoPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Your description and the list of devices (id and name) go to the AI service set up in HA (AI Task). If that is OpenAI, Google or Anthropic, this data leaves the home; with a local model (e.g. Ollama) it stays at home.'**
+  String get aiAutoPrivacy;
+
+  /// No description provided for @aiAutoAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a draft'**
+  String get aiAutoAsk;
+
+  /// No description provided for @aiAutoReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review before saving'**
+  String get aiAutoReview;
+
+  /// No description provided for @aiAutoDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Exactly what will be saved'**
+  String get aiAutoDetails;
+
+  /// No description provided for @aiAutoSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Home Assistant'**
+  String get aiAutoSave;
+
+  /// No description provided for @aiAutoAfterSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Once saved, it can be changed or turned off like any other automation.'**
+  String get aiAutoAfterSave;
+
+  /// No description provided for @aiAutoSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved: {name}'**
+  String aiAutoSaved(String name);
+
+  /// No description provided for @aiAutoNotUnderstood.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI did not return an automation. Try describing it more simply.'**
+  String get aiAutoNotUnderstood;
+
+  /// No description provided for @aiAutoMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI says something is missing: {what}'**
+  String aiAutoMissing(String what);
+
+  /// No description provided for @aiAutoUnknownEntities.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot be saved — these devices are not in the home: {ids}'**
+  String aiAutoUnknownEntities(String ids);
+
+  /// No description provided for @aiAutoUnknownActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot be saved — Home Assistant has no such actions: {actions}'**
+  String aiAutoUnknownActions(String actions);
+
+  /// No description provided for @aiAutoBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Not saved from the app (runs code, restarts HA or sends data out): {actions}. Write such an automation in HA itself.'**
+  String aiAutoBlocked(String actions);
+
+  /// No description provided for @aiAutoSensitive.
+  ///
+  /// In en, this message translates to:
+  /// **'Careful: it unlocks, disarms or opens ({actions}). Make sure you want that.'**
+  String aiAutoSensitive(String actions);
 }
 
 class _AppLocalizationsDelegate

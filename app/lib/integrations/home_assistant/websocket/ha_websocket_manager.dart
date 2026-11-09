@@ -150,13 +150,18 @@ class HaWebSocketManager {
   // ---------------------------------------------------------------------------
 
   /// Sends a command (without `id`) and returns its `result` payload.
-  Future<Object?> sendCommand(Map<String, Object?> command) {
+  /// [timeout] for the slow ones (an AI answering); default
+  /// [commandTimeout].
+  Future<Object?> sendCommand(
+    Map<String, Object?> command, {
+    Duration? timeout,
+  }) {
     if (!_status.isConnected) {
       return Future.error(
         const AppFailure(FailureKind.webSocket, debugMessage: 'not connected'),
       );
     }
-    return _send(command);
+    return _send(command, timeout: timeout);
   }
 
   /// Bus events of [eventType] (`null` = all events). Every listener shares
@@ -285,7 +290,10 @@ class HaWebSocketManager {
     }
   }
 
-  Future<Object?> _send(Map<String, Object?> command) async {
+  Future<Object?> _send(
+    Map<String, Object?> command, {
+    Duration? timeout,
+  }) async {
     final socket = _socket;
     if (socket == null) {
       throw const AppFailure(FailureKind.webSocket, debugMessage: 'no socket');
@@ -295,7 +303,7 @@ class HaWebSocketManager {
     _pending[id] = completer;
     socket.send(jsonEncode({'id': id, ...command}));
     try {
-      return await completer.future.timeout(commandTimeout);
+      return await completer.future.timeout(timeout ?? commandTimeout);
     } on TimeoutException {
       throw AppFailure(
         FailureKind.timeout,

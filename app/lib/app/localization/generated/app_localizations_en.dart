@@ -5542,4 +5542,69 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get irrigationNoWeather =>
       'Home Assistant has no weather forecast (weather entity).';
+
+  @override
+  String get aiAutoTitle => 'Describe an automation';
+
+  @override
+  String get aiAutoHint =>
+      'Write what you want, and the AI set up in your Home Assistant writes the automation. You review it before it is saved.';
+
+  @override
+  String get aiAutoExample =>
+      'E.g. when someone moves in the hallway at night, turn the light on at 30 %';
+
+  @override
+  String get aiAutoPrivacy =>
+      'Your description and the list of devices (id and name) go to the AI service set up in HA (AI Task). If that is OpenAI, Google or Anthropic, this data leaves the home; with a local model (e.g. Ollama) it stays at home.';
+
+  @override
+  String get aiAutoAsk => 'Write a draft';
+
+  @override
+  String get aiAutoReview => 'Review before saving';
+
+  @override
+  String get aiAutoDetails => 'Exactly what will be saved';
+
+  @override
+  String get aiAutoSave => 'Save to Home Assistant';
+
+  @override
+  String get aiAutoAfterSave =>
+      'Once saved, it can be changed or turned off like any other automation.';
+
+  @override
+  String aiAutoSaved(String name) {
+    return 'Saved: $name';
+  }
+
+  @override
+  String get aiAutoNotUnderstood =>
+      'The AI did not return an automation. Try describing it more simply.';
+
+  @override
+  String aiAutoMissing(String what) {
+    return 'The AI says something is missing: $what';
+  }
+
+  @override
+  String aiAutoUnknownEntities(String ids) {
+    return 'Cannot be saved — these devices are not in the home: $ids';
+  }
+
+  @override
+  String aiAutoUnknownActions(String actions) {
+    return 'Cannot be saved — Home Assistant has no such actions: $actions';
+  }
+
+  @override
+  String aiAutoBlocked(String actions) {
+    return 'Not saved from the app (runs code, restarts HA or sends data out): $actions. Write such an automation in HA itself.';
+  }
+
+  @override
+  String aiAutoSensitive(String actions) {
+    return 'Careful: it unlocks, disarms or opens ($actions). Make sure you want that.';
+  }
 }

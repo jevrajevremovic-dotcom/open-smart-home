@@ -5575,6 +5575,71 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get irrigationNoWeather =>
       'Home Assistant nema vremensku prognozu (weather entitet).';
+
+  @override
+  String get aiAutoTitle => 'Opiši automatizaciju rečima';
+
+  @override
+  String get aiAutoHint =>
+      'Napišite šta želite, a AI koji je podešen u vašem Home Assistantu napraviće automatizaciju. Pre čuvanja je pregledate.';
+
+  @override
+  String get aiAutoExample =>
+      'Npr. kad se noću pomeri neko u hodniku, upali svetlo na 30 %';
+
+  @override
+  String get aiAutoPrivacy =>
+      'Šalje se vaš opis i spisak uređaja (id i ime) AI servisu podešenom u HA (AI Task). Ako je to OpenAI, Google ili Anthropic, ti podaci napuštaju kuću; sa lokalnim modelom (npr. Ollama) ostaju kod kuće.';
+
+  @override
+  String get aiAutoAsk => 'Napravi predlog';
+
+  @override
+  String get aiAutoReview => 'Pregledajte pre čuvanja';
+
+  @override
+  String get aiAutoDetails => 'Tačno šta će se sačuvati';
+
+  @override
+  String get aiAutoSave => 'Sačuvaj u Home Assistant';
+
+  @override
+  String get aiAutoAfterSave =>
+      'Posle čuvanja automatizaciju možete menjati ili ugasiti kao i svaku drugu.';
+
+  @override
+  String aiAutoSaved(String name) {
+    return 'Sačuvano: $name';
+  }
+
+  @override
+  String get aiAutoNotUnderstood =>
+      'AI nije vratio automatizaciju. Pokušajte da opišete jednostavnije.';
+
+  @override
+  String aiAutoMissing(String what) {
+    return 'AI kaže da nešto nedostaje: $what';
+  }
+
+  @override
+  String aiAutoUnknownEntities(String ids) {
+    return 'Ne može da se sačuva — ovi uređaji ne postoje u kući: $ids';
+  }
+
+  @override
+  String aiAutoUnknownActions(String actions) {
+    return 'Ne može da se sačuva — Home Assistant nema ove akcije: $actions';
+  }
+
+  @override
+  String aiAutoBlocked(String actions) {
+    return 'Ne čuva se iz aplikacije (pokreće kod, restartuje HA ili šalje podatke napolje): $actions. Takvu automatizaciju napravite u samom HA.';
+  }
+
+  @override
+  String aiAutoSensitive(String actions) {
+    return 'Pažnja: otključava, isključuje alarm ili otvara ($actions). Proverite da li to želite.';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

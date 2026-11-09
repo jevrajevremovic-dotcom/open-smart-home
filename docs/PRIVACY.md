@@ -22,6 +22,7 @@ Open Smart Home je aplikacija za **vaš** Home Assistant. Nema naloga, servera n
 | Prepoznavanje govora preko interneta | Google/Apple servis telefona | Samo ako ga izričito izaberete (podrazumevano je na uređaju) | Snimak glasa dok držite dugme |
 | Pristup van kuće | Vaš Tailscale, Nabu Casa ili domen | Ako podesite spoljnu adresu | Isto što i kod kuće, šifrovano |
 | Assist preko Home Assistant Clouda | Nabu Casa | Ako je tako podešeno u vašem HA | Tekst komande |
+| Automatizacija opisana rečima | AI servis podešen u vašem HA (AI Task: OpenAI, Google, Anthropic… ili lokalni Ollama, koji ostaje kod kuće) | Samo kad pritisnete „Napravi predlog” | Vaš opis i spisak uređaja (id i ime) |
 | Dodavanje novog Matter uređaja preko Bluetooth-a | Google Play services | Samo dok dodajete uređaj | Ono što Google Play services koristi za uparivanje |
 
 Ništa od ovoga nije uključeno samo od sebe. Analitike, praćenja i reklama nema.

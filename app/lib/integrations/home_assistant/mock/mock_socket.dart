@@ -483,6 +483,22 @@ class _MockSocket implements HaSocket {
         _emit(ok(buildMockFloors()));
       case 'config/entity_registry/list':
         _emit(ok(_server.registries.entities));
+      // The demo "AI" (`ai_task.generate_data`) always writes the same
+      // night light, as text with JSON like a real model.
+      case 'call_service'
+          when msg['domain'] == 'ai_task' && msg['return_response'] == true:
+        _server.aiTaskRequests.add(
+          (msg['service_data'] as Map?)?['instructions'] as String? ?? '',
+        );
+        _emit(
+          ok({
+            'context': {'id': 'mock'},
+            'response': {
+              'conversation_id': 'mock',
+              'data': '```json\n${jsonEncode(_server.aiTaskAnswer)}\n```',
+            },
+          }),
+        );
       case 'call_service':
         _server.callService(
           msg['domain']! as String,

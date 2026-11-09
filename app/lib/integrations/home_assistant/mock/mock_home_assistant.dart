@@ -587,12 +587,40 @@ class MockHomeAssistantServer {
       ('climate', ['set_temperature', 'set_hvac_mode', 'set_preset_mode']),
       if (zhaAvailable) ('zha', ['permit', 'remove']),
       ('mqtt', ['publish']),
+      ('ai_task', ['generate_data']),
     ])
       {
         'domain': domain,
         'services': {for (final s in services) s: <String, Object?>{}},
       },
   ];
+
+  /// Instructions sent to the demo AI (`ai_task.generate_data`).
+  final List<String> aiTaskRequests = [];
+
+  /// What the demo AI answers (tests may change it).
+  Map<String, Object?> aiTaskAnswer = {
+    'alias': 'Noćno svetlo u hodniku',
+    'description': 'Kad se noću pomeri neko u hodniku, upali svetlo na 30 %.',
+    'mode': 'restart',
+    'triggers': [
+      {
+        'trigger': 'state',
+        'entity_id': 'binary_sensor.hallway_motion',
+        'to': 'on',
+      },
+    ],
+    'conditions': [
+      {'condition': 'state', 'entity_id': 'sun.sun', 'state': 'below_horizon'},
+    ],
+    'actions': [
+      {
+        'action': 'light.turn_on',
+        'target': {'entity_id': 'light.hallway'},
+        'data': {'brightness_pct': 30},
+      },
+    ],
+  };
 
   /// Whether the demo hub runs ZHA (tests switch it off).
   bool zhaAvailable = true;

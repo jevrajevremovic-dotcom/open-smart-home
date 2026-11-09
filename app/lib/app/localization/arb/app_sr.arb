@@ -1635,5 +1635,21 @@
   "weekReportEnergy": "struja {kwh} kWh",
   "weekReportSetting": "Pregled nedelje",
   "weekReportSettingHint": "Nedeljom uveče kratko obaveštenje: vrata, svetla, zvono, šta je najduže bilo otvoreno, struja. Računa se na telefonu.",
-  "kioskWeekBanner": "Kako je prošla nedelja? Dodirnite za pregled."
+  "kioskWeekBanner": "Kako je prošla nedelja? Dodirnite za pregled.",
+  "zigbeeMapTitle": "Zigbee mreža",
+  "zigbeeMapLoading": "Pitam uređaje koga čuju…\nNa većoj mreži to traje i do minut.",
+  "zigbeeMapFailed": "Mapa mreže nije stigla. Pokušajte ponovo za koji trenutak.",
+  "zigbeeMapNone": "Home Assistant nije poslao nijedan Zigbee uređaj.",
+  "zigbeeMapSummary": "Ruteri: {routers} · na bateriju: {ends} · slabe veze: {weak}",
+  "zigbeeCoordinator": "Koordinator",
+  "zigbeeRouter": "Ruter (na struju)",
+  "zigbeeEndDevice": "Na bateriju",
+  "zigbeeLinkGood": "dobra veza",
+  "zigbeeLinkOk": "srednja",
+  "zigbeeLinkWeak": "slaba",
+  "zigbeeUnavailable": "nedostupan",
+  "zigbeeOpenDevice": "Otvori uređaj",
+  "zigbeeWeakTitle": "Slabe veze",
+  "zigbeeWeakNone": "Nema slabih veza.",
+  "zigbeeWeakHint": "Obično pomaže uređaj na struju (pametna utičnica, sijalica) na pola puta, ili da koordinator bude dalje od rutera, USB 3 portova i metala, na USB produžnom kablu."
 }

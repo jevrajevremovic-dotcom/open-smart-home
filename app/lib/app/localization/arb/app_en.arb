@@ -2253,5 +2253,22 @@
   "@weekReportEnergy": {"placeholders": {"kwh": {"type": "String"}}},
   "weekReportSetting": "Weekly summary",
   "weekReportSettingHint": "On Sunday evening a short notification: doors, lights, doorbell, what was left open longest, electricity. Worked out on the phone.",
-  "kioskWeekBanner": "How did the week go? Tap for the summary."
+  "kioskWeekBanner": "How did the week go? Tap for the summary.",
+  "zigbeeMapTitle": "Zigbee network",
+  "zigbeeMapLoading": "Asking the devices whom they hear…\nOn a bigger network this takes up to a minute.",
+  "zigbeeMapFailed": "The network map did not arrive. Try again in a moment.",
+  "zigbeeMapNone": "Home Assistant sent no Zigbee devices.",
+  "zigbeeMapSummary": "Routers: {routers} · battery devices: {ends} · weak links: {weak}",
+  "@zigbeeMapSummary": {"placeholders": {"routers": {"type": "int"}, "ends": {"type": "int"}, "weak": {"type": "int"}}},
+  "zigbeeCoordinator": "Coordinator",
+  "zigbeeRouter": "Router (mains)",
+  "zigbeeEndDevice": "Battery device",
+  "zigbeeLinkGood": "good link",
+  "zigbeeLinkOk": "fair",
+  "zigbeeLinkWeak": "weak",
+  "zigbeeUnavailable": "unavailable",
+  "zigbeeOpenDevice": "Open device",
+  "zigbeeWeakTitle": "Weak links",
+  "zigbeeWeakNone": "No weak links.",
+  "zigbeeWeakHint": "Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable."
 }

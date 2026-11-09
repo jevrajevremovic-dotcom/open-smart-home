@@ -116,6 +116,8 @@ class _MockSocket implements HaSocket {
                 }
               : ok(prefs),
         );
+      case 'zha/devices' when _server.zhaAvailable:
+        _emit(ok(_server.zhaDevices()));
       case 'recorder/statistics_during_period':
         _emit(
           ok(

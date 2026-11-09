@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../add_device/application/add_device_providers.dart';
 import '../devices/presentation/device_health_view.dart';
+import '../devices/presentation/zigbee_map_screen.dart';
 import '../../app/localization/l10n.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../restricted/application/restricted_mode.dart';
@@ -67,6 +69,15 @@ class _ExtrasSheet extends ConsumerWidget {
           icon: Icons.healing_outlined,
           label: l10n.healthListTitle,
           open: showDeviceHealth,
+        ),
+      if (!restricted &&
+          !kiosk &&
+          (ref.watch(zigbeeBackendsProvider).value ?? const {}).isNotEmpty)
+        (
+          key: const Key('extraZigbee'),
+          icon: Icons.hub_outlined,
+          label: l10n.zigbeeMapTitle,
+          open: showZigbeeMap,
         ),
       if (!restricted)
         (

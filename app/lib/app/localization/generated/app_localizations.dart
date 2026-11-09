@@ -9908,6 +9908,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How did the week go? Tap for the summary.'**
   String get kioskWeekBanner;
+
+  /// No description provided for @zigbeeMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Zigbee network'**
+  String get zigbeeMapTitle;
+
+  /// No description provided for @zigbeeMapLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking the devices whom they hear…\nOn a bigger network this takes up to a minute.'**
+  String get zigbeeMapLoading;
+
+  /// No description provided for @zigbeeMapFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The network map did not arrive. Try again in a moment.'**
+  String get zigbeeMapFailed;
+
+  /// No description provided for @zigbeeMapNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Assistant sent no Zigbee devices.'**
+  String get zigbeeMapNone;
+
+  /// No description provided for @zigbeeMapSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Routers: {routers} · battery devices: {ends} · weak links: {weak}'**
+  String zigbeeMapSummary(int routers, int ends, int weak);
+
+  /// No description provided for @zigbeeCoordinator.
+  ///
+  /// In en, this message translates to:
+  /// **'Coordinator'**
+  String get zigbeeCoordinator;
+
+  /// No description provided for @zigbeeRouter.
+  ///
+  /// In en, this message translates to:
+  /// **'Router (mains)'**
+  String get zigbeeRouter;
+
+  /// No description provided for @zigbeeEndDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery device'**
+  String get zigbeeEndDevice;
+
+  /// No description provided for @zigbeeLinkGood.
+  ///
+  /// In en, this message translates to:
+  /// **'good link'**
+  String get zigbeeLinkGood;
+
+  /// No description provided for @zigbeeLinkOk.
+  ///
+  /// In en, this message translates to:
+  /// **'fair'**
+  String get zigbeeLinkOk;
+
+  /// No description provided for @zigbeeLinkWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'weak'**
+  String get zigbeeLinkWeak;
+
+  /// No description provided for @zigbeeUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'unavailable'**
+  String get zigbeeUnavailable;
+
+  /// No description provided for @zigbeeOpenDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Open device'**
+  String get zigbeeOpenDevice;
+
+  /// No description provided for @zigbeeWeakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak links'**
+  String get zigbeeWeakTitle;
+
+  /// No description provided for @zigbeeWeakNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No weak links.'**
+  String get zigbeeWeakNone;
+
+  /// No description provided for @zigbeeWeakHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable.'**
+  String get zigbeeWeakHint;
 }
 
 class _AppLocalizationsDelegate

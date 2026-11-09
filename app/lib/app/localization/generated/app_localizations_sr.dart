@@ -5954,6 +5954,60 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get kioskWeekBanner => 'Kako je prošla nedelja? Dodirnite za pregled.';
+
+  @override
+  String get zigbeeMapTitle => 'Zigbee mreža';
+
+  @override
+  String get zigbeeMapLoading =>
+      'Pitam uređaje koga čuju…\nNa većoj mreži to traje i do minut.';
+
+  @override
+  String get zigbeeMapFailed =>
+      'Mapa mreže nije stigla. Pokušajte ponovo za koji trenutak.';
+
+  @override
+  String get zigbeeMapNone =>
+      'Home Assistant nije poslao nijedan Zigbee uređaj.';
+
+  @override
+  String zigbeeMapSummary(int routers, int ends, int weak) {
+    return 'Ruteri: $routers · na bateriju: $ends · slabe veze: $weak';
+  }
+
+  @override
+  String get zigbeeCoordinator => 'Koordinator';
+
+  @override
+  String get zigbeeRouter => 'Ruter (na struju)';
+
+  @override
+  String get zigbeeEndDevice => 'Na bateriju';
+
+  @override
+  String get zigbeeLinkGood => 'dobra veza';
+
+  @override
+  String get zigbeeLinkOk => 'srednja';
+
+  @override
+  String get zigbeeLinkWeak => 'slaba';
+
+  @override
+  String get zigbeeUnavailable => 'nedostupan';
+
+  @override
+  String get zigbeeOpenDevice => 'Otvori uređaj';
+
+  @override
+  String get zigbeeWeakTitle => 'Slabe veze';
+
+  @override
+  String get zigbeeWeakNone => 'Nema slabih veza.';
+
+  @override
+  String get zigbeeWeakHint =>
+      'Obično pomaže uređaj na struju (pametna utičnica, sijalica) na pola puta, ili da koordinator bude dalje od rutera, USB 3 portova i metala, na USB produžnom kablu.';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

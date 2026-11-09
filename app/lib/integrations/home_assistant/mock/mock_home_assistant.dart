@@ -686,6 +686,62 @@ class MockHomeAssistantServer {
   /// Whether the demo hub runs ZHA (tests switch it off).
   bool zhaAvailable = true;
 
+  /// `zha/devices`: the demo's ZHA devices from the registry, plus the
+  /// coordinator and a smart plug that routes for the hallway; the
+  /// hallway motion sensor hears it badly (LQI 38).
+  List<Map<String, Object?>> zhaDevices() {
+    const coordinator = '00:12:4b:00:24:c0:00:01';
+    const plug = '00:12:4b:00:24:c0:00:02';
+    Map<String, Object?> n(String ieee, int lqi) => {
+      'ieee': ieee,
+      'lqi': '$lqi',
+    };
+    final out = <Map<String, Object?>>[
+      {
+        'ieee': coordinator,
+        'name': 'Texas Instruments CC2652',
+        'user_given_name': 'Koordinator',
+        'device_type': 'Coordinator',
+        'available': true,
+        'device_reg_id': null,
+        'neighbors': [n(plug, 210)],
+      },
+      {
+        'ieee': plug,
+        'name': 'IKEA TRADFRI control outlet',
+        'user_given_name': 'Utičnica hodnik',
+        'device_type': 'Router',
+        'available': true,
+        'device_reg_id': null,
+        'neighbors': [n(coordinator, 205)],
+      },
+    ];
+    for (final d in registries.devices) {
+      final ids = d['identifiers'];
+      if (ids is! List) continue;
+      for (final id in ids) {
+        if (id is! List || id.first != 'zha') continue;
+        final ieee = id[1] as String;
+        final hallway = d['area_id'] == 'hallway';
+        out.add({
+          'ieee': ieee,
+          'name': d['model'],
+          'user_given_name': d['name'],
+          'device_type': 'EndDevice',
+          'available': true,
+          'device_reg_id': d['id'],
+          'neighbors': [
+            if (hallway)
+              n(plug, d['id'] == 'd_hall_motion' ? 38 : 120)
+            else
+              n(coordinator, 170),
+          ],
+        });
+      }
+    }
+    return out;
+  }
+
   /// Last `mqtt.publish` call (topic, payload), for tests.
   (String, String)? lastMqttPublish;
 

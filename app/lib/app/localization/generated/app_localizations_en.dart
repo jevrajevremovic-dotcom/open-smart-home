@@ -5917,4 +5917,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kioskWeekBanner => 'How did the week go? Tap for the summary.';
+
+  @override
+  String get zigbeeMapTitle => 'Zigbee network';
+
+  @override
+  String get zigbeeMapLoading =>
+      'Asking the devices whom they hear…\nOn a bigger network this takes up to a minute.';
+
+  @override
+  String get zigbeeMapFailed =>
+      'The network map did not arrive. Try again in a moment.';
+
+  @override
+  String get zigbeeMapNone => 'Home Assistant sent no Zigbee devices.';
+
+  @override
+  String zigbeeMapSummary(int routers, int ends, int weak) {
+    return 'Routers: $routers · battery devices: $ends · weak links: $weak';
+  }
+
+  @override
+  String get zigbeeCoordinator => 'Coordinator';
+
+  @override
+  String get zigbeeRouter => 'Router (mains)';
+
+  @override
+  String get zigbeeEndDevice => 'Battery device';
+
+  @override
+  String get zigbeeLinkGood => 'good link';
+
+  @override
+  String get zigbeeLinkOk => 'fair';
+
+  @override
+  String get zigbeeLinkWeak => 'weak';
+
+  @override
+  String get zigbeeUnavailable => 'unavailable';
+
+  @override
+  String get zigbeeOpenDevice => 'Open device';
+
+  @override
+  String get zigbeeWeakTitle => 'Weak links';
+
+  @override
+  String get zigbeeWeakNone => 'No weak links.';
+
+  @override
+  String get zigbeeWeakHint =>
+      'Usually a mains-powered device (smart plug, bulb) halfway helps, or moving the coordinator away from the router, USB 3 ports and metal on a USB extension cable.';
 }

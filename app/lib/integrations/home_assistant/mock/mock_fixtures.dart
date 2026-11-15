@@ -333,6 +333,17 @@ List<Map<String, Object?>> buildMockStates(DateTime now) {
       'state_class': 'measurement',
       'unit_of_measurement': 'ppm',
     }),
+    e(
+      'sensor.backup_last_successful_automatic_backup',
+      DateTime.now()
+          .subtract(const Duration(hours: 20))
+          .toUtc()
+          .toIso8601String(),
+      {
+        'friendly_name': 'Backup – poslednji uspešan automatski backup',
+        'device_class': 'timestamp',
+      },
+    ),
     e('sensor.front_lock_battery', '31', {
       'friendly_name': 'Brava ulazna vrata – baterija',
       'device_class': 'battery',
@@ -554,6 +565,11 @@ buildMockRegistries() {
       entity('cover.garage_door', 'shelly', areaId: 'garage'),
       entity('cover.driveway_gate', 'shelly', areaId: 'yard'),
       entity('lock.front_door', 'zwave_js', deviceId: 'd_front_lock'),
+      entity(
+        'sensor.backup_last_successful_automatic_backup',
+        'backup',
+        category: 'diagnostic',
+      ),
       entity(
         'sensor.front_lock_battery',
         'zwave_js',

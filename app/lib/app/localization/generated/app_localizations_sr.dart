@@ -6028,6 +6028,86 @@ class AppLocalizationsSr extends AppLocalizations {
   String cameraSnapshotAlias(String name) {
     return 'Slike događaja: $name';
   }
+
+  @override
+  String get homesOverviewTitle => 'Pregled svih kuća';
+
+  @override
+  String get homesOverviewEntry =>
+      'Za servis: veza, uređaji, baterije, backup i ažuriranja svake kuće';
+
+  @override
+  String get homesOverviewHint =>
+      'Svaka kuća se čita direktno iz njenog Home Assistanta, njenom prijavom (van kuće preko spoljne adrese). Ništa ne ide na drugi server.';
+
+  @override
+  String homesOverviewSummary(int total, int ok, int attention, int down) {
+    return 'Kuća: $total · u redu: $ok · traži pažnju: $attention · ne javlja se: $down';
+  }
+
+  @override
+  String get homesOverviewFailed => 'Pregled nije uspeo.';
+
+  @override
+  String get homeLevelOk => 'U redu';
+
+  @override
+  String get homeLevelAttention => 'Traži pažnju';
+
+  @override
+  String get homeLevelDown => 'Ne javlja se';
+
+  @override
+  String get homesViaRemote => 'preko spoljne adrese';
+
+  @override
+  String get homesSignInExpired =>
+      'Prijava ne važi (token obrisan ili istekao). Otvorite kuću i prijavite se ponovo.';
+
+  @override
+  String get homesUnreachable =>
+      'Server se ne javlja ni na kućnoj ni na spoljnoj adresi.';
+
+  @override
+  String homesUnavailable(int count, String names) {
+    return 'Nedostupno: $count ($names)';
+  }
+
+  @override
+  String homesLowBatteries(String names) {
+    return 'Prazne baterije: $names';
+  }
+
+  @override
+  String homesBackupAt(String time) {
+    return 'Poslednji automatski backup: $time';
+  }
+
+  @override
+  String get homesBackupNever => 'Automatski backup još nije uspeo nijednom.';
+
+  @override
+  String get homesBackupUnknown =>
+      'Nema podataka o backup-u (HA 2025.1+ i podešen automatski backup).';
+
+  @override
+  String homesUpdates(int count, String names) {
+    return 'Ažuriranja: $count ($names)';
+  }
+
+  @override
+  String get homesAllDevicesOk => 'Svi uređaji se javljaju.';
+
+  @override
+  String homesAndMore(int count) {
+    return 'i još $count';
+  }
+
+  @override
+  String get homesActive => 'Otvorena sada';
+
+  @override
+  String get homesOpen => 'Otvori';
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

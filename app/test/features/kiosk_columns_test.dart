@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/features/kiosk/application/kiosk_now.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
 import 'package:open_smart_home/features/devices/application/device_providers.dart';
@@ -16,8 +17,20 @@ import '../widgets/app_widget_test.dart'
     show en, goTo, pumpApp, settle, tapKey, unmount;
 
 void main() {
-  Future<ProviderContainer> kiosk(WidgetTester tester, Size size) async {
-    await pumpApp(tester, signedIn: true, size: size);
+  Future<ProviderContainer> kiosk(
+    WidgetTester tester,
+    Size size, {
+    DateTime? now,
+  }) async {
+    // A Wednesday noon: no seasonal or Sunday-evening cards in the way.
+    await pumpApp(
+      tester,
+      signedIn: true,
+      size: size,
+      overrides: [
+        kioskNowProvider.overrideWithValue(now ?? DateTime(2026, 11, 11, 12)),
+      ],
+    );
     await settle(tester, 10);
     final container = ProviderScope.containerOf(
       tester.element(find.byType(SmartHomeApp)),
@@ -425,6 +438,19 @@ void main() {
     await tester.fling(swipe, const Offset(400, 0), 1500);
     await settle(tester, 4);
     expect(container.read(kioskColumnsRoomProvider), isNull);
+    await unmount(tester);
+  });
+
+  testWidgets('Sunday evening: the week card opens the story', (tester) async {
+    await kiosk(
+      tester,
+      const Size(1600, 1000),
+      now: DateTime(2026, 11, 15, 19),
+    );
+    expect(find.byKey(const Key('kioskWeek')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('kioskWeek')));
+    await settle(tester, 10);
+    expect(find.byKey(const Key('wrappedScreen')), findsOneWidget);
     await unmount(tester);
   });
 }

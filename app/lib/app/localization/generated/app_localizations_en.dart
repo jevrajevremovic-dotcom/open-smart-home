@@ -5990,4 +5990,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String cameraSnapshotAlias(String name) {
     return 'Event pictures: $name';
   }
+
+  @override
+  String get homesOverviewTitle => 'All homes at a glance';
+
+  @override
+  String get homesOverviewEntry =>
+      'For service: connection, devices, batteries, backup and updates of every home';
+
+  @override
+  String get homesOverviewHint =>
+      'Each home is read straight from its own Home Assistant with its own sign-in (away from it through its remote address). Nothing goes to any other server.';
+
+  @override
+  String homesOverviewSummary(int total, int ok, int attention, int down) {
+    return 'Homes: $total · fine: $ok · need a look: $attention · not answering: $down';
+  }
+
+  @override
+  String get homesOverviewFailed => 'The overview failed.';
+
+  @override
+  String get homeLevelOk => 'Fine';
+
+  @override
+  String get homeLevelAttention => 'Needs a look';
+
+  @override
+  String get homeLevelDown => 'Not answering';
+
+  @override
+  String get homesViaRemote => 'through the remote address';
+
+  @override
+  String get homesSignInExpired =>
+      'The sign-in is no longer valid (token removed or expired). Open the home and sign in again.';
+
+  @override
+  String get homesUnreachable =>
+      'The server answers neither at the home nor at the remote address.';
+
+  @override
+  String homesUnavailable(int count, String names) {
+    return 'Unavailable: $count ($names)';
+  }
+
+  @override
+  String homesLowBatteries(String names) {
+    return 'Low batteries: $names';
+  }
+
+  @override
+  String homesBackupAt(String time) {
+    return 'Last automatic backup: $time';
+  }
+
+  @override
+  String get homesBackupNever => 'No automatic backup has succeeded yet.';
+
+  @override
+  String get homesBackupUnknown =>
+      'No backup information (needs HA 2025.1+ with automatic backups set up).';
+
+  @override
+  String homesUpdates(int count, String names) {
+    return 'Updates: $count ($names)';
+  }
+
+  @override
+  String get homesAllDevicesOk => 'All devices answer.';
+
+  @override
+  String homesAndMore(int count) {
+    return 'and $count more';
+  }
+
+  @override
+  String get homesActive => 'Open now';
+
+  @override
+  String get homesOpen => 'Open';
 }

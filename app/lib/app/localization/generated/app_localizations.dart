@@ -10034,6 +10034,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event pictures: {name}'**
   String cameraSnapshotAlias(String name);
+
+  /// No description provided for @homesOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All homes at a glance'**
+  String get homesOverviewTitle;
+
+  /// No description provided for @homesOverviewEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'For service: connection, devices, batteries, backup and updates of every home'**
+  String get homesOverviewEntry;
+
+  /// No description provided for @homesOverviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Each home is read straight from its own Home Assistant with its own sign-in (away from it through its remote address). Nothing goes to any other server.'**
+  String get homesOverviewHint;
+
+  /// No description provided for @homesOverviewSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Homes: {total} · fine: {ok} · need a look: {attention} · not answering: {down}'**
+  String homesOverviewSummary(int total, int ok, int attention, int down);
+
+  /// No description provided for @homesOverviewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The overview failed.'**
+  String get homesOverviewFailed;
+
+  /// No description provided for @homeLevelOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Fine'**
+  String get homeLevelOk;
+
+  /// No description provided for @homeLevelAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs a look'**
+  String get homeLevelAttention;
+
+  /// No description provided for @homeLevelDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Not answering'**
+  String get homeLevelDown;
+
+  /// No description provided for @homesViaRemote.
+  ///
+  /// In en, this message translates to:
+  /// **'through the remote address'**
+  String get homesViaRemote;
+
+  /// No description provided for @homesSignInExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'The sign-in is no longer valid (token removed or expired). Open the home and sign in again.'**
+  String get homesSignInExpired;
+
+  /// No description provided for @homesUnreachable.
+  ///
+  /// In en, this message translates to:
+  /// **'The server answers neither at the home nor at the remote address.'**
+  String get homesUnreachable;
+
+  /// No description provided for @homesUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable: {count} ({names})'**
+  String homesUnavailable(int count, String names);
+
+  /// No description provided for @homesLowBatteries.
+  ///
+  /// In en, this message translates to:
+  /// **'Low batteries: {names}'**
+  String homesLowBatteries(String names);
+
+  /// No description provided for @homesBackupAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Last automatic backup: {time}'**
+  String homesBackupAt(String time);
+
+  /// No description provided for @homesBackupNever.
+  ///
+  /// In en, this message translates to:
+  /// **'No automatic backup has succeeded yet.'**
+  String get homesBackupNever;
+
+  /// No description provided for @homesBackupUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup information (needs HA 2025.1+ with automatic backups set up).'**
+  String get homesBackupUnknown;
+
+  /// No description provided for @homesUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Updates: {count} ({names})'**
+  String homesUpdates(int count, String names);
+
+  /// No description provided for @homesAllDevicesOk.
+  ///
+  /// In en, this message translates to:
+  /// **'All devices answer.'**
+  String get homesAllDevicesOk;
+
+  /// No description provided for @homesAndMore.
+  ///
+  /// In en, this message translates to:
+  /// **'and {count} more'**
+  String homesAndMore(int count);
+
+  /// No description provided for @homesActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Open now'**
+  String get homesActive;
+
+  /// No description provided for @homesOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get homesOpen;
 }
 
 class _AppLocalizationsDelegate

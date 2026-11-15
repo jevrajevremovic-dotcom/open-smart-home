@@ -2,6 +2,7 @@ import '../../extras/week_wrapped.dart';
 
 import 'package:flutter/material.dart';
 
+import '../../installer/homes_overview_screen.dart';
 import '../../installer/service_section.dart';
 import 'ha_backup_section.dart';
 
@@ -639,6 +640,15 @@ class _HomesList extends ConsumerWidget {
                         .switchTo(h.profile),
             ),
         ],
+        ListTile(
+          key: const Key('homesOverview'),
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Icons.holiday_village_outlined),
+          title: Text(l10n.homesOverviewTitle),
+          subtitle: Text(l10n.homesOverviewEntry),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => showHomesOverview(context),
+        ),
         Align(
           alignment: Alignment.centerLeft,
           child: TextButton.icon(

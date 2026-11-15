@@ -70,7 +70,50 @@ ključem se ne može instalirati preko postojećeg (`INSTALL_FAILED_UPDATE_INCOM
 
 Podešavanja → **Servis**: verzija, uređaj, server (samo adresa, bez porta), broj
 nedostupnih uređaja, stanje panela i poslednje greške. „Kopiraj dijagnostiku” daje tekst bez
-tokena i lozinki — za prijavu kvara.
+tokena i lozinki — za prijavu kvara; **„Pošalji servisu”** isti tekst, uz stanje kuće
+(nedostupni uređaji, baterije, backup, ažuriranja), šalje preko menija za deljenje (mejl,
+Viber…), a kupac bira kome.
+
+**Više kuća:** u svoju (instalatersku) aplikaciju dodajte svaku kuću koju održavate
+(Podešavanja → Server → Dodaj kuću), sa spoljnom adresom (Tailscale). **Pregled svih kuća**
+pokazuje za svaku da li se javlja, da li prijava važi, nedostupne uređaje, prazne baterije,
+poslednji automatski backup i ažuriranja — najhitnije prvo. Svaka kuća se čita direktno iz
+svog HA, njenim tokenom; nema vašeg servera u sredini. Za prijavu u tuđu kuću koristite
+**poseban HA nalog za servis** (ne nalog vlasnika), da ga vlasnik može ukinuti.
+
+## 5a. Nova kuća za sat vremena
+
+1. **Server:** Home Assistant OS (Home Assistant Green, Raspberry Pi 5 ili mini PC), fiksna
+   IP adresa (DHCP rezervacija), pa u HA: korisnik vlasnika (administrator), korisnici
+   ukućana (ne administratori) i servisni nalog za vas. Dodaci po potrebi: Mosquitto +
+   Zigbee2MQTT ili ZHA, Z-Wave JS, Matter Server, Tailscale.
+2. **Backup:** Podešavanja → Sistem → Rezervne kopije → automatski, svaki dan, čuva se 7 (i
+   na NAS/mrežni disk ako ga ima). **Ključ za šifrovanje odštampajte i predajte vlasniku** —
+   bez njega se backup ne može vratiti, a vi ga ne treba da čuvate.
+3. **Prostorije i osnovna podešavanja** (sa računara, dugotrajni token administratora;
+   bez `--apply` alat samo čita i javlja šta bi uradio):
+
+   ```bash
+   cd app
+   HA_TOKEN=… dart run tool/provision.dart http://192.168.1.10:8123 \
+     --areas "Dnevna soba,Kuhinja,Spavaća soba,Kupatilo,Hodnik,Dvorište" \
+     --time-zone Europe/Belgrade --country RS --currency RSD --apply
+   ```
+
+   Token se ne prikazuje i ne upisuje nigde; posle podešavanja ga obrišite u HA (profil →
+   Bezbednost).
+4. **Uređaji:** uparivanje (aplikacija → Dodaj uređaj), svaki u svoju prostoriju; koristite
+   uređaje sa [spiska proverenih](UREDJAJI.md).
+5. **Aplikacija:** telefoni ukućana i zidni panel (odeljci 2–3), čarobnjak „Podešavanje”.
+6. **Zapisnik o primopredaji:**
+
+   ```bash
+   HA_TOKEN=… dart run tool/provision.dart http://192.168.1.10:8123 --report zapisnik.md
+   ```
+
+   Automatske provere (nedostupni uređaji, prazne baterije, uređaji bez prostorije,
+   integracije sa greškom, ažuriranja, backup, spoljna adresa) i ručna lista za potpis.
+   Odštampajte ga ili pošaljite kao PDF uz račun.
 
 ## 6. Pre predaje klijentu (provera)
 
@@ -85,6 +128,7 @@ tokena i lozinki — za prijavu kvara.
 - [ ] Garaža i kapija nisu izložene Assistu, osim ako to klijent izričito želi.
 - [ ] Podešavanja tableta sačuvana u HA (Podešavanja → Prenos na drugi uređaj → U Home Assistantu), da se posle kvara vrate jednim dodirom.
 - [ ] Klijentu predata [izjava o privatnosti](PRIVACY.md) i [uputstvo za ukućane](UPUTSTVO.md).
+- [ ] Zapisnik o primopredaji (`tool/provision.dart --report`) bez upozorenja ili sa objašnjenim upozorenjima, potpisan.
 
 ## Demo aplikacija (za prikaz kupcima)
 

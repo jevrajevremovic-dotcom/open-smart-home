@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Smart Home – privatnost</title>
+<style>
+  :root { --bg:#fbfaf8; --fg:#1d1b19; --muted:#5f5a55; --line:#e4dfda; --accent:#b4531f; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#171513; --fg:#ece7e2; --muted:#a9a19a; --line:#34302c; --accent:#f0a06a; }
+  }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:760px; margin:0 auto; padding:32px 16px 64px; }
+  h1 { font-size:1.8rem; margin:0 0 4px; }
+  h2 { font-size:1.2rem; margin:32px 0 8px; }
+  .lead, .muted { color:var(--muted); }
+  a { color:var(--accent); }
+  code { font-size:.9em; background:var(--line); padding:1px 4px; border-radius:4px; }
+  .scroll { overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; font-size:.95rem; }
+  th, td { text-align:left; vertical-align:top; padding:8px; border-bottom:1px solid var(--line); }
+  section.en { margin-top:48px; padding-top:16px; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+<h1>Open Smart Home – izjava o privatnosti</h1>
+<p>Open Smart Home je aplikacija za <strong>vaš</strong> Home Assistant. Nema naloga, servera ni oblaka autora aplikacije: aplikacija razgovara samo sa vašim Home Assistantom, a sa ostatkom interneta samo kad to sami uključite.</p>
+
+<h2>Šta ostaje u kući</h2>
+<ul>
+<li>Stanja uređaja, prostorije, kamere, kalendari, liste, poruke ukućanima, istorija i dnevnik dolaze iz vašeg Home Assistanta i ne idu nigde drugde.</li>
+<li>Token za prijavu je u zaštićenom skladištu uređaja (Android Keystore / iOS Keychain), nikad u logovima ni u rezervnoj kopiji.</li>
+<li>Obaveštenja (upozorenja, poruke iz HA, muzika) pravi sam uređaj iz podataka koje prima od HA — nema push servera.</li>
+<li>Podešavanja aplikacije su na uređaju; „Rezervna kopija u Home Assistantu” ih po vašem izboru čuva u <strong>vašem</strong> HA (bez tokena, PIN-ova i fotografija).</li>
+<li>Fotografije soba, tlocrt i foto-okvir su samo na uređaju.</li>
+<li>Lični PIN-ovi ukućana i PIN tableta su samo na tom tabletu, kao heš.</li>
+<li>Šifra Wi-Fi mreže za goste je u zaštićenom skladištu uređaja.</li>
+<li>Sat (Wear OS) dobija od telefona samo nazive i stanje dugmadi za auto i sat, a telefonu šalje samo koje je dugme pritisnuto — direktno preko Google Play services (Bluetooth/Wi-Fi), samo između aplikacija potpisanih istim ključem. Android Auto dobija isto. Adresa servera i token ostaju samo u aplikaciji na telefonu.</li>
+<li>Predlozi iz navika i ostale analize dnevnika (baterije, nedeljni pregled) računaju se na uređaju iz podataka vašeg HA.</li>
+<li>MAC adresa servera za buđenje (Wake-on-LAN) čuva se u podešavanjima aplikacije; paket za buđenje ide samo na kućnu mrežu.</li>
+<li>Slike događaja kamere (ako ih uključite) čuva vaš HA u svom /media folderu; aplikacija ih samo prikazuje i briše starije od 7 dana.</li>
+<li>Obrada kamere tableta za buđenje ekrana i ključne reči (ako je uključeno) radi na uređaju ili u vašem HA.</li>
+</ul>
+
+<h2>Šta izlazi na internet — samo ako uključite</h2>
+<div class="scroll"><table>
+<tr><th>Šta</th><th>Kome</th><th>Kada</th><th>Šta tačno</th></tr>
+<tr><td>Vremenska prognoza</td><td>MET Norway (<code>api.met.no</code>)</td><td>Ako HA nema prognozu, a vi izaberete MET</td><td>Koordinate doma ili telefona zaokružene na ~1 km, najviše na 30 min</td></tr>
+<tr><td>Provera ažuriranja</td><td>GitHub (<code>api.github.com</code>)</td><td>Ako uključite proveru (ili je ručno pokrenete); u verziji sa Google Play-a je nema, ažurira Play</td><td>Vaša IP adresa i da aplikacija traži novu verziju</td></tr>
+<tr><td>Prepoznavanje govora preko interneta</td><td>Google/Apple servis telefona</td><td>Samo ako ga izričito izaberete (podrazumevano je na uređaju)</td><td>Snimak glasa dok držite dugme</td></tr>
+<tr><td>Pristup van kuće</td><td>Vaš Tailscale, Nabu Casa ili domen</td><td>Ako podesite spoljnu adresu</td><td>Isto što i kod kuće, šifrovano</td></tr>
+<tr><td>Assist preko Home Assistant Clouda</td><td>Nabu Casa</td><td>Ako je tako podešeno u vašem HA</td><td>Tekst komande</td></tr>
+<tr><td>Automatizacija opisana rečima</td><td>AI servis podešen u vašem HA (AI Task: OpenAI, Google, Anthropic… ili lokalni Ollama, koji ostaje kod kuće)</td><td>Samo kad pritisnete „Napravi predlog”</td><td>Vaš opis i spisak uređaja (id i ime)</td></tr>
+<tr><td>Dodavanje novog Matter uređaja preko Bluetooth-a</td><td>Google Play services</td><td>Samo dok dodajete uređaj</td><td>Ono što Google Play services koristi za uparivanje</td></tr>
+</table></div>
+<p>Ništa od ovoga nije uključeno samo od sebe. Analitike, praćenja i reklama nema.</p>
+
+<h2>Dozvole na Androidu</h2>
+<div class="scroll"><table>
+<tr><th>Dozvola</th><th>Zašto</th><th>Kada se traži</th></tr>
+<tr><td>Internet, multicast</td><td>Veza sa Home Assistantom; pronalaženje servera na mreži (mDNS)</td><td>Uvek</td></tr>
+<tr><td>Približna lokacija</td><td>Vreme na mestu gde je telefon</td><td>Samo ako to izaberete</td></tr>
+<tr><td>Mikrofon</td><td>Glasovne komande, ključna reč na tabletu, pljesak</td><td>Samo pri uključivanju</td></tr>
+<tr><td>Kamera</td><td>Skeniranje QR koda; buđenje tableta kad neko priđe</td><td>Samo pri korišćenju</td></tr>
+<tr><td>NFC</td><td>NFC nalepnice</td><td>Kad se koriste</td></tr>
+<tr><td>Obaveštenja</td><td>Upozorenja, poruke iz HA, muzika</td><td>Samo pri uključivanju</td></tr>
+<tr><td>Usluga u prvom planu, pokretanje posle restarta</td><td>Poruke iz HA i kad je aplikacija zatvorena</td><td>Samo ako to uključite</td></tr>
+<tr><td>Instaliranje paketa</td><td>Ažuriranje sa GitHub izdanja (posle provere SHA-256)</td><td>Pri prvom ažuriranju</td></tr>
+</table></div>
+
+<h2>Demo aplikacija</h2>
+<p>„Open Smart Home Demo” radi sa izmišljenom kućom ugrađenom u aplikaciju, bez Home Assistanta i bez interneta.</p>
+<p>Pitanja i prijave: GitHub → Issues (za bezbednosne propuste: Security → Report a vulnerability).</p>
+
+<section class="en" lang="en">
+<h2>In short (English)</h2>
+<p>Open Smart Home is an app for <strong>your own</strong> Home Assistant server. The app's makers run
+no server and receive no data: the app talks only to the Home Assistant address you enter.
+There is no analytics, tracking or advertising. The sign-in token stays in the device's
+secure storage. Data leaves your home network only for features you turn on yourself:
+weather from MET Norway (location rounded to ~1 km), the update check on GitHub (not in
+store builds), online speech recognition if you choose it, remote access through your own
+Tailscale, Nabu Casa or domain, and the AI service configured in your Home Assistant when you
+ask it to draft an automation. Settings → “Delete all local data” removes everything the app
+keeps on the device.</p>
+</section>
+</main>
+</body>
+</html>

@@ -22,7 +22,7 @@ Open Smart Home je aplikacija za **vaš** Home Assistant. Nema naloga, servera n
 | Šta | Kome | Kada | Šta tačno |
 |---|---|---|---|
 | Vremenska prognoza | MET Norway (`api.met.no`) | Ako HA nema prognozu, a vi izaberete MET | Koordinate doma ili telefona zaokružene na ~1 km, najviše na 30 min |
-| Provera ažuriranja | GitHub (`api.github.com`) | Ako uključite proveru (ili je ručno pokrenete) | Vaša IP adresa i da aplikacija traži novu verziju |
+| Provera ažuriranja | GitHub (`api.github.com`) | Ako uključite proveru (ili je ručno pokrenete); u verziji sa Google Play-a je nema, ažurira Play | Vaša IP adresa i da aplikacija traži novu verziju |
 | Prepoznavanje govora preko interneta | Google/Apple servis telefona | Samo ako ga izričito izaberete (podrazumevano je na uređaju) | Snimak glasa dok držite dugme |
 | Pristup van kuće | Vaš Tailscale, Nabu Casa ili domen | Ako podesite spoljnu adresu | Isto što i kod kuće, šifrovano |
 | Assist preko Home Assistant Clouda | Nabu Casa | Ako je tako podešeno u vašem HA | Tekst komande |

@@ -24,6 +24,10 @@ val brandProperties = Properties().apply {
 // it installs next to the real app and never over it.
 val demo = project.findProperty("demo") == "true"
 
+// Google Play build (tool/build_play.sh): Play updates the app, so the
+// in-app updater's permission is removed (Play does not allow it).
+val play = project.findProperty("play") == "true"
+
 android {
     namespace = "org.opensmarthome.open_smart_home"
     compileSdk = flutter.compileSdkVersion
@@ -70,6 +74,10 @@ android {
                 keyPassword = keyProperties.getProperty("keyPassword")
             }
         }
+    }
+
+    if (play) {
+        sourceSets.getByName("release").manifest.srcFile("src/play/AndroidManifest.xml")
     }
 
     buildTypes {

@@ -1,0 +1,16 @@
+<!-- Merged over src/main for Google Play builds (-Pplay=true): Play updates
+     the app itself and does not allow self-updating apps to install packages. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:node="remove" />
+    <application>
+        <!-- geolocator's background-location service: the app only asks for
+             the approximate location once (weather), never in the background,
+             so Play needs no location foreground-service declaration. -->
+        <service
+            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+            tools:node="remove" />
+    </application>
+</manifest>

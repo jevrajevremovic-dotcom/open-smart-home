@@ -195,8 +195,9 @@ final githubReleasesProvider = Provider<GitHubReleases>(
   (ref) => GitHubReleases(),
 );
 final updateInstallerProvider = Provider<UpdateInstallerPlatform>(
-  // The demo (mock server) never updates itself to the real app.
-  (ref) => ref.watch(appConfigProvider).mockMode
+  // The demo (mock server) never updates itself to the real app, and a
+  // store build is updated by the store.
+  (ref) => ref.watch(appConfigProvider).mockMode || AppConfig.storeBuild
       ? const _NoUpdates()
       : AndroidUpdateInstaller(),
 );

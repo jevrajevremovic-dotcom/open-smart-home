@@ -17,6 +17,11 @@ class AppConfig {
 
   final bool mockMode;
 
+  /// Built for an app store (`--dart-define=STORE_BUILD=true`, see
+  /// `tool/build_play.sh`): the store updates the app, so it never
+  /// downloads or installs updates itself.
+  static const bool storeBuild = bool.fromEnvironment('STORE_BUILD');
+
   /// Timeouts for REST calls against Home Assistant.
   static const Duration connectTimeout = Duration(seconds: 8);
   static const Duration receiveTimeout = Duration(seconds: 15);

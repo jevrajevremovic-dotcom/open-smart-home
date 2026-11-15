@@ -1162,7 +1162,7 @@
   "serviceNoProblems": "Nema zabeleženih problema od pokretanja.",
   "serviceCopy": "Kopiraj dijagnostiku",
   "serviceCopied": "Dijagnostika je kopirana.",
-  "serviceCopyHint": "Bez tokena i lozinki: samo verzije, uređaj, adresa servera (bez porta i putanje) i poslednje greške.",
+  "serviceCopyHint": "Bez tokena i lozinki: verzije, uređaj, adresa servera (samo ime), stanje kuće (nedostupni uređaji, baterije, backup, ažuriranja) i poslednje greške. „Pošalji servisu” otvara izbor aplikacije (mejl, Viber…), vi birate kome ide.",
   "setupTitle": "Čarobnjak za instalaciju",
   "setupIntro": "Proverite i podesite sve za ovaj uređaj, korak po korak. ({brand})",
   "setupConnection": "Veza sa Home Assistantom",
@@ -1677,5 +1677,7 @@
   "homesAllDevicesOk": "Svi uređaji se javljaju.",
   "homesAndMore": "i još {count}",
   "homesActive": "Otvorena sada",
-  "homesOpen": "Otvori"
+  "homesOpen": "Otvori",
+  "serviceSend": "Pošalji servisu",
+  "serviceSendSubject": "Dijagnostika – {brand}"
 }

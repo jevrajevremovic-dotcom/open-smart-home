@@ -4073,7 +4073,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get serviceCopyHint =>
-      'No tokens or passwords: only versions, the device, the server\'s host and recent errors.';
+      'No tokens or passwords: versions, device, server address (host only), how the home is doing (unavailable devices, batteries, backup, updates) and recent errors. “Send to support” opens the share menu (mail, Viber…); you choose where it goes.';
 
   @override
   String get setupTitle => 'Setup wizard';
@@ -6070,4 +6070,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homesOpen => 'Open';
+
+  @override
+  String get serviceSend => 'Send to support';
+
+  @override
+  String serviceSendSubject(String brand) {
+    return 'Diagnostics – $brand';
+  }
 }

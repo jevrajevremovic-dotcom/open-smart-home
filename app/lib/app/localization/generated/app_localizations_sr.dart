@@ -4093,7 +4093,7 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get serviceCopyHint =>
-      'Bez tokena i lozinki: samo verzije, uređaj, adresa servera (bez porta i putanje) i poslednje greške.';
+      'Bez tokena i lozinki: verzije, uređaj, adresa servera (samo ime), stanje kuće (nedostupni uređaji, baterije, backup, ažuriranja) i poslednje greške. „Pošalji servisu” otvara izbor aplikacije (mejl, Viber…), vi birate kome ide.';
 
   @override
   String get setupTitle => 'Čarobnjak za instalaciju';
@@ -6108,6 +6108,14 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get homesOpen => 'Otvori';
+
+  @override
+  String get serviceSend => 'Pošalji servisu';
+
+  @override
+  String serviceSendSubject(String brand) {
+    return 'Dijagnostika – $brand';
+  }
 }
 
 /// The translations for Serbian, using the Latin script (`sr_Latn`).

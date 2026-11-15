@@ -7068,7 +7068,7 @@ abstract class AppLocalizations {
   /// No description provided for @serviceCopyHint.
   ///
   /// In en, this message translates to:
-  /// **'No tokens or passwords: only versions, the device, the server\'s host and recent errors.'**
+  /// **'No tokens or passwords: versions, device, server address (host only), how the home is doing (unavailable devices, batteries, backup, updates) and recent errors. “Send to support” opens the share menu (mail, Viber…); you choose where it goes.'**
   String get serviceCopyHint;
 
   /// No description provided for @setupTitle.
@@ -10160,6 +10160,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get homesOpen;
+
+  /// No description provided for @serviceSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to support'**
+  String get serviceSend;
+
+  /// No description provided for @serviceSendSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics – {brand}'**
+  String serviceSendSubject(String brand);
 }
 
 class _AppLocalizationsDelegate

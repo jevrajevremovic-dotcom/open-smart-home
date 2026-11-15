@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_smart_home/features/installer/service_section.dart';
 import 'package:open_smart_home/app/app.dart';
 import 'package:open_smart_home/app/app_info.dart';
 import 'package:open_smart_home/app/router/app_router.dart';
@@ -62,6 +63,7 @@ void main() {
   ) async {
     final admin = _FakeAdmin(owner: true);
     String? copied;
+    final shared = <(String, String)>[];
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
       SystemChannels.platform,
       (call) async {
@@ -75,7 +77,12 @@ void main() {
       tester,
       signedIn: true,
       size: const Size(800, 1600),
-      overrides: [deviceAdminProvider.overrideWithValue(admin)],
+      overrides: [
+        deviceAdminProvider.overrideWithValue(admin),
+        diagnosticsSharerProvider.overrideWithValue(
+          (subject, text) async => shared.add((subject, text)),
+        ),
+      ],
     );
     await settle(tester, 10);
     AppLogger('Test').warning('something odd');
@@ -95,6 +102,15 @@ void main() {
     expect(copied, contains('homeassistant.local'));
     expect(copied, isNot(contains('token')));
     expect(copied, isNot(contains('8123')), reason: 'host only');
+    expect(copied, contains('Grejalica garaža'), reason: 'how the home is');
+    expect(copied, contains('Last automatic backup: 20'));
+
+    await tapKey(tester, 'serviceSend');
+    await settle(tester, 4);
+    final (subject, text) = shared.single;
+    expect(subject, en.serviceSendSubject('Open Smart Home'));
+    expect(text, contains('SM-T505'));
+    expect(text, isNot(contains('token')));
 
     await tapKey(tester, 'servicePanelRelease');
     await settle(tester, 2);

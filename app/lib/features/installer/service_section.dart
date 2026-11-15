@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../app/app_info.dart';
 import '../../app/brand.dart';
@@ -14,6 +15,7 @@ import '../devices/application/device_providers.dart';
 import '../kiosk/application/device_admin.dart';
 import '../kiosk/application/kiosk_controller.dart';
 import '../updates/update_section.dart';
+import 'homes_overview.dart';
 
 /// The installer's service screen: what runs where, what went wrong lately,
 /// and the panel tools. Never shows a token or password.
@@ -31,16 +33,32 @@ class ServiceSection extends ConsumerWidget {
     required int devices,
     required int unavailable,
     required bool kiosk,
+    HomeHealth? health,
+    String? remoteHost,
+    bool viaRemote = false,
+    DateTime? now,
   }) {
     final time = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final at = now ?? DateTime.now();
     return [
-      '${Brand.name(l10n)} $appVersion',
+      '${Brand.name(l10n)} $appVersion · ${time.format(at)}',
       'Device: ${device.manufacturer ?? '?'} ${device.model ?? '?'}, '
           'Android ${device.android ?? '?'} (SDK ${device.sdk ?? '?'})',
       'Package: ${device.package ?? '?'}, device owner: ${device.deviceOwner}',
       'Home Assistant: ${haVersion ?? '?'} at ${host ?? '?'}, '
           'connected: $connected',
+      'Remote address: ${remoteHost ?? 'none'}, in use: $viaRemote',
       'Devices: $devices, unavailable: $unavailable, kiosk: $kiosk',
+      if (health != null) ...[
+        'Unavailable entities: ${health.unavailable.join(', ')}',
+        'Low batteries: ${health.lowBatteries.join(', ')}',
+        'Last automatic backup: ${!health.backupKnown
+            ? 'unknown'
+            : health.lastBackup == null
+            ? 'never'
+            : time.format(health.lastBackup!)}',
+        'Pending updates: ${health.updates.join(', ')}',
+      ],
       'Recent problems:',
       for (final r in AppLogger.recentProblems.reversed.take(20))
         '  ${time.format(r.time)} ${r.level.name} ${r.tag}: ${r.message}',
@@ -64,7 +82,6 @@ class ServiceSection extends ConsumerWidget {
         (s) => visible.where((id) => s.devices[id]?.available == false).length,
       ),
     );
-    final kiosk = ref.watch(kioskActiveProvider);
     final problems = AppLogger.recentProblems.reversed.take(10).toList();
     final time = DateFormat.Md(l10n.localeName).add_Hm();
 
@@ -226,18 +243,7 @@ class ServiceSection extends ConsumerWidget {
             onPressed: () async {
               final messenger = ScaffoldMessenger.of(context);
               await Clipboard.setData(
-                ClipboardData(
-                  text: diagnostics(
-                    l10n,
-                    device: device,
-                    host: host,
-                    haVersion: haVersion,
-                    connected: connected,
-                    devices: visible.length,
-                    unavailable: unavailable,
-                    kiosk: kiosk,
-                  ),
-                ),
+                ClipboardData(text: await fullDiagnostics(ref, l10n)),
               );
               messenger.showSnackBar(
                 SnackBar(content: Text(l10n.serviceCopied)),
@@ -245,6 +251,29 @@ class ServiceSection extends ConsumerWidget {
             },
             icon: const Icon(Icons.copy_all_outlined),
             label: Text(l10n.serviceCopy),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: FilledButton.tonalIcon(
+            key: const Key('serviceSend'),
+            onPressed: () async {
+              final messenger = ScaffoldMessenger.of(context);
+              final text = await fullDiagnostics(ref, l10n);
+              try {
+                await ref.read(diagnosticsSharerProvider)(
+                  l10n.serviceSendSubject(Brand.name(l10n)),
+                  text,
+                );
+              } on Object {
+                await Clipboard.setData(ClipboardData(text: text));
+                messenger.showSnackBar(
+                  SnackBar(content: Text(l10n.serviceCopied)),
+                );
+              }
+            },
+            icon: const Icon(Icons.send_outlined),
+            label: Text(l10n.serviceSend),
           ),
         ),
         Text(
@@ -282,4 +311,53 @@ class ServiceSection extends ConsumerWidget {
     await ref.read(deviceAdminProvider).release();
     ref.invalidate(deviceInfoProvider);
   }
+}
+
+/// Hands the diagnostics to another app (mail, Viber, WhatsApp…) through
+/// the system share sheet; the user picks where it goes.
+final diagnosticsSharerProvider =
+    Provider<Future<void> Function(String subject, String text)>(
+      (ref) =>
+          (subject, text) => SharePlus.instance.share(
+            ShareParams(subject: subject, title: subject, text: text),
+          ),
+    );
+
+/// Everything for a support ticket, including how the home is doing
+/// (read now from Home Assistant). Names and counts only: never a token,
+/// password or address beyond the server's host.
+Future<String> fullDiagnostics(WidgetRef ref, AppLocalizations l10n) async {
+  final profile = ref.read(activeProfileProvider);
+  final effective = ref.read(effectiveProfileProvider);
+  final status = ref.read(connectionStatusProvider).value;
+  final visible = ref.read(visibleDeviceIdsProvider);
+  final snapshot = ref.read(homeSnapshotProvider);
+  HomeHealth? health;
+  final api = ref.read(homeAssistantApiProvider);
+  if (api != null && profile != null) {
+    try {
+      health = summarizeHome('', profile, await api.fetchStates());
+    } on Object {
+      // Not connected: the rest still helps.
+    }
+  }
+  return ServiceSection.diagnostics(
+    l10n,
+    device: ref.read(deviceInfoProvider).value ?? const DeviceInfo(),
+    host: profile?.address.baseUri.host,
+    haVersion:
+        status?.haVersion ?? ref.read(serverConfigProvider).value?.version,
+    connected: status?.isConnected ?? false,
+    devices: visible.length,
+    unavailable: visible
+        .where((id) => snapshot.devices[id]?.available == false)
+        .length,
+    kiosk: ref.read(kioskActiveProvider),
+    health: health,
+    remoteHost: profile?.remoteAddress?.baseUri.host,
+    viaRemote:
+        effective != null &&
+        profile != null &&
+        effective.address != profile.address,
+  );
 }

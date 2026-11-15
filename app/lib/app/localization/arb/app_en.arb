@@ -1674,7 +1674,7 @@
   "serviceNoProblems": "Nothing logged since the app started.",
   "serviceCopy": "Copy diagnostics",
   "serviceCopied": "Diagnostics copied.",
-  "serviceCopyHint": "No tokens or passwords: only versions, the device, the server's host and recent errors.",
+  "serviceCopyHint": "No tokens or passwords: versions, device, server address (host only), how the home is doing (unavailable devices, batteries, backup, updates) and recent errors. “Send to support” opens the share menu (mail, Viber…); you choose where it goes.",
   "setupTitle": "Setup wizard",
   "setupIntro": "Check and set up everything for this device, step by step. ({brand})",
   "@setupIntro": {"placeholders": {"brand": {"type": "String"}}},
@@ -2304,5 +2304,8 @@
   "homesAndMore": "and {count} more",
   "@homesAndMore": {"placeholders": {"count": {"type": "int"}}},
   "homesActive": "Open now",
-  "homesOpen": "Open"
+  "homesOpen": "Open",
+  "serviceSend": "Send to support",
+  "serviceSendSubject": "Diagnostics – {brand}",
+  "@serviceSendSubject": {"placeholders": {"brand": {"type": "String"}}}
 }
